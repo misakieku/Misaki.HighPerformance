@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Misaki.HighPerformance.Unsafe.Collections;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Unsafe.Buffer;
 
@@ -8,14 +9,14 @@ namespace Misaki.HighPerformance.Unsafe.Buffer;
 public unsafe struct Arena : IDisposable
 {
     private void* _buffer;
-    private ulong _size;
-    private ulong _offset;
+    private uint _size;
+    private uint _offset;
 
     private bool _disposed;
 
-    public Arena(ulong size)
+    public Arena(uint size)
     {
-        _buffer = Marshal.AllocHGlobal((IntPtr)size).ToPointer();
+        _buffer = NativeMemory.Alloc(size);
         _size = size;
         _offset = 0;
     }
@@ -23,12 +24,13 @@ public unsafe struct Arena : IDisposable
     /// <summary>
     /// Allocates a block of memory of a specified size with a given alignment. Returns a pointer to the allocated
     /// memory or null if allocation fails.
+    /// Must use <see cref="NativeMemory.AlignedFree"/> to free the memory.
     /// </summary>
     /// <param name="size">Specifies the amount of memory to allocate in bytes.</param>
     /// <param name="alignSize">Defines the alignment requirement for the allocated memory.</param>
     /// <returns>A pointer to the allocated memory block or null if the allocation cannot be fulfilled.</returns>
     /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
-    public void* Allocate(ulong size, uint alignSize)
+    public void* Allocate(uint size, uint alignSize, AllocationType allocationType)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -40,7 +42,11 @@ public unsafe struct Arena : IDisposable
 
         _offset = offset + size;
         var ptr = (byte*)_buffer + offset;
-        MemClear(ptr, (uint)size);
+
+        if (allocationType == AllocationType.Clear)
+        {
+            MemClear(ptr, size);
+        }
 
         return ptr;
     }
@@ -56,7 +62,7 @@ public unsafe struct Arena : IDisposable
 
         if (clear)
         {
-            MemClear(_buffer, (uint)_size);
+            MemClear(_buffer, _size);
         }
 
         _offset = 0;
@@ -64,7 +70,7 @@ public unsafe struct Arena : IDisposable
 
     public void Dispose()
     {
-        Marshal.FreeHGlobal((IntPtr)_buffer);
+        NativeMemory.Free(_buffer);
 
         _buffer = null;
         _size = 0;

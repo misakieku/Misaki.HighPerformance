@@ -78,7 +78,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T> where
     public UnsafeArray(int size, AllocationType allocationType)
     {
         _size = size;
-        _buffer = (T*)Marshal.AllocHGlobal(size * sizeof(T)).ToPointer();
+        _buffer = (T*)NativeMemory.AlignedAlloc((nuint)(size * sizeof(T)), (nuint)AlignOf<T>());
 
         if (allocationType == AllocationType.Clear)
         {
@@ -93,7 +93,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T> where
             return;
         }
 
-        _buffer = (T*)Marshal.ReAllocHGlobal((IntPtr)_buffer, newSize * sizeof(T)).ToPointer();
+        _buffer = (T*)NativeMemory.AlignedRealloc(_buffer, (nuint)(newSize * sizeof(T)), (nuint)AlignOf<T>());
         _size = newSize;
     }
 
@@ -105,7 +105,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T> where
 
     public void Dispose()
     {
-        Marshal.FreeHGlobal((IntPtr)_buffer);
+        NativeMemory.AlignedFree(_buffer);
 
         _buffer = null;
         _size = 0;

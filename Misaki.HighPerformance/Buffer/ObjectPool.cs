@@ -104,7 +104,7 @@ namespace Misaki.HighPerformance.Buffer
         {
             PoolCleanup();
 
-            _disposed = true:
+            _disposed = true;
         }
     }
 }

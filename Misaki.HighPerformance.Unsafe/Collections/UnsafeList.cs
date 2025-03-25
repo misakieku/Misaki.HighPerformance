@@ -124,7 +124,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T> where 
 
     public UnsafeList(int capacity, AllocationType allocationType)
     {
-        _buffer = (T*)Marshal.AllocHGlobal(capacity * sizeof(T));
+        _buffer = (T*)NativeMemory.AlignedAlloc((nuint)(capacity * sizeof(T)), (nuint)AlignOf<T>());
         _size = 0;
         _capacity = capacity;
 
@@ -270,7 +270,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T> where 
             return;
         }
 
-        _buffer = (T*)Marshal.ReAllocHGlobal((IntPtr)_buffer, newSize * sizeof(T)).ToPointer();
+        _buffer = (T*)NativeMemory.AlignedRealloc(_buffer, (nuint)(newSize * sizeof(T)), (nuint)AlignOf<T>());
         _size = newSize;
     }
 
@@ -282,7 +282,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T> where 
 
     public void Dispose()
     {
-        Marshal.FreeHGlobal((IntPtr)_buffer);
+        NativeMemory.AlignedFree(_buffer);
 
         _buffer = null;
         _size = 0;

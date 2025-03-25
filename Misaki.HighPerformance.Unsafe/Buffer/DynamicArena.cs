@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Misaki.HighPerformance.Unsafe.Collections;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Unsafe.Buffer;
 
@@ -16,28 +17,28 @@ public unsafe struct DynamicArena : IDisposable
 
     private ArenaNode* _root;
     private ArenaNode* _current;
-    private readonly ulong _initialSize;
+    private readonly uint _initialSize;
     private bool _disposed;
 
     /// <summary>
     /// Initializes a new instance of DynamicArena with the specified initial size.
     /// </summary>
     /// <param name="initialSize">The initial size in bytes for the first arena block.</param>
-    public DynamicArena(ulong initialSize)
+    public DynamicArena(uint initialSize)
     {
         _initialSize = initialSize;
-        _root = (ArenaNode*)Marshal.AllocHGlobal(sizeof(ArenaNode));
+        _root = (ArenaNode*)NativeMemory.Alloc(SizeOf<ArenaNode>());
         _root->arena = new Arena(initialSize);
         _root->next = null;
         _current = _root;
         _disposed = false;
     }
 
-    private bool CreateNewNode(ulong size)
+    private bool CreateNewNode(uint size)
     {
         try
         {
-            var newNode = (ArenaNode*)Marshal.AllocHGlobal(sizeof(ArenaNode));
+            var newNode = (ArenaNode*)NativeMemory.Alloc(SizeOf<ArenaNode>());
             newNode->arena = new Arena(size);
             newNode->next = null;
 
@@ -58,7 +59,7 @@ public unsafe struct DynamicArena : IDisposable
     /// <param name="alignSize">Alignment requirement for the memory block.</param>
     /// <returns>Pointer to the allocated memory block.</returns>
     /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
-    public void* Allocate(ulong size, uint alignSize)
+    public void* Allocate(uint size, uint alignSize, AllocationType allocationType)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -67,7 +68,7 @@ public unsafe struct DynamicArena : IDisposable
 
         while (current != null)
         {
-            result = current->arena.Allocate(size, alignSize);
+            result = current->arena.Allocate(size, alignSize, allocationType);
             if (result != null)
                 return result;
 
@@ -113,7 +114,7 @@ public unsafe struct DynamicArena : IDisposable
         {
             var next = current->next;
             current->arena.Dispose();
-            Marshal.FreeHGlobal((IntPtr)current);
+            NativeMemory.Free(current);
             current = next;
         }
 
