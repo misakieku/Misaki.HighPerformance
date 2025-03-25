@@ -2,10 +2,12 @@
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Unsafe.Helpers;
-public unsafe static class MemoryUtilities
+
+public static unsafe class MemoryUtilities
 {
     [StructLayout(LayoutKind.Sequential)]
-    private struct AlignOfHelper<T> where T : struct
+    private struct AlignOfHelper<T>
+        where T : struct
     {
         public byte dummy;
         public T data;
@@ -53,7 +55,8 @@ public unsafe static class MemoryUtilities
     /// <typeparam name="T">Represents an unmanaged type for which the size is being calculated.</typeparam>
     /// <returns>Returns the size of the specified type as an unsigned integer.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static nuint SizeOf<T>() where T : unmanaged
+    public static nuint SizeOf<T>()
+        where T : unmanaged
     {
         return (nuint)sizeof(T);
     }
@@ -63,9 +66,10 @@ public unsafe static class MemoryUtilities
     /// </summary>
     /// <typeparam name="T">Represents an unmanaged type for which the alignment size is being calculated.</typeparam>
     /// <returns>Returns the difference in size between a helper structure and the specified type.</returns>
-    public static int AlignOf<T>() where T : unmanaged
+    public static nuint AlignOf<T>()
+        where T : unmanaged
     {
-        return sizeof(AlignOfHelper<T>) - sizeof(T);
+        return (nuint)(sizeof(AlignOfHelper<T>) - sizeof(T));
     }
 
     /// <summary>
@@ -73,8 +77,10 @@ public unsafe static class MemoryUtilities
     /// </summary>
     /// <typeparam name="T">Represents a value type that is used to determine the alignment size.</typeparam>
     /// <returns>Returns the size difference in bytes as an integer.</returns>
-    public static int MarshalAlignOf<T>() where T : struct
+    public static int MarshalAlignOf<T>()
+        where T : struct
     {
         return Marshal.SizeOf<AlignOfHelper<T>>() - Marshal.SizeOf<T>();
     }
 }
+

@@ -1,14 +1,15 @@
-﻿using Misaki.HighPerformance.Unsafe.Collections.Contracts;
-using Misaki.HighPerformance.Unsafe.Helpers;
-using System.Collections;
+﻿using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Misaki.HighPerformance.Unsafe.Collections.Contracts;
+using Misaki.HighPerformance.Unsafe.Helpers;
 
 namespace Misaki.HighPerformance.Unsafe.Collections;
 
-public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T> where T : unmanaged
+public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T>
+    where T : unmanaged
 {
-    public struct Enumerator : IEnumerator<T>
+    private struct Enumerator : IEnumerator<T>
     {
         private UnsafeArray<T> _collection;
         private int _index;
@@ -44,24 +45,16 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T> where
         public T Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                return _value;
-            }
+            get { return _value; }
         }
 
         object IEnumerator.Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                return Current;
-            }
+            get { return Current; }
         }
 
-        public void Dispose()
-        {
-        }
+        public void Dispose() { }
     }
 
     private T* _buffer;
@@ -70,9 +63,10 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T> where
     public readonly T* Buffer => _buffer;
     public readonly int Size => _size;
 
-    public readonly ref T this[int index] => ref UnsafeUtilities.AsRef<T>(_buffer + index);
+    public readonly T this[int index] => UnsafeUtilities.ReadArrayElement<T>(_buffer, index);
 
     public IEnumerator<T> GetEnumerator() => new Enumerator(ref this);
+
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     public UnsafeArray(int size, AllocationType allocationType)
@@ -93,7 +87,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T> where
             return;
         }
 
-        _buffer = (T*)NativeMemory.AlignedRealloc(_buffer, (nuint)(newSize * sizeof(T)), (nuint)AlignOf<T>());
+        _buffer = (T*)NativeMemory.AlignedRealloc(_buffer, (nuint)(newSize * sizeof(T)), AlignOf<T>());
         _size = newSize;
     }
 
@@ -111,3 +105,4 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T> where
         _size = 0;
     }
 }
+
