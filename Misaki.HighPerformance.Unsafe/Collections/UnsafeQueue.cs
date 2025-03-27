@@ -1,6 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
 using Misaki.HighPerformance.Unsafe.Collections.Contracts;
 using Misaki.HighPerformance.Unsafe.Helpers;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Unsafe.Collections;
 
@@ -11,11 +12,27 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     private int _size;
     private int _offset;
 
-    public T* Buffer => _array.Buffer;
-    public int Size => _size;
-    public int Capacity => _array.Size;
+    public readonly T* Buffer => _array.Buffer;
+    public readonly int Size => _size;
+    public readonly int Capacity => _array.Size;
 
-    public T this[int index] => _array[index];
+    public readonly ref T this[int index]
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => ref _array[index];
+    }
+
+    public UnsafeQueue(int capacity, AllocationType allocationType)
+    {
+        _array = new UnsafeArray<T>(capacity, allocationType);
+        _size = 0;
+        _offset = 0;
+
+        if (allocationType == AllocationType.Clear)
+        {
+            Clear();
+        }
+    }
 
     public void Enqueue(T value)
     {
@@ -42,11 +59,11 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
         return value;
     }
 
-    public bool TryDequeue([MaybeNullWhen(false)] out T? value)
+    public bool TryDequeue([MaybeNullWhen(false)] out T value)
     {
-        if (_offset > _size)
+        if (_size == 0)
         {
-            value = null;
+            value = default;
             return false;
         }
 
@@ -57,15 +74,24 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     public void ReAlloc(int newSize)
     {
         _array.ReAlloc(newSize);
+
+        if (_size > newSize)
+        {
+            _size = newSize;
+        }
     }
 
     public void Clear()
     {
         _array.Clear();
+        _size = 0;
+        _offset = 0;
     }
 
     public void Dispose()
     {
         _array.Dispose();
+        _size = 0;
+        _offset = 0;
     }
 }

@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Runtime.CompilerServices;
-using Misaki.HighPerformance.Unsafe.Collections.Contracts;
+﻿using Misaki.HighPerformance.Unsafe.Collections.Contracts;
 using Misaki.HighPerformance.Unsafe.Helpers;
+using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Unsafe.Collections;
 
@@ -44,16 +44,24 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
         public readonly T Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return _value; }
+            get
+            {
+                return _value;
+            }
         }
 
         readonly object IEnumerator.Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return Current; }
+            get
+            {
+                return Current;
+            }
         }
 
-        public readonly void Dispose() { }
+        public readonly void Dispose()
+        {
+        }
     }
 
     /// <summary>
@@ -106,7 +114,11 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
     public readonly int Size => _size;
     public readonly int Capacity => _array.Size;
 
-    public readonly T this[int index] => _array[index];
+    public readonly ref T this[int index]
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => ref _array[index];
+    }
 
     public IEnumerator<T> GetEnumerator() => new Enumerator(ref this);
 
@@ -128,7 +140,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
 
     private readonly void CheckNoResizeCapacity(int count)
     {
-        CheckNoResizeCapacity(count, count);
+        CheckNoResizeCapacity(count, Size);
     }
 
     private readonly void CheckNoResizeCapacity(int index, int count)
@@ -268,12 +280,17 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
     public void ReAlloc(int newSize)
     {
         _array.ReAlloc(newSize);
+
+        if (_size > newSize)
+        {
+            _size = newSize;
+        }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public readonly void Clear()
+    public void Clear()
     {
         _array.Clear();
+        _size = 0;
     }
 
     public void Dispose()

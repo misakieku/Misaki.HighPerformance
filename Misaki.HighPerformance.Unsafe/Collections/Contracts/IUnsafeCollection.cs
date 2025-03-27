@@ -3,11 +3,17 @@
 public unsafe interface IUnsafeCollection<T> : IDisposable
     where T : unmanaged
 {
-    public T* Buffer { get; }
+    public T* Buffer
+    {
+        get;
+    }
 
-    public int Size { get; }
+    public int Size
+    {
+        get;
+    }
 
-    public T this[int index] { get; }
+    public ref T this[int index] { get; }
 
     public void Clear();
     public void ReAlloc(int newSize);

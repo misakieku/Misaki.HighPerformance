@@ -92,4 +92,17 @@ public class ParallelNoiseBenchmark
             buffers[i] = NoiseJob.GradientNoise(uv);
         });
     }
+
+    [Benchmark]
+    public void For()
+    {
+        using var buffers = new UnsafeArray<float>(_LENGTH, AllocationType.UnInitialized);
+        for (var i = 0; i < _LENGTH; i++)
+        {
+            var x = i % _WIDTH;
+            var y = i / _HEIGHT;
+            var uv = new Vector2(x, y);
+            buffers[i] = NoiseJob.GradientNoise(uv);
+        }
+    }
 }

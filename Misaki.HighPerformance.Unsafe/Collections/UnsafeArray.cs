@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using Misaki.HighPerformance.Unsafe.Collections.Contracts;
+using Misaki.HighPerformance.Unsafe.Helpers;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Misaki.HighPerformance.Unsafe.Collections.Contracts;
-using Misaki.HighPerformance.Unsafe.Helpers;
 
 namespace Misaki.HighPerformance.Unsafe.Collections;
 
@@ -45,16 +45,24 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T>
         public T Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return _value; }
+            get
+            {
+                return _value;
+            }
         }
 
         object IEnumerator.Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get { return Current; }
+            get
+            {
+                return Current;
+            }
         }
 
-        public void Dispose() { }
+        public void Dispose()
+        {
+        }
     }
 
     private T* _buffer;
@@ -63,7 +71,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T>
     public readonly T* Buffer => _buffer;
     public readonly int Size => _size;
 
-    public readonly T this[int index] => UnsafeUtilities.ReadArrayElement<T>(_buffer, index);
+    public readonly ref T this[int index]
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => ref UnsafeUtilities.ReadArrayElementRef<T>(_buffer, index);
+    }
 
     public IEnumerator<T> GetEnumerator() => new Enumerator(ref this);
 
@@ -72,7 +84,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T>
     public UnsafeArray(int size, AllocationType allocationType)
     {
         _size = size;
-        _buffer = (T*)NativeMemory.AlignedAlloc((nuint)(size * sizeof(T)), (nuint)AlignOf<T>());
+        _buffer = (T*)NativeMemory.AlignedAlloc((nuint)(size * sizeof(T)), AlignOf<T>());
 
         if (allocationType == AllocationType.Clear)
         {
@@ -92,7 +104,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>, IEnumerable<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public readonly void Clear()
+    public void Clear()
     {
         MemClear(_buffer, (uint)(_size * sizeof(T)));
     }
