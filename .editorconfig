@@ -1,0 +1,2 @@
+dotnet_sort_system_directives_first = false
+max_line_length = 400

@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Misaki.HighPerformance.Unsafe.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Unsafe.Helpers;
 
@@ -78,5 +79,19 @@ public static unsafe class UnsafeUtilities
     public static void WriteArrayElement<T>(void* ptr, int index, T value) where T : unmanaged
     {
         *ReadArrayElementUnsafe<T>(ptr, index) = value;
+    }
+
+    /// <summary>
+    /// Converts an UnsafeArray of one unmanaged type to another unmanaged type without copying the elements.
+    /// </summary>
+    /// <typeparam name="TIn">Represents the type of elements in the input array.</typeparam>
+    /// <typeparam name="TOut">Represents the type of elements in the output array.</typeparam>
+    /// <param name="array">The input array containing elements of the specified input type.</param>
+    /// <returns>An UnsafeArray containing elements of the specified output type.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static UnsafeArray<TOut> CastArray<TIn, TOut>(UnsafeArray<TIn> array)
+        where TIn : unmanaged where TOut : unmanaged
+    {
+        return new UnsafeArray<TOut>(array.GetUnsafePtr(), array.Count * sizeof(TIn) / sizeof(TOut));
     }
 }

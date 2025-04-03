@@ -5,16 +5,20 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Unsafe.Collections;
 
-public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
+/// <summary>
+/// A collection that allows for unsafe operations on a list of unmanaged types.
+/// </summary>
+/// <typeparam name="T">Represents a type that can be stored in the collection, constrained to unmanaged types for performance and safety.</typeparam>
+public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
     private struct Enumerator : IEnumerator<T>
     {
-        private UnsafeList<T> _collection;
+        private UnsafeList<T>* _collection;
         private int _index;
         private T _value;
 
-        public Enumerator(ref UnsafeList<T> collection)
+        public Enumerator(UnsafeList<T>* collection)
         {
             _collection = collection;
             _index = -1;
@@ -25,9 +29,9 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
         public bool MoveNext()
         {
             _index++;
-            if (_index < _collection.Size)
+            if (_index < _collection->_count)
             {
-                _value = UnsafeUtilities.ReadArrayElement<T>(_collection.Buffer, _index);
+                _value = UnsafeUtilities.ReadArrayElement<T>(_collection->_array.GetUnsafePtr(), _index);
                 return true;
             }
 
@@ -88,9 +92,9 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
         /// <param name="value">The value to be added to the collection.</param>
         public void AddNoResize(T value)
         {
-            var idx = Interlocked.Increment(ref listData->_size) - 1;
+            var idx = Interlocked.Increment(ref listData->_count) - 1;
             listData->CheckNoResizeCapacity(idx, 1);
-            UnsafeUtilities.WriteArrayElement(listData->Buffer, idx, value);
+            UnsafeUtilities.WriteArrayElement(listData->_array.GetUnsafePtr(), idx, value);
         }
 
         /// <summary>
@@ -100,19 +104,19 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
         /// <param name="count">Indicates the number of elements to be added from the source data.</param>
         public void AddRangeNoResize(T* ptr, int count)
         {
-            var idx = Interlocked.Add(ref listData->_size, count) - count;
+            var idx = Interlocked.Add(ref listData->_count, count) - count;
             listData->CheckNoResizeCapacity(idx, count);
-            MemCpy(listData->Buffer + idx, ptr, (uint)(count * sizeof(T)));
+            MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(listData->_array.GetUnsafePtr(), idx), ptr, (uint)(count * sizeof(T)));
         }
     }
 
     private UnsafeArray<T> _array;
 
-    private int _size;
+    private int _count;
 
-    public readonly T* Buffer => _array.Buffer;
-    public readonly int Size => _size;
-    public readonly int Capacity => _array.Size;
+    public readonly int Count => _count;
+    public readonly int Capacity => _array.Count;
+    public readonly bool IsCreated => _array.IsCreated;
 
     public readonly ref T this[int index]
     {
@@ -120,17 +124,15 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
         get => ref _array[index];
     }
 
-    public IEnumerator<T> GetEnumerator() => new Enumerator(ref this);
-
+    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeList<T>*)UnsafeUtilities.AddressOf(ref this));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public ParallelWriter AsParallelWriter() =>
-        new((UnsafeList<T>*)UnsafeUtilities.AddressOf(ref this));
+    public ParallelWriter AsParallelWriter() => new((UnsafeList<T>*)UnsafeUtilities.AddressOf(ref this));
 
-    public UnsafeList(int capacity, AllocationType allocationType)
+    public UnsafeList(int capacity, Allocator allocator, AllocationType allocationType = AllocationType.UnInitialized)
     {
-        _array = new UnsafeArray<T>(capacity, allocationType);
-        _size = 0;
+        _array = new UnsafeArray<T>(capacity, allocator, allocationType);
+        _count = 0;
 
         if (allocationType == AllocationType.Clear)
         {
@@ -140,7 +142,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
 
     private readonly void CheckNoResizeCapacity(int count)
     {
-        CheckNoResizeCapacity(count, Size);
+        CheckNoResizeCapacity(count, Count);
     }
 
     private readonly void CheckNoResizeCapacity(int index, int count)
@@ -148,7 +150,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
         if (index + count > Capacity)
         {
             throw new Exception(
-                $"AddNoResize assumes that list capacity is sufficient (Capacity {Capacity}, Size {Size}), requested count {count}!"
+                $"AddNoResize assumes that list capacity is sufficient (Capacity {Capacity}, Size {Count}), requested count {count}!"
             );
         }
     }
@@ -165,12 +167,12 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
             throw new ArgumentOutOfRangeException($"Value for index {index} must be positive.");
         }
 
-        if (index > Size)
+        if (index > Count)
         {
             throw new ArgumentOutOfRangeException($"Value for index {index} is out of bounds.");
         }
 
-        if (index + count > Size)
+        if (index + count > Count)
         {
             throw new ArgumentOutOfRangeException($"Value for count {count} is out of bounds.");
         }
@@ -178,37 +180,37 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
 
     public void Add(T value)
     {
-        if (_size >= Capacity)
+        if (_count >= Capacity)
         {
-            ReAlloc(Capacity + (int)(Capacity * 0.5f));
+            Resize(Capacity + (int)(Capacity * 0.5f));
         }
 
-        UnsafeUtilities.WriteArrayElement(Buffer, _size, value);
-        _size++;
+        UnsafeUtilities.WriteArrayElement(_array.GetUnsafePtr(), _count, value);
+        _count++;
     }
 
     public void AddNoResize(T value)
     {
         CheckNoResizeCapacity(1);
 
-        UnsafeUtilities.WriteArrayElement(Buffer, _size, value);
-        _size++;
+        UnsafeUtilities.WriteArrayElement(_array.GetUnsafePtr(), _count, value);
+        _count++;
     }
 
     public void AddRange(Span<T> values, int count)
     {
-        var newSize = _size + count;
+        var newSize = _count + count;
         if (newSize > Capacity)
         {
-            ReAlloc(Capacity + count);
+            Resize(Capacity + count);
         }
 
         fixed (T* ptr = values)
         {
-            MemCpy(_array.Buffer + _size, ptr, (uint)(count * sizeof(T)));
+            MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
         }
 
-        _size += count;
+        _count += count;
     }
 
     public void AddRangeNoResize(ReadOnlySpan<T> values)
@@ -217,18 +219,18 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
 
         fixed (T* ptr = values)
         {
-            MemCpy(_array.Buffer + _size, ptr, (uint)(values.Length * sizeof(T)));
+            MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(values.Length * sizeof(T)));
         }
 
-        _size += values.Length;
+        _count += values.Length;
     }
 
     public void AddRangeNoResize(T* ptr, int count)
     {
         CheckNoResizeCapacity(count);
 
-        MemCpy(_array.Buffer + _size, ptr, (uint)(count * sizeof(T)));
-        _size += count;
+        MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
+        _count += count;
     }
 
     public void RemoveRange(int start, int length)
@@ -240,13 +242,12 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
             return;
         }
 
-        var copyFrom = Math.Min(start + length, _size);
-        MemCpy(
-            _array.Buffer + start,
-            _array.Buffer + copyFrom,
-            (uint)((_size - copyFrom) * sizeof(T))
+        var copyFrom = Math.Min(start + length, _count);
+        MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
+            UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
+            (uint)((_count - copyFrom) * sizeof(T))
         );
-        _size -= length;
+        _count -= length;
     }
 
     public void RemoveAt(int index)
@@ -263,13 +264,12 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
             return;
         }
 
-        var copyFrom = Math.Min(_size - length, start + length);
-        MemCpy(
-            _array.Buffer + start,
-            _array.Buffer + copyFrom,
-            (uint)((_size - copyFrom) * sizeof(T))
+        var copyFrom = Math.Min(_count - length, start + length);
+        MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
+            UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
+            (uint)((_count - copyFrom) * sizeof(T))
         );
-        _size -= length;
+        _count -= length;
     }
 
     public void RemoveAtSwapBack(int index)
@@ -277,26 +277,47 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>, IEnumerable<T>
         RemoveRangeSwapBack(index, 1);
     }
 
-    public void ReAlloc(int newSize)
+    public void Resize(int newSize)
     {
-        _array.ReAlloc(newSize);
+        _array.Resize(newSize);
 
-        if (_size > newSize)
+        if (_count > newSize)
         {
-            _size = newSize;
+            _count = newSize;
         }
     }
 
     public void Clear()
     {
         _array.Clear();
-        _size = 0;
+        _count = 0;
+    }
+
+    /// <summary>
+    /// Returns a pointer to the underlying data of the array in an unsafe manner. This method is optimized for
+    /// performance.
+    /// </summary>
+    /// <returns>A pointer to the array's data.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly void* GetUnsafePtr()
+    {
+        return _array.GetUnsafePtr();
+    }
+
+    /// <summary>
+    /// Converts the current array to an UnsafeArray representation using its pointer and count.
+    /// </summary>
+    /// <returns>Returns a new UnsafeArray instance initialized with the array's unsafe pointer and its count.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly UnsafeArray<T> AsUnsafeArray()
+    {
+        return new UnsafeArray<T>(_array.GetUnsafePtr(), _count);
     }
 
     public void Dispose()
     {
         _array.Dispose();
-        _size = 0;
+        _count = 0;
     }
 }
 

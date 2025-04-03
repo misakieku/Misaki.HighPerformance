@@ -21,12 +21,6 @@ public class ParallelNoiseBenchmark
             return x - MathF.Truncate(x);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static float Lerp(float a, float b, float t)
-        {
-            return a + t * (b - a);
-        }
-
         private static Vector2 GradientNoiseDirect(Vector2 uv)
         {
             uv.X %= 289;
@@ -48,7 +42,7 @@ public class ParallelNoiseBenchmark
             var d11 = Vector2.Dot(GradientNoiseDirect(ip + new Vector2(1, 1)), fp - new Vector2(1, 1));
 
             fp = fp * fp * fp * (fp * (fp * new Vector2(6.0f) - new Vector2(15.0f)) + new Vector2(10.0f));
-            return Lerp(Lerp(d00, d10, fp.Y), Lerp(d01, d11, fp.Y), fp.X);
+            return float.Lerp(float.Lerp(d00, d10, fp.Y), float.Lerp(d01, d11, fp.Y), fp.X);
         }
 
         public void Execute(int index)
@@ -65,9 +59,9 @@ public class ParallelNoiseBenchmark
     private const int _LENGTH = _WIDTH * _HEIGHT;
 
     [Benchmark]
-    public void JobSystem()
+    public static void JobSystem()
     {
-        using var buffers = new UnsafeArray<float>(_LENGTH, AllocationType.UnInitialized);
+        using var buffers = new UnsafeArray<float>(_LENGTH, Allocator.Persistent, AllocationType.UnInitialized);
         var job = new NoiseJob()
         {
             buffers = buffers,
@@ -80,9 +74,9 @@ public class ParallelNoiseBenchmark
     }
 
     [Benchmark]
-    public void ParallelFor()
+    public static void ParallelFor()
     {
-        using var buffers = new UnsafeArray<float>(_LENGTH, AllocationType.UnInitialized);
+        using var buffers = new UnsafeArray<float>(_LENGTH, Allocator.Persistent, AllocationType.UnInitialized);
 
         Parallel.For(0, _LENGTH, i =>
         {
@@ -94,9 +88,9 @@ public class ParallelNoiseBenchmark
     }
 
     [Benchmark]
-    public void For()
+    public static void For()
     {
-        using var buffers = new UnsafeArray<float>(_LENGTH, AllocationType.UnInitialized);
+        using var buffers = new UnsafeArray<float>(_LENGTH, Allocator.Persistent, AllocationType.UnInitialized);
         for (var i = 0; i < _LENGTH; i++)
         {
             var x = i % _WIDTH;

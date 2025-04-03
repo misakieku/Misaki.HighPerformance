@@ -1,6 +1,7 @@
 ﻿namespace Misaki.HighPerformance.Jobs;
 
-internal readonly struct JobWorker<T>(T job, JobHandle handle) : IThreadPoolWorkItem where T : struct, IJob
+internal readonly struct JobWorker<T>(T job, JobHandle handle) : IThreadPoolWorkItem
+    where T : struct, IJob
 {
     public void Execute()
     {
@@ -9,7 +10,8 @@ internal readonly struct JobWorker<T>(T job, JobHandle handle) : IThreadPoolWork
     }
 }
 
-internal readonly struct ParallelJobWorker<T>(T job, JobHandle handle, int start, int end) : IThreadPoolWorkItem where T : struct, IJobParallelFor
+internal readonly struct ParallelJobWorker<T>(T job, JobHandle handle, int start, int end) : IThreadPoolWorkItem
+    where T : struct, IJobParallelFor
 {
     public void Execute()
     {

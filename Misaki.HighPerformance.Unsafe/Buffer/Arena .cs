@@ -8,7 +8,7 @@ namespace Misaki.HighPerformance.Unsafe.Buffer;
 /// </summary>
 public unsafe struct Arena : IDisposable
 {
-    private void* _buffer;
+    private byte* _buffer;
     private uint _size;
     private uint _offset;
 
@@ -16,7 +16,7 @@ public unsafe struct Arena : IDisposable
 
     public Arena(uint size)
     {
-        _buffer = NativeMemory.Alloc(size);
+        _buffer = (byte*)Malloc(size);
         _size = size;
         _offset = 0;
     }
@@ -70,7 +70,7 @@ public unsafe struct Arena : IDisposable
 
     public void Dispose()
     {
-        NativeMemory.Free(_buffer);
+        Free(_buffer);
 
         _buffer = null;
         _size = 0;

@@ -2,7 +2,8 @@
 
 public static class JobExtensions
 {
-    public static JobHandle Schedule<T>(this T job, bool preferLocal = false) where T : struct, IJob
+    public static JobHandle Schedule<T>(this T job, bool preferLocal = false)
+        where T : struct, IJob
     {
         var handle = new JobHandle(1);
         var worker = new JobWorker<T>(job, handle);
@@ -11,7 +12,8 @@ public static class JobExtensions
         return handle;
     }
 
-    public static JobHandle Schedule<T>(this T job, ReadOnlySpan<JobHandle> dependencies, bool preferLocal = false) where T : struct, IJob
+    public static JobHandle Schedule<T>(this T job, ReadOnlySpan<JobHandle> dependencies, bool preferLocal = false)
+        where T : struct, IJob
     {
         foreach (var dependency in dependencies)
         {
@@ -21,7 +23,8 @@ public static class JobExtensions
         return job.Schedule(preferLocal);
     }
 
-    public static JobHandle Schedule<T>(this T job, int length, int batchCount, bool preferLocal = false) where T : struct, IJobParallelFor
+    public static JobHandle Schedule<T>(this T job, int length, int batchCount, bool preferLocal = false)
+        where T : struct, IJobParallelFor
     {
         var batchSize = (length + batchCount - 1) / batchCount;
         var handle = new JobHandle(batchCount);
@@ -37,7 +40,8 @@ public static class JobExtensions
         return handle;
     }
 
-    public static JobHandle Schedule<T>(this T job, int length, int batchCount, ReadOnlySpan<JobHandle> dependencies, bool preferLocal = false) where T : struct, IJobParallelFor
+    public static JobHandle Schedule<T>(this T job, int length, int batchCount, ReadOnlySpan<JobHandle> dependencies, bool preferLocal = false)
+        where T : struct, IJobParallelFor
     {
         foreach (var dependency in dependencies)
         {

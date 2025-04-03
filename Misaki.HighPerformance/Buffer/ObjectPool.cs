@@ -8,9 +8,6 @@ namespace Misaki.HighPerformance.Buffer
         private readonly Func<T> _factory;
         private readonly ConcurrentQueue<T> _objects = new();
 
-        private readonly bool _autoCleanup;
-        private readonly int _autoCleanupInterval;
-
         private bool _disposed;
 
         public uint InitialSize
@@ -24,12 +21,9 @@ namespace Misaki.HighPerformance.Buffer
             private set;
         }
 
-        public ObjectPool(Func<T> factory, uint initialSize = uint.MinValue, uint maxSize = uint.MaxValue, bool autoCleanup = false, int autoCleanupInterval = 1000 * 60 * 5)
+        public ObjectPool(Func<T> factory, uint initialSize = uint.MinValue, uint maxSize = uint.MaxValue)
         {
             _factory = factory;
-
-            _autoCleanup = autoCleanup;
-            _autoCleanupInterval = autoCleanupInterval;
 
             InitialSize = initialSize;
             MaxSize = maxSize;
@@ -41,40 +35,11 @@ namespace Misaki.HighPerformance.Buffer
                     _objects.Enqueue(_factory());
                 }
             }
-
-            SetupAutoCleanup();
         }
 
-        private void PoolCleanup()
+        ~ObjectPool()
         {
-            foreach (var obj in _objects)
-            {
-                if (obj is IDisposable disposable)
-                {
-                    disposable.Dispose();
-                }
-            }
-
-            _objects.Clear();
-
-            GC.Collect();
-        }
-
-        private void SetupAutoCleanup()
-        {
-            if (!_autoCleanup)
-            {
-                return;
-            }
-
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    await Task.Delay(_autoCleanupInterval);
-                    PoolCleanup();
-                }
-            });
+            Dispose();
         }
 
         public bool TryRent([MaybeNullWhen(false)] out T obj)
@@ -100,11 +65,32 @@ namespace Misaki.HighPerformance.Buffer
             }
         }
 
+        public void Reset()
+        {
+            foreach (var obj in _objects)
+            {
+                if (obj is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+            }
+
+            _objects.Clear();
+            GC.Collect();
+        }
+
         public void Dispose()
         {
-            PoolCleanup();
+            if (_disposed)
+            {
+                return;
+            }
+
+            Reset();
 
             _disposed = true;
+
+            GC.SuppressFinalize(this);
         }
     }
 }

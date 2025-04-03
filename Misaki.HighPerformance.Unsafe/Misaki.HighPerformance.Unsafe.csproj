@@ -15,4 +15,8 @@
     <IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Misaki.HighPerformance.Math\Misaki.HighPerformance.Mathematics.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -14,6 +14,76 @@ public static unsafe class MemoryUtilities
     }
 
     /// <summary>
+    /// Allocates a block of memory of the specified size in bytes.
+    /// </summary>
+    /// <param name="size">Specifies the number of bytes to allocate in memory.</param>
+    /// <returns>Returns a pointer to the allocated memory block.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void* Malloc(nuint size)
+    {
+        return NativeMemory.Alloc(size);
+    }
+
+    /// <summary>
+    /// Allocates a block of memory with a specified size and alignment.
+    /// </summary>
+    /// <param name="size">Specifies the total number of bytes to allocate for the memory block.</param>
+    /// <param name="alignment">Defines the required alignment for the allocated memory address.</param>
+    /// <returns>Returns a pointer to the allocated memory block.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void* AlignedAlloc(nuint size, nuint alignment)
+    {
+        return NativeMemory.AlignedAlloc(size, alignment);
+    }
+
+    /// <summary>
+    /// Resizes a previously allocated memory block to a new size. It returns a pointer to the reallocated memory.
+    /// </summary>
+    /// <param name="ptr">The pointer to the memory block that needs to be resized.</param>
+    /// <param name="size">The new size for the memory block after resizing.</param>
+    /// <returns>A pointer to the reallocated memory block, or null if the operation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void* Realloc(void* ptr, nuint size)
+    {
+        return NativeMemory.Realloc(ptr, size);
+    }
+
+    /// <summary>
+    /// Reallocates memory to a specified size with a given alignment. It returns a pointer to the newly allocated
+    /// memory.
+    /// </summary>
+    /// <param name="ptr">The pointer to the existing memory block that needs to be reallocated.</param>
+    /// <param name="size">The new size for the memory allocation.</param>
+    /// <param name="alignment">The required alignment for the new memory allocation.</param>
+    /// <returns>A pointer to the reallocated memory block, or null if the allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void* AlignedRealloc(void* ptr, nuint size, nuint alignment)
+    {
+        return NativeMemory.AlignedRealloc(ptr, size, alignment);
+    }
+
+    /// <summary>
+    /// Releases the allocated memory pointed to by the given pointer. This helps in managing memory usage effectively.
+    /// </summary>
+    /// <param name="ptr">The pointer to the memory block that needs to be freed.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void Free(void* ptr)
+    {
+        NativeMemory.Free(ptr);
+    }
+
+    /// <summary>
+    /// Releases memory that was allocated with alignment requirements. It ensures proper deallocation of aligned memory
+    /// blocks.
+    /// </summary>
+    /// <param name="ptr">The pointer to the memory block that needs to be freed.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void AlignedFree(void* ptr)
+    {
+        NativeMemory.AlignedFree(ptr);
+    }
+
+    /// <summary>
     /// Clears a block of memory by setting it to zero. It initializes a specified number of bytes at a given memory
     /// address.
     /// </summary>
@@ -32,7 +102,7 @@ public static unsafe class MemoryUtilities
     /// <param name="size">The number of bytes to set to the specified value.</param>
     /// <param name="value">The byte value to which the memory block will be initialized.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void MemSet(void* ptr, nuint size, byte value)
+    public static void MemSet(void* ptr, byte value, nuint size)
     {
         NativeMemory.Fill(ptr, size, value);
     }

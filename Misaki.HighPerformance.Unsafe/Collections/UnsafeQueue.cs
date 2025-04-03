@@ -1,20 +1,75 @@
 using Misaki.HighPerformance.Unsafe.Collections.Contracts;
 using Misaki.HighPerformance.Unsafe.Helpers;
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Unsafe.Collections;
 
+/// <summary>
+/// A structure that implements a queue using unmanaged types for efficient memory management.
+/// </summary>
+/// <typeparam name="T">Represents the type of elements stored in the queue, which must be an unmanaged type for performance and safety.</typeparam>
 public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
+    private struct Enumerator : IEnumerator<T>
+    {
+        private UnsafeQueue<T>* _collection;
+        private int _index;
+        private T _value;
+
+        public Enumerator(UnsafeQueue<T>* collection)
+        {
+            _collection = collection;
+            _index = -1;
+            _value = default;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool MoveNext()
+        {
+            _index++;
+            if (_index < _collection->_count)
+            {
+                _value = UnsafeUtilities.ReadArrayElement<T>(_collection->_array.GetUnsafePtr(), _index);
+                return true;
+            }
+
+            _value = default;
+            return false;
+        }
+
+        public void Reset()
+        {
+            _index = -1;
+        }
+
+        // Let NativeArray indexer check for out of range.
+        public readonly T Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _value;
+        }
+
+        readonly object IEnumerator.Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Current;
+        }
+
+        public readonly void Dispose()
+        {
+        }
+    }
+
     private UnsafeArray<T> _array;
-    private int _size;
+    private int _count;
     private int _offset;
 
-    public readonly T* Buffer => _array.Buffer;
-    public readonly int Size => _size;
-    public readonly int Capacity => _array.Size;
+    public readonly int Count => _count;
+    public readonly int Capacity => _array.Count;
+    public readonly bool IsCreated => _array.IsCreated;
 
     public readonly ref T this[int index]
     {
@@ -22,10 +77,13 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
         get => ref _array[index];
     }
 
-    public UnsafeQueue(int capacity, AllocationType allocationType)
+    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeQueue<T>*)UnsafeUtilities.AddressOf(ref this));
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    public UnsafeQueue(int capacity, Allocator allocator, AllocationType allocationType = AllocationType.UnInitialized)
     {
-        _array = new UnsafeArray<T>(capacity, allocationType);
-        _size = 0;
+        _array = new UnsafeArray<T>(capacity, allocator, allocationType);
+        _count = 0;
         _offset = 0;
 
         if (allocationType == AllocationType.Clear)
@@ -34,34 +92,49 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
         }
     }
 
+    /// <summary>
+    /// Adds an element to the end of a collection, resizing if the current capacity is reached. The new element is
+    /// stored in a circular buffer.
+    /// </summary>
+    /// <param name="value">The item to be added to the collection.</param>
     public void Enqueue(T value)
     {
-        if (_size >= Capacity)
+        if (_count >= Capacity)
         {
-            ReAlloc(Capacity + (int)(Capacity * 0.5f));
+            Resize(Capacity + (int)(Capacity * 0.5f));
         }
 
-        UnsafeUtilities.WriteArrayElement(Buffer, (_offset + _size) % Capacity, value);
-        _size++;
+        UnsafeUtilities.WriteArrayElement(_array.GetUnsafePtr(), (_offset + _count) % Capacity, value);
+        _count++;
     }
 
+    /// <summary>
+    /// Removes and returns the element at the front of the queue. If the queue is empty, an exception is thrown.
+    /// </summary>
+    /// <returns>The element that was removed from the front of the queue.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when attempting to dequeue from an empty queue.</exception>
     public T Dequeue()
     {
-        if (_size == 0)
+        if (_count == 0)
         {
             throw new InvalidOperationException("Queue is empty.");
         }
 
-        var value = UnsafeUtilities.ReadArrayElement<T>(Buffer, _offset);
+        var value = UnsafeUtilities.ReadArrayElement<T>(_array.GetUnsafePtr(), _offset);
         _offset = (_offset + 1) % Capacity;
-        _size--;
+        _count--;
 
         return value;
     }
 
+    /// <summary>
+    /// Attempts to remove and return an item from a collection. Returns a boolean indicating success or failure.
+    /// </summary>
+    /// <param name="value">The output variable that will hold the dequeued item if the operation is successful.</param>
+    /// <returns>True if an item was successfully dequeued, otherwise false.</returns>
     public bool TryDequeue([MaybeNullWhen(false)] out T value)
     {
-        if (_size == 0)
+        if (_count == 0)
         {
             value = default;
             return false;
@@ -71,27 +144,33 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
         return true;
     }
 
-    public void ReAlloc(int newSize)
+    public void Resize(int newSize)
     {
-        _array.ReAlloc(newSize);
+        _array.Resize(newSize);
 
-        if (_size > newSize)
+        if (_count > newSize)
         {
-            _size = newSize;
+            _count = newSize;
         }
     }
 
     public void Clear()
     {
         _array.Clear();
-        _size = 0;
+        _count = 0;
         _offset = 0;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly void* GetUnsafePtr()
+    {
+        return _array.GetUnsafePtr();
     }
 
     public void Dispose()
     {
         _array.Dispose();
-        _size = 0;
+        _count = 0;
         _offset = 0;
     }
 }

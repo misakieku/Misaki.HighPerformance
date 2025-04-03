@@ -1,5 +1,4 @@
 ﻿using Misaki.HighPerformance.Unsafe.Collections;
-using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Unsafe.Buffer;
 
@@ -27,18 +26,17 @@ public unsafe struct DynamicArena : IDisposable
     public DynamicArena(uint initialSize)
     {
         _initialSize = initialSize;
-        _root = (ArenaNode*)NativeMemory.Alloc(SizeOf<ArenaNode>());
+        _root = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
         _root->arena = new Arena(initialSize);
         _root->next = null;
         _current = _root;
-        _disposed = false;
     }
 
     private bool CreateNewNode(uint size)
     {
         try
         {
-            var newNode = (ArenaNode*)NativeMemory.Alloc(SizeOf<ArenaNode>());
+            var newNode = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
             newNode->arena = new Arena(size);
             newNode->next = null;
 
@@ -70,10 +68,14 @@ public unsafe struct DynamicArena : IDisposable
         {
             result = current->arena.Allocate(size, alignSize, allocationType);
             if (result != null)
+            {
                 return result;
+            }
 
             if (current->next == null && !CreateNewNode(Math.Max(size, _initialSize)))
+            {
                 return null;
+            }
 
             current = current->next;
         }
@@ -107,14 +109,16 @@ public unsafe struct DynamicArena : IDisposable
     public void Dispose()
     {
         if (_disposed)
+        {
             return;
+        }
 
         var current = _root;
         while (current != null)
         {
             var next = current->next;
             current->arena.Dispose();
-            NativeMemory.Free(current);
+            Free(current);
             current = next;
         }
 
