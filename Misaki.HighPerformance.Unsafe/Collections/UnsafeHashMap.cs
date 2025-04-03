@@ -92,9 +92,9 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => new Enumerator((HashMapHelper<TKey>*)UnsafeUtilities.AddressOf(ref _hashMap));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public UnsafeHashMap(int capacity, Allocator allocator)
+    public UnsafeHashMap(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
     {
-        _hashMap = new HashMapHelper<TKey>(capacity, sizeof(TValue), HashMapHelper<TKey>.MINIMAL_CAPACITY, allocator);
+        _hashMap = new HashMapHelper<TKey>(capacity, sizeof(TValue), HashMapHelper<TKey>.MINIMAL_CAPACITY, allocator, allocationOption);
     }
 
     /// <summary>
@@ -130,6 +130,16 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
         {
             throw new ArgumentException($"An item with the same key has already been added: {key}");
         }
+    }
+
+    /// <summary>
+    /// Removes a particular key and its value.
+    /// </summary>
+    /// <param name="item">The value to remove.</param>
+    /// <returns>True if the value was present.</returns>
+    public bool Remove(TKey key)
+    {
+        return -1 != _hashMap.TryRemove(key);
     }
 
     /// <summary>

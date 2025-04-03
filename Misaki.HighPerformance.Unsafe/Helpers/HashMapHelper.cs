@@ -128,7 +128,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return totalSize;
     }
 
-    public HashMapHelper(int capacity, int sizeOfTValue, uint minGrowth, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
+    public HashMapHelper(int capacity, int sizeOfTValue, uint minGrowth, Allocator allocator, AllocationOption allocationOption)
     {
         if (capacity <= 0)
         {

@@ -128,7 +128,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
-        _buffer = (T*)AlignedRealloc(_buffer, (nuint)(newSize * sizeof(T)), AlignOf<T>());
+        _buffer = AllocationManager.Realloc<T>(_buffer, (uint)newSize, (uint)AlignOf<T>(), _allocator);
         _count = newSize;
     }
 

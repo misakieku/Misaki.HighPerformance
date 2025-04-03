@@ -5,18 +5,12 @@ namespace Misaki.HighPerformance.Unsafe.Services;
 
 public static unsafe class AllocationManager
 {
-    private readonly struct AllocationInfo(void* ptr, nuint size)
-    {
-        public readonly void* ptr = ptr;
-        public readonly nuint size = size;
-    }
-
     private const uint _DEFAULT_ARENA_SIZE = 512 * 1024; // 512 KB
 
     private static DynamicArena _arena;
     private static bool _initialized;
 
-    private static UnsafeQueue<AllocationInfo> _allocated;
+    private static UnsafeHashMap<IntPtr, nuint> _allocated;
 
     private static readonly Lock _lock = new();
 
@@ -32,7 +26,7 @@ public static unsafe class AllocationManager
         }
 
         _arena = new DynamicArena(initialSize);
-        _allocated = new UnsafeQueue<AllocationInfo>(32, Allocator.Persistent, AllocationOption.UnTracked);
+        _allocated = new(32, Allocator.Persistent, AllocationOption.UnTracked);
 
         _initialized = true;
     }
@@ -62,7 +56,7 @@ public static unsafe class AllocationManager
                 case Allocator.Persistent:
                     var allocationSize = size * (nuint)sizeof(T);
                     buffer = (T*)AlignedAlloc(allocationSize, alignSize);
-                    _allocated.Enqueue(new AllocationInfo(buffer, allocationSize));
+                    _allocated[(IntPtr)buffer] = allocationSize;
                     break;
 
                 default:
@@ -75,6 +69,42 @@ public static unsafe class AllocationManager
             }
 
             return buffer;
+        }
+    }
+
+    internal static T* Realloc<T>(T* buffer, uint size, uint alignSize, Allocator allocator)
+        where T : unmanaged
+    {
+        if (!_initialized)
+        {
+            throw new InvalidOperationException("The AllocationManager has not been initialized.");
+        }
+
+        lock (_lock)
+        {
+            T* newBuffer;
+            switch (allocator)
+            {
+                case Allocator.Temp:
+                    newBuffer = (T*)_arena.Allocate(size * (uint)sizeof(T), alignSize, AllocationOption.None);
+                    break;
+
+                case Allocator.Persistent:
+                    var allocationSize = size * (nuint)sizeof(T);
+                    newBuffer = (T*)AlignedRealloc(buffer, allocationSize, alignSize);
+
+                    // If the allocation map can not find the old value, which means that it's a untracked allocation
+                    if (_allocated.Remove((IntPtr)buffer))
+                    {
+                        _allocated.Add((IntPtr)newBuffer, allocationSize);
+                    }
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(allocator), "Invalid allocator type.");
+            }
+
+            return newBuffer;
         }
     }
 
@@ -117,10 +147,10 @@ public static unsafe class AllocationManager
         _arena.Dispose();
 
         nuint unfreeBytes = 0u;
-        while (_allocated.TryDequeue(out var allocationInfo))
+        foreach (var pair in _allocated)
         {
-            unfreeBytes += allocationInfo.size;
-            AlignedFree(allocationInfo.ptr);
+            unfreeBytes += pair.Value;
+            AlignedFree((void*)pair.Key);
         }
 
         _allocated.Dispose();
