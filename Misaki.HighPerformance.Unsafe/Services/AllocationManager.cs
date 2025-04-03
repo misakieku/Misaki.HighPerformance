@@ -1,7 +1,28 @@
 ﻿using Misaki.HighPerformance.Unsafe.Buffer;
 using Misaki.HighPerformance.Unsafe.Collections;
 
+#if DEBUG
+using System.Diagnostics;
+#endif
+
 namespace Misaki.HighPerformance.Unsafe.Services;
+
+internal readonly struct AllocationInfo
+{
+    public readonly nuint Size
+    {
+        get;
+        init;
+    }
+
+#if DEBUG
+    public readonly StackTrace StackTrace
+    {
+        get;
+        init;
+    }
+#endif
+}
 
 public static unsafe class AllocationManager
 {
@@ -10,7 +31,7 @@ public static unsafe class AllocationManager
     private static DynamicArena _arena;
     private static bool _initialized;
 
-    private static UnsafeHashMap<IntPtr, nuint> _allocated;
+    private static Dictionary<IntPtr, AllocationInfo> _allocated = null!;
 
     private static readonly Lock _lock = new();
 
@@ -26,7 +47,7 @@ public static unsafe class AllocationManager
         }
 
         _arena = new DynamicArena(initialSize);
-        _allocated = new(32, Allocator.Persistent, AllocationOption.UnTracked);
+        _allocated = new(32);
 
         _initialized = true;
     }
@@ -56,7 +77,13 @@ public static unsafe class AllocationManager
                 case Allocator.Persistent:
                     var allocationSize = size * (nuint)sizeof(T);
                     buffer = (T*)AlignedAlloc(allocationSize, alignSize);
-                    _allocated[(IntPtr)buffer] = allocationSize;
+                    _allocated[(IntPtr)buffer] = new AllocationInfo
+                    {
+                        Size = allocationSize,
+#if DEBUG
+                        StackTrace = new StackTrace(true)
+#endif
+                    };
                     break;
 
                 default:
@@ -93,10 +120,16 @@ public static unsafe class AllocationManager
                     var allocationSize = size * (nuint)sizeof(T);
                     newBuffer = (T*)AlignedRealloc(buffer, allocationSize, alignSize);
 
-                    // If the allocation map can not find the old value, which means that it's a untracked allocation
+                    // If the allocation map can not find the old value, it means that it was a untracked allocation
                     if (_allocated.Remove((IntPtr)buffer))
                     {
-                        _allocated.Add((IntPtr)newBuffer, allocationSize);
+                        _allocated[(IntPtr)newBuffer] = new AllocationInfo
+                        {
+                            Size = allocationSize,
+#if DEBUG
+                            StackTrace = new StackTrace(true)
+#endif
+                        };
                     }
                     break;
 
@@ -149,15 +182,15 @@ public static unsafe class AllocationManager
         nuint unfreeBytes = 0u;
         foreach (var pair in _allocated)
         {
-            unfreeBytes += pair.Value;
+            unfreeBytes += pair.Value.Size;
             AlignedFree((void*)pair.Key);
         }
 
-        _allocated.Dispose();
-
         if (unfreeBytes > 0u)
         {
-            throw new InvalidOperationException($"There are still {unfreeBytes} bytes allocated buffers are not freed yet. Please free them before disposing.");
+            throw new MemoryLeakException([.. _allocated.Values]);
         }
+
+        _allocated.Clear();
     }
 }
