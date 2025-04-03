@@ -13,7 +13,7 @@ namespace Misaki.HighPerformance.Unsafe.Collections;
 public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
-    private struct Enumerator : IEnumerator<T>
+    public struct Enumerator : IEnumerator<T>
     {
         private UnsafeArray<T>* _collection;
         private int _index;
@@ -90,30 +90,30 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// allocates memory and optionally clears it.
     /// </summary>
     /// <param name="count">Specifies the number of elements to allocate in the array, which must be greater than zero.</param>
-    /// <param name="allocationType">Determines how the allocated memory should be initialized, either uninitialized or cleared.</param>
+    /// <param name="allocator">Specifies the allocator to use for memory allocation, which determines the memory management strategy.</param>
+    /// <param name="allocationOption">Determines how the allocated memory should be initialized, either uninitialized or cleared.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
-    public UnsafeArray(int count, Allocator allocator, AllocationOption allocationType = AllocationOption.UnInitialized)
+    public UnsafeArray(int count, Allocator allocator, AllocationOption allocationOption = AllocationOption.UnInitialized)
     {
         if (count <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(count), "Count must be greater than zero.");
         }
 
-        _buffer = AllocationManager.Allocate<T>((uint)count, (uint)AlignOf<T>(), allocator, allocationType);
+        _buffer = AllocationManager.Allocate<T>((uint)count, (uint)AlignOf<T>(), allocator, allocationOption);
         _count = count;
 
-        if (allocationType == AllocationOption.Clear)
+        if (allocationOption == AllocationOption.Clear)
         {
             Clear();
         }
     }
 
     /// <summary>
-    /// Initializes an UnsafeArray with a pointer to a buffer and a count of elements. The count is adjusted based on
-    /// the size of the type T.
+    /// Initializes an UnsafeArray with a pointer to a buffer and a count of elements.
     /// </summary>
     /// <param name="buffer">A pointer to the memory location that holds the elements of the array.</param>
-    /// <param name="count">The total size of the data in bytes, which is divided by the size of type T to determine the number of elements.</param>
+    /// <param name="count">The total size of the data.</param>
     public UnsafeArray(void* buffer, int count)
     {
         _buffer = (T*)buffer;

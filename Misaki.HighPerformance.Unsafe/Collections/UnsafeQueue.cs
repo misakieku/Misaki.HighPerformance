@@ -13,7 +13,7 @@ namespace Misaki.HighPerformance.Unsafe.Collections;
 public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
-    private struct Enumerator : IEnumerator<T>
+    public struct Enumerator : IEnumerator<T>
     {
         private UnsafeQueue<T>* _collection;
         private int _index;
@@ -83,13 +83,6 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     public UnsafeQueue(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.UnInitialized)
     {
         _array = new UnsafeArray<T>(capacity, allocator, allocationType);
-        _count = 0;
-        _offset = 0;
-
-        if (allocationType == AllocationOption.Clear)
-        {
-            Clear();
-        }
     }
 
     /// <summary>
@@ -132,7 +125,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     /// </summary>
     /// <param name="value">The output variable that will hold the dequeued item if the operation is successful.</param>
     /// <returns>True if an item was successfully dequeued, otherwise false.</returns>
-    public bool TryDequeue([MaybeNullWhen(false)] out T value)
+    public bool TryDequeue(out T value)
     {
         if (_count == 0)
         {

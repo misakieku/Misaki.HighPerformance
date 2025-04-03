@@ -12,7 +12,7 @@ namespace Misaki.HighPerformance.Unsafe.Collections;
 public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
-    private struct Enumerator : IEnumerator<T>
+    public struct Enumerator : IEnumerator<T>
     {
         private UnsafeList<T>* _collection;
         private int _index;
@@ -132,12 +132,6 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     public UnsafeList(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.UnInitialized)
     {
         _array = new UnsafeArray<T>(capacity, allocator, allocationType);
-        _count = 0;
-
-        if (allocationType == AllocationOption.Clear)
-        {
-            Clear();
-        }
     }
 
     private readonly void CheckNoResizeCapacity(int count)

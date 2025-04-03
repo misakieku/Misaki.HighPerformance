@@ -7,7 +7,7 @@ namespace Misaki.HighPerformance.Unsafe.Collections;
 
 public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePair<TKey, TValue>> where TKey : unmanaged, IEquatable<TKey> where TValue : unmanaged
 {
-    private struct Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>
+    public struct Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>
     {
         internal HashMapHelper<TKey>.Enumerator _enumerator;
 

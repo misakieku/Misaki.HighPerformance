@@ -10,32 +10,28 @@ public class CollectionBenchmark
     [Params(10, 100, 1000)]
     public int count = 100;
 
+    [GlobalSetup]
+    public void Setup()
+    {
+        AllocationManager.Initialize(512_000);
+    }
+
     [Benchmark]
     public void Array()
     {
-        for (var i = 0; i < count; i++)
-        {
-            var array = new int[count];
-        }
+        var array = new int[count];
     }
 
     [Benchmark]
     public void UnsafeArray()
     {
-        for (var i = 0; i < count; i++)
-        {
-            var array = new UnsafeArray<int>(count, Allocator.Temp);
-            for (var j = 0; j < count; j++)
-            {
-                array[j] = j;
-            }
+        var array = new UnsafeArray<int>(count, Allocator.Temp);
+        AllocationManager.Reset();
+    }
 
-            foreach (var item in array)
-            {
-                Console.WriteLine(item);
-            }
-
-            AllocationManager.Reset();
-        }
+    [GlobalCleanup]
+    public void Cleanup()
+    {
+        AllocationManager.Dispose();
     }
 }

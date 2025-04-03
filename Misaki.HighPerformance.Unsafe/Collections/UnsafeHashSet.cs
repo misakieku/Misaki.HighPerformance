@@ -13,7 +13,7 @@ namespace Misaki.HighPerformance.Unsafe.Collections;
 public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
     where T : unmanaged, IEquatable<T>
 {
-    private struct Enumerator : IEnumerator<T>
+    public struct Enumerator : IEnumerator<T>
     {
         internal HashMapHelper<T>.Enumerator _enumerator;
 
