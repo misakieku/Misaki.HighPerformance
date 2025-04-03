@@ -1,4 +1,7 @@
-﻿using BenchmarkDotNet.Running;
-using Misaki.HighPerformance.Test;
+﻿using Misaki.HighPerformance.Unsafe.Collections;
+using Misaki.HighPerformance.Unsafe.Services;
 
-BenchmarkRunner.Run<CollectionBenchmark>();
+var unfreeArray = new UnsafeArray<int>(10, Allocator.Persistent);
+unfreeArray.Dispose();
+
+AllocationManager.Dispose();

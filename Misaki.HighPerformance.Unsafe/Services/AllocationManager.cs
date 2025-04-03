@@ -1,6 +1,5 @@
 ﻿using Misaki.HighPerformance.Unsafe.Buffer;
 using Misaki.HighPerformance.Unsafe.Collections;
-using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Unsafe.Services;
 
@@ -12,6 +11,8 @@ public static unsafe class AllocationManager
         public readonly nuint size = size;
     }
 
+    private const uint _DEFAULT_ARENA_SIZE = 512 * 1024; // 512 KB
+
     private static DynamicArena _arena;
     private static bool _initialized;
 
@@ -19,20 +20,11 @@ public static unsafe class AllocationManager
 
     private static readonly Lock _lock = new();
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void VerifyInitialization()
-    {
-        if (!_initialized)
-        {
-            throw new InvalidOperationException("The AllocationManager has not been initialized.");
-        }
-    }
-
     /// <summary>
     /// Initializes the AllocationManager with a specified initial size for the memory arena.
     /// </summary>
     /// <param name="initialSize">The initial size in bytes for the memory arena.</param>
-    public static void Initialize(uint initialSize)
+    public static void Initialize(uint initialSize = _DEFAULT_ARENA_SIZE)
     {
         if (_initialized || initialSize <= 0)
         {
@@ -40,7 +32,7 @@ public static unsafe class AllocationManager
         }
 
         _arena = new DynamicArena(initialSize);
-        _allocated = new UnsafeQueue<AllocationInfo>(16, Allocator.Persistent);
+        _allocated = new UnsafeQueue<AllocationInfo>(32, Allocator.Persistent, AllocationOption.UnTracked);
 
         _initialized = true;
     }
@@ -48,29 +40,41 @@ public static unsafe class AllocationManager
     internal static T* Allocate<T>(uint size, uint alignSize, Allocator allocator, AllocationOption allocationOption)
         where T : unmanaged
     {
-        if (allocationOption == AllocationOption.UnTracked)
+        if (allocationOption.HasFlag(AllocationOption.UnTracked))
         {
             return (T*)AlignedAlloc(size, alignSize);
         }
 
-        VerifyInitialization();
+        if (!_initialized)
+        {
+            Initialize();
+        }
 
         lock (_lock)
         {
+            T* buffer;
             switch (allocator)
             {
                 case Allocator.Temp:
-                    return (T*)_arena.Allocate(size * (uint)sizeof(T), alignSize, allocationOption);
+                    buffer = (T*)_arena.Allocate(size * (uint)sizeof(T), alignSize, allocationOption);
+                    break;
 
                 case Allocator.Persistent:
                     var allocationSize = size * (nuint)sizeof(T);
-                    var buffer = (T*)AlignedAlloc(allocationSize, alignSize);
+                    buffer = (T*)AlignedAlloc(allocationSize, alignSize);
                     _allocated.Enqueue(new AllocationInfo(buffer, allocationSize));
-                    return buffer;
+                    break;
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(allocator), "Invalid allocator type.");
             }
+
+            if (allocationOption.HasFlag(AllocationOption.Clear))
+            {
+                MemClear(buffer, size * (uint)sizeof(T));
+            }
+
+            return buffer;
         }
     }
 
@@ -91,7 +95,11 @@ public static unsafe class AllocationManager
     /// <param name="clear">If true, the allocated memory will be cleared; otherwise, it will not be cleared.</param>
     public static void Reset(bool clear = false)
     {
-        VerifyInitialization();
+        if (!_initialized)
+        {
+            throw new InvalidOperationException("The AllocationManager has not been initialized.");
+        }
+
         _arena.Reset(clear);
     }
 
@@ -101,20 +109,25 @@ public static unsafe class AllocationManager
     /// <exception cref="InvalidOperationException">Thrown if there are still allocated buffers that have not been freed.</exception>
     public static void Dispose()
     {
+        if (!_initialized)
+        {
+            return;
+        }
+
         _arena.Dispose();
 
-        nuint unfreedBytes = 0u;
+        nuint unfreeBytes = 0u;
         while (_allocated.TryDequeue(out var allocationInfo))
         {
-            unfreedBytes += allocationInfo.size;
+            unfreeBytes += allocationInfo.size;
             AlignedFree(allocationInfo.ptr);
         }
 
         _allocated.Dispose();
 
-        if (unfreedBytes > 0u)
+        if (unfreeBytes > 0u)
         {
-            throw new InvalidOperationException($"There are still {unfreedBytes} bytes allocated buffers. Please free them before disposing.");
+            throw new InvalidOperationException($"There are still {unfreeBytes} bytes allocated buffers are not freed yet. Please free them before disposing.");
         }
     }
 }

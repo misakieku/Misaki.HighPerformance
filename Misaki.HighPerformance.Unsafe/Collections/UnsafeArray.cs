@@ -93,7 +93,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <param name="allocator">Specifies the allocator to use for memory allocation, which determines the memory management strategy.</param>
     /// <param name="allocationOption">Determines how the allocated memory should be initialized, either uninitialized or cleared.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
-    public UnsafeArray(int count, Allocator allocator, AllocationOption allocationOption = AllocationOption.UnInitialized)
+    public UnsafeArray(int count, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
     {
         if (count <= 0)
         {
@@ -102,6 +102,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
         _buffer = AllocationManager.Allocate<T>((uint)count, (uint)AlignOf<T>(), allocator, allocationOption);
         _count = count;
+        _allocator = allocator;
 
         if (allocationOption == AllocationOption.Clear)
         {

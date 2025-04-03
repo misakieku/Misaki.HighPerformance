@@ -1,7 +1,6 @@
 using Misaki.HighPerformance.Unsafe.Collections.Contracts;
 using Misaki.HighPerformance.Unsafe.Helpers;
 using System.Collections;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Unsafe.Collections;
@@ -80,7 +79,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeQueue<T>*)UnsafeUtilities.AddressOf(ref this));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public UnsafeQueue(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.UnInitialized)
+    public UnsafeQueue(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.None)
     {
         _array = new UnsafeArray<T>(capacity, allocator, allocationType);
     }

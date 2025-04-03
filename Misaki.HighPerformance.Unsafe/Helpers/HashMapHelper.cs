@@ -74,7 +74,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     private readonly int _sizeOfTValue;
     private readonly int _log2MinGrowth;
+
     private readonly Allocator _allocator;
+    private readonly AllocationOption _allocationOption;
 
     public const int MINIMAL_CAPACITY = 64;
 
@@ -126,7 +128,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return totalSize;
     }
 
-    public HashMapHelper(int capacity, int sizeOfTValue, uint minGrowth, Allocator allocator)
+    public HashMapHelper(int capacity, int sizeOfTValue, uint minGrowth, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
     {
         if (capacity <= 0)
         {
@@ -143,7 +145,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
         _sizeOfTValue = sizeOfTValue;
         _log2MinGrowth = BitOperations.Log2(minGrowth);
+
         _allocator = allocator;
+        _allocationOption = allocationOption;
 
         var totalSize = CalculateDataSize(_capacity, _bucketCapacity, sizeOfTValue,
             out var keyOffset, out var nextOffset, out var bucketOffset);
@@ -182,7 +186,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     {
         var alignSize = sizeof(TKey) > sizeof(int) ? AlignOf<TKey>() : AlignOf<int>();
 
-        _buffer = AllocationManager.Allocate<byte>((uint)totalSize, (uint)alignSize, _allocator, AllocationOption.UnInitialized);
+        _buffer = AllocationManager.Allocate<byte>((uint)totalSize, (uint)alignSize, _allocator, _allocationOption);
         _keys = (TKey*)(_buffer + keyOffset);
         _next = (int*)(_buffer + nextOffset);
         _buckets = (int*)(_buffer + bucketOffset);
@@ -411,7 +415,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     internal UnsafeArray<TKey> GetKeyArray(Allocator allocator)
     {
-        var result = new UnsafeArray<TKey>(_count, allocator, AllocationOption.UnInitialized);
+        var result = new UnsafeArray<TKey>(_count, allocator);
 
         for (int i = 0, count = 0, max = result.Count, capacity = _bucketCapacity; i < capacity && count < max; i++)
         {
@@ -430,7 +434,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     internal UnsafeArray<TValue> GetValueArray<TValue>(Allocator allocator)
         where TValue : unmanaged
     {
-        var result = new UnsafeArray<TValue>(_count, allocator, AllocationOption.UnInitialized);
+        var result = new UnsafeArray<TValue>(_count, allocator);
 
         for (int i = 0, count = 0, max = result.Count, capacity = _bucketCapacity; i < capacity && count < max; ++i)
         {
@@ -449,7 +453,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays<TValue>(Allocator allocator)
         where TValue : unmanaged
     {
-        var result = new UnsafeArray<KeyValuePair<TKey, TValue>>(_count, allocator, AllocationOption.UnInitialized);
+        var result = new UnsafeArray<KeyValuePair<TKey, TValue>>(_count, allocator);
 
         for (int i = 0, count = 0, max = result.Count, capacity = _bucketCapacity; i < capacity && count < max; i++)
         {

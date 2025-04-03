@@ -1,7 +1,6 @@
 ﻿using Misaki.HighPerformance.Unsafe.Collections.Contracts;
 using Misaki.HighPerformance.Unsafe.Helpers;
 using System.Collections;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Unsafe.Collections;
@@ -24,7 +23,7 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
         return GetEnumerator();
     }
 
-    public UnsafeStack(int initialSize, Allocator allocator, AllocationOption allocationOption = AllocationOption.UnInitialized)
+    public UnsafeStack(int initialSize, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
     {
         _array = new UnsafeArray<T>(initialSize, allocator, allocationOption);
     }
