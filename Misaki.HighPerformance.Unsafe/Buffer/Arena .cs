@@ -30,7 +30,7 @@ public unsafe struct Arena : IDisposable
     /// <param name="alignSize">Defines the alignment requirement for the allocated memory.</param>
     /// <returns>A pointer to the allocated memory block or null if the allocation cannot be fulfilled.</returns>
     /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
-    public void* Allocate(uint size, uint alignSize, AllocationType allocationType)
+    public void* Allocate(uint size, uint alignSize, AllocationOption allocationType)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
 
@@ -41,9 +41,9 @@ public unsafe struct Arena : IDisposable
         }
 
         _offset = offset + size;
-        var ptr = (byte*)_buffer + offset;
+        var ptr = _buffer + offset;
 
-        if (allocationType == AllocationType.Clear)
+        if (allocationType == AllocationOption.Clear)
         {
             MemClear(ptr, size);
         }

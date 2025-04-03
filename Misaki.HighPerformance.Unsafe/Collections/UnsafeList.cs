@@ -129,12 +129,12 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
     public ParallelWriter AsParallelWriter() => new((UnsafeList<T>*)UnsafeUtilities.AddressOf(ref this));
 
-    public UnsafeList(int capacity, Allocator allocator, AllocationType allocationType = AllocationType.UnInitialized)
+    public UnsafeList(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.UnInitialized)
     {
         _array = new UnsafeArray<T>(capacity, allocator, allocationType);
         _count = 0;
 
-        if (allocationType == AllocationType.Clear)
+        if (allocationType == AllocationOption.Clear)
         {
             Clear();
         }

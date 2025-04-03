@@ -1,6 +1,7 @@
 ﻿using Misaki.HighPerformance.Unsafe.Buffer;
+using Misaki.HighPerformance.Unsafe.Collections;
 
-namespace Misaki.HighPerformance.Unsafe.Collections.Services;
+namespace Misaki.HighPerformance.Unsafe.Services;
 
 public static unsafe class AllocationManager
 {
@@ -15,7 +16,7 @@ public static unsafe class AllocationManager
         _initialized = true;
     }
 
-    public static T* Allocate<T>(uint size, uint alignSize, Allocator allocator, AllocationType allocationType)
+    internal static T* Allocate<T>(uint size, uint alignSize, Allocator allocator, AllocationOption allocationType)
         where T : unmanaged
     {
         if (!_initialized)
@@ -31,6 +32,22 @@ public static unsafe class AllocationManager
                 Allocator.Persistent => (T*)AlignedAlloc((nuint)(size * sizeof(T)), alignSize),
                 _ => throw new ArgumentOutOfRangeException(nameof(allocator), "Invalid allocator type."),
             };
+        }
+    }
+
+    internal static void Free(void* ptr, Allocator allocator)
+    {
+        if (!_initialized)
+        {
+            throw new InvalidOperationException("The AllocationManager has not been initialized.");
+        }
+
+        lock (_lock)
+        {
+            if (allocator == Allocator.Persistent)
+            {
+                AlignedFree(ptr);
+            }
         }
     }
 

@@ -61,7 +61,7 @@ public class ParallelNoiseBenchmark
     [Benchmark]
     public static void JobSystem()
     {
-        using var buffers = new UnsafeArray<float>(_LENGTH, Allocator.Persistent, AllocationType.UnInitialized);
+        using var buffers = new UnsafeArray<float>(_LENGTH, Allocator.Persistent, AllocationOption.UnInitialized);
         var job = new NoiseJob()
         {
             buffers = buffers,
@@ -76,7 +76,7 @@ public class ParallelNoiseBenchmark
     [Benchmark]
     public static void ParallelFor()
     {
-        using var buffers = new UnsafeArray<float>(_LENGTH, Allocator.Persistent, AllocationType.UnInitialized);
+        using var buffers = new UnsafeArray<float>(_LENGTH, Allocator.Persistent, AllocationOption.UnInitialized);
 
         Parallel.For(0, _LENGTH, i =>
         {
@@ -90,7 +90,7 @@ public class ParallelNoiseBenchmark
     [Benchmark]
     public static void For()
     {
-        using var buffers = new UnsafeArray<float>(_LENGTH, Allocator.Persistent, AllocationType.UnInitialized);
+        using var buffers = new UnsafeArray<float>(_LENGTH, Allocator.Persistent, AllocationOption.UnInitialized);
         for (var i = 0; i < _LENGTH; i++)
         {
             var x = i % _WIDTH;

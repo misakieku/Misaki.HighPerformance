@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Misaki.HighPerformance.Math\Misaki.HighPerformance.Mathematics.csproj" />
+    <ProjectReference Include="..\Misaki.HighPerformance\Misaki.HighPerformance.csproj" />
   </ItemGroup>
 
 </Project>

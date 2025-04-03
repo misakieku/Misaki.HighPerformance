@@ -80,13 +80,13 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeQueue<T>*)UnsafeUtilities.AddressOf(ref this));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public UnsafeQueue(int capacity, Allocator allocator, AllocationType allocationType = AllocationType.UnInitialized)
+    public UnsafeQueue(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.UnInitialized)
     {
         _array = new UnsafeArray<T>(capacity, allocator, allocationType);
         _count = 0;
         _offset = 0;
 
-        if (allocationType == AllocationType.Clear)
+        if (allocationType == AllocationOption.Clear)
         {
             Clear();
         }

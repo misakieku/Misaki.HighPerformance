@@ -1,6 +1,6 @@
 ﻿using Misaki.HighPerformance.Unsafe.Collections.Contracts;
-using Misaki.HighPerformance.Unsafe.Collections.Services;
 using Misaki.HighPerformance.Unsafe.Helpers;
+using Misaki.HighPerformance.Unsafe.Services;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -66,6 +66,8 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     private T* _buffer;
     private int _count;
 
+    private readonly Allocator _allocator;
+
     public readonly int Count => _count;
 
     public readonly ref T this[int index]
@@ -90,7 +92,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <param name="count">Specifies the number of elements to allocate in the array, which must be greater than zero.</param>
     /// <param name="allocationType">Determines how the allocated memory should be initialized, either uninitialized or cleared.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
-    public UnsafeArray(int count, Allocator allocator, AllocationType allocationType = AllocationType.UnInitialized)
+    public UnsafeArray(int count, Allocator allocator, AllocationOption allocationType = AllocationOption.UnInitialized)
     {
         if (count <= 0)
         {
@@ -100,7 +102,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         _buffer = AllocationManager.Allocate<T>((uint)count, (uint)AlignOf<T>(), allocator, allocationType);
         _count = count;
 
-        if (allocationType == AllocationType.Clear)
+        if (allocationType == AllocationOption.Clear)
         {
             Clear();
         }
@@ -132,7 +134,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void Clear()
     {
-        MemClear(_buffer, (uint)(_count * sizeof(T)));
+        MemClear(_buffer, (nuint)(_count * sizeof(T)));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -143,7 +145,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
     public void Dispose()
     {
-        AlignedFree(_buffer);
+        AllocationManager.Free(_buffer, _allocator);
 
         _buffer = null;
         _count = 0;

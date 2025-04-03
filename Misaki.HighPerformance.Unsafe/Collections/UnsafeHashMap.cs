@@ -92,9 +92,9 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => new Enumerator((HashMapHelper<TKey>*)UnsafeUtilities.AddressOf(ref _hashMap));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public UnsafeHashMap(int capacity)
+    public UnsafeHashMap(int capacity, Allocator allocator)
     {
-        _hashMap = new HashMapHelper<TKey>(capacity, sizeof(TValue), HashMapHelper<TKey>.MINIMAL_CAPACITY);
+        _hashMap = new HashMapHelper<TKey>(capacity, sizeof(TValue), HashMapHelper<TKey>.MINIMAL_CAPACITY, allocator);
     }
 
     /// <summary>

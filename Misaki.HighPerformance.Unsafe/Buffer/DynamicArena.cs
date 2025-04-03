@@ -57,7 +57,7 @@ public unsafe struct DynamicArena : IDisposable
     /// <param name="alignSize">Alignment requirement for the memory block.</param>
     /// <returns>Pointer to the allocated memory block.</returns>
     /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
-    public void* Allocate(uint size, uint alignSize, AllocationType allocationType)
+    public void* Allocate(uint size, uint alignSize, AllocationOption allocationType)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
 
