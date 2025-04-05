@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
+using Misaki.HighPerformance.Unsafe.Buffer;
 using Misaki.HighPerformance.Unsafe.Collections;
-using Misaki.HighPerformance.Unsafe.Services;
 
 namespace Misaki.HighPerformance.Test;
 

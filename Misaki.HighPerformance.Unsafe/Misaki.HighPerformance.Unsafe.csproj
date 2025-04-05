@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Misaki.HighPerformance\Misaki.HighPerformance.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Collections\Allocator\" />
+  </ItemGroup>
+
 </Project>

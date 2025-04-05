@@ -23,6 +23,10 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
         return GetEnumerator();
     }
 
+    public UnsafeStack() : this(1, Allocator.Persistent)
+    {
+    }
+
     public UnsafeStack(int initialSize, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
     {
         _array = new UnsafeArray<T>(initialSize, allocator, allocationOption);

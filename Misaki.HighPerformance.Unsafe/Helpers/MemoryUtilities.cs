@@ -69,6 +69,11 @@ public static unsafe class MemoryUtilities
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Free(void* ptr)
     {
+        if (ptr == null)
+        {
+            return;
+        }
+
         NativeMemory.Free(ptr);
     }
 
@@ -80,6 +85,11 @@ public static unsafe class MemoryUtilities
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AlignedFree(void* ptr)
     {
+        if (ptr == null)
+        {
+            return;
+        }
+
         NativeMemory.AlignedFree(ptr);
     }
 

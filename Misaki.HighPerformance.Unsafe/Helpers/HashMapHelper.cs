@@ -1,5 +1,5 @@
+using Misaki.HighPerformance.Unsafe.Buffer;
 using Misaki.HighPerformance.Unsafe.Collections;
-using Misaki.HighPerformance.Unsafe.Services;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 

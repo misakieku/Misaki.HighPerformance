@@ -1,6 +1,6 @@
-﻿using Misaki.HighPerformance.Unsafe.Collections.Contracts;
+﻿using Misaki.HighPerformance.Unsafe.Buffer;
+using Misaki.HighPerformance.Unsafe.Collections.Contracts;
 using Misaki.HighPerformance.Unsafe.Helpers;
-using Misaki.HighPerformance.Unsafe.Services;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -86,12 +86,18 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>
-    /// Initializes a new instance of UnsafeArray with a specified number of elements and an allocation type. It
-    /// allocates memory and optionally clears it.
+    /// Constructs an UnsafeArray with a default size of 1 and uses the Persistent allocator.
+    /// </summary>
+    public UnsafeArray() : this(1, Allocator.Persistent)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of UnsafeArray with a specified number of elements and an allocation type.
     /// </summary>
     /// <param name="count">Specifies the number of elements to allocate in the array, which must be greater than zero.</param>
     /// <param name="allocator">Specifies the allocator to use for memory allocation, which determines the memory management strategy.</param>
-    /// <param name="allocationOption">Determines how the allocated memory should be initialized, either uninitialized or cleared.</param>
+    /// <param name="allocationOption">Determines how the memory should be allocated.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
     public UnsafeArray(int count, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
     {
@@ -103,22 +109,23 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         _buffer = AllocationManager.Allocate<T>((uint)count, (uint)AlignOf<T>(), allocator, allocationOption);
         _count = count;
         _allocator = allocator;
-
-        if (allocationOption == AllocationOption.Clear)
-        {
-            Clear();
-        }
     }
 
     /// <summary>
-    /// Initializes an UnsafeArray with a pointer to a buffer and a count of elements.
+    /// Initializes an UnsafeArray with a pointer to a buffer and a count of elements. This does not copy the data.
     /// </summary>
     /// <param name="buffer">A pointer to the memory location that holds the elements of the array.</param>
     /// <param name="count">The total size of the data.</param>
+    /// <remarks>
+    /// When using this constructor, the user is responsible for managing the memory pointed to by the buffer.
+    /// Disposing of the UnsafeArray does not free the memory and only release the reference. The memory should be freed manually when no longer needed.
+    /// Use <see cref="UnsafeArray(int, Allocator, AllocationOption)"/> constructor and <see cref="MemCpy(void*, void*, nuint)"/> if you are not sure what you are doing.
+    /// </remarks>
     public UnsafeArray(void* buffer, int count)
     {
         _buffer = (T*)buffer;
         _count = count;
+        _allocator = Allocator.External;
     }
 
     public void Resize(int newSize)
@@ -128,7 +135,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
-        _buffer = AllocationManager.Realloc<T>(_buffer, (uint)newSize, (uint)AlignOf<T>(), _allocator);
+        _buffer = AllocationManager.Realloc(_buffer, (uint)newSize, (uint)AlignOf<T>(), _allocator);
         _count = newSize;
     }
 

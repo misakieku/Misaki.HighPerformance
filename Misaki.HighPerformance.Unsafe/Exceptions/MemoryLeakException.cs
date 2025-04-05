@@ -1,11 +1,27 @@
-﻿using Misaki.HighPerformance.Unsafe.Services;
+﻿#if DEBUG
 using System.Diagnostics;
 using System.Text;
+#endif
 
 namespace Misaki.HighPerformance.Unsafe;
 
-internal class MemoryLeakException(params AllocationInfo[] Infos) : Exception
+public readonly struct MemoryLeakExceptionInfo
 {
+    public nuint Size
+    {
+        get; init;
+    }
+#if DEBUG
+    public StackTrace StackTrace
+    {
+        get; init;
+    }
+#endif
+}
+
+public class MemoryLeakException(params MemoryLeakExceptionInfo[] Infos) : Exception
+{
+#if DEBUG
     private static string GetMessage(StackTrace? stackTrace)
     {
         if (stackTrace == null)
@@ -27,6 +43,7 @@ internal class MemoryLeakException(params AllocationInfo[] Infos) : Exception
 
         return stringBuilder.ToString();
     }
+#endif
 
     public override string Message
     {

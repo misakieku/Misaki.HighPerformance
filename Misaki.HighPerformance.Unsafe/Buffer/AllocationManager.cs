@@ -1,29 +1,15 @@
-﻿using Misaki.HighPerformance.Unsafe.Buffer;
-using Misaki.HighPerformance.Unsafe.Collections;
+﻿#define UNSAFE_COLLECTION_CHECK
 
+using Misaki.HighPerformance.Unsafe.Collections;
+#if UNSAFE_COLLECTION_CHECK
 #if DEBUG
 using System.Diagnostics;
 #endif
-
-namespace Misaki.HighPerformance.Unsafe.Services;
-
-internal readonly struct AllocationInfo
-{
-    public readonly nuint Size
-    {
-        get;
-        init;
-    }
-
-#if DEBUG
-    public readonly StackTrace StackTrace
-    {
-        get;
-        init;
-    }
 #endif
-}
 
+namespace Misaki.HighPerformance.Unsafe.Buffer;
+
+// TODO: Custom allocator
 public static unsafe class AllocationManager
 {
     private const uint _DEFAULT_ARENA_SIZE = 512 * 1024; // 512 KB
@@ -31,7 +17,9 @@ public static unsafe class AllocationManager
     private static DynamicArena _arena;
     private static bool _initialized;
 
-    private static Dictionary<IntPtr, AllocationInfo> _allocated = null!;
+#if UNSAFE_COLLECTION_CHECK
+    private static Dictionary<IntPtr, MemoryLeakExceptionInfo> _allocated = null!;
+#endif
 
     private static readonly Lock _lock = new();
 
@@ -47,7 +35,9 @@ public static unsafe class AllocationManager
         }
 
         _arena = new DynamicArena(initialSize);
-        _allocated = new(32);
+#if UNSAFE_COLLECTION_CHECK
+        _allocated = new Dictionary<nint, MemoryLeakExceptionInfo>(32);
+#endif
 
         _initialized = true;
     }
@@ -77,22 +67,26 @@ public static unsafe class AllocationManager
                 case Allocator.Persistent:
                     var allocationSize = size * (nuint)sizeof(T);
                     buffer = (T*)AlignedAlloc(allocationSize, alignSize);
-                    _allocated[(IntPtr)buffer] = new AllocationInfo
+
+#if UNSAFE_COLLECTION_CHECK
+                    _allocated[(IntPtr)buffer] = new MemoryLeakExceptionInfo
                     {
                         Size = allocationSize,
 #if DEBUG
                         StackTrace = new StackTrace(true)
 #endif
                     };
+#endif
+
+                    if (allocationOption.HasFlag(AllocationOption.Clear))
+                    {
+                        MemClear(buffer, allocationSize);
+                    }
+
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(allocator), "Invalid allocator type.");
-            }
-
-            if (allocationOption.HasFlag(AllocationOption.Clear))
-            {
-                MemClear(buffer, size * (uint)sizeof(T));
             }
 
             return buffer;
@@ -120,10 +114,11 @@ public static unsafe class AllocationManager
                     var allocationSize = size * (nuint)sizeof(T);
                     newBuffer = (T*)AlignedRealloc(buffer, allocationSize, alignSize);
 
+#if UNSAFE_COLLECTION_CHECK
                     // If the allocation map can not find the old value, it means that it was a untracked allocation
                     if (_allocated.Remove((IntPtr)buffer))
                     {
-                        _allocated[(IntPtr)newBuffer] = new AllocationInfo
+                        _allocated[(IntPtr)newBuffer] = new MemoryLeakExceptionInfo
                         {
                             Size = allocationSize,
 #if DEBUG
@@ -131,6 +126,7 @@ public static unsafe class AllocationManager
 #endif
                         };
                     }
+#endif
                     break;
 
                 default:
@@ -148,6 +144,9 @@ public static unsafe class AllocationManager
             if (allocator == Allocator.Persistent)
             {
                 AlignedFree(ptr);
+#if UNSAFE_COLLECTION_CHECK
+                _allocated.Remove((IntPtr)ptr);
+#endif
             }
         }
     }
@@ -169,7 +168,9 @@ public static unsafe class AllocationManager
     /// <summary>
     /// Disposes of the AllocationManager, freeing all allocated memory and resources.
     /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if there are still allocated buffers that have not been freed.</exception>
+#if UNSAFE_COLLECTION_CHECK
+    /// <exception cref="MemoryLeakException">Thrown if there are still allocated buffers that have not been freed.</exception>
+#endif
     public static void Dispose()
     {
         if (!_initialized)
@@ -179,6 +180,7 @@ public static unsafe class AllocationManager
 
         _arena.Dispose();
 
+#if UNSAFE_COLLECTION_CHECK
         nuint unfreeBytes = 0u;
         foreach (var pair in _allocated)
         {
@@ -192,5 +194,8 @@ public static unsafe class AllocationManager
         }
 
         _allocated.Clear();
+#endif
+
+        _initialized = false;
     }
 }

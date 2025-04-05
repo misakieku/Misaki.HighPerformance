@@ -79,6 +79,10 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeQueue<T>*)UnsafeUtilities.AddressOf(ref this));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
+    public UnsafeQueue() : this(1, Allocator.Persistent)
+    {
+    }
+
     public UnsafeQueue(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.None)
     {
         _array = new UnsafeArray<T>(capacity, allocator, allocationType);

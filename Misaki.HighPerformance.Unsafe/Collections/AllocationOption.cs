@@ -31,4 +31,8 @@ public enum Allocator : byte
     /// Allocator for persistent allocations. Allocations are not cleared after use.
     /// </summary>
     Persistent,
+    /// <summary>
+    /// Allocator for external memory. Allocations are not cleared after use.
+    /// </summary>
+    External
 }
