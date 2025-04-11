@@ -34,6 +34,7 @@ public unsafe class CollectionBenchmark
         {
             array[i] = i;
         }
+        AllocationManager.ResetCurrent();
     }
 
     [Benchmark]

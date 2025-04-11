@@ -1,6 +1,7 @@
-﻿//#define UNSAFE_COLLECTION_CHECK
+﻿#define UNSAFE_COLLECTION_CHECK
 
 using Misaki.HighPerformance.Unsafe.Collections;
+using System.Runtime.CompilerServices;
 #if UNSAFE_COLLECTION_CHECK
 #if DEBUG
 using System.Diagnostics;
@@ -12,16 +13,12 @@ namespace Misaki.HighPerformance.Unsafe.Buffer;
 // TODO: Custom allocator
 public static unsafe class AllocationManager
 {
-    private const uint _DEFAULT_ARENA_SIZE = 512 * 1024; // 512 KB
+    private const uint _DEFAULT_ARENA_SIZE = 512 * 1024;
 
-    private static DynamicArena _arena;
-    private static bool _initialized;
-
+    private static ThreadLocal<DynamicArena>? _threadLocalArena;
 #if UNSAFE_COLLECTION_CHECK
     private static Dictionary<IntPtr, MemoryLeakExceptionInfo> _allocated = null!;
 #endif
-
-    //private static readonly Lock _lock = new();
 
     /// <summary>
     /// Initializes the AllocationManager with a specified initial size for the memory arena.
@@ -29,17 +26,24 @@ public static unsafe class AllocationManager
     /// <param name="initialSize">The initial size in bytes for the memory arena.</param>
     public static void Initialize(uint initialSize = _DEFAULT_ARENA_SIZE)
     {
-        if (_initialized || initialSize <= 0)
+        if (initialSize <= 0)
         {
             return;
         }
 
-        _arena = new DynamicArena(initialSize);
+        _threadLocalArena = new ThreadLocal<DynamicArena>(() => new DynamicArena(initialSize), true);
 #if UNSAFE_COLLECTION_CHECK
         _allocated = new Dictionary<nint, MemoryLeakExceptionInfo>(32);
 #endif
+    }
 
-        _initialized = true;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void EnsureInitialized()
+    {
+        if (_threadLocalArena == null)
+        {
+            throw new InvalidOperationException("The AllocationManager has not been initialized.");
+        }
     }
 
     public static T* Allocate<T>(uint size, uint alignSize, Allocator allocator, AllocationOption allocationOption)
@@ -50,18 +54,13 @@ public static unsafe class AllocationManager
             return (T*)AlignedAlloc(size, alignSize);
         }
 
-        if (!_initialized)
-        {
-            Initialize();
-        }
+        EnsureInitialized();
 
-        //lock (_lock)
-        //{
         T* buffer;
         switch (allocator)
         {
             case Allocator.Temp:
-                buffer = (T*)_arena.Allocate(size * (uint)sizeof(T), alignSize, allocationOption);
+                buffer = (T*)_threadLocalArena!.Value.Allocate(size * (uint)sizeof(T), alignSize, allocationOption);
                 break;
 
             case Allocator.Persistent:
@@ -90,24 +89,18 @@ public static unsafe class AllocationManager
         }
 
         return buffer;
-        //}
     }
 
     public static T* Realloc<T>(T* buffer, uint size, uint alignSize, Allocator allocator)
         where T : unmanaged
     {
-        if (!_initialized)
-        {
-            throw new InvalidOperationException("The AllocationManager has not been initialized.");
-        }
+        EnsureInitialized();
 
-        //lock (_lock)
-        //{
         T* newBuffer;
         switch (allocator)
         {
             case Allocator.Temp:
-                newBuffer = (T*)_arena.Allocate(size * (uint)sizeof(T), alignSize, AllocationOption.None);
+                newBuffer = (T*)_threadLocalArena!.Value.Allocate(size * (uint)sizeof(T), alignSize, AllocationOption.None);
                 break;
 
             case Allocator.Persistent:
@@ -134,13 +127,10 @@ public static unsafe class AllocationManager
         }
 
         return newBuffer;
-        //}
     }
 
     public static void Free(void* ptr, Allocator allocator)
     {
-        //lock (_lock)
-        //{
         if (allocator == Allocator.Persistent)
         {
             AlignedFree(ptr);
@@ -148,15 +138,34 @@ public static unsafe class AllocationManager
             _allocated.Remove((IntPtr)ptr);
 #endif
         }
-        //}
     }
 
     /// <summary>
-    /// Resets the memory arena, optionally clearing the allocated memory.
+    /// Resets the memory arenas on all of the threads.
     /// </summary>
-    public static void Reset()
+    public static void ResetAll()
     {
-        _arena.Reset();
+        if (_threadLocalArena == null)
+        {
+            return;
+        }
+
+        foreach (var arena in _threadLocalArena.Values)
+        {
+            arena.Reset();
+        }
+    }
+
+    /// <summary>
+    /// Resets the current thread-local arena.
+    /// </summary>
+    public static void ResetCurrent()
+    {
+        if (_threadLocalArena == null)
+        {
+            return;
+        }
+        _threadLocalArena.Value.Reset();
     }
 
     /// <summary>
@@ -167,12 +176,17 @@ public static unsafe class AllocationManager
 #endif
     public static void Dispose()
     {
-        if (!_initialized)
+        if (_threadLocalArena == null)
         {
             return;
         }
 
-        _arena.Dispose();
+        foreach (var arena in _threadLocalArena.Values)
+        {
+            arena.Dispose();
+        }
+
+        _threadLocalArena.Dispose();
 
 #if UNSAFE_COLLECTION_CHECK
         nuint unfreeBytes = 0u;
@@ -189,7 +203,5 @@ public static unsafe class AllocationManager
 
         _allocated.Clear();
 #endif
-
-        _initialized = false;
     }
 }
