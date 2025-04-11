@@ -16,8 +16,7 @@ public unsafe struct DynamicArena : IDisposable
 
     private ArenaNode* _root;
     private ArenaNode* _current;
-    private readonly uint _initialSize;
-    private bool _disposed;
+    private uint _initialSize;
 
     /// <summary>
     /// Initializes a new instance of DynamicArena with the specified initial size.
@@ -32,11 +31,25 @@ public unsafe struct DynamicArena : IDisposable
         _current = _root;
     }
 
+    public void Initialize(uint initialSize)
+    {
+        if (_root != null)
+        {
+            return;
+        }
+
+        _initialSize = initialSize;
+        _root = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
+        _root->arena = new Arena(initialSize);
+        _root->next = null;
+        _current = _root;
+    }
+
     private bool CreateNewNode(uint size)
     {
+        var newNode = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
         try
         {
-            var newNode = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
             newNode->arena = new Arena(size);
             newNode->next = null;
 
@@ -46,6 +59,7 @@ public unsafe struct DynamicArena : IDisposable
         }
         catch
         {
+            Free(newNode);
             return false;
         }
     }
@@ -59,7 +73,10 @@ public unsafe struct DynamicArena : IDisposable
     /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
     public void* Allocate(uint size, uint alignSize, AllocationOption allocationType)
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        if (_root == null)
+        {
+            return null;
+        }
 
         void* result = null;
         var current = _current;
@@ -89,14 +106,12 @@ public unsafe struct DynamicArena : IDisposable
     /// </summary>
     /// <param name="clear">If true, memory will be cleared during reset.</param>
     /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
-    public void Reset(bool clear = false)
+    public void Reset()
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
-
         var current = _root;
         while (current != null)
         {
-            current->arena.Reset(clear);
+            current->arena.Reset();
             current = current->next;
         }
 
@@ -108,7 +123,7 @@ public unsafe struct DynamicArena : IDisposable
     /// </summary>
     public void Dispose()
     {
-        if (_disposed)
+        if (_root == null)
         {
             return;
         }
@@ -124,6 +139,5 @@ public unsafe struct DynamicArena : IDisposable
 
         _root = null;
         _current = null;
-        _disposed = true;
     }
 }

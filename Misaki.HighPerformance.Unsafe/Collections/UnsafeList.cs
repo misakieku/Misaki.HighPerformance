@@ -118,10 +118,12 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     public readonly int Capacity => _array.Count;
     public readonly bool IsCreated => _array.IsCreated;
 
-    public readonly ref T this[int index]
+    public readonly T this[int index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => ref _array[index];
+        get => _array[index];
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        set => _array[index] = value;
     }
 
     public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeList<T>*)UnsafeUtilities.AddressOf(ref this));

@@ -15,7 +15,8 @@ public unsafe static class UnsafeCollectionExtensions
     /// <param name="source">Represents the source collection from which elements are copied.</param>
     /// <param name="destination">Represents the target span where elements are copied to.</param>
     /// <exception cref="ArgumentException">Thrown when the sizes of the source collection and destination span do not match.</exception>
-    public static void CopyTo<T>(this IUnsafeCollection<T> source, Span<T> destination) where T : unmanaged
+    public static void CopyTo<T>(this IUnsafeCollection<T> source, Span<T> destination)
+        where T : unmanaged
     {
         if (source.Count > destination.Length)
         {
@@ -38,7 +39,8 @@ public unsafe static class UnsafeCollectionExtensions
     /// <param name="destinationIndex">The starting index in the destination span where the elements will be placed.</param>
     /// <param name="length">The number of elements to copy from the source to the destination.</param>
     /// <exception cref="ArgumentException">Thrown when the specified range exceeds the bounds of the source collection or destination span.</exception>
-    public static void CopyTo<T>(this IUnsafeCollection<T> source, Span<T> destination, int sourceIndex, int destinationIndex, int length) where T : unmanaged
+    public static void CopyTo<T>(this IUnsafeCollection<T> source, Span<T> destination, int sourceIndex, int destinationIndex, int length)
+        where T : unmanaged
     {
         if (sourceIndex + length > source.Count || destinationIndex + length > destination.Length)
         {
@@ -58,7 +60,8 @@ public unsafe static class UnsafeCollectionExtensions
     /// <param name="destination">Represents the unsafe collection that will receive the copied elements.</param>
     /// <param name="source">Represents the span containing the elements to be copied to the unsafe collection.</param>
     /// <exception cref="ArgumentException">Thrown when the source span and destination collection have different sizes.</exception>
-    public static void CopyFrom<T>(this IUnsafeCollection<T> destination, Span<T> source) where T : unmanaged
+    public static void CopyFrom<T>(this IUnsafeCollection<T> destination, Span<T> source)
+        where T : unmanaged
     {
         if (destination.Count > source.Length)
         {
@@ -81,7 +84,8 @@ public unsafe static class UnsafeCollectionExtensions
     /// <param name="destinationIndex">The starting index in the destination collection where the elements will be placed.</param>
     /// <param name="length">The number of elements to copy from the source span to the destination collection.</param>
     /// <exception cref="ArgumentException">Thrown when the specified range exceeds the bounds of the source span or destination collection.</exception>
-    public static void CopyFrom<T>(this IUnsafeCollection<T> destination, Span<T> source, int sourceIndex, int destinationIndex, int length) where T : unmanaged
+    public static void CopyFrom<T>(this IUnsafeCollection<T> destination, Span<T> source, int sourceIndex, int destinationIndex, int length)
+        where T : unmanaged
     {
         if (sourceIndex + length > source.Length || destinationIndex + length > destination.Count)
         {
@@ -100,7 +104,8 @@ public unsafe static class UnsafeCollectionExtensions
     /// <typeparam name="T">Represents a type that is unmanaged, allowing for direct memory manipulation.</typeparam>
     /// <param name="source">The UnsafeCollection instance that contains the data to be converted.</param>
     /// <returns>A new collection containing the elements from the UnsafeCollection.</returns>
-    public static T[] ToArray<T>(this IUnsafeCollection<T> source) where T : unmanaged
+    public static T[] ToArray<T>(this IUnsafeCollection<T> source)
+        where T : unmanaged
     {
         var array = new T[source.Count];
         fixed (T* ptr = array)
@@ -117,7 +122,8 @@ public unsafe static class UnsafeCollectionExtensions
     /// <typeparam name="T">Represents a type that is unmanaged, allowing for direct memory manipulation.</typeparam>
     /// <param name="source">The collection from which elements are copied to create the new list.</param>
     /// <returns>A list containing the elements from the specified unmanaged collection.</returns>
-    public static List<T> ToList<T>(this IUnsafeCollection<T> source) where T : unmanaged
+    public static List<T> ToList<T>(this IUnsafeCollection<T> source)
+        where T : unmanaged
     {
         var list = new List<T>(source.Count);
         fixed (T* ptr = list.ToArray())
@@ -133,7 +139,8 @@ public unsafe static class UnsafeCollectionExtensions
     /// <typeparam name="T">Represents a type that can be stored in unmanaged memory.</typeparam>
     /// <param name="source">The UnsafeCollection instance to be converted into a Span.</param>
     /// <returns>A Span that provides a view over the elements of the UnsafeCollection.</returns>
-    public static Span<T> AsSpan<T>(this IUnsafeCollection<T> source) where T : unmanaged
+    public static Span<T> AsSpan<T>(this IUnsafeCollection<T> source)
+        where T : unmanaged
     {
         return new(source.GetUnsafePtr(), source.Count);
     }
@@ -145,7 +152,8 @@ public unsafe static class UnsafeCollectionExtensions
     /// <param name="source">The collection to search for the specified value.</param>
     /// <param name="value">The value to locate within the collection.</param>
     /// <param name="index">Outputs the index of the found value or -1 if not found.</param>
-    public static void IndexOf<T>(this IUnsafeCollection<T> source, T value, out int index) where T : unmanaged, IEquatable<T>
+    public static void IndexOf<T>(this IUnsafeCollection<T> source, T value, out int index)
+        where T : unmanaged, IEquatable<T>
     {
         for (var i = 0; i < source.Count; i++)
         {
@@ -165,7 +173,8 @@ public unsafe static class UnsafeCollectionExtensions
     /// <param name="source">The collection being searched for the specified value.</param>
     /// <param name="value">The value being searched for within the collection.</param>
     /// <returns>Returns true if the value is found; otherwise, returns false.</returns>
-    public static bool Conations<T>(this IUnsafeCollection<T> source, T value) where T : unmanaged, IEquatable<T>
+    public static bool Conations<T>(this IUnsafeCollection<T> source, T value)
+        where T : unmanaged, IEquatable<T>
     {
         source.IndexOf(value, out var index);
         return index != -1;

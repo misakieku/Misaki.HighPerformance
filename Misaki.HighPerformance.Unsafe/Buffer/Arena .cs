@@ -15,6 +15,16 @@ public unsafe struct Arena : IDisposable
 
     public Arena(uint size)
     {
+        Initialize(size);
+    }
+
+    public void Initialize(uint size)
+    {
+        if (_buffer != null)
+        {
+            return;
+        }
+
         _buffer = (byte*)Malloc(size);
         _size = size;
         _offset = 0;
@@ -32,7 +42,10 @@ public unsafe struct Arena : IDisposable
     /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
     public void* Allocate(uint size, uint alignSize, AllocationOption allocationOption)
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        if (_disposed)
+        {
+            throw new ObjectDisposedException(nameof(DynamicArena));
+        }
 
         var offset = (_offset + alignSize - 1) & ~(alignSize - 1);
         if (offset + size > _size)
@@ -56,13 +69,11 @@ public unsafe struct Arena : IDisposable
     /// </summary>
     /// <param name="clear">If true, the allocated memory will be cleared; otherwise, it will not be cleared.</param>
     /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
-    public void Reset(bool clear = false)
+    public void Reset()
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
-
-        if (clear)
+        if (_disposed)
         {
-            MemClear(_buffer, _size);
+            throw new ObjectDisposedException(nameof(DynamicArena));
         }
 
         _offset = 0;

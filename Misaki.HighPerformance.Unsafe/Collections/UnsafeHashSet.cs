@@ -49,7 +49,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
     public IEnumerator<T> GetEnumerator() => new Enumerator((HashMapHelper<T>*)UnsafeUtilities.AddressOf(ref _hashMap));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public UnsafeHashSet(int capacity, Allocator allocator, AllocationOption allocationOption)
+    public UnsafeHashSet(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
     {
         _hashMap = new HashMapHelper<T>(capacity, 0, HashMapHelper<T>.MINIMAL_CAPACITY, allocator, allocationOption);
     }

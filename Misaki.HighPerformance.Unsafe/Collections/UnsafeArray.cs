@@ -73,7 +73,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     public readonly ref T this[int index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => ref UnsafeUtilities.ReadArrayElementRef<T>(_buffer, index);
+        get => ref _buffer[index];
     }
 
     public readonly bool IsCreated
@@ -128,6 +128,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         _allocator = Allocator.External;
     }
 
+    /// <inheritdoc/>
     public void Resize(int newSize)
     {
         if (newSize == _count)
@@ -139,20 +140,28 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         _count = newSize;
     }
 
+    /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void Clear()
     {
         MemClear(_buffer, (nuint)(_count * sizeof(T)));
     }
 
+    /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void* GetUnsafePtr()
     {
         return _buffer;
     }
 
+    /// <inheritdoc/>
     public void Dispose()
     {
+        if (!IsCreated)
+        {
+            return;
+        }
+
         AllocationManager.Free(_buffer, _allocator);
 
         _buffer = null;

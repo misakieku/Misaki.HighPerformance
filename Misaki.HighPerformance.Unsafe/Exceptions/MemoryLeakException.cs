@@ -37,7 +37,7 @@ public class MemoryLeakException(params MemoryLeakExceptionInfo[] Infos) : Excep
             var frame = stackTrace.GetFrame(i);
             if (frame != null)
             {
-                stringBuilder.AppendLine($"File: {frame.GetFileName()}, Line: {frame.GetFileLineNumber()}");
+                stringBuilder.AppendLine($"File: {frame.GetFileName()}, Method: {DiagnosticMethodInfo.Create(frame)?.Name}, Line: {frame.GetFileLineNumber()}");
             }
         }
 
