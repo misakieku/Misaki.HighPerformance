@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Authors>StbImageSharpTeam</Authors>
+        <Product>StbImageSharp</Product>
+        <PackageId>StbImageSharp</PackageId>
+        <TargetFrameworks></TargetFrameworks>
+        <Description>C# port of the stb_image.h</Description>
+        <PackageLicenseUrl>Public Domain</PackageLicenseUrl>
+        <Version>1.0.0</Version>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <TargetFramework>net9.0</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <IsAotCompatible>True</IsAotCompatible>
+      <WarningLevel>8</WarningLevel>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <IsAotCompatible>True</IsAotCompatible>
+      <WarningLevel>8</WarningLevel>
+    </PropertyGroup>
+</Project>

@@ -1,5 +1,5 @@
 ﻿using Misaki.HighPerformance.Jobs;
-using Misaki.HighPerformance.Unsafe.Collections;
+using Misaki.HighPerformance.LowLevel.Collections;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 

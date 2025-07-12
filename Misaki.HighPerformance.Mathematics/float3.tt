@@ -1,0 +1,140 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ include file="Utilities.ttinclude" #>
+<#@ output extension=".gen.cs" #>
+using System.Runtime.CompilerServices;
+
+namespace Misaki.HighPerformance.Mathematics;
+
+<#
+var dimension = 3;
+var components = new[] { "x", "y", "z" };
+var structName = $"float{dimension}";
+
+#>
+public struct <#= structName #>
+{
+<# for(int i = 0; i < dimension; i++) { #>
+    public float <#= components[i] #>;
+<# } #>
+
+    public <#= structName #>(float value)
+    {
+<# for(int i = 0; i < dimension; i++) { #>
+        this.<#= components[i] #> = value;
+<# } #>
+    }
+
+    public <#= structName #>(<#= string.Join(", ", components.Take(dimension).Select(c => $"float {c}")) #>)
+    {
+<# for(int i = 0; i < dimension; i++) { #>
+        this.<#= components[i] #> = <#= components[i] #>;
+<# } #>
+    }
+
+<# foreach (var otherDim in dimensions.Where(d => d != dimension))
+{
+    string otherStructName = $"float{otherDim}";
+        
+    if (otherDim < dimension)
+    {
+#>
+    public <#= structName #>(<#= otherStructName #> value)
+    {
+<# for(int i = 0; i < Math.Min(dimension, otherDim); i++) { #>
+        this.<#= components[i] #> = value.<#= components[i] #>;
+<# 
+    } 
+    // Fill remaining components with 0
+    for(int i = otherDim; i < dimension; i++) { 
+#>
+        this.<#= components[i] #> = 0.0f;
+<# } #>
+    }
+
+<# }
+else
+{ #>
+    public <#= structName #>(<#= otherStructName #> value)
+    {
+<# 
+    for(int i = 0; i < dimension; i++) { 
+#>
+        this.<#= components[i] #> = value.<#= components[i] #>;
+<# } #>
+    }
+<# 
+    }
+}
+#>
+
+    public static <#= structName #> operator +(<#= structName #> lhs, <#= structName #> rhs)
+    {
+        return (lhs.AsVector128() + rhs.AsVector128()).AsFloat<#= dimension #>();
+    }
+
+    public static <#= structName #> operator +(<#= structName #> lhs, float rhs)
+    {
+        return lhs + new <#= structName #>(rhs);
+    }
+
+    public static <#= structName #> operator -(<#= structName #> lhs, <#= structName #> rhs)
+    {
+        return (lhs.AsVector128() - rhs.AsVector128()).AsFloat<#= dimension #>();
+    }
+
+    public static <#= structName #> operator -(<#= structName #> lhs, float rhs)
+    {
+        return lhs - new <#= structName #>(rhs);
+    }
+
+    public static <#= structName #> operator *(<#= structName #> lhs, <#= structName #> rhs)
+    {
+        return (lhs.AsVector128() * rhs.AsVector128()).AsFloat<#= dimension #>();
+    }
+
+    public static <#= structName #> operator *(<#= structName #> lhs, float rhs)
+    {
+        return (lhs.AsVector128() * rhs).AsFloat<#= dimension #>();
+    }
+
+    public static <#= structName #> operator /(<#= structName #> lhs, <#= structName #> rhs)
+    {
+        return (lhs.AsVector128() / rhs.AsVector128()).AsFloat<#= dimension #>();
+    }
+
+    public static <#= structName #> operator /(<#= structName #> lhs, float rhs)
+    {
+        return (lhs.AsVector128() / rhs).AsFloat<#= dimension #>();
+    }
+
+    public static <#= structName #> operator -(<#= structName #> value)
+    {
+        return (-value.AsVector128()).AsFloat<#= dimension #>();
+    }
+
+<#
+var validComponents = components.Take(dimension).ToArray();
+var swizzles = GenerateSwizzles(validComponents, 4);
+foreach (var swizzle in swizzles)
+{
+    var targetDim = swizzle.Length;
+    var targetStruct = $"float{targetDim}";
+#>
+    public <#= targetStruct #> <#= swizzle #> 
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => new <#= targetStruct #>(<#= string.Join(", ", swizzle.Select(c => $"this.{c}")) #>);
+    }
+
+<#
+}
+#>
+    public override readonly string ToString()
+    {
+        return $"(<#= string.Join(", ", components.Take(dimension).Select(c => $"{c}: {{this.{c}}}")) #>)";
+    }
+}

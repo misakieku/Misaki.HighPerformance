@@ -1,0 +1,29 @@
+﻿<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#+
+public int[] dimensions = new[] { 2, 3, 4 };
+
+public IEnumerable<string> GenerateSwizzles(string[] pool, int maxLen)
+{
+    IEnumerable<string> Recurse(string prefix, int depth)
+    {
+        if (depth == 0)
+        {
+            yield return prefix;
+        }
+        else
+        {
+            foreach (var c in pool)
+            {
+                foreach (var s in Recurse(prefix + c, depth - 1))
+                {
+                    yield return s;
+                }
+            }
+        }
+    }
+
+    return Enumerable.Range(2, maxLen - 1).SelectMany(len => Recurse("", len));
+}
+#>

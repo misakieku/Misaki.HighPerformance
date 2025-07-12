@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
-using Misaki.HighPerformance.Unsafe.Buffer;
-using Misaki.HighPerformance.Unsafe.Collections;
+using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Collections;
 
 namespace Misaki.HighPerformance.Test;
 
@@ -13,7 +13,6 @@ public unsafe class CollectionBenchmark
     [GlobalSetup]
     public void Setup()
     {
-        AllocationManager.Initialize();
     }
 
     [Benchmark]
@@ -34,7 +33,8 @@ public unsafe class CollectionBenchmark
         {
             array[i] = i;
         }
-        AllocationManager.ResetCurrent();
+
+        AllocationManager.TempAllocator.Reset();
     }
 
     [Benchmark]

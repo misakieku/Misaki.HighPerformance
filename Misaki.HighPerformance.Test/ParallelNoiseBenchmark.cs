@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Misaki.HighPerformance.Jobs;
+using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.Test.Jobs;
-using Misaki.HighPerformance.Unsafe.Collections;
 using System.Numerics;
 
 namespace Misaki.HighPerformance.Test;
