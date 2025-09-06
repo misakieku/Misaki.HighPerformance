@@ -2,13 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Image;
 
 public unsafe class ImageResult : IDisposable
 {
-    private byte* _buffer;
+    public byte* Data
+    {
+        get; init;
+    }
 
     public uint Width
     {
@@ -20,22 +22,27 @@ public unsafe class ImageResult : IDisposable
         get; init;
     }
 
-    public ColorComponents SourceComponent
+    public ColorComponents SourceComp
     {
         get; init;
     }
 
-    public ColorComponents Component
+    public ColorComponents Comp
     {
         get; init;
     }
 
-    public Span<byte> Data => new(_buffer, (int)(Width * Height * (uint)Component));
-
-    internal void SetData(byte* data)
+    public ulong Size
     {
-        CRuntime.free(_buffer);
-        _buffer = data;
+        get
+        {
+            if (Data == null)
+            {
+                return 0;
+            }
+
+            return (ulong)(Width * Height * (int)Comp);
+        }
     }
 
     internal static unsafe ImageResult FromResult(byte* result, uint width, uint height, ColorComponents comp,
@@ -46,13 +53,12 @@ public unsafe class ImageResult : IDisposable
 
         var image = new ImageResult
         {
+            Data = result,
             Width = width,
             Height = height,
-            SourceComponent = comp,
-            Component = req_comp == ColorComponents.Default ? comp : req_comp
+            SourceComp = comp,
+            Comp = req_comp == ColorComponents.Default ? comp : req_comp
         };
-
-        image._buffer = result;
 
         return image;
     }
@@ -63,6 +69,7 @@ public unsafe class ImageResult : IDisposable
         int x, y, comp;
 
         var context = new StbImage.stbi__context(stream);
+
         var result = StbImage.stbi__load_and_postprocess_8bit(context, &x, &y, &comp, (int)requiredComponents);
 
         return FromResult(result, (uint)x, (uint)y, (ColorComponents)comp, requiredComponents);
@@ -74,25 +81,24 @@ public unsafe class ImageResult : IDisposable
         return FromStream(stream, requiredComponents);
     }
 
-    public static IEnumerable<AnimatedFrameResult> AnimatedGifFramesFromStream(Stream stream, ColorComponents requiredComponents = ColorComponents.Default)
+    public static IEnumerable<AnimatedFrameResult> AnimatedGifFramesFromStream(Stream stream,
+        ColorComponents requiredComponents = ColorComponents.Default)
     {
         return new AnimatedGifEnumerable(stream, requiredComponents);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public byte* GetUnsafePtr()
+    public Span<byte> AsSpan()
     {
-        return _buffer;
+        if (Data == null)
+        {
+            return Span<byte>.Empty;
+        }
+
+        return new Span<byte>(Data, (int)Size);
     }
 
     public void Dispose()
     {
-        if (_buffer == null)
-        {
-            return;
-        }
-
-        CRuntime.free(_buffer);
-        _buffer = null;
+        CRuntime.free(Data);
     }
 }

@@ -86,7 +86,7 @@ public unsafe struct FixedStackString32
         fixed (byte* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            SystemUnsfae.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
         }
     }
 
@@ -201,7 +201,7 @@ public unsafe struct FixedStackString64
         fixed (byte* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            SystemUnsfae.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
         }
     }
 
@@ -316,7 +316,7 @@ public unsafe struct FixedStackString128
         fixed (byte* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            SystemUnsfae.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
         }
     }
 
@@ -431,7 +431,7 @@ public unsafe struct FixedStackString256
         fixed (byte* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            SystemUnsfae.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
         }
     }
 
@@ -546,7 +546,7 @@ public unsafe struct FixedStackString512
         fixed (byte* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            SystemUnsfae.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
         }
     }
 
@@ -661,7 +661,7 @@ public unsafe struct FixedStackString1024
         fixed (byte* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            SystemUnsfae.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
         }
     }
 
@@ -776,7 +776,7 @@ public unsafe struct FixedStackString2048
         fixed (byte* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            SystemUnsfae.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
         }
     }
 
@@ -891,7 +891,7 @@ public unsafe struct FixedStackString4096
         fixed (byte* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            SystemUnsfae.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
         }
     }
 

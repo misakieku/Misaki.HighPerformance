@@ -4,8 +4,11 @@ using System.Text;
 
 namespace Misaki.HighPerformance.LowLevel.Exceptions;
 
-
-public class MemoryLeakException(params AllocationManager.AllocationInfo[] Infos) : Exception
+/// <summary>
+/// An exception that is thrown when a memory leak is detected.
+/// </summary>
+/// <param name="Infos">An array of AllocationInfo containing details about the memory leaks.</param>
+public class MemoryLeakException(params AllocationInfo[] Infos) : Exception
 {
     private static string GetMessage(StackTrace? stackTrace)
     {

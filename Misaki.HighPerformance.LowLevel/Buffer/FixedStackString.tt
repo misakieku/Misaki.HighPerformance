@@ -93,7 +93,7 @@ public unsafe struct FixedStackString<#= i #>
         fixed (byte* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            SystemUnsfae.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
         }
     }
 

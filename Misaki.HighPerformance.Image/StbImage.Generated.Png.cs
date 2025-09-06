@@ -289,16 +289,13 @@ namespace Misaki.HighPerformance.Image
                     color);
             final = (byte*)stbi__malloc_mad3((int)a.s.img_x, (int)a.s.img_y, out_bytes, 0);
             if (final == null)
-            {
                 return stbi__err("outofmem");
-            }
-
-            var xorig = stackalloc int[] { 0, 4, 0, 2, 0, 1, 0 };
-            var yorig = stackalloc int[] { 0, 0, 4, 0, 2, 0, 1 };
-            var xspc = stackalloc int[] { 8, 8, 4, 4, 2, 2, 1 };
-            var yspc = stackalloc int[] { 8, 8, 8, 4, 4, 2, 2 };
             for (p = 0; p < 7; ++p)
             {
+                var xorig = stackalloc int[] { 0, 4, 0, 2, 0, 1, 0 };
+                var yorig = stackalloc int[] { 0, 0, 4, 0, 2, 0, 1 };
+                var xspc = stackalloc int[] { 8, 8, 4, 4, 2, 2, 1 };
+                var yspc = stackalloc int[] { 8, 8, 8, 4, 4, 2, 2 };
                 var i = 0;
                 var j = 0;
                 var x = 0;

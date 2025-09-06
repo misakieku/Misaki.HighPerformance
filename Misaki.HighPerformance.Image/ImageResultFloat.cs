@@ -1,51 +1,65 @@
 ﻿using Misaki.HighPerformance.Image.Runtime;
 using System;
 using System.IO;
-using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Image;
 
 public unsafe class ImageResultFloat : IDisposable
 {
-    private float* _buffer;
-
-    public int Width
+    public float* Data
     {
         get; init;
     }
 
-    public int Height
+    public uint Width
     {
         get; init;
     }
 
-    public ColorComponents SourceComponent
+    public uint Height
     {
         get; init;
     }
 
-    public ColorComponents Component
+    public ColorComponents SourceComp
     {
         get; init;
     }
 
-    public Span<byte> Data => new(_buffer, (int)(Width * Height * (uint)Component));
+    public ColorComponents Comp
+    {
+        get; init;
+    }
 
-    internal static unsafe ImageResultFloat FromResult(float* result, int width, int height, ColorComponents comp,
+    public ulong Size
+    {
+        get
+        {
+            if (Data == null)
+            {
+                return 0;
+            }
+
+            return (ulong)(Width * Height * (int)Comp);
+        }
+    }
+
+    internal static unsafe ImageResultFloat FromResult(float* result, uint width, uint height, ColorComponents comp,
         ColorComponents req_comp)
     {
         if (result == null)
+        {
             throw new InvalidOperationException(StbImage.stbi__g_failure_reason);
+        }
 
         var image = new ImageResultFloat
         {
+            Data = result,
             Width = width,
             Height = height,
-            SourceComponent = comp,
-            Component = req_comp == ColorComponents.Default ? comp : req_comp
+            SourceComp = comp,
+            Comp = req_comp == ColorComponents.Default ? comp : req_comp
         };
-
-        image._buffer = result;
 
         return image;
     }
@@ -56,9 +70,10 @@ public unsafe class ImageResultFloat : IDisposable
         int x, y, comp;
 
         var context = new StbImage.stbi__context(stream);
+
         var result = StbImage.stbi__loadf_main(context, &x, &y, &comp, (int)requiredComponents);
 
-        return FromResult(result, x, y, (ColorComponents)comp, requiredComponents);
+        return FromResult(result, (uint)x, (uint)y, (ColorComponents)comp, requiredComponents);
     }
 
     public static ImageResultFloat FromMemory(byte[] data,
@@ -70,20 +85,18 @@ public unsafe class ImageResultFloat : IDisposable
         }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public float* GetUnsafePtr()
+    public Span<byte> AsSpan()
     {
-        return _buffer;
+        if (Data == null)
+        {
+            return Span<byte>.Empty;
+        }
+
+        return new Span<byte>(Data, (int)Size);
     }
 
     public void Dispose()
     {
-        if (_buffer == null)
-        {
-            return;
-        }
-
-        CRuntime.free(_buffer);
-        _buffer = null;
+        CRuntime.free(Data);
     }
 }

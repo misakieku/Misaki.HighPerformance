@@ -168,7 +168,7 @@ public static unsafe partial class MemoryUtilities
     }
 
     /// <summary>
-    /// Calculates the alignment size difference between a specified struct and a helper struct.
+    /// Calculates the alignment size of a specified struct.
     /// </summary>
     /// <typeparam name="T">Represents a value type that is used to determine the alignment size.</typeparam>
     /// <returns>Returns the size difference in bytes as an integer.</returns>

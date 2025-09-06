@@ -1,4 +1,5 @@
-﻿using Misaki.HighPerformance.LowLevel.Collections.Contracts;
+﻿using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Helpers;
 using System.Collections;
 using System.Runtime.CompilerServices;

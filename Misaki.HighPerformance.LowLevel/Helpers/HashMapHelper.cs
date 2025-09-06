@@ -1,3 +1,4 @@
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.LowLevel.Contracts;
 using System.Numerics;
@@ -79,35 +80,15 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public const int MINIMAL_CAPACITY = 64;
 
-    public readonly byte* Buffer
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => _buffer;
-    }
+    public readonly byte* Buffer => _buffer;
 
-    public readonly int Count
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => _count;
-    }
+    public readonly int Count => _count;
 
-    public readonly int Capacity
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => _capacity;
-    }
+    public readonly int Capacity => _capacity;
 
-    public readonly bool IsCreated
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => _buffer != null;
-    }
+    public readonly bool IsCreated => _buffer != null;
 
-    public readonly bool IsEmpty
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => !IsCreated || _count == 0;
-    }
+    public readonly bool IsEmpty => !IsCreated || _count == 0;
 
     private static int CalculateDataSize(int capacity, int bucketCapacity, int sizeOfTValue, out int outKeyOffset, out int outNextOffset, out int outBucketOffset)
     {

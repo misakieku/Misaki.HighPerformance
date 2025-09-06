@@ -215,9 +215,4 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
     {
         _hashMap.Dispose();
     }
-
-    public void Test(ref HashMapHelper<TKey> t)
-    {
-        Console.WriteLine(t.Equals(_hashMap));
-    }
 }

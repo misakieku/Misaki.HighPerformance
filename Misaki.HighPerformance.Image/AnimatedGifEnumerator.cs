@@ -4,146 +4,141 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Misaki.HighPerformance.Image
+namespace Misaki.HighPerformance.Image;
+
+internal class AnimatedGifEnumerator : IEnumerator<AnimatedFrameResult>
 {
-    internal class AnimatedGifEnumerator : IEnumerator<AnimatedFrameResult>
+    private readonly StbImage.stbi__context _context;
+    private StbImage.stbi__gif _gif;
+    private readonly ColorComponents _colorComponents;
+
+    public AnimatedGifEnumerator(Stream input, ColorComponents colorComponents)
     {
-        private readonly StbImage.stbi__context _context;
-        private StbImage.stbi__gif _gif;
-        private readonly ColorComponents _colorComponents;
+        if (input == null)
+            throw new ArgumentNullException("input");
 
-        public AnimatedGifEnumerator(Stream input, ColorComponents colorComponents)
+        _context = new StbImage.stbi__context(input);
+
+        if (StbImage.stbi__gif_test(_context) == 0)
+            throw new Exception("Input stream is not GIF file.");
+
+        _gif = new StbImage.stbi__gif();
+        _colorComponents = colorComponents;
+    }
+
+    public ColorComponents ColorComponents
+    {
+        get
         {
-            if (input == null)
-                throw new ArgumentNullException("input");
-
-            _context = new StbImage.stbi__context(input);
-
-            if (StbImage.stbi__gif_test(_context) == 0)
-                throw new Exception("Input stream is not GIF file.");
-
-            _gif = new StbImage.stbi__gif();
-            _colorComponents = colorComponents;
-        }
-
-        public ColorComponents ColorComponents
-        {
-            get
-            {
-                return _colorComponents;
-            }
-        }
-
-        public AnimatedFrameResult Current
-        {
-            get; private set;
-        }
-
-        object IEnumerator.Current
-        {
-            get
-            {
-                return Current;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public unsafe bool MoveNext()
-        {
-            // Read next frame
-            int ccomp;
-            byte two_back;
-            var result = StbImage.stbi__gif_load_next(_context, _gif, &ccomp, (int)ColorComponents, &two_back);
-            if (result == null)
-                return false;
-
-            if (Current == null)
-            {
-                Current = new AnimatedFrameResult
-                {
-                    Width = (uint)_gif.w,
-                    Height = (uint)_gif.h,
-                    SourceComponent = (ColorComponents)ccomp,
-                    Component = ColorComponents == ColorComponents.Default ? (ColorComponents)ccomp : ColorComponents
-                };
-
-                Current.SetData(result);
-            }
-
-            Current.DelayInMs = _gif.delay;
-
-            return true;
-        }
-
-        public void Reset()
-        {
-            throw new NotImplementedException();
-        }
-
-        ~AnimatedGifEnumerator()
-        {
-            Dispose(false);
-        }
-
-        protected unsafe virtual void Dispose(bool disposing)
-        {
-            if (_gif != null)
-            {
-                if (_gif._out_ != null)
-                {
-                    CRuntime.free(_gif._out_);
-                    _gif._out_ = null;
-                }
-
-                if (_gif.history != null)
-                {
-                    CRuntime.free(_gif.history);
-                    _gif.history = null;
-                }
-
-                if (_gif.background != null)
-                {
-                    CRuntime.free(_gif.background);
-                    _gif.background = null;
-                }
-
-                _gif = null;
-            }
+            return _colorComponents;
         }
     }
 
-    internal class AnimatedGifEnumerable : IEnumerable<AnimatedFrameResult>
+    public AnimatedFrameResult Current
     {
-        private readonly Stream _input;
-        private readonly ColorComponents _colorComponents;
+        get; private set;
+    }
 
-        public AnimatedGifEnumerable(Stream input, ColorComponents colorComponents)
+    object IEnumerator.Current
+    {
+        get
         {
-            _input = input;
-            _colorComponents = colorComponents;
+            return Current;
         }
+    }
 
-        public ColorComponents ColorComponents
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    public unsafe bool MoveNext()
+    {
+        // Read next frame
+        int ccomp;
+        byte two_back;
+        var result = StbImage.stbi__gif_load_next(_context, _gif, &ccomp, (int)ColorComponents, &two_back);
+        if (result == null)
+            return false;
+
+        Current ??= new AnimatedFrameResult
         {
-            get
+            Data = result,
+            Width = (uint)_gif.w,
+            Height = (uint)_gif.h,
+            SourceComp = (ColorComponents)ccomp,
+            Comp = ColorComponents == ColorComponents.Default ? (ColorComponents)ccomp : ColorComponents
+        };
+
+        Current.DelayInMs = _gif.delay;
+
+        return true;
+    }
+
+    public void Reset()
+    {
+        throw new NotImplementedException();
+    }
+
+    ~AnimatedGifEnumerator()
+    {
+        Dispose(false);
+    }
+
+    protected unsafe virtual void Dispose(bool disposing)
+    {
+        if (_gif != null)
+        {
+            if (_gif._out_ != null)
             {
-                return _colorComponents;
+                CRuntime.free(_gif._out_);
+                _gif._out_ = null;
             }
-        }
 
-        public IEnumerator<AnimatedFrameResult> GetEnumerator()
-        {
-            return new AnimatedGifEnumerator(_input, ColorComponents);
-        }
+            if (_gif.history != null)
+            {
+                CRuntime.free(_gif.history);
+                _gif.history = null;
+            }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            if (_gif.background != null)
+            {
+                CRuntime.free(_gif.background);
+                _gif.background = null;
+            }
+
+            _gif = null;
         }
+    }
+}
+
+internal class AnimatedGifEnumerable : IEnumerable<AnimatedFrameResult>
+{
+    private readonly Stream _input;
+    private readonly ColorComponents _colorComponents;
+
+    public AnimatedGifEnumerable(Stream input, ColorComponents colorComponents)
+    {
+        _input = input;
+        _colorComponents = colorComponents;
+    }
+
+    public ColorComponents ColorComponents
+    {
+        get
+        {
+            return _colorComponents;
+        }
+    }
+
+    public IEnumerator<AnimatedFrameResult> GetEnumerator()
+    {
+        return new AnimatedGifEnumerator(_input, ColorComponents);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

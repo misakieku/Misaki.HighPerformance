@@ -10,7 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.2" />
+    <PackageReference Include="MSTest" Version="3.10.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +20,10 @@
     <ProjectReference Include="..\Misaki.HighPerformance.LowLevel\Misaki.HighPerformance.LowLevel.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance.Mathematics\Misaki.HighPerformance.Mathematics.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance\Misaki.HighPerformance.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UnitTest\" />
   </ItemGroup>
 
 </Project>

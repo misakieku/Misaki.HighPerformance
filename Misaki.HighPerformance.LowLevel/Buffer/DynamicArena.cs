@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Collections;
+﻿using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -6,17 +6,25 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 /// A dynamic memory management structure that automatically grows by creating linked arenas
 /// when more space is needed.
 /// </summary>
+[StructLayout(LayoutKind.Explicit, Size = 128)]
 public unsafe struct DynamicArena : IDisposable
 {
+    [StructLayout(LayoutKind.Sequential)]
     private struct ArenaNode
     {
         public Arena arena;
         public ArenaNode* next;
     }
 
+    [FieldOffset(0)]
     private ArenaNode* _root;
+    [FieldOffset(8)]
     private ArenaNode* _current;
+    [FieldOffset(16)]
     private uint _initialSize;
+
+    [FieldOffset(20)]
+    private volatile int _nodeCreationLock;
 
     /// <summary>
     /// Initializes a new instance of DynamicArena with the specified initial size.
@@ -24,11 +32,7 @@ public unsafe struct DynamicArena : IDisposable
     /// <param name="initialSize">The initial size in bytes for the first arena block.</param>
     public DynamicArena(uint initialSize)
     {
-        _initialSize = initialSize;
-        _root = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
-        _root->arena = new Arena(initialSize);
-        _root->next = null;
-        _current = _root;
+        Initialize(initialSize);
     }
 
     public void Initialize(uint initialSize)
@@ -45,23 +49,63 @@ public unsafe struct DynamicArena : IDisposable
         _current = _root;
     }
 
-    private bool CreateNewNode(nuint size)
+    private bool TryCreateNewNode(nuint size)
     {
-        var newNode = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
+        while (Interlocked.CompareExchange(ref _nodeCreationLock, 1, 0) != 0)
+        {
+            Thread.SpinWait(1);
+        }
+
         try
         {
-            newNode->arena = new Arena(size);
-            newNode->next = null;
+            var current = _current;
+            if (current->next != null)
+            {
+                // Another thread created a node while we were waiting
+                _current = current->next;
+                return true;
+            }
 
-            _current->next = newNode;
-            _current = newNode;
-            return true;
+            var newNode = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
+            try
+            {
+                newNode->arena = new Arena(size);
+                newNode->next = null;
+
+                // Atomically link the new node
+                current->next = newNode;
+
+                // Update current pointer
+                _current = newNode;
+                return true;
+            }
+            catch
+            {
+                Free(newNode);
+                return false;
+            }
         }
-        catch
+        finally
         {
-            Free(newNode);
-            return false;
+            // Release the spinlock
+            Interlocked.Exchange(ref _nodeCreationLock, 0);
         }
+
+        //var newNode = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
+        //try
+        //{
+        //    newNode->arena = new Arena(size);
+        //    newNode->next = null;
+
+        //    _current->next = newNode;
+        //    _current = newNode;
+        //    return true;
+        //}
+        //catch
+        //{
+        //    Free(newNode);
+        //    return false;
+        //}
     }
 
     /// <summary>
@@ -89,7 +133,7 @@ public unsafe struct DynamicArena : IDisposable
                 return result;
             }
 
-            if (current->next == null && !CreateNewNode(Math.Max(size, _initialSize)))
+            if (current->next == null && !TryCreateNewNode(Math.Max(size, _initialSize)))
             {
                 return null;
             }

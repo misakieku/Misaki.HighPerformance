@@ -84,7 +84,7 @@ public unsafe struct FixedString<#= i #> : IDisposable
 
         fixed (byte* inputPtr = input)
         {
-            SystemUnsfae.CopyBlockUnaligned(_buffer, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(_buffer, inputPtr, _length);
         }
     }
 

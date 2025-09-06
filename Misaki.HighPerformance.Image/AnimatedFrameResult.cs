@@ -1,12 +1,9 @@
-﻿namespace Misaki.HighPerformance.Image
+﻿namespace Misaki.HighPerformance.Image;
+
+public class AnimatedFrameResult : ImageResult
 {
-#if !STBSHARP_INTERNAL
-	public
-#else
-	internal
-#endif
-	class AnimatedFrameResult : ImageResult
-	{
-		public int DelayInMs { get; set; }
-	}
+    public int DelayInMs
+    {
+        get; set;
+    }
 }

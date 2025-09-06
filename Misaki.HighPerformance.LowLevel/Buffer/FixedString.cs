@@ -77,7 +77,7 @@ public unsafe struct FixedString32 : IDisposable
 
         fixed (byte* inputPtr = input)
         {
-            SystemUnsfae.CopyBlockUnaligned(_buffer, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(_buffer, inputPtr, _length);
         }
     }
 
@@ -97,7 +97,7 @@ public unsafe struct FixedString32 : IDisposable
     {
         return _buffer;
     }
-    
+
     public override string ToString()
     {
         return Value;
@@ -188,7 +188,7 @@ public unsafe struct FixedString64 : IDisposable
 
         fixed (byte* inputPtr = input)
         {
-            SystemUnsfae.CopyBlockUnaligned(_buffer, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(_buffer, inputPtr, _length);
         }
     }
 
@@ -208,7 +208,7 @@ public unsafe struct FixedString64 : IDisposable
     {
         return _buffer;
     }
-    
+
     public override string ToString()
     {
         return Value;
@@ -299,7 +299,7 @@ public unsafe struct FixedString128 : IDisposable
 
         fixed (byte* inputPtr = input)
         {
-            SystemUnsfae.CopyBlockUnaligned(_buffer, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(_buffer, inputPtr, _length);
         }
     }
 
@@ -319,7 +319,7 @@ public unsafe struct FixedString128 : IDisposable
     {
         return _buffer;
     }
-    
+
     public override string ToString()
     {
         return Value;
@@ -410,7 +410,7 @@ public unsafe struct FixedString256 : IDisposable
 
         fixed (byte* inputPtr = input)
         {
-            SystemUnsfae.CopyBlockUnaligned(_buffer, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(_buffer, inputPtr, _length);
         }
     }
 
@@ -430,7 +430,7 @@ public unsafe struct FixedString256 : IDisposable
     {
         return _buffer;
     }
-    
+
     public override string ToString()
     {
         return Value;
@@ -521,7 +521,7 @@ public unsafe struct FixedString512 : IDisposable
 
         fixed (byte* inputPtr = input)
         {
-            SystemUnsfae.CopyBlockUnaligned(_buffer, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(_buffer, inputPtr, _length);
         }
     }
 
@@ -541,7 +541,7 @@ public unsafe struct FixedString512 : IDisposable
     {
         return _buffer;
     }
-    
+
     public override string ToString()
     {
         return Value;
@@ -632,7 +632,7 @@ public unsafe struct FixedString1024 : IDisposable
 
         fixed (byte* inputPtr = input)
         {
-            SystemUnsfae.CopyBlockUnaligned(_buffer, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(_buffer, inputPtr, _length);
         }
     }
 
@@ -652,7 +652,7 @@ public unsafe struct FixedString1024 : IDisposable
     {
         return _buffer;
     }
-    
+
     public override string ToString()
     {
         return Value;
@@ -743,7 +743,7 @@ public unsafe struct FixedString2048 : IDisposable
 
         fixed (byte* inputPtr = input)
         {
-            SystemUnsfae.CopyBlockUnaligned(_buffer, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(_buffer, inputPtr, _length);
         }
     }
 
@@ -763,7 +763,7 @@ public unsafe struct FixedString2048 : IDisposable
     {
         return _buffer;
     }
-    
+
     public override string ToString()
     {
         return Value;
@@ -854,7 +854,7 @@ public unsafe struct FixedString4096 : IDisposable
 
         fixed (byte* inputPtr = input)
         {
-            SystemUnsfae.CopyBlockUnaligned(_buffer, inputPtr, _length);
+            Unsafe.CopyBlockUnaligned(_buffer, inputPtr, _length);
         }
     }
 
@@ -874,7 +874,7 @@ public unsafe struct FixedString4096 : IDisposable
     {
         return _buffer;
     }
-    
+
     public override string ToString()
     {
         return Value;

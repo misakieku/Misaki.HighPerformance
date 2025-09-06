@@ -1,17 +1,19 @@
-﻿using Misaki.HighPerformance.LowLevel.Collections;
+﻿using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
 /// <summary>
 /// A memory management structure that allocates and resets memory blocks with specified alignment.
 /// </summary>
+[StructLayout(LayoutKind.Explicit, Size = 64)] // Cache line aligned to prevent false sharing
 public unsafe struct Arena : IDisposable
 {
+    [FieldOffset(0)]
     private byte* _buffer;
+    [FieldOffset(8)]
     private nuint _size;
+    [FieldOffset(16)]
     private nuint _offset;
-
-    private bool _disposed;
 
     public Arena(nuint size)
     {
@@ -42,20 +44,36 @@ public unsafe struct Arena : IDisposable
     /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
     public void* Allocate(nuint size, nuint alignment, AllocationOption allocationOption)
     {
-        if (_disposed)
+        if (_buffer == null)
         {
             throw new ObjectDisposedException(nameof(DynamicArena));
         }
 
-        var offset = _offset + alignment - 1 & ~(alignment - 1);
-        if (offset + size > _size)
+        //var offset = _offset + alignment - 1 & ~(alignment - 1);
+        //if (offset + size > _size)
+        //{
+        //    return null;
+        //}
+
+        //_offset = offset + size;
+        //var ptr = _buffer + offset;
+
+        nuint currentOffset, newOffset, alignedOffset;
+
+        do
         {
-            return null;
-        }
+            currentOffset = _offset;
+            alignedOffset = (currentOffset + alignment - 1) & ~(alignment - 1);
+            newOffset = alignedOffset + size;
 
-        _offset = offset + size;
-        var ptr = _buffer + offset;
+            if (newOffset > _size)
+            {
+                return null;
+            }
 
+        } while (Interlocked.CompareExchange(ref _offset, newOffset, currentOffset) != currentOffset);
+
+        var ptr = _buffer + alignedOffset;
         if (allocationOption.HasFlag(AllocationOption.Clear))
         {
             MemClear(ptr, size);
@@ -71,7 +89,7 @@ public unsafe struct Arena : IDisposable
     /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
     public void Reset()
     {
-        if (_disposed)
+        if (_buffer == null)
         {
             throw new ObjectDisposedException(nameof(DynamicArena));
         }
@@ -81,12 +99,15 @@ public unsafe struct Arena : IDisposable
 
     public void Dispose()
     {
+        if (_buffer == null)
+        {
+            return;
+        }
+
         Free(_buffer);
 
         _buffer = null;
         _size = 0;
         _offset = 0;
-
-        _disposed = true;
     }
 }

@@ -1,16 +1,10 @@
-﻿namespace Misaki.HighPerformance.Image
+﻿namespace Misaki.HighPerformance.Image;
+
+public enum ColorComponents
 {
-#if !STBSHARP_INTERNAL
-    public
-#else
-	internal
-#endif
-    enum ColorComponents
-    {
-        Default,
-        R,
-        RA,
-        RGB,
-        RGBA
-    }
+    Default,
+    R,
+    RA,
+    RGB,
+    RGBA
 }

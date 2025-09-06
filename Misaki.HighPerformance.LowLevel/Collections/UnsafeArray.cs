@@ -81,7 +81,21 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
                 throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
             }
 
-            return ref _buffer[index];
+            return ref UnsafeUtilities.ReadArrayElementRef<T>(_buffer, index);
+        }
+    }
+
+    public readonly ref T this[uint index]
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {
+            if (index >= _count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
+            }
+
+            return ref UnsafeUtilities.ReadArrayElementRef<T>(_buffer, index);
         }
     }
 
@@ -98,10 +112,17 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// Constructs an UnsafeArray with a default size of 1 and uses the Persistent allocator.
     /// </summary>
     public UnsafeArray()
-        : this(1, Allocator.Persistent)
+        : this(0, Allocator.Invalid)
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of UnsafeArray with a specified number of elements and an allocation handle.
+    /// </summary>
+    /// <param name="count">Specifies the number of elements to allocate in the array, which must be greater than zero.</param>
+    /// <param name="handle">A reference to an AllocationHandle that manages the memory allocation for the array.</param>
+    /// <param name="allocationOption">Specifies how the memory should be allocated.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
     public UnsafeArray(int count, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
         if (count <= 0)
@@ -136,11 +157,10 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// Disposing of the UnsafeArray does not free the memory and only release the reference. The memory should be freed manually when no longer needed.
     /// Use <see cref="UnsafeArray(int, Allocator, AllocationOption)"/> constructor and <see cref="MemCpy(void*, void*, nuint)"/> if you are not sure what you are doing.
     /// </remarks>
-    public UnsafeArray(void* buffer, int count)
+    public UnsafeArray(T* buffer, int count)
     {
-        _buffer = (T*)buffer;
+        _buffer = buffer;
         _count = count;
-        _handle = (AllocationHandle*)Unsafe.AsPointer(ref AllocationManager.EmptyAllocator.Handle);
     }
 
     /// <inheritdoc/>
@@ -177,7 +197,10 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
-        _handle->Free(_handle->Allocator, _buffer);
+        if (_handle != null)
+        {
+            _handle->Free(_handle->Allocator, _buffer);
+        }
 
         _handle = null;
         _buffer = null;

@@ -4,48 +4,15 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="float4.tt">
-      <LastGenOutput>float4.gen.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="float3.tt">
-      <LastGenOutput>float3.gen.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="float2.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>float2.gen.cs</LastGenOutput>
-    </None>
+    <ProjectReference Include="..\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Float.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Float.tt</DependentUpon>
-    </Compile>
-    <Compile Update="float2.gen.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>float2.tt</DependentUpon>
-    </Compile>
-    <Compile Update="float3.gen.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>float3.tt</DependentUpon>
-    </Compile>
-    <Compile Update="float4.gen.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>float4.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
 
 </Project>

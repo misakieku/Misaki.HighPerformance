@@ -1,3 +1,4 @@
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Helpers;
 using System.Collections;
@@ -88,6 +89,21 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     public UnsafeQueue(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.None)
     {
         _array = new UnsafeArray<T>(capacity, allocator, allocationType);
+    }
+
+    /// <summary>
+    /// Returns a reference to the item at the front of the queue without removing it.
+    /// </summary>
+    /// <returns>A reference to the item at the front of the queue.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the queue is empty.</exception>
+    public readonly ref T Peek()
+    {
+        if (_count == 0)
+        {
+            throw new InvalidOperationException("Queue is empty.");
+        }
+
+        return ref UnsafeUtilities.ReadArrayElementRef<T>(_array.GetUnsafePtr(), _offset);
     }
 
     /// <summary>
