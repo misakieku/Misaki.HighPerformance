@@ -61,11 +61,10 @@ public static unsafe class AllocationManager
 
         public void Init(uint initialSize)
         {
-            _arena = new DynamicArena(initialSize);
-            _handle = new AllocationHandle(Unsafe.AsPointer(ref this), &Allocate, &Reallocate, &FreeBlock);
+            _arena = new(initialSize);
+            _handle = new(Unsafe.AsPointer(ref this), &Allocate, &Reallocate, &FreeBlock);
         }
 
-        [UnmanagedCallersOnly]
         private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption)
         {
             var selfPtr = (ArenaAllocator*)instance;
@@ -74,7 +73,6 @@ public static unsafe class AllocationManager
             return ptr;
         }
 
-        [UnmanagedCallersOnly]
         private static void* Reallocate(void* instance, void* ptr, nuint size, nuint alignment)
         {
             var selfPtr = (ArenaAllocator*)instance;
@@ -84,7 +82,6 @@ public static unsafe class AllocationManager
             return newPtr;
         }
 
-        [UnmanagedCallersOnly]
         private static void FreeBlock(void* instance, void* ptr)
         {
             // The arena allocator does not free individual blocks, as it manages memory in chunks.
@@ -109,10 +106,9 @@ public static unsafe class AllocationManager
 
         public void Init()
         {
-            _handle = new AllocationHandle(Unsafe.AsPointer(ref this), &Allocate, &Reallocate, &FreeBlock);
+            _handle = new(Unsafe.AsPointer(ref this), &Allocate, &Reallocate, &FreeBlock);
         }
 
-        [UnmanagedCallersOnly]
         private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption)
         {
             var ptr = AlignedAlloc(size, alignment);
@@ -130,7 +126,6 @@ public static unsafe class AllocationManager
             return ptr;
         }
 
-        [UnmanagedCallersOnly]
         private static void* Reallocate(void* instance, void* ptr, nuint size, nuint alignment)
         {
             var newPtr = AlignedRealloc(ptr, size, alignment);
@@ -138,7 +133,6 @@ public static unsafe class AllocationManager
             return newPtr;
         }
 
-        [UnmanagedCallersOnly]
         private static void FreeBlock(void* instance, void* ptr)
         {
             AlignedFree(ptr);
@@ -154,16 +148,6 @@ public static unsafe class AllocationManager
     private static bool s_debugLayer;
     private static ConcurrentDictionary<nint, AllocationInfo>? s_allocated;
 
-    /// <summary>
-    /// Gets a reference to the allocation handle for temporary allocations.
-    /// </summary>
-    public static ref AllocationHandle TempHandle => ref s_arenaAllocator->Handle;
-
-    /// <summary>
-    /// Gets a reference to the persistent allocation handle.
-    /// </summary>
-    public static ref AllocationHandle PersistentHandle => ref s_persistentAllocator->Handle;
-
     static AllocationManager()
     {
         s_arenaAllocator = (ArenaAllocator*)NativeMemory.Alloc((nuint)sizeof(ArenaAllocator));
@@ -176,6 +160,7 @@ public static unsafe class AllocationManager
     /// <summary>
     /// Enables the debug layer, allowing additional diagnostic information to be collected.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void EnableDebugLayer()
     {
         s_debugLayer = true;
@@ -188,14 +173,15 @@ public static unsafe class AllocationManager
     /// <param name="allocator">The allocator type for which to retrieve the allocation handle.</param>
     /// <returns>A reference to the allocation handle associated with the specified allocator type.</returns>
     /// <exception cref="ArgumentException"></exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref AllocationHandle GetAllocationHandle(Allocator allocator)
     {
         switch (allocator)
         {
             case Allocator.Temp:
-                return ref TempHandle;
+                return ref s_arenaAllocator->Handle;
             case Allocator.Persistent:
-                return ref PersistentHandle;
+                return ref s_persistentAllocator->Handle;
             default:
                 throw new ArgumentException("Target allocator type does not support custom allocation.", nameof(allocator));
         }
@@ -258,6 +244,7 @@ public static unsafe class AllocationManager
     /// Removes the specified memory allocation from the tracking system.
     /// </summary>
     /// <param name="ptr">A pointer to the memory allocation to untrack.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void UntrackAllocation(void* ptr)
     {
         if (s_allocated == null)
@@ -266,6 +253,15 @@ public static unsafe class AllocationManager
         }
 
         s_allocated.Remove((nint)ptr, out _);
+    }
+
+    /// <summary>
+    /// Resets the temporary memory allocator, clearing all allocated memory.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void ResetTempAllocator()
+    {
+        s_arenaAllocator->Reset();
     }
 
     /// <summary>

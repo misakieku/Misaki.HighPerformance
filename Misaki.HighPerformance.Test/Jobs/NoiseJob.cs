@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Test.Jobs;
 
-internal unsafe struct NoiseJob : IJobParallelFor
+internal struct NoiseJob : IJobParallelFor
 {
     public UnsafeArray<float> buffers;
     public int width;
@@ -41,11 +41,11 @@ internal unsafe struct NoiseJob : IJobParallelFor
         return float.Lerp(float.Lerp(d00, d10, fp.Y), float.Lerp(d01, d11, fp.Y), fp.X);
     }
 
-    public void Execute(int index)
+    public void Execute(int loopIndex, int threadIndex)
     {
-        var x = index % width;
-        var y = index / height;
-        var uv = new Vector2(x, y);
-        buffers[index] = float.Clamp(GradientNoise(uv), 0.0f, 1.0f);
+        var x = loopIndex % width;
+        var y = loopIndex / height;
+        var uv = new Vector2(x, y) / new Vector2(width, height);
+        buffers[loopIndex] = GradientNoise(uv);
     }
 }

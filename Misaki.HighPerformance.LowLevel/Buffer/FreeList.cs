@@ -1,5 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Helpers;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
@@ -30,9 +29,6 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 [StructLayout(LayoutKind.Explicit, Size = 256)] // Cache line aligned to prevent false sharing
 public unsafe struct FreeList : IDisposable
 {
-    /// <summary>
-    /// Node structure for the lock-free free list with size information.
-    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     private struct FreeNode
     {
@@ -40,9 +36,6 @@ public unsafe struct FreeList : IDisposable
         public nuint size;
     }
 
-    /// <summary>
-    /// Memory chunk that contains variable-size blocks.
-    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     private struct MemoryChunk
     {
@@ -52,20 +45,35 @@ public unsafe struct FreeList : IDisposable
         public nuint used; // Amount of memory used in this chunk
     }
 
-    /// <summary>
-    /// Size bucket for different allocation sizes.
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 32)]
     private struct SizeBucket
     {
-        public nint freeHead; // Free list head for this size
-        public nuint blockSize; // Fixed size for this bucket
+        [FieldOffset(0)]
         public long freeCount; // Number of free blocks
+        [FieldOffset(8)]
+        public nint freeHead; // Free list head for this size
+        [FieldOffset(16)]
+        public nuint blockSize; // Fixed size for this bucket
+        [FieldOffset(24)]
+        public int creationLock;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 24)]
+    private struct BlockHeader
+    {
+        // Ensure the size is fixed across x86 and x64
+        [FieldOffset(0)]
+        public MemoryChunk* ownerChunk;
+        [FieldOffset(8)]
+        public nuint blockSize;
+        [FieldOffset(16)]
+        public ulong magicNumber;
     }
 
     private const int _MAX_BUCKETS = 16; // Number of size buckets
     private const nuint _MIN_BLOCK_SIZE = 16; // Minimum block size
     private const nuint _DEFAULT_CHUNK_SIZE = 64 * 1024; // 64KB chunks
+    private const ulong _MAGIC_NUMBER = 0xDEADBEEFDEADBEEF; // For validating blocks
 
     [FieldOffset(0)]
     private fixed byte _buckets[_MAX_BUCKETS * 32]; // SizeBucket array (32 bytes per bucket)
@@ -77,10 +85,10 @@ public unsafe struct FreeList : IDisposable
     private MemoryChunk* _chunks; // 8
 
     [FieldOffset(648)]
-    private nuint _chunkSize; // 8
+    private readonly nuint _chunkSize; // 8
 
     [FieldOffset(656)]
-    private nuint _alignment; // 8
+    private readonly nuint _alignment; // 8
 
     [FieldOffset(664)]
     private long _totalAllocatedBytes; // 8
@@ -124,13 +132,17 @@ public unsafe struct FreeList : IDisposable
     /// </summary>
     /// <param name="alignment">Alignment requirement for blocks (must be power of 2).</param>
     /// <param name="chunkSize">Size of memory chunks to allocate (default: 64KB).</param>
-    public FreeList(nuint alignment = 8, nuint chunkSize = _DEFAULT_CHUNK_SIZE)
+    public FreeList(nuint alignment, nuint chunkSize = _DEFAULT_CHUNK_SIZE)
     {
         if (alignment == 0 || (alignment & (alignment - 1)) != 0)
+        {
             throw new ArgumentException("Alignment must be a power of 2", nameof(alignment));
+        }
 
         if (chunkSize < 1024)
+        {
             throw new ArgumentException("Chunk size must be at least 1KB", nameof(chunkSize));
+        }
 
         _alignment = alignment;
         _chunkSize = chunkSize;
@@ -144,9 +156,6 @@ public unsafe struct FreeList : IDisposable
         InitializeBuckets();
     }
 
-    /// <summary>
-    /// Initializes the size buckets with exponential sizes.
-    /// </summary>
     private readonly void InitializeBuckets()
     {
         var buckets = GetBuckets();
@@ -161,9 +170,6 @@ public unsafe struct FreeList : IDisposable
         }
     }
 
-    /// <summary>
-    /// Gets a pointer to the size buckets array.
-    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private readonly SizeBucket* GetBuckets()
     {
@@ -173,11 +179,6 @@ public unsafe struct FreeList : IDisposable
         }
     }
 
-    /// <summary>
-    /// Finds the appropriate bucket for the given size.
-    /// </summary>
-    /// <param name="size">Size to find bucket for.</param>
-    /// <returns>Bucket index, or -1 if too large for buckets.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private readonly int FindBucket(nuint size)
     {
@@ -186,7 +187,9 @@ public unsafe struct FreeList : IDisposable
         for (var i = 0; i < _MAX_BUCKETS; i++)
         {
             if (size <= buckets[i].blockSize)
+            {
                 return i;
+            }
         }
 
         return -1; // Size too large for buckets
@@ -200,19 +203,25 @@ public unsafe struct FreeList : IDisposable
     /// <param name="allocationOption">Options for allocation (e.g., clear memory).</param>
     /// <returns>MemoryBlock containing allocated memory, or Invalid if allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public MemoryBlock Allocate(nuint size, nuint alignment = 0, AllocationOption allocationOption = AllocationOption.None)
+    public void* Allocate(nuint size, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
     {
         if (_disposed != 0 || size == 0)
-            return MemoryBlock.Invalid;
+        {
+            return null;
+        }
 
         if (alignment == 0)
+        {
             alignment = _alignment;
+        }
 
         // Align size to alignment boundary
         var alignedSize = (size + alignment - 1) & ~(alignment - 1);
         alignedSize = Math.Max(alignedSize, _MIN_BLOCK_SIZE);
 
-        var bucketIndex = FindBucket(alignedSize);
+        var totalSize = alignedSize + (nuint)sizeof(BlockHeader);
+
+        var bucketIndex = FindBucket(totalSize);
         void* ptr = null;
 
         if (bucketIndex >= 0)
@@ -233,22 +242,24 @@ public unsafe struct FreeList : IDisposable
         if (ptr == null)
         {
             // Fallback to direct allocation from chunk
-            ptr = AllocateFromChunk(alignedSize, alignment);
+            ptr = AllocateFromChunk(totalSize, alignment);
         }
 
         if (ptr != null)
         {
-            Interlocked.Add(ref _totalAllocatedBytes, (long)alignedSize);
+            var header = (BlockHeader*)ptr;
+            Interlocked.Add(ref _totalAllocatedBytes, (long)header->blockSize);
 
+            var pUserData = (byte*)ptr + sizeof(BlockHeader);
             if (allocationOption.HasFlag(AllocationOption.Clear))
             {
-                MemClear(ptr, alignedSize);
+                MemClear(pUserData, alignedSize);
             }
 
-            return new MemoryBlock(ptr, alignedSize, alignment);
+            return pUserData;
         }
 
-        return MemoryBlock.Invalid;
+        return null;
     }
 
     /// <summary>
@@ -256,26 +267,39 @@ public unsafe struct FreeList : IDisposable
     /// </summary>
     /// <param name="block">MemoryBlock to free.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Free(MemoryBlock block)
+    public void Free(void* ptr)
     {
-        if (!block.IsValid || _disposed != 0)
-            return;
-
-        if (!IsValidBlock(block.Ptr))
-            return; // Invalid pointer, ignore
-
-        var bucketIndex = FindBucket(block.Size);
-        if (bucketIndex >= 0)
+        if (_disposed != 0 || ptr == null)
         {
-            PushToBucket(bucketIndex, block.Ptr, block.Size);
+            return;
         }
 
-        Interlocked.Add(ref _totalAllocatedBytes, -(long)block.Size);
+        var blockStartPtr = (byte*)ptr - sizeof(BlockHeader);
+        var header = (BlockHeader*)blockStartPtr;
+
+        if (header->magicNumber != _MAGIC_NUMBER)
+        {
+            return;
+        }
+
+        var chuck = header->ownerChunk;
+        if (chuck == null)
+        {
+            return;
+        }
+
+        var bucketIndex = FindBucket(header->blockSize);
+        if (bucketIndex >= 0)
+        {
+            PushToBucket(bucketIndex, blockStartPtr, header->blockSize);
+        }
+
+        Interlocked.Add(ref _totalAllocatedBytes, -(long)header->blockSize);
+        header->ownerChunk = null;
+        header->blockSize = 0;
+        header->magicNumber = 0;
     }
 
-    /// <summary>
-    /// Tries to pop a free block from the specified bucket.
-    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private readonly void* TryPopFromBucket(int bucketIndex)
     {
@@ -289,7 +313,9 @@ public unsafe struct FreeList : IDisposable
         {
             head = bucket->freeHead;
             if (head == 0)
+            {
                 return null;
+            }
 
             headPtr = (FreeNode*)head;
             newHead = (nint)headPtr->next;
@@ -300,9 +326,6 @@ public unsafe struct FreeList : IDisposable
         return (void*)head;
     }
 
-    /// <summary>
-    /// Pushes a block to the specified bucket's free list.
-    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private readonly void PushToBucket(int bucketIndex, void* ptr, nuint size)
     {
@@ -323,29 +346,45 @@ public unsafe struct FreeList : IDisposable
         Interlocked.Increment(ref bucket->freeCount);
     }
 
-    /// <summary>
-    /// Creates new blocks for the specified bucket.
-    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void AssignBlockHeader(BlockHeader* header, MemoryChunk* ownerChunk, nuint blockSize)
+    {
+        header->ownerChunk = ownerChunk;
+        header->blockSize = blockSize;
+        header->magicNumber = _MAGIC_NUMBER;
+    }
+
     private bool TryCreateBlocksForBucket(int bucketIndex)
     {
-        while (Interlocked.CompareExchange(ref _chunkCreationLock, 1, 0) != 0)
+        var buckets = GetBuckets();
+        var bucket = &buckets[bucketIndex];
+
+        while (Interlocked.CompareExchange(ref bucket->creationLock, 1, 0) != 0)
         {
             Thread.SpinWait(1);
         }
 
         try
         {
-            var buckets = GetBuckets();
-            var blockSize = buckets[bucketIndex].blockSize;
+            if (bucket->freeHead != 0)
+            {
+                return true; // Another thread did the work for us!
+            }
+
+            var blockSize = bucket->blockSize;
             var blocksToCreate = Math.Min(_chunkSize / blockSize, 256); // Limit number of blocks
 
             if (blocksToCreate == 0)
+            {
                 return false;
+            }
 
             var totalSize = blocksToCreate * blockSize;
             var memory = (byte*)AlignedAlloc(totalSize, _alignment);
             if (memory == null)
+            {
                 return false;
+            }
 
             var chunk = (MemoryChunk*)_chunkArena.Allocate(SizeOf<MemoryChunk>(), AlignOf<MemoryChunk>(), AllocationOption.None);
             if (chunk == null)
@@ -363,21 +402,20 @@ public unsafe struct FreeList : IDisposable
             // Add all blocks to the bucket's free list
             for (nuint i = 0; i < blocksToCreate; i++)
             {
-                var blockPtr = memory + (i * blockSize);
-                PushToBucket(bucketIndex, blockPtr, blockSize);
+                var blockStartPtr = memory + (i * blockSize);
+
+                AssignBlockHeader((BlockHeader*)blockStartPtr, chunk, blockSize);
+                PushToBucket(bucketIndex, blockStartPtr, blockSize);
             }
 
             return true;
         }
         finally
         {
-            Interlocked.Exchange(ref _chunkCreationLock, 0);
+            Interlocked.Exchange(ref bucket->creationLock, 0);
         }
     }
 
-    /// <summary>
-    /// Allocates memory directly from a chunk (for large allocations).
-    /// </summary>
     private void* AllocateFromChunk(nuint size, nuint alignment)
     {
         while (Interlocked.CompareExchange(ref _chunkCreationLock, 1, 0) != 0)
@@ -397,9 +435,11 @@ public unsafe struct FreeList : IDisposable
 
                 if (totalNeeded <= available)
                 {
-                    var ptr = chunk->memory + alignedOffset;
-                    chunk->used += totalNeeded;
-                    return ptr;
+                    var blockStartPtr = chunk->memory + alignedOffset;
+
+                    // Write the header and return the pointer WITH the header
+                    AssignBlockHeader((BlockHeader*)blockStartPtr, chunk, size);
+                    return blockStartPtr;
                 }
 
                 chunk = chunk->next;
@@ -409,7 +449,9 @@ public unsafe struct FreeList : IDisposable
             var newChunkSize = Math.Max(_chunkSize, size + alignment);
             var newMemory = (byte*)AlignedAlloc(newChunkSize, alignment);
             if (newMemory == null)
+            {
                 return null;
+            }
 
             var newChunk = (MemoryChunk*)_chunkArena.Allocate(SizeOf<MemoryChunk>(), AlignOf<MemoryChunk>(), AllocationOption.None);
             if (newChunk == null)
@@ -424,33 +466,14 @@ public unsafe struct FreeList : IDisposable
             newChunk->next = _chunks;
             _chunks = newChunk;
 
+            // Write the header and return the pointer WITH the header
+            AssignBlockHeader((BlockHeader*)newMemory, newChunk, size);
             return newMemory;
         }
         finally
         {
             Interlocked.Exchange(ref _chunkCreationLock, 0);
         }
-    }
-
-    /// <summary>
-    /// Validates that a pointer belongs to one of our memory chunks.
-    /// </summary>
-    private readonly bool IsValidBlock(void* ptr)
-    {
-        var chunk = _chunks;
-        while (chunk != null)
-        {
-            var chunkStart = (nuint)chunk->memory;
-            var chunkEnd = chunkStart + chunk->size;
-            var ptrValue = (nuint)ptr;
-
-            if (ptrValue >= chunkStart && ptrValue < chunkEnd)
-                return true;
-
-            chunk = chunk->next;
-        }
-
-        return false;
     }
 
     /// <summary>
@@ -467,9 +490,10 @@ public unsafe struct FreeList : IDisposable
             {
                 var next = chunk->next;
                 AlignedFree(chunk->memory);
-                MemoryUtilities.Free(chunk);
                 chunk = next;
             }
+
+            _chunkArena.Dispose();
 
             _chunks = null;
             _totalAllocatedBytes = 0;

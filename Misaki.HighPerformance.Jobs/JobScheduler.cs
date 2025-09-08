@@ -1,455 +1,400 @@
+﻿using Misaki.HighPerformance.Collections;
 using Misaki.HighPerformance.LowLevel.Buffer;
-using Misaki.HighPerformance.LowLevel.Collections;
+using Misaki.HighPerformance.LowLevel.Helpers;
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
-/// <summary>
-/// High-performance job scheduler that manages job execution and dependencies.
-/// Designed to minimize allocations and provide efficient work distribution.
-/// </summary>
-public static unsafe class JobScheduler
+public unsafe sealed class JobScheduler : IDisposable
 {
-    private const int _Init_INLINE_JOBS = 64;
-    private const int _MAX_WORKER_THREADS = 64;
+    private FreeList _jobDataAllocator;
+    private readonly ConcurrentSlotMap<JobInfo> _jobInfoPool;
+    private readonly ConcurrentQueue<JobHandle> _jobQueue;
+    private readonly WorkerThread[] _workerThreads;
 
-    private static readonly Lock _lock = new();
-    private static SlotMap<JobData>? _jobPool;
-    private static int _jobVersion;
-    private static volatile bool _isInitialized;
-    private static volatile bool _isShuttingDown;
+    private readonly Lock _lock;
+    private readonly SemaphoreSlim _workSignal;
+    private readonly CancellationTokenSource _cts;
 
-    // Worker thread management
-    private static Thread[]? _workerThreads;
-    private static int _workerThreadCount;
-    private static readonly ManualResetEventSlim _workAvailableEvent = new ManualResetEventSlim(false);
-    private static readonly ConcurrentQueue<int> _readyJobs = new ConcurrentQueue<int>();
+    private bool _disposed = false;
 
-    // Fast lookup for active jobs
-    private static readonly ConcurrentDictionary<ulong, int> _activeJobs = new ConcurrentDictionary<ulong, int>();
+    public int WorkerCount => _workerThreads.Length;
 
-    static JobScheduler()
+    internal bool IsCancellationRequested => _cts.IsCancellationRequested;
+
+    public JobScheduler(int threadCount)
     {
-        Initialize();
+        _jobDataAllocator = new(8);
+        _jobInfoPool = new();
+        _jobQueue = new();
+
+        _lock = new();
+        _workSignal = new(0);
+        _cts = new();
+
+        var workerCount = Math.Max(1, threadCount);
+        _workerThreads = new WorkerThread[workerCount];
+
+        for (var i = 0; i < workerCount; i++)
+        {
+            _workerThreads[i] = new WorkerThread(i, this);
+        }
+
+        foreach (var worker in _workerThreads)
+        {
+            worker.Start();
+        }
     }
 
-    /// <summary>
-    /// Initializes the job scheduler with default settings.
-    /// </summary>
-    public static void Initialize(int InitialJobsSize = _Init_INLINE_JOBS, int workerThreadCount = -1)
+    ~JobScheduler()
     {
-        if (_isInitialized)
-            return;
+        Dispose();
+    }
 
-        lock (_lock)
+    private void EnqueueJobIfReady(JobHandle handle)
+    {
+        ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle._id, handle._generation, out var exist);
+
+        if (exist && Volatile.Read(ref jobInfo.dependencyCount) == 0)
         {
-            if (_isInitialized)
-                return;
-
-            _jobPool = new SlotMap<JobData>(InitialJobsSize);
-
-            // Initialize worker threads
-            if (workerThreadCount <= 0)
-                workerThreadCount = Math.Min(Environment.ProcessorCount, _MAX_WORKER_THREADS);
-
-            _workerThreadCount = workerThreadCount;
-            _workerThreads = new Thread[workerThreadCount];
-
-            for (var i = 0; i < workerThreadCount; i++)
+            if (Interlocked.CompareExchange(ref jobInfo.status, JobStatus.Scheduled, JobStatus.Created) != JobStatus.Created)
             {
-                var thread = new Thread(WorkerThreadLoop)
-                {
-                    Name = $"JobWorker-{i}",
-                    IsBackground = true
-                };
-                _workerThreads[i] = thread;
-                thread.Start(i);
+                return;
             }
 
-            _isInitialized = true;
-        }
-    }
-
-    /// <summary>
-    /// Shuts down the job scheduler and cleans up resources.
-    /// </summary>
-    public static void Shutdown()
-    {
-        if (!_isInitialized || _isShuttingDown)
-            return;
-
-        lock (_lock)
-        {
-            if (_isShuttingDown)
-                return;
-            _isShuttingDown = true;
-
-            // Signal all worker threads to exit
-            _workAvailableEvent.Set();
-
-            // Wait for all worker threads to complete
-            if (_workerThreads != null)
+            ConcurrentQueue<JobHandle> jobQueue;
+            if (jobInfo.threadIndex >= 0 && jobInfo.threadIndex < _workerThreads.Length)
             {
-                for (var i = 0; i < _workerThreadCount; i++)
-                {
-                    _workerThreads[i]?.Join(5000); // 5 second timeout
-                }
+                jobQueue = _workerThreads[jobInfo.threadIndex].LocalQueue;
+            }
+            else
+            {
+                jobQueue = _jobQueue;
             }
 
-            _jobPool?.Clear();
-            _jobPool = null;
+            // Ensure the count of this job handle won't exceed the number of worker threads.
+            // Worker threads will steal parallel iteration ranges from each other.
+            var handleCount = Math.Min(jobInfo.remainingBatches, _workerThreads.Length);
 
-            _isInitialized = false;
-            _isShuttingDown = false;
+            for (var i = 0; i < handleCount; i++)
+            {
+                jobQueue.Enqueue(handle);
+            }
+
+            _workSignal.Release(handleCount);
         }
     }
 
-    /// <summary>
-    /// Schedules a job for execution.
-    /// </summary>
-    internal static JobHandle ScheduleJob(object jobData, ExecuteJobDelegate executeFunction, JobType jobType,
-        int totalIterations, int batchSize, JobHandle dependsOn)
+    private JobHandle CreateJobHandle(ref JobInfo jobInfo, params ReadOnlySpan<JobHandle> dependencies)
     {
-        if (!_isInitialized)
-            throw new InvalidOperationException("JobScheduler is not initialized");
+        var id = _jobInfoPool.Add(jobInfo, out var generation);
+        ref var infoInPool = ref _jobInfoPool.GetElementReferenceAt(id, generation, out _);
 
-        var jobSlot = AllocateJobSlot();
-        var jobId = JobsUtility.GetNextJobId();
-        var version = Interlocked.Increment(ref _jobVersion);
-
-        ref var job = ref _jobPool![jobSlot];
-        job.Id = jobId;
-        job.Version = version;
-        job.State = 0; // Scheduled
-        job.JobType = jobType;
-        job.ExecuteJobFunction = executeFunction;
-        job.ExecuteParallelJobFunction = null;
-        job.JobDataObject = jobData;
-        job.TotalIterations = totalIterations;
-        job.BatchSize = batchSize;
-        job.DependencyCount = dependsOn._id == 0 ? 0 : 1;
-        job.CompletedDependencies = 0;
-        job.AdditionalDependencies = null;
-        job.AdditionalDependencyCount = 0;
-
-        // Set up dependencies
-        if (dependsOn._id != 0)
-        {
-            job.Dependencies[0] = dependsOn._id;
-        }
-
-        _activeJobs.TryAdd(jobId, jobSlot);
-
-        // Check if job can be executed immediately
-        if (job.CanExecute)
-        {
-            _readyJobs.Enqueue(jobSlot);
-            _workAvailableEvent.Set();
-        }
-
-        return new JobHandle(jobId, version);
-    }
-
-    /// <summary>
-    /// Schedules a parallel job for execution.
-    /// </summary>
-    internal static JobHandle ScheduleParallelJob(object jobData, ExecuteParallelJobDelegate executeFunction,
-        int totalIterations, int batchSize, JobHandle dependsOn)
-    {
-        if (!_isInitialized)
-            throw new InvalidOperationException("JobScheduler is not initialized");
-
-        var jobSlot = AllocateJobSlot();
-        var jobId = JobsUtility.GetNextJobId();
-        var version = Interlocked.Increment(ref _jobVersion);
-
-        ref var job = ref _jobPool![jobSlot];
-        job.Id = jobId;
-        job.Version = version;
-        job.State = 0; // Scheduled
-        job.JobType = JobType.ParallelFor;
-        job.ExecuteJobFunction = null;
-        job.ExecuteParallelJobFunction = executeFunction;
-        job.JobDataObject = jobData;
-        job.TotalIterations = totalIterations;
-        job.BatchSize = batchSize;
-        job.DependencyCount = dependsOn._id == 0 ? 0 : 1;
-        job.CompletedDependencies = 0;
-        job.AdditionalDependencies = null;
-        job.AdditionalDependencyCount = 0;
-
-        // Set up dependencies
-        if (dependsOn._id != 0)
-        {
-            job.Dependencies[0] = dependsOn._id;
-        }
-
-        _activeJobs.TryAdd(jobId, jobSlot);
-
-        // Check if job can be executed immediately
-        if (job.CanExecute)
-        {
-            _readyJobs.Enqueue(jobSlot);
-            _workAvailableEvent.Set();
-        }
-
-        return new JobHandle(jobId, version);
-    }
-
-    /// <summary>
-    /// Combines multiple job dependencies into a single handle.
-    /// </summary>
-    internal static JobHandle CombineDependencies(ReadOnlySpan<JobHandle> dependencies)
-    {
-        if (dependencies.Length == 0)
-        {
-            return JobHandle.Completed;
-        }
-
-        if (dependencies.Length == 1)
-        {
-            return dependencies[0];
-        }
-
-        // Filter out completed dependencies
-        var activeDeps = stackalloc JobHandle[dependencies.Length];
-        var activeCount = 0;
+        var handle = new JobHandle(id, generation);
 
         for (var i = 0; i < dependencies.Length; i++)
         {
-            if (dependencies[i]._id != 0 && !IsCompleted(dependencies[i]))
+            var dependency = dependencies[i];
+            if (!dependency.IsValid)
             {
-                activeDeps[activeCount++] = dependencies[i];
+                continue;
             }
-        }
 
-        if (activeCount == 0)
-            return JobHandle.Completed;
-
-        if (activeCount == 1)
-            return activeDeps[0];
-
-        // Create a combined dependency job
-        var jobSlot = AllocateJobSlot();
-        var jobId = JobsUtility.GetNextJobId();
-        var version = Interlocked.Increment(ref _jobVersion);
-
-        ref var job = ref _jobPool![jobSlot];
-        job.Id = jobId;
-        job.Version = version;
-        job.State = 0; // Scheduled
-        job.JobType = JobType.Job; // Dependency-only job
-        job.ExecuteJobFunction = null; // No execution needed
-        job.ExecuteParallelJobFunction = null;
-        job.JobDataObject = null;
-        job.TotalIterations = 0;
-        job.BatchSize = 0;
-        job.DependencyCount = activeCount;
-        job.CompletedDependencies = 0;
-
-        // Set up dependencies
-        for (var i = 0; i < Math.Min(activeCount, 8); i++)
-        {
-            job.Dependencies[i] = activeDeps[i]._id;
-        }
-
-        // Handle additional dependencies if more than 8
-        if (activeCount > 8)
-        {
-            var additionalSize = activeCount - 8;
-            var handle = AllocationManager.GetAllocationHandle(Allocator.Temp);
-            job.AdditionalDependencies = (ulong*)handle.Alloc(handle.Allocator, (nuint)(sizeof(ulong) * additionalSize), sizeof(ulong), AllocationOption.None);
-            job.AdditionalDependencyCount = additionalSize;
-
-            for (var i = 0; i < additionalSize; i++)
+            lock (_lock)
             {
-                job.AdditionalDependencies[i] = activeDeps[i + 8]._id;
+                ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(dependency._id, dependency._generation, out var exist);
+                if (!exist || Volatile.Read(ref Unsafe.As<JobStatus, int>(ref depJobInfo.status)) == (int)JobStatus.Completed)
+                {
+                    continue;
+                }
+
+                if (depJobInfo.dependentCount >= JobInfo.MAX_DEPENDENTS)
+                {
+                    // Too many dependents
+                    // TODO: Handle this case properly
+                    _jobDataAllocator.Free(jobInfo.pJobData);
+                    return JobHandle.Invalid;
+                }
+
+                depJobInfo.dependentsID[depJobInfo.dependentCount] = id;
+                depJobInfo.dependentsGeneration[depJobInfo.dependentCount] = generation;
+                depJobInfo.dependentCount++;
             }
+
+            Interlocked.Increment(ref infoInPool.dependencyCount);
         }
 
-        _activeJobs.TryAdd(jobId, jobSlot);
+        EnqueueJobIfReady(handle);
 
-        return new JobHandle(jobId, version);
+        return handle;
     }
 
-    /// <summary>
-    /// Checks if a job is completed.
-    /// </summary>
-    internal static bool IsCompleted(JobHandle handle)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal bool HasWork()
     {
-        if (handle._id == 0)
+        return !_jobQueue.IsEmpty || _workerThreads.Any(w => !w.LocalQueue.IsEmpty);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal void WaitForWork()
+    {
+        _workSignal.Wait(_cts.Token);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal bool TryStealJob(int threadIndex, out JobHandle outHandle)
+    {
+        if (threadIndex >= 0 && threadIndex < _workerThreads.Length
+            && _workerThreads[threadIndex].LocalQueue.TryDequeue(out outHandle))
+        {
             return true;
-
-        if (_activeJobs.TryGetValue(handle._id, out var jobSlot))
+        }
+        else if (_jobQueue.TryDequeue(out outHandle))
         {
-            return _jobPool![jobSlot].IsCompleted;
+            return true;
         }
 
-        return true; // Job not found, assume completed
+        outHandle = JobHandle.Invalid;
+        return false;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal ref JobInfo GetJobInfoReference(JobHandle handle, out bool exist)
+    {
+        if (!handle.IsValid)
+        {
+            exist = false;
+            return ref Unsafe.NullRef<JobInfo>();
+        }
+
+        return ref _jobInfoPool.GetElementReferenceAt(handle._id, handle._generation, out exist);
+    }
+
+    internal void MarkJobComplete(JobHandle handle)
+    {
+        if (!handle.IsValid)
+        {
+            return;
+        }
+
+        ref var info = ref _jobInfoPool.GetElementReferenceAt(handle._id, handle._generation, out var exist);
+        if (!exist)
+        {
+            return;
+        }
+
+        if (Interlocked.CompareExchange(ref info.status, JobStatus.Completed, JobStatus.Running) != JobStatus.Running)
+        {
+            return;
+        }
+
+        var dependentsToNotify = stackalloc JobHandle[JobInfo.MAX_DEPENDENTS];
+        var dependentCount = 0;
+
+        lock (_lock)
+        {
+            dependentCount = info.dependentCount;
+            for (var i = 0; i < dependentCount; i++)
+            {
+                dependentsToNotify[i] = new JobHandle(info.dependentsID[i], info.dependentsGeneration[i]);
+            }
+        }
+
+        _jobDataAllocator.Free(info.pJobData);
+        _jobInfoPool.Remove(handle._id, handle._generation);
+
+        for (var i = 0; i < dependentCount; i++)
+        {
+            var depHandle = dependentsToNotify[i];
+
+            ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(depHandle._id, depHandle._generation, out var depExist);
+            if (depExist && Interlocked.Decrement(ref depJobInfo.dependencyCount) == 0)
+            {
+                EnqueueJobIfReady(depHandle);
+            }
+        }
     }
 
     /// <summary>
-    /// Blocks until the specified job completes.
+    /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
     /// </summary>
-    internal static void Complete(JobHandle handle)
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <param name="dependency">A <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.
+    ///     Use <see cref="JobHandle.Invalid"/> if there are no dependencies.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    public JobHandle Schedule<T>(ref T job, int threadIndex, JobHandle dependency)
+        where T : unmanaged, IJob
     {
-        if (handle._id == 0)
-            return;
-
-        while (!IsCompleted(handle))
+        var jobData = _jobDataAllocator.Allocate(MemoryUtilities.SizeOf<T>(), MemoryUtilities.AlignOf<T>());
+        if (jobData == null)
         {
-            // Try to help with work while waiting
-            if (_readyJobs.TryDequeue(out var jobSlot))
-            {
-                ExecuteJob(jobSlot);
-            }
-            else
-            {
-                Thread.Yield();
-            }
+            return JobHandle.Invalid;
         }
-    }
 
-    private static int AllocateJobSlot()
-    {
-        // Create a new JobData and add it to the SlotMap
-        var jobData = new JobData();
-        return _jobPool!.Add(jobData);
-    }
-
-    private static void WorkerThreadLoop(object? threadIndexObj)
-    {
-        var threadIndex = (int)threadIndexObj!;
-
-        while (!_isShuttingDown)
+        fixed (T* pJob = &job)
         {
-            if (_readyJobs.TryDequeue(out var jobSlot))
-            {
-                ExecuteJob(jobSlot);
-            }
-            else
-            {
-                _workAvailableEvent.Wait(100); // Wait with timeout
-                _workAvailableEvent.Reset();
-            }
+            MemoryUtilities.MemCpy(pJob, jobData, MemoryUtilities.SizeOf<T>());
         }
-    }
 
-    private static void ExecuteJob(int jobSlot)
-    {
-        ref var job = ref _jobPool![jobSlot];
-
-        // Mark as running
-        if (Interlocked.CompareExchange(ref job.State, 1, 0) != 0)
-            return; // Job already taken by another thread
-
-        try
+        var jobInfo = new JobInfo
         {
-            if (job.ExecuteJobFunction != null)
-            {
-                if (job.JobType == JobType.Job)
-                {
-                    // Execute IJob
-                    job.ExecuteJobFunction(job.JobDataObject!);
-                }
-            }
-            else if (job.ExecuteParallelJobFunction != null)
-            {
-                if (job.JobType == JobType.ParallelFor)
-                {
-                    // Execute IJobParallelFor
-                    ExecuteParallelJob(ref job);
-                }
-            }
-        }
-        finally
-        {
-            // Mark as completed
-            Volatile.Write(ref job.State, 2);
+            pJobData = jobData,
+            executeDelegate = &JobExecutor.Execute<T>,
 
-            // Clean up additional dependencies
-            if (job.AdditionalDependencies != null)
-            {
-                var handle = AllocationManager.GetAllocationHandle(Allocator.Temp);
-                handle.Free(handle.Allocator, job.AdditionalDependencies);
-                job.AdditionalDependencies = null;
-            }
+            remainingBatches = 1,
+            threadIndex = threadIndex,
 
-            // Remove from active jobs and notify dependent jobs
-            _activeJobs.TryRemove(job.Id, out _);
-            NotifyDependentJobs(job.Id);
-        }
-    }
-
-    private static void ExecuteParallelJob(ref JobData job)
-    {
-        var batchSize = job.BatchSize > 0 ? job.BatchSize : Math.Max(1, job.TotalIterations / (_workerThreadCount * 4));
-        var currentIndex = 0;
-
-        var ranges = new JobRanges
-        {
-            JobIndex = 0,
-            BeginIndex = 0,
-            EndIndex = job.TotalIterations,
-            TotalLength = job.TotalIterations,
-            BatchSize = batchSize,
-            CurrentIndex = &currentIndex
+            jobRanges = JobRanges.Single,
         };
 
-        var executeDelegate = job.ExecuteParallelJobFunction!;
-        var jobDataObject = job.JobDataObject!;
-
-        // Execute in parallel using available threads
-        Parallel.For(0, _workerThreadCount, threadIndex =>
-        {
-            executeDelegate(jobDataObject, ref ranges, threadIndex);
-        });
+        return CreateJobHandle(ref jobInfo, dependency);
     }
 
-    // TODO: Optimize by maintaining a reverse dependency graph
-    private static void NotifyDependentJobs(ulong completedJobId)
+    /// <summary>
+    /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    public JobHandle Schedule<T>(ref T job, int threadIndex)
+        where T : unmanaged, IJob
+        => Schedule(ref job, threadIndex, JobHandle.Invalid);
+
+    /// <summary>
+    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
+    /// <param name="batchSize">The number of iterations to include in each batch.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <param name="dependency">A <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.
+    ///     Use <see cref="JobHandle.Invalid"/> if there are no dependencies.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, int threadIndex, JobHandle dependency)
+        where T : unmanaged, IJobParallelFor
     {
-        // Scan for jobs that depend on this completed job
-        for (var i = 0; i < _jobPool!.Count; i++)
+        var jobData = _jobDataAllocator.Allocate(MemoryUtilities.SizeOf<T>(), MemoryUtilities.AlignOf<T>());
+        if (jobData == null)
         {
-            ref var job = ref _jobPool[i];
-            if (job.State == 0 && job.DependencyCount > 0) // Scheduled and has dependencies
-            {
-                var isDependent = false;
-
-                // Check inline dependencies
-                for (var j = 0; j < Math.Min(job.DependencyCount, 8); j++)
-                {
-                    if (job.Dependencies[j] == completedJobId)
-                    {
-                        isDependent = true;
-                        break;
-                    }
-                }
-
-                // Check additional dependencies
-                if (!isDependent && job.AdditionalDependencies != null)
-                {
-                    for (var j = 0; j < job.AdditionalDependencyCount; j++)
-                    {
-                        if (job.AdditionalDependencies[j] == completedJobId)
-                        {
-                            isDependent = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (isDependent)
-                {
-                    var completedCount = Interlocked.Increment(ref job.CompletedDependencies);
-                    if (completedCount >= job.DependencyCount)
-                    {
-                        _readyJobs.Enqueue(i);
-                        _workAvailableEvent.Set();
-                    }
-                }
-            }
+            return JobHandle.Invalid;
         }
+
+        fixed (T* pJob = &job)
+        {
+            MemoryUtilities.MemCpy(pJob, jobData, MemoryUtilities.SizeOf<T>());
+        }
+
+        var optimalBatchSize = Math.Max(1, batchSize);
+        var totalBatches = (totalIteration + optimalBatchSize - 1) / optimalBatchSize;
+
+        var jobInfo = new JobInfo
+        {
+            pJobData = jobData,
+            executeDelegate = &JobExecutor.ExecuteParallel<T>,
+
+            remainingBatches = totalBatches,
+            threadIndex = threadIndex,
+
+            jobRanges = new()
+            {
+                currentIndex = 0,
+                batchSize = optimalBatchSize,
+                totalIteration = totalIteration,
+            },
+        };
+
+        return CreateJobHandle(ref jobInfo, dependency);
+    }
+
+    /// <summary>
+    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
+    /// <param name="batchSize">The number of iterations to include in each batch.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, int threadIndex)
+        where T : unmanaged, IJobParallelFor
+        => ScheduleParallel(ref job, totalIteration, batchSize, threadIndex, JobHandle.Invalid);
+
+    /// <summary>
+    /// Combines multiple job dependencies into a single <see cref="JobHandle"/>.
+    /// </summary>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> instances representing the dependencies to combine.</param>
+    /// <returns>A <see cref="JobHandle"/> that represents the combined dependencies. The returned handle can be used to ensure
+    /// that all specified dependencies are completed before proceeding.</returns>
+    public JobHandle CombineDependencies(params ReadOnlySpan<JobHandle> dependencies)
+    {
+        var jobInfo = new JobInfo
+        {
+            pJobData = null,
+            executeDelegate = null,
+
+            remainingBatches = 1,
+            threadIndex = -1,
+
+            jobRanges = JobRanges.Single,
+        };
+
+        return CreateJobHandle(ref jobInfo, dependencies);
+    }
+
+    /// <summary>
+    /// Blocks the calling thread until the specified job is completed.
+    /// </summary>
+    /// <param name="handle">The handle of the job to wait for.</param>
+    public void WaitComplete(JobHandle handle)
+    {
+        if (!handle.IsValid)
+        {
+            return;
+        }
+
+        var spin = new SpinWait();
+        while (_jobInfoPool.TryGetElement(handle._id, handle._generation, out var jobInfo))
+        {
+            if (jobInfo.status == JobStatus.Completed)
+            {
+                return;
+            }
+
+            spin.SpinOnce(-1);
+        }
+    }
+
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _cts.Cancel();
+
+        foreach (var worker in _workerThreads)
+        {
+            worker.Dispose();
+        }
+
+        _jobInfoPool.Clear();
+        _jobQueue.Clear();
+        _jobDataAllocator.Dispose();
+
+        _cts.Dispose();
+
+        _disposed = true;
+
+        GC.SuppressFinalize(this);
     }
 }

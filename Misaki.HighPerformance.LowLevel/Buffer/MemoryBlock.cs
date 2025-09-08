@@ -17,6 +17,14 @@ public unsafe readonly struct MemoryBlock
     }
 
     /// <summary>
+    /// The heap from which the memory was allocated.
+    /// </summary>
+    public void* Heap
+    {
+        get;
+    }
+
+    /// <summary>
     /// Size of the allocated memory in bytes.
     /// </summary>
     public nuint Size
@@ -43,9 +51,10 @@ public unsafe readonly struct MemoryBlock
     /// <param name="ptr">Pointer to the allocated memory.</param>
     /// <param name="size">Size of the allocated memory.</param>
     /// <param name="alignment">Alignment of the allocated memory.</param>
-    public MemoryBlock(void* ptr, nuint size, nuint alignment)
+    public MemoryBlock(void* ptr, void* heap, nuint size, nuint alignment)
     {
         Ptr = ptr;
+        Heap = heap;
         Size = size;
         Alignment = alignment;
     }
@@ -53,7 +62,7 @@ public unsafe readonly struct MemoryBlock
     /// <summary>
     /// Creates an invalid MemoryBlock.
     /// </summary>
-    public static MemoryBlock Invalid => new(null, 0, 0);
+    public static MemoryBlock Invalid => new(null, null, 0, 0);
 
     public Span<T> AsSpan<T>()
         where T : unmanaged

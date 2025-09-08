@@ -34,7 +34,7 @@ public unsafe class CollectionBenchmark
             array[i] = i;
         }
 
-        ((ArenaAllocator*)AllocationManager.TempHandle.Allocator)->Reset();
+        AllocationManager.ResetTempAllocator();
     }
 
     [Benchmark]

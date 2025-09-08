@@ -42,6 +42,7 @@ public class SlotMap<T> : IEnumerable<T>
     private struct SlotData
     {
         public T value;
+        public int generation;
         public bool isValid;
     }
 
@@ -54,25 +55,6 @@ public class SlotMap<T> : IEnumerable<T>
     public int Count => _count;
     public int Capacity => _capacity;
 
-    public ref T this[int slotIndex]
-    {
-        get
-        {
-            if (slotIndex < 0 || slotIndex >= _capacity)
-            {
-                throw new ArgumentOutOfRangeException(nameof(slotIndex), "Slot index is out of range.");
-            }
-
-            ref var slot = ref _data[slotIndex];
-            if (!slot.isValid)
-            {
-                throw new InvalidOperationException($"Slot {slotIndex} is not occupied.");
-            }
-
-            return ref slot.value;
-        }
-    }
-
     public IEnumerator<T> GetEnumerator() => new Enumerator(this);
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -82,7 +64,7 @@ public class SlotMap<T> : IEnumerable<T>
         _capacity = initialCapacity;
 
         _data = new SlotData[initialCapacity];
-        _freeSlots = new Queue<int>(initialCapacity);
+        _freeSlots = new(initialCapacity);
     }
 
     private void Resize()
@@ -95,7 +77,7 @@ public class SlotMap<T> : IEnumerable<T>
         _capacity = newCapacity;
     }
 
-    public int Add(T item)
+    public int Add(T item, out int generation)
     {
         if (_count >= _capacity)
         {
@@ -115,13 +97,14 @@ public class SlotMap<T> : IEnumerable<T>
         ref var slot = ref _data[slotIndex];
         slot.value = item;
         slot.isValid = true;
+        generation = slot.generation;
 
         _count++;
 
         return slotIndex;
     }
 
-    public bool Remove(int slotIndex)
+    public bool Remove(int slotIndex, int generation)
     {
         if (slotIndex < 0 || slotIndex >= _capacity)
         {
@@ -129,17 +112,34 @@ public class SlotMap<T> : IEnumerable<T>
         }
 
         ref var slot = ref _data[slotIndex];
-        if (!slot.isValid)
+        if (slot.generation != generation)
         {
             return false;
         }
 
+        slot.generation++;
         slot.isValid = false;
 
         _freeSlots.Enqueue(slotIndex);
         _count--;
 
         return true;
+    }
+
+    public ref T GetElementAt(int slotIndex, int generation)
+    {
+        if (slotIndex < 0 || slotIndex >= _capacity)
+        {
+            throw new ArgumentOutOfRangeException(nameof(slotIndex), "Slot index is out of range.");
+        }
+
+        ref var slot = ref _data[slotIndex];
+        if (slot.generation != generation)
+        {
+            throw new InvalidOperationException($"Slot {slotIndex} is not occupied.");
+        }
+
+        return ref slot.value;
     }
 
     public void Clear()

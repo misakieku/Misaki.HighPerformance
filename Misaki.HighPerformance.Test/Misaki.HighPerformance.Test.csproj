@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Misaki.HighPerformance\Misaki.HighPerformance.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UnitTest\" />
-  </ItemGroup>
-
 </Project>
