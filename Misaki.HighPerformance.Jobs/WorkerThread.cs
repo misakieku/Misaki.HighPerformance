@@ -29,23 +29,67 @@ internal class WorkerThread : IDisposable
 
     public void Start() => _thread.Start();
 
+    private JobHandle FindJob()
+    {
+        var handle = JobHandle.Invalid;
+        if (_localQueue.TryDequeue(out handle)
+            || _scheduler.TryStealJob(-1, out handle))
+        {
+            return handle;
+        }
+
+        while (true)
+        {
+            var randomIndex = _random.Next(0, _scheduler.WorkerCount);
+            if (_scheduler.TryStealJob(randomIndex, out handle))
+            {
+                return handle;
+            }
+        }
+    }
+
     private unsafe void WorkLoop()
     {
         while (!_scheduler.IsCancellationRequested)
         {
-            var handle = JobHandle.Invalid;
-
-            // Always try the local thread and main thread queue first.
-            if (!_localQueue.TryDequeue(out handle)
-                && !_scheduler.TryStealJob(-1, out handle))
+            var spinner = new SpinWait();
+            for (var i = 0; i < 25; i++)
             {
-                var randomIndex = _random.Next(0, _scheduler.WorkerCount);
-                if (_scheduler.TryStealJob(randomIndex, out var tempHandle))
+                spinner.SpinOnce(-1);
+
+                if (_scheduler.HasWork())
                 {
-                    handle = tempHandle;
+                    // Instead of goto, we still need to go through the WaitForWork to claim a release.
+                    // This causes lock and lots of branches inside the SemaphoreSlim, which lost 0.03ms.
+                    // goto DoWork;
+                    break;
                 }
             }
 
+            try
+            {
+                _scheduler.WaitForWork();
+            }
+            catch (OperationCanceledException)
+            {
+                continue;
+            }
+
+            //var handle = JobHandle.Invalid;
+
+            //// Always try the local thread and main thread queue first.
+            //if (!_localQueue.TryDequeue(out handle)
+            //    && !_scheduler.TryStealJob(-1, out handle))
+            //{
+            //    var randomIndex = _random.Next(0, _scheduler.WorkerCount);
+            //    if (_scheduler.TryStealJob(randomIndex, out var tempHandle))
+            //    {
+            //        handle = tempHandle;
+            //    }
+            //}
+
+            //DoWork:
+            var handle = FindJob();
             ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
 
             if (exist)
@@ -59,31 +103,6 @@ internal class WorkerThread : IDisposable
                     _scheduler.MarkJobComplete(handle);
                 }
             }
-            else
-            {
-                var spinner = new SpinWait();
-                for (var i = 0; i < 25; i++)
-                {
-                    spinner.SpinOnce(-1);
-
-                    if (_scheduler.HasWork())
-                    {
-                        goto FoundWork;
-                    }
-                }
-
-                try
-                {
-                    _scheduler.WaitForWork();
-                }
-                catch (OperationCanceledException)
-                {
-                    continue;
-                }
-            }
-
-        FoundWork:
-            ;
         }
     }
 

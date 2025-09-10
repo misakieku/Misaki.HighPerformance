@@ -66,122 +66,6 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         }
     }
 
-    public struct ParallelWriter
-    {
-        private UnsafeSparseSet<T>* _sparseSet;
-
-        internal ParallelWriter(UnsafeSparseSet<T>* sparseSet)
-        {
-            _sparseSet = sparseSet;
-        }
-
-        /// <summary>
-        /// Adds a value to the sparse set without resizing the internal arrays.
-        /// </summary>
-        /// <param name="value">The value to add to the sparse set.</param>
-        /// <returns> Returns the sparse index assigned to the value. -1 if the sparse index is out of bounds.</returns>
-        public int AddNoResize(T value)
-        {
-            int sparseIndex;
-
-            if (_sparseSet->_freeCount > 0)
-            {
-                var index = Interlocked.Decrement(ref _sparseSet->_freeCount);
-                sparseIndex = _sparseSet->_freeList[index];
-            }
-            else
-            {
-                sparseIndex = Interlocked.Increment(ref _sparseSet->_nextId) - 1;
-            }
-
-            if (sparseIndex >= _sparseSet->_sparse.Count)
-            {
-                return -1;
-            }
-
-            var count = Interlocked.Increment(ref _sparseSet->_count) - 1;
-
-            _sparseSet->_dense[count] = value;
-            _sparseSet->_sparse[sparseIndex] = count;
-            _sparseSet->_reverse[count] = sparseIndex;
-
-
-            return sparseIndex;
-        }
-
-        /// <summary>
-        /// Attempts to add a value at the specified sparse index without resizing the underlying collection.
-        /// </summary>
-        /// <param name="sparseIndex">The index in the sparse array where the value should be added. Must be within the valid range of the sparse
-        /// array.</param>
-        /// <param name="value">The value to add to the collection.</param>
-        /// <returns><see langword="true"/> if the value was successfully added at the specified index; otherwise, <see
-        /// langword="false"/>.</returns>
-        public bool AddAtNoResize(int sparseIndex, T value)
-        {
-            if (sparseIndex < 0 || sparseIndex >= _sparseSet->_sparse.Count)
-            {
-                return false;
-            }
-
-            if (_sparseSet->Contains(sparseIndex))
-            {
-                return false;
-            }
-
-            if (_sparseSet->_count >= _sparseSet->_dense.Count)
-            {
-                return false;
-            }
-
-            var count = Interlocked.Increment(ref _sparseSet->_count) - 1;
-
-            _sparseSet->_dense[count] = value;
-            _sparseSet->_sparse[sparseIndex] = count;
-            _sparseSet->_reverse[count] = sparseIndex;
-
-            return true;
-        }
-
-        /// <summary>
-        /// Removes a value at the specified sparse index without resizing the internal arrays.
-        /// </summary>
-        /// <param name="sparseIndex">The sparse index of the value to remove.</param>
-        /// <returns>Returns <see langword="true"/> if the value was successfully removed; otherwise, <see langword="false"/>.</returns>
-        public bool RemoveNoResize(int sparseIndex)
-        {
-            if (!_sparseSet->Contains(sparseIndex))
-            {
-                return false;
-            }
-
-            var denseIndex = _sparseSet->_sparse[sparseIndex];
-            var lastIndex = _sparseSet->_count - 1;
-
-            if (denseIndex != lastIndex)
-            {
-                var lastValue = _sparseSet->_dense[lastIndex];
-                var lastSparseIndex = _sparseSet->_reverse[lastIndex];
-                _sparseSet->_dense[denseIndex] = lastValue;
-                _sparseSet->_reverse[denseIndex] = lastSparseIndex;
-                _sparseSet->_sparse[lastSparseIndex] = denseIndex;
-            }
-
-            _sparseSet->_sparse[sparseIndex] = -1;
-            if (_sparseSet->_freeCount >= _sparseSet->_freeList.Count)
-            {
-                return false;
-            }
-
-            _sparseSet->_freeList[_sparseSet->_freeCount] = sparseIndex;
-
-            Interlocked.Increment(ref _sparseSet->_freeCount);
-            Interlocked.Decrement(ref _sparseSet->_count);
-
-            return true;
-        }
-    }
-
     private UnsafeArray<T> _dense;
     private UnsafeArray<int> _sparse;
     private UnsafeArray<int> _reverse; // Maps dense index to sparse index
@@ -193,12 +77,6 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     public readonly int Count => _count;
     public readonly int Capacity => _dense.Count;
     public readonly bool IsCreated => _dense.IsCreated && _sparse.IsCreated && _reverse.IsCreated && _freeList.IsCreated;
-
-    public readonly ref T this[int index]
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => ref _dense[index];
-    }
 
     public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeSparseSet<T>*)UnsafeUtilities.AddressOf(ref this));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

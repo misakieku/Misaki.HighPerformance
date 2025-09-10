@@ -6,6 +6,15 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
+/// <summary>
+/// Provides a mechanism for scheduling and executing jobs across multiple worker threads.
+/// </summary>
+/// <remarks>The <see cref="JobScheduler"/> class is designed to manage the execution of jobs, including support
+/// for dependencies, parallel execution, and thread-specific job assignment. It allows developers to schedule jobs that
+/// implement the <see cref="IJob"/> or <see cref="IJobParallelFor"/> interfaces, and it ensures efficient utilization
+/// of worker threads through job batching and work-stealing mechanisms.  This class is thread-safe and can be used in
+/// multi-threaded environments. However, it must be disposed when no longer needed to release resources and terminate
+/// worker threads.</remarks>
 public unsafe sealed class JobScheduler : IDisposable
 {
     private FreeList _jobDataAllocator;
@@ -23,6 +32,10 @@ public unsafe sealed class JobScheduler : IDisposable
 
     internal bool IsCancellationRequested => _cts.IsCancellationRequested;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="JobScheduler"/> class with the specified number of worker threads.
+    /// </summary>
+    /// <param name="threadCount">The number of worker threads to create. If less than 1, at least one thread will be created.</param>
     public JobScheduler(int threadCount)
     {
         _jobDataAllocator = new(8);
@@ -333,7 +346,7 @@ public unsafe sealed class JobScheduler : IDisposable
     /// </summary>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> instances representing the dependencies to combine.</param>
     /// <returns>A <see cref="JobHandle"/> that represents the combined dependencies. The returned handle can be used to ensure
-    /// that all specified dependencies are completed before proceeding.</returns>
+    ///     that all specified dependencies are completed before proceeding.</returns>
     public JobHandle CombineDependencies(params ReadOnlySpan<JobHandle> dependencies)
     {
         var jobInfo = new JobInfo
@@ -348,6 +361,28 @@ public unsafe sealed class JobScheduler : IDisposable
         };
 
         return CreateJobHandle(ref jobInfo, dependencies);
+    }
+
+    /// <summary>
+    /// Retrieves the current status of a job identified by the specified handle.
+    /// </summary>
+    /// <param name="handle">The handle representing the job whose status is to be retrieved. The handle must be valid.</param>
+    /// <returns>The current status of the job as a <see cref="JobStatus"/> value.
+    ///     Returns <see cref="JobStatus.Invalid"/> if the handle is invalid or the job does not exist.</returns>
+    public JobStatus GetJobStatus(JobHandle handle)
+    {
+        if (!handle.IsValid)
+        {
+            return JobStatus.Invalid;
+        }
+
+        ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle._id, handle._generation, out var exist);
+        if (!exist)
+        {
+            return JobStatus.Invalid;
+        }
+
+        return (JobStatus)Volatile.Read(ref Unsafe.As<JobStatus, int>(ref jobInfo.status));
     }
 
     /// <summary>

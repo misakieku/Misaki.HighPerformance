@@ -6,25 +6,6 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 /// <summary>
 /// A lock-free, thread-safe variable-size allocator that manages memory blocks of different sizes.
 /// Optimized for high-performance scenarios with frequent allocations and deallocations.
-/// 
-/// Example usage:
-/// <code>
-/// // Create a free list with multiple size buckets
-/// var freeList = new FreeList();
-/// 
-/// // Allocate a 70-byte block
-/// var block = freeList.Allocate(70);
-/// if (block.IsValid)
-/// {
-///     // Use the memory block...
-///     
-///     // Free the block when done
-///     freeList.Free(block);
-/// }
-/// 
-/// // Dispose when finished
-/// freeList.Dispose();
-/// </code>
 /// </summary>
 [StructLayout(LayoutKind.Explicit, Size = 256)] // Cache line aligned to prevent false sharing
 public unsafe struct FreeList : IDisposable
@@ -476,10 +457,6 @@ public unsafe struct FreeList : IDisposable
         }
     }
 
-    /// <summary>
-    /// Disposes the free list and frees all allocated memory.
-    /// Note: This method is NOT thread-safe by design as requested.
-    /// </summary>
     public void Dispose()
     {
         if (Interlocked.CompareExchange(ref _disposed, 1, 0) == 0)

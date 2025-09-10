@@ -51,7 +51,6 @@ public readonly unsafe struct AllocationInfo
 /// </summary>
 public static unsafe class AllocationManager
 {
-
     private unsafe struct ArenaAllocator : IAllocator, IDisposable
     {
         private DynamicArena _arena;

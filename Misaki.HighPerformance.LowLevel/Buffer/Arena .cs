@@ -49,15 +49,6 @@ public unsafe struct Arena : IDisposable
             throw new ObjectDisposedException(nameof(DynamicArena));
         }
 
-        //var offset = _offset + alignment - 1 & ~(alignment - 1);
-        //if (offset + size > _size)
-        //{
-        //    return null;
-        //}
-
-        //_offset = offset + size;
-        //var ptr = _buffer + offset;
-
         nuint currentOffset, newOffset, alignedOffset;
 
         do

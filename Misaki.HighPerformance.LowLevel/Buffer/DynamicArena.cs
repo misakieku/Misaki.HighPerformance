@@ -90,22 +90,6 @@ public unsafe struct DynamicArena : IDisposable
             // Release the spinlock
             Interlocked.Exchange(ref _nodeCreationLock, 0);
         }
-
-        //var newNode = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
-        //try
-        //{
-        //    newNode->arena = new Arena(size);
-        //    newNode->next = null;
-
-        //    _current->next = newNode;
-        //    _current = newNode;
-        //    return true;
-        //}
-        //catch
-        //{
-        //    Free(newNode);
-        //    return false;
-        //}
     }
 
     /// <summary>
@@ -162,9 +146,6 @@ public unsafe struct DynamicArena : IDisposable
         _current = _root;
     }
 
-    /// <summary>
-    /// Disposes all arenas and frees associated memory.
-    /// </summary>
     public void Dispose()
     {
         if (_root == null)
