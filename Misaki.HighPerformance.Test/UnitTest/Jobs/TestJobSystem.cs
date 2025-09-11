@@ -75,7 +75,7 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var handle1 = _jobScheduler.Schedule(ref job1, -1);
+        var handle1 = _jobScheduler.Schedule(ref job1);
         _jobScheduler.WaitComplete(handle1);
 
         var job2 = new AddJob
@@ -84,7 +84,7 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var handle2 = _jobScheduler.Schedule(ref job2, -1, handle1);
+        var handle2 = _jobScheduler.Schedule(ref job2, handle1);
         _jobScheduler.WaitComplete(handle2);
 
         Assert.AreEqual(8.0f, *result);
@@ -101,7 +101,7 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var handle1 = _jobScheduler.Schedule(ref job1, -1);
+        var handle1 = _jobScheduler.Schedule(ref job1);
 
         var job2 = new AddJob
         {
@@ -109,7 +109,7 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var handle2 = _jobScheduler.Schedule(ref job2, -1, handle1);
+        var handle2 = _jobScheduler.Schedule(ref job2, handle1);
 
         var job3 = new AddJob
         {
@@ -118,7 +118,7 @@ public unsafe class TestJobSystem
         };
 
         var combinedHandle = _jobScheduler.CombineDependencies(handle1, handle2);
-        var handle3 = _jobScheduler.Schedule(ref job3, -1, combinedHandle);
+        var handle3 = _jobScheduler.Schedule(ref job3, combinedHandle);
 
         _jobScheduler.WaitComplete(handle3);
 
@@ -137,7 +137,7 @@ public unsafe class TestJobSystem
             inout = result
         };
 
-        var handle = _jobScheduler.ScheduleParallel(ref job, size, 64, -1, JobHandle.Invalid);
+        var handle = _jobScheduler.ScheduleParallel(ref job, size, 64);
         _jobScheduler.WaitComplete(handle);
 
         Assert.AreEqual(1.0f, result[500]);
@@ -189,13 +189,66 @@ public unsafe class TestJobSystem
             output = result
         };
 
-        var handle1 = _jobScheduler.ScheduleParallel(ref addJob, arraySize, 64, -1, JobHandle.Invalid);
-        var handle2 = _jobScheduler.ScheduleParallel(ref multiplyJob, arraySize, 64, -1, handle1);
-        var handle3 = _jobScheduler.Schedule(ref sumJob, -1, handle2);
+        var handle1 = _jobScheduler.ScheduleParallel(ref addJob, arraySize, 64);
+        var handle2 = _jobScheduler.ScheduleParallel(ref multiplyJob, arraySize, 64);
+        var handle3 = _jobScheduler.Schedule(ref sumJob, handle2);
 
         _jobScheduler.WaitComplete(handle3);
 
         var expected = ComputeExpectedSum(arraySize);
         Assert.AreEqual(expected, *result, 0.01f);
+    }
+
+    [TestMethod]
+    public void WaitAll()
+    {
+        var result1 = stackalloc float[1];
+        var result2 = stackalloc float[1];
+
+        var job1 = new AddJob
+        {
+            value = 1.0f,
+            result = result1
+        };
+
+        var job2 = new AddJob
+        {
+            value = 1.0f,
+            result = result2
+        };
+
+        var handle1 = _jobScheduler.Schedule(ref job1);
+        var handle2 = _jobScheduler.Schedule(ref job2);
+
+        _jobScheduler.WaitAll(handle1, handle2);
+
+        Assert.AreEqual(JobState.Completed, _jobScheduler.GetJobStatus(handle1));
+        Assert.AreEqual(JobState.Completed, _jobScheduler.GetJobStatus(handle2));
+    }
+
+    [TestMethod]
+    public void WaitAny()
+    {
+        var result1 = stackalloc float[1];
+        var result2 = stackalloc float[1];
+
+        var job1 = new AddJob
+        {
+            value = 1.0f,
+            result = result1
+        };
+
+        var job2 = new AddJob
+        {
+            value = 1.0f,
+            result = result2
+        };
+
+        var handle1 = _jobScheduler.Schedule(ref job1);
+        var handle2 = _jobScheduler.Schedule(ref job2);
+
+        var completedHandle = _jobScheduler.WaitAny(handle1, handle2);
+
+        Assert.AreEqual(JobState.Completed, _jobScheduler.GetJobStatus(completedHandle));
     }
 }

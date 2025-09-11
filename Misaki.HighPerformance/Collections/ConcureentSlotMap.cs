@@ -7,6 +7,13 @@ namespace Misaki.HighPerformance.Collections;
 
 public class ConcurrentSlotMap<T> : IEnumerable<T>
 {
+    private struct SlotEntry
+    {
+        public T? value;
+        public int generation;
+        public int isValid;
+    }
+
     public struct Enumerator : IEnumerator<T>
     {
         private readonly ConcurrentSlotMap<T> _slotMap;
@@ -39,21 +46,6 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
 
         public void Dispose()
         {
-        }
-    }
-
-    // Lock-free slot using separate fields for atomic operations
-    private struct SlotEntry
-    {
-        public T? value;
-        public int generation;
-        public int isValid;
-
-        public SlotEntry()
-        {
-            value = default;
-            generation = 0;
-            isValid = 0;
         }
     }
 
@@ -213,6 +205,29 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         }
 
         return false; // Another thread already removed it
+    }
+
+    public bool Contain(int slotIndex, int generation)
+    {
+        if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
+        {
+            return false;
+        }
+
+        ref var slot = ref _data[slotIndex];
+
+        var currentGeneration = Volatile.Read(ref slot.generation);
+        var isValid = Volatile.Read(ref slot.isValid) == 1;
+
+        if (isValid && currentGeneration == generation)
+        {
+            if (Volatile.Read(ref slot.isValid) == 1 && Volatile.Read(ref slot.generation) == generation)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool TryGetElement(int slotIndex, int generation, [MaybeNullWhen(false)] out T value)

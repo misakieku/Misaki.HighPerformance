@@ -7,7 +7,7 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Title>$(AssemblyName)</Title>
     <Authors>Misaki</Authors>
-		<IsPackable>false</IsPackable>
+		<IsPackable>True</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

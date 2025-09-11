@@ -17,6 +17,12 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
+    private struct SlotEntry
+    {
+        public T value;
+        public int generation;
+    }
+
     public struct Enumerator : IEnumerator<T>
     {
         private UnsafeSparseSet<T>* _collection;
@@ -34,10 +40,14 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         public bool MoveNext()
         {
             _index++;
-            if (_index < _collection->_count)
+            if (_index < _collection->_sparse.Count)
             {
-                _value = UnsafeUtilities.ReadArrayElement<T>(_collection->_dense.GetUnsafePtr(), _index);
-                return true;
+                var index = _collection->_sparse[_index];
+                if (index >= 0 && index < _collection->_count)
+                {
+                    _value = _collection->_dense[index].value;
+                    return true;
+                }
             }
 
             _value = default;
@@ -66,7 +76,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         }
     }
 
-    private UnsafeArray<T> _dense;
+    private UnsafeArray<SlotEntry> _dense;
     private UnsafeArray<int> _sparse;
     private UnsafeArray<int> _reverse; // Maps dense index to sparse index
     private UnsafeArray<int> _freeList; // Stack of available sparse indices
@@ -103,7 +113,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
             throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
         }
 
-        _dense = new UnsafeArray<T>(capacity, ref handle, allocationOption);
+        _dense = new UnsafeArray<SlotEntry>(capacity, ref handle, allocationOption);
         _sparse = new UnsafeArray<int>(capacity, ref handle, allocationOption);
         _reverse = new UnsafeArray<int>(capacity, ref handle, allocationOption);
         _freeList = new UnsafeArray<int>(capacity, ref handle, allocationOption);
@@ -130,8 +140,9 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// Adds a value to the sparse set and returns a unique sparse index for the value.
     /// </summary>
     /// <param name="value">The value to add to the sparse set.</param>
+    /// <param name="generation">Outputs the generation number associated with the added value.</param>
     /// <returns>A unique sparse index that can be used to reference this value.</returns>
-    public int Add(T value)
+    public int Add(T value, out int generation)
     {
         int sparseIndex;
 
@@ -162,68 +173,27 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         }
 
         // Add the value to the dense array and update mappings
-        _dense[_count] = value;
+        ref var entry = ref _dense[_count];
+        entry.value = value;
+
         _sparse[sparseIndex] = _count;
         _reverse[_count] = sparseIndex;
         _count++;
 
+        generation = entry.generation;
+
         return sparseIndex;
-    }
-
-    /// <summary>
-    /// Adds a value to the sparse set at the specified sparse index.
-    /// This method is provided for compatibility when you need to specify the exact sparse index.
-    /// </summary>
-    /// <param name="sparseIndex">The index in the sparse array where the value should be mapped.</param>
-    /// <param name="value">The value to add to the sparse set.</param>
-    /// <returns>True if the value was added, false if the sparse index is already occupied.</returns>
-    public bool AddAt(int sparseIndex, T value)
-    {
-        if (sparseIndex < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(sparseIndex), "Sparse index must be non-negative.");
-        }
-
-        if (sparseIndex >= _sparse.Count)
-        {
-            ResizeSparse(sparseIndex + 1);
-        }
-
-        if (Contains(sparseIndex))
-        {
-            return false;
-        }
-
-        if (_count >= _dense.Count)
-        {
-            var newCapacity = _dense.Count + Math.Max(1, _dense.Count / 2);
-            _dense.Resize(newCapacity);
-            _reverse.Resize(newCapacity);
-        }
-
-        // Add the value to the dense array and update mappings
-        _dense[_count] = value;
-        _sparse[sparseIndex] = _count;
-        _reverse[_count] = sparseIndex; // Store reverse mapping
-        _count++;
-
-        // Update _nextId if we're using a higher ID
-        if (sparseIndex >= _nextId)
-        {
-            _nextId = sparseIndex + 1;
-        }
-
-        return true;
     }
 
     /// <summary>
     /// Removes the value at the specified sparse index.
     /// </summary>
     /// <param name="sparseIndex">The sparse index of the value to remove.</param>
+    /// <param name="generation">The generation number associated with the sparse index to validate.</param>
     /// <returns>True if the value was removed, false if the sparse index was not found.</returns>
-    public bool Remove(int sparseIndex)
+    public bool Remove(int sparseIndex, int generation)
     {
-        if (!Contains(sparseIndex))
+        if (!Contains(sparseIndex, generation))
         {
             return false;
         }
@@ -246,12 +216,14 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 
         // Mark the sparse index as unused and add to free list
         _sparse[sparseIndex] = -1;
+        _dense[lastIndex].generation++; // Increment generation to invalidate old references
 
         // Add the freed sparse index to the free list for reuse
         if (_freeCount >= _freeList.Count)
         {
             _freeList.Resize(_freeList.Count + Math.Max(1, _freeList.Count / 2));
         }
+
         _freeList[_freeCount] = sparseIndex;
         _freeCount++;
 
@@ -264,9 +236,10 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// Checks if the sparse set contains a value at the specified sparse index.
     /// </summary>
     /// <param name="sparseIndex">The sparse index to check.</param>
+    /// <param name="generation">The generation number to validate against the stored generation.</param>
     /// <returns>True if the sparse index is valid and contains a value, false otherwise.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public readonly bool Contains(int sparseIndex)
+    public readonly bool Contains(int sparseIndex, int generation)
     {
         if (sparseIndex < 0 || sparseIndex >= _sparse.Count)
         {
@@ -274,21 +247,24 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         }
 
         var denseIndex = _sparse[sparseIndex];
-        return denseIndex >= 0 && denseIndex < _count;
+        return denseIndex >= 0 && denseIndex < _count && _dense[denseIndex].generation == generation;
     }
 
     /// <summary>
-    /// Gets the value at the specified sparse index.
+    /// Gets the value at the specified sparse index and generation.
     /// </summary>
     /// <param name="sparseIndex">The sparse index to retrieve the value from.</param>
+    /// <param name="generation">The generation number to validate against the stored generation.</param>
     /// <param name="value">When this method returns, contains the value at the specified sparse index, if found.</param>
     /// <returns>True if the sparse index contains a value, false otherwise.</returns>
-    public readonly bool TryGetValue(int sparseIndex, out T value)
+    public readonly bool TryGetValue(int sparseIndex, int generation, out T value)
     {
-        if (Contains(sparseIndex))
+        if (Contains(sparseIndex, generation))
         {
             var denseIndex = _sparse[sparseIndex];
-            value = _dense[denseIndex];
+            ref var entry = ref _dense[denseIndex];
+
+            value = entry.value;
             return true;
         }
 
@@ -297,40 +273,71 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Gets the value at the specified sparse index.
+    /// Gets the value at the specified sparse index and generation.
     /// </summary>
     /// <param name="sparseIndex">The sparse index to retrieve the value from.</param>
+    /// <param name="generation">The generation number to validate against the stored generation.</param>
     /// <returns>The value at the specified sparse index.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the sparse index is not found.</exception>
-    public readonly T GetValue(int sparseIndex)
+    public readonly T GetValue(int sparseIndex, int generation)
     {
-        if (!Contains(sparseIndex))
+        if (!Contains(sparseIndex, generation))
         {
-            throw new ArgumentOutOfRangeException(nameof(sparseIndex), "Sparse index not found in the set.");
+            throw new ArgumentOutOfRangeException(nameof(sparseIndex), "Sparse index and feneration not found in the set.");
         }
 
         var denseIndex = _sparse[sparseIndex];
-        return _dense[denseIndex];
+        ref var entry = ref _dense[denseIndex];
+
+        return entry.value;
+    }
+
+    /// <summary>
+    /// Gets reference of the value at the specified sparse index and generation.
+    /// </summary>
+    /// <param name="sparseIndex">The sparse index to retrieve the value from.</param>
+    /// <param name="generation">The generation number to validate against the stored generation.</param>
+    /// <param name="exist">Outputs whether the sparse index exists in the set.</param>
+    /// <returns>Reference of the value at the specified sparse index.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the sparse index is not found.</exception>
+    public readonly ref T GetValueReference(int sparseIndex, int generation, out bool exist)
+    {
+        if (!Contains(sparseIndex, generation))
+        {
+            exist = false;
+            return ref Unsafe.NullRef<T>();
+        }
+
+        var denseIndex = _sparse[sparseIndex];
+        ref var entry = ref _dense[denseIndex];
+
+        exist = true;
+
+        return ref entry.value;
     }
 
     /// <summary>
     /// Updates the value at the specified sparse index.
     /// </summary>
     /// <param name="sparseIndex">The sparse index of the value to update.</param>
+    /// <param name="generation">The generation number to validate against the stored generation.</param>
     /// <param name="value">The new value.</param>
     /// <returns>True if the value was updated, false if the sparse index was not found.</returns>
-    public bool SetValue(int sparseIndex, T value)
+    public bool SetValue(int sparseIndex, int generation, T value)
     {
-        if (!Contains(sparseIndex))
+        if (!Contains(sparseIndex, generation))
         {
             return false;
         }
 
         var denseIndex = _sparse[sparseIndex];
-        _dense[denseIndex] = value;
+        ref var entry = ref _dense[denseIndex];
+        entry.value = value;
+
         return true;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void ResizeSparse(int newSize)
     {
         var oldSize = _sparse.Count;

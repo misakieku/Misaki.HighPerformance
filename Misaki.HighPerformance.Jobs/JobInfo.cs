@@ -6,7 +6,7 @@
 public enum JobState
 {
     /// <summary>
-    /// The job is in an invalid state, indicating an error or uninitialized state. Or already finished the execution and cleaned up by the system.
+    /// The job is in an invalid state, indicating an error or uninitialized state.
     /// </summary>
     Invalid = -1,
     /// <summary>

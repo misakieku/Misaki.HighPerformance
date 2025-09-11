@@ -126,6 +126,23 @@ public class SlotMap<T> : IEnumerable<T>
         return true;
     }
 
+    public bool Contain(int slotIndex, int generation)
+    {
+        if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
+        {
+            return false;
+        }
+
+        ref var slot = ref _data[slotIndex];
+
+        if (slot.isValid && slot.generation == generation)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public ref T GetElementAt(int slotIndex, int generation)
     {
         if (slotIndex < 0 || slotIndex >= _capacity)

@@ -76,10 +76,12 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
+#if DISABLE_COLLECTION_CHECKS
             if (index < 0 || index >= _count)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
             }
+#endif
 
             return ref UnsafeUtilities.ReadArrayElementRef<T>(_buffer, index);
         }
@@ -90,10 +92,12 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
+#if DISABLE_COLLECTION_CHECKS
             if (index >= _count)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
             }
+#endif
 
             return ref UnsafeUtilities.ReadArrayElementRef<T>(_buffer, index);
         }
