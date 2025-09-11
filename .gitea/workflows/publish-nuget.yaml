@@ -3,7 +3,7 @@ name: Publish NuGet Packages
 on:
   push:
     tags:
-      - 'v*.*.*'   # Trigger only on semantic version tags
+      - 'v*'   # Trigger only on semantic version tags
 
 jobs:
   publish:
