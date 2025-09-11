@@ -71,7 +71,7 @@ public unsafe sealed class JobScheduler : IDisposable
 
         if (exist && Volatile.Read(ref jobInfo.dependencyCount) == 0)
         {
-            if (Interlocked.CompareExchange(ref jobInfo.status, JobStatus.Scheduled, JobStatus.Created) != JobStatus.Created)
+            if (Interlocked.CompareExchange(ref jobInfo.state, JobState.Scheduled, JobState.Created) != JobState.Created)
             {
                 return;
             }
@@ -117,7 +117,7 @@ public unsafe sealed class JobScheduler : IDisposable
             lock (_lock)
             {
                 ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(dependency._id, dependency._generation, out var exist);
-                if (!exist || Volatile.Read(ref Unsafe.As<JobStatus, int>(ref depJobInfo.status)) == (int)JobStatus.Completed)
+                if (!exist || Volatile.Read(ref Unsafe.As<JobState, int>(ref depJobInfo.state)) == (int)JobState.Completed)
                 {
                     continue;
                 }
@@ -197,7 +197,7 @@ public unsafe sealed class JobScheduler : IDisposable
             return;
         }
 
-        if (Interlocked.CompareExchange(ref info.status, JobStatus.Completed, JobStatus.Running) != JobStatus.Running)
+        if (Interlocked.CompareExchange(ref info.state, JobState.Completed, JobState.Running) != JobState.Running)
         {
             return;
         }
@@ -256,7 +256,7 @@ public unsafe sealed class JobScheduler : IDisposable
         var jobInfo = new JobInfo
         {
             pJobData = jobData,
-            executeDelegate = &JobExecutor.Execute<T>,
+            pExecutionFunc = &JobExecutor.Execute<T>,
 
             remainingBatches = 1,
             threadIndex = threadIndex,
@@ -311,7 +311,7 @@ public unsafe sealed class JobScheduler : IDisposable
         var jobInfo = new JobInfo
         {
             pJobData = jobData,
-            executeDelegate = &JobExecutor.ExecuteParallel<T>,
+            pExecutionFunc = &JobExecutor.ExecuteParallel<T>,
 
             remainingBatches = totalBatches,
             threadIndex = threadIndex,
@@ -352,7 +352,7 @@ public unsafe sealed class JobScheduler : IDisposable
         var jobInfo = new JobInfo
         {
             pJobData = null,
-            executeDelegate = null,
+            pExecutionFunc = null,
 
             remainingBatches = 1,
             threadIndex = -1,
@@ -367,22 +367,22 @@ public unsafe sealed class JobScheduler : IDisposable
     /// Retrieves the current status of a job identified by the specified handle.
     /// </summary>
     /// <param name="handle">The handle representing the job whose status is to be retrieved. The handle must be valid.</param>
-    /// <returns>The current status of the job as a <see cref="JobStatus"/> value.
-    ///     Returns <see cref="JobStatus.Invalid"/> if the handle is invalid or the job does not exist.</returns>
-    public JobStatus GetJobStatus(JobHandle handle)
+    /// <returns>The current status of the job as a <see cref="JobState"/> value.
+    ///     Returns <see cref="JobState.Invalid"/> if the handle is invalid or the job does not exist.</returns>
+    public JobState GetJobStatus(JobHandle handle)
     {
         if (!handle.IsValid)
         {
-            return JobStatus.Invalid;
+            return JobState.Invalid;
         }
 
         ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle._id, handle._generation, out var exist);
         if (!exist)
         {
-            return JobStatus.Invalid;
+            return JobState.Invalid;
         }
 
-        return (JobStatus)Volatile.Read(ref Unsafe.As<JobStatus, int>(ref jobInfo.status));
+        return (JobState)Volatile.Read(ref Unsafe.As<JobState, int>(ref jobInfo.state));
     }
 
     /// <summary>
@@ -399,7 +399,7 @@ public unsafe sealed class JobScheduler : IDisposable
         var spin = new SpinWait();
         while (_jobInfoPool.TryGetElement(handle._id, handle._generation, out var jobInfo))
         {
-            if (jobInfo.status == JobStatus.Completed)
+            if (jobInfo.state == JobState.Completed)
             {
                 return;
             }

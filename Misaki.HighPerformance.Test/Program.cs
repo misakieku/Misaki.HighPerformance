@@ -20,27 +20,4 @@
 
 using Misaki.HighPerformance.Test.Benchmark;
 
-//BenchmarkDotNet.Running.BenchmarkRunner.Run<ParallelNoiseBenchmark>();
-
-var benchmark = new ParallelNoiseBenchmark();
-var sw = new System.Diagnostics.Stopwatch();
-
-benchmark.Setup();
-
-for (var i = 0; i < 1024; i++)
-{
-    benchmark.JobSystem();
-}
-
-sw.Start();
-
-for (var i = 0; i < 1024; i++)
-{
-    benchmark.JobSystem();
-}
-
-sw.Stop();
-
-benchmark.Cleanup();
-
-Console.WriteLine($"JobSystem: {sw.Elapsed.TotalMilliseconds / 1024.0} ms");
+BenchmarkDotNet.Running.BenchmarkRunner.Run<MathematicsBenchmark>();

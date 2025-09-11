@@ -1,0 +1,53 @@
+name: Publish NuGet Packages
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'   # Trigger only on semantic version tags
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build all projects
+        run: dotnet build -c Release
+
+      - name: Pack all projects
+        run: |
+          VERSION=$(dotnet msbuild "$projname/$projname.csproj" \
+            -nologo -v:q -t:GetProperty -p:PropertyName=PackageVersion)
+        for projfile in $(find . -name "*.csproj"); do
+            packable=$(dotnet msbuild $projfile -t:GetProperty -p:PropertyName=IsPackable -nologo -v:q)
+            if [ "$packable" = "true" ]; then
+              dotnet pack $proj/$proj.csproj -c Release
+            fi
+          done
+
+      - name: Publish all packages
+        env:
+          NUGET_API_KEY: ${{ secrets.GITEA_TOKEN }}
+        run: |
+          VERSION=$(dotnet msbuild "$projname/$projname.csproj" \
+            -nologo -v:q -t:GetProperty -p:PropertyName=PackageVersion)
+        for projfile in $(find . -name "*.csproj"); do
+            packable=$(dotnet msbuild $projfile -t:GetProperty -p:PropertyName=IsPackable -nologo -v:q)
+            if [ "$packable" = "true" ]; then
+                projname=$(basename $projfile .csproj)
+                dotnet pack $projfile -c Release
+                dotnet nuget push $projname/bin/Release/$projname.$VERSION.nupkg \
+                    --source "https://git.personalnas.com/api/packages/Misaki/nuget/index.json" \
+                    --api-key $NUGET_API_KEY
+            fi
+        done

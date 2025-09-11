@@ -1,6 +1,7 @@
 using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 {
@@ -332,7 +333,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             var asResult = $"As{typeSimpleName}()";
 
             // Add
-            sourceBuilder.AppendLine($@"
+            sourceBuilder.Append($@"
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator +({typeName} lhs, {typeName} rhs)
         {{
@@ -350,7 +351,22 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         public static {typeName} operator +({componentType} lhs, {typeName} rhs)
         {{
             return new {typeName}(lhs) + rhs;
-        }}");
+        }}
+
+#if NET10_0_OR_GREATER
+        // Use scaler here to let JIT handle the simd optimization since we can not do a in-place vectorlization manually.
+        {INLINE_METHOD_ATTRIBUTE}
+        public void operator +=({typeName} other)
+        {{");
+
+            for (var i = 0; i < typeInfo.Row; i++)
+            {
+                sourceBuilder.Append($@"
+                this.{_vectorComponents[i]} += other.{_vectorComponents[i]};");
+            }
+            sourceBuilder.AppendLine($@"
+        }}
+#endif");
 
             // Subtract
             sourceBuilder.AppendLine($@"
@@ -371,7 +387,22 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         public static {typeName} operator -({componentType} lhs, {typeName} rhs)
         {{
             return new {typeName}(lhs) - rhs;
-        }}");
+        }}
+
+#if NET10_0_OR_GREATER
+        // Use scaler here to let JIT handle the simd optimization since we can not do a in-place vectorlization manually.
+        {INLINE_METHOD_ATTRIBUTE}
+        public void operator -=({typeName} other)
+        {{");
+
+            for (var i = 0; i < typeInfo.Row; i++)
+            {
+                sourceBuilder.Append($@"
+                this.{_vectorComponents[i]} -= other.{_vectorComponents[i]};");
+            }
+            sourceBuilder.AppendLine($@"
+        }}
+#endif");
 
             // Multiply
             sourceBuilder.AppendLine($@"
@@ -393,7 +424,22 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         public static {typeName} operator *({componentType} lhs, {typeName} rhs)
         {{
             return new {typeName}(lhs) * rhs;
-        }}");
+        }}
+
+#if NET10_0_OR_GREATER
+        // Use scaler here to let JIT handle the simd optimization since we can not do a in-place vectorlization manually.
+        {INLINE_METHOD_ATTRIBUTE}
+        public void operator *=({typeName} other)
+        {{");
+
+            for (var i = 0; i < typeInfo.Row; i++)
+            {
+                sourceBuilder.Append($@"
+                this.{_vectorComponents[i]} *= other.{_vectorComponents[i]};");
+            }
+            sourceBuilder.AppendLine($@"
+        }}
+#endif");
 
             // Divide
             sourceBuilder.AppendLine($@"
@@ -415,7 +461,22 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         public static {typeName} operator /({componentType} lhs, {typeName} rhs)
         {{
             return new {typeName}(lhs) / rhs;
-        }}");
+        }}
+
+#if NET10_0_OR_GREATER
+        // Use scaler here to let JIT handle the simd optimization since we can not do a in-place vectorlization manually.
+        {INLINE_METHOD_ATTRIBUTE}
+        public void operator /=({typeName} other)
+        {{");
+
+            for (var i = 0; i < typeInfo.Row; i++)
+            {
+                sourceBuilder.Append($@"
+                this.{_vectorComponents[i]} /= other.{_vectorComponents[i]};");
+            }
+            sourceBuilder.AppendLine($@"
+        }}
+#endif");
 
             // Modulus
             sourceBuilder.AppendLine($@"
@@ -435,7 +496,22 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         public static {typeName} operator %({componentType} lhs, {typeName} rhs)
         {{
             return new {typeName}(lhs) % rhs;
-        }}");
+        }}
+
+#if NET10_0_OR_GREATER
+        // Use scaler here to let JIT handle the simd optimization since we can not do a in-place vectorlization manually.
+        {INLINE_METHOD_ATTRIBUTE}
+        public void operator %=({typeName} other)
+        {{");
+
+            for (var i = 0; i < typeInfo.Row; i++)
+            {
+                sourceBuilder.Append($@"
+                this.{_vectorComponents[i]} %= other.{_vectorComponents[i]};");
+            }
+            sourceBuilder.AppendLine($@"
+        }}
+#endif");
 
             // Unary operators
             sourceBuilder.AppendLine($@"
@@ -594,9 +670,18 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}> AsVector{_vectorBitsSize}(this {typeName} value)
         {{");
-            var fullTypeName = $"{typeInfo.TypePrefix}{typeInfo.Row + _missingComponents}";
+
+            if (typeInfo.Row == 4)
+            {
+                sourceBuilder.Append($@"
+            return global::System.Runtime.CompilerServices.Unsafe.BitCast<{typeName}, global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}>>(value);");
+            }
+            else
+            {
+                sourceBuilder.Append($@"
+            return global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Create({string.Join(", ", Enumerable.Range(0, typeInfo.Row + _missingComponents).Select(i => i < typeInfo.Row ? $"value.{_vectorComponents[i]}" : "1"))});");
+            }
             sourceBuilder.Append($@"
-            return global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Create({string.Join(", ", Enumerable.Range(0, typeInfo.Row + _missingComponents).Select(i => i < typeInfo.Row ? $"value.{_vectorComponents[i]}" : "1"))});
         }}
 
         {INLINE_METHOD_ATTRIBUTE}

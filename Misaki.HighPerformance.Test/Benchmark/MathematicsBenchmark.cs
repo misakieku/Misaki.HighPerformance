@@ -6,16 +6,16 @@ namespace Misaki.HighPerformance.Test.Benchmark;
 
 public class MathematicsBenchmark
 {
-    [Params(10, 100)]
+    [Params(10)]
     public int count = 10;
 
-    [Benchmark(Baseline = true)]
+    [Benchmark]
     public void Vector2Add()
     {
         var a = new Vector2(1, 2);
         var b = new Vector2(5, 6);
         var result = new Vector2();
-
+        
         for (var i = 0; i < count; i++)
         {
             result += a + b;
@@ -25,9 +25,35 @@ public class MathematicsBenchmark
     [Benchmark]
     public void Float2Add()
     {
-        var a = new float2(1);
-        var b = new float2(5);
+        var a = new float2(1, 2);
+        var b = new float2(5, 6);
         var result = new float2();
+
+        for (var i = 0; i < count; i++)
+        {
+            result += a + b;
+        }
+    }
+
+    [Benchmark]
+    public void Vector4Add()
+    {
+        var a = new Vector4(1, 2, 3, 4);
+        var b = new Vector4(5, 6, 7, 8);
+        var result = new Vector4();
+
+        for (var i = 0; i < count; i++)
+        {
+            result += a + b;
+        }
+    }
+
+    [Benchmark]
+    public void Float4Add()
+    {
+        var a = new float4(1, 2, 3, 4);
+        var b = new float4(5, 6, 7, 8);
+        var result = new float4();
 
         for (var i = 0; i < count; i++)
         {

@@ -1,11 +1,29 @@
 ﻿namespace Misaki.HighPerformance.Jobs;
 
-public enum JobStatus
+/// <summary>
+/// The state of a job in its lifecycle.
+/// </summary>
+public enum JobState
 {
+    /// <summary>
+    /// The job is in an invalid state, indicating an error or uninitialized state. Or already finished the execution and cleaned up by the system.
+    /// </summary>
     Invalid = -1,
+    /// <summary>
+    /// The job has been created but not yet scheduled for execution.
+    /// </summary>
     Created = 0,
+    /// <summary>
+    /// The job is scheduled and waiting to be executed.
+    /// </summary>
     Scheduled = 1,
+    /// <summary>
+    /// The job is currently being executed.
+    /// </summary>
     Running = 2,
+    /// <summary>
+    /// The job has completed execution.
+    /// </summary>
     Completed = 3
 }
 
@@ -21,9 +39,9 @@ internal unsafe struct JobInfo
     public JobRanges jobRanges;
 
     public void* pJobData;
-    public JobExecuteFunc executeDelegate;
+    public JobExecutionFunc pExecutionFunc;
 
-    public JobStatus status;
+    public JobState state;
     public int remainingBatches;
 
     public int threadIndex; // The preferred thread index to run this job on, -1 means any thread

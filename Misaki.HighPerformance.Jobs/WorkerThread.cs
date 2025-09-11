@@ -75,27 +75,14 @@ internal class WorkerThread : IDisposable
                 continue;
             }
 
-            //var handle = JobHandle.Invalid;
-
-            //// Always try the local thread and main thread queue first.
-            //if (!_localQueue.TryDequeue(out handle)
-            //    && !_scheduler.TryStealJob(-1, out handle))
-            //{
-            //    var randomIndex = _random.Next(0, _scheduler.WorkerCount);
-            //    if (_scheduler.TryStealJob(randomIndex, out var tempHandle))
-            //    {
-            //        handle = tempHandle;
-            //    }
-            //}
-
             //DoWork:
             var handle = FindJob();
             ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
 
             if (exist)
             {
-                Interlocked.CompareExchange(ref jobInfo.status, JobStatus.Running, JobStatus.Scheduled);
-                var executeDelegate = jobInfo.executeDelegate;
+                Interlocked.CompareExchange(ref jobInfo.state, JobState.Running, JobState.Scheduled);
+                var executeDelegate = jobInfo.pExecutionFunc;
 
                 if (executeDelegate == null
                     || executeDelegate(jobInfo.pJobData, ref jobInfo.jobRanges, ref jobInfo.remainingBatches, _index))
