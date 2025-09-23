@@ -3,7 +3,7 @@ using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using System.Runtime.InteropServices;
 
-namespace Misaki.HighPerformance.LowLevel.Helpers;
+namespace Misaki.HighPerformance.LowLevel.Utilities;
 
 /// <summary>
 /// Provides extension methods for copying elements between unsafe collections and spans, converting collections to
@@ -209,6 +209,22 @@ public unsafe static class UnsafeCollectionExtensions
     }
 
     /// <summary>
+    /// Creates a span over a contiguous region of elements in the specified unsafe collection, starting at the given
+    /// index and covering the specified number of elements.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the collection. Must be an unmanaged type.</typeparam>
+    /// <param name="source">The unsafe collection from which to create the span. Must not be null.</param>
+    /// <param name="start">The zero-based index of the first element in the collection to include in the span. Must be greater than or equal to zero and less than the number of elements in the collection.</param>
+    /// <param name="length">The number of elements to include in the span. Must be greater than or equal to zero and the range defined by
+    /// <paramref name="start"/> and <paramref name="length"/> must not exceed the bounds of the collection.</param>
+    /// <returns>A <see cref="Span{T}"/> representing the specified region of the collection.</returns>
+    public static Span<T> AsSpan<T>(this IUnsafeCollection<T> source, int start, int length)
+    where T : unmanaged
+    {
+        return new((T*)source.GetUnsafePtr() + start, length);
+    }
+
+    /// <summary>
     /// Converts an UnTypedCollection into a Span for efficient memory access.
     /// </summary>
     /// <param name="source">The UnTypedCollection instance to be converted into a Span.</param>
@@ -216,6 +232,20 @@ public unsafe static class UnsafeCollectionExtensions
     public static Span<byte> AsSpan(this IUnTypedCollection source)
     {
         return new(source.GetUnsafePtr(), (int)source.Size);
+    }
+
+    /// <summary>
+    /// Creates a span over a contiguous region of elements in the specified unsafe collection, starting at the given
+    /// index and covering the specified number of elements.
+    /// </summary>
+    /// <param name="source">The unsafe collection from which to create the span. Must not be null.</param>
+    /// <param name="start">The zero-based index of the first element in the collection to include in the span. Must be greater than or equal to zero and less than the number of elements in the collection.</param>
+    /// <param name="length">The number of elements to include in the span. Must be greater than or equal to zero and the range defined by
+    /// <paramref name="start"/> and <paramref name="length"/> must not exceed the bounds of the collection.</param>
+    /// <returns>A <see cref="Span{byte}"/> representing the specified region of the collection.</returns>
+    public static Span<byte> AsSpan(this IUnTypedCollection source, int start, int length)
+    {
+        return new((byte*)source.GetUnsafePtr() + start, length);
     }
 
     /// <summary>

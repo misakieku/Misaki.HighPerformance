@@ -3,6 +3,7 @@
 namespace Misaki.HighPerformance.Mathematics;
 
 [NumericType(typeof(bool), sizeof(bool), 2, 1, "global::Misaki.HighPerformance.Mathematics.bool", false, vectorType: typeof(byte))]
+[NumericConvertable("{v}.{c} != 0", typeof(int2), typeof(uint2), typeof(float2), typeof(double2))]
 public partial struct bool2
 {
 }

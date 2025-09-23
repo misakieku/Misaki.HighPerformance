@@ -186,7 +186,12 @@ public unsafe struct FreeList : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void* Allocate(nuint size, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
     {
-        if (_disposed != 0 || size == 0)
+        if (_disposed != 0)
+        {
+            throw new ObjectDisposedException(nameof(FreeList));
+        }
+
+        if (size == 0)
         {
             return null;
         }
@@ -194,6 +199,11 @@ public unsafe struct FreeList : IDisposable
         if (alignment == 0)
         {
             alignment = _alignment;
+        }
+
+        if ((alignment & (alignment - 1)) != 0)
+        {
+            throw new ArgumentException("Alignment must be a power of two.", nameof(alignment));
         }
 
         // Align size to alignment boundary

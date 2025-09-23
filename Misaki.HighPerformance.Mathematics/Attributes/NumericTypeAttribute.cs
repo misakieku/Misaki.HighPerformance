@@ -7,3 +7,11 @@ internal class NumericTypeAttribute : Attribute
     {
     }
 }
+
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = true)]
+internal class NumericConvertableAttribute : Attribute
+{
+    public NumericConvertableAttribute(string template, params Type[] types)
+    {
+    }
+}

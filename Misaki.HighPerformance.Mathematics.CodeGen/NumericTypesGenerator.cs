@@ -10,6 +10,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen
     internal class NumericTypeGenerator : IIncrementalGenerator
     {
         private const string _TARGET_ATTRIBUTE_NAME = "Misaki.HighPerformance.Mathematics.Attributes.NumericTypeAttribute";
+        private const string _CONVERTABLE_ATTRIBUTE_NAME = "Misaki.HighPerformance.Mathematics.Attributes.NumericConvertableAttribute";
 
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
@@ -56,6 +57,9 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen
             var attribute = typeSymbol.GetAttributes()
                 .FirstOrDefault(a => a.AttributeClass?.ToDisplayString() == _TARGET_ATTRIBUTE_NAME);
 
+            var convertableAttributes = typeSymbol.GetAttributes()
+                .Where(a => a.AttributeClass?.ToDisplayString() == _CONVERTABLE_ATTRIBUTE_NAME);
+
             if (attribute == null)
             {
                 return null;
@@ -73,7 +77,23 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen
             var elementType = (INamedTypeSymbol?)attribute.ConstructorArguments[index++].Value;
             var vectorType = (INamedTypeSymbol?)attribute.ConstructorArguments.ElementAtOrDefault(index++).Value;
 
-            return new NumericTypeInfo(typeSymbol, componentType, componentSize, row, column, typePrefix, arithmetic, canInverse, elementType, vectorType);
+            var info = new NumericTypeInfo(typeSymbol, componentType, componentSize, row, column, typePrefix, arithmetic, canInverse, elementType, vectorType);
+
+            if (convertableAttributes != null)
+            {
+                foreach (var convertableAttribute in convertableAttributes)
+                {
+                    var template = (string)convertableAttribute.ConstructorArguments[0].Value!;
+                    var types = convertableAttribute.ConstructorArguments[1].Values
+                        .Select(v => (INamedTypeSymbol)v.Value!)
+                        .ToArray();
+
+                    info.ConvertableTypes??= new();
+                    info.ConvertableTypes[template] = types;
+                }
+            }
+
+            return info;
         }
     }
 }

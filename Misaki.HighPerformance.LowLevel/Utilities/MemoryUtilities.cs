@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Misaki.HighPerformance.LowLevel.Helpers;
+namespace Misaki.HighPerformance.LowLevel.Utilities;
 
 public static unsafe partial class MemoryUtilities
 {

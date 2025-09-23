@@ -3,7 +3,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
 
-namespace Misaki.HighPerformance.LowLevel.Helpers;
+namespace Misaki.HighPerformance.LowLevel.Utilities;
 
 public static unsafe partial class MemoryUtilities
 {

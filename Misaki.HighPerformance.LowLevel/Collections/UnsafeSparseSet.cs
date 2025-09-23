@@ -1,7 +1,7 @@
 ﻿using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
-using Misaki.HighPerformance.LowLevel.Helpers;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -25,7 +25,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 
     public struct Enumerator : IEnumerator<T>
     {
-        private UnsafeSparseSet<T>* _collection;
+        private readonly UnsafeSparseSet<T>* _collection;
         private int _index;
         private T _value;
 

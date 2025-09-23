@@ -77,6 +77,7 @@ public static unsafe class AllocationManager
             var selfPtr = (ArenaAllocator*)instance;
             var newPtr = selfPtr->_arena.Allocate(size, alignment, AllocationOption.None);
             MemCpy(newPtr, ptr, size);
+
             // We do not free the old pointer here, as it is managed by the arena.
             return newPtr;
         }
@@ -129,6 +130,7 @@ public static unsafe class AllocationManager
         {
             var newPtr = AlignedRealloc(ptr, size, alignment);
             UpdateAllocation(ptr, newPtr, size, instance, &FreeBlock);
+
             return newPtr;
         }
 
@@ -139,10 +141,50 @@ public static unsafe class AllocationManager
         }
     }
 
-    private const uint _DEFAULT_ARENA_SIZE = 512 * 1024;
+    private unsafe struct StackAllocator : IAllocator
+    {
+        [ThreadStatic]
+        private static Stack s_stack;
+        private AllocationHandle _handle;
+
+        public readonly ref AllocationHandle Handle => ref Unsafe.AsRef(in _handle);
+
+        public void Init()
+        {
+            _handle = new(Unsafe.AsPointer(ref this), &Allocate, &Reallocate, &FreeBlock);
+        }
+
+        private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption)
+        {
+            var ptr = s_stack.Allocate(size, alignment, allocationOption);
+
+            return ptr;
+        }
+
+        private static void* Reallocate(void* instance, void* ptr, nuint size, nuint alignment)
+        {
+            var newPtr = s_stack.Allocate(size, alignment, AllocationOption.None);
+            MemCpy(newPtr, ptr, size);
+            // We do not free the old pointer here, as it is managed by the stack.
+            return newPtr;
+        }
+
+        private static void FreeBlock(void* instance, void* ptr)
+        {
+            // The stack allocator does not free individual blocks, as it manages memory in a stack-like manner.
+        }
+
+        public static Stack.Scope CreateScope()
+        {
+            return s_stack.CreateScope();
+        }
+    }
+
+    private const uint _DEFAULT_MEMORY_POOL_SIZE = 512 * 1024;
 
     private static readonly ArenaAllocator* s_arenaAllocator;
     private static readonly HeapAllocator* s_persistentAllocator;
+    private static readonly StackAllocator* s_stackAllocator;
 
     private static bool s_debugLayer;
     private static ConcurrentDictionary<nint, AllocationInfo>? s_allocated;
@@ -151,9 +193,11 @@ public static unsafe class AllocationManager
     {
         s_arenaAllocator = (ArenaAllocator*)NativeMemory.Alloc((nuint)sizeof(ArenaAllocator));
         s_persistentAllocator = (HeapAllocator*)NativeMemory.Alloc((nuint)sizeof(HeapAllocator));
+        s_stackAllocator = (StackAllocator*)NativeMemory.Alloc((nuint)sizeof(StackAllocator));
 
-        s_arenaAllocator->Init(_DEFAULT_ARENA_SIZE);
+        s_arenaAllocator->Init(_DEFAULT_MEMORY_POOL_SIZE);
         s_persistentAllocator->Init();
+        s_stackAllocator->Init();
     }
 
     /// <summary>
@@ -181,6 +225,8 @@ public static unsafe class AllocationManager
                 return ref s_arenaAllocator->Handle;
             case Allocator.Persistent:
                 return ref s_persistentAllocator->Handle;
+            case Allocator.Stack:
+                return ref s_stackAllocator->Handle;
             default:
                 throw new ArgumentException("Target allocator type does not support custom allocation.", nameof(allocator));
         }
@@ -264,6 +310,16 @@ public static unsafe class AllocationManager
     }
 
     /// <summary>
+    /// Creates a new thread local stack scope for managing temporary allocations within the current context.
+    /// </summary>
+    /// <returns>A <see cref="Stack.Scope"/> instance representing the newly created stack scope. The scope must be disposed when no longer needed to release allocated resources.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Stack.Scope CreateStackScope()
+    {
+        return StackAllocator.CreateScope();
+    }
+
+    /// <summary>
     /// Disposes of the AllocationManager, freeing all allocated memory and resources.
     /// </summary>
     public static void Dispose()
@@ -289,6 +345,11 @@ public static unsafe class AllocationManager
         {
             s_arenaAllocator->Dispose();
             NativeMemory.Free(s_arenaAllocator);
+        }
+
+        if (s_stackAllocator != null)
+        {
+            NativeMemory.Free(s_stackAllocator);
         }
 
         if (s_persistentAllocator != null)

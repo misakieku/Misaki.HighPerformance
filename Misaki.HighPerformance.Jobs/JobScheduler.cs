@@ -1,6 +1,6 @@
 ﻿using Misaki.HighPerformance.Collections;
 using Misaki.HighPerformance.LowLevel.Buffer;
-using Misaki.HighPerformance.LowLevel.Helpers;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 

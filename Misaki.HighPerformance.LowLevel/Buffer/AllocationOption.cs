@@ -23,11 +23,15 @@ public enum Allocator : byte
     // Make the first allocator as invalid because we don't want to user create a default collection without passing any parameters
     Invalid,
     /// <summary>
-    /// Allocator for temporary allocations. Allocations are cleared after use.
+    /// Allocator for temporary allocations. Allocations are released after use automatically.
     /// </summary>
     Temp,
     /// <summary>
-    /// Allocator for persistent allocations. Allocations are not cleared after use.
+    /// Allocator for persistent allocations. Allocations are not released after use.
     /// </summary>
-    Persistent
+    Persistent,
+    /// <summary>
+    /// Allocator for stack allocations. Must have at least one active stack scope. Allocations are released when the stack scope is exited.
+    /// </summary>
+    Stack
 }

@@ -1,7 +1,7 @@
 ﻿using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
-using Misaki.HighPerformance.LowLevel.Helpers;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -50,6 +50,14 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
 
     public IEnumerator<T> GetEnumerator() => new Enumerator((HashMapHelper<T>*)UnsafeUtilities.AddressOf(ref _hashMap));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    /// <summary>
+    /// Invalid constructor. Use <see cref="UnsafeHashSet(int, Allocator, AllocationOption)"/> or <see cref="UnsafeHashSet(int, ref AllocationHandle, AllocationOption)"/> instead."/>
+    /// </summary>
+    public UnsafeHashSet()
+        : this(0, Allocator.Invalid)
+    {
+    }
 
     public UnsafeHashSet(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {

@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using System.Collections.Generic;
 
 namespace Misaki.HighPerformance.Mathematics.CodeGen.Models
 {
@@ -52,6 +53,12 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Models
         public INamedTypeSymbol? VectorType
         {
             get;
+        }
+
+        public Dictionary<string, INamedTypeSymbol[]>? ConvertableTypes
+        {
+            get;
+            set;
         }
 
         public string TypeName => TypeSymbol.Name;

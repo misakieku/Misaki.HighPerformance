@@ -1,7 +1,8 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
-namespace Misaki.HighPerformance.LowLevel.Collections;
+namespace Misaki.HighPerformance.Collections;
 
 public class SlotMap<T> : IEnumerable<T>
 {
@@ -143,7 +144,26 @@ public class SlotMap<T> : IEnumerable<T>
         return false;
     }
 
-    public ref T GetElementAt(int slotIndex, int generation)
+    public bool TryGetElement(int slotIndex, int generation, [MaybeNullWhen(false)] out T value)
+    {
+        if (slotIndex < 0 || slotIndex >= _capacity)
+        {
+            value = default;
+            return false;
+        }
+
+        ref var slot = ref _data[slotIndex];
+        if (slot.generation != generation)
+        {
+            value = default;
+            return false;
+        }
+
+        value = slot.value;
+        return true;
+    }
+
+    public T GetElementAt(int slotIndex, int generation)
     {
         if (slotIndex < 0 || slotIndex >= _capacity)
         {
@@ -151,12 +171,48 @@ public class SlotMap<T> : IEnumerable<T>
         }
 
         ref var slot = ref _data[slotIndex];
-        if (slot.generation != generation)
+        if (!slot.isValid || slot.generation != generation)
         {
             throw new InvalidOperationException($"Slot {slotIndex} is not occupied.");
         }
 
-        return ref slot.value;
+        return slot.value;
+    }
+
+    public ref T GetElementReferenceAt(int slotIndex, int generation, out bool exist)
+    {
+        if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
+        {
+            exist = false;
+            return ref Unsafe.NullRef<T>();
+        }
+
+        ref var slot = ref _data[slotIndex];
+
+        if (!slot.isValid || slot.generation != generation)
+        {
+            exist = false;
+            return ref Unsafe.NullRef<T>();
+        }
+
+        exist = true;
+        return ref slot.value!;
+    }
+
+    public void UpdateElement(int slotIndex, int generation, T newValue)
+    {
+        if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
+        {
+            throw new ArgumentOutOfRangeException(nameof(slotIndex), "Slot index is out of range.");
+        }
+
+        ref var slot = ref _data[slotIndex];
+        if (!slot.isValid || slot.generation != generation)
+        {
+            throw new InvalidOperationException($"Slot {slotIndex} is not occupied or generation mismatch.");
+        }
+
+        slot.value = newValue;
     }
 
     public void Clear()

@@ -17,11 +17,6 @@ public unsafe struct Arena : IDisposable
 
     public Arena(nuint size)
     {
-        Initialize(size);
-    }
-
-    public void Initialize(nuint size)
-    {
         if (_buffer != null)
         {
             return;
@@ -46,7 +41,17 @@ public unsafe struct Arena : IDisposable
     {
         if (_buffer == null)
         {
-            throw new ObjectDisposedException(nameof(DynamicArena));
+            throw new ObjectDisposedException(nameof(Arena));
+        }
+
+        if (size == 0)
+        {
+            return null;
+        }
+
+        if ((alignment & (alignment - 1)) != 0)
+        {
+            throw new ArgumentException("Alignment must be a power of two.", nameof(alignment));
         }
 
         nuint currentOffset, newOffset, alignedOffset;

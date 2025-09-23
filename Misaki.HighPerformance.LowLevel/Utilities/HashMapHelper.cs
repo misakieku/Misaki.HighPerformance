@@ -4,7 +4,7 @@ using Misaki.HighPerformance.LowLevel.Contracts;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-namespace Misaki.HighPerformance.LowLevel.Helpers;
+namespace Misaki.HighPerformance.LowLevel.Utilities;
 
 public unsafe struct HashMapHelper<TKey> : IDisposable
     where TKey : unmanaged, IEquatable<TKey>
@@ -136,11 +136,23 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int CeilPow2(int x)
+    {
+        x -= 1;
+        x |= x >> 1;
+        x |= x >> 2;
+        x |= x >> 4;
+        x |= x >> 8;
+        x |= x >> 16;
+        return x + 1;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private readonly int CalcCapacityCeilPow2(int capacity)
     {
         capacity = Math.Max(Math.Max(1, _count), capacity);
         var newCapacity = Math.Max(capacity, 1 << _log2MinGrowth);
-        var result = MathUtilities.CeilPow2(newCapacity);
+        var result = CeilPow2(newCapacity);
 
         return result;
     }
@@ -204,7 +216,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     internal void Resize(int newCapacity)
     {
         newCapacity = Math.Max(newCapacity, _count);
-        var newBucketCapacity = MathUtilities.CeilPow2(newCapacity * 2);
+        var newBucketCapacity = CeilPow2(newCapacity * 2);
 
         if (_capacity == newCapacity && _bucketCapacity == newBucketCapacity)
         {

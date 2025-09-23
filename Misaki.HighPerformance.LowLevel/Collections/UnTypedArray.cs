@@ -1,7 +1,7 @@
 ﻿using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
-using Misaki.HighPerformance.LowLevel.Helpers;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -26,7 +26,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     /// Constructs an UnsafeArray with a default size of 1 and uses the Persistent allocator.
     /// </summary>
     public UnTypedArray()
-        : this(1, 1, Allocator.Persistent)
+        : this(0, 8, Allocator.Invalid)
     {
     }
 

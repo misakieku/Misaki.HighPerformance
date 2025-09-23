@@ -1,25 +1,34 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 {
     internal class MatrixGenerator : GeneratorBase
     {
-        private readonly string[] _matrixComponents = new[] { "c0", "c1", "c2", "c3" };
-        private readonly string[] _vectorComponents = new[] { "x", "y", "z", "w" };
+        private readonly List<(string signature, string assignment)> _constructorSignatures = new();
+
+        private string GetConversionFromTemplate(string template, int componentIndex)
+        {
+            return template.Replace("{v}", "v")
+                .Replace("{c}", s_matrixComponents[componentIndex]);
+        }
 
         protected override void GenerateBody()
         {
             GenerateField();
+
             if (typeInfo.Arithmetic)
             {
                 GenerateUnitMatrix();
             }
+
             GenerateConstructors();
             GenerateUnsafeMethod();
             GenerateOverrideMethod();
+
             if (typeInfo.Arithmetic)
             {
                 GenerateArithmeticOperators();
@@ -38,14 +47,24 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             for (var i = 0; i < typeInfo.Column; i++)
             {
                 sourceBuilder.Append($@"
-        public {typeInfo.ComponentTypeFullName} {_matrixComponents[i]};");
+        public {typeInfo.ComponentTypeFullName} {s_matrixComponents[i]};");
             }
 
             sourceBuilder.AppendLine();
             sourceBuilder.AppendLine($@"
-        public unsafe ref {typeInfo.ComponentTypeFullName} this[int index]        {{
+        public unsafe ref {typeInfo.ComponentTypeFullName} this[int index]
+        {{
             {INLINE_METHOD_ATTRIBUTE}
-            get => ref (({typeInfo.ComponentTypeFullName}*)global::System.Runtime.CompilerServices.Unsafe.AsPointer(ref this))[index];
+            get 
+            {{
+#if ENABLE_COLLECTION_CHECKS
+                if (index < 0 || index >= {typeInfo.Column})
+                {{
+                    throw new global::System.ArgumentOutOfRangeException(nameof(index), $""Index {{index}} is out of range of '{typeInfo.TypeName}'"");
+                }}
+#endif
+                return ref (({typeInfo.ComponentTypeFullName}*)global::System.Runtime.CompilerServices.Unsafe.AsPointer(ref this))[index];
+            }}
         }}");
         }
 
@@ -105,28 +124,6 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             }}
         }}");
 
-            sourceBuilder.Append($@"
-        public {typeInfo.TypeName}({typeInfo.ComponentTypeFullName} value)
-        {{");
-            for (var i = 0; i < typeInfo.Column; i++)
-            {
-                sourceBuilder.Append($@"
-            this.{_matrixComponents[i]} = value;");
-            }
-            sourceBuilder.AppendLine(@"
-        }");
-
-            sourceBuilder.Append($@"
-        public {typeInfo.TypeName}({string.Join(", ", Enumerable.Range(0, typeInfo.Column).Select(i => $"{typeInfo.ComponentTypeFullName} c{i}"))})
-        {{");
-            for (var i = 0; i < typeInfo.Column; i++)
-            {
-                sourceBuilder.Append($@"
-            this.{_matrixComponents[i]} = c{i};");
-            }
-            sourceBuilder.Append(@"
-        }");
-
             if (typeInfo.ElementTypeSymbol != null)
             {
                 sourceBuilder.AppendLine($@"
@@ -144,16 +141,9 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             }}
         }}");
 
-                sourceBuilder.Append($@"
-        public {typeInfo.TypeName}({typeInfo.ElementTypeFullName} value)
-        {{");
-                for (var c = 0; c < typeInfo.Column; c++)
-                {
-                    sourceBuilder.Append($@"
-            this.{_matrixComponents[c]} = value;");
-                }
-                sourceBuilder.AppendLine($@"
-        }}");
+                _constructorSignatures.Add((
+                    signature: $"{typeInfo.ElementTypeFullName} value",
+                    assignment: string.Join(", ", Enumerable.Range(0, typeInfo.Column).Select(_ => $"new {typeInfo.ComponentTypeFullName}(value)"))));
 
                 var tempSB = new StringBuilder();
                 for (var r = 0; r < typeInfo.Row; r++)
@@ -168,17 +158,73 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
                     }
                 }
 
-                sourceBuilder.Append($@"
-        public {typeInfo.TypeName}({tempSB})
-        {{");
-                for (var c = 0; c < typeInfo.Column; c++)
+                _constructorSignatures.Add((
+                    signature: tempSB.ToString(),
+                    assignment: string.Join(", ", Enumerable.Range(0, typeInfo.Column).Select(c => $"new {typeInfo.ComponentTypeFullName}({string.Join(", ", Enumerable.Range(0, typeInfo.Row).Select(r => $"m{r}{c}"))})"))));
+            }
+
+            _constructorSignatures.Add((
+                signature: $"{typeInfo.ComponentTypeFullName} value",
+                assignment: string.Join(", ", Enumerable.Range(0, typeInfo.Column).Select(i => "value"))));
+
+            _constructorSignatures.Add((
+                signature: string.Join(", ", Enumerable.Range(0, typeInfo.Column).Select(i => $"{typeInfo.ComponentTypeFullName} c{i}")),
+                assignment: string.Join(", ", Enumerable.Range(0, typeInfo.Column).Select(i => $"c{i}"))));
+
+            if (typeInfo.ConvertableTypes != null)
+            {
+                foreach (var kv in typeInfo.ConvertableTypes)
                 {
-                    sourceBuilder.Append($@"
-            this.{_matrixComponents[c]} = new({string.Join(", ", Enumerable.Range(0, typeInfo.Row).Select(r => $"m{r}{c}"))});");
+                    var targetTemplate = kv.Key;
+                    var targetTypes = kv.Value;
+
+                    var tempSB = new StringBuilder();
+                    foreach (var type in targetTypes)
+                    {
+                        for (var i = 0; i < typeInfo.Column; i++)
+                        {
+                            tempSB.Append(GetConversionFromTemplate(targetTemplate, i));
+                            if (i < typeInfo.Column - 1)
+                            {
+                                tempSB.Append(", ");
+                            }
+                        }
+
+                        _constructorSignatures.Add((
+                            signature: $"{type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)} v",
+                            assignment: tempSB.ToString()));
+
+                        tempSB.Clear();
+                    }
                 }
+            }
+
+            foreach (var (signature, assignment) in _constructorSignatures)
+            {
                 sourceBuilder.AppendLine($@"
+        public {typeInfo.TypeName}({signature})
+        {{
+            this = Create({assignment});
         }}");
             }
+
+            sourceBuilder.Append($@"
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeInfo.TypeName} Create({string.Join(", ", Enumerable.Range(0, typeInfo.Column).Select((_, i) => $"{typeInfo.ComponentTypeFullName} {s_matrixComponents[i]}"))})
+        {{
+            global::System.Runtime.CompilerServices.Unsafe.SkipInit(out {typeInfo.TypeFullName} result);
+");
+
+            for (var i = 0; i < typeInfo.Column; i++)
+            {
+                sourceBuilder.Append($@"
+            result.{s_matrixComponents[i]} = {s_matrixComponents[i]};");
+            }
+
+            sourceBuilder.AppendLine($@"
+
+            return result;
+        }}");
         }
 
         private void GenerateUnsafeMethod()
@@ -199,7 +245,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 
         private void GenerateOverrideMethod()
         {
-            var components = _matrixComponents.Take(typeInfo.Column).ToArray();
+            var components = s_matrixComponents.Take(typeInfo.Column).ToArray();
             sourceBuilder.AppendLine($@"
         public override readonly string ToString()
         {{
@@ -248,85 +294,85 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             sourceBuilder.AppendLine($@"
         public static {typeInfo.TypeFullName} operator +({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} + rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} + rhs.{c}"))});
         }}
 
         public static {typeInfo.TypeFullName} operator +({typeInfo.TypeFullName} lhs, {typeInfo.ComponentTypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} + rhs"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} + rhs"))});
         }}
 
         public static {typeInfo.TypeFullName} operator +({typeInfo.ComponentTypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs + rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs + rhs.{c}"))});
         }}");
 
             // Subtract
             sourceBuilder.AppendLine($@"
         public static {typeInfo.TypeFullName} operator -({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} - rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} - rhs.{c}"))});
         }}
 
         public static {typeInfo.TypeFullName} operator -({typeInfo.TypeFullName} lhs, {typeInfo.ComponentTypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} - rhs"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} - rhs"))});
         }}
 
         public static {typeInfo.TypeFullName} operator -({typeInfo.ComponentTypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs - rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs - rhs.{c}"))});
         }}");
 
             // Multiply
             sourceBuilder.AppendLine($@"
         public static {typeInfo.TypeFullName} operator *({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} * rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} * rhs.{c}"))});
         }}
 
         public static {typeInfo.TypeFullName} operator *({typeInfo.TypeFullName} lhs, {typeInfo.ComponentTypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} * rhs"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} * rhs"))});
         }}
 
         public static {typeInfo.TypeFullName} operator *({typeInfo.ComponentTypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs * rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs * rhs.{c}"))});
         }}");
 
             // Divide
             sourceBuilder.AppendLine($@"
         public static {typeInfo.TypeFullName} operator /({typeInfo.ComponentTypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs / rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs / rhs.{c}"))});
         }}
 
         public static {typeInfo.TypeFullName} operator /({typeInfo.TypeFullName} lhs, {typeInfo.ComponentTypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} / rhs"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} / rhs"))});
         }}
 
         public static {typeInfo.TypeFullName} operator /({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} / rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} / rhs.{c}"))});
         }}");
 
             // Modulus
             sourceBuilder.AppendLine($@"
         public static {typeInfo.TypeFullName} operator %({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} % rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} % rhs.{c}"))});
         }}
 
         public static {typeInfo.TypeFullName} operator %({typeInfo.TypeFullName} lhs, {typeInfo.ComponentTypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} % rhs"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} % rhs"))});
         }}
 
         public static {typeInfo.TypeFullName} operator %({typeInfo.ComponentTypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs % rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs % rhs.{c}"))});
         }}");
 
             // Unary operators
@@ -338,71 +384,71 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 
         public static {typeInfo.TypeFullName} operator -({typeInfo.TypeFullName} value)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"-value.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"-value.{c}"))});
         }}
 
         public static {typeInfo.TypeFullName} operator ++({typeInfo.TypeFullName} value)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"value.{c} + 1"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"value.{c} + 1"))});
         }}
 
         public static {typeInfo.TypeFullName} operator --({typeInfo.TypeFullName} value)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"value.{c} - 1"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"value.{c} - 1"))});
         }}");
 
             // Comparison operators
             sourceBuilder.AppendLine($@"
         public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}x{typeInfo.Column} operator <({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} < rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} < rhs.{c}"))});
         }}
 
         public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}x{typeInfo.Column} operator <=({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} <= rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} <= rhs.{c}"))});
         }}
 
         public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}x{typeInfo.Column} operator >({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} > rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} > rhs.{c}"))});
         }}
 
         public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}x{typeInfo.Column} operator >=({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} >= rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} >= rhs.{c}"))});
         }}");
 
             // Bitwise operators
             sourceBuilder.AppendLine($@"
         public static {typeInfo.TypeFullName} operator <<({typeInfo.TypeFullName} lhs, int shift)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} << shift"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} << shift"))});
         }}
 
         public static {typeInfo.TypeFullName} operator >>({typeInfo.TypeFullName} lhs, int shift)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} >> shift"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} >> shift"))});
         }}
 
         public static {typeInfo.TypeFullName} operator &({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} & rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} & rhs.{c}"))});
         }}
 
         public static {typeInfo.TypeFullName} operator |({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} | rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} | rhs.{c}"))});
         }}
 
         public static {typeInfo.TypeFullName} operator ^({typeInfo.TypeFullName} lhs, {typeInfo.TypeFullName} rhs)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} ^ rhs.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} ^ rhs.{c}"))});
         }}
 
         public static {typeInfo.TypeFullName} operator ~({typeInfo.TypeFullName} value)
         {{
-            return new({string.Join(", ", _matrixComponents.Take(typeInfo.Column).Select(c => $"~value.{c}"))});
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"~value.{c}"))});
         }}");
         }
 
@@ -415,14 +461,25 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 
             sourceBuilder.Append($@"
     public static partial class math
-    {{
+    {{");
+            foreach (var (signature, assignment) in _constructorSignatures)
+            {
+                sourceBuilder.AppendLine($@"
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeInfo.TypeFullName} {typeInfo.TypeName}({signature})
+        {{
+            return {typeInfo.TypeFullName}.Create({assignment});
+        }}");
+            }
+
+            sourceBuilder.Append($@"
         public static {typeInfo.TypePrefix}{typeInfo.Column}x{typeInfo.Row} transpose({typeInfo.TypeFullName} value)
         {{
             return new {typeInfo.TypePrefix}{typeInfo.Column}x{typeInfo.Row}(");
             for (var i = 0; i < typeInfo.Column; i++)
             {
                 sourceBuilder.Append($@"
-                {string.Join(", ", _matrixComponents.Take(typeInfo.Row).Select((c, j) => $"value.{_matrixComponents[i]}.{_vectorComponents[j]}"))}");
+                {string.Join(", ", s_matrixComponents.Take(typeInfo.Row).Select((c, j) => $"value.{s_matrixComponents[i]}.{s_vectorComponents[j]}"))}");
                 if (i < typeInfo.Column - 1)
                 {
                     sourceBuilder.Append(",");
@@ -459,6 +516,13 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
                 }
 
                 GenerateMulMethod();
+
+                sourceBuilder.AppendLine($@"
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeInfo.TypeFullName} abs({typeInfo.TypeFullName} value)
+        {{
+            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"abs(value.{c})"))});
+        }}");
             }
 
             sourceBuilder.Append($@"
@@ -470,8 +534,8 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             sourceBuilder.AppendLine($@"
         public static {typeInfo.TypeFullName} inverse({typeInfo.TypeFullName} value)
         {{
-            var c0 = value.{_matrixComponents[0]};
-            var c1 = value.{_matrixComponents[1]};
+            var c0 = value.{s_matrixComponents[0]};
+            var c1 = value.{s_matrixComponents[1]};
 
             // elements
             var m00 = c0.x;
@@ -497,9 +561,9 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             sourceBuilder.AppendLine($@"
         public static {typeInfo.TypeFullName} inverse({typeInfo.TypeFullName} value)
         {{
-            var c0 = value.{_matrixComponents[0]};
-            var c1 = value.{_matrixComponents[1]};
-            var c2 = value.{_matrixComponents[2]};
+            var c0 = value.{s_matrixComponents[0]};
+            var c1 = value.{s_matrixComponents[1]};
+            var c2 = value.{s_matrixComponents[2]};
 
             var a00 = c0.x;
             var a01 = c1.x;
@@ -542,10 +606,10 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             sourceBuilder.AppendLine($@"
         public static {typeInfo.TypeFullName} inverse({typeInfo.TypeFullName} value)
         {{
-            var c0 = value.{_matrixComponents[0]};
-            var c1 = value.{_matrixComponents[1]};
-            var c2 = value.{_matrixComponents[2]};
-            var c3 = value.{_matrixComponents[3]};
+            var c0 = value.{s_matrixComponents[0]};
+            var c1 = value.{s_matrixComponents[1]};
+            var c2 = value.{s_matrixComponents[2]};
+            var c3 = value.{s_matrixComponents[3]};
 
             // movelh
             var r0y_r1y_r0x_r1x = shuffle(c1, c0, ShuffleComponent.LeftX, ShuffleComponent.LeftY, ShuffleComponent.RightX, ShuffleComponent.RightY);
@@ -588,19 +652,19 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 
             var rcp_denom_ppnn = 1 / denom;
             {typeInfo.TypeFullName} res;
-            res.{_matrixComponents[0]} = minors0 * rcp_denom_ppnn;
+            res.{s_matrixComponents[0]} = minors0 * rcp_denom_ppnn;
 
             var inner30 = shuffle(inner30_01, inner30_01, ShuffleComponent.LeftX, ShuffleComponent.LeftZ, ShuffleComponent.RightZ, ShuffleComponent.RightX);
             var inner01 = shuffle(inner30_01, inner30_01, ShuffleComponent.LeftY, ShuffleComponent.LeftW, ShuffleComponent.RightW, ShuffleComponent.RightY);
 
             var minors1 = r2_wzyx * inner30 - r0_wzyx * inner23 - r3_wzyx * inner02;
-            res.{_matrixComponents[1]} = minors1 * rcp_denom_ppnn;
+            res.{s_matrixComponents[1]} = minors1 * rcp_denom_ppnn;
 
             var minors2 = r0_wzyx * inner13 - r1_wzyx * inner30 - r3_wzyx * inner01;
-            res.{_matrixComponents[2]} = minors2 * rcp_denom_ppnn;
+            res.{s_matrixComponents[2]} = minors2 * rcp_denom_ppnn;
 
             var minors3 = r1_wzyx * inner02 - r0_wzyx * inner12 + r2_wzyx * inner01;
-            res.{_matrixComponents[3]} = minors3 * rcp_denom_ppnn;
+            res.{s_matrixComponents[3]} = minors3 * rcp_denom_ppnn;
             return res;
         }}
 
@@ -640,12 +704,12 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             for (var i = 0; i < typeInfo.Column; i++)
             {
                 sourceBuilder.Append($@"
-            var {_matrixComponents[i]} = value.{_matrixComponents[i]};");
+            var {s_matrixComponents[i]} = value.{s_matrixComponents[i]};");
             }
 
             sourceBuilder.AppendLine();
 
-            string Elem(int r, int c) => $"{_matrixComponents[c]}.{_vectorComponents[r]}";
+            string Elem(int r, int c) => $"{s_matrixComponents[c]}.{s_vectorComponents[r]}";
 
             // recursive function that returns a string for determinant of submatrix defined by rowIndices and colIndices
             string DetExpr(List<int> rows, List<int> cols)
@@ -709,11 +773,12 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             // Matrix-Vector Multiplication: RxC * C-element vector = R-element vector
             var rhsVectorType = $"{typePrefix}{lhsCols}";
             var resultVectorType = $"{typePrefix}{lhsRows}";
+
             sourceBuilder.AppendLine($@"
         {INLINE_METHOD_ATTRIBUTE}
         public static {resultVectorType} mul({lhsType} m, {rhsVectorType} v)
         {{
-            return {string.Join(" + ", Enumerable.Range(0, lhsCols).Select(c => $"m.{_matrixComponents[c]} * v.{_vectorComponents[c]}"))};
+            return {string.Join(" + ", Enumerable.Range(0, lhsCols).Select(c => $"m.{s_matrixComponents[c]} * v.{s_vectorComponents[c]}"))};
         }}");
 
             // Vector-Matrix Multiplication: R-element vector * RxC = C-element vector
@@ -723,7 +788,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {resultVectorTypeT} mul({lhsVectorType} v, {lhsType} m)
         {{
-            return new {resultVectorTypeT}({string.Join(", ", Enumerable.Range(0, lhsCols).Select(c => $"dot(v, m.{_matrixComponents[c]})"))});
+            return new {resultVectorTypeT}({string.Join(", ", Enumerable.Range(0, lhsCols).Select(c => $"dot(v, m.{s_matrixComponents[c]})"))});
         }}");
 
             // Matrix-Matrix Multiplication
@@ -743,7 +808,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {resultType} mul({lhsType} lhs, {rhsType} rhs)
         {{
-            return new {resultType}({string.Join(", ", Enumerable.Range(0, rhsCols).Select(c => $"mul(lhs, rhs.{_matrixComponents[c]})"))});
+            return new {resultType}({string.Join(", ", Enumerable.Range(0, rhsCols).Select(c => $"mul(lhs, rhs.{s_matrixComponents[c]})"))});
         }}");
                 }
             }

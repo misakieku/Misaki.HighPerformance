@@ -1,6 +1,7 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
-using Misaki.HighPerformance.LowLevel.Helpers;
+using Misaki.HighPerformance.LowLevel.Contracts;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -15,7 +16,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
 {
     public struct Enumerator : IEnumerator<T>
     {
-        private UnsafeQueue<T>* _collection;
+        private readonly UnsafeQueue<T>* _collection;
         private int _index;
         private T _value;
 
@@ -82,13 +83,24 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeQueue<T>*)UnsafeUtilities.AddressOf(ref this));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public UnsafeQueue() : this(1, Allocator.Persistent)
+    /// <summary>
+    /// Invalid constructor. Use <see cref="UnsafeQueue(int, Allocator, AllocationOption)"/> or <see cref="UnsafeQueue(int, ref AllocationHandle, AllocationOption)"/> instead."/>
+    /// </summary>
+    public UnsafeQueue()
+        : this(0, Allocator.Invalid)
     {
     }
 
-    public UnsafeQueue(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.None)
+    public UnsafeQueue(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        _array = new UnsafeArray<T>(capacity, allocator, allocationType);
+        _array = new UnsafeArray<T>(capacity, ref handle, allocationOption);
+        _count = 0;
+        _offset = 0;
+    }
+
+    public UnsafeQueue(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.None)
+        : this(capacity, ref AllocationManager.GetAllocationHandle(allocator), allocationType)
+    {
     }
 
     /// <summary>

@@ -106,7 +106,7 @@ public partial struct quaternion : IEquatable<quaternion>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static quaternion AxisAngle(float3 axis, float angle)
     {
-        sincos(0.5f * angle, out var sina, out var cosa);
+        var (sina, cosa) = sincos(0.5f * angle);
         return new quaternion(new float4(axis * sina, cosa));
     }
 
@@ -120,8 +120,7 @@ public partial struct quaternion : IEquatable<quaternion>
     public static quaternion EulerXYZ(float3 xyz)
     {
         // return mul(rotateZ(xyz.z), mul(rotateY(xyz.y), rotateX(xyz.x)));
-        float3 s, c;
-        sincos(0.5f * xyz, out s, out c);
+        var (s, c) = sincos(0.5f * xyz);
         return new quaternion(
             // s.x * c.y * c.z - s.y * s.z * c.x,
             // s.y * c.x * c.z + s.x * s.z * c.y,
@@ -140,8 +139,7 @@ public partial struct quaternion : IEquatable<quaternion>
     public static quaternion EulerXZY(float3 xyz)
     {
         // return mul(rotateY(xyz.y), mul(rotateZ(xyz.z), rotateX(xyz.x)));
-        float3 s, c;
-        sincos(0.5f * xyz, out s, out c);
+        var (s, c) = sincos(0.5f * xyz);
         return new quaternion(
             // s.x * c.y * c.z + s.y * s.z * c.x,
             // s.y * c.x * c.z + s.x * s.z * c.y,
@@ -160,8 +158,7 @@ public partial struct quaternion : IEquatable<quaternion>
     public static quaternion EulerYXZ(float3 xyz)
     {
         // return mul(rotateZ(xyz.z), mul(rotateX(xyz.x), rotateY(xyz.y)));
-        float3 s, c;
-        sincos(0.5f * xyz, out s, out c);
+        var (s, c) = sincos(0.5f * xyz);
         return new quaternion(
             // s.x * c.y * c.z - s.y * s.z * c.x,
             // s.y * c.x * c.z + s.x * s.z * c.y,
@@ -180,8 +177,7 @@ public partial struct quaternion : IEquatable<quaternion>
     public static quaternion EulerYZX(float3 xyz)
     {
         // return mul(rotateX(xyz.x), mul(rotateZ(xyz.z), rotateY(xyz.y)));
-        float3 s, c;
-        sincos(0.5f * xyz, out s, out c);
+        var (s, c) = sincos(0.5f * xyz);
         return new quaternion(
             // s.x * c.y * c.z - s.y * s.z * c.x,
             // s.y * c.x * c.z - s.x * s.z * c.y,
@@ -201,8 +197,7 @@ public partial struct quaternion : IEquatable<quaternion>
     public static quaternion EulerZXY(float3 xyz)
     {
         // return mul(rotateY(xyz.y), mul(rotateX(xyz.x), rotateZ(xyz.z)));
-        float3 s, c;
-        sincos(0.5f * xyz, out s, out c);
+        var (s, c) = sincos(0.5f * xyz);
         return new quaternion(
             // s.x * c.y * c.z + s.y * s.z * c.x,
             // s.y * c.x * c.z - s.x * s.z * c.y,
@@ -221,8 +216,7 @@ public partial struct quaternion : IEquatable<quaternion>
     public static quaternion EulerZYX(float3 xyz)
     {
         // return mul(rotateX(xyz.x), mul(rotateY(xyz.y), rotateZ(xyz.z)));
-        float3 s, c;
-        sincos(0.5f * xyz, out s, out c);
+        var (s, c) = sincos(0.5f * xyz);
         return new quaternion(
             // s.x * c.y * c.z + s.y * s.z * c.x,
             // s.y * c.x * c.z - s.x * s.z * c.y,
@@ -370,8 +364,7 @@ public partial struct quaternion : IEquatable<quaternion>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static quaternion RotateX(float angle)
     {
-        float sina, cosa;
-        sincos(0.5f * angle, out sina, out cosa);
+        var (sina, cosa) = sincos(0.5f * angle);
         return new quaternion(sina, 0.0f, 0.0f, cosa);
     }
 
@@ -381,8 +374,7 @@ public partial struct quaternion : IEquatable<quaternion>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static quaternion RotateY(float angle)
     {
-        float sina, cosa;
-        sincos(0.5f * angle, out sina, out cosa);
+        var (sina, cosa) = sincos(0.5f * angle);
         return new quaternion(0.0f, sina, 0.0f, cosa);
     }
 
@@ -392,8 +384,7 @@ public partial struct quaternion : IEquatable<quaternion>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static quaternion RotateZ(float angle)
     {
-        float sina, cosa;
-        sincos(0.5f * angle, out sina, out cosa);
+        var (sina, cosa) = sincos(0.5f * angle);
         return new quaternion(0.0f, 0.0f, sina, cosa);
     }
 
@@ -594,8 +585,7 @@ public static partial class math
     {
         var v_rcp_len = rsqrt(dot(q.value.xyz, q.value.xyz));
         var v_len = rcp(v_rcp_len);
-        float sin_v_len, cos_v_len;
-        sincos(v_len, out sin_v_len, out cos_v_len);
+        var (sin_v_len, cos_v_len) = sincos(v_len);
         return quaternion(new float4(q.value.xyz * v_rcp_len * sin_v_len, cos_v_len));
     }
 
@@ -607,8 +597,7 @@ public static partial class math
     {
         var v_rcp_len = rsqrt(dot(q.value.xyz, q.value.xyz));
         var v_len = rcp(v_rcp_len);
-        float sin_v_len, cos_v_len;
-        sincos(v_len, out sin_v_len, out cos_v_len);
+        var (sin_v_len, cos_v_len) = sincos(v_len);
         return quaternion(new float4(q.value.xyz * v_rcp_len * sin_v_len, cos_v_len) * exp(q.value.w));
     }
 
@@ -752,7 +741,7 @@ public static partial class math
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static float3x3 adj(float3x3 m, out float det)
+    private static float3x3 adj(float3x3 m, out float det)
     {
         float3x3 adjT;
         adjT.c0 = cross(m.c1, m.c2);
@@ -764,7 +753,7 @@ public static partial class math
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static bool adjInverse(float3x3 m, out float3x3 i, float epsilon = svd.EPSILON_NORMAL)
+    private static bool adjInverse(float3x3 m, out float3x3 i, float epsilon = svd.EPSILON_NORMAL)
     {
         i = adj(m, out var det);
         var c = abs(det) > epsilon;

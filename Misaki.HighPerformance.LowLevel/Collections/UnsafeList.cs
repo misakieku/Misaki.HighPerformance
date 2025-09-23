@@ -1,7 +1,7 @@
 ﻿using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
-using Misaki.HighPerformance.LowLevel.Helpers;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -16,7 +16,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 {
     public struct Enumerator : IEnumerator<T>
     {
-        private UnsafeList<T>* _collection;
+        private readonly UnsafeList<T>* _collection;
         private int _index;
         private T _value;
 
@@ -152,25 +152,35 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly UnsafeArray<T> AsUnsafeArray() => new((T*)_array.GetUnsafePtr(), _count);
 
+    /// <summary>
+    /// Invalid constructor, use <see cref="UnsafeList(int, Allocator, AllocationOption)"/> or <see cref="UnsafeList(int, ref AllocationHandle, AllocationOption)"/> instead.
+    /// </summary>
     public UnsafeList()
         : this(0, Allocator.Invalid)
     {
     }
 
-    public UnsafeList(int capacity, ref AllocationHandle handle, AllocationOption allocationType = AllocationOption.None)
+    /// <summary>
+    /// Initializes a new instance of UnsafeList with a specified number of initial capacity and an allocation handle.
+    /// </summary>
+    /// <param name="capacity">Specifies the number of initial capacity to allocate in the list, which must be greater than zero.</param>
+    /// <param name="handle">A reference to an AllocationHandle that manages the memory allocation for the array.</param>
+    /// <param name="allocationOption">Specifies how the memory should be allocated.</param>
+    public UnsafeList(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        if (capacity <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
-        }
-        _array = new UnsafeArray<T>(capacity, ref handle, allocationType);
+        _array = new UnsafeArray<T>(capacity, ref handle, allocationOption);
         _count = 0;
     }
 
-    public UnsafeList(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.None)
+    /// <summary>
+    /// Initializes a new instance of UnsafeList with a specified number of initial capacity and an allocation type.
+    /// </summary>
+    /// <param name="capacity">Specifies the number of initial capacity to allocate in the list, which must be greater than zero.</param>
+    /// <param name="allocator">Specifies the allocator to use for memory allocation, which determines the memory management strategy.</param>
+    /// <param name="allocationOption">Determines how the memory should be allocated.</param>
+    public UnsafeList(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
+        : this(capacity, ref AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
-        _array = new UnsafeArray<T>(capacity, allocator, allocationType);
-        _count = 0;
     }
 
     private readonly void CheckNoResizeCapacity(int count)

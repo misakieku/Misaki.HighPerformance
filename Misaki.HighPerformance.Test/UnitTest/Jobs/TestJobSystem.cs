@@ -1,7 +1,7 @@
 ﻿using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
-using Misaki.HighPerformance.LowLevel.Helpers;
+using Misaki.HighPerformance.LowLevel.Utilities;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Jobs;
 

@@ -1,10 +1,12 @@
-﻿using System.Numerics;
+﻿using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Utilities;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
-public sealed class BitSet
+public struct UnsafeBitSet : IDisposable
 {
     private const int _BIT_SIZE = sizeof(uint) * 8 - 1;           // 31
     private const int _INDEX_SIZE = 5;                              // log_2(BitSize + 1)
@@ -12,7 +14,7 @@ public sealed class BitSet
     private static readonly int s_padding = Vector<uint>.Count;      // The padding used for vectorization, the amount of uints required for being vectorized basically
 
     /// <summary>
-    /// Determines the required length of an <see cref="BitSet"/> to hold the passed id or bit.
+    /// Determines the required length of an <see cref="UnsafeBitSet"/> to hold the passed id or bit.
     /// </summary>
     /// <param name="id">The id or bit.</param>
     /// <returns>A size of required <see cref="uint"/>s for the bitset.</returns>
@@ -32,47 +34,49 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     The bits from the bitset.
+    /// The bits from the bitset.
     /// </summary>
-    private uint[] _bits;
+    private UnsafeArray<uint> _bits;
 
     /// <summary>
-    ///     The highest bit set.
+    /// The highest bit set.
     /// </summary>
     private int _highestBit;
 
     /// <summary>
-    ///     The maximum <see cref="_bits"/>-index current in use.
+    /// The maximum <see cref="_bits"/>-index current in use.
     /// </summary>
     private int _max;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="BitSet" /> class.
+    /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
-    public BitSet()
+    public UnsafeBitSet()
     {
-        _bits = new uint[s_padding];
+        _bits = new UnsafeArray<uint>(s_padding, Allocator.Persistent);
     }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="BitSet" /> class.
+    ///     Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
-    public BitSet(int minimalLength)
+    public UnsafeBitSet(int minimalLength)
     {
         var uints = (minimalLength >> _INDEX_SIZE) + int.Sign(minimalLength & _BIT_SIZE);
         var length = RoundToPadding(uints);
-        _bits = new uint[length];
+        _bits = new UnsafeArray<uint>(length, Allocator.Persistent);
     }
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="BitSet" /> class.
+    /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
-    public BitSet(params Span<uint> bits)
+    public UnsafeBitSet(params Span<uint> bits)
     {
-        _bits = bits.ToArray();
+        _bits = new UnsafeArray<uint>(bits.Length, Allocator.Persistent);
+        _bits.CopyFrom(bits);
+
         _highestBit = 0;
-        _max = _bits.Length * (_BIT_SIZE + 1) - 1; // Calculate the maximum index in use
-        for (var i = 0; i < _bits.Length; i++)
+        _max = _bits.Count * (_BIT_SIZE + 1) - 1; // Calculate the maximum index in use
+        for (var i = 0; i < _bits.Count; i++)
         {
             if (_bits[i] != 0)
             {
@@ -82,7 +86,7 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     The highest uint index in use inside the <see cref="_bits"/>-array.
+    /// The highest uint index in use inside the <see cref="_bits"/>-array.
     /// </summary>
     public int HighestIndex
     {
@@ -90,7 +94,7 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     The highest bit set.
+    /// The highest bit set.
     /// </summary>
     public int HighestBit
     {
@@ -98,22 +102,22 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     Returns the length of the bitset, how many ints it consists of.
+    /// Returns the length of the bitset, how many ints it consists of.
     /// </summary>
     public int Length
     {
-        get => _bits.Length;
+        get => _bits.Count;
     }
 
     /// <summary>
-    ///     Checks whether a bit is set at the index.
+    /// Checks whether a bit is set at the index.
     /// </summary>
     /// <param name="index">The index.</param>
     /// <returns>True if it is, otherwise false</returns>
     public bool IsSet(int index)
     {
         var b = index >> _INDEX_SIZE;
-        if (b >= _bits.Length)
+        if (b >= _bits.Count)
         {
             return false;
         }
@@ -122,16 +126,16 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     Sets a bit at the given index.
-    ///     Resizes its internal array if necessary.
+    /// Sets a bit at the given index.
+    /// Resizes its internal array if necessary.
     /// </summary>
     /// <param name="index">The index.</param>
     public void SetBit(int index)
     {
         var b = index >> _INDEX_SIZE;
-        if (b >= _bits.Length)
+        if (b >= _bits.Count)
         {
-            Array.Resize(ref _bits, RoundToPadding(b));
+            _bits.Resize(RoundToPadding(b));
         }
 
         // Track highest set bit
@@ -141,13 +145,13 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     Clears the bit at the given index.
+    /// Clears the bit at the given index.
     /// </summary>
     /// <param name="index">The index.</param>
     public void ClearBit(int index)
     {
         var b = index >> _INDEX_SIZE;
-        if (b >= _bits.Length)
+        if (b >= _bits.Count)
         {
             return;
         }
@@ -156,26 +160,26 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     Sets all bits.
+    /// Sets all bits.
     /// </summary>
     public void SetAll()
     {
-        var count = _bits.Length;
+        var count = _bits.Count;
         for (var i = 0; i < count; i++)
         {
             _bits[i] = 0xffffffff;
         }
 
-        _highestBit = _bits.Length * (_BIT_SIZE + 1) - 1;
+        _highestBit = _bits.Count * (_BIT_SIZE + 1) - 1;
         _max = _highestBit / (_BIT_SIZE + 1) + 1;
     }
 
     /// <summary>
-    ///     Clears all set bits.
+    /// Clears all set bits.
     /// </summary>
     public void ClearAll()
     {
-        Array.Clear(_bits);
+        _bits.Clear();
         _highestBit = 0;
         _max = 0;
     }
@@ -186,7 +190,7 @@ public sealed class BitSet
     public int NextSetBit(int startIndex)
     {
         var wordIndex = startIndex >> _BIT_SIZE;
-        if (wordIndex >= _bits.Length)
+        if (wordIndex >= _bits.Count)
         {
             return -1;
         }
@@ -203,7 +207,7 @@ public sealed class BitSet
             }
 
             wordIndex++;
-            if (wordIndex >= _bits.Length)
+            if (wordIndex >= _bits.Count)
             {
                 return -1;
             }
@@ -213,12 +217,12 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     Checks if all bits from this instance match those of the other instance.
+    /// Checks if all bits from this instance match those of the other instance.
     /// </summary>
-    /// <param name="other">The other <see cref="BitSet"/>.</param>
+    /// <param name="other">The other <see cref="UnsafeBitSet"/>.</param>
     /// <returns>True if they match, false if not.</returns>
     [SkipLocalsInit]
-    public bool All(BitSet other)
+    public bool All(UnsafeBitSet other)
     {
         var min = Math.Min(Math.Min(Length, other.Length), _max);
         if (!Vector.IsHardwareAccelerated || min < s_padding)
@@ -275,11 +279,11 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     Checks if any bits from this instance match those of the other instance.
+    /// Checks if any bits from this instance match those of the other instance.
     /// </summary>
-    /// <param name="other">The other <see cref="BitSet"/>.</param>
+    /// <param name="other">The other <see cref="UnsafeBitSet"/>.</param>
     /// <returns>True if they match, false if not.</returns>
-    public bool Any(BitSet other)
+    public bool Any(UnsafeBitSet other)
     {
         var min = Math.Min(Math.Min(Length, other.Length), _max);
         if (!Vector.IsHardwareAccelerated || min < s_padding)
@@ -336,11 +340,11 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     Checks if none bits from this instance match those of the other instance.
+    /// Checks if none bits from this instance match those of the other instance.
     /// </summary>
-    /// <param name="other">The other <see cref="BitSet"/>.</param>
+    /// <param name="other">The other <see cref="UnsafeBitSet"/>.</param>
     /// <returns>True if none match, false if not.</returns>
-    public bool None(BitSet other)
+    public bool None(UnsafeBitSet other)
     {
         var min = Math.Min(Math.Min(Length, other.Length), _max);
         if (!Vector.IsHardwareAccelerated || min < s_padding)
@@ -378,11 +382,11 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     Checks if exactly all bits from this instance match those of the other instance.
+    /// Checks if exactly all bits from this instance match those of the other instance.
     /// </summary>
-    /// <param name="other">The other <see cref="BitSet"/>.</param>
+    /// <param name="other">The other <see cref="UnsafeBitSet"/>.</param>
     /// <returns>True if they match, false if not.</returns>
-    public bool Exclusive(BitSet other)
+    public bool Exclusive(UnsafeBitSet other)
     {
         var min = Math.Min(Math.Min(Length, other.Length), _max);
 
@@ -439,10 +443,10 @@ public sealed class BitSet
         return true;
     }
 
-    public static BitSet operator &(BitSet left, BitSet right)
+    public static UnsafeBitSet operator &(UnsafeBitSet left, UnsafeBitSet right)
     {
         var min = Math.Min(left.Length, right.Length);
-        var result = new BitSet(min);
+        var result = new UnsafeBitSet(min);
         if (!Vector.IsHardwareAccelerated || min < s_padding)
         {
             for (var i = 0; i < min; i++)
@@ -463,10 +467,10 @@ public sealed class BitSet
         return result;
     }
 
-    public static BitSet operator |(BitSet left, BitSet right)
+    public static UnsafeBitSet operator |(UnsafeBitSet left, UnsafeBitSet right)
     {
         var min = Math.Min(left.Length, right.Length);
-        var result = new BitSet(min);
+        var result = new UnsafeBitSet(min);
         if (!Vector.IsHardwareAccelerated || min < s_padding)
         {
             for (var i = 0; i < min; i++)
@@ -487,7 +491,7 @@ public sealed class BitSet
         return result;
     }
 
-    public static BitSet operator ~(BitSet bitSet)
+    public static UnsafeBitSet operator ~(UnsafeBitSet bitSet)
     {
         if (!Vector.IsHardwareAccelerated || bitSet.Length < s_padding)
         {
@@ -510,17 +514,17 @@ public sealed class BitSet
     }
 
     /// <summary>
-    ///     Creates a <see cref="Span{T}"/> to access the <see cref="_bits"/>.
+    /// Creates a <see cref="Span{T}"/> to access the <see cref="_bits"/>.
     /// </summary>
     /// <returns>The hash.</returns>
-    public Span<uint> AsSpan()
+    public readonly Span<uint> AsSpan()
     {
         var max = _highestBit / (_BIT_SIZE + 1) + 1;
         return _bits.AsSpan()[..max];
     }
 
     /// <summary>
-    ///     Copies the bits into a <see cref="Span{T}"/> and returns a slice containing the copied <see cref="_bits"/>.
+    /// Copies the bits into a <see cref="Span{T}"/> and returns a slice containing the copied <see cref="_bits"/>.
     /// </summary>
     /// <param name="span">The <see cref="Span{T}"/> to copy into.</param>
     /// <param name="zero">If true, it will zero the unused space from the <see cref="span"/>.</param>
@@ -543,10 +547,6 @@ public sealed class BitSet
         return span[..Length];
     }
 
-    /// <summary>
-    ///     Prints the content of this instance.
-    /// </summary>
-    /// <returns>The string.</returns>
     public override string ToString()
     {
         // Convert uint to binary form for pretty printing
@@ -559,12 +559,19 @@ public sealed class BitSet
 
         return $"{nameof(_bits)}: {binaryBuilder}, {nameof(Length)}: {Length}";
     }
+
+    public void Dispose()
+    {
+        _bits.Dispose();
+        _highestBit = 0;
+        _max = 0;
+    }
 }
 
 /// <summary>
-///     The <see cref="SpanBitSet"/> struct
-///     represents a non resizable collection of bits.
-///     Used to set, check and clear bits on a allocated <see cref="BitSet"/> or on the stack.
+/// The <see cref="SpanBitSet"/> struct
+/// represents a non resizable collection of bits.
+/// Used to set, check and clear bits on a allocated <see cref="UnsafeBitSet"/> or on the stack.
 /// </summary>
 public readonly ref struct SpanBitSet
 {
@@ -573,12 +580,12 @@ public readonly ref struct SpanBitSet
     private const int _BYTE_SIZE = 5; // log_2(BitSize + 1)
 
     /// <summary>
-    ///     The bits from the bitset.
+    /// The bits from the bitset.
     /// </summary>
     private readonly Span<uint> _bits;
 
     /// <summary>
-    ///     Initializes a new instance of the <see cref="BitSet" /> class.
+    /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
     public SpanBitSet(Span<uint> bits)
     {
@@ -586,7 +593,7 @@ public readonly ref struct SpanBitSet
     }
 
     /// <summary>
-    ///     Checks whether a bit is set at the index.
+    /// Checks whether a bit is set at the index.
     /// </summary>
     /// <param name="index">The index.</param>
     /// <returns>True if it is, otherwise false</returns>
@@ -603,8 +610,8 @@ public readonly ref struct SpanBitSet
     }
 
     /// <summary>
-    ///     Sets a bit at the given index.
-    ///     Resizes its internal array if necessary.
+    /// Sets a bit at the given index.
+    /// Resizes its internal array if necessary.
     /// </summary>
     /// <param name="index">The index.</param>
 
@@ -620,7 +627,7 @@ public readonly ref struct SpanBitSet
     }
 
     /// <summary>
-    ///     Clears the bit at the given index.
+    /// Clears the bit at the given index.
     /// </summary>
     /// <param name="index">The index.</param>
 
@@ -636,7 +643,7 @@ public readonly ref struct SpanBitSet
     }
 
     /// <summary>
-    ///
+    /// Sets all bits.
     /// </summary>
 
     public void SetAll()
@@ -649,7 +656,7 @@ public readonly ref struct SpanBitSet
     }
 
     /// <summary>
-    ///     Clears all set bits.
+    /// Clears all set bits.
     /// </summary>
 
     public void ClearAll()
@@ -658,7 +665,7 @@ public readonly ref struct SpanBitSet
     }
 
     /// <summary>
-    ///     Creates a <see cref="Span{T}"/> to access the <see cref="_bits"/>.
+    /// Creates a <see cref="Span{T}"/> to access the <see cref="_bits"/>.
     /// </summary>
     /// <returns>The hash.</returns>
 
@@ -668,7 +675,7 @@ public readonly ref struct SpanBitSet
     }
 
     /// <summary>
-    ///     Copies the bits into a <see cref="Span{T}"/> and returns a slice containing the copied <see cref="_bits"/>.
+    /// Copies the bits into a <see cref="Span{T}"/> and returns a slice containing the copied <see cref="_bits"/>.
     /// </summary>
     /// <param name=""></param>
     /// <returns>The hash.</returns>
@@ -690,11 +697,6 @@ public readonly ref struct SpanBitSet
 
         return span[.._bits.Length];
     }
-
-    /// <summary>
-    ///     Prints the content of this instance.
-    /// </summary>
-    /// <returns>The string.</returns>
 
     public override string ToString()
     {

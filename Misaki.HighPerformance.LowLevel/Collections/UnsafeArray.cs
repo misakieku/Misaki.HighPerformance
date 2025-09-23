@@ -1,7 +1,7 @@
 ﻿using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
-using Misaki.HighPerformance.LowLevel.Helpers;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -16,7 +16,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 {
     public struct Enumerator : IEnumerator<T>
     {
-        private UnsafeArray<T>* _collection;
+        private readonly UnsafeArray<T>* _collection;
         private int _index;
         private T _value;
 
@@ -76,7 +76,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-#if DISABLE_COLLECTION_CHECKS
+#if ENABLE_COLLECTION_CHECKS
             if (index < 0 || index >= _count)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
@@ -92,7 +92,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-#if DISABLE_COLLECTION_CHECKS
+#if ENABLE_COLLECTION_CHECKS
             if (index >= _count)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
@@ -113,7 +113,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>
-    /// Constructs an UnsafeArray with a default size of 1 and uses the Persistent allocator.
+    /// Invalid constructor, use <see cref="UnsafeArray(int, Allocator, AllocationOption)"/> or <see cref="UnsafeArray(int, ref AllocationHandle, AllocationOption)"/> instead.
     /// </summary>
     public UnsafeArray()
         : this(0, Allocator.Invalid)
@@ -175,7 +175,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
-        _buffer = (T*)_handle->Realloc(_handle->Allocator, _buffer, (uint)newSize, (uint)AlignOf<T>());
+        _buffer = (T*)_handle->Realloc(_handle->Allocator, _buffer, (nuint)newSize * SizeOf<T>(), AlignOf<T>());
         _count = newSize;
     }
 

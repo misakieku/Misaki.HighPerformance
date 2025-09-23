@@ -1,4 +1,4 @@
-﻿global using static Misaki.HighPerformance.LowLevel.Helpers.MemoryUtilities;
+﻿global using static Misaki.HighPerformance.LowLevel.Utilities.MemoryUtilities;
 
 
 global using unsafe AllocFunc = delegate*<void*, nuint, nuint, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption, void*>;
