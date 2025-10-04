@@ -2,7 +2,6 @@ using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
@@ -11,6 +10,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
     {
         private int _vectorBitsSize;
         private int _missingComponents;
+        private string _componentTypePrefix = null!;
 
         private readonly List<(string signature, string assignment)> _constructorSignatures = new();
 
@@ -34,6 +34,14 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 
             _vectorBitsSize = vectorBytesSize * 8;
             _missingComponents = (vectorBytesSize - typeSize) / componentSize;
+
+            _componentTypePrefix = typeInfo.ComponentTypeSymbol.SpecialType switch
+            {
+                SpecialType.System_UInt16 or SpecialType.System_UInt32 or SpecialType.System_UInt64 => "u",
+                SpecialType.System_Single => "f",
+                SpecialType.System_Double => "d",
+                _ => string.Empty
+            };
         }
 
         protected override void GenerateBody()
@@ -426,8 +434,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator +({typeName} lhs, {typeName} rhs)
         {{
-            var vector = lhs.AsVector{_vectorBitsSize}() + rhs.AsVector{_vectorBitsSize}();
-            return vector.{asResult};
+            return (lhs.AsVector{_vectorBitsSize}() + rhs.AsVector{_vectorBitsSize}()).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
@@ -462,8 +469,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator -({typeName} lhs, {typeName} rhs)
         {{
-            var vector = lhs.AsVector{_vectorBitsSize}() - rhs.AsVector{_vectorBitsSize}();
-            return vector.{asResult};
+            return (lhs.AsVector{_vectorBitsSize}() - rhs.AsVector{_vectorBitsSize}()).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
@@ -498,15 +504,13 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator *({typeName} lhs, {typeName} rhs)
         {{
-            var vector = lhs.AsVector{_vectorBitsSize}() * rhs.AsVector{_vectorBitsSize}();
-            return vector.{asResult};
+            return (lhs.AsVector{_vectorBitsSize}() * rhs.AsVector{_vectorBitsSize}()).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator *({typeName} lhs, {componentType} rhs)
         {{
-            var vector = lhs.AsVector{_vectorBitsSize}() * rhs;
-            return vector.{asResult};
+            return (lhs.AsVector{_vectorBitsSize}() * rhs).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
@@ -535,15 +539,13 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator /({typeName} lhs, {typeName} rhs)
         {{
-            var vector = lhs.AsVector{_vectorBitsSize}() / rhs.AsVector{_vectorBitsSize}();
-            return vector.{asResult};
+            return (lhs.AsVector{_vectorBitsSize}() / rhs.AsVector{_vectorBitsSize}()).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator /({typeName} lhs, {componentType} rhs)
         {{
-            var vector = lhs.AsVector{_vectorBitsSize}() / rhs;
-            return vector.{asResult};
+            return (lhs.AsVector{_vectorBitsSize}() / rhs).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
@@ -613,22 +615,19 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator -({typeName} value)
         {{
-            var vector = -value.AsVector{_vectorBitsSize}();
-            return vector.{asResult};
+            return (-value.AsVector{_vectorBitsSize}()).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator ++({typeName} value)
         {{
-            var vector = value.AsVector{_vectorBitsSize}() + global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Create<{componentType}>(1);
-            return vector.{asResult};
+            return (value.AsVector{_vectorBitsSize}() + global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.CreateScalar(1{_componentTypePrefix})).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator --({typeName} value)
         {{
-            var vector = value.AsVector{_vectorBitsSize}() - global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Create<{componentType}>(1);
-            return vector.{asResult};
+            return (value.AsVector{_vectorBitsSize}() - global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.CreateScalar(1{_componentTypePrefix})).{asResult};
         }}");
 
             // Comparison operators
@@ -666,36 +665,31 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator <<({typeName} x, int n)
         {{
-            var vector = x.AsVector{_vectorBitsSize}() << n;
-            return vector.{asResult};
+            return (x.AsVector{_vectorBitsSize}() << n).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator >>({typeName} x, int n)
         {{
-            var vector = x.AsVector{_vectorBitsSize}() >> n;
-            return vector.{asResult};
+            return (x.AsVector{_vectorBitsSize}() >> n).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator &({typeName} lhs, {typeName} rhs)
         {{
-            var vector = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.BitwiseAnd(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}());
-            return vector.{asResult};
+            return (global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.BitwiseAnd(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}())).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator |({typeName} lhs, {typeName} rhs)
         {{
-            var vector = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.BitwiseOr(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}());
-            return vector.{asResult};
+            return (global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.BitwiseOr(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}())).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator ^({typeName} lhs, {typeName} rhs)
         {{
-            var vector = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Xor(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}());
-            return vector.{asResult};
+            return (global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Xor(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}())).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
@@ -775,15 +769,15 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 
         private void GenerateVectorExtension()
         {
-            var typeName = typeInfo.TypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-            var typeSimpleName = typeInfo.TypeSymbol.Name;
-            var componentType = typeInfo.ComponentTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            var typeName = typeInfo.TypeFullName;
+            var typeSimpleName = typeInfo.TypeName;
+            var componentType = typeInfo.ComponentTypeFullName;
 
             sourceBuilder.Append($@"
     public static partial class VectorInterop
     {{
         {INLINE_METHOD_ATTRIBUTE}
-        public static global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}> AsVector{_vectorBitsSize}(ref this {typeName} value)
+        public unsafe static global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}> AsVector{_vectorBitsSize}(this {typeName} value)
         {{");
 
             if (typeInfo.Row == 4)
@@ -794,13 +788,13 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             else
             {
                 sourceBuilder.Append($@"
-            return global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Create({string.Join(", ", Enumerable.Range(0, typeInfo.Row + _missingComponents).Select(i => i < typeInfo.Row ? $"value.{s_vectorComponents[i]}" : "1"))});");
+            return global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Create({string.Join(", ", Enumerable.Range(0, typeInfo.Row + _missingComponents).Select(i => i < typeInfo.Row ? $"value.{s_vectorComponents[i]}" : "0"))});");
             }
             sourceBuilder.Append($@"
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
-        public static {typeName} As{typeSimpleName}(ref this global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}> value)
+        public unsafe static {typeName} As{typeSimpleName}(this global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}> value)
         {{");
             sourceBuilder.AppendLine($@"
             ref var address = ref global::System.Runtime.CompilerServices.Unsafe.As<global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}>, byte>(ref value);
@@ -809,9 +803,9 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
     }}");
         }
 
-        private string PerComponentAssignments(Func<string, string> func)
+        private string ComponentwiseAssignments(Func<string, string> func, string separator = ", ")
         {
-            return string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select(func));
+            return string.Join(separator, s_vectorComponents.Take(typeInfo.Row).Select(func));
         }
 
         private void GenerateMathMethod()
@@ -888,16 +882,31 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             }}
         }}");
 
+            if (typeInfo.ComponentTypeSymbol.SpecialType == SpecialType.System_Boolean)
+            {
+                sourceBuilder.AppendLine($@"
+        /// <summary>Returns true if any component of the input {typeName} vector is true, false otherwise.</summary>
+        /// <param name=""v"">Vector of values to compare.</param>
+        /// <returns>True if any the components of v are true, false otherwise.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static bool any({typeFullName} v)
+        {{
+            return {ComponentwiseAssignments(c => $"v.{c}", " ||")};
+        }}");
+
+                sourceBuilder.AppendLine($@"
+        /// <summary>Returns true if all component of the input {typeName} vector is true, false otherwise.</summary>
+        /// <param name=""v"">Vector of values to compare.</param>
+        /// <returns>True if all the components of v are true, false otherwise.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static bool all({typeFullName} v)
+        {{
+            return {ComponentwiseAssignments(c => $"v.{c}", " && ")};
+        }}");
+            }
+
             if (typeInfo.Arithmetic)
             {
-                var componentTypePrefix = typeInfo.ComponentTypeSymbol.SpecialType switch
-                {
-                    SpecialType.System_UInt16 or SpecialType.System_UInt32 or SpecialType.System_UInt64 => "u",
-                    SpecialType.System_Single => "f",
-                    SpecialType.System_Double => "d",
-                    _ => string.Empty
-                };
-
                 StartRegion("Math Methods");
 
                 sourceBuilder.AppendLine($@"
@@ -982,35 +991,56 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} select({typeFullName} falseValue, {typeFullName} trueValue, global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} test)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"test.{c} ? trueValue.{c} : falseValue.{c}")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"test.{c} ? trueValue.{c} : falseValue.{c}")});
         }}");
 
                 if (typeInfo.ComponentTypeSymbol.SpecialType != SpecialType.System_UInt16
                     && typeInfo.ComponentTypeSymbol.SpecialType != SpecialType.System_UInt32
                     && typeInfo.ComponentTypeSymbol.SpecialType != SpecialType.System_UInt64)
                 {
-                sourceBuilder.AppendLine($@"
+                    sourceBuilder.AppendLine($@"
         /// <summary>Returns the componentwise sign of a {typeName} vector. 1 for positive components, 0 for zero components and -1 for negative components.</summary>
         /// <param name=""v"">Input value.</param>
         /// <returns>The componentwise sign of the input.</returns>
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} sign({typeFullName} v)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"sign(v.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"sign(v.{c})")});
         }}");
                 }
 
+                sourceBuilder.AppendLine($@"
+        /// <summary>Returns true if any component of the input {typeName} vector is true, false otherwise.</summary>
+        /// <param name=""v"">Vector of values to compare.</param>
+        /// <returns>True if any the components of v are true, false otherwise.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static bool any({typeFullName} v)
+        {{
+            return {ComponentwiseAssignments(c => $"v.{c} != 0", " || ")};
+        }}");
+
+                sourceBuilder.AppendLine($@"
+        /// <summary>Returns true if all component of the input {typeName} vector is true, false otherwise.</summary>
+        /// <param name=""v"">Vector of values to compare.</param>
+        /// <returns>True if all the components of v are true, false otherwise.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static bool all({typeFullName} v)
+        {{
+            return {ComponentwiseAssignments(c => $"v.{c} != 0", " && ")};
+        }}");
+
                 // Only floating point types support these methods
-                if (typeInfo.ComponentTypeSymbol.SpecialType == SpecialType.System_Single || typeInfo.ComponentTypeSymbol.SpecialType == SpecialType.System_Double)
+                if (typeInfo.ComponentTypeSymbol.SpecialType == SpecialType.System_Single
+                    || typeInfo.ComponentTypeSymbol.SpecialType == SpecialType.System_Double)
                 {
                     sourceBuilder.AppendLine($@"
-        /// <summary>Returns the result of a componentwise clamping of the {typeFullName} vector v into the interval [0, 1].</summary>
+        /// <summary>Returns the result of a componentwise clamping of the {typeName} vector v into the interval [0, 1].</summary>
         /// <param name=""v"">Input value.</param>
         /// <returns>The componentwise clamping of the input into the interval [0, 1].</returns>
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} saturate({typeFullName} v)
         {{
-            return clamp(v, new {typeFullName}(0{componentTypePrefix}), new {typeFullName}(1{componentTypePrefix}));
+            return clamp(v, new {typeFullName}(0{_componentTypePrefix}), new {typeFullName}(1{_componentTypePrefix}));
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1090,7 +1120,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} tan({typeFullName} v)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"tan(v.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"tan(v.{c})")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1100,7 +1130,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} tanh({typeFullName} v)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"tanh(v.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"tanh(v.{c})")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1110,7 +1140,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} atan({typeFullName} v)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"atan(v.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"atan(v.{c})")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1121,7 +1151,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} atan2({typeFullName} x, {typeFullName} y)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"atan2(x.{c}, y.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"atan2(x.{c}, y.{c})")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1142,7 +1172,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} cosh({typeFullName} v)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"cosh(v.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"cosh(v.{c})")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1152,7 +1182,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} acos({typeFullName} v)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"acos(v.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"acos(v.{c})")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1173,7 +1203,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} sinh({typeFullName} v)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"sinh(v.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"sinh(v.{c})")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1183,7 +1213,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} asin({typeFullName} v)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"asin(v.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"asin(v.{c})")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1226,7 +1256,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} round({typeFullName} v)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"round(v.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"round(v.{c})")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1247,7 +1277,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} exp2({typeFullName} v)
         {{
-            var vector = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Exp(v.AsVector{_vectorBitsSize}() * 0.693147180559945309{componentTypePrefix});
+            var vector = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Exp(v.AsVector{_vectorBitsSize}() * 0.693147180559945309{_componentTypePrefix});
             return vector.As{typeName}();
         }}");
 
@@ -1258,7 +1288,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} exp10({typeFullName} v)
         {{
-            var vector = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Exp(v.AsVector{_vectorBitsSize}() * 2.302585092994045684{componentTypePrefix});
+            var vector = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Exp(v.AsVector{_vectorBitsSize}() * 2.302585092994045684{_componentTypePrefix});
             return vector.As{typeName}();
         }}");
 
@@ -1291,7 +1321,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} log10({typeFullName} v)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"log10(v.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"log10(v.{c})")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1312,7 +1342,49 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} rsqrt({typeFullName} v)
         {{
-            return 1{componentTypePrefix} / sqrt(v);
+            return 1{_componentTypePrefix} / sqrt(v);
+        }}");
+
+                    sourceBuilder.AppendLine($@"
+        /// <summary>Returns the length of a {typeName} vector.</summary>
+        /// <param name=""v"">Vector to use when computing length.</param>
+        /// <returns>Length of vector v.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {componentTypeFullName} length({typeFullName} v)
+        {{
+            return sqrt(dot(v, v));
+        }}");
+
+                    sourceBuilder.AppendLine($@"
+        /// <summary>Returns the squared length of a {typeName} vector.</summary>
+        /// <param name=""v"">Vector to use when computing squared length.</param>
+        /// <returns>Squared length of vector v.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {componentTypeFullName} lengthsq({typeFullName} v)
+        {{
+            return dot(v, v);
+        }}");
+
+                    sourceBuilder.AppendLine($@"
+        /// <summary>Returns the distance between two {typeName} vectors.</summary>
+        /// <param name=""x"">First vector to use in distance computation.</param>
+        /// <param name=""y"">Second vector to use in distance computation.</param>
+        /// <returns>The distance between x and y.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {componentTypeFullName} distance({typeFullName} x, {typeFullName} y)
+        {{
+            return length(y - x);
+        }}");
+
+                    sourceBuilder.AppendLine($@"
+        /// <summary>Returns the squared distance between two {typeName} vectors.</summary>
+        /// <param name=""x"">First vector to use in distance computation.</param>
+        /// <param name=""y"">Second vector to use in distance computation.</param>
+        /// <returns>The squared distance between x and y.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {componentTypeFullName} distancesq({typeFullName} x, {typeFullName} y)
+        {{
+            return lengthsq(y - x);
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1343,7 +1415,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} rcp({typeFullName} v)
         {{
-            return 1{componentTypePrefix} / v;
+            return 1{_componentTypePrefix} / v;
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1354,7 +1426,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} pow({typeFullName} x, {typeFullName} y)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"pow(x.{c}, y.{c})")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"pow(x.{c}, y.{c})")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1365,7 +1437,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} fmod({typeFullName} x, {typeFullName} y)
         {{
-            return new {typeFullName}({PerComponentAssignments(c => $"x.{c} % y.{c}")});
+            return new {typeFullName}({ComponentwiseAssignments(c => $"x.{c} % y.{c}")});
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1418,7 +1490,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         public static {typeFullName} smoothstep({typeFullName} vMin, {typeFullName} vMax, {typeFullName} v)
         {{
             var t = saturate((v - vMin) / (vMax - vMin));
-            return t * t * (3{componentTypePrefix} - (2{componentTypePrefix} * t));
+            return t * t * (3{_componentTypePrefix} - (2{_componentTypePrefix} * t));
         }}");
 
                     sourceBuilder.AppendLine($@"
@@ -1429,7 +1501,84 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeFullName} step({typeFullName} threshold, {typeFullName} v)
         {{
-            return select(new {typeFullName}(0{componentTypePrefix}), new {typeFullName}(1{componentTypePrefix}), v == threshold);
+            return select(new {typeFullName}(0{_componentTypePrefix}), new {typeFullName}(1{_componentTypePrefix}), v == threshold);
+        }}");
+
+                    sourceBuilder.AppendLine($@"
+        /// <summary>Given an incident vector i and a normal vector n, returns the reflection vector r = i - 2.0 * dot(i, n) * n.</summary>
+        /// <param name=""i"">Incident vector.</param>
+        /// <param name=""n"">Normal vector.</param>
+        /// <returns>Reflection vector.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeFullName} reflect({typeFullName} i, {typeFullName} n)
+        {{
+            return i - 2{_componentTypePrefix} * n * dot(i, n);
+        }}");
+
+                    sourceBuilder.AppendLine($@"
+        /// <summary>Returns the refraction vector given the incident vector i, the normal vector n and the refraction index.</summary>
+        /// <param name=""i"">Incident vector.</param>
+        /// <param name=""n"">Normal vector.</param>
+        /// <param name=""indexOfRefraction"">Index of refraction.</param>
+        /// <returns>Refraction vector.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeFullName} refract({typeFullName} i, {typeFullName} n, {componentTypeFullName} indexOfRefraction)
+        {{
+            var ni = dot(n, i);
+            var k = 1.0f - indexOfRefraction * indexOfRefraction * (1{_componentTypePrefix} - ni * ni);
+            return select(new(0{_componentTypePrefix}), indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
+        }}");
+
+                    sourceBuilder.AppendLine($@"
+        /// <summary>
+        /// Compute vector projection of a onto b.
+        /// </summary>
+        /// <remarks>
+        /// Some finite vectors a and b could generate a non-finite result. This is most likely when a's components
+        /// are very large (close to Single.MaxValue) or when b's components are very small (close to FLT_MIN_NORMAL).
+        /// In these cases, you can call <see cref=""projectsafe({typeFullName},{typeFullName},{typeFullName})""/>
+        /// which will use a given default value if the result is not finite.
+        /// </remarks>
+        /// <param name=""a"">Vector to project.</param>
+        /// <param name=""ontoB"">Non-zero vector to project onto.</param>
+        /// <returns>Vector projection of a onto b.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeFullName} project({typeFullName} a, {typeFullName} ontoB)
+        {{
+            return (dot(a, ontoB) / dot(ontoB, ontoB)) * ontoB;
+        }}");
+
+                    sourceBuilder.AppendLine($@"
+        /// <summary>
+        /// Compute vector projection of a onto b. If result is not finite, then return the default value instead.
+        /// </summary>
+        /// <remarks>
+        /// This function performs extra checks to see if the result of projecting a onto b is finite. If you know that
+        /// your inputs will generate a finite result or you don't care if the result is finite, then you can call
+        /// <see cref=""project({typeFullName},{typeFullName})""/> instead which is faster than this function.
+        /// </remarks>
+        /// <param name=""a"">Vector to project.</param>
+        /// <param name=""ontoB"">Non-zero vector to project onto.</param>
+        /// <param name=""defaultValue"">Default value to return if projection is not finite.</param>
+        /// <returns>Vector projection of a onto b or the default value.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeFullName} projectsafe({typeFullName} a, {typeFullName} ontoB, {typeFullName} defaultValue = default)
+        {{
+            var proj = project(a, ontoB);
+
+            return select(defaultValue, proj, all(isfinite(proj)));
+        }}");
+
+                    sourceBuilder.AppendLine($@"
+        /// <summary>Conditionally flips a vector n if two vectors i and ng are pointing in the same direction. Returns n if dot(i, ng) &lt; 0, -n otherwise.</summary>
+        /// <param name=""n"">Vector to conditionally flip.</param>
+        /// <param name=""i"">First vector in direction comparison.</param>
+        /// <param name=""ng"">Second vector in direction comparison.</param>
+        /// <returns>-n if i and ng point in the same direction; otherwise return n unchanged.</returns>
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeFullName} faceforward({typeFullName} n, {typeFullName} i, {typeFullName} ng)
+        {{
+            return select(n, -n, dot(ng, i) >= 0.0f);
         }}");
                 }
                 else

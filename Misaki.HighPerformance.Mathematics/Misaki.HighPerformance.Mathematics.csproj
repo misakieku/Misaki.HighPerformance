@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.csproj" OutputItemType="Analyzer" />
   </ItemGroup>
 
   <ItemGroup>

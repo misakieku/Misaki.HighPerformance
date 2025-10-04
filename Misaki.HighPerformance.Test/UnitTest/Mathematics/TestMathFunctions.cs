@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Misaki.HighPerformance.Mathematics;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Mathematics;

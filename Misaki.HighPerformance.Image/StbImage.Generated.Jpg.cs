@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Image
 {
-    unsafe partial class StbImage
+    public unsafe partial class StbImage
     {
         public delegate void delegate0(byte* arg0, int arg1, short* arg2);
 

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Image
 {
-    unsafe partial class StbImage
+    public unsafe partial class StbImage
     {
         public static int stbi__gif_test(stbi__context s)
         {

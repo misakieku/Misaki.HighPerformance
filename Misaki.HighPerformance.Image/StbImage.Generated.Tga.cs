@@ -6,7 +6,7 @@ using Misaki.HighPerformance.Image.Runtime;
 
 namespace Misaki.HighPerformance.Image
 {
-    unsafe partial class StbImage
+    public unsafe partial class StbImage
     {
         public static int stbi__tga_test(stbi__context s)
         {

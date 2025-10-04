@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Misaki.HighPerformance.Mathematics.CodeGen.Models
 {
-    public record NumericTypeInfo
+    internal record NumericTypeInfo
     {
         public INamedTypeSymbol TypeSymbol
         {

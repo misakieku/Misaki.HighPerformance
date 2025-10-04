@@ -15,7 +15,7 @@ public static class svd
     public const float EPSILON_NORMAL = 1e-30f;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static void condSwap(bool c, ref float x, ref float y)
+    private static void condSwap(bool c, ref float x, ref float y)
     {
         var tmp = x;
         x = math.select(x, y, c);
@@ -23,7 +23,7 @@ public static class svd
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static void condNegSwap(bool c, ref float3 x, ref float3 y)
+    private static void condNegSwap(bool c, ref float3 x, ref float3 y)
     {
         var tmp = -x;
         x = math.select(x, y, c);
@@ -31,14 +31,14 @@ public static class svd
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static quaternion condNegSwapQuat(bool c, quaternion q, float4 mask)
+    private static quaternion condNegSwapQuat(bool c, quaternion q, float4 mask)
     {
         const float halfSqrt2 = 0.707106781186548f;
         return math.mul(q, math.select(quaternion.identity.value, mask * halfSqrt2, c));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static void sortSingularValues(ref float3x3 b, ref quaternion v)
+    private static void sortSingularValues(ref float3x3 b, ref quaternion v)
     {
         var l0 = math.lengthsq(b.c0);
         var l1 = math.lengthsq(b.c1);
@@ -60,7 +60,7 @@ public static class svd
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static quaternion approxGivensQuat(float3 pq, float4 mask)
+    private static quaternion approxGivensQuat(float3 pq, float4 mask)
     {
         const float c8 = 0.923879532511287f; // cos(pi/8)
         const float s8 = 0.38268343236509f; // sin(pi/8)
@@ -73,7 +73,7 @@ public static class svd
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static quaternion qrGivensQuat(float2 pq, float4 mask)
+    private static quaternion qrGivensQuat(float2 pq, float4 mask)
     {
         var l = math.sqrt(pq.x * pq.x + pq.y * pq.y);
         var sh = math.select(0f, pq.y, l > EPSILON_NORMAL_SQRT);
@@ -84,7 +84,7 @@ public static class svd
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static quaternion givensQRFactorization(float3x3 b, out float3x3 r)
+    private static quaternion givensQRFactorization(float3x3 b, out float3x3 r)
     {
         var u = qrGivensQuat(new float2(b.c0.x, b.c0.y), new float4(0f, 0f, 1f, 1f));
         var qmt = new float3x3(math.conjugate(u));
@@ -103,7 +103,7 @@ public static class svd
         return u;
     }
 
-    static quaternion jacobiIteration(ref float3x3 s, int iterations = 5)
+    private static quaternion jacobiIteration(ref float3x3 s, int iterations = 5)
     {
         float3x3 qm;
         quaternion q;
@@ -131,7 +131,7 @@ public static class svd
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static float3 singularValuesDecomposition(float3x3 a, out quaternion u, out quaternion v)
+    private static float3 singularValuesDecomposition(float3x3 a, out quaternion u, out quaternion v)
     {
         u = quaternion.identity;
         v = quaternion.identity;
@@ -147,7 +147,7 @@ public static class svd
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static float3 rcpsafe(float3 x, float epsilon = EPSILON_RCP) =>
+    private static float3 rcpsafe(float3 x, float epsilon = EPSILON_RCP) =>
         math.select(math.rcp(x), float3.zero, math.abs(x) < epsilon);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

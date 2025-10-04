@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Image
 {
-    unsafe partial class StbImage
+    public unsafe partial class StbImage
     {
         public const int STBI__F_none = 0;
         public const int STBI__F_sub = 1;

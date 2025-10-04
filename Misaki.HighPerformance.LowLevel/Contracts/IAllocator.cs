@@ -66,7 +66,7 @@ public unsafe interface IAllocator
     /// <summary>
     /// Gets a reference to the allocation handle associated with this allocator.
     /// </summary>
-    public ref AllocationHandle Handle
+    ref AllocationHandle Handle
     {
         get;
     }

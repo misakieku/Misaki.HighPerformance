@@ -8,6 +8,7 @@ public class DynamicArray<T> : IEnumerable<T>, IList<T>
     private int _count;
 
     public ref T this[int index] => ref _array[index];
+    public ref T this[uint index] => ref _array[index];
 
     public int Count => _count;
     public bool IsReadOnly => false;
@@ -48,7 +49,7 @@ public class DynamicArray<T> : IEnumerable<T>, IList<T>
 
     public IEnumerator<T> GetEnumerator()
     {
-        for (int i = 0; i < _count; i++)
+        for (var i = 0; i < _count; i++)
         {
             yield return _array[i];
         }
@@ -63,8 +64,9 @@ public class DynamicArray<T> : IEnumerable<T>, IList<T>
     {
         if (_array.Length < min)
         {
-            int newCapacity = _array.Length == 0 ? 4 : _array.Length * 2;
-            if (newCapacity < min) newCapacity = min;
+            var newCapacity = _array.Length == 0 ? 4 : _array.Length * 2;
+            if (newCapacity < min)
+                newCapacity = min;
             Array.Resize(ref _array, newCapacity);
         }
     }
@@ -102,7 +104,7 @@ public class DynamicArray<T> : IEnumerable<T>, IList<T>
 
     public int IndexOf(T item)
     {
-        for (int i = 0; i < _count; i++)
+        for (var i = 0; i < _count; i++)
         {
             if (EqualityComparer<T>.Default.Equals(_array[i], item))
             {
@@ -120,7 +122,7 @@ public class DynamicArray<T> : IEnumerable<T>, IList<T>
 
     public bool Remove(T item)
     {
-        for (int i = 0; i < _count; i++)
+        for (var i = 0; i < _count; i++)
         {
             if (EqualityComparer<T>.Default.Equals(_array[i], item))
             {

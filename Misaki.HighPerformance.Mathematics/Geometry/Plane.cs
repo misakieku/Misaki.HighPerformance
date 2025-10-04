@@ -162,7 +162,7 @@ public struct Plane
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 Normalize(float4 planeCoefficients)
     {
-        float recipLength = math.rsqrt(math.lengthsq(planeCoefficients.xyz));
+        var recipLength = math.rsqrt(math.lengthsq(planeCoefficients.xyz));
         return new Plane { normalAndDistance = planeCoefficients * recipLength };
     }
 
@@ -214,9 +214,9 @@ public struct Plane
     public static implicit operator float4(Plane plane) => plane.normalAndDistance;
 
     [Conditional("ENABLE_COLLECTIONS_CHECKS")]
-    void CheckPlaneIsNormalized()
+    private void CheckPlaneIsNormalized()
     {
-        float ll = math.lengthsq(Normal.xyz);
+        var ll = math.lengthsq(Normal.xyz);
         const float lowerBound = 0.999f * 0.999f;
         const float upperBound = 1.001f * 1.001f;
 

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Image
 {
-    unsafe partial class StbImage
+    public unsafe partial class StbImage
     {
         public static byte[] stbi__zdefault_distance =
             { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };

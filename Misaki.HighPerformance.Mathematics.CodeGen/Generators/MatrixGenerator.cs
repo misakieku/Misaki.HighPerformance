@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Text;
 
 namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators

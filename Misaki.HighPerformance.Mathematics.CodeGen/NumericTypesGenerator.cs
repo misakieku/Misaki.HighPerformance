@@ -17,7 +17,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen
             // Create a provider that finds all types with NumericTypeAttribute
             var typesWithAttribute = context.SyntaxProvider
                 .ForAttributeWithMetadataName(
-                    fullyQualifiedMetadataName: _TARGET_ATTRIBUTE_NAME,
+                    fullyQualifiedMetadataName: typeof(NumericTypeAttribute).FullName,
                     predicate: static (node, _) => node is ClassDeclarationSyntax or StructDeclarationSyntax,
                     transform: static (context, _) => GetTypeInfo(context))
                 .Where(static typeInfo => typeInfo is not null);
@@ -55,10 +55,10 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen
 
             // Get the attribute data
             var attribute = typeSymbol.GetAttributes()
-                .FirstOrDefault(a => a.AttributeClass?.ToDisplayString() == _TARGET_ATTRIBUTE_NAME);
+                .FirstOrDefault(a => a.AttributeClass?.ToDisplayString() == typeof(NumericTypeAttribute).FullName);
 
             var convertableAttributes = typeSymbol.GetAttributes()
-                .Where(a => a.AttributeClass?.ToDisplayString() == _CONVERTABLE_ATTRIBUTE_NAME);
+                .Where(a => a.AttributeClass?.ToDisplayString() == typeof(NumericConvertableAttribute).FullName);
 
             if (attribute == null)
             {
@@ -88,7 +88,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen
                         .Select(v => (INamedTypeSymbol)v.Value!)
                         .ToArray();
 
-                    info.ConvertableTypes??= new();
+                    info.ConvertableTypes ??= new();
                     info.ConvertableTypes[template] = types;
                 }
             }

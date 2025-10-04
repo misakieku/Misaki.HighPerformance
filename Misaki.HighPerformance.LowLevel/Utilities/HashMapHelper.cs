@@ -41,7 +41,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         public KeyValuePair<TKey, TValue> GetCurrent<TValue>()
             where TValue : unmanaged
         {
-            return new KeyValuePair<TKey, TValue>(buffer->_keys[index], UnsafeUtilities.ReadArrayElement<TValue>(buffer->_buffer, index));
+            return new KeyValuePair<TKey, TValue>(buffer->_keys[index], UnsafeUtilities.ReadArrayElementRef<TValue>(buffer->_buffer, index));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

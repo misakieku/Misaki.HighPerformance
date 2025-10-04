@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.Mathematics.Attributes;
+﻿using Misaki.HighPerformance.Mathematics.CodeGen;
 
 namespace Misaki.HighPerformance.Mathematics;
 
