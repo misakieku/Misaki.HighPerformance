@@ -168,14 +168,15 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     }
 
     /// <inheritdoc/>
-    public void Resize(int newSize)
+    public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
         if (newSize == _count)
         {
             return;
         }
 
-        _buffer = (T*)_handle->Realloc(_handle->Allocator, _buffer, (nuint)newSize * SizeOf<T>(), AlignOf<T>());
+        var elemSize = SizeOf<T>();
+        _buffer = (T*)_handle->Realloc(_handle->Allocator, _buffer, (nuint)_count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option);
         _count = newSize;
     }
 

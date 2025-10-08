@@ -1,4 +1,6 @@
-﻿namespace Misaki.HighPerformance.LowLevel.Collections.Contracts;
+﻿using Misaki.HighPerformance.LowLevel.Buffer;
+
+namespace Misaki.HighPerformance.LowLevel.Collections.Contracts;
 
 public unsafe interface IUnsafeCollection : IDisposable
 {
@@ -38,7 +40,7 @@ public unsafe interface IUnsafeCollection<T> : IUnsafeCollection, IEnumerable<T>
     /// </summary>
     /// <remarks>This is to adjust the element count of the collection, not the size of the underlying buffer in memory.</remarks>
     /// <param name="newSize">Specifies the new size to which the collection should be adjusted.</param>
-    public void Resize(int newSize);
+    public void Resize(int newSize, AllocationOption option);
 }
 
 public unsafe interface IUnTypedCollection : IUnsafeCollection

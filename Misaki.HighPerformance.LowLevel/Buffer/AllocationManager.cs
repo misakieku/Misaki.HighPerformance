@@ -29,14 +29,6 @@ public readonly unsafe struct AllocationInfo
     }
 
     /// <summary>
-    /// Get the function pointer used to free the allocated memory.
-    /// </summary>
-    public FreeFunc FreeHandler
-    {
-        get; init;
-    }
-
-    /// <summary>
     /// Get the stack trace at the time of allocation for debugging purposes.
     /// </summary>
     public StackTrace StackTrace
@@ -72,11 +64,19 @@ public static unsafe class AllocationManager
             return ptr;
         }
 
-        private static void* Reallocate(void* instance, void* ptr, nuint size, nuint alignment)
+        private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
         {
             var selfPtr = (ArenaAllocator*)instance;
-            var newPtr = selfPtr->_arena.Allocate(size, alignment, AllocationOption.None);
-            MemCpy(newPtr, ptr, size);
+            var newPtr = selfPtr->_arena.Allocate(newSize, alignment, allocationOption);
+            MemCpy(newPtr, ptr, newSize);
+
+            if (allocationOption.HasFlag(AllocationOption.Clear))
+            {
+                if (newSize > oldSize)
+                {
+                    MemClear((byte*)newPtr + oldSize, newSize - oldSize);
+                }
+            }
 
             // We do not free the old pointer here, as it is managed by the arena.
             return newPtr;
@@ -113,23 +113,39 @@ public static unsafe class AllocationManager
         {
             var ptr = AlignedAlloc(size, alignment);
 
-            if (!allocationOption.HasFlag(AllocationOption.UnTracked))
-            {
-                TrackAllocation(ptr, size, instance, &FreeBlock);
-            }
-
             if (allocationOption.HasFlag(AllocationOption.Clear))
             {
                 MemClear(ptr, size);
             }
 
+            if (!allocationOption.HasFlag(AllocationOption.UnTracked))
+            {
+                TrackAllocation(ptr, size, instance);
+            }
+
             return ptr;
         }
 
-        private static void* Reallocate(void* instance, void* ptr, nuint size, nuint alignment)
+        private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
         {
-            var newPtr = AlignedRealloc(ptr, size, alignment);
-            UpdateAllocation(ptr, newPtr, size, instance, &FreeBlock);
+            var newPtr = AlignedRealloc(ptr, newSize, alignment);
+
+            if (allocationOption.HasFlag(AllocationOption.Clear))
+            {
+                if (newSize > oldSize)
+                {
+                    MemClear((byte*)newPtr + oldSize, newSize - oldSize);
+                }
+            }
+
+            if (!allocationOption.HasFlag(AllocationOption.UnTracked))
+            {
+                UpdateAllocation(ptr, newPtr, newSize, instance);
+            }
+            else
+            {
+                UntrackAllocation(ptr);
+            }
 
             return newPtr;
         }
@@ -161,10 +177,19 @@ public static unsafe class AllocationManager
             return ptr;
         }
 
-        private static void* Reallocate(void* instance, void* ptr, nuint size, nuint alignment)
+        private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
         {
-            var newPtr = s_stack.Allocate(size, alignment, AllocationOption.None);
-            MemCpy(newPtr, ptr, size);
+            var newPtr = s_stack.Allocate(newSize, alignment, AllocationOption.None);
+            MemCpy(newPtr, ptr, newSize);
+
+            if (allocationOption.HasFlag(AllocationOption.Clear))
+            {
+                if (newSize > oldSize)
+                {
+                    MemClear((byte*)newPtr + oldSize, newSize - oldSize);
+                }
+            }
+
             // We do not free the old pointer here, as it is managed by the stack.
             return newPtr;
         }
@@ -240,7 +265,7 @@ public static unsafe class AllocationManager
     /// <param name="allocator">The allocator used for the allocation.</param>
     /// <param name="freeFunc">The function pointer used to free the allocated memory.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void TrackAllocation(void* ptr, nuint allocationSize, void* allocator, FreeFunc freeFunc)
+    public static void TrackAllocation(void* ptr, nuint allocationSize, void* allocator)
     {
         if (!s_debugLayer || s_allocated == null || ptr == null)
         {
@@ -251,7 +276,6 @@ public static unsafe class AllocationManager
         {
             Size = allocationSize,
             Allocator = allocator,
-            FreeHandler = freeFunc,
             StackTrace = new StackTrace(true)
         };
     }
@@ -265,7 +289,7 @@ public static unsafe class AllocationManager
     /// <param name="allocator">A pointer to the allocator responsible for the new allocation.</param>
     /// <param name="freeFunc">A delegate or function pointer used to free the memory associated with the allocation.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void UpdateAllocation(void* oldPtr, void* newPtr, nuint allocationSize, void* allocator, FreeFunc freeFunc)
+    public static void UpdateAllocation(void* oldPtr, void* newPtr, nuint allocationSize, void* allocator)
     {
         if (!s_debugLayer || s_allocated == null || oldPtr == null || newPtr == null)
         {
@@ -279,7 +303,6 @@ public static unsafe class AllocationManager
             {
                 Size = allocationSize,
                 Allocator = allocator,
-                FreeHandler = freeFunc,
                 StackTrace = info.StackTrace
             };
         }
@@ -330,7 +353,6 @@ public static unsafe class AllocationManager
             foreach (var pair in s_allocated)
             {
                 unfreeBytes += pair.Value.Size;
-                pair.Value.FreeHandler(pair.Value.Allocator, (void*)pair.Key);
             }
 
             if (unfreeBytes > 0u)

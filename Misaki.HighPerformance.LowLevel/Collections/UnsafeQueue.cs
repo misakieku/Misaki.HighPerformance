@@ -170,9 +170,9 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
         return true;
     }
 
-    public void Resize(int newSize)
+    public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
-        _array.Resize(newSize);
+        _array.Resize(newSize, option);
 
         if (_count > newSize)
         {

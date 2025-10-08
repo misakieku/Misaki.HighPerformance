@@ -276,10 +276,10 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         return ref slot.value;
     }
 
-    public void Resize(int newSize)
+    public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
-        _data.Resize(newSize);
-        _freeSlots.Resize(newSize);
+        _data.Resize(newSize, option);
+        _freeSlots.Resize(newSize, option);
 
         _capacity = newSize;
     }

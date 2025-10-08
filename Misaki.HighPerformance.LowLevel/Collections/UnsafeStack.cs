@@ -126,9 +126,9 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
         return _array[_count - 1];
     }
 
-    public void Resize(int newSize)
+    public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
-        _array.Resize(newSize);
+        _array.Resize(newSize, option);
 
         if (_count > newSize)
         {

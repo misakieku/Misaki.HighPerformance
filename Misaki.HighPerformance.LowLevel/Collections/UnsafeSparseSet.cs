@@ -17,12 +17,6 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
-    private struct SlotEntry
-    {
-        public T value;
-        public int generation;
-    }
-
     public struct Enumerator : IEnumerator<T>
     {
         private readonly UnsafeSparseSet<T>* _collection;
@@ -40,14 +34,10 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         public bool MoveNext()
         {
             _index++;
-            if (_index < _collection->_sparse.Count)
+            if (_index < _collection->_count)
             {
-                var index = _collection->_sparse[_index];
-                if (index >= 0 && index < _collection->_count)
-                {
-                    _value = _collection->_dense[index].value;
-                    return true;
-                }
+                _value = _collection->_dense[_index];
+                return true;
             }
 
             _value = default;
@@ -76,17 +66,19 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         }
     }
 
-    private UnsafeArray<SlotEntry> _dense;
+    private UnsafeArray<T> _dense;
+    private UnsafeArray<int> _generations;
     private UnsafeArray<int> _sparse;
-    private UnsafeArray<int> _reverse; // Maps dense index to sparse index
-    private UnsafeArray<int> _freeList; // Stack of available sparse indices
+    private UnsafeArray<int> _reverse; // Maps dense index to sparse index. Since this is a general purpose sparse set, we have to include reverse array. In real world ecs, this should be replaced with entity id array.
+    private UnsafeStack<int> _freeSparse;
+
     private int _count;
     private int _nextId; // Next available sparse index
-    private int _freeCount; // Number of items in the free list
+    private int _capacity;
 
     public readonly int Count => _count;
-    public readonly int Capacity => _dense.Count;
-    public readonly bool IsCreated => _dense.IsCreated && _sparse.IsCreated && _reverse.IsCreated && _freeList.IsCreated;
+    public readonly int Capacity => _capacity;
+    public readonly bool IsCreated => _dense.IsCreated && _sparse.IsCreated && _reverse.IsCreated;
 
     public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeSparseSet<T>*)UnsafeUtilities.AddressOf(ref this));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -113,13 +105,15 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
             throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
         }
 
-        _dense = new UnsafeArray<SlotEntry>(capacity, ref handle, allocationOption);
+        _dense = new UnsafeArray<T>(capacity, ref handle, allocationOption);
+        _generations = new UnsafeArray<int>(capacity, ref handle, allocationOption);
         _sparse = new UnsafeArray<int>(capacity, ref handle, allocationOption);
         _reverse = new UnsafeArray<int>(capacity, ref handle, allocationOption);
-        _freeList = new UnsafeArray<int>(capacity, ref handle, allocationOption);
+        _freeSparse = new UnsafeStack<int>(capacity, ref handle, allocationOption);
+
         _count = 0;
         _nextId = 0;
-        _freeCount = 0;
+        _capacity = capacity;
 
         Clear();
     }
@@ -136,6 +130,12 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     {
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private readonly ref T GetDenseReferenceUnchecked(int sparseIndex)
+    {
+        return ref _dense[_sparse[sparseIndex]];
+    }
+
     /// <summary>
     /// Adds a value to the sparse set and returns a unique sparse index for the value.
     /// </summary>
@@ -144,15 +144,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// <returns>A unique sparse index that can be used to reference this value.</returns>
     public int Add(T value, out int generation)
     {
-        int sparseIndex;
-
-        // Try to reuse a freed sparse index first
-        if (_freeCount > 0)
-        {
-            _freeCount--;
-            sparseIndex = _freeList[_freeCount];
-        }
-        else
+        if (!_freeSparse.TryPop(out var sparseIndex))
         {
             // Use the next available ID
             sparseIndex = _nextId++;
@@ -167,21 +159,18 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         // Resize dense arrays if necessary
         if (_count >= _dense.Count)
         {
-            var newCapacity = _dense.Count + Math.Max(1, _dense.Count / 2);
-            _dense.Resize(newCapacity);
-            _reverse.Resize(newCapacity);
+            var newCapacity = _dense.Count + (int)Math.Max(1, _dense.Count * 0.5f);
+            Resize(newCapacity);
         }
 
         // Add the value to the dense array and update mappings
-        ref var entry = ref _dense[_count];
-        entry.value = value;
+        _dense[_count] = value;
 
         _sparse[sparseIndex] = _count;
         _reverse[_count] = sparseIndex;
         _count++;
 
-        generation = entry.generation;
-
+        generation = _generations[sparseIndex];
         return sparseIndex;
     }
 
@@ -216,17 +205,9 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 
         // Mark the sparse index as unused and add to free list
         _sparse[sparseIndex] = -1;
-        _dense[lastIndex].generation++; // Increment generation to invalidate old references
+        _generations[sparseIndex]++; // Increment generation to invalidate old references
 
-        // Add the freed sparse index to the free list for reuse
-        if (_freeCount >= _freeList.Count)
-        {
-            _freeList.Resize(_freeList.Count + Math.Max(1, _freeList.Count / 2));
-        }
-
-        _freeList[_freeCount] = sparseIndex;
-        _freeCount++;
-
+        _freeSparse.Push(sparseIndex);
         _count--;
 
         return true;
@@ -247,7 +228,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         }
 
         var denseIndex = _sparse[sparseIndex];
-        return denseIndex >= 0 && denseIndex < _count && _dense[denseIndex].generation == generation;
+        return denseIndex >= 0 && denseIndex < _count && _generations[denseIndex] == generation;
     }
 
     /// <summary>
@@ -261,10 +242,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     {
         if (Contains(sparseIndex, generation))
         {
-            var denseIndex = _sparse[sparseIndex];
-            ref var entry = ref _dense[denseIndex];
-
-            value = entry.value;
+            value = GetDenseReferenceUnchecked(sparseIndex);
             return true;
         }
 
@@ -286,10 +264,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
             throw new ArgumentOutOfRangeException(nameof(sparseIndex), "Sparse index and feneration not found in the set.");
         }
 
-        var denseIndex = _sparse[sparseIndex];
-        ref var entry = ref _dense[denseIndex];
-
-        return entry.value;
+        return GetDenseReferenceUnchecked(sparseIndex);
     }
 
     /// <summary>
@@ -308,12 +283,8 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
             return ref Unsafe.NullRef<T>();
         }
 
-        var denseIndex = _sparse[sparseIndex];
-        ref var entry = ref _dense[denseIndex];
-
         exist = true;
-
-        return ref entry.value;
+        return ref GetDenseReferenceUnchecked(sparseIndex);
     }
 
     /// <summary>
@@ -330,10 +301,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
             return false;
         }
 
-        var denseIndex = _sparse[sparseIndex];
-        ref var entry = ref _dense[denseIndex];
-        entry.value = value;
-
+        GetDenseReferenceUnchecked(sparseIndex) = value;
         return true;
     }
 
@@ -354,32 +322,32 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         }
 
         _sparse.AsSpan().Fill(-1);
+        _generations.AsSpan().Clear();
+
         _count = 0;
         _nextId = 0;
-        _freeCount = 0;
     }
 
     /// <inheritdoc/>
-    public void Resize(int newSize)
+    public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
         if (newSize <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(newSize), "New size must be greater than zero.");
         }
 
-        _dense.Resize(newSize);
-        _reverse.Resize(newSize);
-        _freeList.Resize(newSize);
+        var oldSize = _capacity;
+
+        _dense.Resize(newSize, option);
+        _generations.Resize(newSize, option | AllocationOption.Clear);
+        _reverse.Resize(newSize, option);
 
         if (newSize > _sparse.Count)
         {
             ResizeSparse(newSize);
         }
 
-        if (_count > newSize)
-        {
-            _count = newSize;
-        }
+        _capacity = newSize;
     }
 
     /// <inheritdoc/>
@@ -403,11 +371,12 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     public void Dispose()
     {
         _dense.Dispose();
+        _generations.Dispose();
         _sparse.Dispose();
         _reverse.Dispose();
-        _freeList.Dispose();
+        _freeSparse.Dispose();
+
         _count = 0;
         _nextId = 0;
-        _freeCount = 0;
     }
 }

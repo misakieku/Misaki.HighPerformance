@@ -156,4 +156,34 @@ public static unsafe class UnsafeUtilities
     {
         return new UnsafeArray<TOut>((TOut*)array.GetUnsafePtr(), array.Count * sizeof(TIn) / sizeof(TOut));
     }
+
+    /// <summary>
+    /// Returns a pointer to the first element of the specified span. This method enables direct, unsafe access to the underlying data of the span.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the span. Must be an unmanaged type.</typeparam>
+    /// <param name="span">The span whose underlying data pointer is to be obtained.</param>
+    /// <returns>A pointer to the first element of the span. If the span is empty, the returned pointer is undefined and must not be dereferenced.</returns>
+    public static T* GetUnsafePtr<T>(this Span<T> span)
+        where T : unmanaged
+    {
+        fixed (T* ptr = span)
+        {
+            return ptr;
+        }
+    }
+
+    /// <summary>
+    /// Returns a pointer to the first element of the specified span. This method enables direct, unsafe access to the underlying data of the span.
+    /// </summary>
+    /// <typeparam name="T">The type of elements in the span. Must be an unmanaged type.</typeparam>
+    /// <param name="span">The span whose underlying data pointer is to be obtained.</param>
+    /// <returns>A pointer to the first element of the span. If the span is empty, the returned pointer is undefined and must not be dereferenced.</returns>
+    public static T* GetUnsafePtr<T>(this ReadOnlySpan<T> span)
+        where T : unmanaged
+    {
+        fixed (T* ptr = span)
+        {
+            return ptr;
+        }
+    }
 }

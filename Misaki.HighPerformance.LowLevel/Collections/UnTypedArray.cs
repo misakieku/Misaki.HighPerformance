@@ -79,14 +79,14 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     }
 
     /// <inheritdoc/>
-    public void Resize(uint newSize)
+    public void Resize(uint newSize, AllocationOption option = AllocationOption.None)
     {
         if (newSize == _size)
         {
             return;
         }
 
-        _buffer = _handle->Realloc(_handle->Allocator, _buffer, newSize, _alignment);
+        _buffer = _handle->Realloc(_handle->Allocator, _buffer, _size, newSize, _alignment, option);
         _size = newSize;
     }
 

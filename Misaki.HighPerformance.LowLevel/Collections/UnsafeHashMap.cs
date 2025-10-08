@@ -184,7 +184,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
     /// </summary>
     public void TrimExcess() => _hashMap.TrimExcess();
 
-    public void Resize(int newSize)
+    public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
         _hashMap.Resize(newSize);
     }

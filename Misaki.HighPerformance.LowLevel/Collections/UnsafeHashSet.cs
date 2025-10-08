@@ -114,7 +114,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
         return _hashMap.GetKeyArray(allocator);
     }
 
-    public void Resize(int newSize)
+    public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
         _hashMap.Resize(newSize);
     }
