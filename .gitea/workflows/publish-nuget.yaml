@@ -46,7 +46,7 @@ jobs:
             if grep -q "<IsPackable>True</IsPackable>" "$projfile"; then
               projname=$(basename "$projfile" .csproj)
               echo "Checking $projname..."
-              pkg=$(find "$projname/bin/Release" -maxdepth 1 -type f \
+              pkg=$(find ./artifacts -maxdepth 1 -type f \
                     -name "$projname.*.nupkg" ! -name "*.symbols.nupkg" | sort -V | tail -n1)
               if [ -n "$pkg" ]; then
                 echo "Pushing $pkg"
