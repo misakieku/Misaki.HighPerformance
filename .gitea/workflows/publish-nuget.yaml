@@ -28,18 +28,18 @@ jobs:
         run: |
           for projfile in $(find . -name "*.csproj"); do
             packable=$(dotnet msbuild "$projfile" -t:GetProperty -p:PropertyName=IsPackable -nologo -v:q)
-            if [ "$packable" = "true" ]; then
+            if [ "$packable" = "True" ]; then
               dotnet pack "$projfile" -c Release
             fi
           done
 
       - name: Publish all packages
         env:
-          NUGET_API_KEY: ${{ secrets.GITEA_TOKEN }}
+          NUGET_API_KEY: ${{ secrets.NUGET_TOKEN }}
         run: |
           for projfile in $(find . -name "*.csproj"); do
             packable=$(dotnet msbuild "$projfile" -t:GetProperty -p:PropertyName=IsPackable -nologo -v:q)
-            if [ "$packable" = "true" ]; then
+            if [ "$packable" = "True" ]; then
               projname=$(basename "$projfile" .csproj)
               VERSION=$(dotnet msbuild "$projfile" -nologo -v:q -t:GetProperty -p:PropertyName=PackageVersion)
               pkg=$(find "$projname/bin/Release" -maxdepth 1 -type f \
