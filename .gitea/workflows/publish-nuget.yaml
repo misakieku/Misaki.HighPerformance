@@ -28,12 +28,12 @@ jobs:
         run: |
     	    set -e
     	    for projfile in $(find . -name "*.csproj"); do
-      	        if grep -q "<IsPackable>true</IsPackable>" "$projfile"; then
+      	    if grep -q "<IsPackable>true</IsPackable>" "$projfile"; then
         	    echo "Packing $projfile..."
         	    if ! dotnet pack "$projfile" -c Release -o ./artifacts; then
-          	    	echo "⚠️ Failed to pack $projfile"
+          	    echo "Failed to pack $projfile"
         	    fi
-      	    	fi
+      	    fi
     	    done
 
       - name: Publish all packages
