@@ -53,25 +53,25 @@ public struct UnsafeBitSet : IDisposable
     /// </summary>
     public UnsafeBitSet()
     {
-        _bits = new UnsafeArray<uint>(s_padding, Allocator.Persistent);
+        _bits = new UnsafeArray<uint>(s_padding, Allocator.Persistent, AllocationOption.Clear);
     }
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
-    public UnsafeBitSet(int minimalLength)
+    public UnsafeBitSet(int minimalLength, Allocator allocator, AllocationOption option = AllocationOption.Clear)
     {
         var uints = (minimalLength >> _INDEX_SIZE) + int.Sign(minimalLength & _BIT_SIZE);
         var length = RoundToPadding(uints);
-        _bits = new UnsafeArray<uint>(length, Allocator.Persistent);
+        _bits = new UnsafeArray<uint>(length, allocator, option);
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
-    public UnsafeBitSet(params Span<uint> bits)
+    public UnsafeBitSet(Span<uint> bits, Allocator allocator, AllocationOption option = AllocationOption.Clear)
     {
-        _bits = new UnsafeArray<uint>(bits.Length, Allocator.Persistent);
+        _bits = new UnsafeArray<uint>(bits.Length, allocator, option);
         _bits.CopyFrom(bits);
 
         _highestBit = 0;
@@ -107,6 +107,11 @@ public struct UnsafeBitSet : IDisposable
     public int Length
     {
         get => _bits.Count;
+    }
+
+    public bool IsCreated
+    {
+        get => _bits.IsCreated;
     }
 
     /// <summary>
@@ -443,10 +448,88 @@ public struct UnsafeBitSet : IDisposable
         return true;
     }
 
+    public unsafe void AndOperation(UnsafeBitSet other)
+    {
+        var min = Math.Min(Length, other.Length);
+        var temp = stackalloc uint[min];
+
+        if (!Vector.IsHardwareAccelerated || min < s_padding)
+        {
+            for (var i = 0; i < min; i++)
+            {
+                temp[i] = _bits[i] & other._bits[i];
+            }
+        }
+        else
+        {
+            for (var i = 0; i < min; i += s_padding)
+            {
+                var vectorLeft = new Vector<uint>(_bits.AsSpan()[i..]);
+                var vectorRight = new Vector<uint>(other._bits.AsSpan()[i..]);
+                var resultVector = Vector.BitwiseAnd(vectorLeft, vectorRight);
+                resultVector.CopyTo(new Span<uint>(temp + i, s_padding));
+            }
+        }
+
+        _bits.CopyFrom(new Span<uint>(temp, min));
+    }
+
+    public unsafe void OrOperation(UnsafeBitSet other)
+    {
+        var min = Math.Min(Length, other.Length);
+        var temp = stackalloc uint[min];
+
+        if (!Vector.IsHardwareAccelerated || min < s_padding)
+        {
+            for (var i = 0; i < min; i++)
+            {
+                temp[i] = _bits[i] | other._bits[i];
+            }
+        }
+        else
+        {
+            for (var i = 0; i < min; i += s_padding)
+            {
+                var vectorLeft = new Vector<uint>(_bits.AsSpan()[i..]);
+                var vectorRight = new Vector<uint>(other._bits.AsSpan()[i..]);
+                var resultVector = Vector.BitwiseOr(vectorLeft, vectorRight);
+                resultVector.CopyTo(new Span<uint>(temp + i, s_padding));
+            }
+        }
+
+        _bits.CopyFrom(new Span<uint>(temp, min));
+    }
+
+    public unsafe void XorOperation(UnsafeBitSet other)
+    {
+        var min = Math.Min(Length, other.Length);
+        var temp = stackalloc uint[min];
+
+        if (!Vector.IsHardwareAccelerated || min < s_padding)
+        {
+            for (var i = 0; i < min; i++)
+            {
+                temp[i] = _bits[i] ^ other._bits[i];
+            }
+        }
+        else
+        {
+            for (var i = 0; i < min; i += s_padding)
+            {
+                var vectorLeft = new Vector<uint>(_bits.AsSpan()[i..]);
+                var vectorRight = new Vector<uint>(other._bits.AsSpan()[i..]);
+                var resultVector = Vector.Xor(vectorLeft, vectorRight);
+                resultVector.CopyTo(new Span<uint>(temp + i, s_padding));
+            }
+        }
+
+        _bits.CopyFrom(new Span<uint>(temp, min));
+    }
+
     public static UnsafeBitSet operator &(UnsafeBitSet left, UnsafeBitSet right)
     {
         var min = Math.Min(left.Length, right.Length);
-        var result = new UnsafeBitSet(min);
+        var result = new UnsafeBitSet(min, Allocator.Persistent);
         if (!Vector.IsHardwareAccelerated || min < s_padding)
         {
             for (var i = 0; i < min; i++)
@@ -470,7 +553,7 @@ public struct UnsafeBitSet : IDisposable
     public static UnsafeBitSet operator |(UnsafeBitSet left, UnsafeBitSet right)
     {
         var min = Math.Min(left.Length, right.Length);
-        var result = new UnsafeBitSet(min);
+        var result = new UnsafeBitSet(min, Allocator.Persistent);
         if (!Vector.IsHardwareAccelerated || min < s_padding)
         {
             for (var i = 0; i < min; i++)

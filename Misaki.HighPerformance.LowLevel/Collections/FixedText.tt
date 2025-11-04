@@ -16,10 +16,10 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 /// </summary>
 /// <remarks>
 /// This struct is designed to hold data on the stack. Every copy of this struct causes a copy of the underlying data.
-/// If you need a heap allocated fixed-size UTF-8 encoded string of length <#= i #> bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedString<#= i #>"/>.
+/// If you need a heap allocated fixed-size UTF-8 encoded string of length <#= i #> bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedText<#= i #>"/>.
 /// </remarks>
 [StructLayout(LayoutKind.Sequential, Size = <#= i #>)]
-public unsafe struct FixedString<#= i #>
+public unsafe struct FixedText<#= i #>
 {
     private ushort _length;
     private fixed byte _buffer[<#= i - 2 #>];
@@ -45,7 +45,7 @@ public unsafe struct FixedString<#= i #>
             var maxBytes = Encoding.UTF8.GetByteCount(value);
             if (maxBytes > <#= i - 2 #>)
             {
-                throw new ArgumentException("Input string is too long to fit in FixedString<#= i #>.");
+                throw new ArgumentException("Input string is too long to fit in FixedText<#= i #>.");
             }
 
             fixed (byte* bufferPtr = _buffer)
@@ -55,12 +55,12 @@ public unsafe struct FixedString<#= i #>
         }
     }
 
-    public FixedString<#= i #>(ReadOnlySpan<char> input)
+    public FixedText<#= i #>(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
         if (maxBytes > <#= i - 2 #>)
         {
-            throw new ArgumentException("Input string is too long to fit in FixedString<#= i #>.");
+            throw new ArgumentException("Input string is too long to fit in FixedText<#= i #>.");
         }
 
         fixed (char* inputPtr = input)
@@ -71,21 +71,21 @@ public unsafe struct FixedString<#= i #>
         }
     }
 
-    public FixedString<#= i #>(string input)
+    public FixedText<#= i #>(string input)
         : this(input.AsSpan())
     {
     }
 
-    public FixedString<#= i #>(char* input, ushort length)
+    public FixedText<#= i #>(char* input, ushort length)
         : this(new Span<char>(input, length))
     {
     }
 
-    public FixedString<#= i #>(ReadOnlySpan<byte> input)
+    public FixedText<#= i #>(ReadOnlySpan<byte> input)
     {
         if (input.Length > <#= i - 2 #>)
         {
-            throw new ArgumentException("Input byte array is too long to fit in FixedString<#= i #>.");
+            throw new ArgumentException("Input byte array is too long to fit in FixedText<#= i #>.");
         }
 
         _length = (ushort)input.Length;
@@ -97,7 +97,7 @@ public unsafe struct FixedString<#= i #>
         }
     }
 
-    public FixedString<#= i #>(byte* input, ushort length)
+    public FixedText<#= i #>(byte* input, ushort length)
         : this(new ReadOnlySpan<byte>(input, length))
     {
     }

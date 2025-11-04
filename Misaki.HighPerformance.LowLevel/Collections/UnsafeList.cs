@@ -33,7 +33,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
             _index++;
             if (_index < _collection->_count)
             {
-                _value = UnsafeUtilities.ReadArrayElement<T>(_collection->_array.GetUnsafePtr(), _index);
+                _value = UnsafeUtility.ReadArrayElement<T>(_collection->_array.GetUnsafePtr(), _index);
                 return true;
             }
 
@@ -96,7 +96,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         {
             var idx = Interlocked.Increment(ref listData->_count) - 1;
             listData->CheckNoResizeCapacity(idx, 1);
-            UnsafeUtilities.WriteArrayElement(listData->_array.GetUnsafePtr(), idx, value);
+            UnsafeUtility.WriteArrayElement(listData->_array.GetUnsafePtr(), idx, value);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
             fixed (T* pCollection = collection)
             {
-                MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(listData->_array.GetUnsafePtr(), index), pCollection, (uint)(count * sizeof(T)));
+                MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(listData->_array.GetUnsafePtr(), index), pCollection, (uint)(count * sizeof(T)));
             }
         }
     }
@@ -136,14 +136,14 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         get => ref _array[index];
     }
 
-    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeList<T>*)UnsafeUtilities.AddressOf(ref this));
+    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeList<T>*)UnsafeUtility.AddressOf(ref this));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>
     /// Provides a parallel writer for the current list, enabling thread-safe additions to the list.
     /// </summary>
     /// <returns>A <see cref="ParallelWriter"/> instance that can be used to add items to the list in a thread-safe manner.</returns>
-    public ParallelWriter AsParallelWriter() => new((UnsafeList<T>*)UnsafeUtilities.AddressOf(ref this));
+    public ParallelWriter AsParallelWriter() => new((UnsafeList<T>*)UnsafeUtility.AddressOf(ref this));
 
     /// <summary>
     /// Converts the current list to an UnsafeArray representation.
@@ -221,6 +221,11 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         }
     }
 
+    public readonly ReadOnlyUnsafeCollection<T> AsReadOnly()
+    {
+        return new ReadOnlyUnsafeCollection<T>((T*)_array.GetUnsafePtr(), _count);
+    }
+
     /// <summary>
     /// Adds a new element to the end of the list, resizing the internal array if necessary.
     /// </summary>
@@ -232,7 +237,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
             Resize(Capacity + (int)(Capacity * 0.5f));
         }
 
-        UnsafeUtilities.WriteArrayElement(_array.GetUnsafePtr(), _count, value);
+        UnsafeUtility.WriteArrayElement(_array.GetUnsafePtr(), _count, value);
         _count++;
     }
 
@@ -244,7 +249,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     {
         CheckNoResizeCapacity(1);
 
-        UnsafeUtilities.WriteArrayElement(_array.GetUnsafePtr(), _count, value);
+        UnsafeUtility.WriteArrayElement(_array.GetUnsafePtr(), _count, value);
         _count++;
     }
 
@@ -264,7 +269,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
         fixed (T* ptr = values)
         {
-            MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
+            MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
         }
 
         _count += count;
@@ -280,7 +285,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
         fixed (T* pCollection = collection)
         {
-            MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), pCollection, (uint)(collection.Length * sizeof(T)));
+            MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), pCollection, (uint)(collection.Length * sizeof(T)));
         }
 
         _count += collection.Length;
@@ -295,7 +300,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     {
         CheckNoResizeCapacity(count);
 
-        MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
+        MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
         _count += count;
     }
 
@@ -314,8 +319,8 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         }
 
         var copyFrom = Math.Min(start + length, _count);
-        MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
-            UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
+        MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
+            UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
             (uint)((_count - copyFrom) * sizeof(T))
         );
         _count -= length;
@@ -345,8 +350,8 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         }
 
         var copyFrom = Math.Min(_count - length, start + length);
-        MemCpy(UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
-            UnsafeUtilities.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
+        MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
+            UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
             (uint)((_count - copyFrom) * sizeof(T))
         );
         _count -= length;
@@ -390,4 +395,3 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         _count = 0;
     }
 }
-

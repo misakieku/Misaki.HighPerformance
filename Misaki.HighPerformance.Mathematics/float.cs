@@ -1,7 +1,5 @@
 ﻿using Misaki.HighPerformance.Mathematics.CodeGen;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics;
 
 namespace Misaki.HighPerformance.Mathematics;
 

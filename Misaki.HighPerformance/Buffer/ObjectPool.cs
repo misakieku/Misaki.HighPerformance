@@ -42,6 +42,17 @@ namespace Misaki.HighPerformance.Buffer
             Dispose();
         }
 
+        public T Rent()
+        {
+            ObjectDisposedException.ThrowIf(_disposed, this);
+            if (_objects.TryDequeue(out var obj))
+            {
+                return obj;
+            }
+
+            return _factory();
+        }
+
         public bool TryRent([MaybeNullWhen(false)] out T obj)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);

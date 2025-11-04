@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Utilities;
 
-public static unsafe class UnsafeUtilities
+public static unsafe class UnsafeUtility
 {
     /// <summary>
     /// Converts a pointer to a reference of a specified type.

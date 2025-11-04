@@ -72,7 +72,7 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
             Resize(_array.Count + (int)(_array.Count * 0.5f));
         }
 
-        UnsafeUtilities.WriteArrayElement(_array.GetUnsafePtr(), _count, value);
+        UnsafeUtility.WriteArrayElement(_array.GetUnsafePtr(), _count, value);
         _count++;
     }
 

@@ -5,7 +5,7 @@ using System.Runtime.Intrinsics;
 
 namespace Misaki.HighPerformance.LowLevel.Utilities;
 
-public static unsafe partial class MemoryUtilities
+public static unsafe partial class MemoryUtility
 {
     [DoesNotReturn]
     private static void ThrowMustBeNullTerminatedString()

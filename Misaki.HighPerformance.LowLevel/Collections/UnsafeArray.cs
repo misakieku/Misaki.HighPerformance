@@ -18,26 +18,25 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     {
         private readonly UnsafeArray<T>* _collection;
         private int _index;
-        private T _value;
 
         public Enumerator(UnsafeArray<T>* collection)
         {
             _collection = collection;
             _index = -1;
-            _value = default;
+            Current = default;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
             _index++;
-            if (_index < _collection->_count)
+            if (_index < _collection->Count)
             {
-                _value = UnsafeUtilities.ReadArrayElement<T>(_collection->_buffer, _index);
+                Current = UnsafeUtility.ReadArrayElement<T>(_collection->_buffer, _index);
                 return true;
             }
 
-            _value = default;
+            Current = default;
             return false;
         }
 
@@ -47,10 +46,10 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         }
 
         // Let NativeArray indexer check for out of range.
-        public readonly T Current
+        public T Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _value;
+            get; private set;
         }
 
         readonly object IEnumerator.Current
@@ -66,7 +65,6 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
     private T* _buffer;
     private int _count;
-
     private AllocationHandle* _handle;
 
     public readonly int Count => _count;
@@ -83,7 +81,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             }
 #endif
 
-            return ref UnsafeUtilities.ReadArrayElementRef<T>(_buffer, index);
+            return ref UnsafeUtility.ReadArrayElementRef<T>(_buffer, index);
         }
     }
 
@@ -99,7 +97,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             }
 #endif
 
-            return ref UnsafeUtilities.ReadArrayElementRef<T>(_buffer, index);
+            return ref UnsafeUtility.ReadArrayElementRef<T>(_buffer, index);
         }
     }
 
@@ -109,7 +107,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         get => _buffer != null;
     }
 
-    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeArray<T>*)UnsafeUtilities.AddressOf(ref this));
+    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeArray<T>*)UnsafeUtility.AddressOf(ref this));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>
@@ -167,16 +165,21 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         _count = count;
     }
 
+    public ReadOnlyUnsafeCollection<T> AsReadOnly()
+    {
+        return new ReadOnlyUnsafeCollection<T>(_buffer, _count);
+    }
+
     /// <inheritdoc/>
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
-        if (newSize == _count)
+        if (newSize == Count)
         {
             return;
         }
 
         var elemSize = SizeOf<T>();
-        _buffer = (T*)_handle->Realloc(_handle->Allocator, _buffer, (nuint)_count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option);
+        _buffer = (T*)_handle->Realloc(_handle->Allocator, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option);
         _count = newSize;
     }
 
@@ -184,7 +187,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void Clear()
     {
-        MemClear(_buffer, (nuint)(_count * sizeof(T)));
+        MemClear(_buffer, (nuint)(Count * sizeof(T)));
     }
 
     /// <inheritdoc/>
@@ -192,6 +195,25 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     public readonly void* GetUnsafePtr()
     {
         return _buffer;
+    }
+
+    /// <summary>
+    /// Reinterprets the underlying buffer as an array of a different unmanaged type without copying the data.
+    /// </summary>
+    /// <typeparam name="U">The unmanaged type to reinterpret the buffer as.</typeparam>
+    /// <returns>An UnsafeArray<U> that views the same memory as the original array, but as elements of type U.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the total size of the buffer in bytes is not a multiple of the size of type U.</exception>
+    public readonly UnsafeArray<U> Reinterpret<U>()
+        where U : unmanaged
+    {
+        var totalSize = (nuint)(Count * sizeof(T));
+        if (totalSize % (nuint)sizeof(U) != 0)
+        {
+            throw new InvalidOperationException("Cannot reinterpret array: size mismatch.");
+        }
+
+        var newCount = (int)(totalSize / (nuint)sizeof(U));
+        return new UnsafeArray<U>((U*)_buffer, newCount);
     }
 
     /// <inheritdoc/>

@@ -18,9 +18,9 @@
 
 //Console.WriteLine($"Count should be {threadCount * 990}, actual: {map.Count}");
 
-using Misaki.HighPerformance.Test.Benchmark;
+//using Misaki.HighPerformance.Test.Benchmark;
 
-BenchmarkDotNet.Running.BenchmarkRunner.Run<MathematicsBenchmark>();
+//BenchmarkDotNet.Running.BenchmarkRunner.Run<MathematicsBenchmark>();
 
 //using Misaki.HighPerformance.LowLevel.Buffer;
 //using Misaki.HighPerformance.LowLevel.Collections;
@@ -39,3 +39,8 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<MathematicsBenchmark>();
 //        Console.WriteLine(item);
 //    }
 //}
+
+using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Collections;
+
+var array = new UnsafeArray<int>(10, Allocator.Persistent);

@@ -9,10 +9,10 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 /// </summary>
 /// <remarks>
 /// This struct is designed to hold data on the stack. Every copy of this struct causes a copy of the underlying data.
-/// If you need a heap allocated fixed-size UTF-8 encoded string of length 32 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedString32"/>.
+/// If you need a heap allocated fixed-size UTF-8 encoded string of length 32 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedText32"/>.
 /// </remarks>
 [StructLayout(LayoutKind.Sequential, Size = 32)]
-public unsafe struct FixedString32
+public unsafe struct FixedText32
 {
     private ushort _length;
     private fixed byte _buffer[30];
@@ -38,7 +38,7 @@ public unsafe struct FixedString32
             var maxBytes = Encoding.UTF8.GetByteCount(value);
             if (maxBytes > 30)
             {
-                throw new ArgumentException("Input string is too long to fit in FixedString32.");
+                throw new ArgumentException("Input string is too long to fit in FixedText32.");
             }
 
             fixed (byte* bufferPtr = _buffer)
@@ -48,12 +48,12 @@ public unsafe struct FixedString32
         }
     }
 
-    public FixedString32(ReadOnlySpan<char> input)
+    public FixedText32(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
         if (maxBytes > 30)
         {
-            throw new ArgumentException("Input string is too long to fit in FixedString32.");
+            throw new ArgumentException("Input string is too long to fit in FixedText32.");
         }
 
         fixed (char* inputPtr = input)
@@ -64,21 +64,21 @@ public unsafe struct FixedString32
         }
     }
 
-    public FixedString32(string input)
+    public FixedText32(string input)
         : this(input.AsSpan())
     {
     }
 
-    public FixedString32(char* input, ushort length)
+    public FixedText32(char* input, ushort length)
         : this(new Span<char>(input, length))
     {
     }
 
-    public FixedString32(ReadOnlySpan<byte> input)
+    public FixedText32(ReadOnlySpan<byte> input)
     {
         if (input.Length > 30)
         {
-            throw new ArgumentException("Input byte array is too long to fit in FixedString32.");
+            throw new ArgumentException("Input byte array is too long to fit in FixedText32.");
         }
 
         _length = (ushort)input.Length;
@@ -90,7 +90,7 @@ public unsafe struct FixedString32
         }
     }
 
-    public FixedString32(byte* input, ushort length)
+    public FixedText32(byte* input, ushort length)
         : this(new ReadOnlySpan<byte>(input, length))
     {
     }
@@ -124,10 +124,10 @@ public unsafe struct FixedString32
 /// </summary>
 /// <remarks>
 /// This struct is designed to hold data on the stack. Every copy of this struct causes a copy of the underlying data.
-/// If you need a heap allocated fixed-size UTF-8 encoded string of length 64 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedString64"/>.
+/// If you need a heap allocated fixed-size UTF-8 encoded string of length 64 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedText64"/>.
 /// </remarks>
 [StructLayout(LayoutKind.Sequential, Size = 64)]
-public unsafe struct FixedString64
+public unsafe struct FixedText64
 {
     private ushort _length;
     private fixed byte _buffer[62];
@@ -153,7 +153,7 @@ public unsafe struct FixedString64
             var maxBytes = Encoding.UTF8.GetByteCount(value);
             if (maxBytes > 62)
             {
-                throw new ArgumentException("Input string is too long to fit in FixedString64.");
+                throw new ArgumentException("Input string is too long to fit in FixedText64.");
             }
 
             fixed (byte* bufferPtr = _buffer)
@@ -163,12 +163,12 @@ public unsafe struct FixedString64
         }
     }
 
-    public FixedString64(ReadOnlySpan<char> input)
+    public FixedText64(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
         if (maxBytes > 62)
         {
-            throw new ArgumentException("Input string is too long to fit in FixedString64.");
+            throw new ArgumentException("Input string is too long to fit in FixedText64.");
         }
 
         fixed (char* inputPtr = input)
@@ -179,21 +179,21 @@ public unsafe struct FixedString64
         }
     }
 
-    public FixedString64(string input)
+    public FixedText64(string input)
         : this(input.AsSpan())
     {
     }
 
-    public FixedString64(char* input, ushort length)
+    public FixedText64(char* input, ushort length)
         : this(new Span<char>(input, length))
     {
     }
 
-    public FixedString64(ReadOnlySpan<byte> input)
+    public FixedText64(ReadOnlySpan<byte> input)
     {
         if (input.Length > 62)
         {
-            throw new ArgumentException("Input byte array is too long to fit in FixedString64.");
+            throw new ArgumentException("Input byte array is too long to fit in FixedText64.");
         }
 
         _length = (ushort)input.Length;
@@ -205,7 +205,7 @@ public unsafe struct FixedString64
         }
     }
 
-    public FixedString64(byte* input, ushort length)
+    public FixedText64(byte* input, ushort length)
         : this(new ReadOnlySpan<byte>(input, length))
     {
     }
@@ -239,10 +239,10 @@ public unsafe struct FixedString64
 /// </summary>
 /// <remarks>
 /// This struct is designed to hold data on the stack. Every copy of this struct causes a copy of the underlying data.
-/// If you need a heap allocated fixed-size UTF-8 encoded string of length 128 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedString128"/>.
+/// If you need a heap allocated fixed-size UTF-8 encoded string of length 128 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedText128"/>.
 /// </remarks>
 [StructLayout(LayoutKind.Sequential, Size = 128)]
-public unsafe struct FixedString128
+public unsafe struct FixedText128
 {
     private ushort _length;
     private fixed byte _buffer[126];
@@ -268,7 +268,7 @@ public unsafe struct FixedString128
             var maxBytes = Encoding.UTF8.GetByteCount(value);
             if (maxBytes > 126)
             {
-                throw new ArgumentException("Input string is too long to fit in FixedString128.");
+                throw new ArgumentException("Input string is too long to fit in FixedText128.");
             }
 
             fixed (byte* bufferPtr = _buffer)
@@ -278,12 +278,12 @@ public unsafe struct FixedString128
         }
     }
 
-    public FixedString128(ReadOnlySpan<char> input)
+    public FixedText128(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
         if (maxBytes > 126)
         {
-            throw new ArgumentException("Input string is too long to fit in FixedString128.");
+            throw new ArgumentException("Input string is too long to fit in FixedText128.");
         }
 
         fixed (char* inputPtr = input)
@@ -294,21 +294,21 @@ public unsafe struct FixedString128
         }
     }
 
-    public FixedString128(string input)
+    public FixedText128(string input)
         : this(input.AsSpan())
     {
     }
 
-    public FixedString128(char* input, ushort length)
+    public FixedText128(char* input, ushort length)
         : this(new Span<char>(input, length))
     {
     }
 
-    public FixedString128(ReadOnlySpan<byte> input)
+    public FixedText128(ReadOnlySpan<byte> input)
     {
         if (input.Length > 126)
         {
-            throw new ArgumentException("Input byte array is too long to fit in FixedString128.");
+            throw new ArgumentException("Input byte array is too long to fit in FixedText128.");
         }
 
         _length = (ushort)input.Length;
@@ -320,7 +320,7 @@ public unsafe struct FixedString128
         }
     }
 
-    public FixedString128(byte* input, ushort length)
+    public FixedText128(byte* input, ushort length)
         : this(new ReadOnlySpan<byte>(input, length))
     {
     }
@@ -354,10 +354,10 @@ public unsafe struct FixedString128
 /// </summary>
 /// <remarks>
 /// This struct is designed to hold data on the stack. Every copy of this struct causes a copy of the underlying data.
-/// If you need a heap allocated fixed-size UTF-8 encoded string of length 256 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedString256"/>.
+/// If you need a heap allocated fixed-size UTF-8 encoded string of length 256 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedText256"/>.
 /// </remarks>
 [StructLayout(LayoutKind.Sequential, Size = 256)]
-public unsafe struct FixedString256
+public unsafe struct FixedText256
 {
     private ushort _length;
     private fixed byte _buffer[254];
@@ -383,7 +383,7 @@ public unsafe struct FixedString256
             var maxBytes = Encoding.UTF8.GetByteCount(value);
             if (maxBytes > 254)
             {
-                throw new ArgumentException("Input string is too long to fit in FixedString256.");
+                throw new ArgumentException("Input string is too long to fit in FixedText256.");
             }
 
             fixed (byte* bufferPtr = _buffer)
@@ -393,12 +393,12 @@ public unsafe struct FixedString256
         }
     }
 
-    public FixedString256(ReadOnlySpan<char> input)
+    public FixedText256(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
         if (maxBytes > 254)
         {
-            throw new ArgumentException("Input string is too long to fit in FixedString256.");
+            throw new ArgumentException("Input string is too long to fit in FixedText256.");
         }
 
         fixed (char* inputPtr = input)
@@ -409,21 +409,21 @@ public unsafe struct FixedString256
         }
     }
 
-    public FixedString256(string input)
+    public FixedText256(string input)
         : this(input.AsSpan())
     {
     }
 
-    public FixedString256(char* input, ushort length)
+    public FixedText256(char* input, ushort length)
         : this(new Span<char>(input, length))
     {
     }
 
-    public FixedString256(ReadOnlySpan<byte> input)
+    public FixedText256(ReadOnlySpan<byte> input)
     {
         if (input.Length > 254)
         {
-            throw new ArgumentException("Input byte array is too long to fit in FixedString256.");
+            throw new ArgumentException("Input byte array is too long to fit in FixedText256.");
         }
 
         _length = (ushort)input.Length;
@@ -435,7 +435,7 @@ public unsafe struct FixedString256
         }
     }
 
-    public FixedString256(byte* input, ushort length)
+    public FixedText256(byte* input, ushort length)
         : this(new ReadOnlySpan<byte>(input, length))
     {
     }
@@ -469,10 +469,10 @@ public unsafe struct FixedString256
 /// </summary>
 /// <remarks>
 /// This struct is designed to hold data on the stack. Every copy of this struct causes a copy of the underlying data.
-/// If you need a heap allocated fixed-size UTF-8 encoded string of length 512 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedString512"/>.
+/// If you need a heap allocated fixed-size UTF-8 encoded string of length 512 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedText512"/>.
 /// </remarks>
 [StructLayout(LayoutKind.Sequential, Size = 512)]
-public unsafe struct FixedString512
+public unsafe struct FixedText512
 {
     private ushort _length;
     private fixed byte _buffer[510];
@@ -498,7 +498,7 @@ public unsafe struct FixedString512
             var maxBytes = Encoding.UTF8.GetByteCount(value);
             if (maxBytes > 510)
             {
-                throw new ArgumentException("Input string is too long to fit in FixedString512.");
+                throw new ArgumentException("Input string is too long to fit in FixedText512.");
             }
 
             fixed (byte* bufferPtr = _buffer)
@@ -508,12 +508,12 @@ public unsafe struct FixedString512
         }
     }
 
-    public FixedString512(ReadOnlySpan<char> input)
+    public FixedText512(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
         if (maxBytes > 510)
         {
-            throw new ArgumentException("Input string is too long to fit in FixedString512.");
+            throw new ArgumentException("Input string is too long to fit in FixedText512.");
         }
 
         fixed (char* inputPtr = input)
@@ -524,21 +524,21 @@ public unsafe struct FixedString512
         }
     }
 
-    public FixedString512(string input)
+    public FixedText512(string input)
         : this(input.AsSpan())
     {
     }
 
-    public FixedString512(char* input, ushort length)
+    public FixedText512(char* input, ushort length)
         : this(new Span<char>(input, length))
     {
     }
 
-    public FixedString512(ReadOnlySpan<byte> input)
+    public FixedText512(ReadOnlySpan<byte> input)
     {
         if (input.Length > 510)
         {
-            throw new ArgumentException("Input byte array is too long to fit in FixedString512.");
+            throw new ArgumentException("Input byte array is too long to fit in FixedText512.");
         }
 
         _length = (ushort)input.Length;
@@ -550,7 +550,7 @@ public unsafe struct FixedString512
         }
     }
 
-    public FixedString512(byte* input, ushort length)
+    public FixedText512(byte* input, ushort length)
         : this(new ReadOnlySpan<byte>(input, length))
     {
     }
@@ -584,10 +584,10 @@ public unsafe struct FixedString512
 /// </summary>
 /// <remarks>
 /// This struct is designed to hold data on the stack. Every copy of this struct causes a copy of the underlying data.
-/// If you need a heap allocated fixed-size UTF-8 encoded string of length 1024 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedString1024"/>.
+/// If you need a heap allocated fixed-size UTF-8 encoded string of length 1024 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedText1024"/>.
 /// </remarks>
 [StructLayout(LayoutKind.Sequential, Size = 1024)]
-public unsafe struct FixedString1024
+public unsafe struct FixedText1024
 {
     private ushort _length;
     private fixed byte _buffer[1022];
@@ -613,7 +613,7 @@ public unsafe struct FixedString1024
             var maxBytes = Encoding.UTF8.GetByteCount(value);
             if (maxBytes > 1022)
             {
-                throw new ArgumentException("Input string is too long to fit in FixedString1024.");
+                throw new ArgumentException("Input string is too long to fit in FixedText1024.");
             }
 
             fixed (byte* bufferPtr = _buffer)
@@ -623,12 +623,12 @@ public unsafe struct FixedString1024
         }
     }
 
-    public FixedString1024(ReadOnlySpan<char> input)
+    public FixedText1024(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
         if (maxBytes > 1022)
         {
-            throw new ArgumentException("Input string is too long to fit in FixedString1024.");
+            throw new ArgumentException("Input string is too long to fit in FixedText1024.");
         }
 
         fixed (char* inputPtr = input)
@@ -639,21 +639,21 @@ public unsafe struct FixedString1024
         }
     }
 
-    public FixedString1024(string input)
+    public FixedText1024(string input)
         : this(input.AsSpan())
     {
     }
 
-    public FixedString1024(char* input, ushort length)
+    public FixedText1024(char* input, ushort length)
         : this(new Span<char>(input, length))
     {
     }
 
-    public FixedString1024(ReadOnlySpan<byte> input)
+    public FixedText1024(ReadOnlySpan<byte> input)
     {
         if (input.Length > 1022)
         {
-            throw new ArgumentException("Input byte array is too long to fit in FixedString1024.");
+            throw new ArgumentException("Input byte array is too long to fit in FixedText1024.");
         }
 
         _length = (ushort)input.Length;
@@ -665,7 +665,7 @@ public unsafe struct FixedString1024
         }
     }
 
-    public FixedString1024(byte* input, ushort length)
+    public FixedText1024(byte* input, ushort length)
         : this(new ReadOnlySpan<byte>(input, length))
     {
     }
@@ -699,10 +699,10 @@ public unsafe struct FixedString1024
 /// </summary>
 /// <remarks>
 /// This struct is designed to hold data on the stack. Every copy of this struct causes a copy of the underlying data.
-/// If you need a heap allocated fixed-size UTF-8 encoded string of length 2048 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedString2048"/>.
+/// If you need a heap allocated fixed-size UTF-8 encoded string of length 2048 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedText2048"/>.
 /// </remarks>
 [StructLayout(LayoutKind.Sequential, Size = 2048)]
-public unsafe struct FixedString2048
+public unsafe struct FixedText2048
 {
     private ushort _length;
     private fixed byte _buffer[2046];
@@ -728,7 +728,7 @@ public unsafe struct FixedString2048
             var maxBytes = Encoding.UTF8.GetByteCount(value);
             if (maxBytes > 2046)
             {
-                throw new ArgumentException("Input string is too long to fit in FixedString2048.");
+                throw new ArgumentException("Input string is too long to fit in FixedText2048.");
             }
 
             fixed (byte* bufferPtr = _buffer)
@@ -738,12 +738,12 @@ public unsafe struct FixedString2048
         }
     }
 
-    public FixedString2048(ReadOnlySpan<char> input)
+    public FixedText2048(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
         if (maxBytes > 2046)
         {
-            throw new ArgumentException("Input string is too long to fit in FixedString2048.");
+            throw new ArgumentException("Input string is too long to fit in FixedText2048.");
         }
 
         fixed (char* inputPtr = input)
@@ -754,21 +754,21 @@ public unsafe struct FixedString2048
         }
     }
 
-    public FixedString2048(string input)
+    public FixedText2048(string input)
         : this(input.AsSpan())
     {
     }
 
-    public FixedString2048(char* input, ushort length)
+    public FixedText2048(char* input, ushort length)
         : this(new Span<char>(input, length))
     {
     }
 
-    public FixedString2048(ReadOnlySpan<byte> input)
+    public FixedText2048(ReadOnlySpan<byte> input)
     {
         if (input.Length > 2046)
         {
-            throw new ArgumentException("Input byte array is too long to fit in FixedString2048.");
+            throw new ArgumentException("Input byte array is too long to fit in FixedText2048.");
         }
 
         _length = (ushort)input.Length;
@@ -780,7 +780,7 @@ public unsafe struct FixedString2048
         }
     }
 
-    public FixedString2048(byte* input, ushort length)
+    public FixedText2048(byte* input, ushort length)
         : this(new ReadOnlySpan<byte>(input, length))
     {
     }
@@ -814,10 +814,10 @@ public unsafe struct FixedString2048
 /// </summary>
 /// <remarks>
 /// This struct is designed to hold data on the stack. Every copy of this struct causes a copy of the underlying data.
-/// If you need a heap allocated fixed-size UTF-8 encoded string of length 4096 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedString4096"/>.
+/// If you need a heap allocated fixed-size UTF-8 encoded string of length 4096 bytes, consider using <see cref="Misaki.HighPerformance.Unsafe.Buffer.FixedText4096"/>.
 /// </remarks>
 [StructLayout(LayoutKind.Sequential, Size = 4096)]
-public unsafe struct FixedString4096
+public unsafe struct FixedText4096
 {
     private ushort _length;
     private fixed byte _buffer[4094];
@@ -843,7 +843,7 @@ public unsafe struct FixedString4096
             var maxBytes = Encoding.UTF8.GetByteCount(value);
             if (maxBytes > 4094)
             {
-                throw new ArgumentException("Input string is too long to fit in FixedString4096.");
+                throw new ArgumentException("Input string is too long to fit in FixedText4096.");
             }
 
             fixed (byte* bufferPtr = _buffer)
@@ -853,12 +853,12 @@ public unsafe struct FixedString4096
         }
     }
 
-    public FixedString4096(ReadOnlySpan<char> input)
+    public FixedText4096(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
         if (maxBytes > 4094)
         {
-            throw new ArgumentException("Input string is too long to fit in FixedString4096.");
+            throw new ArgumentException("Input string is too long to fit in FixedText4096.");
         }
 
         fixed (char* inputPtr = input)
@@ -869,21 +869,21 @@ public unsafe struct FixedString4096
         }
     }
 
-    public FixedString4096(string input)
+    public FixedText4096(string input)
         : this(input.AsSpan())
     {
     }
 
-    public FixedString4096(char* input, ushort length)
+    public FixedText4096(char* input, ushort length)
         : this(new Span<char>(input, length))
     {
     }
 
-    public FixedString4096(ReadOnlySpan<byte> input)
+    public FixedText4096(ReadOnlySpan<byte> input)
     {
         if (input.Length > 4094)
         {
-            throw new ArgumentException("Input byte array is too long to fit in FixedString4096.");
+            throw new ArgumentException("Input byte array is too long to fit in FixedText4096.");
         }
 
         _length = (ushort)input.Length;
@@ -895,7 +895,7 @@ public unsafe struct FixedString4096
         }
     }
 
-    public FixedString4096(byte* input, ushort length)
+    public FixedText4096(byte* input, ushort length)
         : this(new ReadOnlySpan<byte>(input, length))
     {
     }

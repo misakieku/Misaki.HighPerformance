@@ -94,7 +94,12 @@ public struct OBB : IEquatable<OBB>
 
     public readonly AABB ToAABB()
     {
-        var absRotation = math.abs(new float3x3(Rotation));
+        var absRotation = new float3x3
+        {
+            c0 = math.abs(Rotation.value.x),
+            c1 = math.abs(Rotation.value.y),
+            c2 = math.abs(Rotation.value.z)
+        };
         var worldExtents = absRotation.c0 * Extents.x + absRotation.c1 * Extents.y + absRotation.c2 * Extents.z;
         return new AABB(Center - worldExtents, Center + worldExtents);
     }

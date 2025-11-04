@@ -244,7 +244,7 @@ public unsafe sealed class JobScheduler : IDisposable
     public JobHandle Schedule<T>(ref T job, int threadIndex, JobHandle dependency)
         where T : unmanaged, IJob
     {
-        var jobData = _jobDataAllocator.Allocate(MemoryUtilities.SizeOf<T>(), MemoryUtilities.AlignOf<T>());
+        var jobData = _jobDataAllocator.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
         if (jobData == null)
         {
             return JobHandle.Invalid;
@@ -252,7 +252,7 @@ public unsafe sealed class JobScheduler : IDisposable
 
         fixed (T* pJob = &job)
         {
-            MemoryUtilities.MemCpy(pJob, jobData, MemoryUtilities.SizeOf<T>());
+            MemoryUtility.MemCpy(pJob, jobData, MemoryUtility.SizeOf<T>());
         }
 
         var jobInfo = new JobInfo
@@ -320,7 +320,7 @@ public unsafe sealed class JobScheduler : IDisposable
     public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, int threadIndex, JobHandle dependency)
         where T : unmanaged, IJobParallelFor
     {
-        var jobData = _jobDataAllocator.Allocate(MemoryUtilities.SizeOf<T>(), MemoryUtilities.AlignOf<T>());
+        var jobData = _jobDataAllocator.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
         if (jobData == null)
         {
             return JobHandle.Invalid;
@@ -328,7 +328,7 @@ public unsafe sealed class JobScheduler : IDisposable
 
         fixed (T* pJob = &job)
         {
-            MemoryUtilities.MemCpy(pJob, jobData, MemoryUtilities.SizeOf<T>());
+            MemoryUtility.MemCpy(pJob, jobData, MemoryUtility.SizeOf<T>());
         }
 
         var optimalBatchSize = Math.Max(1, batchSize);

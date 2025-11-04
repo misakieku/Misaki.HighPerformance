@@ -33,7 +33,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
             _index++;
             if (_index < _collection->_count)
             {
-                _value = UnsafeUtilities.ReadArrayElement<T>(_collection->_array.GetUnsafePtr(), _index);
+                _value = UnsafeUtility.ReadArrayElement<T>(_collection->_array.GetUnsafePtr(), _index);
                 return true;
             }
 
@@ -80,7 +80,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
         set => _array[index] = value;
     }
 
-    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeQueue<T>*)UnsafeUtilities.AddressOf(ref this));
+    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeQueue<T>*)UnsafeUtility.AddressOf(ref this));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>
@@ -115,7 +115,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
             throw new InvalidOperationException("Queue is empty.");
         }
 
-        return ref UnsafeUtilities.ReadArrayElementRef<T>(_array.GetUnsafePtr(), _offset);
+        return ref UnsafeUtility.ReadArrayElementRef<T>(_array.GetUnsafePtr(), _offset);
     }
 
     /// <summary>
@@ -130,7 +130,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
             Resize(Capacity + (int)(Capacity * 0.5f));
         }
 
-        UnsafeUtilities.WriteArrayElement(_array.GetUnsafePtr(), (_offset + _count) % Capacity, value);
+        UnsafeUtility.WriteArrayElement(_array.GetUnsafePtr(), (_offset + _count) % Capacity, value);
         _count++;
     }
 
@@ -146,7 +146,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
             throw new InvalidOperationException("Queue is empty.");
         }
 
-        var value = UnsafeUtilities.ReadArrayElement<T>(_array.GetUnsafePtr(), _offset);
+        var value = UnsafeUtility.ReadArrayElement<T>(_array.GetUnsafePtr(), _offset);
         _offset = (_offset + 1) % Capacity;
         _count--;
 

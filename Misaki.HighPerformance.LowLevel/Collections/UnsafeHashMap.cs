@@ -84,7 +84,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
             var idx = _hashMap.Find(key);
             if (-1 != idx)
             {
-                UnsafeUtilities.WriteArrayElement(_hashMap.Buffer, idx, value);
+                UnsafeUtility.WriteArrayElement(_hashMap.Buffer, idx, value);
                 return;
             }
 
@@ -92,7 +92,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
         }
     }
 
-    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => new Enumerator((HashMapHelper<TKey>*)UnsafeUtilities.AddressOf(ref _hashMap));
+    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => new Enumerator((HashMapHelper<TKey>*)UnsafeUtility.AddressOf(ref _hashMap));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>
@@ -125,7 +125,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
         var idx = _hashMap.TryAdd(key);
         if (idx != -1)
         {
-            UnsafeUtilities.WriteArrayElement(_hashMap.Buffer, idx, item);
+            UnsafeUtility.WriteArrayElement(_hashMap.Buffer, idx, item);
             return true;
         }
 

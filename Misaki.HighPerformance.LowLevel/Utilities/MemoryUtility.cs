@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Utilities;
 
-public static unsafe partial class MemoryUtilities
+public static unsafe partial class MemoryUtility
 {
     [StructLayout(LayoutKind.Sequential)]
     private struct AlignOfHelper<T>

@@ -3,52 +3,67 @@ using Misaki.HighPerformance.Mathematics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
-using System.Runtime.Intrinsics.X86;
 
 namespace Misaki.HighPerformance.Test.Benchmark;
 
-public class MathematicsBenchmark
+public unsafe class MathematicsBenchmark
 {
-    [Params(10)]
-    public int count = 10;
-
-    private unsafe static Vector128<float> CreateVector128(float2 value)
+    public struct f4
     {
-        return Vector128.AsSingle(Sse2.LoadScalarVector128((double*)&value));
+        private Vector128<float> _vec;
+
+        public f4(float x, float y, float z, float w)
+        {
+            _vec = Vector128.Create(x, y, z, w);
+        }
+
+        public f4(Vector128<float> vec)
+        {
+            _vec = vec;
+        }
+
+        public static f4 operator +(f4 a, f4 b)
+        {
+            var result = a._vec + b._vec;
+            return Unsafe.As<Vector128<float>, f4>(ref result);
+        }
     }
 
+    [Params(100)]
+    public int count;
+
     [Benchmark]
-    public void Vector2Add()
+    public Vector2 Vector2Add()
     {
         var a = new Vector2(1, 2);
-        var b = new Vector2(5, 6);
-        var result = new Vector2();
+        var b = new Vector2(3, 4);
+        var c = new Vector2(5, 6);
 
         for (var i = 0; i < count; i++)
         {
-            result += a + b;
+            c += a + b;
         }
+
+        return c;
     }
 
     [Benchmark]
-    public void Float2Add()
+    public float2 Float2Add()
     {
         var a = new float2(1, 2);
-        var b = new float2(5, 6);
-        var result = new float2();
-        //var vr = CreateVector128(result);
-        //var va = CreateVector128(a);
-        //var vb = CreateVector128(b);
+        var b = new float2(3, 4);
+        var c = new float2(5, 6);
 
         for (var i = 0; i < count; i++)
         {
-            result += a + b;
-            //vr = Sse.Add(va, vb);
+            c += a + b;
         }
+
+        return c;
     }
 
-    //[Benchmark]
-    public void Vector4Add()
+    [Benchmark]
+    public Vector4 Vector4Add()
     {
         var a = new Vector4(1, 2, 3, 4);
         var b = new Vector4(5, 6, 7, 8);
@@ -58,10 +73,12 @@ public class MathematicsBenchmark
         {
             result += a + b;
         }
+
+        return result;
     }
 
-    //[Benchmark]
-    public void Float4Add()
+    [Benchmark]
+    public float4 Float4Add()
     {
         var a = new float4(1, 2, 3, 4);
         var b = new float4(5, 6, 7, 8);
@@ -71,5 +88,37 @@ public class MathematicsBenchmark
         {
             result += a + b;
         }
+
+        return result;
+    }
+
+    [Benchmark]
+    public f4 f4Add()
+    {
+        var a = new f4(1, 2, 3, 4);
+        var b = new f4(5, 6, 7, 8);
+        var result = new f4(0, 0, 0, 0);
+
+        for (var i = 0; i < count; i++)
+        {
+            result += a + b;
+        }
+
+        return result;
+    }
+
+    [Benchmark]
+    public unsafe Vector128<float> v128Add()
+    {
+        var a = Vector128.Create(1f, 2f, 3f, 4f);
+        var b = Vector128.Create(5f, 6f, 7f, 8f);
+        var result = Vector128<float>.Zero;
+
+        for (var i = 0; i < count; i++)
+        {
+            result += a + b;
+        }
+
+        return result;
     }
 }

@@ -41,7 +41,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         public KeyValuePair<TKey, TValue> GetCurrent<TValue>()
             where TValue : unmanaged
         {
-            return new KeyValuePair<TKey, TValue>(buffer->_keys[index], UnsafeUtilities.ReadArrayElementRef<TValue>(buffer->_buffer, index));
+            return new KeyValuePair<TKey, TValue>(buffer->_keys[index], UnsafeUtility.ReadArrayElementRef<TValue>(buffer->_buffer, index));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -246,7 +246,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         if ((uint)entryIdx < (uint)_capacity)
         {
             var nextPtrs = _next;
-            while (!UnsafeUtilities.ReadArrayElement<TKey>(_keys, entryIdx).Equals(key))
+            while (!UnsafeUtility.ReadArrayElement<TKey>(_keys, entryIdx).Equals(key))
             {
                 entryIdx = nextPtrs[entryIdx];
                 if ((uint)entryIdx >= (uint)_capacity)
@@ -292,7 +292,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
         CheckIndexOutOfBounds(idx);
 
-        UnsafeUtilities.WriteArrayElement(_keys, idx, key);
+        UnsafeUtility.WriteArrayElement(_keys, idx, key);
         var bucket = GetBucket(key);
 
         // Add the index to the hash-map
@@ -321,7 +321,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
         while (entryIdx >= 0 && entryIdx < _capacity)
         {
-            if (UnsafeUtilities.ReadArrayElement<TKey>(_keys, entryIdx).Equals(key))
+            if (UnsafeUtility.ReadArrayElement<TKey>(_keys, entryIdx).Equals(key))
             {
                 removed++;
 
@@ -361,7 +361,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
         if (idx != -1)
         {
-            item = UnsafeUtilities.ReadArrayElement<TValue>(_buffer, idx);
+            item = UnsafeUtility.ReadArrayElement<TValue>(_buffer, idx);
             return true;
         }
 
@@ -414,7 +414,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
             while (bucket != -1)
             {
-                result[count++] = UnsafeUtilities.ReadArrayElement<TKey>(_keys, bucket);
+                result[count++] = UnsafeUtility.ReadArrayElement<TKey>(_keys, bucket);
                 bucket = _next[bucket];
             }
         }
@@ -433,7 +433,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
             while (bucket != -1)
             {
-                result[count++] = UnsafeUtilities.ReadArrayElement<TValue>(_buffer, bucket);
+                result[count++] = UnsafeUtility.ReadArrayElement<TValue>(_buffer, bucket);
                 bucket = _next[bucket];
             }
         }
@@ -452,8 +452,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
             while (bucket != -1)
             {
-                result[count] = new(UnsafeUtilities.ReadArrayElement<TKey>(_keys, bucket),
-                    UnsafeUtilities.ReadArrayElement<TValue>(_buffer, bucket));
+                result[count] = new(UnsafeUtility.ReadArrayElement<TKey>(_keys, bucket),
+                    UnsafeUtility.ReadArrayElement<TValue>(_buffer, bucket));
 
                 count++;
                 bucket = _next[bucket];

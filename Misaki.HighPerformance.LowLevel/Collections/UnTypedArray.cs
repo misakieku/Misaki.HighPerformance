@@ -75,7 +75,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     public readonly ref T GetElementAt<T>(uint index)
         where T : unmanaged
     {
-        return ref UnsafeUtilities.ReadArrayElementRef<T>(_buffer, index);
+        return ref UnsafeUtility.ReadArrayElementRef<T>(_buffer, index);
     }
 
     /// <inheritdoc/>

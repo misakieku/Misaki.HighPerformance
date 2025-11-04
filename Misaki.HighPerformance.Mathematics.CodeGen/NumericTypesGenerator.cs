@@ -9,9 +9,6 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen
     [Generator]
     internal class NumericTypeGenerator : IIncrementalGenerator
     {
-        private const string _TARGET_ATTRIBUTE_NAME = "Misaki.HighPerformance.Mathematics.Attributes.NumericTypeAttribute";
-        private const string _CONVERTABLE_ATTRIBUTE_NAME = "Misaki.HighPerformance.Mathematics.Attributes.NumericConvertableAttribute";
-
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
             // Create a provider that finds all types with NumericTypeAttribute

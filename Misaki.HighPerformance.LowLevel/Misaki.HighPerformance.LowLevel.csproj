@@ -21,9 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Collections\FixedString.tt">
+    <None Update="Collections\FixedText.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FixedString.cs</LastGenOutput>
+      <LastGenOutput>FixedText.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -32,10 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Collections\FixedString.cs">
+    <Compile Update="Collections\FixedText.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>FixedString.tt</DependentUpon>
+      <DependentUpon>FixedText.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

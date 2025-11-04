@@ -642,7 +642,7 @@ public struct random
     public float2 NextFloat2Direction()
     {
         var angle = NextFloat() * PI * 2.0f;
-        var (s, c) = sincos(angle);
+        sincos(angle, out var s, out var c);
         return float2(c, s);
     }
 
@@ -652,7 +652,7 @@ public struct random
     public double2 NextDouble2Direction()
     {
         var angle = NextDouble() * PI_DBL * 2.0;
-        var (s, c) = sincos(angle);
+        sincos(angle, out var s, out var c);
         return double2(c, s);
     }
 
@@ -665,7 +665,7 @@ public struct random
         var z = rnd.x * 2.0f - 1.0f;
         var r = sqrt(max(1.0f - z * z, 0.0f));
         var angle = rnd.y * PI * 2.0f;
-        var (s, c) = sincos(angle);
+        sincos(angle, out var s, out var c);
         return float3(c * r, s * r, z);
     }
 
@@ -678,7 +678,7 @@ public struct random
         var z = rnd.x * 2.0 - 1.0;
         var r = sqrt(max(1.0 - z * z, 0.0));
         var angle = rnd.y * PI_DBL * 2.0;
-        var (s, c) = sincos(angle);
+        sincos(angle, out var s, out var c);
         return double3(c * r, s * r, z);
     }
 
@@ -694,7 +694,7 @@ public struct random
         var i = sqrt(1.0f - u1);
         var j = sqrt(u1);
 
-        var (sin_theta_rho, cos_theta_rho) = sincos(theta_rho);
+        sincos(theta_rho, out var sin_theta_rho, out var cos_theta_rho);
 
         var q = quaternion(i * sin_theta_rho.x, i * cos_theta_rho.x, j * sin_theta_rho.y, j * cos_theta_rho.y);
         return quaternion(select(q.value, -q.value, q.value.w < 0.0f));

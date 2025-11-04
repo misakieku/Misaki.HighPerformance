@@ -6,7 +6,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 {
     internal abstract class GeneratorBase
     {
-        protected const string INLINE_METHOD_ATTRIBUTE = "[global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]";
+        protected const string INLINE_METHOD_ATTRIBUTE = "[global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining | global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveOptimization)]";
 
         protected static readonly string[] s_matrixComponents = new[] { "c0", "c1", "c2", "c3" };
         protected static readonly string[] s_vectorComponents = new[] { "x", "y", "z", "w" };
@@ -70,7 +70,7 @@ namespace {typeInfo.TypeSymbol.ContainingNamespace.ToDisplayString()}
         protected virtual void GenerateTypeStart()
         {
             sourceBuilder.Append($@"
-    [global::System.Runtime.CompilerServices.SkipLocalsInit]
+    //[global::System.Runtime.CompilerServices.SkipLocalsInit]
     public partial struct {typeInfo.TypeSymbol.Name} : global::System.IEquatable<{typeInfo.TypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}>
     {{");
         }

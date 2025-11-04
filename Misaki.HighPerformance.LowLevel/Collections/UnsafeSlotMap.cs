@@ -67,7 +67,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
     public readonly bool IsCreated => _data.IsCreated && _freeSlots.IsCreated;
 
-    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeSlotMap<T>*)UnsafeUtilities.AddressOf(ref this));
+    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeSlotMap<T>*)UnsafeUtility.AddressOf(ref this));
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

@@ -130,7 +130,7 @@ public unsafe class TestJobSystem
     {
         const int size = 1000;
         var result = stackalloc float[size];
-        MemoryUtilities.MemSet(result, 0, sizeof(float) * size);
+        MemoryUtility.MemSet(result, 0, sizeof(float) * size);
         var job = new ParallelAddJob
         {
             value = 1.0f,

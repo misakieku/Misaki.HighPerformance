@@ -515,13 +515,6 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
                 }
 
                 GenerateMulMethod();
-
-                sourceBuilder.AppendLine($@"
-        {INLINE_METHOD_ATTRIBUTE}
-        public static {typeInfo.TypeFullName} abs({typeInfo.TypeFullName} value)
-        {{
-            return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"abs(value.{c})"))});
-        }}");
             }
 
             sourceBuilder.Append($@"

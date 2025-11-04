@@ -48,7 +48,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
     public readonly int Capacity => _hashMap.Capacity;
     public readonly bool IsCreated => _hashMap.IsCreated;
 
-    public IEnumerator<T> GetEnumerator() => new Enumerator((HashMapHelper<T>*)UnsafeUtilities.AddressOf(ref _hashMap));
+    public IEnumerator<T> GetEnumerator() => new Enumerator((HashMapHelper<T>*)UnsafeUtility.AddressOf(ref _hashMap));
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>
