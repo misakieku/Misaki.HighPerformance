@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Collections;
@@ -127,7 +127,7 @@ public class TestUnsafeSparseSet
         _sparseSet.Remove(ids[1], gens[1]); // Remove the second element (20)
 
         var ptr = (int*)_sparseSet.GetUnsafePtr();
-        
+
         Assert.AreEqual(2, _sparseSet.Count);
 
         var index = 0;

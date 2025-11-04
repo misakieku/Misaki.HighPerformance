@@ -4724,9 +4724,9 @@ public static partial class math
     /// <param name="defaultvalue">Vector to return if normalized vector is not finite.</param>
     /// <returns>The normalized vector or the default value if the normalized vector is not finite.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static public float2 normalizesafe(float2 x, float2 defaultvalue = new float2())
+    public static float2 normalizesafe(float2 x, float2 defaultvalue = new float2())
     {
-        float len = math.dot(x, x);
+        var len = math.dot(x, x);
         return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
@@ -4738,9 +4738,9 @@ public static partial class math
     /// <param name="defaultvalue">Vector to return if normalized vector is not finite.</param>
     /// <returns>The normalized vector or the default value if the normalized vector is not finite.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static public float3 normalizesafe(float3 x, float3 defaultvalue = new float3())
+    public static float3 normalizesafe(float3 x, float3 defaultvalue = new float3())
     {
-        float len = math.dot(x, x);
+        var len = math.dot(x, x);
         return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
@@ -4752,9 +4752,9 @@ public static partial class math
     /// <param name="defaultvalue">Vector to return if normalized vector is not finite.</param>
     /// <returns>The normalized vector or the default value if the normalized vector is not finite.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static public float4 normalizesafe(float4 x, float4 defaultvalue = new float4())
+    public static float4 normalizesafe(float4 x, float4 defaultvalue = new float4())
     {
-        float len = math.dot(x, x);
+        var len = math.dot(x, x);
         return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
@@ -4767,9 +4767,9 @@ public static partial class math
     /// <param name="defaultvalue">Vector to return if normalized vector is not finite.</param>
     /// <returns>The normalized vector or the default value if the normalized vector is not finite.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static public double2 normalizesafe(double2 x, double2 defaultvalue = new double2())
+    public static double2 normalizesafe(double2 x, double2 defaultvalue = new double2())
     {
-        double len = math.dot(x, x);
+        var len = math.dot(x, x);
         return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
@@ -4781,9 +4781,9 @@ public static partial class math
     /// <param name="defaultvalue">Vector to return if normalized vector is not finite.</param>
     /// <returns>The normalized vector or the default value if the normalized vector is not finite.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static public double3 normalizesafe(double3 x, double3 defaultvalue = new double3())
+    public static double3 normalizesafe(double3 x, double3 defaultvalue = new double3())
     {
-        double len = math.dot(x, x);
+        var len = math.dot(x, x);
         return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
@@ -4795,9 +4795,9 @@ public static partial class math
     /// <param name="defaultvalue">Vector to return if normalized vector is not finite.</param>
     /// <returns>The normalized vector or the default value if the normalized vector is not finite.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static public double4 normalizesafe(double4 x, double4 defaultvalue = new double4())
+    public static double4 normalizesafe(double4 x, double4 defaultvalue = new double4())
     {
-        double len = math.dot(x, x);
+        var len = math.dot(x, x);
         return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
@@ -6039,7 +6039,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 refract(float2 i, float2 n, float indexOfRefraction)
     {
-        float ni = dot(n, i);
+        var ni = dot(n, i);
         var k = 1.0f - indexOfRefraction * indexOfRefraction * (1.0f - ni * ni);
         return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
     }
@@ -6052,7 +6052,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 refract(float3 i, float3 n, float indexOfRefraction)
     {
-        float ni = dot(n, i);
+        var ni = dot(n, i);
         var k = 1.0f - indexOfRefraction * indexOfRefraction * (1.0f - ni * ni);
         return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
     }
@@ -6065,7 +6065,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 refract(float4 i, float4 n, float indexOfRefraction)
     {
-        float ni = dot(n, i);
+        var ni = dot(n, i);
         var k = 1.0f - indexOfRefraction * indexOfRefraction * (1.0f - ni * ni);
         return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
     }
@@ -6079,7 +6079,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 refract(double2 i, double2 n, double indexOfRefraction)
     {
-        double ni = dot(n, i);
+        var ni = dot(n, i);
         var k = 1.0 - indexOfRefraction * indexOfRefraction * (1.0 - ni * ni);
         return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
     }
@@ -6092,7 +6092,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 refract(double3 i, double3 n, double indexOfRefraction)
     {
-        double ni = dot(n, i);
+        var ni = dot(n, i);
         var k = 1.0 - indexOfRefraction * indexOfRefraction * (1.0 - ni * ni);
         return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
     }
@@ -6105,7 +6105,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 refract(double4 i, double4 n, double indexOfRefraction)
     {
-        double ni = dot(n, i);
+        var ni = dot(n, i);
         var k = 1.0 - indexOfRefraction * indexOfRefraction * (1.0 - ni * ni);
         return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
     }
@@ -8470,7 +8470,7 @@ public static partial class math
             const uint Prime4 = 668265263;
             const uint Prime5 = 374761393;
 
-            uint4* p = (uint4*)pBuffer;
+            var p = (uint4*)pBuffer;
             var hash = seed + Prime5;
             if (numBytes >= 16)
             {

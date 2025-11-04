@@ -1,6 +1,6 @@
-﻿namespace Misaki.HighPerformance.Jobs;
+namespace Misaki.HighPerformance.Jobs;
 
-internal unsafe static class JobExecutor
+internal static unsafe class JobExecutor
 {
     public static bool Execute<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, int threadIndex)
         where T : unmanaged, IJob

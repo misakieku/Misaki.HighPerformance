@@ -1,8 +1,8 @@
-﻿using System.Threading;
+using System.Threading;
 
 namespace Misaki.HighPerformance.Image.Runtime
 {
-    internal unsafe static class MemoryStats
+    internal static unsafe class MemoryStats
     {
         private static int _allocations;
 

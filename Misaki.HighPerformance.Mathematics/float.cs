@@ -1,6 +1,3 @@
-﻿using Misaki.HighPerformance.Mathematics.CodeGen;
-using System.Runtime.InteropServices;
-
 namespace Misaki.HighPerformance.Mathematics;
 
 [NumericType(typeof(float), sizeof(float), 2, 1, "global::Misaki.HighPerformance.Mathematics.float")]

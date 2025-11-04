@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using System.Runtime.InteropServices;
@@ -9,7 +9,7 @@ namespace Misaki.HighPerformance.LowLevel.Utilities;
 /// Provides extension methods for copying elements between unsafe collections and spans, converting collections to
 /// arrays or lists, and searching for values.
 /// </summary>
-public unsafe static class UnsafeCollectionExtensions
+public static unsafe class UnsafeCollectionExtensions
 {
     /// <summary>
     /// Copies elements from a source UnsafeCollection to a destination Span, ensuring both have the same size.

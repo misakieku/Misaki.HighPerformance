@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
@@ -61,7 +61,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
             get => Current;
         }
 
-        public unsafe readonly void Dispose()
+        public readonly unsafe void Dispose()
         {
         }
     }

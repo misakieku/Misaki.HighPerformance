@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.Image.Runtime;
+using Misaki.HighPerformance.Image.Runtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -86,7 +86,7 @@ internal class AnimatedGifEnumerator : IEnumerator<AnimatedFrameResult>
         Dispose(false);
     }
 
-    protected unsafe virtual void Dispose(bool disposing)
+    protected virtual unsafe void Dispose(bool disposing)
     {
         if (_gif != null)
         {

@@ -1,4 +1,4 @@
-﻿//var threadCount = 8;
+//var threadCount = 8;
 //var map = new ConcurrentSlotMap<int>();
 
 //var barrier = new Barrier(threadCount);

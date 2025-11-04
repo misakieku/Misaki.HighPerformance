@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Mathematics.Geometry;
 
@@ -232,13 +232,13 @@ public struct AABB : IEquatable<AABB>
         return !(left == right);
     }
 
-    public readonly override int GetHashCode()
+    public override readonly int GetHashCode()
     {
         return HashCode.Combine(Min, Max);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public readonly override string ToString()
+    public override readonly string ToString()
     {
         return string.Format("AABB({0}, {1})", Min, Max);
     }

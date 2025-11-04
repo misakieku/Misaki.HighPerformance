@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -6,7 +6,7 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 /// Represents an allocated memory block with metadata.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public unsafe readonly struct MemoryBlock
+public readonly unsafe struct MemoryBlock
 {
     /// <summary>
     /// Pointer to the actual allocated memory.

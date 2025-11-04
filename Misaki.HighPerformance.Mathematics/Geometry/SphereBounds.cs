@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Mathematics.Geometry;
 
@@ -98,12 +98,12 @@ public struct SphereBounds : IEquatable<SphereBounds>
         }
     }
 
-    public readonly override string ToString()
+    public override readonly string ToString()
     {
         return $"Center: {Center}, Radius: {Radius}";
     }
 
-    public readonly override int GetHashCode()
+    public override readonly int GetHashCode()
     {
         return HashCode.Combine(Center, Radius);
     }

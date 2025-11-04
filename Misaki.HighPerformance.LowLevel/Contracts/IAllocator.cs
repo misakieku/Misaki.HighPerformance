@@ -1,9 +1,9 @@
-﻿namespace Misaki.HighPerformance.LowLevel.Contracts;
+namespace Misaki.HighPerformance.LowLevel.Contracts;
 
 /// <summary>
 /// A structure that encapsulates function pointers for memory allocation operations.
 /// </summary>
-public unsafe readonly struct AllocationHandle
+public readonly unsafe struct AllocationHandle
 {
     /// <summary>
     /// Gets a pointer to the allocator instance associated with this allocation handle.

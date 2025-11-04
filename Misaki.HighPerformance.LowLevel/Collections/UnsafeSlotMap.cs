@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
@@ -93,7 +93,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         {
             throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
         }
-        
+
         _data = new UnsafeArray<SlotData>(capacity, ref handle, allocationOption);
         _freeSlots = new UnsafeQueue<int>(capacity, ref handle, allocationOption);
         _count = 0;
@@ -266,7 +266,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
         ref var slot = ref _data[slotIndex];
 
-        if (!slot.isValid|| slot.generation != generation)
+        if (!slot.isValid || slot.generation != generation)
         {
             exist = false;
             return ref Unsafe.NullRef<T>();
@@ -292,7 +292,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         _count = 0;
     }
 
-    public unsafe readonly void* GetUnsafePtr()
+    public readonly unsafe void* GetUnsafePtr()
     {
         return _data.GetUnsafePtr();
     }

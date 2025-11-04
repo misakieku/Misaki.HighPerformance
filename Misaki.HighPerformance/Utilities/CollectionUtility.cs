@@ -17,7 +17,7 @@ public static class CollectionUtility
     {
         return CollectionsMarshal.AsSpan(list);
     }
-    
+
     /// <summary>
     /// Removes the element at the specified index from the list by replacing it with the last element, then removing
     ///     the last element. This operation does not preserve the order of elements.
@@ -34,12 +34,12 @@ public static class CollectionUtility
         {
             throw new ArgumentOutOfRangeException(nameof(index));
         }
-        
+
         if (index != lastIndex)
         {
             list[index] = list[lastIndex];
         }
-        
+
         list.RemoveAt(lastIndex);
         return list;
     }

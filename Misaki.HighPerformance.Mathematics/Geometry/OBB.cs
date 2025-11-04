@@ -1,4 +1,4 @@
-﻿namespace Misaki.HighPerformance.Mathematics.Geometry;
+namespace Misaki.HighPerformance.Mathematics.Geometry;
 
 public struct OBB : IEquatable<OBB>
 {
@@ -38,7 +38,7 @@ public struct OBB : IEquatable<OBB>
         max = centerProjection + r;
     }
 
-    public unsafe readonly bool Overlaps(OBB other)
+    public readonly unsafe bool Overlaps(OBB other)
     {
         // Using the Separating Axis Theorem (SAT) for OBB-OBB intersection test
         var axes = stackalloc float3[15];
@@ -109,12 +109,12 @@ public struct OBB : IEquatable<OBB>
         return Rotation.Equals(other.Rotation) && Center.Equals(other.Center) && Extents.Equals(other.Extents);
     }
 
-    public readonly override bool Equals(object? obj)
+    public override readonly bool Equals(object? obj)
     {
         return obj is OBB obb && Equals(obb);
     }
 
-    public readonly override int GetHashCode()
+    public override readonly int GetHashCode()
     {
         return HashCode.Combine(Rotation, Center, Extents);
     }

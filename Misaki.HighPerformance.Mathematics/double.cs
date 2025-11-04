@@ -1,5 +1,3 @@
-﻿using Misaki.HighPerformance.Mathematics.CodeGen;
-
 namespace Misaki.HighPerformance.Mathematics;
 
 [NumericType(typeof(double), sizeof(double), 2, 1, "global::Misaki.HighPerformance.Mathematics.double")]

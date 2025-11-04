@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.Collections;
+using Misaki.HighPerformance.Collections;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections.Concurrent;
@@ -15,7 +15,7 @@ namespace Misaki.HighPerformance.Jobs;
 /// of worker threads through job batching and work-stealing mechanisms.  This class is thread-safe and can be used in
 /// multi-threaded environments. However, it must be disposed when no longer needed to release resources and terminate
 /// worker threads.</remarks>
-public unsafe sealed class JobScheduler : IDisposable
+public sealed unsafe class JobScheduler : IDisposable
 {
     private const int _SLEEP_THRESHOLD = 100;
 
