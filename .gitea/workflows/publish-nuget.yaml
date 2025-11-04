@@ -55,7 +55,7 @@ jobs:
                 echo "Pushing $pkg"
                 dotnet nuget push "$pkg" \
                   --source "https://git.personalnas.com/api/packages/Misaki/nuget/index.json" \
-                  --api-key "$NUGET_API_KEY"
+                  --api-key "$NUGET_API_KEY" \
                   --skip-duplicate
               else
                 echo "No package found for $projname"
