@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Image.Runtime;
 
 internal static unsafe class CRuntime
 {
-    private static readonly string numbers = "0123456789";
+    private static readonly string s_numbers = "0123456789";
 
     public static void* malloc(ulong size)
     {
@@ -158,7 +158,7 @@ internal static unsafe class CRuntime
         // First step - determine length
         var length = 0;
         var ptr = start;
-        while (numbers.IndexOf((char)*ptr) != -1)
+        while (s_numbers.IndexOf((char)*ptr) != -1)
         {
             ++ptr;
             ++length;
@@ -170,7 +170,7 @@ internal static unsafe class CRuntime
         ptr = start;
         while (length > 0)
         {
-            long num = numbers.IndexOf((char)*ptr);
+            long num = s_numbers.IndexOf((char)*ptr);
             var pow = (long)Math.Pow(10, length - 1);
             result += num * pow;
 

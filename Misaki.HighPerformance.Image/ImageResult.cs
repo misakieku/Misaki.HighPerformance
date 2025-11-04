@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.Image.Runtime;
+using Misaki.HighPerformance.Image.Runtime;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,8 +45,7 @@ public unsafe class ImageResult : IDisposable
         }
     }
 
-    internal static unsafe ImageResult FromResult(byte* result, uint width, uint height, ColorComponents comp,
-        ColorComponents req_comp)
+    internal static unsafe ImageResult FromResult(byte* result, uint width, uint height, ColorComponents comp, ColorComponents req_comp)
     {
         if (result == null)
             throw new InvalidOperationException(StbImage.stbi__g_failure_reason);
