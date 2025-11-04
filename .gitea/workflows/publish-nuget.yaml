@@ -2,8 +2,12 @@ name: Publish NuGet Packages
 
 on:
   push:
-    tags:
-      - 'v*'   # Trigger only on semantic version tags
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -26,9 +30,8 @@ jobs:
 
       - name: Pack all projects
         run: |
-          set -e
           for projfile in $(find . -name "*.csproj"); do
-            if grep -q "<IsPackable>True</IsPackable>" "$projfile"; then
+            if grep -q "<GeneratePackageOnBuild>True</GeneratePackageOnBuild>" "$projfile"; then
               echo "Packing $projfile..."
               if ! dotnet pack "$projfile" -c Release -o ./artifacts; then
                 echo "Failed to pack $projfile"
@@ -40,10 +43,9 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_TOKEN }}
         run: |
-          set -x
           set +e
           for projfile in $(find . -name "*.csproj"); do
-            if grep -q "<IsPackable>True</IsPackable>" "$projfile"; then
+            if grep -q "<GeneratePackageOnBuild>True</GeneratePackageOnBuild>" "$projfile"; then
               projname=$(basename "$projfile" .csproj)
               echo "Checking $projname..."
               pkg=$(find ./artifacts -maxdepth 1 -type f \
