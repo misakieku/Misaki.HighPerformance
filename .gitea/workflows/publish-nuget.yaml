@@ -28,7 +28,7 @@ jobs:
         run: |
           set -e
           for projfile in $(find . -name "*.csproj"); do
-            if grep -q "<IsPackable>true</IsPackable>" "$projfile"; then
+            if grep -q "<IsPackable>True</IsPackable>" "$projfile"; then
               echo "Packing $projfile..."
               if ! dotnet pack "$projfile" -c Release -o ./artifacts; then
                 echo "Failed to pack $projfile"
@@ -43,7 +43,7 @@ jobs:
           set -x
           set +e
           for projfile in $(find . -name "*.csproj"); do
-            if grep -q "<IsPackable>true</IsPackable>" "$projfile"; then
+            if grep -q "<IsPackable>True</IsPackable>" "$projfile"; then
               projname=$(basename "$projfile" .csproj)
               echo "Checking $projname..."
               pkg=$(find "$projname/bin/Release" -maxdepth 1 -type f \
@@ -54,7 +54,7 @@ jobs:
                   --source "https://git.personalnas.com/api/packages/Misaki/nuget/index.json" \
                   --api-key "$NUGET_API_KEY"
               else
-                echo "⚠ No package found for $projname"
+                echo "No package found for $projname"
               fi
             fi
           done
