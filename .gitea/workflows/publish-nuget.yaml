@@ -40,14 +40,16 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_TOKEN }}
         run: |
+          set -x
+          set +e
           for projfile in $(find . -name "*.csproj"); do
-            packable=$(dotnet msbuild "$projfile" -t:GetProperty -p:PropertyName=IsPackable -nologo -v:q)
-            if [ "$packable" = "True" ]; then
+            if grep -q "<IsPackable>true</IsPackable>" "$projfile"; then
               projname=$(basename "$projfile" .csproj)
-              VERSION=$(dotnet msbuild "$projfile" -nologo -v:q -t:GetProperty -p:PropertyName=PackageVersion)
+              echo "Checking $projname..."
               pkg=$(find "$projname/bin/Release" -maxdepth 1 -type f \
                     -name "$projname.*.nupkg" ! -name "*.symbols.nupkg" | sort -V | tail -n1)
               if [ -n "$pkg" ]; then
+                echo "Pushing $pkg"
                 dotnet nuget push "$pkg" \
                   --source "https://git.personalnas.com/api/packages/Misaki/nuget/index.json" \
                   --api-key "$NUGET_API_KEY"
