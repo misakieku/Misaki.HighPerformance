@@ -8,7 +8,7 @@
     <Title>$(AssemblyName)</Title>
     <Authors>Misaki</Authors>
 		<IsPackable>True</IsPackable>
-		<Version>1.1.0</Version>
+		<Version>1.2.0</Version>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 

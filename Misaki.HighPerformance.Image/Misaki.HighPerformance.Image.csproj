@@ -1,12 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Authors>StbImageSharpTeam</Authors>
-        <Product>StbImageSharp</Product>
-        <PackageId>StbImageSharp</PackageId>
         <TargetFrameworks></TargetFrameworks>
-        <Description>C# port of the stb_image.h</Description>
         <PackageLicenseUrl>Public Domain</PackageLicenseUrl>
-        <Version>1.0.0</Version>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <TargetFramework>net9.0</TargetFramework>
 			  <IsPackable>True</IsPackable>
