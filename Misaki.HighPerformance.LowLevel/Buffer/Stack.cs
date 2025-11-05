@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -11,7 +11,7 @@ public unsafe struct Stack : IDisposable
 {
     private const nuint _DEFAULT_SIZE = 1024 * 1024; // 1MB
 
-    public readonly struct Scope : IDisposable
+    public readonly ref struct Scope : IDisposable
     {
         private readonly Stack* _allocator;
         private readonly nuint _originalOffset;

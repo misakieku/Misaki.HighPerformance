@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
@@ -15,20 +15,64 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
+    public struct Enumerator : IEnumerator<T>
+    {
+        private readonly UnsafeStack<T>* _collection;
+        private int _index;
+        private T _value;
+
+        public Enumerator(UnsafeStack<T>* collection)
+        {
+            _collection = collection;
+            _index = collection->Count;
+            _value = default;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool MoveNext()
+        {
+            _index--;
+            if (_index >= 0)
+            {
+                _value = UnsafeUtility.ReadArrayElement<T>(_collection->_array.GetUnsafePtr(), _index);
+                return true;
+            }
+
+            _value = default;
+            return false;
+        }
+
+        public void Reset()
+        {
+            _index = _collection->Count;
+        }
+
+        public readonly T Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _value;
+        }
+
+        readonly object IEnumerator.Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Current;
+        }
+
+        public readonly void Dispose()
+        {
+        }
+    }
+
     private UnsafeArray<T> _array;
     private int _count;
 
     public readonly int Count => _count;
     public readonly bool IsCreated => _array.IsCreated;
 
-    public IEnumerator<T> GetEnumerator()
-    {
-        throw new NotImplementedException();
-    }
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+    public Enumerator GetEnumerator() => new((UnsafeStack<T>*)UnsafeUtility.AddressOf(ref this));
+    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>
     /// Invalid constructor, use <see cref="UnsafeStack(int, Allocator, AllocationOption)"/> or <see cref="UnsafeStack(int, ref AllocationHandle, AllocationOption)"/> instead.
@@ -41,23 +85,23 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     /// <summary>
     /// Initializes a new instance of the UnsafeStack class with the specified initial capacity and allocation options.
     /// </summary>
-    /// <param name="initialCapacity">The number of elements the stack can initially hold. Must be greater than zero.</param>
+    /// <param name="capacity">The number of elements the stack can initially hold. Must be greater than zero.</param>
     /// <param name="handle">A reference to an AllocationHandle used to manage the underlying memory allocation for the stack.</param>
     /// <param name="allocationOption">Specifies additional options for memory allocation. The default is AllocationOption.None.</param>
-    public UnsafeStack(int initialCapacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    public UnsafeStack(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        _array = new UnsafeArray<T>(initialCapacity, ref handle, allocationOption);
+        _array = new UnsafeArray<T>(capacity, ref handle, allocationOption);
     }
 
     /// <summary>
     /// Initializes a new instance of the UnsafeStack class with the specified initial capacity, allocator, and
     /// allocation options.
     /// </summary>
-    /// <param name="initialCapacity">The initial number of elements that the stack can hold. Must be greater than zero.</param>
+    /// <param name="capacity">The initial number of elements that the stack can hold. Must be greater than zero.</param>
     /// <param name="allocator">The allocator to use for memory management of the stack's storage.</param>
     /// <param name="allocationOption">The allocation option that determines how memory is allocated for the stack. The default is AllocationOption.None.</param>
-    public UnsafeStack(int initialCapacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
-        : this(initialCapacity, ref AllocationManager.GetAllocationHandle(allocator), allocationOption)
+    public UnsafeStack(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
+        : this(capacity, ref AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
     }
 

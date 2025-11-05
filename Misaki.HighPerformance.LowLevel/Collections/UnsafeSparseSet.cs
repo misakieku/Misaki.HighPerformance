@@ -80,7 +80,8 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     public readonly int Capacity => _capacity;
     public readonly bool IsCreated => _dense.IsCreated && _sparse.IsCreated && _reverse.IsCreated;
 
-    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeSparseSet<T>*)UnsafeUtility.AddressOf(ref this));
+    public Enumerator GetEnumerator() => new((UnsafeSparseSet<T>*)UnsafeUtility.AddressOf(ref this));
+    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>

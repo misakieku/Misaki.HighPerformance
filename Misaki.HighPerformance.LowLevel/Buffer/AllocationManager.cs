@@ -1,6 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Contracts;
-using Misaki.HighPerformance.LowLevel.Exceptions;
-using System.Collections.Concurrent;
+using Misaki.HighPerformance.LowLevel.Contracts;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -21,14 +19,6 @@ public readonly unsafe struct AllocationInfo
     }
 
     /// <summary>
-    /// Get the allocator used for the allocation.
-    /// </summary>
-    public void* Allocator
-    {
-        get; init;
-    }
-
-    /// <summary>
     /// Get the stack trace at the time of allocation for debugging purposes.
     /// </summary>
     public StackTrace StackTrace
@@ -43,6 +33,17 @@ public readonly unsafe struct AllocationInfo
 /// </summary>
 public static unsafe class AllocationManager
 {
+    // === Intrusive allocation tracking (enabled when debug layer is on) ===
+    [StructLayout(LayoutKind.Sequential)]
+    private struct AllocationHeader
+    {
+        public AllocationHeader* prev;
+        public AllocationHeader* next;
+        public void* basePtr;      // pointer returned by underlying allocator
+        public nuint userSize;     // requested size from the user
+        public nint stackHandle;   // GCHandle to managed StackTrace (stored as IntPtr)
+    }
+
     private unsafe struct ArenaAllocator : IAllocator, IDisposable
     {
         private DynamicArena _arena;
@@ -111,49 +112,17 @@ public static unsafe class AllocationManager
 
         private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption)
         {
-            var ptr = AlignedAlloc(size, alignment);
-
-            if (allocationOption.HasFlag(AllocationOption.Clear))
-            {
-                MemClear(ptr, size);
-            }
-
-            if (!allocationOption.HasFlag(AllocationOption.UnTracked))
-            {
-                TrackAllocation(ptr, size, instance);
-            }
-
-            return ptr;
+            return HeapAlloc(size, alignment, allocationOption);
         }
 
         private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
         {
-            var newPtr = AlignedRealloc(ptr, newSize, alignment);
-
-            if (allocationOption.HasFlag(AllocationOption.Clear))
-            {
-                if (newSize > oldSize)
-                {
-                    MemClear((byte*)newPtr + oldSize, newSize - oldSize);
-                }
-            }
-
-            if (!allocationOption.HasFlag(AllocationOption.UnTracked))
-            {
-                UpdateAllocation(ptr, newPtr, newSize, instance);
-            }
-            else
-            {
-                UntrackAllocation(ptr);
-            }
-
-            return newPtr;
+            return HeapRealloc(ptr, oldSize, newSize, alignment, allocationOption);
         }
 
         private static void FreeBlock(void* instance, void* ptr)
         {
-            AlignedFree(ptr);
-            UntrackAllocation(ptr);
+            HeapFree(ptr);
         }
     }
 
@@ -207,23 +176,178 @@ public static unsafe class AllocationManager
 
     private const uint _DEFAULT_MEMORY_POOL_SIZE = 512 * 1024;
 
-    private static readonly ArenaAllocator* s_arenaAllocator;
-    private static readonly HeapAllocator* s_persistentAllocator;
-    private static readonly StackAllocator* s_stackAllocator;
+    private static readonly ArenaAllocator* s_pArenaAllocator;
+    private static readonly HeapAllocator* s_pHeapAllocator;
+    private static readonly StackAllocator* s_pStackAllocator;
 
     private static bool s_debugLayer;
-    private static ConcurrentDictionary<nint, AllocationInfo>? s_allocated;
+    private static bool s_disposed;
+
+    private static AllocationHeader* s_liveHead;
+    private static SpinLock s_liveLock;
+
+    // Lightweight allocation counter for non-debug layer (no sizes, just count of live heap blocks)
+    private static long s_activeHeapAllocations;
 
     static AllocationManager()
     {
-        s_arenaAllocator = (ArenaAllocator*)NativeMemory.Alloc((nuint)sizeof(ArenaAllocator));
-        s_persistentAllocator = (HeapAllocator*)NativeMemory.Alloc((nuint)sizeof(HeapAllocator));
-        s_stackAllocator = (StackAllocator*)NativeMemory.Alloc((nuint)sizeof(StackAllocator));
+        s_pArenaAllocator = (ArenaAllocator*)NativeMemory.Alloc((nuint)sizeof(ArenaAllocator));
+        s_pHeapAllocator = (HeapAllocator*)NativeMemory.Alloc((nuint)sizeof(HeapAllocator));
+        s_pStackAllocator = (StackAllocator*)NativeMemory.Alloc((nuint)sizeof(StackAllocator));
 
-        s_arenaAllocator->Init(_DEFAULT_MEMORY_POOL_SIZE);
-        s_persistentAllocator->Init();
-        s_stackAllocator->Init();
+        s_liveLock = new SpinLock(false);
+
+        s_pArenaAllocator->Init(_DEFAULT_MEMORY_POOL_SIZE);
+        s_pHeapAllocator->Init();
+        s_pStackAllocator->Init();
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static byte* AlignUp(byte* p, nuint alignment)
+    {
+        var a = alignment == 0 ? (nuint)IntPtr.Size : alignment;
+        return (byte*)(((nuint)p + (a - 1)) & ~(a - 1));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static GCHandle HeaderGetHandle(AllocationHeader* header) => GCHandle.FromIntPtr(header->stackHandle);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void HeaderSetHandle(AllocationHeader* header, GCHandle handle) => header->stackHandle = GCHandle.ToIntPtr(handle);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void HeaderFreeHandle(AllocationHeader* header)
+    {
+        if (header->stackHandle != 0)
+        {
+            GCHandle.FromIntPtr(header->stackHandle).Free();
+            header->stackHandle = 0;
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void LinkHeader(AllocationHeader* header)
+    {
+        var taken = false;
+        try
+        {
+            s_liveLock.Enter(ref taken);
+            header->prev = null;
+            header->next = s_liveHead;
+            if (s_liveHead != null)
+            {
+                s_liveHead->prev = header;
+            }
+            s_liveHead = header;
+        }
+        finally
+        {
+            if (taken)
+            {
+                s_liveLock.Exit();
+            }
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void UnlinkHeader(AllocationHeader* header)
+    {
+        var taken = false;
+        try
+        {
+            s_liveLock.Enter(ref taken);
+            var prev = header->prev;
+            var next = header->next;
+
+            if (prev != null)
+                prev->next = next;
+            else
+                s_liveHead = next;
+
+            if (next != null)
+                next->prev = prev;
+
+            header->prev = header->next = null;
+        }
+        finally
+        {
+            if (taken)
+            {
+                s_liveLock.Exit();
+            }
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void* DebugAllocate(nuint size, nuint alignment)
+    {
+        // Over-allocate to fit header + alignment padding; we align the user pointer, header is placed just before it.
+        var pad = alignment == 0 ? (nuint)IntPtr.Size : alignment;
+        var total = size + (nuint)sizeof(AllocationHeader) + (pad - 1);
+
+        var basePtr = AlignedAlloc(total, pad);
+        var user = AlignUp((byte*)basePtr + (nuint)sizeof(AllocationHeader), pad);
+        var header = (AllocationHeader*)(user - (nuint)sizeof(AllocationHeader));
+
+        header->basePtr = basePtr;
+        header->userSize = size;
+        HeaderSetHandle(header, GCHandle.Alloc(new StackTrace(2, true)));
+
+        LinkHeader(header);
+        return user;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void DebugFree(void* userPtr)
+    {
+        var header = (AllocationHeader*)((byte*)userPtr - (nuint)sizeof(AllocationHeader));
+        UnlinkHeader(header);
+        HeaderFreeHandle(header);
+        AlignedFree(header->basePtr);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void* DebugReallocate(void* userPtr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
+    {
+        if (userPtr == null)
+        {
+            return DebugAllocate(newSize, alignment);
+        }
+
+        var oldHeader = (AllocationHeader*)((byte*)userPtr - (nuint)sizeof(AllocationHeader));
+        var handle = HeaderGetHandle(oldHeader); // preserve original allocation StackTrace
+
+        var pad = alignment == 0 ? (nuint)IntPtr.Size : alignment;
+        var total = newSize + (nuint)sizeof(AllocationHeader) + (pad - 1);
+        var newBase = AlignedAlloc(total, pad);
+        var newUser = AlignUp((byte*)newBase + (nuint)sizeof(AllocationHeader), pad);
+        var newHeader = (AllocationHeader*)(newUser - (nuint)sizeof(AllocationHeader));
+
+        newHeader->basePtr = newBase;
+        newHeader->userSize = newSize;
+        HeaderSetHandle(newHeader, handle); // transfer ownership to the new header
+
+        LinkHeader(newHeader);
+
+        // Mirror original behavior: copy newSize bytes
+        MemCpy(newUser, userPtr, newSize);
+        if (allocationOption.HasFlag(AllocationOption.Clear) && newSize > oldSize)
+        {
+            MemClear((byte*)newUser + oldSize, newSize - oldSize);
+        }
+
+        // Unlink and free the old block (without freeing the StackTrace handle again)
+        oldHeader->stackHandle = 0;
+        UnlinkHeader(oldHeader);
+        AlignedFree(oldHeader->basePtr);
+
+        return newUser;
+    }
+
+    /// <summary>
+    /// Gets the number of live persistent heap allocations when the debug layer is disabled.
+    /// </summary>
+    public static long LiveHeapAllocationCount => Interlocked.Read(ref s_activeHeapAllocations);
 
     /// <summary>
     /// Enables the debug layer, allowing additional diagnostic information to be collected.
@@ -231,8 +355,14 @@ public static unsafe class AllocationManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void EnableDebugLayer()
     {
+        // To avoid ambiguity between pointers allocated before/after enabling, this must be called
+        // before any heap allocations are live.
+        if (Interlocked.Read(ref s_activeHeapAllocations) != 0)
+        {
+            throw new InvalidOperationException("EnableDebugLayer must be called before any heap allocations are active.");
+        }
+
         s_debugLayer = true;
-        s_allocated ??= new(-1, 64);
     }
 
     /// <summary>
@@ -247,80 +377,95 @@ public static unsafe class AllocationManager
         switch (allocator)
         {
             case Allocator.Temp:
-                return ref s_arenaAllocator->Handle;
+                return ref s_pArenaAllocator->Handle;
             case Allocator.Persistent:
-                return ref s_persistentAllocator->Handle;
+                return ref s_pHeapAllocator->Handle;
             case Allocator.Stack:
-                return ref s_stackAllocator->Handle;
+                return ref s_pStackAllocator->Handle;
             default:
                 throw new ArgumentException("Target allocator type does not support custom allocation.", nameof(allocator));
         }
     }
 
     /// <summary>
-    /// Tracks a memory allocation in the allocation manager.
+    /// Allocates a block of memory from the heap with the specified size and alignment, using the given allocation
+    /// options.
     /// </summary>
-    /// <param name="ptr">The pointer to the allocated memory.</param>
-    /// <param name="allocationSize">The size of the allocation in bytes.</param>
-    /// <param name="allocator">The allocator used for the allocation.</param>
-    /// <param name="freeFunc">The function pointer used to free the allocated memory.</param>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void TrackAllocation(void* ptr, nuint allocationSize, void* allocator)
+    /// <param name="size">The number of bytes to allocate. Must be greater than zero.</param>
+    /// <param name="alignment">The alignment, in bytes, for the allocated memory block. Must be a power of two.</param>
+    /// <param name="allocationOption">An optional set of flags that control allocation behavior, such as whether the memory should be cleared or
+    /// tracked. The default is <see cref="AllocationOption.None"/>.</param>
+    /// <returns>A pointer to the beginning of the allocated memory block.</returns>
+    /// <exception cref="OutOfMemoryException">Thrown if the allocation fails.</exception>
+    public static void* HeapAlloc(nuint size, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
     {
-        if (!s_debugLayer || s_allocated == null || ptr == null)
+        void* ptr;
+        if (s_debugLayer)
         {
-            return;
+            ptr = DebugAllocate(size, alignment);
+        }
+        else
+        {
+            ptr = AlignedAlloc(size, alignment);
         }
 
-        s_allocated[(nint)ptr] = new AllocationInfo
+        if (allocationOption.HasFlag(AllocationOption.Clear))
         {
-            Size = allocationSize,
-            Allocator = allocator,
-            StackTrace = new StackTrace(true)
-        };
+            MemClear(ptr, size);
+        }
+
+        Interlocked.Increment(ref s_activeHeapAllocations);
+        return ptr;
     }
 
     /// <summary>
-    /// Updates the allocation tracking information by replacing the old pointer with a new pointer.
-    /// </summary>
-    /// <param name="oldPtr">A pointer to the previously allocated memory. If <paramref name="oldPtr"/> is not tracked, the method does nothing.</param>
-    /// <param name="newPtr">A pointer to the newly allocated memory. This pointer will replace <paramref name="oldPtr"/> in the allocation tracking.</param>
-    /// <param name="allocationSize">The size, in bytes, of the new allocation.</param>
-    /// <param name="allocator">A pointer to the allocator responsible for the new allocation.</param>
-    /// <param name="freeFunc">A delegate or function pointer used to free the memory associated with the allocation.</param>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void UpdateAllocation(void* oldPtr, void* newPtr, nuint allocationSize, void* allocator)
+    /// Reallocates a block of memory to a new size and alignment, optionally clearing newly allocated memory and
+    /// applying allocation options.
+    /// </summary>\
+    /// <param name="ptr">A pointer to the previously allocated memory block to be reallocated. Can be <see langword="null"/> to allocate new memory.</param>
+    /// <param name="oldSize">The size, in bytes, of the memory block currently pointed to by <paramref name="ptr"/>.</param>
+    /// <param name="newSize">The desired size, in bytes, for the reallocated memory block.</param>
+    /// <param name="alignment">The required alignment, in bytes, for the reallocated memory block. Must be a power of two.</param>
+    /// <param name="allocationOption">An optional set of flags that control allocation behavior, such as whether to clear newly allocated memory or
+    ///     track the allocation. The default is <see cref="AllocationOption.None"/>.</param>
+    /// <returns>A pointer to the reallocated memory block with the specified size and alignment. Returns <see langword="null"/>
+    ///     if the allocation fails.</returns>
+    public static void* HeapRealloc(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
     {
-        if (!s_debugLayer || s_allocated == null || oldPtr == null || newPtr == null)
+        if (s_debugLayer)
         {
-            return;
+            return DebugReallocate(ptr, oldSize, newSize, alignment, allocationOption);
         }
 
-        // If we don't find the allocation info, that means the oldPtr was not tracked
-        if (s_allocated.Remove((nint)oldPtr, out var info))
+        var newPtr = AlignedRealloc(ptr, newSize, alignment);
+        if (allocationOption.HasFlag(AllocationOption.Clear))
         {
-            s_allocated[(nint)newPtr] = new AllocationInfo
+            if (newSize > oldSize)
             {
-                Size = allocationSize,
-                Allocator = allocator,
-                StackTrace = info.StackTrace
-            };
+                MemClear((byte*)newPtr + oldSize, newSize - oldSize);
+            }
         }
+
+        return newPtr;
     }
 
     /// <summary>
-    /// Removes the specified memory allocation from the tracking system.
+    /// Releases a block of unmanaged memory previously allocated by the heap allocator.
     /// </summary>
-    /// <param name="ptr">A pointer to the memory allocation to untrack.</param>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void UntrackAllocation(void* ptr)
+    /// <param name="ptr">A pointer to the memory block to be freed. The pointer must have been returned by a compatible heap allocation
+    ///     method and must not be null.</param>
+    public static void HeapFree(void* ptr)
     {
-        if (s_allocated == null)
+        if (s_debugLayer)
         {
-            return;
+            DebugFree(ptr);
+        }
+        else
+        {
+            AlignedFree(ptr);
         }
 
-        s_allocated.Remove((nint)ptr, out _);
+        Interlocked.Decrement(ref s_activeHeapAllocations);
     }
 
     /// <summary>
@@ -329,7 +474,7 @@ public static unsafe class AllocationManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ResetTempAllocator()
     {
-        s_arenaAllocator->Reset();
+        s_pArenaAllocator->Reset();
     }
 
     /// <summary>
@@ -347,36 +492,74 @@ public static unsafe class AllocationManager
     /// </summary>
     public static void Dispose()
     {
-        if (s_allocated != null)
+        if (s_disposed)
         {
-            nuint unfreeBytes = 0u;
-            foreach (var pair in s_allocated)
+            return;
+        }
+
+        // In debug mode, walk the intrusive list to surface any leaks.
+        if (s_debugLayer)
+        {
+            var snapshot = new List<AllocationInfo>();
+            var taken = false;
+            try
             {
-                unfreeBytes += pair.Value.Size;
+                s_liveLock.Enter(ref taken);
+                if (s_liveHead != null)
+                {
+                    snapshot.Capacity = 128;
+                    for (var p = s_liveHead; p != null; p = p->next)
+                    {
+                        var trace = (StackTrace)HeaderGetHandle(p).Target!;
+                        snapshot.Add(new AllocationInfo
+                        {
+                            Size = p->userSize,
+                            StackTrace = trace
+                        });
+                    }
+                }
+            }
+            finally
+            {
+                if (taken)
+                {
+                    s_liveLock.Exit();
+                }
+            }
+
+            nuint unfreeBytes = 0u;
+            foreach (var info in snapshot)
+            {
+                unfreeBytes += info.Size;
             }
 
             if (unfreeBytes > 0u)
             {
-                throw new MemoryLeakException([.. s_allocated.Values]);
+                throw new MemoryLeakException(snapshot);
             }
-
-            s_allocated.Clear();
         }
-
-        if (s_arenaAllocator != null)
+        else if (s_activeHeapAllocations != 0)
         {
-            s_arenaAllocator->Dispose();
-            NativeMemory.Free(s_arenaAllocator);
+            throw new MemoryLeakException($"Found {s_activeHeapAllocations} memory lakes! Please enable debug layer for more informations.");
         }
 
-        if (s_stackAllocator != null)
+        if (s_pArenaAllocator != null)
         {
-            NativeMemory.Free(s_stackAllocator);
+            s_pArenaAllocator->Dispose();
+            NativeMemory.Free(s_pArenaAllocator);
         }
 
-        if (s_persistentAllocator != null)
+        if (s_pHeapAllocator != null)
         {
-            NativeMemory.Free(s_persistentAllocator);
+            NativeMemory.Free(s_pHeapAllocator);
         }
+
+        if (s_pStackAllocator != null)
+        {
+            NativeMemory.Free(s_pStackAllocator);
+        }
+
+        s_activeHeapAllocations = 0;
+        s_disposed = true;
     }
 }

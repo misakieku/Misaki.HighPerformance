@@ -80,7 +80,8 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
         set => _array[index] = value;
     }
 
-    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeQueue<T>*)UnsafeUtility.AddressOf(ref this));
+    public Enumerator GetEnumerator() => new((UnsafeQueue<T>*)UnsafeUtility.AddressOf(ref this));
+    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>

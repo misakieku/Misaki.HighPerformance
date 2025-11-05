@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
@@ -107,7 +107,8 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         get => _buffer != null;
     }
 
-    public IEnumerator<T> GetEnumerator() => new Enumerator((UnsafeArray<T>*)UnsafeUtility.AddressOf(ref this));
+    public Enumerator GetEnumerator() => new ((UnsafeArray<T>*)UnsafeUtility.AddressOf(ref this));
+    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>

@@ -1,0 +1,68 @@
+using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Collections;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Misaki.HighPerformance.Test.UnitTest.Collections;
+
+[TestClass]
+public class TestUnsafeStack
+{
+    private UnsafeStack<int> _stack;
+
+    [TestInitialize]
+    public void Initialize()
+    {
+        _stack = new UnsafeStack<int>(16, Allocator.Persistent);
+    }
+
+    [TestCleanup]
+    public void Cleanup()
+    {
+        _stack.Dispose();
+    }
+
+    [TestMethod]
+    public void TestPushPop()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            _stack.Push(i);
+        }
+        Assert.AreEqual(10, _stack.Count);
+        for (int i = 9; i >= 0; i--)
+        {
+            int value = _stack.Pop();
+            Assert.AreEqual(i, value);
+        }
+        Assert.AreEqual(0, _stack.Count);
+    }
+
+    [TestMethod]
+    public void TestPeek()
+    {
+        _stack.Push(42);
+        int value = _stack.Peek();
+        Assert.AreEqual(42, value);
+        Assert.AreEqual(1, _stack.Count);
+    }
+
+    [TestMethod]
+    public void TestEnumeration()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            _stack.Push(i);
+        }
+
+        int expected = 4;
+        foreach (var item in _stack)
+        {
+            Assert.AreEqual(expected, item);
+            expected--;
+        }
+    }
+}

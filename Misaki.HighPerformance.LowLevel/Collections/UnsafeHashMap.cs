@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
@@ -92,7 +92,8 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
         }
     }
 
-    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => new Enumerator((HashMapHelper<TKey>*)UnsafeUtility.AddressOf(ref _hashMap));
+    public Enumerator GetEnumerator() => new((HashMapHelper<TKey>*)UnsafeUtility.AddressOf(ref this));
+    IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator() => GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>

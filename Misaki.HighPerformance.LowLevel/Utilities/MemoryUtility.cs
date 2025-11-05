@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Utilities;
@@ -69,11 +69,6 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Free(void* ptr)
     {
-        if (ptr == null)
-        {
-            return;
-        }
-
         NativeMemory.Free(ptr);
     }
 
@@ -85,11 +80,6 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AlignedFree(void* ptr)
     {
-        if (ptr == null)
-        {
-            return;
-        }
-
         NativeMemory.AlignedFree(ptr);
     }
 

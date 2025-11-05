@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
@@ -48,7 +48,8 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
     public readonly int Capacity => _hashMap.Capacity;
     public readonly bool IsCreated => _hashMap.IsCreated;
 
-    public IEnumerator<T> GetEnumerator() => new Enumerator((HashMapHelper<T>*)UnsafeUtility.AddressOf(ref _hashMap));
+    public Enumerator GetEnumerator() => new((HashMapHelper<T>*)UnsafeUtility.AddressOf(ref this));
+    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <summary>

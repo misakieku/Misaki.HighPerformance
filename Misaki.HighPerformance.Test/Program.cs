@@ -43,4 +43,14 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 
-var array = new UnsafeArray<int>(10, Allocator.Persistent);
+//AllocationManager.EnableDebugLayer();
+//var array = new UnsafeArray<int>(10, Allocator.Persistent);
+//var array2 = new UnsafeArray<int>(10, Allocator.Persistent);
+//array.Dispose();
+//array2.Dispose();
+//AllocationManager.Dispose();
+
+using (AllocationManager.CreateStackScope())
+{
+    var arr = new UnsafeArray<int>(10, Allocator.Stack);
+}
