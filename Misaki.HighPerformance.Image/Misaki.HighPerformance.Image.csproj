@@ -5,6 +5,8 @@
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
       <TargetFramework>net9.0</TargetFramework>
       <Authors>Misaki</Authors>
+      <AssemblyVersion>1.0.0</AssemblyVersion>
+      <Version>$(AssemblyVersion)</Version>
       <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
       <PackageProjectUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</PackageProjectUrl>
       <RepositoryUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</RepositoryUrl>
