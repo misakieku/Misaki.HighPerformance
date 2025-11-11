@@ -18,51 +18,27 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     {
         private readonly UnsafeList<T>* _collection;
         private int _index;
-        private T _value;
+
+        public readonly ref T Current => ref _collection->_array[_index];
+        readonly T IEnumerator<T>.Current => Current;
+        readonly object IEnumerator.Current => Current;
 
         public Enumerator(UnsafeList<T>* collection)
         {
             _collection = collection;
             _index = -1;
-            _value = default;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
             _index++;
-            if (_index < _collection->_count)
-            {
-                _value = UnsafeUtility.ReadArrayElement<T>(_collection->_array.GetUnsafePtr(), _index);
-                return true;
-            }
-
-            _value = default;
-            return false;
+            return _index < _collection->_count;
         }
 
         public void Reset()
         {
             _index = -1;
-        }
-
-        // Let NativeArray indexer check for out of range.
-        public readonly T Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                return _value;
-            }
-        }
-
-        readonly object IEnumerator.Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                return Current;
-            }
         }
 
         public readonly void Dispose()

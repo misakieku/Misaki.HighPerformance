@@ -19,18 +19,13 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
     {
         internal HashMapHelper<T>.Enumerator _enumerator;
 
+        public readonly T Current  => _enumerator.buffer->_keys[_enumerator.index];
+        readonly object IEnumerator.Current => Current;
+
         public Enumerator(HashMapHelper<T>* hashMap)
         {
             _enumerator = new HashMapHelper<T>.Enumerator(hashMap);
         }
-
-        public T Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _enumerator.buffer->_keys[_enumerator.index];
-        }
-
-        object IEnumerator.Current => Current;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext() => _enumerator.MoveNext();

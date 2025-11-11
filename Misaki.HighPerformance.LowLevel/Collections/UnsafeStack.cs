@@ -19,44 +19,27 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     {
         private readonly UnsafeStack<T>* _collection;
         private int _index;
-        private T _value;
+
+        public readonly ref T Current => ref _collection->_array[_index];
+        readonly T IEnumerator<T>.Current => Current;
+        readonly object IEnumerator.Current => Current;
 
         public Enumerator(UnsafeStack<T>* collection)
         {
             _collection = collection;
             _index = collection->Count;
-            _value = default;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
             _index--;
-            if (_index >= 0)
-            {
-                _value = UnsafeUtility.ReadArrayElement<T>(_collection->_array.GetUnsafePtr(), _index);
-                return true;
-            }
-
-            _value = default;
-            return false;
+            return _index >= 0;
         }
 
         public void Reset()
         {
             _index = _collection->Count;
-        }
-
-        public readonly T Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _value;
-        }
-
-        readonly object IEnumerator.Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => Current;
         }
 
         public readonly void Dispose()
@@ -68,6 +51,7 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     private int _count;
 
     public readonly int Count => _count;
+    public readonly int Capacity => _array.Count;
     public readonly bool IsCreated => _array.IsCreated;
 
     public Enumerator GetEnumerator() => new((UnsafeStack<T>*)UnsafeUtility.AddressOf(ref this));
@@ -111,9 +95,9 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     /// <param name="value">The element to add to the stack.</param>
     public void Push(T value)
     {
-        if (_count >= _array.Count)
+        if (_count >= Capacity)
         {
-            Resize(_array.Count + (int)(_array.Count * 0.5f));
+            Resize((int)(Capacity * 1.5f));
         }
 
         UnsafeUtility.WriteArrayElement(_array.GetUnsafePtr(), _count, value);

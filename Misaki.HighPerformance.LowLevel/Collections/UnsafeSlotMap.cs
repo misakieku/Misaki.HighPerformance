@@ -20,44 +20,36 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         private readonly UnsafeSlotMap<T>* _collection;
         private int _currentIndex;
 
+        public readonly ref T Current => ref _collection->_data[_currentIndex];
+        readonly T IEnumerator<T>.Current => Current;
+        readonly object? IEnumerator.Current => Current;
+
         public Enumerator(UnsafeSlotMap<T>* collection)
         {
             _collection = collection;
             _currentIndex = -1;
         }
 
-        public readonly T Current => _collection->_data[_currentIndex].value;
-        readonly object? IEnumerator.Current => Current;
-
         public bool MoveNext()
         {
-            while (++_currentIndex < _collection->_capacity)
-            {
-                if (_collection->_data[_currentIndex].isValid)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            _currentIndex = _collection->_validBits.NextSetBit(_currentIndex + 1);
+            return _currentIndex != -1;
         }
 
-        public void Reset() => _currentIndex = -1;
+        public void Reset()
+        {
+            _currentIndex = -1;
+        }
 
         public void Dispose()
         {
         }
     }
 
-    private struct SlotData
-    {
-        public T value;
-        public int generation;
-        public bool isValid;
-    }
-
-    private UnsafeArray<SlotData> _data;
+    private UnsafeArray<T> _data;
+    private UnsafeArray<int> _generations;
     private UnsafeQueue<int> _freeSlots;
+    private UnsafeBitSet _validBits;
 
     private int _count;
     private int _capacity;
@@ -94,8 +86,12 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
             throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
         }
 
-        _data = new UnsafeArray<SlotData>(capacity, ref handle, allocationOption);
+        _data = new UnsafeArray<T>(capacity, ref handle, allocationOption);
+        _generations = new UnsafeArray<int>(capacity, ref handle, allocationOption);
         _freeSlots = new UnsafeQueue<int>(capacity, ref handle, allocationOption);
+        _validBits = new UnsafeBitSet(GetBitSetCapacity(capacity), ref handle, allocationOption);
+
+        _validBits.ClearAll();
 
         _count = 0;
         _capacity = capacity;
@@ -113,6 +109,12 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     {
     }
 
+    private static int GetBitSetCapacity(int capacity)
+    {
+        // Each uint32 can hold 32 bits.
+        return (capacity + 31) / 32;
+    }
+
     /// <summary>
     /// Adds the specified item to the collection and returns the index of the slot where it was stored.
     /// </summary>
@@ -123,27 +125,26 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     {
         if (_count >= _capacity)
         {
-            Resize(_capacity * 2);
+            Resize((int)(_capacity * 1.5f));
         }
 
-        int slotIndex;
+        int index;
         if (_freeSlots.Count == 0)
         {
-            slotIndex = _count;
+            index = _count;
         }
         else
         {
-            slotIndex = _freeSlots.Dequeue();
+            index = _freeSlots.Dequeue();
         }
 
-        ref var slot = ref _data[slotIndex];
-        slot.value = item;
-        slot.isValid = true;
-        generation = slot.generation;
+        _data[index] = item;
+        _validBits.SetBit(index);
 
         _count++;
 
-        return slotIndex;
+        generation = _generations[index];
+        return index;
     }
 
     /// <summary>
@@ -160,16 +161,16 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
             return false;
         }
 
-        ref var slot = ref _data[slotIndex];
-        if (slot.generation != generation)
+        ref var gen = ref _generations[slotIndex];
+        if (gen != generation)
         {
             return false;
         }
 
-        slot.generation++;
-        slot.isValid = false;
-
+        gen++;
+        _validBits.ClearBit(slotIndex);
         _freeSlots.Enqueue(slotIndex);
+
         _count--;
 
         return true;
@@ -188,9 +189,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
             return false;
         }
 
-        ref var slot = ref _data[slotIndex];
-
-        if (slot.isValid && slot.generation == generation)
+        if (_validBits.IsSet(slotIndex) && _generations[slotIndex] == generation)
         {
             return true;
         }
@@ -215,14 +214,13 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
             return false;
         }
 
-        ref var slot = ref _data[slotIndex];
-        if (slot.generation != generation)
+        if (_generations[slotIndex] != generation)
         {
             value = default;
             return false;
         }
 
-        value = slot.value;
+        value = _data[slotIndex];
         return true;
     }
 
@@ -241,13 +239,12 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
             throw new ArgumentOutOfRangeException(nameof(slotIndex), "Slot index is out of range.");
         }
 
-        ref var slot = ref _data[slotIndex];
-        if (!slot.isValid || slot.generation != generation)
+        if (!_validBits.IsSet(slotIndex)|| _generations[slotIndex] != generation)
         {
             throw new InvalidOperationException($"Slot {slotIndex} is not occupied.");
         }
 
-        return slot.value;
+        return _data[slotIndex];
     }
 
     /// <summary>
@@ -268,28 +265,31 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
         ref var slot = ref _data[slotIndex];
 
-        if (!slot.isValid || slot.generation != generation)
+        if (!_validBits.IsSet(slotIndex) || _generations[slotIndex] != generation)
         {
             exist = false;
             return ref Unsafe.NullRef<T>();
         }
 
         exist = true;
-        return ref slot.value;
+        return ref _data[slotIndex];
     }
 
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
         _data.Resize(newSize, option);
+        _generations.Resize(newSize, option);
         _freeSlots.Resize(newSize, option);
+        _validBits.Resize(GetBitSetCapacity(newSize), option);
 
         _capacity = newSize;
     }
 
     public void Clear()
     {
-        _data.Clear();
+        _generations.Clear();
         _freeSlots.Clear();
+        _validBits.ClearAll();
 
         _count = 0;
     }

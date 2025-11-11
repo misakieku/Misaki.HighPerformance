@@ -40,6 +40,7 @@ public unsafe interface IUnsafeCollection<T> : IUnsafeCollection, IEnumerable<T>
     /// </summary>
     /// <remarks>This is to adjust the element count of the collection, not the size of the underlying buffer in memory.</remarks>
     /// <param name="newSize">Specifies the new size to which the collection should be adjusted.</param>
+    /// <param name="option">Specifies allocation options that may affect how memory is managed during the resize operation.</param>
     void Resize(int newSize, AllocationOption option);
 }
 

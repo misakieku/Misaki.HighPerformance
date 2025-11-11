@@ -1,4 +1,5 @@
-﻿using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
-public struct UnsafeBitSet : IDisposable
+public unsafe struct UnsafeBitSet : IDisposable
 {
     private const int _BIT_SIZE = sizeof(uint) * 8 - 1;           // 31
     private const int _INDEX_SIZE = 5;                              // log_2(BitSize + 1)
@@ -53,23 +54,31 @@ public struct UnsafeBitSet : IDisposable
     /// </summary>
     public UnsafeBitSet()
     {
-        _bits = new UnsafeArray<uint>(s_padding, Allocator.Persistent, AllocationOption.Clear);
-    }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
-    /// </summary>
-    public UnsafeBitSet(int minimalLength, Allocator allocator, AllocationOption option = AllocationOption.Clear)
-    {
-        var uints = (minimalLength >> _INDEX_SIZE) + int.Sign(minimalLength & _BIT_SIZE);
-        var length = RoundToPadding(uints);
-        _bits = new UnsafeArray<uint>(length, allocator, option);
+        _bits = new UnsafeArray<uint>(s_padding, Allocator.Persistent, AllocationOption.None);
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
-    public UnsafeBitSet(Span<uint> bits, Allocator allocator, AllocationOption option = AllocationOption.Clear)
+    public UnsafeBitSet(int minimalLength, ref AllocationHandle handle, AllocationOption option = AllocationOption.None)
+    {
+        var uints = (minimalLength >> _INDEX_SIZE) + int.Sign(minimalLength & _BIT_SIZE);
+        var length = RoundToPadding(uints);
+        _bits = new UnsafeArray<uint>(length, ref handle, option);
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
+    /// </summary>
+    public UnsafeBitSet(int minimalLength, Allocator allocator, AllocationOption option = AllocationOption.None)
+        : this(minimalLength, ref AllocationManager.GetAllocationHandle(allocator), option)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
+    /// </summary>
+    public UnsafeBitSet(Span<uint> bits, Allocator allocator, AllocationOption option = AllocationOption.None)
     {
         _bits = new UnsafeArray<uint>(bits.Length, allocator, option);
         _bits.CopyFrom(bits);
@@ -169,11 +178,7 @@ public struct UnsafeBitSet : IDisposable
     /// </summary>
     public void SetAll()
     {
-        var count = _bits.Count;
-        for (var i = 0; i < count; i++)
-        {
-            _bits[i] = 0xffffffff;
-        }
+        _bits.AsSpan().Fill(0xffffffff);
 
         _highestBit = _bits.Count * (_BIT_SIZE + 1) - 1;
         _max = _highestBit / (_BIT_SIZE + 1) + 1;
@@ -192,7 +197,7 @@ public struct UnsafeBitSet : IDisposable
     /// <summary>
     /// Finds the next set bit at or after `startIndex`, or -1 if none.
     /// </summary>
-    public int NextSetBit(int startIndex)
+    public readonly int NextSetBit(int startIndex)
     {
         var wordIndex = startIndex >> _BIT_SIZE;
         if (wordIndex >= _bits.Count)
@@ -219,6 +224,13 @@ public struct UnsafeBitSet : IDisposable
 
             word = _bits[wordIndex];
         }
+    }
+
+    public void Resize(int minimalLength, AllocationOption option = AllocationOption.None)
+    {
+        var uints = (minimalLength >> _INDEX_SIZE) + int.Sign(minimalLength & _BIT_SIZE);
+        var length = RoundToPadding(uints);
+        _bits.Resize(length, option);
     }
 
     /// <summary>
