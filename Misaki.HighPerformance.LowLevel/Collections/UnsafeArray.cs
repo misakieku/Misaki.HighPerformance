@@ -19,43 +19,26 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         private readonly UnsafeArray<T>* _collection;
         private int _index;
 
+        public readonly ref T Current => ref _collection->_buffer[_index];
+        readonly T IEnumerator<T>.Current => Current;
+        readonly object IEnumerator.Current => Current;
+
         public Enumerator(UnsafeArray<T>* collection)
         {
             _collection = collection;
             _index = -1;
-            Current = default;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
             _index++;
-            if (_index < _collection->Count)
-            {
-                Current = UnsafeUtility.ReadArrayElement<T>(_collection->_buffer, _index);
-                return true;
-            }
-
-            Current = default;
-            return false;
+            return _index < _collection->_count;
         }
 
         public void Reset()
         {
             _index = -1;
-        }
-
-        // Let NativeArray indexer check for out of range.
-        public T Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get; private set;
-        }
-
-        readonly object IEnumerator.Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => Current;
         }
 
         public void Dispose()

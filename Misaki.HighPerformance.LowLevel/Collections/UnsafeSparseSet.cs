@@ -20,45 +20,27 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     public struct Enumerator : IEnumerator<T>
     {
         private readonly UnsafeSparseSet<T>* _collection;
-        private int _index;
-        private T _value;
+        private int _currentIndex;
+
+        public readonly ref T Current => ref _collection->_dense[_currentIndex];
+        readonly T IEnumerator<T>.Current => Current;
+        readonly object IEnumerator.Current => Current;
 
         public Enumerator(UnsafeSparseSet<T>* collection)
         {
             _collection = collection;
-            _index = -1;
-            _value = default;
+            _currentIndex = -1;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            _index++;
-            if (_index < _collection->_count)
-            {
-                _value = _collection->_dense[_index];
-                return true;
-            }
-
-            _value = default;
-            return false;
+            _currentIndex++;
+            return _currentIndex < _collection->_count;
         }
 
         public void Reset()
         {
-            _index = -1;
-        }
-
-        public readonly T Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _value;
-        }
-
-        readonly object IEnumerator.Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => Current;
+            _currentIndex = -1;
         }
 
         public readonly unsafe void Dispose()
@@ -158,10 +140,9 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         }
 
         // Resize dense arrays if necessary
-        if (_count >= _dense.Count)
+        if (_count >= _capacity)
         {
-            var newCapacity = _dense.Count + (int)Math.Max(1, _dense.Count * 0.5f);
-            Resize(newCapacity);
+            Resize((int)(_capacity * 1.5f));
         }
 
         // Add the value to the dense array and update mappings
@@ -336,8 +317,6 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         {
             throw new ArgumentOutOfRangeException(nameof(newSize), "New size must be greater than zero.");
         }
-
-        var oldSize = _capacity;
 
         _dense.Resize(newSize, option);
         _generations.Resize(newSize, option | AllocationOption.Clear);

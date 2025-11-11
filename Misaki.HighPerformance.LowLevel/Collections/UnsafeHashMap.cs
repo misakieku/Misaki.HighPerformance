@@ -14,41 +14,19 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
     {
         internal HashMapHelper<TKey>.Enumerator _enumerator;
 
+        public KeyValuePair<TKey, TValue> Current => _enumerator.GetCurrent<TValue>();
+        object IEnumerator.Current => Current;
+
         public Enumerator(HashMapHelper<TKey>* data)
         {
             _enumerator = new HashMapHelper<TKey>.Enumerator(data);
         }
 
-        /// <summary>
-        /// The current key-value pair.
-        /// </summary>
-        /// <value>The current key-value pair.</value>
-        public KeyValuePair<TKey, TValue> Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _enumerator.GetCurrent<TValue>();
-        }
-
-        /// <summary>
-        /// Gets the element at the current position of the enumerator in the container.
-        /// </summary>
-        object IEnumerator.Current => Current;
-
-        /// <summary>
-        /// Advances the enumerator to the next key-value pair.
-        /// </summary>
-        /// <returns>True if <see cref="Current"/> is valid to read after the call.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext() => _enumerator.MoveNext();
 
-        /// <summary>
-        /// Resets the enumerator to its initial state.
-        /// </summary>
         public void Reset() => _enumerator.Reset();
 
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
         public void Dispose()
         {
         }

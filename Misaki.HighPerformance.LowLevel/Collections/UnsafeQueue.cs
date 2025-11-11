@@ -17,46 +17,29 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     public struct Enumerator : IEnumerator<T>
     {
         private readonly UnsafeQueue<T>* _collection;
-        private int _index;
-        private T _value;
+        private int _currentIndex;
+
+        // We assume _currentIndex will always be in range when accessed.
+        public readonly ref T Current => ref _collection->_array[(_collection->_offset + _currentIndex) % _collection->Capacity];
+        readonly T IEnumerator<T>.Current => Current;
+        readonly object IEnumerator.Current => Current;
 
         public Enumerator(UnsafeQueue<T>* collection)
         {
             _collection = collection;
-            _index = -1;
-            _value = default;
+            _currentIndex = -1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            _index++;
-            if (_index < _collection->_count)
-            {
-                _value = UnsafeUtility.ReadArrayElement<T>(_collection->_array.GetUnsafePtr(), _index);
-                return true;
-            }
-
-            _value = default;
-            return false;
+            _currentIndex++;
+            return _currentIndex < _collection->_count;
         }
 
         public void Reset()
         {
-            _index = -1;
-        }
-
-        // Let NativeArray indexer check for out of range.
-        public readonly T Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _value;
-        }
-
-        readonly object IEnumerator.Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => Current;
+            _currentIndex = -1;
         }
 
         public readonly void Dispose()
@@ -128,7 +111,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     {
         if (_count >= Capacity)
         {
-            Resize(Capacity + (int)(Capacity * 0.5f));
+            Resize((int)(Capacity * 1.5f));
         }
 
         UnsafeUtility.WriteArrayElement(_array.GetUnsafePtr(), (_offset + _count) % Capacity, value);
