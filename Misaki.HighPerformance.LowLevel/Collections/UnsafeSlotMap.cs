@@ -96,7 +96,9 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
         _data = new UnsafeArray<SlotData>(capacity, ref handle, allocationOption);
         _freeSlots = new UnsafeQueue<int>(capacity, ref handle, allocationOption);
+
         _count = 0;
+        _capacity = capacity;
     }
 
     /// <summary>
@@ -179,7 +181,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <param name="slotIndex">The zero-based index of the slot to check. Must be greater than or equal to 0 and less than the current capacity.</param>
     /// <param name="generation">The generation value to compare against the slot's generation.</param>
     /// <returns>true if the slot at the specified index is valid and its generation matches the specified value; otherwise, false.</returns>
-    public bool Contain(int slotIndex, int generation)
+    public bool Contains(int slotIndex, int generation)
     {
         if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
         {
