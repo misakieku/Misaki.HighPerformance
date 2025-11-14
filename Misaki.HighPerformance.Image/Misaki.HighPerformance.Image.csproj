@@ -3,7 +3,7 @@
       <TargetFrameworks></TargetFrameworks>
       <PackageLicenseUrl>Public Domain</PackageLicenseUrl>
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-      <TargetFramework>net9.0</TargetFramework>
+      <TargetFramework>net10.0</TargetFramework>
       <Authors>Misaki</Authors>
       <AssemblyVersion>1.0.0</AssemblyVersion>
       <Version>$(AssemblyVersion)</Version>

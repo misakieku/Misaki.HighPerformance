@@ -8,7 +8,7 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 /// <summary>
 /// Holds information about a memory allocation.
 /// </summary>
-public readonly unsafe struct AllocationInfo
+public readonly struct AllocationInfo
 {
     /// <summary>
     /// Get the size of the allocation in bytes.
@@ -69,7 +69,7 @@ public static unsafe class AllocationManager
         {
             var selfPtr = (ArenaAllocator*)instance;
             var newPtr = selfPtr->_arena.Allocate(newSize, alignment, allocationOption);
-            MemCpy(newPtr, ptr, newSize);
+            MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
 
             if (allocationOption.HasFlag(AllocationOption.Clear))
             {
@@ -149,7 +149,7 @@ public static unsafe class AllocationManager
         private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
         {
             var newPtr = s_stack.Allocate(newSize, alignment, AllocationOption.None);
-            MemCpy(newPtr, ptr, newSize);
+            MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
 
             if (allocationOption.HasFlag(AllocationOption.Clear))
             {
@@ -174,7 +174,7 @@ public static unsafe class AllocationManager
         }
     }
 
-    private const uint _DEFAULT_MEMORY_POOL_SIZE = 512 * 1024;
+    private const uint _DEFAULT_MEMORY_POOL_SIZE = 512 * 1024; // 512 KB
 
     private static readonly ArenaAllocator* s_pArenaAllocator;
     private static readonly HeapAllocator* s_pHeapAllocator;
@@ -438,12 +438,10 @@ public static unsafe class AllocationManager
         }
 
         var newPtr = AlignedRealloc(ptr, newSize, alignment);
-        if (allocationOption.HasFlag(AllocationOption.Clear))
+        if (allocationOption.HasFlag(AllocationOption.Clear)
+            && newSize > oldSize)
         {
-            if (newSize > oldSize)
-            {
-                MemClear((byte*)newPtr + oldSize, newSize - oldSize);
-            }
+            MemClear((byte*)newPtr + oldSize, newSize - oldSize);
         }
 
         return newPtr;
@@ -535,7 +533,7 @@ public static unsafe class AllocationManager
 
             if (unfreeBytes > 0u)
             {
-                throw new MemoryLeakException(snapshot);
+                throw new MemoryLeakException(CollectionsMarshal.AsSpan(snapshot));
             }
         }
         else if (s_activeHeapAllocations != 0)

@@ -20,7 +20,7 @@
 
 //using Misaki.HighPerformance.Test.Benchmark;
 
-//BenchmarkDotNet.Running.BenchmarkRunner.Run<MathematicsBenchmark>();
+BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.MathematicsBenchmark>();
 
 //using Misaki.HighPerformance.LowLevel.Buffer;
 //using Misaki.HighPerformance.LowLevel.Collections;
@@ -40,17 +40,3 @@
 //    }
 //}
 
-using Misaki.HighPerformance.LowLevel.Buffer;
-using Misaki.HighPerformance.LowLevel.Collections;
-
-//AllocationManager.EnableDebugLayer();
-//var array = new UnsafeArray<int>(10, Allocator.Persistent);
-//var array2 = new UnsafeArray<int>(10, Allocator.Persistent);
-//array.Dispose();
-//array2.Dispose();
-//AllocationManager.Dispose();
-
-using (AllocationManager.CreateStackScope())
-{
-    var arr = new UnsafeArray<int>(10, Allocator.Stack);
-}

@@ -10,12 +10,21 @@ namespace Misaki.HighPerformance.LowLevel;
 /// <param name="Infos">An array of AllocationInfo containing details about the memory leaks.</param>
 public class MemoryLeakException : Exception
 {
-    private readonly IEnumerable<AllocationInfo>? _infos;
-    private readonly string _message = string.Empty;
+    private readonly string _message;
 
-    public MemoryLeakException(IEnumerable<AllocationInfo> infos)
+    public override string Message => _message;
+
+    public MemoryLeakException(ReadOnlySpan<AllocationInfo> infos)
     {
-        _infos = infos;
+        var stringBuilder = new StringBuilder();
+        stringBuilder.AppendLine($"Found {infos.Length} memory lakes!");
+
+        foreach (var info in infos)
+        {
+            stringBuilder.AppendLine(GetMessage(info.StackTrace));
+        }
+
+        _message = stringBuilder.ToString();
     }
 
     public MemoryLeakException(string message)
@@ -43,26 +52,5 @@ public class MemoryLeakException : Exception
         }
 
         return stringBuilder.ToString();
-    }
-
-    public override string Message
-    {
-        get
-        {
-            if (_infos == null)
-            {
-                return _message;
-            }
-
-            var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine($"Found {_infos.Count()} memory lakes!");
-
-            foreach (var info in _infos)
-            {
-                stringBuilder.AppendLine(GetMessage(info.StackTrace));
-            }
-
-            return stringBuilder.ToString();
-        }
     }
 }

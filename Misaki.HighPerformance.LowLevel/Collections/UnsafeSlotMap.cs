@@ -57,7 +57,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     public readonly int Count => _count;
     public readonly int Capacity => _capacity;
 
-    public readonly bool IsCreated => _data.IsCreated && _freeSlots.IsCreated;
+    public readonly bool IsCreated => _data.IsCreated && _generations.IsCreated && _freeSlots.IsCreated && _validBits.IsCreated;
 
     public Enumerator GetEnumerator() => new((UnsafeSlotMap<T>*)UnsafeUtility.AddressOf(ref this));
     IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
@@ -239,7 +239,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
             throw new ArgumentOutOfRangeException(nameof(slotIndex), "Slot index is out of range.");
         }
 
-        if (!_validBits.IsSet(slotIndex)|| _generations[slotIndex] != generation)
+        if (!_validBits.IsSet(slotIndex) || _generations[slotIndex] != generation)
         {
             throw new InvalidOperationException($"Slot {slotIndex} is not occupied.");
         }
@@ -294,7 +294,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         _count = 0;
     }
 
-    public readonly unsafe void* GetUnsafePtr()
+    public readonly void* GetUnsafePtr()
     {
         return _data.GetUnsafePtr();
     }
@@ -303,6 +303,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     {
         _data.Dispose();
         _freeSlots.Dispose();
+        _validBits.Dispose();
 
         _count = 0;
         _capacity = 0;

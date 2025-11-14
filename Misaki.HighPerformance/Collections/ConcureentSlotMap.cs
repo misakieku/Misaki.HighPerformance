@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -207,7 +207,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         return false; // Another thread already removed it
     }
 
-    public bool Contain(int slotIndex, int generation)
+    public bool Contains(int slotIndex, int generation)
     {
         if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
         {

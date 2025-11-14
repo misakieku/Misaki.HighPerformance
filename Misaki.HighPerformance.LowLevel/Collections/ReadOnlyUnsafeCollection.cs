@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Utilities;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -20,36 +20,21 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
     {
         private readonly ReadOnlyUnsafeCollection<T> _collection;
         private int _index;
-        private T _value;
 
-        public readonly T Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => _value;
-        }
-
+        public readonly T Current => _collection[_index];
         readonly object IEnumerator.Current => Current;
 
         public Enumerator(ref readonly ReadOnlyUnsafeCollection<T> array)
         {
             _collection = array;
             _index = -1;
-            _value = default;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
             _index++;
-
-            if (_index < _collection.Count)
-            {
-                _value = UnsafeUtility.ReadArrayElement<T>(_collection._buffer, _index);
-                return true;
-            }
-
-            _value = default;
-            return false;
+            return _index < _collection.Count;
         }
 
         public void Reset()
@@ -79,7 +64,8 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
         get => UnsafeUtility.ReadArrayElement<T>(_buffer, index);
     }
 
-    public IEnumerator<T> GetEnumerator() => new Enumerator(in this);
+    public Enumerator GetEnumerator() => new Enumerator(in this);
+    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     public ReadOnlyUnsafeCollection(T* buffer, int count)
