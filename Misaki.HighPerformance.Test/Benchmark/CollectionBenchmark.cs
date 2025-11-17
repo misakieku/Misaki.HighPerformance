@@ -1,55 +1,49 @@
-﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
+using System.Runtime.Intrinsics;
 
 namespace Misaki.HighPerformance.Test.Benchmark;
 
-[MemoryDiagnoser]
-public unsafe class CollectionBenchmark
+public class CollectionBenchmark
 {
+    private UnsafeArray<Vector256<int>> _array;
+
     [Params(10, 100, 1000)]
     public int count;
 
     [GlobalSetup]
     public void Setup()
     {
-    }
-
-    [Benchmark]
-    public void Array()
-    {
-        var array = new int[count];
-        for (var i = 0; i < count; i++)
-        {
-            array[i] = i;
-        }
-    }
-
-    [Benchmark(Baseline = true)]
-    public void UnsafeArray()
-    {
-        var array = new UnsafeArray<int>(count, Allocator.Temp);
-        for (var i = 0; i < count; i++)
-        {
-            array[i] = i;
-        }
-
-        AllocationManager.ResetTempAllocator();
-    }
-
-    [Benchmark]
-    public void StackArray()
-    {
-        var array = stackalloc int[count];
-        for (var i = 0; i < count; i++)
-        {
-            array[i] = i;
-        }
+        _array = new UnsafeArray<Vector256<int>>(count, Allocator.Persistent);
     }
 
     [GlobalCleanup]
     public void Cleanup()
     {
-        AllocationManager.Dispose();
+        _array.Dispose();
+    }
+
+    [Benchmark]
+    public void WithCapacityChecks()
+    {
+        for (var i = 0; i < _array.Count; i++)
+        {
+            if (i < 0 || i >= _array.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            _array[i] = default;
+        }
+    }
+
+    [Benchmark]
+    public void WithoutCapacityChecks()
+    {
+        for (var i = 0; i < _array.Count; i++)
+        {
+            _array[i] = default;
+        }
     }
 }

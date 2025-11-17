@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
-public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePair<TKey, TValue>>
+public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValuePair<TKey, TValue>>
     where TKey : unmanaged, IEquatable<TKey> where TValue : unmanaged
 {
     public struct Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>
@@ -32,11 +32,11 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
         }
     }
 
-    private HashMapHelper<TKey> _hashMap;
+    private HashMapHelper<TKey> _helper;
 
-    public readonly int Count => _hashMap.Count;
-    public readonly int Capacity => _hashMap.Capacity;
-    public readonly bool IsCreated => _hashMap.IsCreated;
+    public readonly int Count => _helper.Count;
+    public readonly int Capacity => _helper.Capacity;
+    public readonly bool IsCreated => _helper.IsCreated;
 
     /// <summary>
     /// Gets and sets values by key.
@@ -49,7 +49,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
     {
         get
         {
-            if (!_hashMap.TryGetValue<TValue>(key, out var result))
+            if (!_helper.TryGetValue<TValue>(key, out var result))
             {
                 throw new ArgumentException($"Key: {key} is not present.");
             }
@@ -59,10 +59,10 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
 
         set
         {
-            var idx = _hashMap.Find(key);
+            var idx = _helper.Find(key);
             if (-1 != idx)
             {
-                UnsafeUtility.WriteArrayElement(_hashMap.Buffer, idx, value);
+                UnsafeUtility.WriteArrayElement(_helper.Buffer, idx, value);
                 return;
             }
 
@@ -84,7 +84,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
 
     public UnsafeHashMap(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        _hashMap = new HashMapHelper<TKey>(capacity, sizeof(TValue), HashMapHelper<TKey>.MINIMAL_CAPACITY, ref handle, allocationOption);
+        _helper = new HashMapHelper<TKey>(capacity, sizeof(TValue), (int)AlignOf<TValue>(), HashMapHelper<TKey>.MINIMAL_CAPACITY, ref handle, allocationOption);
     }
 
     public UnsafeHashMap(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
@@ -101,10 +101,10 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
     /// <returns>True if the key-value pair was added.</returns>
     public bool TryAdd(TKey key, TValue item)
     {
-        var idx = _hashMap.TryAdd(key);
+        var idx = _helper.TryAdd(key);
         if (idx != -1)
         {
-            UnsafeUtility.WriteArrayElement(_hashMap.Buffer, idx, item);
+            UnsafeUtility.WriteArrayElement(_helper.Buffer, idx, item);
             return true;
         }
 
@@ -134,7 +134,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
     /// <returns>True if the value was present.</returns>
     public bool Remove(TKey key)
     {
-        return -1 != _hashMap.TryRemove(key);
+        return -1 != _helper.TryRemove(key);
     }
 
     /// <summary>
@@ -145,7 +145,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
     /// <returns>True if the key was present.</returns>
     public bool TryGetValue(TKey key, out TValue item)
     {
-        return _hashMap.TryGetValue(key, out item);
+        return _helper.TryGetValue(key, out item);
     }
 
     /// <summary>
@@ -155,51 +155,51 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeCollection<KeyValuePai
     /// <returns>True if the key was present.</returns>
     public bool ContainsKey(TKey key)
     {
-        return -1 != _hashMap.Find(key);
+        return -1 != _helper.Find(key);
     }
 
     /// <summary>
     /// Sets the capacity to match what it would be if it had been originally initialized with all its entries.
     /// </summary>
-    public void TrimExcess() => _hashMap.TrimExcess();
+    public void TrimExcess() => _helper.TrimExcess();
 
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
-        _hashMap.Resize(newSize);
+        _helper.Resize(newSize);
     }
 
     public void Clear()
     {
-        _hashMap.Clear();
+        _helper.Clear();
     }
 
     /// <summary>
     /// Retrieves an array of keys from the hash map.
     /// </summary>
     /// <returns>An array containing the keys stored in the hash map.</returns>
-    public UnsafeArray<TKey> GetKeyArray(Allocator allocator) => _hashMap.GetKeyArray(allocator);
+    public UnsafeArray<TKey> GetKeyArray(Allocator allocator) => _helper.GetKeyArray(allocator);
 
     /// <summary>
     /// Retrieves an array of values from the underlying hash map.
     /// </summary>
     /// <returns>An UnsafeArray containing the values stored in the hash map.</returns>
-    public UnsafeArray<TValue> GetValueArray(Allocator allocator) => _hashMap.GetValueArray<TValue>(allocator);
+    public UnsafeArray<TValue> GetValueArray(Allocator allocator) => _helper.GetValueArray<TValue>(allocator);
 
     /// <summary>
     /// Retrieves an array of key-value pairs from the hash map. The keys are of type TKey and the values are of type
     /// TValue.
     /// </summary>
     /// <returns>Returns an UnsafeArray containing KeyValuePair objects.</returns>
-    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(Allocator allocator) => _hashMap.GetKeyValueArrays<TValue>(allocator);
+    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(Allocator allocator) => _helper.GetKeyValueArrays<TValue>(allocator);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void* GetUnsafePtr()
     {
-        return _hashMap.Buffer;
+        return _helper.Buffer;
     }
 
     public void Dispose()
     {
-        _hashMap.Dispose();
+        _helper.Dispose();
     }
 }

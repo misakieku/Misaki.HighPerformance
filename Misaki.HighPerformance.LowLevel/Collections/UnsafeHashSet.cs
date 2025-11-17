@@ -12,7 +12,7 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 /// removing, and checking for values.
 /// </summary>
 /// <typeparam name="T">Represents an unmanaged type that can be compared for equality.</typeparam>
-public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
+public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     where T : unmanaged, IEquatable<T>
 {
     public struct Enumerator : IEnumerator<T>
@@ -37,11 +37,11 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
         }
     }
 
-    private HashMapHelper<T> _hashMap;
+    private HashMapHelper<T> _helper;
 
-    public readonly int Count => _hashMap.Count;
-    public readonly int Capacity => _hashMap.Capacity;
-    public readonly bool IsCreated => _hashMap.IsCreated;
+    public readonly int Count => _helper.Count;
+    public readonly int Capacity => _helper.Capacity;
+    public readonly bool IsCreated => _helper.IsCreated;
 
     public Enumerator GetEnumerator() => new((HashMapHelper<T>*)UnsafeUtility.AddressOf(ref this));
     IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
@@ -57,7 +57,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
 
     public UnsafeHashSet(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        _hashMap = new HashMapHelper<T>(capacity, 0, HashMapHelper<T>.MINIMAL_CAPACITY, ref handle, allocationOption);
+        _helper = new HashMapHelper<T>(capacity, 0, 0, HashMapHelper<T>.MINIMAL_CAPACITY, ref handle, allocationOption);
     }
 
     public UnsafeHashSet(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
@@ -72,7 +72,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
     /// <returns>True if the value was not already present.</returns>
     public bool Add(T item)
     {
-        return -1 != _hashMap.TryAdd(item);
+        return -1 != _helper.TryAdd(item);
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
     /// <returns>True if the value was present.</returns>
     public bool Remove(T item)
     {
-        return -1 != _hashMap.TryRemove(item);
+        return -1 != _helper.TryRemove(item);
     }
 
     /// <summary>
@@ -92,13 +92,13 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
     /// <returns>True if the value was present.</returns>
     public bool Contains(T item)
     {
-        return -1 != _hashMap.Find(item);
+        return -1 != _helper.Find(item);
     }
 
     /// <summary>
     /// Sets the capacity to match what it would be if it had been originally initialized with all its entries.
     /// </summary>
-    public void TrimExcess() => _hashMap.TrimExcess();
+    public void TrimExcess() => _helper.TrimExcess();
 
     /// <summary>
     /// Returns an array with a copy of this set's values (in no particular order).
@@ -107,27 +107,27 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeCollection<T>, IEnumerable<T>
     /// <returns>An array with a copy of the set's values.</returns>
     public UnsafeArray<T> ToNativeArray(Allocator allocator)
     {
-        return _hashMap.GetKeyArray(allocator);
+        return _helper.GetKeyArray(allocator);
     }
 
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
-        _hashMap.Resize(newSize);
+        _helper.Resize(newSize);
     }
 
     public void Clear()
     {
-        _hashMap.Clear();
+        _helper.Clear();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void* GetUnsafePtr()
     {
-        return _hashMap.Buffer;
+        return _helper.Buffer;
     }
 
     public void Dispose()
     {
-        _hashMap.Dispose();
+        _helper.Dispose();
     }
 }

@@ -18,9 +18,7 @@
 
 //Console.WriteLine($"Count should be {threadCount * 990}, actual: {map.Count}");
 
-//using Misaki.HighPerformance.Test.Benchmark;
-
-BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.MathematicsBenchmark>();
+BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.CollectionBenchmark>();
 
 //using Misaki.HighPerformance.LowLevel.Buffer;
 //using Misaki.HighPerformance.LowLevel.Collections;
@@ -40,3 +38,16 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmar
 //    }
 //}
 
+//var arr1 = new Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<int>(10, Misaki.HighPerformance.LowLevel.Buffer.Allocator.Persistent);
+//var arr2 = arr1;
+
+//arr1.Dispose();
+//try
+//{
+//    arr2[0] = 42; // This should throw an exception because arr1 has been disposed.
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine($"Caught expected exception: {ex.Message}");
+//}
+//arr2.Dispose(); // This should not cause a double free error because of safe handle.

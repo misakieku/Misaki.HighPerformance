@@ -16,7 +16,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         public int bucketIndex;
         public int nextIndex;
 
-        public unsafe Enumerator(HashMapHelper<TKey>* data)
+        public Enumerator(HashMapHelper<TKey>* data)
         {
             buffer = data;
             index = -1;
@@ -73,6 +73,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     private int _allocatedIndex;
     private int _firstFreeIndex;
 
+    private readonly int _alignment;
     private readonly int _sizeOfTValue;
     private readonly int _log2MinGrowth;
 
@@ -86,53 +87,88 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public readonly int Capacity => _capacity;
 
-    public readonly bool IsCreated => _buffer != null;
-
     public readonly bool IsEmpty => !IsCreated || _count == 0;
 
-    private static int CalculateDataSize(int capacity, int bucketCapacity, int sizeOfTValue, out int outKeyOffset, out int outNextOffset, out int outBucketOffset)
+    public readonly bool IsCreated
     {
-        var sizeOfTKey = sizeof(TKey);
-        var sizeOfInt = sizeof(int);
+        get
+        {
+            var handle = SafeHandle.GetSafeHandle(_buffer, (nuint)_alignment);
+            return handle != null && Volatile.Read(ref handle->valid) == 1;
+        }
+    }
 
-        var valuesSize = sizeOfTValue * capacity;
-        var keysSize = sizeOfTKey * capacity;
-        var nextSize = sizeOfInt * capacity;
-        var bucketSize = sizeOfInt * bucketCapacity;
-        var totalSize = valuesSize + keysSize + nextSize + bucketSize;
+    private static int CalculateDataSize(int capacity, int bucketCapacity, int sizeOfTValue, int alignment, out int outValueOffset, out int outKeyOffset, out int outNextOffset, out int outBucketOffset)
+    {
+        static int AlignUp(int size, int align)
+        {
+            return (size + (align - 1)) & ~(align - 1);
+        }
 
-        outKeyOffset = 0 + valuesSize;
-        outNextOffset = outKeyOffset + keysSize;
-        outBucketOffset = outNextOffset + nextSize;
+        var headerSize = SafeHandle.GetPaddedHeaderSize((nuint)alignment);
+
+        var valuesSize = (sizeOfTValue * capacity);
+        var valuesSizePadded = AlignUp(valuesSize, alignment);
+
+        var keysSize = (sizeof(TKey) * capacity);
+        var keysSizePadded = AlignUp(keysSize, alignment);
+
+        var nextSize = (sizeof(int) * capacity);
+        var nextSizePadded = AlignUp(nextSize, alignment);
+
+        // Buckets are the last item, doesn't need padding after it
+        var bucketSize = (sizeof(int) * bucketCapacity);
+
+        outValueOffset = (int)headerSize;
+        outKeyOffset = outValueOffset + valuesSizePadded;
+        outNextOffset = outKeyOffset + keysSizePadded;
+        outBucketOffset = outNextOffset + nextSizePadded;
+
+        // Total size is header + all buffers
+        var totalSize = (int)headerSize + outKeyOffset + keysSizePadded + nextSizePadded + bucketSize;
 
         return totalSize;
     }
 
-    public HashMapHelper(int capacity, int sizeOfTValue, uint minGrowth, ref AllocationHandle handle, AllocationOption allocationOption)
+    public HashMapHelper(int capacity, int sizeOfTValue, int alignOfTValue, uint minGrowth, ref AllocationHandle handle, AllocationOption allocationOption)
     {
         if (capacity <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
         }
 
-        if (sizeOfTValue <= 0)
+        if (sizeOfTValue < 0 || alignOfTValue < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(sizeOfTValue), "Size of TValue must be greater than zero.");
+            throw new ArgumentOutOfRangeException(nameof(sizeOfTValue), "Size or alignment of TValue can not be less than zero.");
         }
 
         _capacity = CalcCapacityCeilPow2(capacity);
         _bucketCapacity = _capacity * 2;
 
+        var alignOfKey = (int)AlignOf<TKey>();
+        var alignOfInt = (int)AlignOf<int>();
+        var maxDataAlign = Math.Max(Math.Max(alignOfTValue, alignOfKey), alignOfInt);
+
+        _alignment = (int)SafeHandle.GetAlignWithHeader((nuint)maxDataAlign);
         _sizeOfTValue = sizeOfTValue;
         _log2MinGrowth = BitOperations.Log2(minGrowth);
 
         _handle = (AllocationHandle*)Unsafe.AsPointer(ref handle);
 
-        var totalSize = CalculateDataSize(_capacity, _bucketCapacity, sizeOfTValue,
-            out var keyOffset, out var nextOffset, out var bucketOffset);
+        var totalSize = CalculateDataSize(_capacity, _bucketCapacity, sizeOfTValue, _alignment,
+            out var valueOffset, out var keyOffset, out var nextOffset, out var bucketOffset);
 
-        AllocateBuffer(totalSize, keyOffset, nextOffset, bucketOffset, allocationOption);
+        AllocateBuffer(totalSize, valueOffset, keyOffset, nextOffset, bucketOffset, _alignment, allocationOption);
         Clear();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private readonly void ThrowIfNotCreated()
+    {
+        if (!IsCreated)
+        {
+            throw new InvalidOperationException("The HashMapHelper is not created.");
+        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -174,20 +210,20 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void AllocateBuffer(int totalSize, int keyOffset, int nextOffset, int bucketOffset, AllocationOption allocationOption)
+    private void AllocateBuffer(int totalSize, int valueOffset, int keyOffset, int nextOffset, int bucketOffset, int alignment, AllocationOption allocationOption)
     {
-        var alignSize = sizeof(TKey) > sizeof(int) ? AlignOf<TKey>() : AlignOf<int>();
+        var buf = (byte*)_handle->Alloc(_handle->Allocator, (uint)totalSize, (nuint)alignment, allocationOption);
 
-        _buffer = (byte*)_handle->Alloc(_handle->Allocator, (uint)totalSize, (uint)alignSize, allocationOption);
+        _buffer = buf + valueOffset;
         _keys = (TKey*)(_buffer + keyOffset);
         _next = (int*)(_buffer + nextOffset);
         _buckets = (int*)(_buffer + bucketOffset);
     }
 
-    internal void ResizeExact(int newCapacity, int newBucketCapacity)
+    private void ResizeExact(int newCapacity, int newBucketCapacity)
     {
-        var totalSize = CalculateDataSize(newCapacity, newBucketCapacity, _sizeOfTValue,
-            out var keyOffset, out var nextOffset, out var bucketOffset);
+        var totalSize = CalculateDataSize(newCapacity, newBucketCapacity, _sizeOfTValue, _alignment,
+            out var valueOffset, out var keyOffset, out var nextOffset, out var bucketOffset);
 
         var oldBuffer = _buffer;
         var oldKeys = _keys;
@@ -195,7 +231,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         var oldBuckets = _buckets;
         var oldBucketCapacity = _bucketCapacity;
 
-        AllocateBuffer(totalSize, keyOffset, nextOffset, bucketOffset, AllocationOption.None);
+        AllocateBuffer(totalSize, valueOffset, keyOffset, nextOffset, bucketOffset, _alignment, AllocationOption.None);
         _capacity = newCapacity;
         _bucketCapacity = newBucketCapacity;
 
@@ -213,8 +249,10 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         _handle->Free(_handle->Allocator, oldBuffer);
     }
 
-    internal void Resize(int newCapacity)
+    public void Resize(int newCapacity)
     {
+        ThrowIfNotCreated();
+
         newCapacity = Math.Max(newCapacity, _count);
         var newBucketCapacity = CeilPow2(newCapacity * 2);
 
@@ -228,12 +266,16 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public void TrimExcess()
     {
+        ThrowIfNotCreated();
+
         var capacity = CalcCapacityCeilPow2(_count);
         ResizeExact(capacity, capacity * 2);
     }
 
     public int Find(in TKey key)
     {
+        ThrowIfNotCreated();
+
         if (_allocatedIndex <= 0)
         {
             return -1;
@@ -263,6 +305,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public int TryAdd(in TKey key)
     {
+        ThrowIfNotCreated();
+
         var k = key;
         if (Find(in key) != -1)
         {
@@ -306,6 +350,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public int TryRemove(in TKey key)
     {
+        ThrowIfNotCreated();
+
         if (_capacity == 0)
         {
             return -1;
@@ -357,6 +403,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     public bool TryGetValue<TValue>(in TKey key, out TValue item)
         where TValue : unmanaged
     {
+        ThrowIfNotCreated();
+
         var idx = Find(key);
 
         if (idx != -1)
@@ -371,6 +419,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public bool MoveNextSearch(ref int bucketIndex, ref int nextIndex, out int index)
     {
+        ThrowIfNotCreated();
+
         for (int i = bucketIndex, num = _bucketCapacity; i < num; ++i)
         {
             var idx = _buckets[i];
@@ -394,6 +444,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool MoveNext(ref int bucketIndex, ref int nextIndex, out int index)
     {
+        ThrowIfNotCreated();
+
         if (nextIndex != -1)
         {
             index = nextIndex;
@@ -406,6 +458,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     internal UnsafeArray<TKey> GetKeyArray(Allocator allocator)
     {
+        ThrowIfNotCreated();
+
         var result = new UnsafeArray<TKey>(_count, allocator);
 
         for (int i = 0, count = 0, max = result.Count, capacity = _bucketCapacity; i < capacity && count < max; i++)
@@ -425,6 +479,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     internal UnsafeArray<TValue> GetValueArray<TValue>(Allocator allocator)
         where TValue : unmanaged
     {
+        ThrowIfNotCreated();
+
         var result = new UnsafeArray<TValue>(_count, allocator);
 
         for (int i = 0, count = 0, max = result.Count, capacity = _bucketCapacity; i < capacity && count < max; ++i)
@@ -444,6 +500,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays<TValue>(Allocator allocator)
         where TValue : unmanaged
     {
+        ThrowIfNotCreated();
+
         var result = new UnsafeArray<KeyValuePair<TKey, TValue>>(_count, allocator);
 
         for (int i = 0, count = 0, max = result.Count, capacity = _bucketCapacity; i < capacity && count < max; i++)
@@ -465,6 +523,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public void Clear()
     {
+        ThrowIfNotCreated();
+
         MemSet(_buckets, 0xff, (nuint)_bucketCapacity * sizeof(int));
         MemSet(_next, 0xff, (nuint)_capacity * sizeof(int));
 
@@ -475,18 +535,23 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public void Dispose()
     {
-        if (IsCreated)
+        if (!IsCreated)
+        {
+            return;
+        }
+
+        if (_handle != null)
         {
             _handle->Free(_handle->Allocator, _buffer);
-
-            _buffer = null;
-            _keys = null;
-            _next = null;
-            _buckets = null;
-
-            _count = 0;
-            _capacity = 0;
-            _bucketCapacity = 0;
         }
+
+        _buffer = null;
+        _keys = null;
+        _next = null;
+        _buckets = null;
+
+        _count = 0;
+        _capacity = 0;
+        _bucketCapacity = 0;
     }
 }
