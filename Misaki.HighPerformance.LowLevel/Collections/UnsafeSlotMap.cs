@@ -57,7 +57,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     public readonly int Count => _count;
     public readonly int Capacity => _capacity;
 
-    public readonly bool IsCreated => _data.IsCreated && _freeSlots.IsCreated;
+    public readonly bool IsCreated => _data.IsCreated && _generations.IsCreated && _freeSlots.IsCreated && _validBits.IsCreated;
 
     public Enumerator GetEnumerator() => new((UnsafeSlotMap<T>*)UnsafeUtility.AddressOf(ref this));
     IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
@@ -206,7 +206,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <param name="value">When this method returns, contains the element at the specified slot and generation if found; otherwise, the
     /// default value for type <typeparamref name="T"/>.</param>
     /// <returns>true if the element at the specified slot index and generation is found; otherwise, false.</returns>
-    public bool TryGetElementAt(int slotIndex, int generation, out T value)
+    public readonly bool TryGetElementAt(int slotIndex, int generation, out T value)
     {
         if (slotIndex < 0 || slotIndex >= _capacity)
         {
@@ -232,14 +232,14 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <returns>The element of type <see cref="T"/> stored at the specified slot and generation.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slotIndex"/> is less than zero or greater than or equal to the capacity.</exception>
     /// <exception cref="InvalidOperationException">Thrown when the specified slot is not occupied or the generation does not match.</exception>
-    public T GetElementAt(int slotIndex, int generation)
+    public readonly T GetElementAt(int slotIndex, int generation)
     {
         if (slotIndex < 0 || slotIndex >= _capacity)
         {
             throw new ArgumentOutOfRangeException(nameof(slotIndex), "Slot index is out of range.");
         }
 
-        if (!_validBits.IsSet(slotIndex)|| _generations[slotIndex] != generation)
+        if (!_validBits.IsSet(slotIndex) || _generations[slotIndex] != generation)
         {
             throw new InvalidOperationException($"Slot {slotIndex} is not occupied.");
         }
@@ -294,7 +294,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         _count = 0;
     }
 
-    public readonly unsafe void* GetUnsafePtr()
+    public readonly void* GetUnsafePtr()
     {
         return _data.GetUnsafePtr();
     }
@@ -303,6 +303,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     {
         _data.Dispose();
         _freeSlots.Dispose();
+        _validBits.Dispose();
 
         _count = 0;
         _capacity = 0;

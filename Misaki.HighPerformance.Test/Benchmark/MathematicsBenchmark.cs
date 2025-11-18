@@ -1,7 +1,6 @@
-﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes;
 using Misaki.HighPerformance.Mathematics;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
 
 namespace Misaki.HighPerformance.Test.Benchmark;
@@ -25,7 +24,7 @@ public unsafe class MathematicsBenchmark
         public static f4 operator +(f4 a, f4 b)
         {
             var result = a._vec + b._vec;
-            return Unsafe.As<Vector128<float>, f4>(ref result);
+            return new f4(result);
         }
     }
 
@@ -108,7 +107,7 @@ public unsafe class MathematicsBenchmark
     }
 
     [Benchmark]
-    public unsafe Vector128<float> v128Add()
+    public Vector128<float> v128Add()
     {
         var a = Vector128.Create(1f, 2f, 3f, 4f);
         var b = Vector128.Create(5f, 6f, 7f, 8f);

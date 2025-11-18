@@ -30,9 +30,9 @@ public sealed unsafe class JobScheduler : IDisposable
 
     private bool _disposed = false;
 
-    public int WorkerCount => _workerThreads.Length;
-
     internal bool IsCancellationRequested => _cts.IsCancellationRequested;
+
+    public int WorkerCount => _workerThreads.Length;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JobScheduler"/> class with the specified number of worker threads.
@@ -481,7 +481,7 @@ public sealed unsafe class JobScheduler : IDisposable
             var completedCount = 0;
             foreach (var handle in handles)
             {
-                if (!_jobInfoPool.Contain(handle._id, handle._generation))
+                if (!_jobInfoPool.Contains(handle._id, handle._generation))
                 {
                     completedCount++;
                 }
@@ -514,7 +514,7 @@ public sealed unsafe class JobScheduler : IDisposable
         {
             foreach (var handle in handles)
             {
-                if (!_jobInfoPool.Contain(handle._id, handle._generation))
+                if (!_jobInfoPool.Contains(handle._id, handle._generation))
                 {
                     return handle;
                 }
@@ -542,6 +542,7 @@ public sealed unsafe class JobScheduler : IDisposable
         _jobQueue.Clear();
         _jobDataAllocator.Dispose();
 
+        _workSignal.Dispose();
         _cts.Dispose();
 
         _disposed = true;

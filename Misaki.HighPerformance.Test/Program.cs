@@ -18,9 +18,7 @@
 
 //Console.WriteLine($"Count should be {threadCount * 990}, actual: {map.Count}");
 
-//using Misaki.HighPerformance.Test.Benchmark;
-
-//BenchmarkDotNet.Running.BenchmarkRunner.Run<MathematicsBenchmark>();
+BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.CollectionBenchmark>();
 
 //using Misaki.HighPerformance.LowLevel.Buffer;
 //using Misaki.HighPerformance.LowLevel.Collections;
@@ -40,17 +38,16 @@
 //    }
 //}
 
-using Misaki.HighPerformance.LowLevel.Buffer;
-using Misaki.HighPerformance.LowLevel.Collections;
+//var arr1 = new Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<int>(10, Misaki.HighPerformance.LowLevel.Buffer.Allocator.Persistent);
+//var arr2 = arr1;
 
-//AllocationManager.EnableDebugLayer();
-//var array = new UnsafeArray<int>(10, Allocator.Persistent);
-//var array2 = new UnsafeArray<int>(10, Allocator.Persistent);
-//array.Dispose();
-//array2.Dispose();
-//AllocationManager.Dispose();
-
-using (AllocationManager.CreateStackScope())
-{
-    var arr = new UnsafeArray<int>(10, Allocator.Stack);
-}
+//arr1.Dispose();
+//try
+//{
+//    arr2[0] = 42; // This should throw an exception because arr1 has been disposed.
+//}
+//catch (Exception ex)
+//{
+//    Console.WriteLine($"Caught expected exception: {ex.Message}");
+//}
+//arr2.Dispose(); // This should not cause a double free error because of safe handle.

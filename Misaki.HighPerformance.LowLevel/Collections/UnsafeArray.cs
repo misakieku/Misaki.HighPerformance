@@ -3,6 +3,7 @@ using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -57,13 +58,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-#if ENABLE_COLLECTION_CHECKS
-            if (index < 0 || index >= _count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
-            }
-#endif
-
+            CheckIndexBounds(index);
             return ref UnsafeUtility.ReadArrayElementRef<T>(_buffer, index);
         }
     }
@@ -73,24 +68,21 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-#if ENABLE_COLLECTION_CHECKS
-            if (index >= _count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
-            }
-#endif
-
+            CheckIndexBounds((int)index);
             return ref UnsafeUtility.ReadArrayElementRef<T>(_buffer, index);
         }
     }
 
     public readonly bool IsCreated
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => _buffer != null;
+        get
+        {
+            var handle = SafeHandle.GetSafeHandle(_buffer, AlignOf<T>());
+            return handle != null && Volatile.Read(ref handle->valid) == 1;
+        }
     }
 
-    public Enumerator GetEnumerator() => new ((UnsafeArray<T>*)UnsafeUtility.AddressOf(ref this));
+    public Enumerator GetEnumerator() => new((UnsafeArray<T>*)UnsafeUtility.AddressOf(ref this));
     IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -111,13 +103,20 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
     public UnsafeArray(int count, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        if (count <= 0)
+        if (count < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(count), "Count must be greater than zero.");
+            throw new ArgumentOutOfRangeException(nameof(count), "Count can not be less than zero.");
         }
 
+        var tAlign = AlignOf<T>();
+        var headerSize = SafeHandle.GetPaddedHeaderSize(tAlign);
+        var sizeWithHeader = (nuint)(count * sizeof(T)) + headerSize;
+        var alignment = SafeHandle.GetAlignWithHeader(tAlign);
+
+        var buff = handle.Alloc(handle.Allocator, sizeWithHeader, alignment, allocationOption);
+
+        _buffer = (T*)((byte*)buff + headerSize);
         _handle = (AllocationHandle*)Unsafe.AsPointer(ref handle);
-        _buffer = (T*)handle.Alloc(_handle->Allocator, (uint)count * (uint)sizeof(T), (uint)AlignOf<T>(), allocationOption);
         _count = count;
     }
 
@@ -149,7 +148,32 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         _count = count;
     }
 
-    public ReadOnlyUnsafeCollection<T> AsReadOnly()
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private readonly void ThrowIfNotCreated()
+    {
+        if (!IsCreated)
+        {
+            throw new InvalidOperationException("The UnsafeArray is not created.");
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    private readonly void CheckIndexBounds(int index)
+    {
+        ThrowIfNotCreated();
+        if (index >= _count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
+        }
+    }
+
+    /// <summary>
+    /// Returns a read-only view of the current collection.
+    /// </summary>
+    /// <returns>A <see cref="ReadOnlyUnsafeCollection{T}"/> that provides a read-only view of the elements in the current collection.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly ReadOnlyUnsafeCollection<T> AsReadOnly()
     {
         return new ReadOnlyUnsafeCollection<T>(_buffer, _count);
     }
@@ -157,6 +181,8 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <inheritdoc/>
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
+        ThrowIfNotCreated();
+
         if (newSize == Count)
         {
             return;
@@ -171,6 +197,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void Clear()
     {
+        ThrowIfNotCreated();
         MemClear(_buffer, (nuint)(Count * sizeof(T)));
     }
 
@@ -178,6 +205,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void* GetUnsafePtr()
     {
+        ThrowIfNotCreated();
         return _buffer;
     }
 
@@ -190,6 +218,8 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     public readonly UnsafeArray<U> Reinterpret<U>()
         where U : unmanaged
     {
+        ThrowIfNotCreated();
+
         var totalSize = (nuint)(Count * sizeof(T));
         if (totalSize % (nuint)sizeof(U) != 0)
         {

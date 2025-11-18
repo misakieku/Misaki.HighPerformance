@@ -422,7 +422,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             return new {typeName}({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select(c => $"lhs + rhs.{c}"))});
         }}
 
-#if false //NET10_0_OR_GREATER
+#if NET10_0_OR_GREATER
         {INLINE_METHOD_ATTRIBUTE}
         public void operator +=({typeName} other)
         {{");
