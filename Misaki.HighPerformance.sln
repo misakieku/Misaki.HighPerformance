@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.35821.62
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11218.70 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Misaki.HighPerformance", "Misaki.HighPerformance\Misaki.HighPerformance.csproj", "{275B2E80-9B2A-4567-A157-F147A6B28A0F}"
 EndProject
@@ -16,6 +16,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Misaki.HighPerformance.Mathematics", "Misaki.HighPerformance.Mathematics\Misaki.HighPerformance.Mathematics.csproj", "{29B2478E-D823-4761-B87F-E249D66E33F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Misaki.HighPerformance.Mathematics.CodeGen", "Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.csproj", "{405082D2-B7D5-480F-A3D8-B140E5E2D5AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Misaki.HighPerformance.Analyzer", "Misaki.HighPerformance.Analyzer\Misaki.HighPerformance.Analyzer\Misaki.HighPerformance.Analyzer.csproj", "{9809478A-9877-4DF8-BE22-03DAB495BE75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Misaki.HighPerformance.Analyzer.CodeFixes", "Misaki.HighPerformance.Analyzer\Misaki.HighPerformance.Analyzer.CodeFixes\Misaki.HighPerformance.Analyzer.CodeFixes.csproj", "{8E36FFCE-A772-428C-BF73-276A41661E23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Misaki.HighPerformance.Analyzer.Package", "Misaki.HighPerformance.Analyzer\Misaki.HighPerformance.Analyzer.Package\Misaki.HighPerformance.Analyzer.Package.csproj", "{446213EF-4E44-4EEF-970A-536F0AFC7AEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzer", "Analyzer", "{457CB43B-38FA-4221-BCC2-BE866D0A2A06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,9 +59,26 @@ Global
 		{405082D2-B7D5-480F-A3D8-B140E5E2D5AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{405082D2-B7D5-480F-A3D8-B140E5E2D5AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{405082D2-B7D5-480F-A3D8-B140E5E2D5AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9809478A-9877-4DF8-BE22-03DAB495BE75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9809478A-9877-4DF8-BE22-03DAB495BE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9809478A-9877-4DF8-BE22-03DAB495BE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9809478A-9877-4DF8-BE22-03DAB495BE75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E36FFCE-A772-428C-BF73-276A41661E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E36FFCE-A772-428C-BF73-276A41661E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E36FFCE-A772-428C-BF73-276A41661E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E36FFCE-A772-428C-BF73-276A41661E23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{446213EF-4E44-4EEF-970A-536F0AFC7AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{446213EF-4E44-4EEF-970A-536F0AFC7AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{446213EF-4E44-4EEF-970A-536F0AFC7AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{446213EF-4E44-4EEF-970A-536F0AFC7AEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9809478A-9877-4DF8-BE22-03DAB495BE75} = {457CB43B-38FA-4221-BCC2-BE866D0A2A06}
+		{8E36FFCE-A772-428C-BF73-276A41661E23} = {457CB43B-38FA-4221-BCC2-BE866D0A2A06}
+		{446213EF-4E44-4EEF-970A-536F0AFC7AEB} = {457CB43B-38FA-4221-BCC2-BE866D0A2A06}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51A97B1D-DB4D-45BC-8D2E-347710C1AA37}
