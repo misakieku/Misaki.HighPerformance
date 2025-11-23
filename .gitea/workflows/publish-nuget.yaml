@@ -55,7 +55,3 @@ jobs:
               --api-key "$NUGET_API_KEY" \
               --skip-duplicate
           done
-                echo "No package found for $projname"
-              fi
-            fi
-          done
