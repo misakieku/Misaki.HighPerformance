@@ -40,21 +40,21 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_TOKEN }}
         run: |
-          set +e
-          for projfile in $(find . -name "*.csproj"); do
-            if grep -q "<GeneratePackageOnBuild>True</GeneratePackageOnBuild>" "$projfile"; then
-              projname=$(basename "$projfile" .csproj)
-              echo "Checking $projname..."
-              pkg=$(find ./artifacts -maxdepth 1 -type f \
-                    -regex "./artifacts/${projname}\.[0-9][^/]*\.nupkg" \
-                    ! -name "*.symbols.nupkg" | sort -V | tail -n1)
-              if [ -n "$pkg" ]; then
-                echo "Pushing $pkg"
-                dotnet nuget push "$pkg" \
-                  --source "https://git.personalnas.com/api/packages/Misaki/nuget/index.json" \
-                  --api-key "$NUGET_API_KEY" \
-                  --skip-duplicate
-              else
+          for pkg in ./artifacts/*.nupkg; do
+            # Skip if no files exist (in case globs fail)
+            [ -e "$pkg" ] || continue
+
+            # Skip symbol packages if they exist
+            if [[ "$pkg" == *".symbols.nupkg" ]]; then
+              continue
+            fi
+
+            echo "Pushing $pkg..."
+            dotnet nuget push "$pkg" \
+              --source "https://git.personalnas.com/api/packages/Misaki/nuget/index.json" \
+              --api-key "$NUGET_API_KEY" \
+              --skip-duplicate
+          done
                 echo "No package found for $projname"
               fi
             fi
