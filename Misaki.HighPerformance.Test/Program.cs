@@ -18,6 +18,8 @@
 
 //Console.WriteLine($"Count should be {threadCount * 990}, actual: {map.Count}");
 
+using Misaki.HighPerformance.LowLevel;
+
 BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.CollectionBenchmark>();
 
 //using Misaki.HighPerformance.LowLevel.Buffer;
@@ -51,3 +53,15 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmar
 //    Console.WriteLine($"Caught expected exception: {ex.Message}");
 //}
 //arr2.Dispose(); // This should not cause a double free error because of safe handle.
+
+var a = new UniquePtr<MyStruct>();
+unsafe
+{
+    var b = a.Share();
+    b.Get()->Value = 42;
+}
+
+internal struct MyStruct
+{
+    public int Value;
+}

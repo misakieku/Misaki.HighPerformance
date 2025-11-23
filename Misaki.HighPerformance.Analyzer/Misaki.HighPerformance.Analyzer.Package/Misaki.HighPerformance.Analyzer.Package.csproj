@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IncludeBuildOutput>False</IncludeBuildOutput>
+    <SuppressDependenciesWhenPacking>True</SuppressDependenciesWhenPacking>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Misaki.HighPerformance.Analyzer</PackageId>
+    <Version>$(AssemblyVersion)</Version>
+    <Authors>Misaki</Authors>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Description>Misaki.HighPerformance.Analyzer</Description>
+    <PackageTags>Misaki.HighPerformance.Analyzer, analyzers</PackageTags>
+    <DevelopmentDependency>True</DevelopmentDependency>
+    <NoPackageAnalysis>True</NoPackageAnalysis>
+
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddAnalyzersToOutput</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Misaki.HighPerformance.Analyzer.CodeFixes\Misaki.HighPerformance.Analyzer.CodeFixes.csproj" />
+    <ProjectReference Include="..\Misaki.HighPerformance.Analyzer\Misaki.HighPerformance.Analyzer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="tools\*.ps1" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <Target Name="_AddAnalyzersToOutput">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(OutputPath)\Misaki.HighPerformance.Analyzer.dll" PackagePath="analyzers/dotnet/cs" />
+      <TfmSpecificPackageFile Include="$(OutputPath)\Misaki.HighPerformance.Analyzer.CodeFixes.dll" PackagePath="analyzers/dotnet/cs" />
+    </ItemGroup>
+  </Target>
+
+</Project>

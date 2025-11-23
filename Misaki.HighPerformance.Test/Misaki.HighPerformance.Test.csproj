@@ -24,6 +24,8 @@
     <ProjectReference Include="..\Misaki.HighPerformance.LowLevel\Misaki.HighPerformance.LowLevel.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance.Mathematics\Misaki.HighPerformance.Mathematics.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance\Misaki.HighPerformance.csproj" />
+    <ProjectReference Include="..\Misaki.HighPerformance.Analyzer\Misaki.HighPerformance.Analyzer\Misaki.HighPerformance.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Misaki.HighPerformance.Analyzer\Misaki.HighPerformance.Analyzer.CodeFixes\Misaki.HighPerformance.Analyzer.CodeFixes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
 </Project>

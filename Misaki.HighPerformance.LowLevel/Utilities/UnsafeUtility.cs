@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.LowLevel.Collections;
+using Misaki.HighPerformance.LowLevel.Collections;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Utilities;
@@ -39,7 +39,7 @@ public static unsafe class UnsafeUtility
     /// <param name="index">Indicates the position of the element to be accessed within the array.</param>
     /// <returns>Returns a pointer to the element located at the specified index.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T* ReadArrayElementUnsafe<T>(void* ptr, int index)
+    public static T* ReadArrayElementUnsafe<T>(void* ptr, nint index)
         where T : unmanaged
     {
         return (T*)((byte*)ptr + index * sizeof(T));
@@ -53,10 +53,10 @@ public static unsafe class UnsafeUtility
     /// <param name="index">Indicates the position of the element to be accessed within the array.</param>
     /// <returns>Returns a pointer to the element located at the specified index.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T* ReadArrayElementUnsafe<T>(void* ptr, uint index)
+    public static T* ReadArrayElementUnsafe<T>(void* ptr, nuint index)
         where T : unmanaged
     {
-        return (T*)((byte*)ptr + index * sizeof(T));
+        return (T*)((byte*)ptr + index * (nuint)sizeof(T));
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public static unsafe class UnsafeUtility
     /// <param name="index">Indicates the position of the element to be accessed in the array.</param>
     /// <returns>A reference to the specified element in the unmanaged array.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ref T ReadArrayElementRef<T>(void* ptr, int index)
+    public static ref T ReadArrayElementRef<T>(void* ptr, nint index)
         where T : unmanaged
     {
         return ref AsRef<T>(ReadArrayElementUnsafe<T>(ptr, index));
@@ -81,7 +81,7 @@ public static unsafe class UnsafeUtility
     /// <param name="index">Indicates the position of the element to be accessed in the array.</param>
     /// <returns>A reference to the specified element in the unmanaged array.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ref T ReadArrayElementRef<T>(void* ptr, uint index)
+    public static ref T ReadArrayElementRef<T>(void* ptr, nuint index)
         where T : unmanaged
     {
         return ref AsRef<T>(ReadArrayElementUnsafe<T>(ptr, index));
@@ -95,7 +95,7 @@ public static unsafe class UnsafeUtility
     /// <param name="index">Indicates the position of the element to be accessed within the array.</param>
     /// <returns>The element located at the specified index in the array.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T ReadArrayElement<T>(void* ptr, int index)
+    public static T ReadArrayElement<T>(void* ptr, nint index)
         where T : unmanaged
     {
         return *ReadArrayElementUnsafe<T>(ptr, index);
@@ -109,7 +109,7 @@ public static unsafe class UnsafeUtility
     /// <param name="index">Indicates the position of the element to be accessed within the array.</param>
     /// <returns>The element located at the specified index in the array.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T ReadArrayElement<T>(void* ptr, uint index)
+    public static T ReadArrayElement<T>(void* ptr, nuint index)
         where T : unmanaged
     {
         return *ReadArrayElementUnsafe<T>(ptr, index);
@@ -123,7 +123,7 @@ public static unsafe class UnsafeUtility
     /// <param name="index">Indicates the position in the array where the value should be stored.</param>
     /// <param name="value">Represents the value to be written to the specified index of the array.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void WriteArrayElement<T>(void* ptr, int index, T value)
+    public static void WriteArrayElement<T>(void* ptr, nint index, T value)
         where T : unmanaged
     {
         *ReadArrayElementUnsafe<T>(ptr, index) = value;
@@ -137,24 +137,10 @@ public static unsafe class UnsafeUtility
     /// <param name="index">Indicates the position in the array where the value should be stored.</param>
     /// <param name="value">Represents the value to be written to the specified index of the array.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void WriteArrayElement<T>(void* ptr, uint index, T value)
+    public static void WriteArrayElement<T>(void* ptr, nuint index, T value)
         where T : unmanaged
     {
         *ReadArrayElementUnsafe<T>(ptr, index) = value;
-    }
-
-    /// <summary>
-    /// Converts an UnsafeArray of one unmanaged type to another unmanaged type without copying the elements.
-    /// </summary>
-    /// <typeparam name="TIn">Represents the type of elements in the input array.</typeparam>
-    /// <typeparam name="TOut">Represents the type of elements in the output array.</typeparam>
-    /// <param name="array">The input array containing elements of the specified input type.</param>
-    /// <returns>An UnsafeArray containing elements of the specified output type.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static UnsafeArray<TOut> CastArray<TIn, TOut>(UnsafeArray<TIn> array)
-        where TIn : unmanaged where TOut : unmanaged
-    {
-        return new UnsafeArray<TOut>((TOut*)array.GetUnsafePtr(), array.Count * sizeof(TIn) / sizeof(TOut));
     }
 
     /// <summary>
