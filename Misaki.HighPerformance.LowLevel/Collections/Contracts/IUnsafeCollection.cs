@@ -82,11 +82,11 @@ public interface IUnTypedCollection : IUnsafeCollection
     /// <summary>
     /// The total size of the buffer in bytes.
     /// </summary>
-    uint Size
+    nuint Size
     {
         get;
     }
 
-    ref T GetElementAt<T>(uint index)
+    ref T GetElementAt<T>(nuint index)
         where T : unmanaged;
 }

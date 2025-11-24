@@ -92,11 +92,6 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MemClear(void* ptr, nuint size)
     {
-        if (ptr == null || size == 0)
-        {
-            return;
-        }
-
         NativeMemory.Clear(ptr, size);
     }
 
@@ -109,11 +104,6 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MemSet(void* ptr, byte value, nuint size)
     {
-        if (ptr == null || size == 0)
-        {
-            return;
-        }
-
         NativeMemory.Fill(ptr, size, value);
     }
 
@@ -126,11 +116,6 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MemCpy(void* source, void* destination, nuint size)
     {
-        if (source == null || destination == null || size == 0)
-        {
-            return;
-        }
-
         NativeMemory.Copy(source, destination, size);
     }
 

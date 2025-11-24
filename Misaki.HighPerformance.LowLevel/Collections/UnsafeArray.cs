@@ -49,7 +49,8 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
     private T* _buffer;
     private int _count;
-    private AllocationHandle* _handle;
+    private MemoryHandle _memoryHandle;
+    private AllocationHandle* _allocationHandle;
 
     public readonly int Count => _count;
 
@@ -73,14 +74,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         }
     }
 
-    public readonly bool IsCreated
-    {
-        get
-        {
-            var handle = SafeHandle.GetSafeHandle(_buffer, AlignOf<T>());
-            return handle != null && Volatile.Read(ref handle->valid) == 1;
-        }
-    }
+    public readonly bool IsCreated => _buffer != null && _allocationHandle != null && _memoryHandle.IsValid;
 
     public Enumerator GetEnumerator() => new((UnsafeArray<T>*)UnsafeUtility.AddressOf(ref this));
     IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
@@ -108,15 +102,12 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             throw new ArgumentOutOfRangeException(nameof(count), "Count can not be less than zero.");
         }
 
-        var tAlign = AlignOf<T>();
-        var headerSize = SafeHandle.GetPaddedHeaderSize(tAlign);
-        var sizeWithHeader = (nuint)(count * sizeof(T)) + headerSize;
-        var alignment = SafeHandle.GetAlignWithHeader(tAlign);
+        MemoryHandle memHandle;
+        var buff = handle.Alloc(handle.Allocator, (nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption, &memHandle);
 
-        var buff = handle.Alloc(handle.Allocator, sizeWithHeader, alignment, allocationOption);
-
-        _buffer = (T*)((byte*)buff + headerSize);
-        _handle = (AllocationHandle*)Unsafe.AsPointer(ref handle);
+        _buffer = (T*)buff;
+        _memoryHandle = memHandle;
+        _allocationHandle = (AllocationHandle*)Unsafe.AsPointer(ref handle);
         _count = count;
     }
 
@@ -188,8 +179,10 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
+        MemoryHandle memHandle = _memoryHandle;
         var elemSize = SizeOf<T>();
-        _buffer = (T*)_handle->Realloc(_handle->Allocator, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option);
+        _buffer = (T*)_allocationHandle->Realloc(_allocationHandle->Allocator, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option, &memHandle);
+        _memoryHandle = memHandle;
         _count = newSize;
     }
 
@@ -238,12 +231,12 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
-        if (_handle != null)
+        if (_allocationHandle != null)
         {
-            _handle->Free(_handle->Allocator, _buffer);
+            _allocationHandle->Free(_allocationHandle->Allocator, _buffer, _memoryHandle);
         }
 
-        _handle = null;
+        _allocationHandle = null;
         _buffer = null;
         _count = 0;
     }

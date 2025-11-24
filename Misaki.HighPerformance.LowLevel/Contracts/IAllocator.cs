@@ -58,10 +58,10 @@ public readonly unsafe struct AllocationHandle
 /// Represents an allocator interface for managing memory allocations.
 /// </summary>
 /// <remarks>
-/// The allocator must be static or pined to a specific memory region.
-/// Otherwise the pointer of the allocator, <see cref="AllocationHandle.Allocator"/>, may become invalid and lead to undefined behavior.
+/// The allocator must be pined to a specific memory region.
+/// Otherwise the reference of the <see cref="AllocationHandle.Allocator"/>, may become invalid and lead to undefined behavior.
 /// </remarks>
-public unsafe interface IAllocator
+public interface IAllocator
 {
     /// <summary>
     /// Gets a reference to the allocation handle associated with this allocator.
