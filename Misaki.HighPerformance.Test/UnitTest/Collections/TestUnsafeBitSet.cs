@@ -32,7 +32,7 @@ public class TestUnsafeBitSet
     [TestMethod]
     public void TestBitCount()
     {
-        Assert.AreEqual(256, _set1.BitCount);
+        Assert.AreEqual(256, _set1.Count);
     }
 
     [TestMethod]
@@ -48,13 +48,13 @@ public class TestUnsafeBitSet
     [TestMethod]
     public void TestClearAll()
     {
-        for (int i = 0; i < _set1.BitCount; i++)
+        for (int i = 0; i < _set1.Count; i++)
         {
             _set1.SetBit(i);
         }
 
         _set1.ClearAll();
-        for (int i = 0; i < _set1.BitCount; i++)
+        for (int i = 0; i < _set1.Count; i++)
         {
             Assert.IsFalse(_set1.IsSet(i));
         }
@@ -73,6 +73,23 @@ public class TestUnsafeBitSet
 
         Assert.IsFalse(_set1.IsSet(0));
         Assert.IsTrue(_set1.IsSet(1));
+        Assert.IsFalse(_set1.IsSet(2));
+    }
+
+    [TestMethod]
+    public void TestNotAndOperation()
+    {
+        _set1.SetBit(0);
+        _set1.SetBit(1);
+
+        _set2.SetBit(1);
+        _set2.SetBit(2);
+
+        //_set2.Not();
+        _set1.ANDC(_set2);
+
+        Assert.IsTrue(_set1.IsSet(0));
+        Assert.IsFalse(_set1.IsSet(1));
         Assert.IsFalse(_set1.IsSet(2));
     }
 }

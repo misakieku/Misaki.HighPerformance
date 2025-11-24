@@ -18,9 +18,9 @@
 
 //Console.WriteLine($"Count should be {threadCount * 990}, actual: {map.Count}");
 
-using Misaki.HighPerformance.LowLevel;
+//using Misaki.HighPerformance.LowLevel;
 
-BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.CollectionBenchmark>();
+//BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.CollectionBenchmark>();
 
 //using Misaki.HighPerformance.LowLevel.Buffer;
 //using Misaki.HighPerformance.LowLevel.Collections;
@@ -40,28 +40,16 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmar
 //    }
 //}
 
-//var arr1 = new Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<int>(10, Misaki.HighPerformance.LowLevel.Buffer.Allocator.Persistent);
-//var arr2 = arr1;
+var arr1 = new Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<int>(10, Misaki.HighPerformance.LowLevel.Buffer.Allocator.Persistent);
+var arr2 = arr1;
 
-//arr1.Dispose();
-//try
-//{
-//    arr2[0] = 42; // This should throw an exception because arr1 has been disposed.
-//}
-//catch (Exception ex)
-//{
-//    Console.WriteLine($"Caught expected exception: {ex.Message}");
-//}
-//arr2.Dispose(); // This should not cause a double free error because of safe handle.
-
-var a = new UniquePtr<MyStruct>();
-unsafe
+arr1.Dispose();
+try
 {
-    var b = a.Share();
-    b.Get()->Value = 42;
+    arr2[0] = 42; // This should throw an exception because arr1 has been disposed.
+    arr2.Dispose();
 }
-
-internal struct MyStruct
+catch (Exception ex)
 {
-    public int Value;
+    Console.WriteLine($"Caught expected exception: {ex.Message}");
 }

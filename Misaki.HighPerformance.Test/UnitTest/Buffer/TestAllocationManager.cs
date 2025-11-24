@@ -28,7 +28,7 @@ public class TestAllocationManager
         }
         finally
         {
-            var leaks = AllocationManager.LiveHeapAllocationCount;
+            var leaks = AllocationManager.LiveAllocationCount;
             Assert.AreEqual(0, leaks);
         }
     }
@@ -45,7 +45,7 @@ public class TestAllocationManager
         }
         catch (MemoryLeakException)
         {
-            var leaks = AllocationManager.LiveHeapAllocationCount;
+            var leaks = AllocationManager.LiveAllocationCount;
             Assert.AreEqual(2, leaks);
 
             return;

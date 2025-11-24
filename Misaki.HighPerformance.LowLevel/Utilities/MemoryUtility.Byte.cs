@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
@@ -119,7 +119,7 @@ public static unsafe partial class MemoryUtility
             {
                 if ((((uint)searchSpace + offset) & (nuint)(Vector256<byte>.Count - 1)) != 0)
                 {
-                    // Not currently aligned to Vector256 (is aligned to Vector128); this can cause a problem for searches
+                    // Invert currently aligned to Vector256 (is aligned to Vector128); this can cause a problem for searches
                     // with no upper bound e.g. String.strlen.
                     // Start with a check on Vector128 to align to Vector256, before moving to processing Vector256.
                     // This ensures we do not fault across memory pages while searching for an end of string.
@@ -141,7 +141,7 @@ public static unsafe partial class MemoryUtility
 
                 if ((((uint)searchSpace + offset) & (nuint)(Vector512<byte>.Count - 1)) != 0)
                 {
-                    // Not currently aligned to Vector512 (is aligned to Vector256); this can cause a problem for searches
+                    // Invert currently aligned to Vector512 (is aligned to Vector256); this can cause a problem for searches
                     // with no upper bound e.g. String.strlen.
                     // Start with a check on Vector256 to align to Vector512, before moving to processing Vector256.
                     // This ensures we do not fault across memory pages while searching for an end of string.
@@ -232,7 +232,7 @@ public static unsafe partial class MemoryUtility
             {
                 if ((((uint)searchSpace + offset) & (nuint)(Vector256<byte>.Count - 1)) != 0)
                 {
-                    // Not currently aligned to Vector256 (is aligned to Vector128); this can cause a problem for searches
+                    // Invert currently aligned to Vector256 (is aligned to Vector128); this can cause a problem for searches
                     // with no upper bound e.g. String.strlen.
                     // Start with a check on Vector128 to align to Vector256, before moving to processing Vector256.
                     // This ensures we do not fault across memory pages while searching for an end of string.
