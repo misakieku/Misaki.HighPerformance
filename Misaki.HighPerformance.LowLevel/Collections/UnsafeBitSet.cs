@@ -1,8 +1,11 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
+using System.Collections;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -29,14 +32,9 @@ public unsafe struct UnsafeBitSet : IDisposable
     public readonly int HighestBit => _highestBit;
 
     /// <summary>
-    /// Returns the count of the bitset, how many uints it consists of.
-    /// </summary>
-    public readonly int Count => _bits.Count;
-
-    /// <summary>
     /// Gets the total number of bits represented by the current instance.
     /// </summary>
-    public readonly int BitCount => _bits.Count << _INDEX_SIZE;
+    public readonly int Count => _bits.Count << _INDEX_SIZE;
 
     public readonly bool IsCreated => _bits.IsCreated;
 
@@ -55,6 +53,7 @@ public unsafe struct UnsafeBitSet : IDisposable
     {
         var uints = (minimalLength >> _INDEX_SIZE) + int.Sign(minimalLength & _BIT_SIZE);
         var length = RoundToPadding(uints);
+
         _bits = new UnsafeArray<uint>(length, ref handle, option);
     }
 
@@ -69,9 +68,9 @@ public unsafe struct UnsafeBitSet : IDisposable
     /// <summary>
     /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
-    public UnsafeBitSet(Span<uint> bits, Allocator allocator, AllocationOption option = AllocationOption.None)
+    public UnsafeBitSet(Span<uint> bits, Allocator allocator)
     {
-        _bits = new UnsafeArray<uint>(bits.Length, allocator, option);
+        _bits = new UnsafeArray<uint>(bits.Length, allocator, AllocationOption.None);
         _bits.CopyFrom(bits);
 
         _highestBit = 0;
@@ -221,7 +220,7 @@ public unsafe struct UnsafeBitSet : IDisposable
     /// <returns>True if they match, false if not.</returns>
     public readonly bool All(UnsafeBitSet other)
     {
-        var min = Math.Min(Math.Min(Count, other.Count), _max);
+        var min = Math.Min(Math.Min(_bits.Count, other._bits.Count), _max);
         if (!Vector.IsHardwareAccelerated || min < s_padding)
         {
             var bits = _bits.AsSpan();
@@ -282,7 +281,7 @@ public unsafe struct UnsafeBitSet : IDisposable
     /// <returns>True if they match, false if not.</returns>
     public readonly bool Any(UnsafeBitSet other)
     {
-        var min = Math.Min(Math.Min(Count, other.Count), _max);
+        var min = Math.Min(Math.Min(_bits.Count, other._bits.Count), _max);
         if (!Vector.IsHardwareAccelerated || min < s_padding)
         {
             var bits = _bits.AsSpan();
@@ -343,7 +342,7 @@ public unsafe struct UnsafeBitSet : IDisposable
     /// <returns>True if none match, false if not.</returns>
     public readonly bool None(UnsafeBitSet other)
     {
-        var min = Math.Min(Math.Min(Count, other.Count), _max);
+        var min = Math.Min(Math.Min(_bits.Count, other._bits.Count), _max);
         if (!Vector.IsHardwareAccelerated || min < s_padding)
         {
             var bits = _bits.AsSpan();
@@ -385,7 +384,7 @@ public unsafe struct UnsafeBitSet : IDisposable
     /// <returns>True if they match, false if not.</returns>
     public readonly bool Exclusive(UnsafeBitSet other)
     {
-        var min = Math.Min(Math.Min(Count, other.Count), _max);
+        var min = Math.Min(Math.Min(_bits.Count, other._bits.Count), _max);
 
         if (!Vector.IsHardwareAccelerated || min < s_padding)
         {
@@ -440,83 +439,213 @@ public unsafe struct UnsafeBitSet : IDisposable
         return true;
     }
 
+    /// <summary>
+    /// Inverts all bits in the current vector, replacing each bit with its logical complement.
+    /// </summary>
+    public void Not()
+    {
+        var thisCount = _bits.Count;
+        if (!Vector.IsHardwareAccelerated || thisCount < s_padding)
+        {
+            for (var i = 0; i < thisCount; i++)
+            {
+                _bits[i] = ~_bits[i];
+            }
+        }
+        else
+        {
+            var pThis = (byte*)_bits.GetUnsafePtr();
+
+            for (var i = 0; i < thisCount; i += s_padding)
+            {
+                var vector = new Vector<uint>(_bits.AsSpan()[i..]);
+                var resultVector = ~vector;
+
+                Unsafe.WriteUnaligned(pThis + i, resultVector);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Performs a bitwise AND operation between the current bit set and the specified bit set, updating the current bit
+    /// set in place.
+    /// </summary>
+    /// <param name="other">The bit set to combine with the current bit set using a bitwise AND operation. Must have the same length as the current bit set.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="other"/> does not have the same length as the current bit set.</exception>
     public void And(UnsafeBitSet other)
     {
-        if (Count != other.Count)
+        var thisCount = _bits.Count;
+        if (thisCount != other._bits.Count)
         {
             throw new ArgumentException("Bitsets must be of the same length for AND operation.");
         }
 
-        if (!Vector.IsHardwareAccelerated || Count < s_padding)
+        if (!Vector.IsHardwareAccelerated || thisCount < s_padding)
         {
-            for (var i = 0; i < Count; i++)
+            for (var i = 0; i < thisCount; i++)
             {
                 _bits[i] &= other._bits[i];
             }
         }
         else
         {
-            for (var i = 0; i < Count; i += s_padding)
+            var pThis = (byte*)_bits.GetUnsafePtr();
+            var pOther = (byte*)other._bits.GetUnsafePtr();
+
+            for (var i = 0; i < thisCount; i += s_padding)
             {
-                var vectorLeft = new Vector<uint>(_bits.AsSpan()[i..]);
-                var vectorRight = new Vector<uint>(other._bits.AsSpan()[i..]);
+                var vectorLeft = Vector.Load(pThis + i);
+                var vectorRight = Vector.Load(pOther + i);
                 var resultVector = Vector.BitwiseAnd(vectorLeft, vectorRight);
 
-                resultVector.CopyTo(_bits.AsSpan(i, s_padding));
+                Unsafe.WriteUnaligned(pThis + i, resultVector);
             }
         }
     }
 
-    public void Or(UnsafeBitSet other)
+    /// <summary>
+    /// Performs a bitwise NAND operation between the current bit set and the specified bit set, updating the current
+    /// bit set in place.
+    /// </summary>
+    /// <param name="other">The bit set to combine with the current bit set using the NAND operation. Must have the same length as the current bit set.</param>
+    /// <exception cref="ArgumentException">Thrown if <paramref name="other"/> does not have the same length as the current bit set.</exception>
+    public void Nand(UnsafeBitSet other)
     {
-        if (Count != other.Count)
+        var thisCount = _bits.Count;
+        if (thisCount != other._bits.Count)
         {
             throw new ArgumentException("Bitsets must be of the same length for AND operation.");
         }
 
-        if (!Vector.IsHardwareAccelerated || Count < s_padding)
+        if (!Vector.IsHardwareAccelerated || thisCount < s_padding)
         {
-            for (var i = 0; i < Count; i++)
+            for (var i = 0; i < thisCount; i++)
+            {
+                _bits[i] = ~(_bits[i] & other._bits[i]);
+            }
+        }
+        else
+        {
+            var pThis = (byte*)_bits.GetUnsafePtr();
+            var pOther = (byte*)other._bits.GetUnsafePtr();
+
+            for (var i = 0; i < thisCount; i += s_padding)
+            {
+                var vectorLeft = Vector.Load(pThis +i);
+                var vectorRight = Vector.Load(pOther +i);
+                var resultVector = ~Vector.BitwiseAnd(vectorLeft, vectorRight);
+
+                Unsafe.WriteUnaligned(pThis + i, resultVector);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Performs a bitwise AND NOT operation between the current bit set and the specified bit set, updating the current
+    /// bit set in place.
+    /// </summary>
+    /// <param name="other">The bit set whose bits will be inverted and ANDed with the current bit set. Must have the same length as the current bit set.</param>
+    /// <exception cref="ArgumentException">Thrown when the specified bit set does not have the same length as the current bit set.</exception>
+    public void ANDC(UnsafeBitSet other)
+    {
+        var thisCount = _bits.Count;
+        if (thisCount != other._bits.Count)
+        {
+            throw new ArgumentException("Bitsets must be of the same length for AND operation.");
+        }
+
+        if (!Vector.IsHardwareAccelerated || thisCount < s_padding)
+        {
+            for (var i = 0; i < thisCount; i++)
+            {
+                _bits[i] &= ~other._bits[i];
+            }
+        }
+        else
+        {
+            var pThis = (byte*)_bits.GetUnsafePtr();
+            var pOther = (byte*)other._bits.GetUnsafePtr();
+
+            for (var i = 0; i < thisCount; i += s_padding)
+            {
+                var vectorLeft = Vector.Load(pThis + i);
+                var vectorRight = Vector.Load(pOther + i);
+                var resultVector = Vector.AndNot(vectorLeft, vectorRight);
+                
+                Unsafe.WriteUnaligned(pThis + i, resultVector);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Performs a bitwise OR operation between the current bit set and the specified bit set, updating the current set
+    /// in place.
+    /// </summary>
+    /// <param name="other">The bit set to combine with the current set using a bitwise OR operation. Must have the same length as the current bit set.</param>
+    /// <exception cref="ArgumentException">Thrown if <paramref name="other"/> does not have the same length as the current bit set.</exception>
+    public void Or(UnsafeBitSet other)
+    {
+        var thisCount = _bits.Count;
+        if (thisCount != other._bits.Count)
+        {
+            throw new ArgumentException("Bitsets must be of the same length for AND operation.");
+        }
+
+        if (!Vector.IsHardwareAccelerated || thisCount < s_padding)
+        {
+            for (var i = 0; i < thisCount; i++)
             {
                 _bits[i] |= other._bits[i];
             }
         }
         else
         {
-            for (var i = 0; i < Count; i += s_padding)
+            var pThis = (byte*)_bits.GetUnsafePtr();
+            var pOther = (byte*)other._bits.GetUnsafePtr();
+
+            for (var i = 0; i < thisCount; i += s_padding)
             {
-                var vectorLeft = new Vector<uint>(_bits.AsSpan()[i..]);
-                var vectorRight = new Vector<uint>(other._bits.AsSpan()[i..]);
+                var vectorLeft = Vector.Load(pThis + i);
+                var vectorRight = Vector.Load(pOther + i);
                 var resultVector = Vector.BitwiseOr(vectorLeft, vectorRight);
 
-                resultVector.CopyTo(_bits.AsSpan(i, s_padding));
+                Unsafe.WriteUnaligned(pThis + i, resultVector);
             }
         }
     }
 
+    /// <summary>
+    /// Performs a bitwise exclusive OR (XOR) operation between the current bit set and the specified bit set.
+    /// </summary>
+    /// <param name="other">The bit set to XOR with the current instance. Must have the same length as the current bit set.</param>
+    /// <exception cref="ArgumentException">Thrown if <paramref name="other"/> does not have the same length as the current bit set.</exception>
     public void Xor(UnsafeBitSet other)
     {
-        if (Count != other.Count)
+        var thisCount = _bits.Count;
+        if (thisCount != other._bits.Count)
         {
             throw new ArgumentException("Bitsets must be of the same length for AND operation.");
         }
 
-        if (!Vector.IsHardwareAccelerated || Count < s_padding)
+        if (!Vector.IsHardwareAccelerated || thisCount < s_padding)
         {
-            for (var i = 0; i < Count; i++)
+            for (var i = 0; i < thisCount; i++)
             {
                 _bits[i] ^= other._bits[i];
             }
         }
         else
         {
-            for (var i = 0; i < Count; i += s_padding)
+            var pThis = (byte*)_bits.GetUnsafePtr();
+            var pOther = (byte*)other._bits.GetUnsafePtr();
+
+            for (var i = 0; i < thisCount; i += s_padding)
             {
-                var vectorLeft = new Vector<uint>(_bits.AsSpan()[i..]);
-                var vectorRight = new Vector<uint>(other._bits.AsSpan()[i..]);
+                var vectorLeft = Vector.Load(pThis + i);
+                var vectorRight = Vector.Load(pOther + i);
                 var resultVector = Vector.Xor(vectorLeft, vectorRight);
 
-                resultVector.CopyTo(_bits.AsSpan(i, s_padding));
+                Unsafe.WriteUnaligned(pThis + i, resultVector);
             }
         }
     }
@@ -524,7 +653,7 @@ public unsafe struct UnsafeBitSet : IDisposable
     /// <summary>
     /// Creates a <see cref="Span{T}"/> to access the <see cref="_bits"/>.
     /// </summary>
-    /// <returns>The hash.</returns>
+    /// <returns>The <see cref="Span{T}"/>.</returns>
     public readonly Span<uint> AsSpan()
     {
         var max = _highestBit / (_BIT_SIZE + 1) + 1;
@@ -540,7 +669,7 @@ public unsafe struct UnsafeBitSet : IDisposable
     public readonly Span<uint> AsSpan(Span<uint> span, bool zero = true)
     {
         // Copy everything thats possible from one to another
-        var length = Math.Min(Count, span.Length);
+        var length = Math.Min(_bits.Count, span.Length);
         for (var index = 0; index < length; index++)
         {
             span[index] = _bits[index];
@@ -552,7 +681,7 @@ public unsafe struct UnsafeBitSet : IDisposable
             span[index] = 0;
         }
 
-        return span[..Count];
+        return span[.._bits.Count];
     }
 
     public readonly override string ToString()

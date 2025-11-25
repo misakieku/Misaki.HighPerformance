@@ -1,11 +1,5 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Collections;
 
@@ -32,7 +26,7 @@ public class TestUnsafeBitSet
     [TestMethod]
     public void TestBitCount()
     {
-        Assert.AreEqual(256, _set1.BitCount);
+        Assert.AreEqual(256, _set1.Count);
     }
 
     [TestMethod]
@@ -48,20 +42,20 @@ public class TestUnsafeBitSet
     [TestMethod]
     public void TestClearAll()
     {
-        for (int i = 0; i < _set1.BitCount; i++)
+        for (var i = 0; i < _set1.Count; i++)
         {
             _set1.SetBit(i);
         }
 
         _set1.ClearAll();
-        for (int i = 0; i < _set1.BitCount; i++)
+        for (var i = 0; i < _set1.Count; i++)
         {
             Assert.IsFalse(_set1.IsSet(i));
         }
     }
 
     [TestMethod]
-    public void TestAndOperation()
+    public void TestAnd()
     {
         _set1.SetBit(0);
         _set1.SetBit(1);
@@ -75,4 +69,41 @@ public class TestUnsafeBitSet
         Assert.IsTrue(_set1.IsSet(1));
         Assert.IsFalse(_set1.IsSet(2));
     }
+
+    [TestMethod]
+    public void TestNot()
+    {
+        _set1.SetBit(0);
+        _set1.SetBit(1);
+
+        _set2.SetBit(1);
+        _set2.SetBit(2);
+
+        _set1.Not();
+        _set2.Not();
+
+        Assert.IsFalse(_set1.IsSet(0));
+        Assert.IsFalse(_set1.IsSet(1));
+        Assert.IsTrue(_set1.IsSet(2));
+        Assert.IsTrue(_set1.IsSet(3));
+        Assert.IsTrue(_set2.IsSet(0));
+        Assert.IsFalse(_set2.IsSet(1));
+    }
+
+    [TestMethod]
+    public void TestANDC()
+    {
+        _set1.SetBit(0);
+        _set1.SetBit(1);
+
+        _set2.SetBit(1);
+        _set2.SetBit(2);
+
+        _set1.ANDC(_set2);
+
+        Assert.IsTrue(_set1.IsSet(0));
+        Assert.IsFalse(_set1.IsSet(1));
+        Assert.IsFalse(_set1.IsSet(2));
+    }
+
 }

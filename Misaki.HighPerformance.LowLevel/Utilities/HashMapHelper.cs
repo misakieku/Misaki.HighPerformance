@@ -77,7 +77,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     private readonly int _sizeOfTValue;
     private readonly int _log2MinGrowth;
 
-    private AllocationHandle* _handle;
+    private MemoryHandle _memoryHandle;
+    private AllocationHandle* _allocationHandle;
 
     public const int MINIMAL_CAPACITY = 64;
 
@@ -89,43 +90,22 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public readonly bool IsEmpty => !IsCreated || _count == 0;
 
-    public readonly bool IsCreated
+    public readonly bool IsCreated => _buffer != null && _allocationHandle != null && _memoryHandle.IsValid;
+
+    private static int CalculateDataSize(int capacity, int bucketCapacity, int sizeOfTValue, out int outKeyOffset, out int outNextOffset, out int outBucketOffset)
     {
-        get
-        {
-            var handle = SafeHandle.GetSafeHandle(_buffer, (nuint)_alignment);
-            return handle != null && Volatile.Read(ref handle->valid) == 1;
-        }
-    }
+        var sizeOfTKey = sizeof(TKey);
+        var sizeOfInt = sizeof(int);
 
-    private static int CalculateDataSize(int capacity, int bucketCapacity, int sizeOfTValue, int alignment, out int outValueOffset, out int outKeyOffset, out int outNextOffset, out int outBucketOffset)
-    {
-        static int AlignUp(int size, int align)
-        {
-            return (size + (align - 1)) & ~(align - 1);
-        }
+        var valuesSize = sizeOfTValue * capacity;
+        var keysSize = sizeOfTKey * capacity;
+        var nextSize = sizeOfInt * capacity;
+        var bucketSize = sizeOfInt * bucketCapacity;
+        var totalSize = valuesSize + keysSize + nextSize + bucketSize;
 
-        var headerSize = SafeHandle.GetPaddedHeaderSize((nuint)alignment);
-
-        var valuesSize = (sizeOfTValue * capacity);
-        var valuesSizePadded = AlignUp(valuesSize, alignment);
-
-        var keysSize = (sizeof(TKey) * capacity);
-        var keysSizePadded = AlignUp(keysSize, alignment);
-
-        var nextSize = (sizeof(int) * capacity);
-        var nextSizePadded = AlignUp(nextSize, alignment);
-
-        // Buckets are the last item, doesn't need padding after it
-        var bucketSize = (sizeof(int) * bucketCapacity);
-
-        outValueOffset = (int)headerSize;
-        outKeyOffset = outValueOffset + valuesSizePadded;
-        outNextOffset = outKeyOffset + keysSizePadded;
-        outBucketOffset = outNextOffset + nextSizePadded;
-
-        // Total size is header + all buffers
-        var totalSize = (int)headerSize + outKeyOffset + keysSizePadded + nextSizePadded + bucketSize;
+        outKeyOffset = 0 + valuesSize;
+        outNextOffset = outKeyOffset + keysSize;
+        outBucketOffset = outNextOffset + nextSize;
 
         return totalSize;
     }
@@ -149,16 +129,16 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         var alignOfInt = (int)AlignOf<int>();
         var maxDataAlign = Math.Max(Math.Max(alignOfTValue, alignOfKey), alignOfInt);
 
-        _alignment = (int)SafeHandle.GetAlignWithHeader((nuint)maxDataAlign);
+        _alignment = maxDataAlign;
         _sizeOfTValue = sizeOfTValue;
         _log2MinGrowth = BitOperations.Log2(minGrowth);
 
-        _handle = (AllocationHandle*)Unsafe.AsPointer(ref handle);
+        _allocationHandle = (AllocationHandle*)Unsafe.AsPointer(ref handle);
 
-        var totalSize = CalculateDataSize(_capacity, _bucketCapacity, sizeOfTValue, _alignment,
-            out var valueOffset, out var keyOffset, out var nextOffset, out var bucketOffset);
+        var totalSize = CalculateDataSize(_capacity, _bucketCapacity, sizeOfTValue,
+            out var keyOffset, out var nextOffset, out var bucketOffset);
 
-        AllocateBuffer(totalSize, valueOffset, keyOffset, nextOffset, bucketOffset, _alignment, allocationOption);
+        AllocateBuffer(totalSize, keyOffset, nextOffset, bucketOffset, allocationOption);
         Clear();
     }
 
@@ -210,28 +190,31 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void AllocateBuffer(int totalSize, int valueOffset, int keyOffset, int nextOffset, int bucketOffset, int alignment, AllocationOption allocationOption)
+    private void AllocateBuffer(int totalSize, int keyOffset, int nextOffset, int bucketOffset, AllocationOption allocationOption)
     {
-        var buf = (byte*)_handle->Alloc(_handle->Allocator, (uint)totalSize, (nuint)alignment, allocationOption);
+        MemoryHandle memHandle;
+        var buf = (byte*)_allocationHandle->Alloc(_allocationHandle->Allocator, (uint)totalSize, (nuint)_alignment, allocationOption, &memHandle);
 
-        _buffer = buf + valueOffset;
+        _buffer = buf;
         _keys = (TKey*)(_buffer + keyOffset);
         _next = (int*)(_buffer + nextOffset);
         _buckets = (int*)(_buffer + bucketOffset);
+        _memoryHandle = memHandle;
     }
 
     private void ResizeExact(int newCapacity, int newBucketCapacity)
     {
-        var totalSize = CalculateDataSize(newCapacity, newBucketCapacity, _sizeOfTValue, _alignment,
-            out var valueOffset, out var keyOffset, out var nextOffset, out var bucketOffset);
+        var totalSize = CalculateDataSize(newCapacity, newBucketCapacity, _sizeOfTValue,
+            out var keyOffset, out var nextOffset, out var bucketOffset);
 
         var oldBuffer = _buffer;
         var oldKeys = _keys;
         var oldNext = _next;
         var oldBuckets = _buckets;
         var oldBucketCapacity = _bucketCapacity;
+        var oldMemoryHandle = _memoryHandle;
 
-        AllocateBuffer(totalSize, valueOffset, keyOffset, nextOffset, bucketOffset, _alignment, AllocationOption.None);
+        AllocateBuffer(totalSize, keyOffset, nextOffset, bucketOffset, AllocationOption.None);
         _capacity = newCapacity;
         _bucketCapacity = newBucketCapacity;
 
@@ -246,7 +229,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             }
         }
 
-        _handle->Free(_handle->Allocator, oldBuffer);
+        _allocationHandle->Free(_allocationHandle->Allocator, oldBuffer, oldMemoryHandle);
     }
 
     public void Resize(int newCapacity)
@@ -540,9 +523,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             return;
         }
 
-        if (_handle != null)
+        if (_allocationHandle != null)
         {
-            _handle->Free(_handle->Allocator, _buffer);
+            _allocationHandle->Free(_allocationHandle->Allocator, _buffer, _memoryHandle);
         }
 
         _buffer = null;
