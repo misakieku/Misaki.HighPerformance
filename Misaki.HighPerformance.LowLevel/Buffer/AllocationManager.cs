@@ -58,7 +58,7 @@ public static unsafe class AllocationManager
         public AllocationHeader* next;
         public void* basePtr;      // pointer returned by underlying allocator
         public nuint userSize;     // requested size from the user
-        public nint stackHandle;   // GCHandle to managed StackTrace (stored as IntPtr)
+        public GCHandle stackHandle;   // GCHandle to managed StackTrace
     }
 
     private struct ArenaAllocator : IAllocator, IDisposable
@@ -270,18 +270,17 @@ public static unsafe class AllocationManager
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static GCHandle HeaderGetHandle(AllocationHeader* header) => GCHandle.FromIntPtr(header->stackHandle);
+    private static GCHandle HeaderGetHandle(AllocationHeader* header) => header->stackHandle;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void HeaderSetHandle(AllocationHeader* header, GCHandle handle) => header->stackHandle = GCHandle.ToIntPtr(handle);
+    private static void HeaderSetHandle(AllocationHeader* header, GCHandle handle) => header->stackHandle = handle;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void HeaderFreeHandle(AllocationHeader* header)
     {
-        if (header->stackHandle != 0)
+        if (header->stackHandle.IsAllocated)
         {
-            GCHandle.FromIntPtr(header->stackHandle).Free();
-            header->stackHandle = 0;
+            header->stackHandle.Free();
         }
     }
 
@@ -403,7 +402,7 @@ public static unsafe class AllocationManager
         }
 
         // Unlink and free the old block (without freeing the StackTrace pHandle again)
-        oldHeader->stackHandle = 0;
+        //oldHeader->stackHandle = GCHandle.FromIntPtr(0);
         UnlinkHeader(oldHeader);
         AlignedFree(oldHeader->basePtr);
 

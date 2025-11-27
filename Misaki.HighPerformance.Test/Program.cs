@@ -40,16 +40,18 @@
 //    }
 //}
 
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Utilities;
-
+AllocationManager.EnableDebugLayer();
 var arr1 = new Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<int>(10, Misaki.HighPerformance.LowLevel.Buffer.Allocator.Persistent);
 var arr2 = arr1;
 arr2.CopyFrom(arr1.AsSpan());
-arr1.Dispose();
+//arr1.Dispose();
 try
 {
     arr2[0] = 42; // This should throw an exception because arr1 has been disposed.
-    arr2.Dispose();
+    //arr2.Dispose();
+    AllocationManager.Dispose();
 }
 catch (Exception ex)
 {
