@@ -302,6 +302,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     public void Dispose()
     {
         _data.Dispose();
+        _generations.Dispose();
         _freeSlots.Dispose();
         _validBits.Dispose();
 
