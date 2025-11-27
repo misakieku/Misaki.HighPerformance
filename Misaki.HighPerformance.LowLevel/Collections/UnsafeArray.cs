@@ -202,6 +202,20 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         return _buffer;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly Span<T> AsSpan()
+    {
+        ThrowIfNotCreated();
+        return new Span<T>(_buffer, _count);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly Span<T> AsSpan(int start, int length)
+    {
+        ThrowIfNotCreated();
+        return new Span<T>(_buffer + start, length);
+    }
+
     /// <summary>
     /// Reinterprets the underlying buffer as an array of a different unmanaged type without copying the data.
     /// </summary>

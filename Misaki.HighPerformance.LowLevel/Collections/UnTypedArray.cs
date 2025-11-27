@@ -107,6 +107,124 @@ public unsafe struct UnTypedArray : IUnTypedCollection
         return _buffer;
     }
 
+    /// <summary>
+    /// Copies elements from an untyped source collection to a destination span of a specific type.
+    /// </summary>
+    /// <typeparam name="T">Specifies the type of elements in the destination span, which must be unmanaged.</typeparam>
+    /// <param name="destination">The typed span where the data will be copied to.</param>
+    /// <exception cref="ArgumentException">Thrown when the source collection size exceeds the destination span capacity.</exception>
+    public readonly void CopyTo<C, T>(Span<T> destination)
+        where T : unmanaged
+    {
+        var destSize = (uint)destination.Length * (uint)sizeof(T);
+        if (_size > destSize)
+        {
+            throw new ArgumentException("Source collection is larger than the destination span.");
+        }
+
+        fixed (T* pDest = destination)
+        {
+            MemCpy(_buffer, pDest, _size);
+        }
+    }
+
+    /// <summary>
+    /// Copies a range of bytes from an untyped source collection to a destination span, interpreting the bytes as elements of type T.
+    /// </summary>
+    /// <typeparam name="T">Specifies the type of elements in the destination span, which must be unmanaged.</typeparam>
+    /// <param name="destination">The typed span where the elements will be placed.</param>
+    /// <param name="sourceOffset">The byte offset in the source collection from which to start copying.</param>
+    /// <param name="destinationIndex">The element index in the destination span where copying will begin.</param>
+    /// <param name="length">The number of elements of type T to copy.</param>
+    /// <exception cref="ArgumentException">Thrown when the specified range exceeds the bounds of the source collection or destination span.</exception>
+    public readonly void CopyTo<T>(Span<T> destination, uint sourceOffset, uint destinationIndex, uint length)
+        where T : unmanaged
+    {
+        var sizeOfElement = (uint)sizeof(T);
+        if (sourceOffset + (length * sizeOfElement) > _size || destinationIndex + length > destination.Length)
+        {
+            throw new ArgumentException("Source collection or destination span is too small for the specified range.");
+        }
+
+        fixed (T* pDest = destination)
+        {
+            MemCpy((byte*)_buffer + sourceOffset, pDest + destinationIndex, length * sizeOfElement);
+        }
+    }
+
+    /// <summary>
+    /// Copies elements from a typed source span to an untyped destination collection.
+    /// </summary>
+    /// <typeparam name="T">Specifies the type of elements in the source span, which must be unmanaged.</typeparam>
+    /// <param name="source">The typed span containing the elements to be copied.</param>
+    /// <exception cref="ArgumentException">Thrown when the destination collection is smaller than the source span data size.</exception>
+    public readonly void CopyFrom<T>(ReadOnlySpan<T> source)
+        where T : unmanaged
+    {
+        var sourceSize = (uint)(source.Length * sizeof(T));
+
+        if (_size < sourceSize)
+        {
+            throw new ArgumentException("Destination collection is smaller than the source span.");
+        }
+
+        fixed (T* pSrc = source)
+        {
+            MemCpy(pSrc, _buffer, sourceSize);
+        }
+    }
+
+    /// <summary>
+    /// Copies a range of elements from a typed source span to an untyped destination collection at a specified byte offset.
+    /// </summary>
+    /// <typeparam name="T">Specifies the type of elements in the source span, which must be unmanaged.</typeparam>
+    /// <param name="source">The typed span containing the elements to be copied.</param>
+    /// <param name="sourceIndex">The starting element index in the source span from which to begin copying.</param>
+    /// <param name="destinationOffset">The byte offset in the destination collection where the data will be placed.</param>
+    /// <param name="length">The number of elements to copy from the source span.</param>
+    /// <exception cref="ArgumentException">Thrown when the specified range exceeds the bounds of the source span or destination collection.</exception>
+    public readonly void CopyFrom<T>(ReadOnlySpan<T> source, uint sourceIndex, uint destinationOffset, uint length)
+        where T : unmanaged
+    {
+        var sizeOfElement = (uint)sizeof(T);
+        if (sourceIndex + length > source.Length || destinationOffset + (length * sizeOfElement) > _size)
+        {
+            throw new ArgumentException("Source span or destination collection is too small for the specified range.");
+        }
+
+        fixed (T* pSrc = source)
+        {
+            MemCpy(pSrc + sourceIndex, (byte*)_buffer + destinationOffset, length * sizeOfElement);
+        }
+    }
+
+
+    /// <summary>
+    /// Converts into a Span for efficient memory access.
+    /// </summary>
+    /// <returns>A Span that provides a view over the elements of the UnsafeCollection.</returns>
+    public readonly Span<byte> AsSpan<C>()
+    {
+        return new(_buffer, (int)_size);
+    }
+
+    /// <summary>
+    /// Creates a span over a contiguous region of elements in the specified unsafe collection, starting at the given index and covering the specified number of elements.
+    /// </summary>
+    /// <param name="start">The zero-based index of the first element in the collection to include in the span. Must be greater than or equal to zero and less than the number of elements in the collection.</param>
+    /// <param name="length">The number of elements to include in the span. Must be greater than or equal to zero and the range defined by
+    /// <paramref name="start"/> and <paramref name="length"/> must not exceed the bounds of the collection.</param>
+    /// <returns>A <see cref="Span{byte}"/> representing the specified region of the collection.</returns>
+    public readonly Span<byte> AsSpan(int start, int length)
+    {
+        if (start < 0 || length < 0 || (nuint)(start + length) > _size)
+        {
+            throw new ArgumentOutOfRangeException(nameof(start), "The specified range is out of bounds of the collection.");
+        }
+
+        return new Span<byte>((byte*)_buffer + start, length);
+    }
+
     /// <inheritdoc/>
     public void Dispose()
     {

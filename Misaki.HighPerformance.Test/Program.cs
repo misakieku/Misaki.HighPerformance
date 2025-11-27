@@ -40,9 +40,11 @@
 //    }
 //}
 
+using Misaki.HighPerformance.LowLevel.Utilities;
+
 var arr1 = new Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<int>(10, Misaki.HighPerformance.LowLevel.Buffer.Allocator.Persistent);
 var arr2 = arr1;
-
+arr2.CopyFrom(arr1.AsSpan());
 arr1.Dispose();
 try
 {

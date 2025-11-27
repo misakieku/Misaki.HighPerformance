@@ -2,6 +2,7 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
+using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -364,6 +365,19 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     public readonly void* GetUnsafePtr()
     {
         return _array.GetUnsafePtr();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly Span<T> AsSpan()
+    {
+        return _array.AsSpan(0, _count);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly Span<T> AsSpan(int start, int length)
+    {
+        CheckIndexCount(start, length);
+        return _array.AsSpan(start, length);
     }
 
     public void Dispose()
