@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>portable</DebugType>
     <Authors>Misaki</Authors>
     <AssemblyVersion>1.2.2</AssemblyVersion>
     <Version>$(AssemblyVersion)</Version>
