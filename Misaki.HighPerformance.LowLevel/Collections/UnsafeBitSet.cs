@@ -1,11 +1,9 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
-using System.Collections;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics.X86;
 using System.Text;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -531,8 +529,8 @@ public unsafe struct UnsafeBitSet : IDisposable
 
             for (var i = 0; i < thisCount; i += s_padding)
             {
-                var vectorLeft = Vector.Load(pThis +i);
-                var vectorRight = Vector.Load(pOther +i);
+                var vectorLeft = Vector.Load(pThis + i);
+                var vectorRight = Vector.Load(pOther + i);
                 var resultVector = ~Vector.BitwiseAnd(vectorLeft, vectorRight);
 
                 Unsafe.WriteUnaligned(pThis + i, resultVector);
@@ -571,7 +569,7 @@ public unsafe struct UnsafeBitSet : IDisposable
                 var vectorLeft = Vector.Load(pThis + i);
                 var vectorRight = Vector.Load(pOther + i);
                 var resultVector = Vector.AndNot(vectorLeft, vectorRight);
-                
+
                 Unsafe.WriteUnaligned(pThis + i, resultVector);
             }
         }
@@ -682,6 +680,13 @@ public unsafe struct UnsafeBitSet : IDisposable
         }
 
         return span[.._bits.Count];
+    }
+
+    public readonly override int GetHashCode()
+    {
+        var hash = new HashCode();
+        hash.AddBytes(MemoryMarshal.AsBytes(_bits.AsSpan()));
+        return hash.ToHashCode();
     }
 
     public readonly override string ToString()
@@ -833,6 +838,13 @@ public readonly ref struct SpanBitSet
         }
 
         return span[.._bits.Length];
+    }
+
+    public override int GetHashCode()
+    {
+        var hash = new HashCode();
+        hash.AddBytes(MemoryMarshal.AsBytes(_bits));
+        return hash.ToHashCode();
     }
 
     public override string ToString()
