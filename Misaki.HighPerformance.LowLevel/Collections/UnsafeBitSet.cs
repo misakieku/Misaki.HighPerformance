@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
-public unsafe struct UnsafeBitSet : IDisposable
+public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
 {
     public ref struct Iterator
     {
@@ -706,6 +706,57 @@ public unsafe struct UnsafeBitSet : IDisposable
         return span[.._bits.Count];
     }
 
+    public readonly bool Equals(UnsafeBitSet other)
+    {
+        if (_bits.Count != other._bits.Count)
+        {
+            return false;
+        }
+
+        var bits = _bits.AsSpan();
+        var otherBits = other._bits.AsSpan();
+
+        if (!Vector.IsHardwareAccelerated || _bits.Count < s_padding)
+        {
+            for (var i = 0; i < _bits.Count; i++)
+            {
+                if (bits[i] != otherBits[i])
+                {
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            for (var i = 0; i < _bits.Count; i += s_padding)
+            {
+                var vector = new Vector<uint>(bits[i..]);
+                var otherVector = new Vector<uint>(otherBits[i..]);
+                if (!Vector.EqualsAll(vector, otherVector))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public override readonly bool Equals(object? obj)
+    {
+        return obj is UnsafeBitSet set && Equals(set);
+    }
+
+    public static bool operator ==(UnsafeBitSet left, UnsafeBitSet right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(UnsafeBitSet left, UnsafeBitSet right)
+    {
+        return !(left == right);
+    }
+
     public readonly override int GetHashCode()
     {
         var hash = new HashCode();
@@ -739,7 +790,7 @@ public unsafe struct UnsafeBitSet : IDisposable
 /// represents a non resizable collection of bits.
 /// Used to set, check and clear bits on a allocated <see cref="UnsafeBitSet"/> or on the stack.
 /// </summary>
-public readonly ref struct SpanBitSet
+public readonly ref struct SpanBitSet : IEquatable<SpanBitSet>
 {
     public ref struct Iterator
     {
@@ -910,6 +961,24 @@ public readonly ref struct SpanBitSet
         }
 
         return span[.._bits.Length];
+    }
+
+    public bool Equals(SpanBitSet other)
+    {
+        if (_bits.Length != other._bits.Length)
+        {
+            return false;
+        }
+
+        for (var i = 0; i < _bits.Length; i++)
+        {
+            if (_bits[i] != other._bits[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public override int GetHashCode()
