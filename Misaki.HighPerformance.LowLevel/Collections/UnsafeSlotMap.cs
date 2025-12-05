@@ -91,6 +91,10 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         _freeSlots = new UnsafeQueue<int>(capacity, ref handle, allocationOption);
         _validBits = new UnsafeBitSet(GetBitSetCapacity(capacity), ref handle, allocationOption);
 
+        if (!allocationOption.HasFlag(AllocationOption.Clear))
+        {
+            _generations.AsSpan().Clear();
+        }
         _validBits.ClearAll();
 
         _count = 0;

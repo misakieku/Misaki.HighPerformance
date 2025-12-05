@@ -94,6 +94,12 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         _reverse = new UnsafeArray<int>(capacity, ref handle, allocationOption);
         _freeSparse = new UnsafeStack<int>(capacity, ref handle, allocationOption);
 
+        if (!allocationOption.HasFlag(AllocationOption.Clear))
+        {
+            _generations.AsSpan().Clear();
+            _sparse.AsSpan().Clear();
+        }
+
         _count = 0;
         _nextId = 0;
         _capacity = capacity;

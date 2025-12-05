@@ -10,10 +10,29 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 
 public unsafe struct UnsafeBitSet : IDisposable
 {
-    private const int _BIT_SIZE = sizeof(uint) * 8 - 1;           // 31
-    private const int _INDEX_SIZE = 5;                              // log_2(BitSize + 1)
-    private const int _MASK = (1 << 5) - 1;                         // 0x1F, the mask to get the bit index inside a uint
-    private static readonly int s_padding = Vector<uint>.Count;      // The padding used for vectorization, the amount of uints required for being vectorized basically
+    public ref struct Iterator
+    {
+        private UnsafeBitSet _bitSet;
+        private int _currentBit;
+
+        public Iterator (UnsafeBitSet bitSet)
+        {
+            _bitSet = bitSet;
+            _currentBit = -1;
+        }
+
+        public bool Next(out int bitIndex)
+        {
+            _currentBit = _bitSet.NextSetBit(_currentBit + 1);
+            bitIndex = _currentBit;
+            return _currentBit != -1;
+        }
+    }
+
+    internal const int _BIT_SIZE = sizeof(uint) * 8 - 1;           // 31
+    internal const int _INDEX_SIZE = 5;                              // log_2(BitSize + 1)
+    internal const int _MASK = (1 << 5) - 1;                         // 0x1F, the mask to get the bit index inside a uint
+    internal static readonly int s_padding = Vector<uint>.Count;      // The padding used for vectorization, the amount of uints required for being vectorized basically
 
     private UnsafeArray<uint> _bits;
     private int _highestBit;
@@ -95,6 +114,11 @@ public unsafe struct UnsafeBitSet : IDisposable
     public static int RequiredLength(int id)
     {
         return (id >> _INDEX_SIZE) + int.Sign(id & _BIT_SIZE);
+    }
+
+    public readonly Iterator GetIterator()
+    {
+        return new Iterator(this);
     }
 
     /// <summary>
@@ -717,6 +741,25 @@ public unsafe struct UnsafeBitSet : IDisposable
 /// </summary>
 public readonly ref struct SpanBitSet
 {
+    public ref struct Iterator
+    {
+        private SpanBitSet _bitSet;
+        private int _currentBit;
+
+        public Iterator(SpanBitSet bitSet)
+        {
+            _bitSet = bitSet;
+            _currentBit = -1;
+        }
+
+        public bool Next(out int bitIndex)
+        {
+            _currentBit = _bitSet.NextSetBit(_currentBit + 1);
+            bitIndex = _currentBit;
+            return _currentBit != -1;
+        }
+    }
+
     private const int _BIT_SIZE = sizeof(uint) * 8 - 1; // 31
     // NOTE: Is a byte not 8 bits?
     private const int _BYTE_SIZE = 5; // log_2(BitSize + 1)
@@ -734,12 +777,16 @@ public readonly ref struct SpanBitSet
         _bits = bits;
     }
 
+    public readonly Iterator GetIterator()
+    {
+        return new Iterator(this);
+    }
+
     /// <summary>
     /// Checks whether a bit is set at the index.
     /// </summary>
     /// <param name="index">The index.</param>
     /// <returns>True if it is, otherwise false</returns>
-
     public bool IsSet(int index)
     {
         var b = index >> _BYTE_SIZE;
@@ -756,7 +803,6 @@ public readonly ref struct SpanBitSet
     /// Resizes its internal array if necessary.
     /// </summary>
     /// <param name="index">The index.</param>
-
     public void SetBit(int index)
     {
         var b = index >> _BYTE_SIZE;
@@ -772,7 +818,6 @@ public readonly ref struct SpanBitSet
     /// Clears the bit at the given index.
     /// </summary>
     /// <param name="index">The index.</param>
-
     public void ClearBit(int index)
     {
         var b = index >> _BYTE_SIZE;
@@ -787,7 +832,6 @@ public readonly ref struct SpanBitSet
     /// <summary>
     /// Sets all bits.
     /// </summary>
-
     public void SetAll()
     {
         var count = _bits.Length;
@@ -800,10 +844,38 @@ public readonly ref struct SpanBitSet
     /// <summary>
     /// Clears all set bits.
     /// </summary>
-
     public void ClearAll()
     {
         _bits.Clear();
+    }
+
+    public int NextSetBit(int startIndex)
+    {
+        var wordIndex = startIndex >> _BIT_SIZE;
+        if (wordIndex >= _bits.Length)
+        {
+            return -1;
+        }
+
+        // Mask off bits below startIndex in the first word:
+        var word = _bits[wordIndex] & ~0u << (startIndex & UnsafeBitSet._MASK);
+        while (true)
+        {
+            if (word != 0)
+            {
+                // get the least-significant set bit
+                var bit = BitOperations.TrailingZeroCount(word);
+                return (wordIndex << _BIT_SIZE) + bit;
+            }
+
+            wordIndex++;
+            if (wordIndex >= _bits.Length)
+            {
+                return -1;
+            }
+
+            word = _bits[wordIndex];
+        }
     }
 
     /// <summary>
