@@ -29,7 +29,7 @@ public static unsafe class UnsafeCollectionExtensions
 
         fixed (T* pDest = destination)
         {
-            MemCpy(source.GetUnsafePtr(), pDest, (uint)(source.Count * sizeof(T)));
+            MemCpy(pDest, source.GetUnsafePtr(), (uint)(source.Count * sizeof(T)));
         }
     }
 
@@ -54,7 +54,7 @@ public static unsafe class UnsafeCollectionExtensions
 
         fixed (T* pDest = destination)
         {
-            MemCpy((byte*)source.GetUnsafePtr() + sourceIndex * sizeof(T), pDest + destinationIndex, (uint)(length * sizeof(T)));
+            MemCpy(pDest + destinationIndex, (byte*)source.GetUnsafePtr() + sourceIndex * sizeof(T), (uint)(length * sizeof(T)));
         }
     }
 
@@ -76,7 +76,7 @@ public static unsafe class UnsafeCollectionExtensions
 
         fixed (T* pSrc = source)
         {
-            MemCpy(pSrc, destination.GetUnsafePtr(), (uint)(source.Length * sizeof(T)));
+            MemCpy(destination.GetUnsafePtr(), pSrc, (uint)(source.Length * sizeof(T)));
         }
     }
 
@@ -101,7 +101,7 @@ public static unsafe class UnsafeCollectionExtensions
 
         fixed (T* pSrc = source)
         {
-            MemCpy(pSrc + sourceIndex, (byte*)destination.GetUnsafePtr() + destinationIndex * sizeof(T), (uint)(length * sizeof(T)));
+            MemCpy((byte*)destination.GetUnsafePtr() + destinationIndex * sizeof(T), pSrc + sourceIndex, (uint)(length * sizeof(T)));
         }
     }
 
@@ -118,7 +118,7 @@ public static unsafe class UnsafeCollectionExtensions
         var array = new UnsafeArray<T>(source.Length, allocator);
         fixed (T* pSrc = source)
         {
-            MemCpy(pSrc, array.GetUnsafePtr(), (uint)(source.Length * sizeof(T)));
+            MemCpy(array.GetUnsafePtr(), pSrc, (uint)(source.Length * sizeof(T)));
         }
 
         return array;
@@ -137,7 +137,7 @@ public static unsafe class UnsafeCollectionExtensions
         var list = new UnsafeList<T>(source.Count, allocator);
         fixed (T* pSrc = CollectionsMarshal.AsSpan(source))
         {
-            MemCpy(pSrc, list.GetUnsafePtr(), (uint)(source.Count * sizeof(T)));
+            MemCpy(list.GetUnsafePtr(), pSrc, (uint)(source.Count * sizeof(T)));
         }
 
         return list;

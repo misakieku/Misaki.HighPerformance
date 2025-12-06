@@ -123,7 +123,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
 
         fixed (T* pDest = destination)
         {
-            MemCpy(_buffer, pDest, _size);
+            MemCpy(pDest, _buffer, _size);
         }
     }
 
@@ -147,7 +147,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
 
         fixed (T* pDest = destination)
         {
-            MemCpy((byte*)_buffer + sourceOffset, pDest + destinationIndex, length * sizeOfElement);
+            MemCpy(pDest + destinationIndex, (byte*)_buffer + sourceOffset, length * sizeOfElement);
         }
     }
 
@@ -169,7 +169,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
 
         fixed (T* pSrc = source)
         {
-            MemCpy(pSrc, _buffer, sourceSize);
+            MemCpy(_buffer, pSrc, sourceSize);
         }
     }
 
@@ -193,7 +193,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
 
         fixed (T* pSrc = source)
         {
-            MemCpy(pSrc + sourceIndex, (byte*)_buffer + destinationOffset, length * sizeOfElement);
+            MemCpy((byte*)_buffer + destinationOffset, pSrc + sourceIndex, length * sizeOfElement);
         }
     }
 

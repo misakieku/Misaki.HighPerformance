@@ -66,7 +66,7 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
             return null;
         }
 
-        MemoryUtility.MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
+        MemoryUtility.MemCpy(ptr, newPtr,Math.Min(oldSize, newSize));
 
         return newPtr;
     }

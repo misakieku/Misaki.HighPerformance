@@ -247,20 +247,20 @@ public sealed unsafe class JobScheduler : IDisposable
     public JobHandle Schedule<T>(ref T job, int threadIndex, JobHandle dependency)
         where T : unmanaged, IJob
     {
-        var jobData = _jobDataAllocator.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
-        if (jobData == null)
+        var pJobData = _jobDataAllocator.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
+        if (pJobData == null)
         {
             return JobHandle.Invalid;
         }
 
         fixed (T* pJob = &job)
         {
-            MemoryUtility.MemCpy(pJob, jobData, MemoryUtility.SizeOf<T>());
+            MemoryUtility.MemCpy(pJobData, pJob, MemoryUtility.SizeOf<T>());
         }
 
         var jobInfo = new JobInfo
         {
-            pJobData = jobData,
+            pJobData = pJobData,
             pExecutionFunc = &JobExecutor.Execute<T>,
 
             remainingBatches = 1,
@@ -323,15 +323,15 @@ public sealed unsafe class JobScheduler : IDisposable
     public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, int threadIndex, JobHandle dependency)
         where T : unmanaged, IJobParallelFor
     {
-        var jobData = _jobDataAllocator.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
-        if (jobData == null)
+        var pJobData = _jobDataAllocator.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
+        if (pJobData == null)
         {
             return JobHandle.Invalid;
         }
 
         fixed (T* pJob = &job)
         {
-            MemoryUtility.MemCpy(pJob, jobData, MemoryUtility.SizeOf<T>());
+            MemoryUtility.MemCpy(pJobData, pJob, MemoryUtility.SizeOf<T>());
         }
 
         var optimalBatchSize = Math.Max(1, batchSize);
@@ -339,7 +339,7 @@ public sealed unsafe class JobScheduler : IDisposable
 
         var jobInfo = new JobInfo
         {
-            pJobData = jobData,
+            pJobData = pJobData,
             pExecutionFunc = &JobExecutor.ExecuteParallel<T>,
 
             remainingBatches = totalBatches,
