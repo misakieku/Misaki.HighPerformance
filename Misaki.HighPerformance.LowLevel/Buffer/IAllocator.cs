@@ -1,4 +1,4 @@
-namespace Misaki.HighPerformance.LowLevel.Contracts;
+namespace Misaki.HighPerformance.LowLevel.Buffer;
 
 /// <summary>
 /// A structure that encapsulates function pointers for memory allocation operations.
@@ -8,7 +8,7 @@ public readonly unsafe struct AllocationHandle
     /// <summary>
     /// Gets a pointer to the allocator instance associated with this allocation handle.
     /// </summary>
-    public void* Allocator
+    public void* pAllocator
     {
         get;
     }
@@ -47,7 +47,7 @@ public readonly unsafe struct AllocationHandle
     /// <param name="free">The function used to free allocated memory.</param>
     public AllocationHandle(void* allocator, AllocFunc alloc, ReallocFunc realloc, FreeFunc free)
     {
-        Allocator = allocator;
+        pAllocator = allocator;
         Alloc = alloc;
         Realloc = realloc;
         Free = free;
@@ -59,14 +59,14 @@ public readonly unsafe struct AllocationHandle
 /// </summary>
 /// <remarks>
 /// The allocator must be pined to a specific memory region.
-/// Otherwise the reference of the <see cref="AllocationHandle.Allocator"/>, may become invalid and lead to undefined behavior.
+/// Otherwise the reference of the <see cref="AllocationHandle.pAllocator"/>, may become invalid and lead to undefined behavior.
 /// </remarks>
 public interface IAllocator
 {
     /// <summary>
     /// Gets a reference to the allocation handle associated with this allocator.
     /// </summary>
-    ref AllocationHandle Handle
+    AllocationHandle Handle
     {
         get;
     }

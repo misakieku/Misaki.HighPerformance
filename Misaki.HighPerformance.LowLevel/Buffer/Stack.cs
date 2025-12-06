@@ -14,11 +14,15 @@ public unsafe struct Stack : IDisposable
     public readonly ref struct Scope : IDisposable
     {
         private readonly Stack* _allocator;
+        private readonly AllocationHandle _handle;
         private readonly nuint _originalOffset;
 
-        internal Scope(Stack* allocator)
+        public readonly AllocationHandle AllocationHandle => _handle;
+
+        internal Scope(Stack* allocator, AllocationHandle handle)
         {
             _allocator = allocator;
+            _handle = handle;
             _originalOffset = allocator->_offset;
             _allocator->_activeScopeCount++;
         }
@@ -84,12 +88,15 @@ public unsafe struct Stack : IDisposable
     /// <summary>
     /// Creates a new scope instance associated with the current stack context.
     /// </summary>
+    /// <remarks>
+    /// The instance of <see cref="Stack"/> must be pinned or allocated on the native heap to ensure that the pointer remains valid for the lifetime of the scope.
+    /// </remarks>
     /// <returns>A <see cref="Scope"/> object that represents a scope tied to this stack.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Scope CreateScope()
+    public Scope CreateScope(AllocationHandle handle)
     {
         EnsureInitialize();
-        return new Scope((Stack*)Unsafe.AsPointer(ref this));
+        return new Scope((Stack*)Unsafe.AsPointer(ref this), handle);
     }
 
     /// <summary>

@@ -1,6 +1,5 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
-using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Runtime.CompilerServices;
 
@@ -13,12 +12,12 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     private nuint _alignment;
 
     private MemoryHandle _memoryHandle;
-    private AllocationHandle* _allocationHandle;
+    private AllocationHandle _allocationHandle;
 
     public readonly nuint Size => _size;
     public readonly nuint Alignment => _alignment;
 
-    public readonly bool IsCreated => _buffer != null && _allocationHandle != null && _memoryHandle.IsValid;
+    public readonly bool IsCreated => _buffer != null && _allocationHandle.pAllocator != null && _memoryHandle.IsValid;
 
     /// <summary>
     /// Constructs an UnsafeArray with a default size of 1 and uses the Persistent allocator.
@@ -28,7 +27,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     {
     }
 
-    public UnTypedArray(nuint size, nuint alignment, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    public UnTypedArray(nuint size, nuint alignment, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
         if (size <= 0)
         {
@@ -36,12 +35,12 @@ public unsafe struct UnTypedArray : IUnTypedCollection
         }
 
         MemoryHandle memHandle;
-        _buffer = handle.Alloc(_allocationHandle->Allocator, size, alignment, allocationOption, &memHandle);
+        _buffer = handle.Alloc(_allocationHandle.pAllocator, size, alignment, allocationOption, &memHandle);
         _size = size;
         _alignment = alignment;
 
         _memoryHandle = memHandle;
-        _allocationHandle = (AllocationHandle*)Unsafe.AsPointer(ref handle);
+        _allocationHandle = handle;
     }
 
     /// <summary>
@@ -52,7 +51,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     /// <param name="allocationOption">Determines how the memory should be allocated.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
     public UnTypedArray(nuint size, nuint alignment, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
-        : this(size, alignment, ref AllocationManager.GetAllocationHandle(allocator), allocationOption)
+        : this(size, alignment, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
     }
 
@@ -88,7 +87,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
         }
 
         MemoryHandle memHandle = _memoryHandle;
-        _buffer = _allocationHandle->Realloc(_allocationHandle->Allocator, _buffer, _size, newSize, _alignment, option, &memHandle);
+        _buffer = _allocationHandle.Realloc(_allocationHandle.pAllocator, _buffer, _size, newSize, _alignment, option, &memHandle);
         _size = newSize;
         _memoryHandle = memHandle;
     }
@@ -233,12 +232,11 @@ public unsafe struct UnTypedArray : IUnTypedCollection
             return;
         }
 
-        if (_allocationHandle != null)
+        if (_allocationHandle.pAllocator != null)
         {
-            _allocationHandle->Free(_allocationHandle->Allocator, _buffer, _memoryHandle);
+            _allocationHandle.Free(_allocationHandle.pAllocator, _buffer, _memoryHandle);
         }
 
-        _allocationHandle = null;
         _buffer = null;
         _size = 0;
         _alignment = 0;

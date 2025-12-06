@@ -1,8 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
-using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
-using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -144,9 +142,9 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// <param name="capacity">Specifies the number of initial capacity to allocate in the list, which must be greater than zero.</param>
     /// <param name="handle">A reference to an AllocationHandle that manages the memory allocation for the array.</param>
     /// <param name="allocationOption">Specifies how the memory should be allocated.</param>
-    public UnsafeList(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    public UnsafeList(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        _array = new UnsafeArray<T>(capacity, ref handle, allocationOption);
+        _array = new UnsafeArray<T>(capacity, handle, allocationOption);
         _count = 0;
     }
 
@@ -157,7 +155,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// <param name="allocator">Specifies the allocator to use for memory allocation, which determines the memory management strategy.</param>
     /// <param name="allocationOption">Determines how the memory should be allocated.</param>
     public UnsafeList(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
-        : this(capacity, ref AllocationManager.GetAllocationHandle(allocator), allocationOption)
+        : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
     }
 

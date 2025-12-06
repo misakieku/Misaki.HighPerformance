@@ -1,6 +1,5 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
-using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Diagnostics;
@@ -50,7 +49,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     private T* _buffer;
     private int _count;
     private MemoryHandle _memoryHandle;
-    private AllocationHandle* _allocationHandle;
+    private AllocationHandle _allocationHandle;
 
     public readonly int Count => _count;
 
@@ -74,7 +73,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         }
     }
 
-    public readonly bool IsCreated => _buffer != null && _allocationHandle != null && _memoryHandle.IsValid;
+    public readonly bool IsCreated => _buffer != null && _allocationHandle.pAllocator != null && _memoryHandle.IsValid;
 
     public Enumerator GetEnumerator() => new((UnsafeArray<T>*)UnsafeUtility.AddressOf(ref this));
     IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
@@ -95,7 +94,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <param name="handle">A reference to an AllocationHandle that manages the memory allocation for the array.</param>
     /// <param name="allocationOption">Specifies how the memory should be allocated.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
-    public UnsafeArray(int count, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    public UnsafeArray(int count, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
         if (count < 0)
         {
@@ -103,11 +102,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         }
 
         MemoryHandle memHandle;
-        var buff = handle.Alloc(handle.Allocator, (nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption, &memHandle);
+        var buff = handle.Alloc(handle.pAllocator, (nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption, &memHandle);
 
         _buffer = (T*)buff;
         _memoryHandle = memHandle;
-        _allocationHandle = (AllocationHandle*)Unsafe.AsPointer(ref handle);
+        _allocationHandle = handle;
         _count = count;
     }
 
@@ -119,7 +118,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <param name="allocationOption">Determines how the memory should be allocated.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
     public UnsafeArray(int count, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
-        : this(count, ref AllocationManager.GetAllocationHandle(allocator), allocationOption)
+        : this(count, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
     }
 
@@ -181,7 +180,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
         MemoryHandle memHandle = _memoryHandle;
         var elemSize = SizeOf<T>();
-        _buffer = (T*)_allocationHandle->Realloc(_allocationHandle->Allocator, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option, &memHandle);
+        _buffer = (T*)_allocationHandle.Realloc(_allocationHandle.pAllocator, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option, &memHandle);
         _memoryHandle = memHandle;
         _count = newSize;
     }
@@ -245,12 +244,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
-        if (_allocationHandle != null)
+        if (_allocationHandle.pAllocator != null)
         {
-            _allocationHandle->Free(_allocationHandle->Allocator, _buffer, _memoryHandle);
+            _allocationHandle.Free(_allocationHandle.pAllocator, _buffer, _memoryHandle);
         }
 
-        _allocationHandle = null;
         _buffer = null;
         _count = 0;
     }

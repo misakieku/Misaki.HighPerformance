@@ -25,6 +25,17 @@ public static unsafe partial class MemoryUtility
     }
 
     /// <summary>
+    /// Allocates a block of memory of the specified size in bytes and initializes it to zero.
+    /// </summary>
+    /// <param name="size">Specifies the number of bytes to allocate in memory.</param>
+    /// <returns>Returns a pointer to the allocated and zero-initialized memory block.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void* Calloc(nuint size)
+    {
+        return NativeMemory.AllocZeroed(size);
+    }
+
+    /// <summary>
     /// Allocates a block of memory with a specified size and alignment.
     /// </summary>
     /// <param name="size">Specifies the total number of bytes to allocate for the memory block.</param>
@@ -114,7 +125,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="destination">Specifies the memory address where the copied data will be stored.</param>
     /// <param name="size">Defines the number of bytes to be copied from the source to the destination.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void MemCpy(void* source, void* destination, nuint size)
+    public static void MemCpy(void* destination, void* source, nuint size)
     {
         NativeMemory.Copy(source, destination, size);
     }

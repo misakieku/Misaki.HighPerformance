@@ -47,6 +47,8 @@ public unsafe struct DynamicArena : IDisposable
         _root->arena = new Arena(initialSize);
         _root->next = null;
         _current = _root;
+
+        _nodeCreationLock = 0;
     }
 
     private bool TryCreateNewNode(nuint size)

@@ -1,6 +1,5 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
-using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
@@ -79,17 +78,17 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <param name="handle">A reference to the allocation handle used to manage memory for the slot map.</param>
     /// <param name="allocationOption">The allocation options to use when creating internal data structures. The default is AllocationOption.None.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when capacity is less than or equal to zero.</exception>
-    public UnsafeSlotMap(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    public UnsafeSlotMap(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
         if (capacity <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
         }
 
-        _data = new UnsafeArray<T>(capacity, ref handle, allocationOption);
-        _generations = new UnsafeArray<int>(capacity, ref handle, allocationOption);
-        _freeSlots = new UnsafeQueue<int>(capacity, ref handle, allocationOption);
-        _validBits = new UnsafeBitSet(GetBitSetCapacity(capacity), ref handle, allocationOption);
+        _data = new UnsafeArray<T>(capacity, handle, allocationOption);
+        _generations = new UnsafeArray<int>(capacity, handle, allocationOption);
+        _freeSlots = new UnsafeQueue<int>(capacity, handle, allocationOption);
+        _validBits = new UnsafeBitSet(GetBitSetCapacity(capacity), handle, allocationOption);
 
         if (!allocationOption.HasFlag(AllocationOption.Clear))
         {
@@ -109,7 +108,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <param name="allocator">The allocator to use for memory management of the slot map.</param>
     /// <param name="allocationOption">The allocation option that determines how memory is allocated. The default is AllocationOption.None.</param>
     public UnsafeSlotMap(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
-        : this(capacity, ref AllocationManager.GetAllocationHandle(allocator), allocationOption)
+        : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
     }
 

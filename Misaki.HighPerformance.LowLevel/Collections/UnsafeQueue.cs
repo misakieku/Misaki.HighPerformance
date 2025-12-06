@@ -1,6 +1,5 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
-using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
@@ -75,15 +74,15 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     {
     }
 
-    public UnsafeQueue(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    public UnsafeQueue(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        _array = new UnsafeArray<T>(capacity, ref handle, allocationOption);
+        _array = new UnsafeArray<T>(capacity, handle, allocationOption);
         _count = 0;
         _offset = 0;
     }
 
     public UnsafeQueue(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.None)
-        : this(capacity, ref AllocationManager.GetAllocationHandle(allocator), allocationType)
+        : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationType)
     {
     }
 

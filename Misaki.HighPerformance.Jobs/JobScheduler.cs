@@ -9,14 +9,17 @@ namespace Misaki.HighPerformance.Jobs;
 /// <summary>
 /// Provides a mechanism for scheduling and executing jobs across multiple worker threads.
 /// </summary>
-/// <remarks>The <see cref="JobScheduler"/> class is designed to manage the execution of jobs, including support
-/// for dependencies, parallel execution, and thread-specific job assignment. It allows developers to schedule jobs that
-/// implement the <see cref="IJob"/> or <see cref="IJobParallelFor"/> interfaces, and it ensures efficient utilization
-/// of worker threads through job batching and work-stealing mechanisms.  This class is thread-safe and can be used in
-/// multi-threaded environments. However, it must be disposed when no longer needed to release resources and terminate
-/// worker threads.</remarks>
 public sealed unsafe class JobScheduler : IDisposable
 {
+    private static readonly TempJobAllocator* pTempAllocator;
+    public static AllocationHandle TempAllocatorHandle => pTempAllocator->Handle;
+
+    static JobScheduler()
+    {
+        pTempAllocator = (TempJobAllocator*)MemoryUtility.Malloc((nuint)sizeof(TempJobAllocator));
+        pTempAllocator->Init();
+    }
+
     private const int _SLEEP_THRESHOLD = 100;
 
     private FreeList _jobDataAllocator;

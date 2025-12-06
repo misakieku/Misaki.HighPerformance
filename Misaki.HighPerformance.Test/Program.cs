@@ -22,38 +22,17 @@
 
 //BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.CollectionBenchmark>();
 
-//using Misaki.HighPerformance.LowLevel.Buffer;
-//using Misaki.HighPerformance.LowLevel.Collections;
-//using Misaki.HighPerformance.LowLevel.Utilities;
-
-//using (AllocationManager.CreateStackScope())
-//{
-//    var array = new UnsafeArray<int>(10, Allocator.Stack);
-//    for (var i = 0; i < array.Count; i++)
-//    {
-//        array[i] = i;
-//    }
-
-//    foreach (var item in array.AsSpan())
-//    {
-//        Console.WriteLine(item);
-//    }
-//}
-
 using Misaki.HighPerformance.LowLevel.Buffer;
-using Misaki.HighPerformance.LowLevel.Utilities;
-AllocationManager.EnableDebugLayer();
-var arr1 = new Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<int>(10, Misaki.HighPerformance.LowLevel.Buffer.Allocator.Persistent);
-var arr2 = arr1;
-arr2.CopyFrom(arr1.AsSpan());
-//arr1.Dispose();
-try
+using Misaki.HighPerformance.LowLevel.Collections;
+
+using var scope = AllocationManager.CreateStackScope();
+var array = new UnsafeArray<int>(10, scope.AllocationHandle);
+for (var i = 0; i < array.Count; i++)
 {
-    arr2[0] = 42; // This should throw an exception because arr1 has been disposed.
-    //arr2.Dispose();
-    AllocationManager.Dispose();
+    array[i] = i;
 }
-catch (Exception ex)
+
+foreach (var item in array.AsSpan())
 {
-    Console.WriteLine($"Caught expected exception: {ex.Message}");
+    Console.WriteLine(item);
 }

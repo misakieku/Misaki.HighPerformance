@@ -1,6 +1,5 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
-using Misaki.HighPerformance.LowLevel.Contracts;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
@@ -78,7 +77,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     private readonly int _log2MinGrowth;
 
     private MemoryHandle _memoryHandle;
-    private AllocationHandle* _allocationHandle;
+    private AllocationHandle _allocationHandle;
 
     public const int MINIMAL_CAPACITY = 64;
 
@@ -90,7 +89,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public readonly bool IsEmpty => !IsCreated || _count == 0;
 
-    public readonly bool IsCreated => _buffer != null && _allocationHandle != null && _memoryHandle.IsValid;
+    public readonly bool IsCreated => _buffer != null && _allocationHandle.pAllocator != null && _memoryHandle.IsValid;
 
     private static int CalculateDataSize(int capacity, int bucketCapacity, int sizeOfTValue, out int outKeyOffset, out int outNextOffset, out int outBucketOffset)
     {
@@ -110,7 +109,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return totalSize;
     }
 
-    public HashMapHelper(int capacity, int sizeOfTValue, int alignOfTValue, uint minGrowth, ref AllocationHandle handle, AllocationOption allocationOption)
+    public HashMapHelper(int capacity, int sizeOfTValue, int alignOfTValue, uint minGrowth, AllocationHandle handle, AllocationOption allocationOption)
     {
         if (capacity <= 0)
         {
@@ -133,7 +132,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         _sizeOfTValue = sizeOfTValue;
         _log2MinGrowth = BitOperations.Log2(minGrowth);
 
-        _allocationHandle = (AllocationHandle*)Unsafe.AsPointer(ref handle);
+        _allocationHandle = handle;
 
         var totalSize = CalculateDataSize(_capacity, _bucketCapacity, sizeOfTValue,
             out var keyOffset, out var nextOffset, out var bucketOffset);
@@ -193,7 +192,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     private void AllocateBuffer(int totalSize, int keyOffset, int nextOffset, int bucketOffset, AllocationOption allocationOption)
     {
         MemoryHandle memHandle;
-        var buf = (byte*)_allocationHandle->Alloc(_allocationHandle->Allocator, (uint)totalSize, (nuint)_alignment, allocationOption, &memHandle);
+        var buf = (byte*)_allocationHandle.Alloc(_allocationHandle.pAllocator, (uint)totalSize, (nuint)_alignment, allocationOption, &memHandle);
 
         _buffer = buf;
         _keys = (TKey*)(_buffer + keyOffset);
@@ -229,7 +228,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             }
         }
 
-        _allocationHandle->Free(_allocationHandle->Allocator, oldBuffer, oldMemoryHandle);
+        _allocationHandle.Free(_allocationHandle.pAllocator, oldBuffer, oldMemoryHandle);
     }
 
     public void Resize(int newCapacity)
@@ -523,9 +522,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             return;
         }
 
-        if (_allocationHandle != null)
+        if (_allocationHandle.pAllocator != null)
         {
-            _allocationHandle->Free(_allocationHandle->Allocator, _buffer, _memoryHandle);
+            _allocationHandle.Free(_allocationHandle.pAllocator, _buffer, _memoryHandle);
         }
 
         _buffer = null;

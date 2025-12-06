@@ -1,6 +1,5 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
-using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
@@ -55,13 +54,13 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     {
     }
 
-    public UnsafeHashSet(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    public UnsafeHashSet(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        _helper = new HashMapHelper<T>(capacity, 0, 0, HashMapHelper<T>.MINIMAL_CAPACITY, ref handle, allocationOption);
+        _helper = new HashMapHelper<T>(capacity, 0, 0, HashMapHelper<T>.MINIMAL_CAPACITY, handle, allocationOption);
     }
 
     public UnsafeHashSet(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
-        : this(capacity, ref AllocationManager.GetAllocationHandle(allocator), allocationOption)
+        : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
     }
 

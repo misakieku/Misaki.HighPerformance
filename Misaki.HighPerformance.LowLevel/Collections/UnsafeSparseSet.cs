@@ -1,6 +1,5 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
-using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
@@ -81,18 +80,18 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// <param name="handle">A reference to an AllocationHandle that manages the memory allocation for the sparse set.</param>
     /// <param name="allocationOption">Specifies how the memory should be allocated.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified capacity is less than or equal to zero.</exception>
-    public UnsafeSparseSet(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    public UnsafeSparseSet(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
         if (capacity <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
         }
 
-        _dense = new UnsafeArray<T>(capacity, ref handle, allocationOption);
-        _generations = new UnsafeArray<int>(capacity, ref handle, allocationOption);
-        _sparse = new UnsafeArray<int>(capacity, ref handle, allocationOption);
-        _reverse = new UnsafeArray<int>(capacity, ref handle, allocationOption);
-        _freeSparse = new UnsafeStack<int>(capacity, ref handle, allocationOption);
+        _dense = new UnsafeArray<T>(capacity, handle, allocationOption);
+        _generations = new UnsafeArray<int>(capacity, handle, allocationOption);
+        _sparse = new UnsafeArray<int>(capacity, handle, allocationOption);
+        _reverse = new UnsafeArray<int>(capacity, handle, allocationOption);
+        _freeSparse = new UnsafeStack<int>(capacity, handle, allocationOption);
 
         if (!allocationOption.HasFlag(AllocationOption.Clear))
         {
@@ -115,7 +114,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// <param name="allocationOption">Determines how the memory should be allocated.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified capacity is less than or equal to zero.</exception>
     public UnsafeSparseSet(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
-        : this(capacity, ref AllocationManager.GetAllocationHandle(allocator), allocationOption)
+        : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
     }
 

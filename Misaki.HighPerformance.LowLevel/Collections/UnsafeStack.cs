@@ -1,6 +1,5 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
-using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
@@ -72,9 +71,9 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     /// <param name="capacity">The number of elements the stack can initially hold. Must be greater than zero.</param>
     /// <param name="handle">A reference to an AllocationHandle used to manage the underlying memory allocation for the stack.</param>
     /// <param name="allocationOption">Specifies additional options for memory allocation. The default is AllocationOption.None.</param>
-    public UnsafeStack(int capacity, ref AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    public UnsafeStack(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        _array = new UnsafeArray<T>(capacity, ref handle, allocationOption);
+        _array = new UnsafeArray<T>(capacity, handle, allocationOption);
     }
 
     /// <summary>
@@ -85,7 +84,7 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     /// <param name="allocator">The allocator to use for memory management of the stack's storage.</param>
     /// <param name="allocationOption">The allocation option that determines how memory is allocated for the stack. The default is AllocationOption.None.</param>
     public UnsafeStack(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
-        : this(capacity, ref AllocationManager.GetAllocationHandle(allocator), allocationOption)
+        : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
     }
 

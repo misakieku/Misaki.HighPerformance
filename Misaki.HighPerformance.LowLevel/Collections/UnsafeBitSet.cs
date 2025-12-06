@@ -1,5 +1,4 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
-using Misaki.HighPerformance.LowLevel.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -66,19 +65,19 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     /// <summary>
     /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
-    public UnsafeBitSet(int minimalLength, ref AllocationHandle handle, AllocationOption option = AllocationOption.None)
+    public UnsafeBitSet(int minimalLength, AllocationHandle handle, AllocationOption option = AllocationOption.None)
     {
         var uints = (minimalLength >> _INDEX_SIZE) + int.Sign(minimalLength & _BIT_SIZE);
         var length = RoundToPadding(uints);
 
-        _bits = new UnsafeArray<uint>(length, ref handle, option);
+        _bits = new UnsafeArray<uint>(length, handle, option);
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
     public UnsafeBitSet(int minimalLength, Allocator allocator, AllocationOption option = AllocationOption.None)
-        : this(minimalLength, ref AllocationManager.GetAllocationHandle(allocator), option)
+        : this(minimalLength, AllocationManager.GetAllocationHandle(allocator), option)
     {
     }
 
@@ -88,7 +87,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     public UnsafeBitSet(Span<uint> bits, Allocator allocator)
     {
         _bits = new UnsafeArray<uint>(bits.Length, allocator, AllocationOption.None);
-        _bits.CopyFrom(bits);
+        _bits.CopyFrom<UnsafeArray<uint>, uint>(bits);
 
         _highestBit = 0;
         _max = _bits.Count * (_BIT_SIZE + 1) - 1; // Calculate the maximum index in use

@@ -25,8 +25,4 @@ public enum Allocator : byte
     /// Allocator for persistent allocations. Allocations are not automatically released after use.
     /// </summary>
     Persistent,
-    /// <summary>
-    /// Allocator for stack allocations. Must have at least one active stack scope. Allocations are automatically released when the stack scope is exited.
-    /// </summary>
-    Stack
 }
