@@ -78,7 +78,7 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
         Interlocked.Decrement(ref selfPtr->_allocationsPerFrame[selfPtr->_currentFrameIndex]);
     }
 
-    public int IncrementFrame()
+    public int AdvanceFrame()
     {
         var allocations = Interlocked.Exchange(ref _allocationsPerFrame[_currentFrameIndex], 0);
 

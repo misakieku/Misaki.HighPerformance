@@ -6,12 +6,9 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
-/// <summary>
-/// Provides a mechanism for scheduling and executing jobs across multiple worker threads.
-/// </summary>
-public sealed unsafe class JobScheduler : IDisposable
+public unsafe partial class JobScheduler
 {
-    private static readonly TempJobAllocator* pTempAllocator;
+    public static readonly TempJobAllocator* pTempAllocator;
     public static AllocationHandle TempAllocatorHandle => pTempAllocator->Handle;
 
     static JobScheduler()
@@ -20,6 +17,21 @@ public sealed unsafe class JobScheduler : IDisposable
         pTempAllocator->Init();
     }
 
+    public static void ReleaseTempAllocator()
+    {
+        if (pTempAllocator != null)
+        {
+            pTempAllocator->Dispose();
+            MemoryUtility.Free(pTempAllocator);
+        }
+    }
+}
+
+/// <summary>
+/// Provides a mechanism for scheduling and executing jobs across multiple worker threads.
+/// </summary>
+public sealed unsafe partial class JobScheduler : IDisposable
+{
     private const int _SLEEP_THRESHOLD = 100;
 
     private FreeList _jobDataAllocator;
