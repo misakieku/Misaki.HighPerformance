@@ -2,9 +2,36 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
+
+internal class ConcurrentSparseSetDebugView<T>
+    where T : unmanaged
+{
+    private readonly UnsafeSparseSet<T> _set;
+    public ConcurrentSparseSetDebugView(UnsafeSparseSet<T> set)
+    {
+        _set = set;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public T[] Items
+    {
+        get
+        {
+            var items = new T[_set.Count];
+            var index = 0;
+            foreach (var item in _set)
+            {
+                items[index++] = item;
+            }
+
+            return items;
+        }
+    }
+}
 
 /// <summary>
 /// A sparse set data structure that provides O(1) insertion, deletion, and lookup operations.
@@ -13,6 +40,7 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 /// Sparse indices work like entity IDs and are automatically generated.
 /// </summary>
 /// <typeparam name="T">Represents a type that can be stored in the sparse set, constrained to unmanaged types for performance and safety.</typeparam>
+[DebuggerTypeProxy(typeof(ConcurrentSparseSetDebugView<>))]
 public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
@@ -57,7 +85,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     private int _nextId; // Next available sparse index
     private int _capacity;
 
-    public readonly int Count => _count;
+    public readonly int Count => _count - 1;
     public readonly int Capacity => _capacity;
     public readonly bool IsCreated => _dense.IsCreated && _sparse.IsCreated && _reverse.IsCreated;
 
@@ -103,7 +131,10 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         _nextId = 0;
         _capacity = capacity;
 
-        Clear();
+        _sparse.AsSpan().Fill(-1);
+        _generations.Clear();
+
+        Add(default, out _); // Make index 0 invalid
     }
 
     /// <summary>
@@ -147,7 +178,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         // Resize dense arrays if necessary
         if (_count >= _capacity)
         {
-            Resize((int)(_capacity * 1.5f));
+            Resize(Math.Max(1, _capacity * 2));
         }
 
         // Add the value to the dense array and update mappings
@@ -209,7 +240,8 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly bool Contains(int sparseIndex, int generation)
     {
-        if (sparseIndex < 0 || sparseIndex >= _sparse.Count)
+        // 0 is reserved as invalid index
+        if (sparseIndex <= 0 || sparseIndex >= _sparse.Count)
         {
             return false;
         }

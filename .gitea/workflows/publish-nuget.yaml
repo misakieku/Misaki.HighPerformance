@@ -22,29 +22,69 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build all projects
-        run: dotnet build -c Release
+      # Note: We skipped the global "Build all projects" step.
+      # dotnet pack will build automatically, and we only want to build/pack 
+      # the specific projects that strictly need updates.
 
-      - name: Pack all projects
+      - name: Check and Pack Projects
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_TOKEN }}
+          SOURCE_URL: "https://git.personalnas.com/api/packages/Misaki/nuget"
         run: |
+          mkdir -p ./artifacts
+          
           for projfile in $(find . -name "*.csproj"); do
-            if grep -q "<GeneratePackageOnBuild>True</GeneratePackageOnBuild>" "$projfile"; then
-              echo "Packing $projfile..."
+            # 1. Check if the project is configured to generate a package
+            GENERATE_PKG=$(dotnet build "$projfile" --getProperty:GeneratePackageOnBuild)
+            if [[ "$GENERATE_PKG" != "true" && "$GENERATE_PKG" != "True" ]]; then
+              continue
+            fi
+
+            # 2. Extract Package ID and Version efficiently
+            PACKAGE_ID=$(dotnet build "$projfile" --getProperty:PackageId)
+            VERSION=$(dotnet build "$projfile" --getProperty:Version)
+            
+            # Fallback: If PackageId is not explicitly set in csproj, use the filename
+            if [ -z "$PACKAGE_ID" ]; then
+              PACKAGE_ID=$(basename "$projfile" .csproj)
+            fi
+
+            echo "Checking $PACKAGE_ID version $VERSION..."
+
+            # 3. Check if version exists in Gitea Registry
+            # Convert ID to lowercase for URL consistency (NuGet V3 standard)
+            LOWER_ID=$(echo "$PACKAGE_ID" | tr '[:upper:]' '[:lower:]')
+            
+            # Gitea supports the NuGet V3 Registration endpoint
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+              -H "Authorization: token $NUGET_API_KEY" \
+              "${SOURCE_URL}/registration/${LOWER_ID}/${VERSION}.json")
+
+            if [ "$HTTP_CODE" -eq 200 ]; then
+              echo "✅ Version $VERSION of $PACKAGE_ID already exists. Skipping..."
+            else
+              echo "🆕 Version $VERSION of $PACKAGE_ID is new. Building and Packing..."
+              
+              # Build and Pack only this project
               if ! dotnet pack "$projfile" -c Release -o ./artifacts; then
-                echo "Failed to pack $projfile"
+                 echo "❌ Failed to pack $projfile"
+                 exit 1
               fi
             fi
           done
 
-      - name: Publish all packages
+      - name: Publish new packages
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_TOKEN }}
         run: |
-          for pkg in ./artifacts/*.nupkg; do
-            # Skip if no files exist (in case globs fail)
-            [ -e "$pkg" ] || continue
+          # If no packages were created (all skipped), exit gracefully
+          if [ ! -d "./artifacts" ] || [ -z "$(ls -A ./artifacts/*.nupkg 2>/dev/null)" ]; then
+            echo "No new packages to publish."
+            exit 0
+          fi
 
-            # Skip symbol packages if they exist
+          for pkg in ./artifacts/*.nupkg; do
+            # Skip symbol packages
             if [[ "$pkg" == *".symbols.nupkg" ]]; then
               continue
             fi

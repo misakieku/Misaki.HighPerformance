@@ -22,17 +22,10 @@
 
 //BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.CollectionBenchmark>();
 
+using Misaki.HighPerformance.Collections;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 
-using var scope = AllocationManager.CreateStackScope();
-var array = new UnsafeArray<int>(10, scope.AllocationHandle);
-for (var i = 0; i < array.Count; i++)
-{
-    array[i] = i;
-}
-
-foreach (var item in array.AsSpan())
-{
-    Console.WriteLine(item);
-}
+var csm = new ConcurrentSlotMap<int>();
+Console.WriteLine(csm.Contains(0, 0));
+Console.WriteLine(csm.Count == 0);

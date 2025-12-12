@@ -7,10 +7,38 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
+internal class UnsafeArrayDebugView<T>
+    where T : unmanaged
+{
+    private readonly UnsafeArray<T> _array;
+
+    public UnsafeArrayDebugView(UnsafeArray<T> array)
+    {
+        _array = array;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public T[] Items
+    {
+        get
+        {
+            var count = _array.Count;
+            var result = new T[count];
+            for (int i = 0; i < count; i++)
+            {
+                result[i] = _array[i];
+            }
+
+            return result;
+        }
+    }
+}
+
 /// <summary>
 /// A structure for managing an array of unmanaged types with unsafe memory operations.
 /// </summary>
 /// <typeparam name="T">Represents a type that can be stored in an unmanaged memory context.</typeparam>
+[DebuggerTypeProxy(typeof(UnsafeArrayDebugView<>))]
 public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     where T : unmanaged
 {

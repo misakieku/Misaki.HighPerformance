@@ -2,15 +2,43 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
+
+internal class UnsafeSlotMapDebugView<T>
+    where T : unmanaged
+{
+    private readonly UnsafeSlotMap<T> _slotMap;
+    public UnsafeSlotMapDebugView(UnsafeSlotMap<T> slotMap)
+    {
+        _slotMap = slotMap;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public T[] Items
+    {
+        get
+        {
+            var items = new List<T>(_slotMap.Count);
+            var enumerator = _slotMap.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                items.Add(enumerator.Current);
+            }
+
+            return items.ToArray();
+        }
+    }
+}
 
 /// <summary>
 /// Provides an unsafe, high-performance slot map for storing and managing unmanaged values, supporting fast insertion,
 /// removal, and lookup by slot index and generation.
 /// </summary>
 /// <typeparam name="T">The type of value to store in the slot map. Must be unmanaged.</typeparam>
+[DebuggerTypeProxy(typeof(UnsafeSlotMapDebugView<>))]
 public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
@@ -53,7 +81,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     private int _count;
     private int _capacity;
 
-    public readonly int Count => _count;
+    public readonly int Count => _count - 1;
     public readonly int Capacity => _capacity;
 
     public readonly bool IsCreated => _data.IsCreated && _generations.IsCreated && _freeSlots.IsCreated && _validBits.IsCreated;
@@ -88,7 +116,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         _data = new UnsafeArray<T>(capacity, handle, allocationOption);
         _generations = new UnsafeArray<int>(capacity, handle, allocationOption);
         _freeSlots = new UnsafeQueue<int>(capacity, handle, allocationOption);
-        _validBits = new UnsafeBitSet(GetBitSetCapacity(capacity), handle, allocationOption);
+        _validBits = new UnsafeBitSet(capacity, handle, allocationOption);
 
         if (!allocationOption.HasFlag(AllocationOption.Clear))
         {
@@ -98,6 +126,9 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
         _count = 0;
         _capacity = capacity;
+
+        // Add a default item for invalid slot
+        Add(default, out _);
     }
 
     /// <summary>
@@ -112,12 +143,6 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     {
     }
 
-    private static int GetBitSetCapacity(int capacity)
-    {
-        // Each uint32 can hold 32 bits.
-        return (capacity + 31) / 32;
-    }
-
     /// <summary>
     /// Adds the specified item to the collection and returns the index of the slot where it was stored.
     /// </summary>
@@ -128,7 +153,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     {
         if (_count >= _capacity)
         {
-            Resize((int)(_capacity * 1.5f));
+            Resize(Math.Max(1, _capacity * 2));
         }
 
         int index;
@@ -185,9 +210,10 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <param name="slotIndex">The zero-based index of the slot to check. Must be greater than or equal to 0 and less than the current capacity.</param>
     /// <param name="generation">The generation value to compare against the slot's generation.</param>
     /// <returns>true if the slot at the specified index is valid and its generation matches the specified value; otherwise, false.</returns>
-    public bool Contains(int slotIndex, int generation)
+    public readonly bool Contains(int slotIndex, int generation)
     {
-        if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
+        // 0 is reserved for invalid slot
+        if (slotIndex <= 0 || slotIndex >= _capacity)
         {
             return false;
         }
@@ -211,13 +237,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <returns>true if the element at the specified slot index and generation is found; otherwise, false.</returns>
     public readonly bool TryGetElementAt(int slotIndex, int generation, out T value)
     {
-        if (slotIndex < 0 || slotIndex >= _capacity)
-        {
-            value = default;
-            return false;
-        }
-
-        if (_generations[slotIndex] != generation)
+        if (!Contains(slotIndex, generation))
         {
             value = default;
             return false;
@@ -237,14 +257,9 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <exception cref="InvalidOperationException">Thrown when the specified slot is not occupied or the generation does not match.</exception>
     public readonly T GetElementAt(int slotIndex, int generation)
     {
-        if (slotIndex < 0 || slotIndex >= _capacity)
+        if (!Contains(slotIndex, generation))
         {
-            throw new ArgumentOutOfRangeException(nameof(slotIndex), "Slot index is out of range.");
-        }
-
-        if (!_validBits.IsSet(slotIndex) || _generations[slotIndex] != generation)
-        {
-            throw new InvalidOperationException($"Slot {slotIndex} is not occupied.");
+            throw new InvalidOperationException("The specified slot is not occupied or the generation does not match.");
         }
 
         return _data[slotIndex];
@@ -260,15 +275,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <returns>A reference to the element of type <typeparamref name="T"/> at the specified slot and generation if it exists; otherwise, a null reference.</returns>
     public ref T GetElementReferenceAt(int slotIndex, int generation, out bool exist)
     {
-        if (slotIndex < 0 || slotIndex >= _capacity)
-        {
-            exist = false;
-            return ref Unsafe.NullRef<T>();
-        }
-
-        ref var slot = ref _data[slotIndex];
-
-        if (!_validBits.IsSet(slotIndex) || _generations[slotIndex] != generation)
+        if (!Contains(slotIndex, generation))
         {
             exist = false;
             return ref Unsafe.NullRef<T>();
@@ -283,7 +290,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         _data.Resize(newSize, option);
         _generations.Resize(newSize, option);
         _freeSlots.Resize(newSize, option);
-        _validBits.Resize(GetBitSetCapacity(newSize), option);
+        _validBits.Resize(newSize, option);
 
         _capacity = newSize;
     }

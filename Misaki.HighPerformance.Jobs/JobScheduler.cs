@@ -9,6 +9,13 @@ namespace Misaki.HighPerformance.Jobs;
 public unsafe partial class JobScheduler
 {
     public static readonly TempJobAllocator* pTempAllocator;
+
+    /// <summary>
+    /// Gets the allocation handle for the temporary job allocator.
+    /// </summary>
+    /// <remarks>
+    /// You must dispose the allocation before the fourth time you call <see cref="TempJobAllocator.AdvanceFrame"/> after obtaining this handle.
+    /// </remarks>
     public static AllocationHandle TempAllocatorHandle => pTempAllocator->Handle;
 
     static JobScheduler()

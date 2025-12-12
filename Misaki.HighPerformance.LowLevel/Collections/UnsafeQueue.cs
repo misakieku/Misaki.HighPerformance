@@ -110,7 +110,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     {
         if (_count >= Capacity)
         {
-            Resize((int)(Capacity * 1.5f));
+            Resize(Math.Max(1, Capacity * 2));
         }
 
         UnsafeUtility.WriteArrayElement(_array.GetUnsafePtr(), (_offset + _count) % Capacity, value);

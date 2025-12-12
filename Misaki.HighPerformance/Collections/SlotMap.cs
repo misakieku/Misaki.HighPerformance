@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
@@ -17,14 +17,14 @@ public class SlotMap<T> : IEnumerable<T>
             _currentIndex = -1;
         }
 
-        public readonly T Current => _slotMap._data[_currentIndex].value;
+        public readonly T Current => _slotMap._data[_currentIndex];
         readonly object? IEnumerator.Current => Current;
 
         public bool MoveNext()
         {
             while (++_currentIndex < _slotMap._capacity)
             {
-                if (_slotMap._data[_currentIndex].isValid)
+                if (_slotMap._isOccupiedBits[_currentIndex])
                 {
                     return true;
                 }
@@ -40,14 +40,9 @@ public class SlotMap<T> : IEnumerable<T>
         }
     }
 
-    private struct SlotData
-    {
-        public T value;
-        public int generation;
-        public bool isValid;
-    }
-
-    private SlotData[] _data;
+    private T[] _data;
+    private int[] _generations;
+    private readonly BitArray _isOccupiedBits;
     private readonly Queue<int> _freeSlots;
 
     private int _count;
@@ -64,8 +59,12 @@ public class SlotMap<T> : IEnumerable<T>
     {
         _capacity = initialCapacity;
 
-        _data = new SlotData[initialCapacity];
+        _data = new T[initialCapacity];
+        _generations = new int[initialCapacity];
+        _isOccupiedBits = new BitArray(initialCapacity);
         _freeSlots = new(initialCapacity);
+
+        Add(default!, out _);
     }
 
     private void Resize()
@@ -73,6 +72,9 @@ public class SlotMap<T> : IEnumerable<T>
         var newCapacity = _capacity * 2;
 
         Array.Resize(ref _data, newCapacity);
+        Array.Resize(ref _generations, newCapacity);
+
+        _isOccupiedBits.Length = newCapacity;
         _freeSlots.EnsureCapacity(newCapacity);
 
         _capacity = newCapacity;
@@ -95,48 +97,23 @@ public class SlotMap<T> : IEnumerable<T>
             slotIndex = _freeSlots.Dequeue();
         }
 
-        ref var slot = ref _data[slotIndex];
-        slot.value = item;
-        slot.isValid = true;
-        generation = slot.generation;
+        _data[slotIndex] = item;
+        _isOccupiedBits[slotIndex] = true;
 
         _count++;
 
+        generation = _generations[slotIndex];
         return slotIndex;
     }
 
-    public bool Remove(int slotIndex, int generation)
+    public bool Contains(int slotIndex, int generation)
     {
-        if (slotIndex < 0 || slotIndex >= _capacity)
+        if (slotIndex <= 0 || slotIndex >= Volatile.Read(ref _capacity))
         {
             return false;
         }
 
-        ref var slot = ref _data[slotIndex];
-        if (slot.generation != generation)
-        {
-            return false;
-        }
-
-        slot.generation++;
-        slot.isValid = false;
-
-        _freeSlots.Enqueue(slotIndex);
-        _count--;
-
-        return true;
-    }
-
-    public bool Contain(int slotIndex, int generation)
-    {
-        if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
-        {
-            return false;
-        }
-
-        ref var slot = ref _data[slotIndex];
-
-        if (slot.isValid && slot.generation == generation)
+        if (_isOccupiedBits[slotIndex] && _generations[slotIndex] == generation)
         {
             return true;
         }
@@ -144,75 +121,65 @@ public class SlotMap<T> : IEnumerable<T>
         return false;
     }
 
+    public bool Remove(int slotIndex, int generation)
+    {
+        if (!Contains(slotIndex, generation))
+        {
+            return false;
+        }
+
+        _generations[slotIndex]++;
+        _isOccupiedBits[slotIndex] = false;
+
+        _freeSlots.Enqueue(slotIndex);
+        _count--;
+
+        return true;
+    }
+
     public bool TryGetElement(int slotIndex, int generation, [MaybeNullWhen(false)] out T value)
     {
-        if (slotIndex < 0 || slotIndex >= _capacity)
+        if (!Contains(slotIndex, generation))
         {
             value = default;
             return false;
         }
 
-        ref var slot = ref _data[slotIndex];
-        if (slot.generation != generation)
-        {
-            value = default;
-            return false;
-        }
-
-        value = slot.value;
+        value = _data[slotIndex];
         return true;
     }
 
     public T GetElementAt(int slotIndex, int generation)
     {
-        if (slotIndex < 0 || slotIndex >= _capacity)
+        if (!Contains(slotIndex, generation))
         {
-            throw new ArgumentOutOfRangeException(nameof(slotIndex), "Slot index is out of range.");
+            throw new InvalidOperationException($"Slot {slotIndex} is not occupied or generation mismatch.");
         }
 
-        ref var slot = ref _data[slotIndex];
-        if (!slot.isValid || slot.generation != generation)
-        {
-            throw new InvalidOperationException($"Slot {slotIndex} is not occupied.");
-        }
-
-        return slot.value;
+        return _data[slotIndex];
     }
 
     public ref T GetElementReferenceAt(int slotIndex, int generation, out bool exist)
     {
-        if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
-        {
-            exist = false;
-            return ref Unsafe.NullRef<T>();
-        }
-
-        ref var slot = ref _data[slotIndex];
-
-        if (!slot.isValid || slot.generation != generation)
+        if (!Contains(slotIndex, generation))
         {
             exist = false;
             return ref Unsafe.NullRef<T>();
         }
 
         exist = true;
-        return ref slot.value!;
+        return ref _data[slotIndex];
     }
 
-    public void UpdateElement(int slotIndex, int generation, T newValue)
+    public bool UpdateElement(int slotIndex, int generation, T newValue)
     {
-        if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
+        if (!Contains(slotIndex, generation))
         {
-            throw new ArgumentOutOfRangeException(nameof(slotIndex), "Slot index is out of range.");
+            return false;
         }
 
-        ref var slot = ref _data[slotIndex];
-        if (!slot.isValid || slot.generation != generation)
-        {
-            throw new InvalidOperationException($"Slot {slotIndex} is not occupied or generation mismatch.");
-        }
-
-        slot.value = newValue;
+        _data[slotIndex] = newValue;
+        return true;
     }
 
     public void Clear()

@@ -2,15 +2,43 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
+
+internal class UnsafeStackDebugView<T>
+    where T : unmanaged
+{
+    private readonly UnsafeStack<T> _stack;
+    public UnsafeStackDebugView(UnsafeStack<T> stack)
+    {
+        _stack = stack;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public unsafe T[] Items
+    {
+        get
+        {
+            var items = new T[_stack.Count];
+            var pItems = (T*)_stack.GetUnsafePtr();
+            for (int i = 0; i < _stack.Count; i++)
+            {
+                items[i] = pItems[i];
+            }
+
+            return items;
+        }
+    }
+}
 
 /// <summary>
 /// Provides a high-performance, unsafe stack data structure for unmanaged types, supporting manual memory management
 /// and allocation control.
 /// </summary>
 /// <typeparam name="T">The type of elements stored in the stack. Must be an unmanaged type.</typeparam>
+[DebuggerTypeProxy(typeof(UnsafeStackDebugView<>))]
 public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
@@ -96,7 +124,7 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     {
         if (_count >= Capacity)
         {
-            Resize((int)(Capacity * 1.5f));
+            Resize(Math.Max(1, Capacity * 2));
         }
 
         UnsafeUtility.WriteArrayElement(_array.GetUnsafePtr(), _count, value);

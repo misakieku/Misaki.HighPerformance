@@ -2,14 +2,40 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
+
+internal class UnsafeListDebugView<T>
+    where T : unmanaged
+{
+    private readonly UnsafeList<T> _list;
+    public UnsafeListDebugView(UnsafeList<T> list)
+    {
+        _list = list;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public T[] Items
+    {
+        get
+        {
+            var array = new T[_list.Count];
+            for (int i = 0; i < _list.Count; i++)
+            {
+                array[i] = _list[i];
+            }
+            return array;
+        }
+    }
+}
 
 /// <summary>
 /// A collection that allows for unsafe operations on a list of unmanaged types.
 /// </summary>
 /// <typeparam name="T">Represents a type that can be stored in the collection, constrained to unmanaged types for performance and safety.</typeparam>
+[DebuggerTypeProxy(typeof(UnsafeListDebugView<>))]
 public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
@@ -210,7 +236,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     {
         if (_count >= Capacity)
         {
-            Resize(Capacity + (int)(Capacity * 0.5f));
+            Resize(Math.Max(1, Capacity * 2));
         }
 
         UnsafeUtility.WriteArrayElement(_array.GetUnsafePtr(), _count, value);

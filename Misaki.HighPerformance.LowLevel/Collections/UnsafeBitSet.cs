@@ -1,5 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Utilities;
+using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -7,6 +8,31 @@ using System.Text;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
+internal class UnsafeBitSetDebugView
+{
+    private readonly UnsafeBitSet _bitSet;
+    public UnsafeBitSetDebugView(UnsafeBitSet bitSet)
+    {
+        _bitSet = bitSet;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public bool[] Bits
+    {
+        get
+        {
+            var bits = new bool[_bitSet.Count];
+            for (var i = 0; i < bits.Length; i++)
+            {
+                bits[i] = _bitSet.IsSet(i);
+            }
+
+            return bits;
+        }
+    }
+}
+
+[DebuggerTypeProxy(typeof(UnsafeBitSetDebugView))]
 public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
 {
     public ref struct Iterator
@@ -65,6 +91,9 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     /// <summary>
     /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
+    /// <param name="minimalLength">The minimal length in bits.</param>
+    /// <param name="handle">The allocation handle.</param>
+    /// <param name="option">The allocation option.</param>
     public UnsafeBitSet(int minimalLength, AllocationHandle handle, AllocationOption option = AllocationOption.None)
     {
         var uints = (minimalLength >> _INDEX_SIZE) + int.Sign(minimalLength & _BIT_SIZE);
