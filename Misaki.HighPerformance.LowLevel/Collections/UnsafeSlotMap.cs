@@ -288,7 +288,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
         _data.Resize(newSize, option);
-        _generations.Resize(newSize, option);
+        _generations.Resize(newSize, option | AllocationOption.Clear);
         _freeSlots.Resize(newSize, option);
         _validBits.Resize(newSize, option);
 
