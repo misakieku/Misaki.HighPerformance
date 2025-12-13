@@ -14,7 +14,7 @@ public class SlotMap<T> : IEnumerable<T>
         public Enumerator(SlotMap<T> slotMap)
         {
             _slotMap = slotMap;
-            _currentIndex = -1;
+            _currentIndex = 0;
         }
 
         public readonly T Current => _slotMap._data[_currentIndex];
@@ -33,7 +33,7 @@ public class SlotMap<T> : IEnumerable<T>
             return false;
         }
 
-        public void Reset() => _currentIndex = -1;
+        public void Reset() => _currentIndex = 0;
 
         public void Dispose()
         {
@@ -188,5 +188,7 @@ public class SlotMap<T> : IEnumerable<T>
 
         _data.AsSpan().Clear();
         _freeSlots.Clear();
+
+        Add(default!, out _);
     }
 }

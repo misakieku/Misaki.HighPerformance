@@ -26,7 +26,7 @@ public class SparseSet<T> : IEnumerable<T>
         public Enumerator(SparseSet<T> collection)
         {
             _collection = collection;
-            _currentIndex = -1;
+            _currentIndex = 0;
         }
 
         public bool MoveNext()
@@ -37,7 +37,7 @@ public class SparseSet<T> : IEnumerable<T>
 
         public void Reset()
         {
-            _currentIndex = -1;
+            _currentIndex = 0;
         }
 
         public readonly void Dispose()
@@ -55,7 +55,7 @@ public class SparseSet<T> : IEnumerable<T>
     private int _nextId; // Next available sparse index
     private int _capacity;
 
-    public int Count => _count;
+    public int Count => _count - 1;
     public int Capacity => _capacity;
 
     public Enumerator GetEnumerator() => new(this);
@@ -194,7 +194,7 @@ public class SparseSet<T> : IEnumerable<T>
     /// <param name="generation">The generation number to validate against the stored generation.</param>
     /// <param name="value">When this method returns, contains the value at the specified sparse index, if found.</param>
     /// <returns>True if the sparse index contains a value, false otherwise.</returns>
-    public bool TryGetValue(int sparseIndex, int generation,[MaybeNullWhen(false)] out T value)
+    public bool TryGetValue(int sparseIndex, int generation, [MaybeNullWhen(false)] out T value)
     {
         if (Contains(sparseIndex, generation))
         {
@@ -277,6 +277,8 @@ public class SparseSet<T> : IEnumerable<T>
 
         _count = 0;
         _nextId = 0;
+
+        Add(default!, out _);
     }
 
     /// <inheritdoc/>

@@ -54,7 +54,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         public Enumerator(UnsafeSlotMap<T>* collection)
         {
             _collection = collection;
-            _currentIndex = -1;
+            _currentIndex = 0;
         }
 
         public bool MoveNext()
@@ -65,7 +65,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
         public void Reset()
         {
-            _currentIndex = -1;
+            _currentIndex = 0;
         }
 
         public void Dispose()
@@ -302,6 +302,8 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         _validBits.ClearAll();
 
         _count = 0;
+
+        Add(default, out _);
     }
 
     public readonly void* GetUnsafePtr()
