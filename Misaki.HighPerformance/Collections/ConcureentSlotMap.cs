@@ -22,7 +22,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         public Enumerator(ConcurrentSlotMap<T> slotMap)
         {
             _slotMap = slotMap;
-            _currentIndex = -1;
+            _currentIndex = 0;
         }
 
         public readonly T Current => _slotMap._data[_currentIndex].value!;
@@ -42,7 +42,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
             return false;
         }
 
-        public void Reset() => _currentIndex = -1;
+        public void Reset() => _currentIndex = 0;
 
         public void Dispose()
         {
@@ -294,5 +294,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         }
 
         _freeSlots.Clear();
+
+        Add(default!, out _);
     }
 }

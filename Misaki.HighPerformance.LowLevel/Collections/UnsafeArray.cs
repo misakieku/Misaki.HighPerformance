@@ -80,6 +80,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     private AllocationHandle _allocationHandle;
 
     public readonly int Count => _count;
+    public readonly int Length => _count;
 
     public readonly ref T this[int index]
     {

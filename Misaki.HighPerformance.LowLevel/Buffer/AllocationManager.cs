@@ -261,7 +261,7 @@ public static unsafe class AllocationManager
     private static bool s_debugLayer;
     private static bool s_disposed;
 
-    private static AllocationHeader* s_liveHead;
+    private static AllocationHeader* s_pLiveHead;
     private static SpinLock s_liveLock;
 
     private readonly static ConcurrentSlotMap<IntPtr> s_allocations;
@@ -289,6 +289,8 @@ public static unsafe class AllocationManager
         s_pArenaAllocator->Init(_DEFAULT_MEMORY_POOL_SIZE);
         s_pHeapAllocator->Init();
         s_pStackAllocator->Init();
+
+        s_pLiveHead = null;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -321,12 +323,12 @@ public static unsafe class AllocationManager
         {
             s_liveLock.Enter(ref taken);
             header->prev = null;
-            header->next = s_liveHead;
-            if (s_liveHead != null)
+            header->next = s_pLiveHead;
+            if (s_pLiveHead != null)
             {
-                s_liveHead->prev = header;
+                s_pLiveHead->prev = header;
             }
-            s_liveHead = header;
+            s_pLiveHead = header;
         }
         finally
         {
@@ -353,7 +355,7 @@ public static unsafe class AllocationManager
             }
             else
             {
-                s_liveHead = next;
+                s_pLiveHead = next;
             }
 
             if (next != null)
@@ -638,10 +640,10 @@ public static unsafe class AllocationManager
             try
             {
                 s_liveLock.Enter(ref taken);
-                if (s_liveHead != null)
+                if (s_pLiveHead != null)
                 {
                     snapshot.Capacity = 128;
-                    for (var p = s_liveHead; p != null; p = p->next)
+                    for (var p = s_pLiveHead; p != null; p = p->next)
                     {
                         var trace = (StackTrace)HeaderGetHandle(p).Target!;
                         snapshot.Add(new AllocationInfo

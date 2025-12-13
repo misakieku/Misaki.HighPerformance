@@ -4,20 +4,14 @@ using System.Collections.Concurrent;
 namespace Misaki.HighPerformance.Test.UnitTest.Collections;
 
 [TestClass]
-public class TestConcurrentSlotMap
+public class TestSlotMap
 {
-    private ConcurrentSlotMap<int> _slotMap = null!;
-
-    public TestContext TestContext
-    {
-        get;
-        set;
-    }
+    private SlotMap<int> _slotMap = null!;
 
     [TestInitialize]
     public void Initialize()
     {
-        _slotMap = new ConcurrentSlotMap<int>();
+        _slotMap = new SlotMap<int>();
     }
 
     [TestMethod]
@@ -62,66 +56,5 @@ public class TestConcurrentSlotMap
         var slotIndex2 = _slotMap.Add(400, out var generation2);
         Assert.AreEqual(slotIndex1, slotIndex2);
         Assert.AreNotEqual(generation1, generation2);
-    }
-
-    [TestMethod]
-    public void TestConcurrentAdditions()
-    {
-        const int threadCount = 8;
-        const int itemsPerThread = 1000;
-        var tasks = new List<Task>();
-
-        for (int t = 0; t < threadCount; t++)
-        {
-            tasks.Add(Task.Run(() =>
-            {
-                for (int i = 0; i < itemsPerThread; i++)
-                {
-                    _slotMap.Add(i, out _);
-                }
-            }, TestContext.CancellationTokenSource.Token));
-        }
-
-        Task.WaitAll(tasks, TestContext.CancellationTokenSource.Token);
-        Assert.AreEqual(threadCount * itemsPerThread, _slotMap.Count);
-    }
-
-    [TestMethod]
-    public void TestConcurrentRandomAddRemove()
-    {
-        const int threadCount = 8;
-        const int operationsPerThread = 1000;
-
-        var tasks = new List<Task>();
-        var rand = new Random();
-        var addedItems = new ConcurrentBag<(int slotIndex, int generation)>();
-
-        var count = 0;
-
-        for (int t = 0; t < threadCount; t++)
-        {
-            tasks.Add(Task.Run(() =>
-            {
-                for (int i = 0; i < operationsPerThread; i++)
-                {
-                    if (rand.NextDouble() < 0.5)
-                    {
-                        var slotIndex = _slotMap.Add(i, out var generation);
-                        addedItems.Add((slotIndex, generation));
-
-                        Interlocked.Increment(ref count);
-                    }
-                    else if (addedItems.TryTake(out var item))
-                    {
-                        _slotMap.Remove(item.slotIndex, item.generation);
-                        Interlocked.Decrement(ref count);
-                    }
-                }
-            }, TestContext.CancellationTokenSource.Token));
-        }
-
-        Task.WaitAll(tasks, TestContext.CancellationTokenSource.Token);
-
-        Assert.AreEqual(count, _slotMap.Count);
     }
 }

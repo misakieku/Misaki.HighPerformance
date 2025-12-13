@@ -21,6 +21,12 @@ public class TestUnsafeSparseSet
     }
 
     [TestMethod]
+    public void InvalidID()
+    {
+        Assert.IsFalse(_sparseSet.Contains(0, 0));
+    }
+
+    [TestMethod]
     public void Add()
     {
         var id = _sparseSet.Add(10, out var gen);

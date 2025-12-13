@@ -26,6 +26,6 @@ using Misaki.HighPerformance.Collections;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 
-var csm = new UnsafeSlotMap<int>();
-Console.WriteLine(csm.Contains(0, 0));
-Console.WriteLine(csm.Count == 0);
+AllocationManager.EnableDebugLayer();
+using var csm = new UnsafeSlotMap<int>(4, Allocator.Persistent);
+AllocationManager.Dispose();

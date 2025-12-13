@@ -56,7 +56,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         public Enumerator(UnsafeSparseSet<T>* collection)
         {
             _collection = collection;
-            _currentIndex = -1;
+            _currentIndex = 0;
         }
 
         public bool MoveNext()
@@ -67,10 +67,10 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 
         public void Reset()
         {
-            _currentIndex = -1;
+            _currentIndex = 0;
         }
 
-        public readonly unsafe void Dispose()
+        public readonly void Dispose()
         {
         }
     }
@@ -345,6 +345,8 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 
         _count = 0;
         _nextId = 0;
+
+        Add(default, out _);
     }
 
     /// <inheritdoc/>
@@ -371,7 +373,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void* GetUnsafePtr()
     {
-        return _dense.GetUnsafePtr();
+        return (T*)_dense.GetUnsafePtr() + 1;
     }
 
     /// <summary>
