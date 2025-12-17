@@ -1,13 +1,13 @@
-﻿using Misaki.HighPerformance.Jobs;
-using Misaki.HighPerformance.LowLevel.Collections;
+using Misaki.HighPerformance.Jobs;
+using Misaki.HighPerformance.Mathematics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Test.Jobs;
 
-internal struct NoiseJob : IJobParallelFor
+internal unsafe struct NoiseJobVector : IJobParallelFor
 {
-    public UnsafeArray<float> buffers;
+    public float* buffers;
     public int width;
     public int height;
 
@@ -46,6 +46,45 @@ internal struct NoiseJob : IJobParallelFor
         var x = loopIndex % width;
         var y = loopIndex / height;
         var uv = new Vector2(x, y) / new Vector2(width, height);
+        buffers[loopIndex] = GradientNoise(uv);
+    }
+}
+
+internal unsafe struct NoiseJobMath : IJobParallelFor
+{
+    public float* buffers;
+    public int width;
+    public int height;
+
+    private static float2 GradientNoiseDirect(float2 uv)
+    {
+        uv.x %= 289;
+        uv.y %= 289;
+        var x = (34 * uv.x + 1) * uv.x % 289 + uv.y;
+        x = (34 * x + 1) * x % 289;
+        x = math.frac(x / 41) * 2 - 1;
+        return math.normalize(new float2(x - math.floor(x + 0.5f), math.abs(x) - 0.5f));
+    }
+
+    public static float GradientNoise(float2 uv)
+    {
+        var ip = new float2(math.floor(uv.x), math.floor(uv.y));
+        var fp = new float2(math.frac(uv.x), math.frac(uv.y));
+
+        var d00 = math.dot(GradientNoiseDirect(ip), fp);
+        var d01 = math.dot(GradientNoiseDirect(ip + new float2(0, 1)), fp - new float2(0, 1));
+        var d10 = math.dot(GradientNoiseDirect(ip + new float2(1, 0)), fp - new float2(1, 0));
+        var d11 = math.dot(GradientNoiseDirect(ip + new float2(1, 1)), fp - new float2(1, 1));
+
+        fp = fp * fp * fp * (fp * (fp * new float2(6.0f) - new float2(15.0f)) + new float2(10.0f));
+        return float.Lerp(float.Lerp(d00, d10, fp.y), float.Lerp(d01, d11, fp.y), fp.x);
+    }
+
+    public void Execute(int loopIndex, int threadIndex)
+    {
+        var x = loopIndex % width;
+        var y = loopIndex / height;
+        var uv = new float2(x, y) / new float2(width, height);
         buffers[loopIndex] = GradientNoise(uv);
     }
 }

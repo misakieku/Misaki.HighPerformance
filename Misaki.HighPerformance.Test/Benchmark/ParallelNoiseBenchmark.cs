@@ -1,4 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes;
 using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
@@ -32,11 +32,11 @@ public class ParallelNoiseBenchmark
     }
 
     [Benchmark]
-    public void JobSystem()
+    public unsafe void JobSystem()
     {
-        var job = new NoiseJob()
+        var job = new NoiseJobVector()
         {
-            buffers = _buffers,
+            buffers = (float*)_buffers.GetUnsafePtr(),
             width = _WIDTH,
             height = _HEIGHT
         };
@@ -53,7 +53,7 @@ public class ParallelNoiseBenchmark
             var x = i % _WIDTH;
             var y = i / _HEIGHT;
             var uv = new Vector2(x, y);
-            _buffers[i] = NoiseJob.GradientNoise(uv);
+            _buffers[i] = NoiseJobVector.GradientNoise(uv);
         });
     }
 
@@ -65,7 +65,7 @@ public class ParallelNoiseBenchmark
             var x = i % _WIDTH;
             var y = i / _HEIGHT;
             var uv = new Vector2(x, y);
-            _buffers[i] = NoiseJob.GradientNoise(uv);
+            _buffers[i] = NoiseJobVector.GradientNoise(uv);
         }
     }
 }

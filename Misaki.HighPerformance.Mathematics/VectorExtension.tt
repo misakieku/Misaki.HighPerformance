@@ -1,0 +1,75 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".gen.cs" #>
+using System.Numerics;
+using System.Runtime.CompilerServices;
+
+namespace Misaki.HighPerformance.Mathematics;
+
+public static class VectorExtension
+{
+<# static IEnumerable<(string property, bool canSet)> GenerateSwizzles(
+    string[] pool,
+    int maxLen)
+{
+    IEnumerable<(string property, bool canSet)> Recurse(string prefix, int depth)
+    {
+        if (depth == 0)
+        {
+            bool canSet = prefix.Distinct().Count() == prefix.Length;
+            yield return (prefix, canSet);
+        }
+        else
+        {
+            foreach (var c in pool)
+                foreach (var s in Recurse(prefix + c, depth - 1))
+                    yield return s;
+        }
+    }
+
+    for (int len = 2; len <= maxLen; len++)
+        foreach (var s in Recurse("", len))
+            yield return s;
+}
+
+void EmitVector(string typePrefix, string[] components)
+{
+    var swizzles = GenerateSwizzles(components, components.Length);
+#>
+    extension(<#= typePrefix + components.Length #> v)
+    {
+<#
+    foreach (var (property, canSet) in swizzles)
+    {
+        var targetDim = property.Length;
+        var targetStruct = $"{typePrefix}{targetDim}";
+#>
+        public <#= targetStruct #> <#= property #>
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get { return new(<#= string.Join(", ", property.Select(c => $"v.{c}")) #>); }
+<# if (canSet)
+        {
+            var assigns = string.Join(" ", property
+                .Select((c, i) => $"v.{c} = value.{components[i]};"));
+#>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            set { <#= assigns #> }
+<# } #>
+        }
+
+<# } #>
+    }
+
+<# } #>
+
+<#
+EmitVector("Vector", new[] { "X", "Y" });
+EmitVector("Vector", new[] { "X", "Y", "Z" });
+EmitVector("Vector", new[] { "X", "Y", "Z", "W" });
+#>
+
+}

@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics;
 
 namespace Misaki.HighPerformance.Mathematics;
 
@@ -940,7 +941,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int2 min(int2 x, int2 y)
     {
-        return new int2(min(x.x, y.x), min(x.y, y.y));
+        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asint2();
     }
 
     /// <summary>Returns the componentwise minimum of two int3 vectors.</summary>
@@ -950,7 +951,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int3 min(int3 x, int3 y)
     {
-        return new int3(min(x.x, y.x), min(x.y, y.y), min(x.z, y.z));
+        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asint3();
     }
 
     /// <summary>Returns the componentwise minimum of two int4 vectors.</summary>
@@ -960,7 +961,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int4 min(int4 x, int4 y)
     {
-        return new int4(min(x.x, y.x), min(x.y, y.y), min(x.z, y.z), min(x.w, y.w));
+        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asint4();
     }
 
 
@@ -981,7 +982,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint2 min(uint2 x, uint2 y)
     {
-        return new uint2(min(x.x, y.x), min(x.y, y.y));
+        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asuint2();
     }
 
     /// <summary>Returns the componentwise minimum of two uint3 vectors.</summary>
@@ -991,7 +992,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint3 min(uint3 x, uint3 y)
     {
-        return new uint3(min(x.x, y.x), min(x.y, y.y), min(x.z, y.z));
+        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asuint3();
     }
 
     /// <summary>Returns the componentwise minimum of two uint4 vectors.</summary>
@@ -1001,7 +1002,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint4 min(uint4 x, uint4 y)
     {
-        return new uint4(min(x.x, y.x), min(x.y, y.y), min(x.z, y.z), min(x.w, y.w));
+        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asuint4();
     }
 
 
@@ -1044,7 +1045,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 min(float2 x, float2 y)
     {
-        return new float2(min(x.x, y.x), min(x.y, y.y));
+        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the componentwise minimum of two float3 vectors.</summary>
@@ -1054,7 +1055,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 min(float3 x, float3 y)
     {
-        return new float3(min(x.x, y.x), min(x.y, y.y), min(x.z, y.z));
+        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the componentwise minimum of two float4 vectors.</summary>
@@ -1064,7 +1065,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 min(float4 x, float4 y)
     {
-        return new float4(min(x.x, y.x), min(x.y, y.y), min(x.z, y.z), min(x.w, y.w));
+        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asfloat4();
     }
 
 
@@ -1085,7 +1086,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 min(double2 x, double2 y)
     {
-        return new double2(min(x.x, y.x), min(x.y, y.y));
+        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the componentwise minimum of two double3 vectors.</summary>
@@ -1095,7 +1096,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 min(double3 x, double3 y)
     {
-        return new double3(min(x.x, y.x), min(x.y, y.y), min(x.z, y.z));
+        return Vector256.Min(x.AsVector256(), y.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the componentwise minimum of two double4 vectors.</summary>
@@ -1105,7 +1106,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 min(double4 x, double4 y)
     {
-        return new double4(min(x.x, y.x), min(x.y, y.y), min(x.z, y.z), min(x.w, y.w));
+        return Vector256.Min(x.AsVector256(), y.AsVector256()).Asdouble4();
     }
 
 
@@ -1126,7 +1127,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int2 max(int2 x, int2 y)
     {
-        return new int2(max(x.x, y.x), max(x.y, y.y));
+        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asint2();
     }
 
     /// <summary>Returns the componentwise maximum of two int3 vectors.</summary>
@@ -1136,7 +1137,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int3 max(int3 x, int3 y)
     {
-        return new int3(max(x.x, y.x), max(x.y, y.y), max(x.z, y.z));
+        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asint3();
     }
 
     /// <summary>Returns the componentwise maximum of two int4 vectors.</summary>
@@ -1146,7 +1147,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int4 max(int4 x, int4 y)
     {
-        return new int4(max(x.x, y.x), max(x.y, y.y), max(x.z, y.z), max(x.w, y.w));
+        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asint4();
     }
 
 
@@ -1167,7 +1168,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint2 max(uint2 x, uint2 y)
     {
-        return new uint2(max(x.x, y.x), max(x.y, y.y));
+        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asuint2();
     }
 
     /// <summary>Returns the componentwise maximum of two uint3 vectors.</summary>
@@ -1177,7 +1178,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint3 max(uint3 x, uint3 y)
     {
-        return new uint3(max(x.x, y.x), max(x.y, y.y), max(x.z, y.z));
+        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asuint3();
     }
 
     /// <summary>Returns the componentwise maximum of two uint4 vectors.</summary>
@@ -1187,7 +1188,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint4 max(uint4 x, uint4 y)
     {
-        return new uint4(max(x.x, y.x), max(x.y, y.y), max(x.z, y.z), max(x.w, y.w));
+        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asuint4();
     }
 
 
@@ -1230,7 +1231,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 max(float2 x, float2 y)
     {
-        return new float2(max(x.x, y.x), max(x.y, y.y));
+        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the componentwise maximum of two float3 vectors.</summary>
@@ -1240,7 +1241,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 max(float3 x, float3 y)
     {
-        return new float3(max(x.x, y.x), max(x.y, y.y), max(x.z, y.z));
+        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the componentwise maximum of two float4 vectors.</summary>
@@ -1250,7 +1251,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 max(float4 x, float4 y)
     {
-        return new float4(max(x.x, y.x), max(x.y, y.y), max(x.z, y.z), max(x.w, y.w));
+        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asfloat4();
     }
 
 
@@ -1271,7 +1272,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 max(double2 x, double2 y)
     {
-        return new double2(max(x.x, y.x), max(x.y, y.y));
+        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the componentwise maximum of two double3 vectors.</summary>
@@ -1281,7 +1282,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 max(double3 x, double3 y)
     {
-        return new double3(max(x.x, y.x), max(x.y, y.y), max(x.z, y.z));
+        return Vector256.Max(x.AsVector256(), y.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the componentwise maximum of two double4 vectors.</summary>
@@ -1291,7 +1292,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 max(double4 x, double4 y)
     {
-        return new double4(max(x.x, y.x), max(x.y, y.y), max(x.z, y.z), max(x.w, y.w));
+        return Vector256.Max(x.AsVector256(), y.AsVector256()).Asdouble4();
     }
 
 
@@ -1320,7 +1321,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 lerp(float2 start, float2 end, float t)
     {
-        return start + t * (end - start);
+        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), Vector128.Create(t)).Asfloat2();
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the interpolation parameter t.</summary>
@@ -1334,7 +1335,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 lerp(float3 start, float3 end, float t)
     {
-        return start + t * (end - start);
+        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), Vector128.Create(t)).Asfloat3();
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the interpolation parameter t.</summary>
@@ -1348,7 +1349,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 lerp(float4 start, float4 end, float t)
     {
-        return start + t * (end - start);
+        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), Vector128.Create(t)).Asfloat4();
     }
 
 
@@ -1363,7 +1364,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 lerp(float2 start, float2 end, float2 t)
     {
-        return start + t * (end - start);
+        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), t.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the corresponding components of the interpolation parameter t.</summary>
@@ -1377,7 +1378,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 lerp(float3 start, float3 end, float3 t)
     {
-        return start + t * (end - start);
+        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), t.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the corresponding components of the interpolation parameter t.</summary>
@@ -1391,7 +1392,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 lerp(float4 start, float4 end, float4 t)
     {
-        return start + t * (end - start);
+        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), t.AsVector128()).Asfloat4();
     }
 
 
@@ -1420,7 +1421,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 lerp(double2 start, double2 end, double t)
     {
-        return start + t * (end - start);
+        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), Vector128.Create(t)).Asdouble2();
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the interpolation parameter t.</summary>
@@ -1434,7 +1435,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 lerp(double3 start, double3 end, double t)
     {
-        return start + t * (end - start);
+        return Vector256.Lerp(start.AsVector256(), end.AsVector256(), Vector256.Create(t)).Asdouble3();
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the interpolation parameter t.</summary>
@@ -1448,7 +1449,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 lerp(double4 start, double4 end, double t)
     {
-        return start + t * (end - start);
+        return Vector256.Lerp(start.AsVector256(), end.AsVector256(), Vector256.Create(t)).Asdouble4();
     }
 
 
@@ -1463,7 +1464,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 lerp(double2 start, double2 end, double2 t)
     {
-        return start + t * (end - start);
+        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), t.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the corresponding components of the interpolation parameter t.</summary>
@@ -1477,7 +1478,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 lerp(double3 start, double3 end, double3 t)
     {
-        return start + t * (end - start);
+        return Vector256.Lerp(start.AsVector256(), end.AsVector256(), t.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the corresponding components of the interpolation parameter t.</summary>
@@ -1491,7 +1492,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 lerp(double4 start, double4 end, double4 t)
     {
-        return start + t * (end - start);
+        return Vector256.Lerp(start.AsVector256(), end.AsVector256(), t.AsVector256()).Asdouble4();
     }
 
 
@@ -1834,7 +1835,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 mad(float2 mulA, float2 mulB, float2 addC)
     {
-        return mulA * mulB + addC;
+        return Vector128.FusedMultiplyAdd(mulA.AsVector128(), mulB.AsVector128(), addC.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the result of a componentwise multiply-add operation (a * b + c) on 3 float3 vectors.</summary>
@@ -1850,7 +1851,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 mad(float3 mulA, float3 mulB, float3 addC)
     {
-        return mulA * mulB + addC;
+        return Vector128.FusedMultiplyAdd(mulA.AsVector128(), mulB.AsVector128(), addC.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the result of a componentwise multiply-add operation (a * b + c) on 3 float4 vectors.</summary>
@@ -1866,7 +1867,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 mad(float4 mulA, float4 mulB, float4 addC)
     {
-        return mulA * mulB + addC;
+        return Vector128.FusedMultiplyAdd(mulA.AsVector128(), mulB.AsVector128(), addC.AsVector128()).Asfloat4();
     }
 
 
@@ -1899,7 +1900,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 mad(double2 mulA, double2 mulB, double2 addC)
     {
-        return mulA * mulB + addC;
+        return Vector128.FusedMultiplyAdd(mulA.AsVector128(), mulB.AsVector128(), addC.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the result of a componentwise multiply-add operation (a * b + c) on 3 double3 vectors.</summary>
@@ -1915,7 +1916,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 mad(double3 mulA, double3 mulB, double3 addC)
     {
-        return mulA * mulB + addC;
+        return Vector256.FusedMultiplyAdd(mulA.AsVector256(), mulB.AsVector256(), addC.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the result of a componentwise multiply-add operation (a * b + c) on 3 double4 vectors.</summary>
@@ -1931,7 +1932,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 mad(double4 mulA, double4 mulB, double4 addC)
     {
-        return mulA * mulB + addC;
+        return Vector256.FusedMultiplyAdd(mulA.AsVector256(), mulB.AsVector256(), addC.AsVector256()).Asdouble4();
     }
 
 
@@ -1954,7 +1955,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int2 clamp(int2 valueToClamp, int2 lowerBound, int2 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asint2();
     }
 
     /// <summary>Returns the result of a componentwise clamping of the int3 x into the interval [a, b], where x, a and b are int3 vectors.</summary>
@@ -1965,7 +1966,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int3 clamp(int3 valueToClamp, int3 lowerBound, int3 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asint3();
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are int4 vectors.</summary>
@@ -1976,7 +1977,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int4 clamp(int4 valueToClamp, int4 lowerBound, int4 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asint4();
     }
 
 
@@ -1999,7 +2000,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint2 clamp(uint2 valueToClamp, uint2 lowerBound, uint2 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asuint2();
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are uint3 vectors.</summary>
@@ -2010,7 +2011,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint3 clamp(uint3 valueToClamp, uint3 lowerBound, uint3 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asuint3();
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are uint4 vectors.</summary>
@@ -2021,7 +2022,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint4 clamp(uint4 valueToClamp, uint4 lowerBound, uint4 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asuint4();
     }
 
 
@@ -2067,7 +2068,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 clamp(float2 valueToClamp, float2 lowerBound, float2 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are float3 vectors.</summary>
@@ -2078,7 +2079,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 clamp(float3 valueToClamp, float3 lowerBound, float3 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are float4 vectors.</summary>
@@ -2089,7 +2090,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 clamp(float4 valueToClamp, float4 lowerBound, float4 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asfloat4();
     }
 
 
@@ -2112,7 +2113,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 clamp(double2 valueToClamp, double2 lowerBound, double2 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are double3 vectors.</summary>
@@ -2123,7 +2124,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 clamp(double3 valueToClamp, double3 lowerBound, double3 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector256.Clamp(valueToClamp.AsVector256(), lowerBound.AsVector256(), upperBound.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are double4 vectors.</summary>
@@ -2134,7 +2135,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 clamp(double4 valueToClamp, double4 lowerBound, double4 upperBound)
     {
-        return max(lowerBound, min(upperBound, valueToClamp));
+        return Vector256.Clamp(valueToClamp.AsVector256(), lowerBound.AsVector256(), upperBound.AsVector256()).Asdouble4();
     }
 
 
@@ -2227,7 +2228,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int2 abs(int2 x)
     {
-        return max(-x, x);
+        return Vector128.Abs(x.AsVector128()).Asint2();
     }
 
     /// <summary>Returns the componentwise absolute value of a int3 vector.</summary>
@@ -2236,7 +2237,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int3 abs(int3 x)
     {
-        return max(-x, x);
+        return Vector128.Abs(x.AsVector128()).Asint3();
     }
 
     /// <summary>Returns the componentwise absolute value of a int4 vector.</summary>
@@ -2245,7 +2246,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int4 abs(int4 x)
     {
-        return max(-x, x);
+        return Vector128.Abs(x.AsVector128()).Asint4();
     }
 
     /// <summary>Returns the absolute value of a long value.</summary>
@@ -2349,7 +2350,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int dot(int2 x, int2 y)
     {
-        return x.x * y.x + x.y * y.y;
+        return Vector128.Dot(x.AsVector128(), y.AsVector128());
     }
 
     /// <summary>Returns the dot product of two int3 vectors.</summary>
@@ -2359,7 +2360,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int dot(int3 x, int3 y)
     {
-        return x.x * y.x + x.y * y.y + x.z * y.z;
+        return Vector128.Dot(x.AsVector128(), y.AsVector128());
     }
 
     /// <summary>Returns the dot product of two int4 vectors.</summary>
@@ -2369,7 +2370,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int dot(int4 x, int4 y)
     {
-        return x.x * y.x + x.y * y.y + x.z * y.z + x.w * y.w;
+        return Vector128.Dot(x.AsVector128(), y.AsVector128());
     }
 
 
@@ -2390,7 +2391,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint dot(uint2 x, uint2 y)
     {
-        return x.x * y.x + x.y * y.y;
+        return Vector128.Dot(x.AsVector128(), y.AsVector128());
     }
 
     /// <summary>Returns the dot product of two uint3 vectors.</summary>
@@ -2400,7 +2401,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint dot(uint3 x, uint3 y)
     {
-        return x.x * y.x + x.y * y.y + x.z * y.z;
+        return Vector128.Dot(x.AsVector128(), y.AsVector128());
     }
 
     /// <summary>Returns the dot product of two uint4 vectors.</summary>
@@ -2410,7 +2411,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint dot(uint4 x, uint4 y)
     {
-        return x.x * y.x + x.y * y.y + x.z * y.z + x.w * y.w;
+        return Vector128.Dot(x.AsVector128(), y.AsVector128());
     }
 
 
@@ -2431,7 +2432,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float dot(float2 x, float2 y)
     {
-        return x.x * y.x + x.y * y.y;
+        return Vector128.Dot(x.AsVector128(), y.AsVector128());
     }
 
     /// <summary>Returns the dot product of two float3 vectors.</summary>
@@ -2441,7 +2442,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float dot(float3 x, float3 y)
     {
-        return x.x * y.x + x.y * y.y + x.z * y.z;
+        return Vector128.Dot(x.AsVector128(), y.AsVector128());
     }
 
     /// <summary>Returns the dot product of two float4 vectors.</summary>
@@ -2451,7 +2452,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float dot(float4 x, float4 y)
     {
-        return x.x * y.x + x.y * y.y + x.z * y.z + x.w * y.w;
+        return Vector128.Dot(x.AsVector128(), y.AsVector128());
     }
 
 
@@ -2472,7 +2473,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double dot(double2 x, double2 y)
     {
-        return x.x * y.x + x.y * y.y;
+        return Vector128.Dot(x.AsVector128(), y.AsVector128());
     }
 
     /// <summary>Returns the dot product of two double3 vectors.</summary>
@@ -2482,7 +2483,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double dot(double3 x, double3 y)
     {
-        return x.x * y.x + x.y * y.y + x.z * y.z;
+        return Vector256.Dot(x.AsVector256(), y.AsVector256());
     }
 
     /// <summary>Returns the dot product of two double4 vectors.</summary>
@@ -2492,7 +2493,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double dot(double4 x, double4 y)
     {
-        return x.x * y.x + x.y * y.y + x.z * y.z + x.w * y.w;
+        return Vector256.Dot(x.AsVector256(), y.AsVector256());
     }
 
 
@@ -2815,7 +2816,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 cos(float2 x)
     {
-        return new float2(cos(x.x), cos(x.y));
+        return Vector128.Cos(x.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the componentwise cosine of a float3 vector.</summary>
@@ -2824,7 +2825,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 cos(float3 x)
     {
-        return new float3(cos(x.x), cos(x.y), cos(x.z));
+        return Vector128.Cos(x.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the componentwise cosine of a float4 vector.</summary>
@@ -2833,7 +2834,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 cos(float4 x)
     {
-        return new float4(cos(x.x), cos(x.y), cos(x.z), cos(x.w));
+        return Vector128.Cos(x.AsVector128()).Asfloat4();
     }
 
 
@@ -2852,7 +2853,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 cos(double2 x)
     {
-        return new double2(cos(x.x), cos(x.y));
+        return Vector128.Cos(x.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the componentwise cosine of a double3 vector.</summary>
@@ -2861,7 +2862,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 cos(double3 x)
     {
-        return new double3(cos(x.x), cos(x.y), cos(x.z));
+        return Vector256.Cos(x.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the componentwise cosine of a double4 vector.</summary>
@@ -2870,7 +2871,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 cos(double4 x)
     {
-        return new double4(cos(x.x), cos(x.y), cos(x.z), cos(x.w));
+        return Vector256.Cos(x.AsVector256()).Asdouble4();
     }
 
 
@@ -3037,7 +3038,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 sin(float2 x)
     {
-        return new float2(sin(x.x), sin(x.y));
+        return Vector128.Sin(x.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the componentwise sine of a float3 vector.</summary>
@@ -3046,7 +3047,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 sin(float3 x)
     {
-        return new float3(sin(x.x), sin(x.y), sin(x.z));
+        return Vector128.Sin(x.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the componentwise sine of a float4 vector.</summary>
@@ -3055,7 +3056,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 sin(float4 x)
     {
-        return new float4(sin(x.x), sin(x.y), sin(x.z), sin(x.w));
+        return Vector128.Sin(x.AsVector128()).Asfloat4();
     }
 
 
@@ -3074,7 +3075,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 sin(double2 x)
     {
-        return new double2(sin(x.x), sin(x.y));
+        return Vector128.Sin(x.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the componentwise sine of a double3 vector.</summary>
@@ -3083,7 +3084,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 sin(double3 x)
     {
-        return new double3(sin(x.x), sin(x.y), sin(x.z));
+        return Vector256.Sin(x.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the componentwise sine of a double4 vector.</summary>
@@ -3092,7 +3093,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 sin(double4 x)
     {
-        return new double4(sin(x.x), sin(x.y), sin(x.z), sin(x.w));
+        return Vector256.Sin(x.AsVector256()).Asdouble4();
     }
 
 
@@ -3259,7 +3260,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 floor(float2 x)
     {
-        return new float2(floor(x.x), floor(x.y));
+        return Vector128.Floor(x.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the result of rounding each component of a float3 vector value down to the nearest value less or equal to the original value.</summary>
@@ -3268,7 +3269,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 floor(float3 x)
     {
-        return new float3(floor(x.x), floor(x.y), floor(x.z));
+        return Vector128.Floor(x.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the result of rounding each component of a float4 vector value down to the nearest value less or equal to the original value.</summary>
@@ -3277,7 +3278,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 floor(float4 x)
     {
-        return new float4(floor(x.x), floor(x.y), floor(x.z), floor(x.w));
+        return Vector128.Floor(x.AsVector128()).Asfloat4();
     }
 
 
@@ -3296,7 +3297,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 floor(double2 x)
     {
-        return new double2(floor(x.x), floor(x.y));
+        return Vector128.Floor(x.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the result of rounding each component of a double3 vector value down to the nearest value less or equal to the original value.</summary>
@@ -3305,7 +3306,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 floor(double3 x)
     {
-        return new double3(floor(x.x), floor(x.y), floor(x.z));
+        return Vector256.Floor(x.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the result of rounding each component of a double4 vector value down to the nearest value less or equal to the original value.</summary>
@@ -3314,7 +3315,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 floor(double4 x)
     {
-        return new double4(floor(x.x), floor(x.y), floor(x.z), floor(x.w));
+        return Vector256.Floor(x.AsVector256()).Asdouble4();
     }
 
 
@@ -3333,7 +3334,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 ceil(float2 x)
     {
-        return new float2(ceil(x.x), ceil(x.y));
+        return Vector128.Ceiling(x.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the result of rounding each component of a float3 vector value up to the nearest value greater or equal to the original value.</summary>
@@ -3342,7 +3343,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 ceil(float3 x)
     {
-        return new float3(ceil(x.x), ceil(x.y), ceil(x.z));
+        return Vector128.Ceiling(x.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the result of rounding each component of a float4 vector value up to the nearest value greater or equal to the original value.</summary>
@@ -3351,7 +3352,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 ceil(float4 x)
     {
-        return new float4(ceil(x.x), ceil(x.y), ceil(x.z), ceil(x.w));
+        return Vector128.Ceiling(x.AsVector128()).Asfloat4();
     }
 
 
@@ -3370,7 +3371,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 ceil(double2 x)
     {
-        return new double2(ceil(x.x), ceil(x.y));
+        return Vector128.Ceiling(x.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the result of rounding each component of a double3 vector value up to the nearest integral value greater or equal to the original value..</summary>
@@ -3379,7 +3380,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 ceil(double3 x)
     {
-        return new double3(ceil(x.x), ceil(x.y), ceil(x.z));
+        return Vector256.Ceiling(x.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the result of rounding each component of a double4 vector value up to the nearest integral value greater or equal to the original value.</summary>
@@ -3388,7 +3389,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 ceil(double4 x)
     {
-        return new double4(ceil(x.x), ceil(x.y), ceil(x.z), ceil(x.w));
+        return Vector256.Ceiling(x.AsVector256()).Asdouble4();
     }
 
 
@@ -3407,7 +3408,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 round(float2 x)
     {
-        return new float2(round(x.x), round(x.y));
+        return Vector128.Round(x.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the result of rounding each component of a float3 vector value to the nearest integral value.</summary>
@@ -3416,7 +3417,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 round(float3 x)
     {
-        return new float3(round(x.x), round(x.y), round(x.z));
+        return Vector128.Round(x.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the result of rounding each component of a float4 vector value to the nearest integral value.</summary>
@@ -3425,7 +3426,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 round(float4 x)
     {
-        return new float4(round(x.x), round(x.y), round(x.z), round(x.w));
+        return Vector128.Round(x.AsVector128()).Asfloat4();
     }
 
 
@@ -3444,7 +3445,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 round(double2 x)
     {
-        return new double2(round(x.x), round(x.y));
+        return Vector128.Round(x.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the result of rounding each component of a double3 vector value to the nearest integral value.</summary>
@@ -3453,7 +3454,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 round(double3 x)
     {
-        return new double3(round(x.x), round(x.y), round(x.z));
+        return Vector256.Round(x.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the result of rounding each component of a double4 vector value to the nearest integral value.</summary>
@@ -3462,7 +3463,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 round(double4 x)
     {
-        return new double4(round(x.x), round(x.y), round(x.z), round(x.w));
+        return Vector256.Round(x.AsVector256()).Asdouble4();
     }
 
 
@@ -3481,7 +3482,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 trunc(float2 x)
     {
-        return new float2(trunc(x.x), trunc(x.y));
+        return Vector128.Truncate(x.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the result of a componentwise truncation of a float3 value to an integral float3 value.</summary>
@@ -3490,7 +3491,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 trunc(float3 x)
     {
-        return new float3(trunc(x.x), trunc(x.y), trunc(x.z));
+        return Vector128.Truncate(x.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the result of a componentwise truncation of a float4 value to an integral float4 value.</summary>
@@ -3499,7 +3500,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 trunc(float4 x)
     {
-        return new float4(trunc(x.x), trunc(x.y), trunc(x.z), trunc(x.w));
+        return Vector128.Truncate(x.AsVector128()).Asfloat4();
     }
 
 
@@ -3518,7 +3519,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 trunc(double2 x)
     {
-        return new double2(trunc(x.x), trunc(x.y));
+        return Vector128.Truncate(x.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the result of a componentwise truncation of a double3 value to an integral double3 value.</summary>
@@ -3527,7 +3528,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 trunc(double3 x)
     {
-        return new double3(trunc(x.x), trunc(x.y), trunc(x.z));
+        return Vector256.Truncate(x.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the result of a componentwise truncation of a double4 value to an integral double4 value.</summary>
@@ -3536,7 +3537,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 trunc(double4 x)
     {
-        return new double4(trunc(x.x), trunc(x.y), trunc(x.z), trunc(x.w));
+        return Vector256.Truncate(x.AsVector256()).Asdouble4();
     }
 
 
@@ -3894,7 +3895,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 exp(float2 x)
     {
-        return new float2(exp(x.x), exp(x.y));
+        return Vector128.Exp(x.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the componentwise base-e exponential of x.</summary>
@@ -3903,7 +3904,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 exp(float3 x)
     {
-        return new float3(exp(x.x), exp(x.y), exp(x.z));
+        return Vector128.Exp(x.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the componentwise base-e exponential of x.</summary>
@@ -3912,7 +3913,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 exp(float4 x)
     {
-        return new float4(exp(x.x), exp(x.y), exp(x.z), exp(x.w));
+        return Vector128.Exp(x.AsVector128()).Asfloat4();
     }
 
 
@@ -3931,7 +3932,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 exp(double2 x)
     {
-        return new double2(exp(x.x), exp(x.y));
+        return Vector128.Exp(x.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the componentwise base-e exponential of x.</summary>
@@ -3940,7 +3941,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 exp(double3 x)
     {
-        return new double3(exp(x.x), exp(x.y), exp(x.z));
+        return Vector256.Exp(x.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the componentwise base-e exponential of x.</summary>
@@ -3949,7 +3950,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 exp(double4 x)
     {
-        return new double4(exp(x.x), exp(x.y), exp(x.z), exp(x.w));
+        return Vector256.Exp(x.AsVector256()).Asdouble4();
     }
 
 
@@ -4116,7 +4117,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 log(float2 x)
     {
-        return new float2(log(x.x), log(x.y));
+        return Vector128.Log(x.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the componentwise natural logarithm of a float3 vector.</summary>
@@ -4125,7 +4126,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 log(float3 x)
     {
-        return new float3(log(x.x), log(x.y), log(x.z));
+        return Vector128.Log(x.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the componentwise natural logarithm of a float4 vector.</summary>
@@ -4134,7 +4135,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 log(float4 x)
     {
-        return new float4(log(x.x), log(x.y), log(x.z), log(x.w));
+        return Vector128.Log(x.AsVector128()).Asfloat4();
     }
 
 
@@ -4153,7 +4154,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 log(double2 x)
     {
-        return new double2(log(x.x), log(x.y));
+        return Vector128.Log(x.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the componentwise natural logarithm of a double3 vector.</summary>
@@ -4162,7 +4163,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 log(double3 x)
     {
-        return new double3(log(x.x), log(x.y), log(x.z));
+        return Vector256.Log(x.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the componentwise natural logarithm of a double4 vector.</summary>
@@ -4171,7 +4172,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 log(double4 x)
     {
-        return new double4(log(x.x), log(x.y), log(x.z), log(x.w));
+        return Vector256.Log(x.AsVector256()).Asdouble4();
     }
 
 
@@ -4190,7 +4191,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 log2(float2 x)
     {
-        return new float2(log2(x.x), log2(x.y));
+        return Vector128.Log2(x.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the componentwise base-2 logarithm of a float3 vector.</summary>
@@ -4199,7 +4200,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 log2(float3 x)
     {
-        return new float3(log2(x.x), log2(x.y), log2(x.z));
+        return Vector128.Log2(x.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the componentwise base-2 logarithm of a float4 vector.</summary>
@@ -4208,7 +4209,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 log2(float4 x)
     {
-        return new float4(log2(x.x), log2(x.y), log2(x.z), log2(x.w));
+        return Vector128.Log2(x.AsVector128()).Asfloat4();
     }
 
 
@@ -4227,7 +4228,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 log2(double2 x)
     {
-        return new double2(log2(x.x), log2(x.y));
+        return Vector128.Log2(x.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the componentwise base-2 logarithm of a double3 vector.</summary>
@@ -4236,7 +4237,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 log2(double3 x)
     {
-        return new double3(log2(x.x), log2(x.y), log2(x.z));
+        return Vector256.Log2(x.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the componentwise base-2 logarithm of a double4 vector.</summary>
@@ -4527,7 +4528,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 sqrt(float2 x)
     {
-        return new float2(sqrt(x.x), sqrt(x.y));
+        return Vector128.Sqrt(x.AsVector128()).Asfloat2();
     }
 
     /// <summary>Returns the componentwise square root of a float3 vector.</summary>
@@ -4536,7 +4537,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 sqrt(float3 x)
     {
-        return new float3(sqrt(x.x), sqrt(x.y), sqrt(x.z));
+        return Vector128.Sqrt(x.AsVector128()).Asfloat3();
     }
 
     /// <summary>Returns the componentwise square root of a float4 vector.</summary>
@@ -4545,7 +4546,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 sqrt(float4 x)
     {
-        return new float4(sqrt(x.x), sqrt(x.y), sqrt(x.z), sqrt(x.w));
+        return Vector128.Sqrt(x.AsVector128()).Asfloat4();
     }
 
 
@@ -4564,7 +4565,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 sqrt(double2 x)
     {
-        return new double2(sqrt(x.x), sqrt(x.y));
+        return Vector128.Sqrt(x.AsVector128()).Asdouble2();
     }
 
     /// <summary>Returns the componentwise square root of a double3 vector.</summary>
@@ -4573,7 +4574,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 sqrt(double3 x)
     {
-        return new double3(sqrt(x.x), sqrt(x.y), sqrt(x.z));
+        return Vector256.Sqrt(x.AsVector256()).Asdouble3();
     }
 
     /// <summary>Returns the componentwise square root of a double4 vector.</summary>
@@ -4582,7 +4583,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 sqrt(double4 x)
     {
-        return new double4(sqrt(x.x), sqrt(x.y), sqrt(x.z), sqrt(x.w));
+        return Vector256.Sqrt(x.AsVector256()).Asdouble4();
     }
 
 

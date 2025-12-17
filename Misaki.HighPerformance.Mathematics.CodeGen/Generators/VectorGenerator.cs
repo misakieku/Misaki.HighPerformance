@@ -7,7 +7,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
     internal class VectorGenerator : GeneratorBase
     {
         private int _vectorBitsSize;
-        private int _missingComponents;
+        private int _missingComponentsCount;
         private string _componentTypePrefix = null!;
 
         private readonly List<(string signature, List<string> assignment)> _constructorSignatures = new();
@@ -21,7 +21,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         protected override void Initialize()
         {
             var componentSize = typeInfo.ComponentSize;
-            var typeSize = componentSize * typeInfo.Row * typeInfo.Column;
+            var typeSize = componentSize * typeInfo.Row;
             var vectorBytesSize = typeSize switch
             {
                 //<= 8 => 8,
@@ -31,7 +31,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             };
 
             _vectorBitsSize = vectorBytesSize * 8;
-            _missingComponents = (vectorBytesSize - typeSize) / componentSize;
+            _missingComponentsCount = (vectorBytesSize - typeSize) / componentSize;
 
             _componentTypePrefix = typeInfo.ComponentTypeSymbol.SpecialType switch
             {
@@ -224,6 +224,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
                     var paramNames = new List<string>();
                     var paramList = new List<string>();
                     var assignments = new List<string>();
+
                     var fieldOffset = 0;
 
                     for (var i = 0; i < perm.Count; i++)
@@ -426,7 +427,6 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {INLINE_METHOD_ATTRIBUTE}
         public void operator +=({typeName} other)
         {{");
-
             for (var i = 0; i < typeInfo.Row; i++)
             {
                 sourceBuilder.Append($@"
@@ -759,7 +759,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             else
             {
                 sourceBuilder.Append($@"
-            return global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Create({string.Join(", ", Enumerable.Range(0, typeInfo.Row + _missingComponents).Select(i => i < typeInfo.Row ? $"value.{s_vectorComponents[i]}" : "default"))});");
+            return global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Create({string.Join(", ", Enumerable.Range(0, typeInfo.Row + _missingComponentsCount).Select(i => i < typeInfo.Row ? $"value.{s_vectorComponents[i]}" : "default"))});");
             }
             sourceBuilder.Append($@"
         }}

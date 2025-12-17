@@ -31,7 +31,7 @@
   <ItemGroup>
     <None Update="Collections\FixedText.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FixedText.cs</LastGenOutput>
+      <LastGenOutput>FixedText.gen.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Collections\FixedText.cs">
+    <Compile Update="Collections\FixedText.gen.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FixedText.tt</DependentUpon>

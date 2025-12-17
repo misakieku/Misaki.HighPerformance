@@ -19,6 +19,12 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             this.typeInfo = typeInfo;
             sourceBuilder.Clear();
 
+            var message = Validation();
+            if (message != null)
+            {
+                return message;
+            }
+
             Initialize();
 
             GenerateHeader();
@@ -43,6 +49,11 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {
             sourceBuilder.AppendLine($@"
 #endregion");
+        }
+
+        protected virtual string? Validation()
+        {
+            return null;
         }
 
         protected virtual void Initialize()

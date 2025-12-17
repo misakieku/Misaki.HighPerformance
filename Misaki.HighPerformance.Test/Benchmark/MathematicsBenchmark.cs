@@ -1,123 +1,168 @@
+#define VECTOR_BENCHMARK
+
 using BenchmarkDotNet.Attributes;
 using Misaki.HighPerformance.Mathematics;
+using Misaki.HighPerformance.Test.Jobs;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
 
 namespace Misaki.HighPerformance.Test.Benchmark;
 
 public unsafe class MathematicsBenchmark
 {
-    public struct f4
+    public struct f2
     {
-        private Vector128<float> _vec;
+        public float x;
+        public float y;
 
-        public f4(float x, float y, float z, float w)
+        public f2(float x, float y)
         {
-            _vec = Vector128.Create(x, y, z, w);
+            //this = Asf2(Vector128.Create(x, y, 0, 0));
+            this.x = x;
+            this.y = y;
         }
 
-        public f4(Vector128<float> vec)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector128<float> AsVector128Unsafe(f2 value)
         {
-            _vec = vec;
+            return Vector128.Create(value.x, value.y, 0, 0);
         }
 
-        public static f4 operator +(f4 a, f4 b)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static f2 Asf2(Vector128<float> value)
         {
-            var result = a._vec + b._vec;
-            return new f4(result);
+            //f2 result;
+            //result.x = value.GetElement(0);
+            //result.y = value.GetElement(1);
+            //return result;
+
+            ref byte address = ref Unsafe.As<Vector128<float>, byte>(ref value);
+            return Unsafe.ReadUnaligned<f2>(ref address);
+        }
+
+        public static f2 operator +(f2 lhs, f2 rhs)
+        {
+            //return Asf2(AsVector128Unsafe(lhs) + AsVector128Unsafe(rhs));
+            return new f2(lhs.x + rhs.x, lhs.y + rhs.y);
         }
     }
 
-    [Params(100)]
-    public int count;
+#if VECTOR_BENCHMARK
+    private Vector2 _v2a = new Vector2(1, 2);
+    private Vector2 _v2b = new Vector2(3, 4);
+
+    private f2 _f2a = new f2(1, 2);
+    private f2 _f2b = new f2(3, 4);
 
     [Benchmark]
-    public Vector2 Vector2Add()
+    public Vector2 VectorAdd()
     {
-        var a = new Vector2(1, 2);
-        var b = new Vector2(3, 4);
-        var c = new Vector2(5, 6);
+        var v = new Vector2(0, 0);
 
-        for (var i = 0; i < count; i++)
+        for (var i = 0; i < 10; i++)
         {
-            c += a + b;
+            v = _v2a + _v2b;
         }
 
-        return c;
-    }
-
-    [Benchmark]
-    public float2 Float2Add()
-    {
-        var a = new float2(1, 2);
-        var b = new float2(3, 4);
-        var c = new float2(5, 6);
-
-        for (var i = 0; i < count; i++)
-        {
-            c += a + b;
-        }
-
-        return c;
-    }
-
-    [Benchmark]
-    public Vector4 Vector4Add()
-    {
-        var a = new Vector4(1, 2, 3, 4);
-        var b = new Vector4(5, 6, 7, 8);
-        var result = new Vector4();
-
-        for (var i = 0; i < count; i++)
-        {
-            result += a + b;
-        }
-
-        return result;
+        return v;
     }
 
     [Benchmark]
-    public float4 Float4Add()
+    public f2 f2Add()
     {
-        var a = new float4(1, 2, 3, 4);
-        var b = new float4(5, 6, 7, 8);
-        var result = new float4();
+        var v = new f2(0, 0);
 
-        for (var i = 0; i < count; i++)
+        for (var i = 0; i < 10; i++)
         {
-            result += a + b;
+            v = _f2a + _f2b;
         }
 
-        return result;
+        return v;
+    }
+#endif
+
+#if NOISE_BENCHMARK
+
+    private const int _SIZE = 32;
+
+    [Benchmark]
+    public void VectorNoise()
+    {
+        var buf = stackalloc float[_SIZE * _SIZE];
+        var job = new Misaki.HighPerformance.Test.Jobs.NoiseJobVector
+        {
+            buffers = buf,
+            width = _SIZE,
+            height = _SIZE,
+        };
+
+        for (var i = 0; i < _SIZE * _SIZE; i++)
+        {
+            job.Execute(i, 0);
+        }
     }
 
     [Benchmark]
-    public f4 f4Add()
+    public void MathNoise()
     {
-        var a = new f4(1, 2, 3, 4);
-        var b = new f4(5, 6, 7, 8);
-        var result = new f4(0, 0, 0, 0);
-
-        for (var i = 0; i < count; i++)
+        var buf = stackalloc float[_SIZE * _SIZE];
+        var job = new Misaki.HighPerformance.Test.Jobs.NoiseJobMath
         {
-            result += a + b;
-        }
+            buffers = buf,
+            width = _SIZE,
+            height = _SIZE,
+        };
 
-        return result;
+        for (var i = 0; i < _SIZE * _SIZE; i++)
+        {
+            job.Execute(i, 0);
+        }
+    }
+#endif
+
+#if MATRIX_BENCHMARK
+    private float4x4 _a;
+    private float4x4 _b;
+    private Matrix4x4 _ma;
+    private Matrix4x4 _mb;
+
+    [GlobalSetup]
+    public void Init()
+    {
+        _a = new float4x4(
+            1, 2, 3, 4,
+            5, 6, 7, 8,
+            9, 10, 11, 12,
+            13, 14, 15, 16);
+        _b = new float4x4(
+            16, 15, 14, 13,
+            12, 11, 10, 9,
+            8, 7, 6, 5,
+            4, 3, 2, 1);
+
+        _ma = new Matrix4x4(
+            1, 2, 3, 4,
+            5, 6, 7, 8,
+            9, 10, 11, 12,
+            13, 14, 15, 16);
+        _mb = new Matrix4x4(
+            16, 15, 14, 13,
+            12, 11, 10, 9,
+            8, 7, 6, 5,
+            4, 3, 2, 1);
     }
 
     [Benchmark]
-    public Vector128<float> v128Add()
+    public float4x4 Float4x4Multiplication()
     {
-        var a = Vector128.Create(1f, 2f, 3f, 4f);
-        var b = Vector128.Create(5f, 6f, 7f, 8f);
-        var result = Vector128<float>.Zero;
-
-        for (var i = 0; i < count; i++)
-        {
-            result += a + b;
-        }
-
-        return result;
+        return math.mul(_a, _b);
     }
+
+    [Benchmark]
+    public Matrix4x4 Matrix4x4Multiplication()
+    {
+        return Matrix4x4.Multiply(_ma, _mb);
+    }
+#endif
 }

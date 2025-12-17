@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Misaki.HighPerformance.Mathematics.CodeGen.Generators;
 using Misaki.HighPerformance.Mathematics.CodeGen.Models;
+using System;
 using System.Linq;
 
 namespace Misaki.HighPerformance.Mathematics.CodeGen
@@ -25,10 +26,22 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen
                 foreach (var typeInfo in types)
                 {
                     if (typeInfo is null)
+                    {
                         continue;
+                    }
 
                     var generator = GetGenerator(typeInfo.Column);
-                    var source = generator.Generate(typeInfo);
+
+                    var source = string.Empty;
+                    try
+                    {
+                        source = generator.Generate(typeInfo);
+                    }
+                    catch (Exception ex)
+                    {
+                        source = $"{ex.Message}\n{ex.StackTrace}";
+                    }
+
                     spc.AddSource($"{typeInfo.TypeSymbol.Name}.g.cs", source);
                 }
             });
