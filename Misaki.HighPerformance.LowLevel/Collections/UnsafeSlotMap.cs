@@ -81,7 +81,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     private int _count;
     private int _capacity;
 
-    public readonly int Count => _count - 1;
+    public readonly int Count => _count;
     public readonly int Capacity => _capacity;
 
     public readonly bool IsCreated => _data.IsCreated && _generations.IsCreated && _freeSlots.IsCreated && _validBits.IsCreated;
@@ -126,9 +126,6 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
         _count = 0;
         _capacity = capacity;
-
-        // Add a default item for invalid slot
-        Add(default, out _);
     }
 
     /// <summary>
@@ -212,8 +209,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <returns>true if the slot at the specified index is valid and its generation matches the specified value; otherwise, false.</returns>
     public readonly bool Contains(int slotIndex, int generation)
     {
-        // 0 is reserved for invalid slot
-        if (slotIndex <= 0 || slotIndex >= _capacity)
+        if (slotIndex < 0 || slotIndex >= _capacity)
         {
             return false;
         }

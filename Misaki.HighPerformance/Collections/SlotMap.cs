@@ -63,8 +63,6 @@ public class SlotMap<T> : IEnumerable<T>
         _generations = new int[initialCapacity];
         _isOccupiedBits = new BitArray(initialCapacity);
         _freeSlots = new(initialCapacity);
-
-        Add(default!, out _);
     }
 
     private void Resize()
@@ -108,7 +106,7 @@ public class SlotMap<T> : IEnumerable<T>
 
     public bool Contains(int slotIndex, int generation)
     {
-        if (slotIndex <= 0 || slotIndex >= Volatile.Read(ref _capacity))
+        if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
         {
             return false;
         }

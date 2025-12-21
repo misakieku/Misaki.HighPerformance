@@ -55,7 +55,7 @@ public class SparseSet<T> : IEnumerable<T>
     private int _nextId; // Next available sparse index
     private int _capacity;
 
-    public int Count => _count - 1;
+    public int Count => _count;
     public int Capacity => _capacity;
 
     public Enumerator GetEnumerator() => new(this);
@@ -83,8 +83,6 @@ public class SparseSet<T> : IEnumerable<T>
         _count = 0;
         _nextId = 0;
         _capacity = capacity;
-
-        Add(default!, out _); // Reserve index 0
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -178,7 +176,7 @@ public class SparseSet<T> : IEnumerable<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Contains(int sparseIndex, int generation)
     {
-        if (sparseIndex <= 0 || sparseIndex >= _sparse.Length)
+        if (sparseIndex < 0 || sparseIndex >= _sparse.Length)
         {
             return false;
         }

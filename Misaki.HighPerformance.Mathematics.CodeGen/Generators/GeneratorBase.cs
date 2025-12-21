@@ -6,7 +6,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 {
     internal abstract class GeneratorBase
     {
-        protected const string INLINE_METHOD_ATTRIBUTE = "[global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining | global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveOptimization)]";
+        protected const string INLINE_METHOD_ATTRIBUTE = "[global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]";
 
         protected static readonly string[] s_matrixComponents = new[] { "c0", "c1", "c2", "c3" };
         protected static readonly string[] s_vectorComponents = new[] { "x", "y", "z", "w" };
@@ -19,10 +19,9 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             this.typeInfo = typeInfo;
             sourceBuilder.Clear();
 
-            var message = Validation();
-            if (message != null)
+            if (!Validation(out var message))
             {
-                return message;
+                return message ?? string.Empty;
             }
 
             Initialize();
@@ -51,9 +50,10 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 #endregion");
         }
 
-        protected virtual string? Validation()
+        protected virtual bool Validation(out string? message)
         {
-            return null;
+            message = null;
+            return true;
         }
 
         protected virtual void Initialize()

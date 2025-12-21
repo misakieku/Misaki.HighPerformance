@@ -1,9 +1,14 @@
-﻿namespace Misaki.HighPerformance.Image;
+namespace Misaki.HighPerformance.Image;
 
-public class AnimatedFrameResult : ImageResult
+public readonly struct AnimatedFrameResult
 {
+    public required ImageResult Image
+    {
+        get; init;
+    }
+
     public int DelayInMs
     {
-        get; set;
+        get; init;
     }
 }

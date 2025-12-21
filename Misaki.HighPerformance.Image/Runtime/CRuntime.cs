@@ -24,7 +24,9 @@ internal static unsafe class CRuntime
     public static void free(void* ptr)
     {
         if (ptr == null)
+        {
             return;
+        }
 
         NativeMemory.Free(ptr);
         MemoryStats.Freed();
@@ -54,7 +56,9 @@ internal static unsafe class CRuntime
         finally
         {
             if (temp != null)
+            {
                 free(temp);
+            }
         }
     }
 
@@ -66,7 +70,9 @@ internal static unsafe class CRuntime
         for (long i = 0; i < size; ++i)
         {
             if (*ap != *bp)
+            {
                 result += 1;
+            }
 
             ap++;
             bp++;
@@ -80,7 +86,9 @@ internal static unsafe class CRuntime
         var bptr = (byte*)ptr;
         var bval = (byte)value;
         for (long i = 0; i < size; ++i)
+        {
             *bptr++ = bval;
+        }
     }
 
     public static void memset(void* ptr, int value, ulong size)
@@ -96,7 +104,9 @@ internal static unsafe class CRuntime
     public static void* realloc(void* ptr, long newSize)
     {
         if (ptr == null)
+        {
             return malloc(newSize);
+        }
 
         var result = NativeMemory.Realloc(ptr, (nuint)newSize);
 

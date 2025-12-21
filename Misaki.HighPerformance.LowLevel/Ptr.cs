@@ -67,7 +67,7 @@ public readonly unsafe struct SharedPtr<T> : IEquatable<SharedPtr<T>>
 ///     Ensures that the pointer is not shared and can be safely transferred or detached.
 /// </summary>
 /// <remarks>
-/// UniquePtr<T> is designed to encapsulate a raw pointer, enforcing unique ownership semantics similar to C++'s std::unique_ptr.
+/// <see cref="UniquePtr{T}"/> is designed to encapsulate a raw pointer, enforcing unique ownership semantics similar to C++'s std::unique_ptr.
 /// </remarks>
 /// <typeparam name="T">The unmanaged type of the value to which the pointer refers.</typeparam>
 [NonCopyable]
@@ -172,5 +172,49 @@ public ref struct Ref<T>
     public static bool operator !=(Ref<T> left, Ref<T> right)
     {
         return !(left == right);
+    }
+}
+
+/// <summary>
+/// Provides a wrapper for a value type that implements <see cref="IDisposable"/>, ensuring proper disposal of the contained value.
+/// </summary>
+/// <remarks>The <see cref="Owner{T}"/> class manages the lifetime of the contained value by calling its
+///     <see cref="IDisposable.Dispose"/> method when the wrapper is disposed or finalized. After disposal, accessing the value
+///     will throw an <see cref="ObjectDisposedException"/>.</remarks>
+/// <typeparam name="T">The value type to wrap. Must be a struct that implements <see cref="IDisposable"/>.</typeparam>
+public class Owner<T> : IDisposable
+    where T : struct, IDisposable
+{
+    private T _value;
+
+    private bool _disposed;
+
+    public Owner(T value)
+    {
+        _value = value;
+    }
+
+    ~Owner()
+    {
+        Dispose();
+    }
+
+    public ref T Get()
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        return ref _value;
+    }
+
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _value.Dispose();
+
+        _disposed = true;
+        GC.SuppressFinalize(this);
     }
 }

@@ -1,12 +1,13 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Misaki.HighPerformance.Buffer
 {
-    public class ObjectPool<T> : IDisposable where T : class
+    public class ObjectPool<T> : IDisposable
+        where T : class
     {
         private readonly Func<T> _factory;
-        private readonly ConcurrentQueue<T> _objects = new();
+        private readonly ConcurrentQueue<T> _pool = new();
 
         private bool _disposed;
 
@@ -18,7 +19,6 @@ namespace Misaki.HighPerformance.Buffer
         public uint MaxSize
         {
             get;
-            private set;
         }
 
         public ObjectPool(Func<T> factory, uint initialSize = uint.MinValue, uint maxSize = uint.MaxValue)
@@ -32,7 +32,7 @@ namespace Misaki.HighPerformance.Buffer
             {
                 for (var i = 0; i < initialSize; i++)
                 {
-                    _objects.Enqueue(_factory());
+                    _pool.Enqueue(_factory());
                 }
             }
         }
@@ -45,21 +45,24 @@ namespace Misaki.HighPerformance.Buffer
         public T Rent()
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
-            if (_objects.TryDequeue(out var obj))
+            if (_pool.TryDequeue(out var obj))
             {
                 return obj;
             }
 
-            return _factory();
+            var newInstance = _factory();
+            _pool.Enqueue(newInstance);
+
+            return newInstance;
         }
 
         public bool TryRent([MaybeNullWhen(false)] out T obj)
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            if (!_objects.IsEmpty)
+            if (_pool.TryDequeue(out obj))
             {
-                return _objects.TryDequeue(out obj);
+                return true;
             }
 
             obj = null;
@@ -70,15 +73,15 @@ namespace Misaki.HighPerformance.Buffer
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            if (_objects.Count < MaxSize)
+            if (_pool.Count < MaxSize)
             {
-                _objects.Enqueue(obj);
+                _pool.Enqueue(obj);
             }
         }
 
         public void Reset()
         {
-            foreach (var obj in _objects)
+            foreach (var obj in _pool)
             {
                 if (obj is IDisposable disposable)
                 {
@@ -86,7 +89,7 @@ namespace Misaki.HighPerformance.Buffer
                 }
             }
 
-            _objects.Clear();
+            _pool.Clear();
             GC.Collect();
         }
 

@@ -28,32 +28,59 @@ namespace Misaki.HighPerformance.Image
             var h = 0;
             byte* _out_;
             if (stbi__get32be(s) != 0x38425053)
+            {
                 return (byte*)(ulong)(stbi__err("not PSD") != 0 ? 0 : 0);
+            }
+
             if (stbi__get16be(s) != 1)
+            {
                 return (byte*)(ulong)(stbi__err("wrong version") != 0 ? 0 : 0);
+            }
+
             stbi__skip(s, 6);
             channelCount = stbi__get16be(s);
             if (channelCount < 0 || channelCount > 16)
+            {
                 return (byte*)(ulong)(stbi__err("wrong channel count") != 0 ? 0 : 0);
+            }
+
             h = (int)stbi__get32be(s);
             w = (int)stbi__get32be(s);
             if (h > 1 << 24)
+            {
                 return (byte*)(ulong)(stbi__err("too large") != 0 ? 0 : 0);
+            }
+
             if (w > 1 << 24)
+            {
                 return (byte*)(ulong)(stbi__err("too large") != 0 ? 0 : 0);
+            }
+
             bitdepth = stbi__get16be(s);
             if (bitdepth != 8 && bitdepth != 16)
+            {
                 return (byte*)(ulong)(stbi__err("unsupported bit depth") != 0 ? 0 : 0);
+            }
+
             if (stbi__get16be(s) != 3)
+            {
                 return (byte*)(ulong)(stbi__err("wrong color format") != 0 ? 0 : 0);
+            }
+
             stbi__skip(s, (int)stbi__get32be(s));
             stbi__skip(s, (int)stbi__get32be(s));
             stbi__skip(s, (int)stbi__get32be(s));
             compression = stbi__get16be(s);
             if (compression > 1)
+            {
                 return (byte*)(ulong)(stbi__err("bad compression") != 0 ? 0 : 0);
+            }
+
             if (stbi__mad3sizes_valid(4, w, h, 0) == 0)
+            {
                 return (byte*)(ulong)(stbi__err("too large") != 0 ? 0 : 0);
+            }
+
             if (compression == 0 && bitdepth == 16 && bpc == 16)
             {
                 _out_ = (byte*)stbi__malloc_mad3(8, w, h, 0);
@@ -65,7 +92,10 @@ namespace Misaki.HighPerformance.Image
             }
 
             if (_out_ == null)
+            {
                 return (byte*)(ulong)(stbi__err("outofmem") != 0 ? 0 : 0);
+            }
+
             pixelCount = w * h;
             if (compression != 0)
             {
@@ -77,7 +107,9 @@ namespace Misaki.HighPerformance.Image
                     if (channel >= channelCount)
                     {
                         for (i = 0; i < pixelCount; i++, p += 4)
+                        {
                             *p = (byte)(channel == 3 ? 255 : 0);
+                        }
                     }
                     else
                     {
@@ -92,6 +124,7 @@ namespace Misaki.HighPerformance.Image
             else
             {
                 for (channel = 0; channel < 4; channel++)
+                {
                     if (channel >= channelCount)
                     {
                         if (bitdepth == 16 && bpc == 16)
@@ -99,14 +132,18 @@ namespace Misaki.HighPerformance.Image
                             var q = (ushort*)_out_ + channel;
                             var val = (ushort)(channel == 3 ? 65535 : 0);
                             for (i = 0; i < pixelCount; i++, q += 4)
+                            {
                                 *q = val;
+                            }
                         }
                         else
                         {
                             var p = _out_ + channel;
                             var val = (byte)(channel == 3 ? 255 : 0);
                             for (i = 0; i < pixelCount; i++, p += 4)
+                            {
                                 *p = val;
+                            }
                         }
                     }
                     else
@@ -115,24 +152,36 @@ namespace Misaki.HighPerformance.Image
                         {
                             var q = (ushort*)_out_ + channel;
                             for (i = 0; i < pixelCount; i++, q += 4)
+                            {
                                 *q = (ushort)stbi__get16be(s);
+                            }
                         }
                         else
                         {
                             var p = _out_ + channel;
                             if (bitdepth == 16)
+                            {
                                 for (i = 0; i < pixelCount; i++, p += 4)
+                                {
                                     *p = (byte)(stbi__get16be(s) >> 8);
+                                }
+                            }
                             else
+                            {
                                 for (i = 0; i < pixelCount; i++, p += 4)
+                                {
                                     *p = stbi__get8(s);
+                                }
+                            }
                         }
                     }
+                }
             }
 
             if (channelCount >= 4)
             {
                 if (ri->bits_per_channel == 16)
+                {
                     for (i = 0; i < w * h; ++i)
                     {
                         var pixel = (ushort*)_out_ + 4 * i;
@@ -146,7 +195,9 @@ namespace Misaki.HighPerformance.Image
                             pixel[2] = (ushort)(pixel[2] * ra + inv_a);
                         }
                     }
+                }
                 else
+                {
                     for (i = 0; i < w * h; ++i)
                     {
                         var pixel = _out_ + 4 * i;
@@ -160,20 +211,31 @@ namespace Misaki.HighPerformance.Image
                             pixel[2] = (byte)(pixel[2] * ra + inv_a);
                         }
                     }
+                }
             }
 
             if (req_comp != 0 && req_comp != 4)
             {
                 if (ri->bits_per_channel == 16)
+                {
                     _out_ = (byte*)stbi__convert_format16((ushort*)_out_, 4, req_comp, (uint)w, (uint)h);
+                }
                 else
+                {
                     _out_ = stbi__convert_format(_out_, 4, req_comp, (uint)w, (uint)h);
+                }
+
                 if (_out_ == null)
+                {
                     return _out_;
+                }
             }
 
             if (comp != null)
+            {
                 *comp = 4;
+            }
+
             *y = h;
             *x = w;
             return _out_;
@@ -185,11 +247,20 @@ namespace Misaki.HighPerformance.Image
             var dummy = 0;
             var depth = 0;
             if (x == null)
+            {
                 x = &dummy;
+            }
+
             if (y == null)
+            {
                 y = &dummy;
+            }
+
             if (comp == null)
+            {
                 comp = &dummy;
+            }
+
             if (stbi__get32be(s) != 0x38425053)
             {
                 stbi__rewind(s);
@@ -279,7 +350,10 @@ namespace Misaki.HighPerformance.Image
                 {
                     len++;
                     if (len > nleft)
+                    {
                         return 0;
+                    }
+
                     count += len;
                     while (len != 0)
                     {
@@ -293,7 +367,10 @@ namespace Misaki.HighPerformance.Image
                     byte val = 0;
                     len = 257 - len;
                     if (len > nleft)
+                    {
                         return 0;
+                    }
+
                     val = stbi__get8(s);
                     count += len;
                     while (len != 0)

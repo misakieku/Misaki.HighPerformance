@@ -52,7 +52,6 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             }
 
             GenerateConstructors();
-            GenerateUnsafeMethod();
             GenerateOverrideMethod();
             GenerateConvertionMethod();
 
@@ -95,13 +94,18 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             {INLINE_METHOD_ATTRIBUTE}
             get 
             {{
-#if ENABLE_COLLECTION_CHECKS
-                if (index < 0 || index >= {typeInfo.Row})
-                {{
-                    throw new global::System.ArgumentOutOfRangeException(nameof(index), $""Index {{index}} is out of range of '{typeInfo.TypeName}'"");
-                }}
-#endif
+                RangeCheck(index);
                 return ref (({typeInfo.ComponentTypeFullName}*)global::System.Runtime.CompilerServices.Unsafe.AsPointer(ref this))[index];
+            }}
+        }}");
+
+            sourceBuilder.AppendLine($@"
+        [global::System.Diagnostics.Conditional(""ENABLE_COLLECTION_CHECKS"")]
+        private void RangeCheck(int index)
+        {{
+            if (index < 0 || index >= {typeInfo.Row})
+            {{
+                throw new global::System.ArgumentOutOfRangeException(nameof(index), $""Index {{index}} is out of range of '{typeInfo.TypeName}'"");
             }}
         }}");
         }
@@ -295,28 +299,10 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             EndRegion();
         }
 
-        private void GenerateUnsafeMethod()
-        {
-            var componentType = typeInfo.ComponentTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-
-            StartRegion("Unsafe Methods");
-
-            sourceBuilder.AppendLine($@"
-        {INLINE_METHOD_ATTRIBUTE}
-        public unsafe {componentType}* AsPointer()
-        {{
-            return ({componentType}*)global::System.Runtime.CompilerServices.Unsafe.AsPointer(ref this);
-        }}
-
-        {INLINE_METHOD_ATTRIBUTE}
-        public unsafe global::System.Span<{componentType}> AsSpan()
-        {{
-            return new global::System.Span<{componentType}>(AsPointer(), {typeInfo.Row});
-        }}");
-        }
-
         private void GenerateOverrideMethod()
         {
+            StartRegion("Override Methods");
+
             var typeName = typeInfo.TypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
             var componentType = typeInfo.ComponentTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
             var components = s_vectorComponents.Take(typeInfo.Row).ToArray();
@@ -715,6 +701,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
                 var modifier = canSet ? "public" : "public readonly";
 
                 sourceBuilder.Append($@"
+        [global::System.Text.Json.Serialization.JsonIgnore]
         {modifier} {targetStruct} {property} 
         {{
             {INLINE_METHOD_ATTRIBUTE}

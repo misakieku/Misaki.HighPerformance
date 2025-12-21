@@ -45,13 +45,19 @@ namespace Misaki.HighPerformance.Image
             var a = new stbi__zbuf();
             var p = (sbyte*)stbi__malloc((ulong)initial_size);
             if (p == null)
+            {
                 return null;
+            }
+
             a.zbuffer = (byte*)buffer;
             a.zbuffer_end = (byte*)buffer + len;
             if (stbi__do_zlib(&a, p, initial_size, 1, 1) != 0)
             {
                 if (outlen != null)
+                {
                     *outlen = (int)(a.zout - a.zout_start);
+                }
+
                 return a.zout_start;
             }
 
@@ -65,13 +71,19 @@ namespace Misaki.HighPerformance.Image
             var a = new stbi__zbuf();
             var p = (sbyte*)stbi__malloc((ulong)initial_size);
             if (p == null)
+            {
                 return null;
+            }
+
             a.zbuffer = (byte*)buffer;
             a.zbuffer_end = (byte*)buffer + len;
             if (stbi__do_zlib(&a, p, initial_size, 1, parse_header) != 0)
             {
                 if (outlen != null)
+                {
                     *outlen = (int)(a.zout - a.zout_start);
+                }
+
                 return a.zout_start;
             }
 
@@ -90,7 +102,10 @@ namespace Misaki.HighPerformance.Image
             a.zbuffer = (byte*)ibuffer;
             a.zbuffer_end = (byte*)ibuffer + ilen;
             if (stbi__do_zlib(&a, obuffer, olen, 0, 1) != 0)
+            {
                 return (int)(a.zout - a.zout_start);
+            }
+
             return -1;
         }
 
@@ -99,13 +114,19 @@ namespace Misaki.HighPerformance.Image
             var a = new stbi__zbuf();
             var p = (sbyte*)stbi__malloc(16384);
             if (p == null)
+            {
                 return null;
+            }
+
             a.zbuffer = (byte*)buffer;
             a.zbuffer_end = (byte*)buffer + len;
             if (stbi__do_zlib(&a, p, 16384, 1, 0) != 0)
             {
                 if (outlen != null)
+                {
                     *outlen = (int)(a.zout - a.zout_start);
+                }
+
                 return a.zout_start;
             }
 
@@ -119,7 +140,10 @@ namespace Misaki.HighPerformance.Image
             a.zbuffer = (byte*)ibuffer;
             a.zbuffer_end = (byte*)ibuffer + ilen;
             if (stbi__do_zlib(&a, obuffer, olen, 0, 0) != 0)
+            {
                 return (int)(a.zout - a.zout_start);
+            }
+
             return -1;
         }
 
@@ -133,12 +157,18 @@ namespace Misaki.HighPerformance.Image
             CRuntime.memset(sizes, 0, (ulong)(17 * sizeof(int)));
             CRuntime.memset(z->fast, 0, (ulong)(512 * sizeof(ushort)));
             for (i = 0; i < num; ++i)
+            {
                 ++sizes[sizelist[i]];
+            }
 
             sizes[0] = 0;
             for (i = 1; i < 16; ++i)
+            {
                 if (sizes[i] > 1 << i)
+                {
                     return stbi__err("bad sizes");
+                }
+            }
 
             code = 0;
             for (i = 1; i < 16; ++i)
@@ -148,8 +178,13 @@ namespace Misaki.HighPerformance.Image
                 z->firstsymbol[i] = (ushort)k;
                 code = code + sizes[i];
                 if (sizes[i] != 0)
+                {
                     if (code - 1 >= 1 << i)
+                    {
                         return stbi__err("bad codelengths");
+                    }
+                }
+
                 z->maxcode[i] = code << (16 - i);
                 code <<= 1;
                 k += sizes[i];
@@ -211,7 +246,10 @@ namespace Misaki.HighPerformance.Image
         {
             uint k = 0;
             if (z->num_bits < n)
+            {
                 stbi__fill_bits(z);
+            }
+
             k = (uint)(z->code_buffer & ((1 << n) - 1));
             z->code_buffer >>= n;
             z->num_bits -= n;
@@ -225,16 +263,29 @@ namespace Misaki.HighPerformance.Image
             var k = 0;
             k = stbi__bit_reverse((int)a->code_buffer, 16);
             for (s = 9 + 1; ; ++s)
+            {
                 if (k < z->maxcode[s])
+                {
                     break;
+                }
+            }
 
             if (s >= 16)
+            {
                 return -1;
+            }
+
             b = (k >> (16 - s)) - z->firstcode[s] + z->firstsymbol[s];
             if (b >= 288)
+            {
                 return -1;
+            }
+
             if (z->size[b] != s)
+            {
                 return -1;
+            }
+
             a->code_buffer >>= s;
             a->num_bits -= s;
             return z->value[b];
@@ -284,21 +335,33 @@ namespace Misaki.HighPerformance.Image
             uint old_limit = 0;
             z->zout = zout;
             if (z->z_expandable == 0)
+            {
                 return stbi__err("output buffer limit");
+            }
+
             cur = (uint)(z->zout - z->zout_start);
             limit = old_limit = (uint)(z->zout_end - z->zout_start);
             if (0xffffffff - cur < (uint)n)
+            {
                 return stbi__err("outofmem");
+            }
+
             while (cur + n > limit)
             {
                 if (limit > 0xffffffff / 2)
+                {
                     return stbi__err("outofmem");
+                }
+
                 limit *= 2;
             }
 
             q = (sbyte*)CRuntime.realloc(z->zout_start, (ulong)limit);
             if (q == null)
+            {
                 return stbi__err("outofmem");
+            }
+
             z->zout_start = q;
             z->zout = q + cur;
             z->zout_end = q + limit;
@@ -314,11 +377,17 @@ namespace Misaki.HighPerformance.Image
                 if (z < 256)
                 {
                     if (z < 0)
+                    {
                         return stbi__err("bad huffman code");
+                    }
+
                     if (zout >= a->zout_end)
                     {
                         if (stbi__zexpand(a, zout, 1) == 0)
+                        {
                             return 0;
+                        }
+
                         zout = a->zout;
                     }
 
@@ -333,29 +402,49 @@ namespace Misaki.HighPerformance.Image
                     {
                         a->zout = zout;
                         if (a->hit_zeof_once != 0 && a->num_bits < 16)
+                        {
                             return stbi__err("unexpected end");
+                        }
 
                         return 1;
                     }
 
                     if (z >= 286)
+                    {
                         return stbi__err("bad huffman code");
+                    }
+
                     z -= 257;
                     len = stbi__zlength_base[z];
                     if (stbi__zlength_extra[z] != 0)
+                    {
                         len += (int)stbi__zreceive(a, stbi__zlength_extra[z]);
+                    }
+
                     z = stbi__zhuffman_decode(a, &a->z_distance);
                     if (z < 0 || z >= 30)
+                    {
                         return stbi__err("bad huffman code");
+                    }
+
                     dist = stbi__zdist_base[z];
                     if (stbi__zdist_extra[z] != 0)
+                    {
                         dist += (int)stbi__zreceive(a, stbi__zdist_extra[z]);
+                    }
+
                     if (zout - a->zout_start < dist)
+                    {
                         return stbi__err("bad dist");
+                    }
+
                     if (len > a->zout_end - zout)
                     {
                         if (stbi__zexpand(a, zout, len) == 0)
+                        {
                             return 0;
+                        }
+
                         zout = a->zout;
                     }
 
@@ -364,18 +453,22 @@ namespace Misaki.HighPerformance.Image
                     {
                         var v = *p;
                         if (len != 0)
+                        {
                             do
                             {
                                 *zout++ = (sbyte)v;
                             } while (--len != 0);
+                        }
                     }
                     else
                     {
                         if (len != 0)
+                        {
                             do
                             {
                                 *zout++ = (sbyte)*p++;
                             } while (--len != 0);
+                        }
                     }
                 }
             }
@@ -400,13 +493,19 @@ namespace Misaki.HighPerformance.Image
             }
 
             if (stbi__zbuild_huffman(&z_codelength, codelength_sizes, 19) == 0)
+            {
                 return 0;
+            }
+
             n = 0;
             while (n < ntot)
             {
                 var c = stbi__zhuffman_decode(a, &z_codelength);
                 if (c < 0 || c >= 19)
+                {
                     return stbi__err("bad codelengths");
+                }
+
                 if (c < 16)
                 {
                     lencodes[n++] = (byte)c;
@@ -418,7 +517,10 @@ namespace Misaki.HighPerformance.Image
                     {
                         c = (int)(stbi__zreceive(a, 2) + 3);
                         if (n == 0)
+                        {
                             return stbi__err("bad codelengths");
+                        }
+
                         fill = lencodes[n - 1];
                     }
                     else if (c == 17)
@@ -435,18 +537,30 @@ namespace Misaki.HighPerformance.Image
                     }
 
                     if (ntot - n < c)
+                    {
                         return stbi__err("bad codelengths");
+                    }
+
                     CRuntime.memset(lencodes + n, fill, (ulong)c);
                     n += c;
                 }
             }
 
             if (n != ntot)
+            {
                 return stbi__err("bad codelengths");
+            }
+
             if (stbi__zbuild_huffman(&a->z_length, lencodes, hlit) == 0)
+            {
                 return 0;
+            }
+
             if (stbi__zbuild_huffman(&a->z_distance, lencodes + hlit, hdist) == 0)
+            {
                 return 0;
+            }
+
             return 1;
         }
 
@@ -457,7 +571,10 @@ namespace Misaki.HighPerformance.Image
             var nlen = 0;
             var k = 0;
             if ((a->num_bits & 7) != 0)
+            {
                 stbi__zreceive(a, a->num_bits & 7);
+            }
+
             k = 0;
             while (a->num_bits > 0)
             {
@@ -467,19 +584,35 @@ namespace Misaki.HighPerformance.Image
             }
 
             if (a->num_bits < 0)
+            {
                 return stbi__err("zlib corrupt");
+            }
+
             while (k < 4)
+            {
                 header[k++] = stbi__zget8(a);
+            }
 
             len = header[1] * 256 + header[0];
             nlen = header[3] * 256 + header[2];
             if (nlen != (len ^ 0xffff))
+            {
                 return stbi__err("zlib corrupt");
+            }
+
             if (a->zbuffer + len > a->zbuffer_end)
+            {
                 return stbi__err("read past buffer");
+            }
+
             if (a->zout + len > a->zout_end)
+            {
                 if (stbi__zexpand(a, a->zout, len) == 0)
+                {
                     return 0;
+                }
+            }
+
             CRuntime.memcpy(a->zout, a->zbuffer, (ulong)len);
             a->zbuffer += len;
             a->zout += len;
@@ -492,13 +625,25 @@ namespace Misaki.HighPerformance.Image
             var cm = cmf & 15;
             int flg = stbi__zget8(a);
             if (stbi__zeof(a) != 0)
+            {
                 return stbi__err("bad zlib header");
+            }
+
             if ((cmf * 256 + flg) % 31 != 0)
+            {
                 return stbi__err("bad zlib header");
+            }
+
             if ((flg & 32) != 0)
+            {
                 return stbi__err("no preset dict");
+            }
+
             if (cm != 8)
+            {
                 return stbi__err("bad compression");
+            }
+
             return 1;
         }
 
@@ -507,8 +652,13 @@ namespace Misaki.HighPerformance.Image
             var final = 0;
             var type = 0;
             if (parse_header != 0)
+            {
                 if (stbi__parse_zlib_header(a) == 0)
+                {
                     return 0;
+                }
+            }
+
             a->num_bits = 0;
             a->code_buffer = 0;
             a->hit_zeof_once = 0;
@@ -519,7 +669,9 @@ namespace Misaki.HighPerformance.Image
                 if (type == 0)
                 {
                     if (stbi__parse_uncompressed_block(a) == 0)
+                    {
                         return 0;
+                    }
                 }
                 else if (type == 3)
                 {
@@ -532,23 +684,31 @@ namespace Misaki.HighPerformance.Image
                         fixed (byte* b = stbi__zdefault_length)
                         {
                             if (stbi__zbuild_huffman(&a->z_length, b, 288) == 0)
+                            {
                                 return 0;
+                            }
                         }
 
                         fixed (byte* b = stbi__zdefault_distance)
                         {
                             if (stbi__zbuild_huffman(&a->z_distance, b, 32) == 0)
+                            {
                                 return 0;
+                            }
                         }
                     }
                     else
                     {
                         if (stbi__compute_huffman_codes(a) == 0)
+                        {
                             return 0;
+                        }
                     }
 
                     if (stbi__parse_huffman_block(a) == 0)
+                    {
                         return 0;
+                    }
                 }
             } while (final == 0);
 

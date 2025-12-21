@@ -15,12 +15,16 @@ internal class AnimatedGifEnumerator : IEnumerator<AnimatedFrameResult>
     public AnimatedGifEnumerator(Stream input, ColorComponents colorComponents)
     {
         if (input == null)
+        {
             throw new ArgumentNullException("input");
+        }
 
         _context = new StbImage.stbi__context(input);
 
         if (StbImage.stbi__gif_test(_context) == 0)
+        {
             throw new Exception("Input stream is not GIF file.");
+        }
 
         _gif = new StbImage.stbi__gif();
         _colorComponents = colorComponents;
@@ -60,18 +64,25 @@ internal class AnimatedGifEnumerator : IEnumerator<AnimatedFrameResult>
         byte two_back;
         var result = StbImage.stbi__gif_load_next(_context, _gif, &ccomp, (int)ColorComponents, &two_back);
         if (result == null)
-            return false;
-
-        Current ??= new AnimatedFrameResult
         {
-            Data = result,
-            Width = (uint)_gif.w,
-            Height = (uint)_gif.h,
-            SourceComp = (ColorComponents)ccomp,
-            Comp = ColorComponents == ColorComponents.Default ? (ColorComponents)ccomp : ColorComponents
-        };
+            return false;
+        }
 
-        Current.DelayInMs = _gif.delay;
+        if (Current.Image.Data == null)
+        {
+            Current = new AnimatedFrameResult
+            {
+                Image = new ImageResult
+                {
+                    Data = result,
+                    Width = (uint)_gif.w,
+                    Height = (uint)_gif.h,
+                    SourceComp = (ColorComponents)ccomp,
+                    Comp = ColorComponents == ColorComponents.Default ? (ColorComponents)ccomp : ColorComponents,
+                },
+                DelayInMs = _gif.delay
+            };
+        }
 
         return true;
     }

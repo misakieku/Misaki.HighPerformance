@@ -1,10 +1,17 @@
-﻿using Misaki.HighPerformance.Image.Runtime;
+using Misaki.HighPerformance.Image.Runtime;
 using System;
 using System.IO;
 
 namespace Misaki.HighPerformance.Image;
 
-public unsafe class ImageResultFloat : IDisposable
+/// <summary>
+/// Represents a decoded image with pixel data stored as floating-point values, including image dimensions and color
+/// component information.
+/// </summary>
+/// <remarks>The image data is stored as a contiguous block of unmanaged memory and must be released by calling
+///     <see cref="Dispose"/> when no longer needed. Be careful that this struct won't stop your double free if you copy it.
+///     Ensure to have proper ownership management when using this struct.</remarks>
+public unsafe readonly struct ImageResultFloat : IDisposable
 {
     public float* Data
     {
@@ -44,7 +51,7 @@ public unsafe class ImageResultFloat : IDisposable
         }
     }
 
-    internal static unsafe ImageResultFloat FromResult(float* result, uint width, uint height, ColorComponents comp,
+    internal static ImageResultFloat FromResult(float* result, uint width, uint height, ColorComponents comp,
         ColorComponents req_comp)
     {
         if (result == null)
@@ -64,13 +71,11 @@ public unsafe class ImageResultFloat : IDisposable
         return image;
     }
 
-    public static unsafe ImageResultFloat FromStream(Stream stream,
+    public static ImageResultFloat FromStream(Stream stream,
         ColorComponents requiredComponents = ColorComponents.Default)
     {
         int x, y, comp;
-
         var context = new StbImage.stbi__context(stream);
-
         var result = StbImage.stbi__loadf_main(context, &x, &y, &comp, (int)requiredComponents);
 
         return FromResult(result, (uint)x, (uint)y, (ColorComponents)comp, requiredComponents);
@@ -79,10 +84,8 @@ public unsafe class ImageResultFloat : IDisposable
     public static ImageResultFloat FromMemory(byte[] data,
         ColorComponents requiredComponents = ColorComponents.Default)
     {
-        using (var stream = new MemoryStream(data))
-        {
-            return FromStream(stream, requiredComponents);
-        }
+        using var stream = new MemoryStream(data);
+        return FromStream(stream, requiredComponents);
     }
 
     public Span<byte> AsSpan()

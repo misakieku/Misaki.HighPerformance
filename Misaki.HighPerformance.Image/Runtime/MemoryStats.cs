@@ -2,26 +2,26 @@ using System.Threading;
 
 namespace Misaki.HighPerformance.Image.Runtime
 {
-    internal static unsafe class MemoryStats
+    internal static class MemoryStats
     {
-        private static int _allocations;
+        private static int s_allocations;
 
         public static int Allocations
         {
             get
             {
-                return _allocations;
+                return s_allocations;
             }
         }
 
         internal static void Allocated()
         {
-            Interlocked.Increment(ref _allocations);
+            Interlocked.Increment(ref s_allocations);
         }
 
         internal static void Freed()
         {
-            Interlocked.Decrement(ref _allocations);
+            Interlocked.Decrement(ref s_allocations);
         }
     }
 }

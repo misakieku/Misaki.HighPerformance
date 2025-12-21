@@ -2,58 +2,18 @@
 
 using BenchmarkDotNet.Attributes;
 using Misaki.HighPerformance.Mathematics;
-using Misaki.HighPerformance.Test.Jobs;
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Runtime.Intrinsics;
 
 namespace Misaki.HighPerformance.Test.Benchmark;
 
-public unsafe class MathematicsBenchmark
+public class MathematicsBenchmark
 {
-    public struct f2
-    {
-        public float x;
-        public float y;
-
-        public f2(float x, float y)
-        {
-            //this = Asf2(Vector128.Create(x, y, 0, 0));
-            this.x = x;
-            this.y = y;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector128<float> AsVector128Unsafe(f2 value)
-        {
-            return Vector128.Create(value.x, value.y, 0, 0);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static f2 Asf2(Vector128<float> value)
-        {
-            //f2 result;
-            //result.x = value.GetElement(0);
-            //result.y = value.GetElement(1);
-            //return result;
-
-            ref byte address = ref Unsafe.As<Vector128<float>, byte>(ref value);
-            return Unsafe.ReadUnaligned<f2>(ref address);
-        }
-
-        public static f2 operator +(f2 lhs, f2 rhs)
-        {
-            //return Asf2(AsVector128Unsafe(lhs) + AsVector128Unsafe(rhs));
-            return new f2(lhs.x + rhs.x, lhs.y + rhs.y);
-        }
-    }
-
 #if VECTOR_BENCHMARK
     private Vector2 _v2a = new Vector2(1, 2);
     private Vector2 _v2b = new Vector2(3, 4);
 
-    private f2 _f2a = new f2(1, 2);
-    private f2 _f2b = new f2(3, 4);
+    private float2 _f2a = new float2(1, 2);
+    private float2 _f2b = new float2(3, 4);
 
     [Benchmark]
     public Vector2 VectorAdd()
@@ -69,9 +29,9 @@ public unsafe class MathematicsBenchmark
     }
 
     [Benchmark]
-    public f2 f2Add()
+    public float2 float2Add()
     {
-        var v = new f2(0, 0);
+        var v = new float2(0, 0);
 
         for (var i = 0; i < 10; i++)
         {

@@ -59,7 +59,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
     // For lock-free resizing
     private int _isResizing;
 
-    public int Count => Volatile.Read(ref _count) - 1;
+    public int Count => Volatile.Read(ref _count);
     public int Capacity => Volatile.Read(ref _capacity);
 
     public IEnumerator<T> GetEnumerator() => new Enumerator(this);
@@ -75,8 +75,6 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
 
         _data = new SlotEntry[initialCapacity];
         _freeSlots = new();
-
-        Add(default!, out _);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
@@ -211,7 +209,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
 
     public bool Contains(int slotIndex, int generation)
     {
-        if (slotIndex <= 0 || slotIndex >= Volatile.Read(ref _capacity))
+        if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
         {
             return false;
         }

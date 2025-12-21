@@ -44,44 +44,81 @@ namespace Misaki.HighPerformance.Image
             sbyte* headerToken;
             headerToken = stbi__hdr_gettoken(s, buffer);
             if (CRuntime.strcmp(headerToken, "#?RADIANCE") != 0 && CRuntime.strcmp(headerToken, "#?RGBE") != 0)
+            {
                 return (float*)(ulong)(stbi__err("not HDR") != 0 ? 0 : 0);
+            }
+
             for (; ; )
             {
                 token = stbi__hdr_gettoken(s, buffer);
                 if (token[0] == 0)
+                {
                     break;
+                }
+
                 if (CRuntime.strcmp(token, "FORMAT=32-bit_rle_rgbe") == 0)
+                {
                     valid = 1;
+                }
             }
 
             if (valid == 0)
+            {
                 return (float*)(ulong)(stbi__err("unsupported format") != 0 ? 0 : 0);
+            }
+
             token = stbi__hdr_gettoken(s, buffer);
             if (CRuntime.strncmp(token, "-Y ", 3) != 0)
+            {
                 return (float*)(ulong)(stbi__err("unsupported data layout") != 0 ? 0 : 0);
+            }
+
             token += 3;
             height = (int)CRuntime.strtol(token, &token, 10);
             while (*token == 32)
+            {
                 ++token;
+            }
+
             if (CRuntime.strncmp(token, "+X ", 3) != 0)
+            {
                 return (float*)(ulong)(stbi__err("unsupported data layout") != 0 ? 0 : 0);
+            }
+
             token += 3;
             width = (int)CRuntime.strtol(token, null, 10);
             if (height > 1 << 24)
+            {
                 return (float*)(ulong)(stbi__err("too large") != 0 ? 0 : 0);
+            }
+
             if (width > 1 << 24)
+            {
                 return (float*)(ulong)(stbi__err("too large") != 0 ? 0 : 0);
+            }
+
             *x = width;
             *y = height;
             if (comp != null)
+            {
                 *comp = 3;
+            }
+
             if (req_comp == 0)
+            {
                 req_comp = 3;
+            }
+
             if (stbi__mad4sizes_valid(width, height, req_comp, sizeof(float), 0) == 0)
+            {
                 return (float*)(ulong)(stbi__err("too large") != 0 ? 0 : 0);
+            }
+
             hdr_data = (float*)stbi__malloc_mad4(width, height, req_comp, sizeof(float), 0);
             if (hdr_data == null)
+            {
                 return (float*)(ulong)(stbi__err("outofmem") != 0 ? 0 : 0);
+            }
 
             if (width < 8 || width >= 32768)
             {
@@ -176,7 +213,9 @@ namespace Misaki.HighPerformance.Image
                                 }
 
                                 for (z = 0; z < count; ++z)
+                                {
                                     scanline[i++ * 4 + k] = value;
+                                }
                             }
                             else
                             {
@@ -188,17 +227,23 @@ namespace Misaki.HighPerformance.Image
                                 }
 
                                 for (z = 0; z < count; ++z)
+                                {
                                     scanline[i++ * 4 + k] = stbi__get8(s);
+                                }
                             }
                         }
                     }
 
                     for (i = 0; i < width; ++i)
+                    {
                         stbi__hdr_convert(hdr_data + (j * width + i) * req_comp, scanline + i * 4, req_comp);
+                    }
                 }
 
                 if (scanline != null)
+                {
                     CRuntime.free(scanline);
+                }
             }
 
         finish:
@@ -212,11 +257,20 @@ namespace Misaki.HighPerformance.Image
             var valid = 0;
             var dummy = 0;
             if (x == null)
+            {
                 x = &dummy;
+            }
+
             if (y == null)
+            {
                 y = &dummy;
+            }
+
             if (comp == null)
+            {
                 comp = &dummy;
+            }
+
             if (stbi__hdr_test(s) == 0)
             {
                 stbi__rewind(s);
@@ -227,9 +281,14 @@ namespace Misaki.HighPerformance.Image
             {
                 token = stbi__hdr_gettoken(s, buffer);
                 if (token[0] == 0)
+                {
                     break;
+                }
+
                 if (CRuntime.strcmp(token, "FORMAT=32-bit_rle_rgbe") == 0)
+                {
                     valid = 1;
+                }
             }
 
             if (valid == 0)
@@ -248,7 +307,10 @@ namespace Misaki.HighPerformance.Image
             token += 3;
             *y = (int)CRuntime.strtol(token, &token, 10);
             while (*token == 32)
+            {
                 ++token;
+            }
+
             if (CRuntime.strncmp(token, "+X ", 3) != 0)
             {
                 stbi__rewind(s);
@@ -268,7 +330,10 @@ namespace Misaki.HighPerformance.Image
             var n = 0;
             byte* output;
             if (data == null)
+            {
                 return null;
+            }
+
             output = (byte*)stbi__malloc_mad3(x, y, comp, 0);
             if (output == null)
             {
@@ -277,9 +342,14 @@ namespace Misaki.HighPerformance.Image
             }
 
             if ((comp & 1) != 0)
+            {
                 n = comp;
+            }
             else
+            {
                 n = comp - 1;
+            }
+
             for (i = 0; i < x * y; ++i)
             {
                 for (k = 0; k < n; ++k)
@@ -287,9 +357,15 @@ namespace Misaki.HighPerformance.Image
                     var z = (float)CRuntime.pow(data[i * comp + k] * stbi__h2l_scale_i, stbi__h2l_gamma_i) * 255 +
                             0.5f;
                     if (z < 0)
+                    {
                         z = 0;
+                    }
+
                     if (z > 255)
+                    {
                         z = 255;
+                    }
+
                     output[i * comp + k] = (byte)(int)z;
                 }
 
@@ -297,9 +373,15 @@ namespace Misaki.HighPerformance.Image
                 {
                     var z = data[i * comp + k] * 255 + 0.5f;
                     if (z < 0)
+                    {
                         z = 0;
+                    }
+
                     if (z > 255)
+                    {
                         z = 255;
+                    }
+
                     output[i * comp + k] = (byte)(int)z;
                 }
             }
@@ -312,8 +394,13 @@ namespace Misaki.HighPerformance.Image
         {
             var i = 0;
             for (i = 0; i < signature.Length; ++i)
+            {
                 if (stbi__get8(s) != signature[i])
+                {
                     return 0;
+                }
+            }
+
             stbi__rewind(s);
             return 1;
         }
@@ -360,9 +447,14 @@ namespace Misaki.HighPerformance.Image
                 }
 
                 if (req_comp == 2)
+                {
                     output[1] = 1;
+                }
+
                 if (req_comp == 4)
+                {
                     output[3] = 1;
+                }
             }
             else
             {
@@ -371,13 +463,19 @@ namespace Misaki.HighPerformance.Image
                     case 4:
                     case 3:
                         if (req_comp == 4)
+                        {
                             output[3] = 1;
+                        }
+
                         output[0] = output[1] = output[2] = 0;
                         break;
                     case 2:
                     case 1:
                         if (req_comp == 2)
+                        {
                             output[1] = 1;
+                        }
+
                         output[0] = 0;
                         break;
                 }

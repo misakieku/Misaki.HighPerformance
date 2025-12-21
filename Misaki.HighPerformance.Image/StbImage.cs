@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.Image.Runtime;
+using Misaki.HighPerformance.Image.Runtime;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -31,7 +31,9 @@ public static unsafe partial class StbImage
         public stbi__context(Stream stream)
         {
             if (stream == null)
+            {
                 throw new ArgumentNullException("stream");
+            }
 
             _stream = stream;
         }
@@ -55,7 +57,9 @@ public static unsafe partial class StbImage
     {
         var b = s.Stream.ReadByte();
         if (b == -1)
+        {
             return 0;
+        }
 
         return (byte)b;
     }
@@ -79,7 +83,9 @@ public static unsafe partial class StbImage
     {
         if (s._tempBuffer == null ||
             s._tempBuffer.Length < size)
+        {
             s._tempBuffer = new byte[size * 2];
+        }
 
         var result = s.Stream.Read(s._tempBuffer, 0, size);
         Marshal.Copy(s._tempBuffer, 0, new IntPtr(buf), result);

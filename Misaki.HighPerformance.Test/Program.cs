@@ -1,28 +1,6 @@
-//var threadCount = 8;
-//var map = new ConcurrentSlotMap<int>();
+using Misaki.HighPerformance.Image;
 
-//var barrier = new Barrier(threadCount);
-
-//Parallel.For(0, threadCount, threadIndex =>
-//{
-//    barrier.SignalAndWait();
-//    for (var i = 0; i < 1000; i++)
-//    {
-//        var id = map.Add(i + threadIndex * 1000, out var gen);
-//        if (i % 100 == 0)
-//        {
-//            map.Remove(id, gen);
-//        }
-//    }
-//});
-
-//Console.WriteLine($"Count should be {threadCount * 990}, actual: {map.Count}");
-
-//using Misaki.HighPerformance.LowLevel;
-
-using System.Runtime.Intrinsics;
-
-BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.MathematicsBenchmark>();
+//BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.ParallelNoiseBenchmark>();
 
 //using Misaki.HighPerformance.Collections;
 //using Misaki.HighPerformance.LowLevel.Buffer;
@@ -59,3 +37,12 @@ BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmar
 //        8, 7, 6, 5,
 //        4, 3, 2, 1);
 //Console.WriteLine(Matrix4x4.Multiply(ma, mb));
+
+
+const string _IMAGE_PATH = "C:/Users/Misaki/Downloads/Im/119683453_p2.jpg";
+
+using var stream = File.OpenRead(_IMAGE_PATH);
+var imageInfo = ImageInfo.FromStream(stream);
+using var image = ImageResult.FromStream(stream);
+
+Console.WriteLine($"{imageInfo.Width}x{imageInfo.Height} {imageInfo.ColorComponents}");

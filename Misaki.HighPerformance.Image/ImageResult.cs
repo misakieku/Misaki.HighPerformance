@@ -5,7 +5,13 @@ using System.IO;
 
 namespace Misaki.HighPerformance.Image;
 
-public unsafe class ImageResult : IDisposable
+/// <summary>
+/// Represents the result of loading an image, including pixel data and image metadata.
+/// </summary>
+/// <remarks>The image data is stored as a contiguous block of unmanaged memory and must be released by calling
+///     <see cref="Dispose"/> when no longer needed. Be careful that this struct won't stop your double free if you copy it.
+///     Ensure to have proper ownership management when using this struct.</remarks>
+public unsafe readonly struct ImageResult : IDisposable
 {
     public byte* Data
     {
@@ -45,10 +51,12 @@ public unsafe class ImageResult : IDisposable
         }
     }
 
-    internal static unsafe ImageResult FromResult(byte* result, uint width, uint height, ColorComponents comp, ColorComponents req_comp)
+    internal static ImageResult FromResult(byte* result, uint width, uint height, ColorComponents comp, ColorComponents req_comp)
     {
         if (result == null)
+        {
             throw new InvalidOperationException(StbImage.stbi__g_failure_reason);
+        }
 
         var image = new ImageResult
         {
@@ -62,13 +70,11 @@ public unsafe class ImageResult : IDisposable
         return image;
     }
 
-    public static unsafe ImageResult FromStream(Stream stream,
+    public static ImageResult FromStream(Stream stream,
         ColorComponents requiredComponents = ColorComponents.Default)
     {
         int x, y, comp;
-
         var context = new StbImage.stbi__context(stream);
-
         var result = StbImage.stbi__load_and_postprocess_8bit(context, &x, &y, &comp, (int)requiredComponents);
 
         return FromResult(result, (uint)x, (uint)y, (ColorComponents)comp, requiredComponents);

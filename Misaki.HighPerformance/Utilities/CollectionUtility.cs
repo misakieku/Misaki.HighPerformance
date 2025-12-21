@@ -25,14 +25,14 @@ public static class CollectionUtility
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list from which to remove the element. Cannot be null.</param>
     /// <param name="index">The zero-based index of the element to remove. Must be within the bounds of the list.</param>
-    /// <returns>The modified list after the element has been removed.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown if index is less than 0 or greater than or equal to the number of elements in the list.</exception>
-    public static List<T> RemoveAndSwapBack<T>(this List<T> list, int index)
+    /// <returns>True if the element was successfully removed; otherwise, false.</returns>
+    public static bool RemoveAndSwapBack<T>(this List<T> list, int index)
     {
         var lastIndex = list.Count - 1;
         if (index < 0 || index > lastIndex)
         {
-            throw new ArgumentOutOfRangeException(nameof(index));
+            return false;
         }
 
         if (index != lastIndex)
@@ -41,6 +41,6 @@ public static class CollectionUtility
         }
 
         list.RemoveAt(lastIndex);
-        return list;
+        return true;
     }
 }

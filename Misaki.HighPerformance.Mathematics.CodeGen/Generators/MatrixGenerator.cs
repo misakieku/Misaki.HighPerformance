@@ -1,7 +1,6 @@
 using Microsoft.CodeAnalysis;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Text;
 
 namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
@@ -16,14 +15,16 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
                 .Replace("{c}", s_matrixComponents[componentIndex]);
         }
 
-        protected override string? Validation()
+        protected override bool Validation(out string? message)
         {
             if (typeInfo.ElementTypeSymbol == null)
             {
-                return "You must specify 'elementType' in NumericTypeAttribute for matrix types.";
+                message = "You must specify 'elementType' in NumericTypeAttribute for matrix types.";
+                return false;
             }
 
-            return null;
+            message = null;
+            return true;
         }
 
         protected override void GenerateBody()
@@ -36,7 +37,6 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             }
 
             GenerateConstructors();
-            GenerateUnsafeMethod();
             GenerateOverrideMethod();
 
             if (typeInfo.Arithmetic)
@@ -67,13 +67,18 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             {INLINE_METHOD_ATTRIBUTE}
             get 
             {{
-#if ENABLE_COLLECTION_CHECKS
-                if (index < 0 || index >= {typeInfo.Column})
-                {{
-                    throw new global::System.ArgumentOutOfRangeException(nameof(index), $""Index {{index}} is out of range of '{typeInfo.TypeName}'"");
-                }}
-#endif
+                RangeCheck(index);
                 return ref (({typeInfo.ComponentTypeFullName}*)global::System.Runtime.CompilerServices.Unsafe.AsPointer(ref this))[index];
+            }}
+        }}");
+
+            sourceBuilder.AppendLine($@"
+        [global::System.Diagnostics.Conditional(""ENABLE_COLLECTION_CHECKS"")]
+        private void RangeCheck(int index)
+        {{
+            if (index < 0 || index >= {typeInfo.Column})
+            {{
+                throw new global::System.ArgumentOutOfRangeException(nameof(index), $""Index {{index}} is out of range of '{typeInfo.TypeName}'"");
             }}
         }}");
         }
@@ -213,25 +218,9 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
                     sourceBuilder.Append($@"
             this.{s_matrixComponents[i]} = {assignment[i]};");
                 }
-                    sourceBuilder.AppendLine($@"
+                sourceBuilder.AppendLine($@"
         }}");
             }
-        }
-
-        private void GenerateUnsafeMethod()
-        {
-            sourceBuilder.AppendLine($@"
-        {INLINE_METHOD_ATTRIBUTE}
-        public unsafe {typeInfo.ComponentTypeFullName}* AsPointer()
-        {{
-            return ({typeInfo.ComponentTypeFullName}*)global::System.Runtime.CompilerServices.Unsafe.AsPointer(ref this);
-        }}
-
-        {INLINE_METHOD_ATTRIBUTE}
-        public unsafe global::System.Span<{typeInfo.ComponentTypeFullName}> AsSpan()
-        {{
-            return new global::System.Span<{typeInfo.ComponentTypeFullName}>(AsPointer(), {typeInfo.Column});
-        }}");
         }
 
         private void GenerateOverrideMethod()
@@ -760,7 +749,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 
             var columnSizeBytes = lhsRows * typeInfo.ComponentSize;
             var vectorBits = columnSizeBytes > 16 ? 256 : 128;
-            bool isFloatingPoint = typeInfo.ElementTypeSymbol!.SpecialType == SpecialType.System_Single||
+            var isFloatingPoint = typeInfo.ElementTypeSymbol!.SpecialType == SpecialType.System_Single ||
                                    typeInfo.ElementTypeSymbol!.SpecialType == SpecialType.System_Double;
 
             sourceBuilder.Append($@"
@@ -768,7 +757,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         public static {resultVectorType} mul({lhsType} m, {rhsVectorType} v)
         {{");
 
-            for (int i = 0; i < lhsCols; i++)
+            for (var i = 0; i < lhsCols; i++)
             {
                 var component = s_vectorComponents[i];
                 sourceBuilder.Append($@"
@@ -779,7 +768,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 
             var sum = global::System.Runtime.Intrinsics.Vector{vectorBits}.Multiply(m.c0.AsVector{vectorBits}(), vx);");
 
-            for (int i = 1; i < lhsCols; i++)
+            for (var i = 1; i < lhsCols; i++)
             {
                 var component = s_vectorComponents[i];
                 var col = s_matrixComponents[i];

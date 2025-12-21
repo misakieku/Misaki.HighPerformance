@@ -100,16 +100,25 @@ namespace Misaki.HighPerformance.Image
         public static int stbi__addsizes_valid(int a, int b)
         {
             if (b < 0)
+            {
                 return 0;
+            }
+
             return a <= 2147483647 - b ? 1 : 0;
         }
 
         public static int stbi__mul2sizes_valid(int a, int b)
         {
             if (a < 0 || b < 0)
+            {
                 return 0;
+            }
+
             if (b == 0)
+            {
                 return 1;
+            }
+
             return a <= 2147483647 / b ? 1 : 0;
         }
 
@@ -137,41 +146,65 @@ namespace Misaki.HighPerformance.Image
         public static void* stbi__malloc_mad2(int a, int b, int add)
         {
             if (stbi__mad2sizes_valid(a, b, add) == 0)
+            {
                 return null;
+            }
+
             return stbi__malloc((ulong)(a * b + add));
         }
 
         public static void* stbi__malloc_mad3(int a, int b, int c, int add)
         {
             if (stbi__mad3sizes_valid(a, b, c, add) == 0)
+            {
                 return null;
+            }
+
             return stbi__malloc((ulong)(a * b * c + add));
         }
 
         public static void* stbi__malloc_mad4(int a, int b, int c, int d, int add)
         {
             if (stbi__mad4sizes_valid(a, b, c, d, add) == 0)
+            {
                 return null;
+            }
+
             return stbi__malloc((ulong)(a * b * c * d + add));
         }
 
         public static int stbi__addints_valid(int a, int b)
         {
             if (a >= 0 != b >= 0)
+            {
                 return 1;
+            }
+
             if (a < 0 && b < 0)
+            {
                 return a >= -2147483647 - 1 - b ? 1 : 0;
+            }
+
             return a <= 2147483647 - b ? 1 : 0;
         }
 
         public static int stbi__mul2shorts_valid(int a, int b)
         {
             if (b == 0 || b == -1)
+            {
                 return 1;
+            }
+
             if (a >= 0 == b >= 0)
+            {
                 return a <= 32767 / b ? 1 : 0;
+            }
+
             if (b < 0)
+            {
                 return a <= -32768 / b ? 1 : 0;
+            }
+
             return a >= -32768 / b ? 1 : 0;
         }
 
@@ -182,7 +215,10 @@ namespace Misaki.HighPerformance.Image
             var n = 0;
             float* output;
             if (data == null)
+            {
                 return null;
+            }
+
             output = (float*)stbi__malloc_mad4(x, y, comp, sizeof(float), 0);
             if (output == null)
             {
@@ -191,17 +227,30 @@ namespace Misaki.HighPerformance.Image
             }
 
             if ((comp & 1) != 0)
+            {
                 n = comp;
+            }
             else
+            {
                 n = comp - 1;
+            }
+
             for (i = 0; i < x * y; ++i)
+            {
                 for (k = 0; k < n; ++k)
+                {
                     output[i * comp + k] =
                         (float)(CRuntime.pow(data[i * comp + k] / 255.0f, stbi__l2h_gamma) * stbi__l2h_scale);
+                }
+            }
 
             if (n < comp)
+            {
                 for (i = 0; i < x * y; ++i)
+                {
                     output[i * comp + n] = data[i * comp + n] / 255.0f;
+                }
+            }
 
             CRuntime.free(data);
             return output;
@@ -215,15 +264,30 @@ namespace Misaki.HighPerformance.Image
             ri->channel_order = STBI_ORDER_RGB;
             ri->num_channels = 0;
             if (stbi__png_test(s) != 0)
+            {
                 return stbi__png_load(s, x, y, comp, req_comp, ri);
+            }
+
             if (stbi__bmp_test(s) != 0)
+            {
                 return stbi__bmp_load(s, x, y, comp, req_comp, ri);
+            }
+
             if (stbi__gif_test(s) != 0)
+            {
                 return stbi__gif_load(s, x, y, comp, req_comp, ri);
+            }
+
             if (stbi__psd_test(s) != 0)
+            {
                 return stbi__psd_load(s, x, y, comp, req_comp, ri, bpc);
+            }
+
             if (stbi__jpeg_test(s) != 0)
+            {
                 return stbi__jpeg_load(s, x, y, comp, req_comp, ri);
+            }
+
             if (stbi__hdr_test(s) != 0)
             {
                 var hdr = stbi__hdr_load(s, x, y, comp, req_comp, ri);
@@ -231,7 +295,10 @@ namespace Misaki.HighPerformance.Image
             }
 
             if (stbi__tga_test(s) != 0)
+            {
                 return stbi__tga_load(s, x, y, comp, req_comp, ri);
+            }
+
             return (byte*)(ulong)(stbi__err("unknown image type") != 0 ? 0 : 0);
         }
 
@@ -242,9 +309,14 @@ namespace Misaki.HighPerformance.Image
             byte* reduced;
             reduced = (byte*)stbi__malloc((ulong)img_len);
             if (reduced == null)
+            {
                 return (byte*)(ulong)(stbi__err("outofmem") != 0 ? 0 : 0);
+            }
+
             for (i = 0; i < img_len; ++i)
+            {
                 reduced[i] = (byte)((orig[i] >> 8) & 0xFF);
+            }
 
             CRuntime.free(orig);
             return reduced;
@@ -257,9 +329,14 @@ namespace Misaki.HighPerformance.Image
             ushort* enlarged;
             enlarged = (ushort*)stbi__malloc((ulong)(img_len * 2));
             if (enlarged == null)
+            {
                 return (ushort*)(byte*)(ulong)(stbi__err("outofmem") != 0 ? 0 : 0);
+            }
+
             for (i = 0; i < img_len; ++i)
+            {
                 enlarged[i] = (ushort)((orig[i] << 8) + orig[i]);
+            }
 
             CRuntime.free(orig);
             return enlarged;
@@ -306,7 +383,10 @@ namespace Misaki.HighPerformance.Image
             var ri = new stbi__result_info();
             var result = stbi__load_main(s, x, y, comp, req_comp, &ri, 8);
             if (result == null)
+            {
                 return null;
+            }
+
             if (ri.bits_per_channel != 8)
             {
                 result = stbi__convert_16_to_8((ushort*)result, *x, *y, req_comp == 0 ? *comp : req_comp);
@@ -329,7 +409,10 @@ namespace Misaki.HighPerformance.Image
             var ri = new stbi__result_info();
             var result = stbi__load_main(s, x, y, comp, req_comp, &ri, 16);
             if (result == null)
+            {
                 return null;
+            }
+
             if (ri.bits_per_channel != 16)
             {
                 result = stbi__convert_8_to_16((byte*)result, *x, *y, req_comp == 0 ? *comp : req_comp);
@@ -366,13 +449,19 @@ namespace Misaki.HighPerformance.Image
                 var ri = new stbi__result_info();
                 var hdr_data = stbi__hdr_load(s, x, y, comp, req_comp, &ri);
                 if (hdr_data != null)
+                {
                     stbi__float_postprocess(hdr_data, x, y, comp, req_comp);
+                }
+
                 return hdr_data;
             }
 
             data = stbi__load_and_postprocess_8bit(s, x, y, comp, req_comp);
             if (data != null)
+            {
                 return stbi__ldr_to_hdr(data, *x, *y, req_comp != 0 ? req_comp : *comp);
+            }
+
             return (float*)(ulong)(stbi__err("unknown image type") != 0 ? 0 : 0);
         }
 
@@ -412,7 +501,10 @@ namespace Misaki.HighPerformance.Image
             var j = 0;
             byte* good;
             if (req_comp == img_n)
+            {
                 return data;
+            }
+
             good = (byte*)stbi__malloc_mad3(req_comp, (int)x, (int)y, 0);
             if (good == null)
             {
@@ -436,7 +528,9 @@ namespace Misaki.HighPerformance.Image
                         break;
                     case 1 * 8 + 3:
                         for (i = (int)(x - 1); i >= 0; --i, src += 1, dest += 3)
+                        {
                             dest[0] = dest[1] = dest[2] = src[0];
+                        }
 
                         break;
                     case 1 * 8 + 4:
@@ -449,12 +543,16 @@ namespace Misaki.HighPerformance.Image
                         break;
                     case 2 * 8 + 1:
                         for (i = (int)(x - 1); i >= 0; --i, src += 2, dest += 1)
+                        {
                             dest[0] = src[0];
+                        }
 
                         break;
                     case 2 * 8 + 3:
                         for (i = (int)(x - 1); i >= 0; --i, src += 2, dest += 3)
+                        {
                             dest[0] = dest[1] = dest[2] = src[0];
+                        }
 
                         break;
                     case 2 * 8 + 4:
@@ -477,7 +575,9 @@ namespace Misaki.HighPerformance.Image
                         break;
                     case 3 * 8 + 1:
                         for (i = (int)(x - 1); i >= 0; --i, src += 3, dest += 1)
+                        {
                             dest[0] = stbi__compute_y(src[0], src[1], src[2]);
+                        }
 
                         break;
                     case 3 * 8 + 2:
@@ -490,7 +590,9 @@ namespace Misaki.HighPerformance.Image
                         break;
                     case 4 * 8 + 1:
                         for (i = (int)(x - 1); i >= 0; --i, src += 4, dest += 1)
+                        {
                             dest[0] = stbi__compute_y(src[0], src[1], src[2]);
+                        }
 
                         break;
                     case 4 * 8 + 2:
@@ -533,7 +635,10 @@ namespace Misaki.HighPerformance.Image
             var j = 0;
             ushort* good;
             if (req_comp == img_n)
+            {
                 return data;
+            }
+
             good = (ushort*)stbi__malloc((ulong)(req_comp * x * y * 2));
             if (good == null)
             {
@@ -557,7 +662,9 @@ namespace Misaki.HighPerformance.Image
                         break;
                     case 1 * 8 + 3:
                         for (i = (int)(x - 1); i >= 0; --i, src += 1, dest += 3)
+                        {
                             dest[0] = dest[1] = dest[2] = src[0];
+                        }
 
                         break;
                     case 1 * 8 + 4:
@@ -570,12 +677,16 @@ namespace Misaki.HighPerformance.Image
                         break;
                     case 2 * 8 + 1:
                         for (i = (int)(x - 1); i >= 0; --i, src += 2, dest += 1)
+                        {
                             dest[0] = src[0];
+                        }
 
                         break;
                     case 2 * 8 + 3:
                         for (i = (int)(x - 1); i >= 0; --i, src += 2, dest += 3)
+                        {
                             dest[0] = dest[1] = dest[2] = src[0];
+                        }
 
                         break;
                     case 2 * 8 + 4:
@@ -598,7 +709,9 @@ namespace Misaki.HighPerformance.Image
                         break;
                     case 3 * 8 + 1:
                         for (i = (int)(x - 1); i >= 0; --i, src += 3, dest += 1)
+                        {
                             dest[0] = stbi__compute_y_16(src[0], src[1], src[2]);
+                        }
 
                         break;
                     case 3 * 8 + 2:
@@ -611,7 +724,9 @@ namespace Misaki.HighPerformance.Image
                         break;
                     case 4 * 8 + 1:
                         for (i = (int)(x - 1); i >= 0; --i, src += 4, dest += 1)
+                        {
                             dest[0] = stbi__compute_y_16(src[0], src[1], src[2]);
+                        }
 
                         break;
                     case 4 * 8 + 2:
@@ -648,9 +763,14 @@ namespace Misaki.HighPerformance.Image
             if ((uint)x > 255)
             {
                 if (x < 0)
+                {
                     return 0;
+                }
+
                 if (x > 255)
+                {
                     return 255;
+                }
             }
 
             return (byte)x;
@@ -680,7 +800,10 @@ namespace Misaki.HighPerformance.Image
         {
             var n = 0;
             if (z == 0)
+            {
                 return -1;
+            }
+
             if (z >= 0x10000)
             {
                 n += 16;
@@ -706,7 +829,9 @@ namespace Misaki.HighPerformance.Image
             }
 
             if (z >= 0x00002)
+            {
                 n += 1;
+            }
 
             return n;
         }
@@ -724,9 +849,14 @@ namespace Misaki.HighPerformance.Image
         public static int stbi__shiftsigned(uint v, int shift, int bits)
         {
             if (shift < 0)
+            {
                 v <<= -shift;
+            }
             else
+            {
                 v >>= shift;
+            }
+
             v >>= 8 - bits;
             return (int)(v * stbi__shiftsigned_mul_table[bits]) >> stbi__shiftsigned_shift_table[bits];
         }
@@ -734,28 +864,55 @@ namespace Misaki.HighPerformance.Image
         public static int stbi__info_main(stbi__context s, int* x, int* y, int* comp)
         {
             if (stbi__jpeg_info(s, x, y, comp) != 0)
+            {
                 return 1;
+            }
+
             if (stbi__png_info(s, x, y, comp) != 0)
+            {
                 return 1;
+            }
+
             if (stbi__gif_info(s, x, y, comp) != 0)
+            {
                 return 1;
+            }
+
             if (stbi__bmp_info(s, x, y, comp) != 0)
+            {
                 return 1;
+            }
+
             if (stbi__psd_info(s, x, y, comp) != 0)
+            {
                 return 1;
+            }
+
             if (stbi__hdr_info(s, x, y, comp) != 0)
+            {
                 return 1;
+            }
+
             if (stbi__tga_info(s, x, y, comp) != 0)
+            {
                 return 1;
+            }
+
             return stbi__err("unknown image type");
         }
 
         public static int stbi__is_16_main(stbi__context s)
         {
             if (stbi__png_is16(s) != 0)
+            {
                 return 1;
+            }
+
             if (stbi__psd_is16(s) != 0)
+            {
                 return 1;
+            }
+
             return 0;
         }
 

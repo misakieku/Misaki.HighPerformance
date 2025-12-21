@@ -6,6 +6,161 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
+public interface IJobScheduler
+{
+    /// <summary>
+    /// Gets the number of worker threads managed by the job scheduler.
+    /// </summary>
+    int WorkerCount
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <param name="dependency">A <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.
+    ///     Use <see cref="JobHandle.Invalid"/> if there are no dependencies.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    JobHandle Schedule<T>(ref T job, int threadIndex, JobHandle dependency)
+        where T : unmanaged, IJob;
+
+    /// <summary>
+    /// Schedules a single job for execution on a specified thread without dependency.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    JobHandle Schedule<T>(ref T job, int threadIndex)
+        where T : unmanaged, IJob;
+
+    /// <summary>
+    /// Schedules a single job for execution on any thread, with an optional dependency on another job.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    JobHandle Schedule<T>(ref T job, JobHandle dependency)
+        where T : unmanaged, IJob;
+
+    /// <summary>
+    /// Schedules a single job for execution on any thread without dependency.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    JobHandle Schedule<T>(ref T job)
+        where T : unmanaged, IJob;
+
+    /// <summary>
+    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
+    /// <param name="batchSize">The number of iterations to include in each batch.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <param name="dependency">A <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.
+    ///     Use <see cref="JobHandle.Invalid"/> if there are no dependencies.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, int threadIndex, JobHandle dependency)
+        where T : unmanaged, IJobParallelFor;
+
+    /// <summary>
+    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads on a specified thread without dependency.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
+    /// <param name="batchSize">The number of iterations to include in each batch.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, int threadIndex)
+        where T : unmanaged, IJobParallelFor;
+
+    /// <summary>
+    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads on any thread, with an optional dependency on another job..
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
+    /// <param name="batchSize">The number of iterations to include in each batch.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, JobHandle dependency)
+        where T : unmanaged, IJobParallelFor;
+
+    /// <summary>
+    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads on any thread without dependency.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
+    /// <param name="batchSize">The number of iterations to include in each batch.</param>
+    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
+    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize)
+        where T : unmanaged, IJobParallelFor;
+
+    /// <summary>
+    /// Combines multiple job dependencies into a single <see cref="JobHandle"/>.
+    /// </summary>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> instances representing the dependencies to combine.</param>
+    /// <returns>A <see cref="JobHandle"/> that represents the combined dependencies. The returned handle can be used to ensure
+    ///     that all specified dependencies are completed before proceeding.</returns>
+    public JobHandle CombineDependencies(params ReadOnlySpan<JobHandle> dependencies);
+
+    /// <summary>
+    /// Retrieves the current status of a job identified by the specified handle.
+    /// </summary>
+    /// <param name="handle">The handle representing the job whose status is to be retrieved. The handle must be valid.</param>
+    /// <returns>The current status of the job as a <see cref="JobState"/> value.
+    ///     Returns <see cref="JobState.Invalid"/> if the handle is invalid or the job does not exist.</returns>
+    public JobState GetJobStatus(JobHandle handle);
+
+    /// <summary>
+    /// Blocks the calling thread until the specified job is completed.
+    /// </summary>
+    /// <param name="handle">The handle of the job to wait for.</param>
+    public void WaitComplete(JobHandle handle);
+
+    /// <summary>
+    /// Blocks the calling thread until all specified job handles have completed.
+    /// </summary>
+    /// <remarks>This method waits for all jobs referenced by the provided handles to complete before
+    /// returning. The calling thread will be blocked until every job has finished. If any handle is invalid or does not
+    /// correspond to an active job, it is considered completed. This method is not thread-safe and should not be called
+    /// concurrently from multiple threads.</remarks>
+    /// <param name="handles">A collection of job handles to wait for. Each handle represents an asynchronous job whose completion is awaited.
+    /// The collection must not be empty.</param>
+    public void WaitAll(params ReadOnlySpan<JobHandle> handles);
+
+    /// <summary>
+    /// Waits until any of the specified job handles has completed and returns the first completed handle.
+    /// </summary>
+    /// <remarks>This method blocks the calling thread until at least one of the specified jobs has finished.
+    /// The returned handle corresponds to the job that completed first among those provided. The order of handles in
+    /// the span may affect which handle is returned if multiple jobs complete simultaneously.</remarks>
+    /// <param name="handles">A read-only span containing the job handles to monitor for completion. Each handle represents a job whose
+    /// completion status will be checked.</param>
+    /// <returns>The first job handle from the provided collection that has completed.</returns>
+    public JobHandle WaitAny(params ReadOnlySpan<JobHandle> handles);
+}
+
 public unsafe partial class JobScheduler
 {
     public static readonly TempJobAllocator* pTempAllocator;
@@ -37,7 +192,7 @@ public unsafe partial class JobScheduler
 /// <summary>
 /// Provides a mechanism for scheduling and executing jobs across multiple worker threads.
 /// </summary>
-public sealed unsafe partial class JobScheduler : IDisposable
+public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 {
     private const int _SLEEP_THRESHOLD = 100;
 
@@ -253,16 +408,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
         }
     }
 
-    /// <summary>
-    /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
-    /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
-    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
-    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
-    /// <param name="dependency">A <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.
-    ///     Use <see cref="JobHandle.Invalid"/> if there are no dependencies.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     public JobHandle Schedule<T>(ref T job, int threadIndex, JobHandle dependency)
         where T : unmanaged, IJob
     {
@@ -291,54 +436,18 @@ public sealed unsafe partial class JobScheduler : IDisposable
         return CreateJobHandle(ref jobInfo, dependency);
     }
 
-    /// <summary>
-    /// Schedules a single job for execution on a specified thread without dependency.
-    /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
-    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
-    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     public JobHandle Schedule<T>(ref T job, int threadIndex)
-        where T : unmanaged, IJob
-        => Schedule(ref job, threadIndex, JobHandle.Invalid);
+    where T : unmanaged, IJob
+    => Schedule(ref job, threadIndex, JobHandle.Invalid);
 
-    /// <summary>
-    /// Schedules a single job for execution on any thread, with an optional dependency on another job.
-    /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
-    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
-    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     public JobHandle Schedule<T>(ref T job, JobHandle dependency)
         where T : unmanaged, IJob
         => Schedule(ref job, -1, dependency);
 
-    /// <summary>
-    /// Schedules a single job for execution on any thread without dependency.
-    /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
-    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
-    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     public JobHandle Schedule<T>(ref T job)
         where T : unmanaged, IJob
         => Schedule(ref job, -1, JobHandle.Invalid);
 
-    /// <summary>
-    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
-    /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
-    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
-    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
-    /// <param name="batchSize">The number of iterations to include in each batch.</param>
-    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
-    /// <param name="dependency">A <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.
-    ///     Use <see cref="JobHandle.Invalid"/> if there are no dependencies.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, int threadIndex, JobHandle dependency)
         where T : unmanaged, IJobParallelFor
     {
@@ -375,54 +484,18 @@ public sealed unsafe partial class JobScheduler : IDisposable
         return CreateJobHandle(ref jobInfo, dependency);
     }
 
-    /// <summary>
-    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads on a specified thread without dependency.
-    /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
-    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
-    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
-    /// <param name="batchSize">The number of iterations to include in each batch.</param>
-    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, int threadIndex)
         where T : unmanaged, IJobParallelFor
         => ScheduleParallel(ref job, totalIteration, batchSize, threadIndex, JobHandle.Invalid);
 
-    /// <summary>
-    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads on any thread, with an optional dependency on another job..
-    /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
-    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
-    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
-    /// <param name="batchSize">The number of iterations to include in each batch.</param>
-    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, JobHandle dependency)
         where T : unmanaged, IJobParallelFor
         => ScheduleParallel(ref job, totalIteration, batchSize, -1, dependency);
 
-    /// <summary>
-    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads on any thread without dependency.
-    /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
-    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
-    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
-    /// <param name="batchSize">The number of iterations to include in each batch.</param>
-    /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize)
         where T : unmanaged, IJobParallelFor
         => ScheduleParallel(ref job, totalIteration, batchSize, -1, JobHandle.Invalid);
 
-    /// <summary>
-    /// Combines multiple job dependencies into a single <see cref="JobHandle"/>.
-    /// </summary>
-    /// <param name="dependencies">A collection of <see cref="JobHandle"/> instances representing the dependencies to combine.</param>
-    /// <returns>A <see cref="JobHandle"/> that represents the combined dependencies. The returned handle can be used to ensure
-    ///     that all specified dependencies are completed before proceeding.</returns>
     public JobHandle CombineDependencies(params ReadOnlySpan<JobHandle> dependencies)
     {
         var jobInfo = new JobInfo
@@ -439,12 +512,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
         return CreateJobHandle(ref jobInfo, dependencies);
     }
 
-    /// <summary>
-    /// Retrieves the current status of a job identified by the specified handle.
-    /// </summary>
-    /// <param name="handle">The handle representing the job whose status is to be retrieved. The handle must be valid.</param>
-    /// <returns>The current status of the job as a <see cref="JobState"/> value.
-    ///     Returns <see cref="JobState.Invalid"/> if the handle is invalid or the job does not exist.</returns>
     public JobState GetJobStatus(JobHandle handle)
     {
         if (!handle.IsValid)
@@ -461,10 +528,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
         return (JobState)Volatile.Read(ref Unsafe.As<JobState, int>(ref jobInfo.state));
     }
 
-    /// <summary>
-    /// Blocks the calling thread until the specified job is completed.
-    /// </summary>
-    /// <param name="handle">The handle of the job to wait for.</param>
     public void WaitComplete(JobHandle handle)
     {
         if (!handle.IsValid)
@@ -484,15 +547,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
         }
     }
 
-    /// <summary>
-    /// Blocks the calling thread until all specified job handles have completed.
-    /// </summary>
-    /// <remarks>This method waits for all jobs referenced by the provided handles to complete before
-    /// returning. The calling thread will be blocked until every job has finished. If any handle is invalid or does not
-    /// correspond to an active job, it is considered completed. This method is not thread-safe and should not be called
-    /// concurrently from multiple threads.</remarks>
-    /// <param name="handles">A collection of job handles to wait for. Each handle represents an asynchronous job whose completion is awaited.
-    /// The collection must not be empty.</param>
     public void WaitAll(params ReadOnlySpan<JobHandle> handles)
     {
         var sleepThreshold = _SLEEP_THRESHOLD * handles.Length;
@@ -518,15 +572,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
         }
     }
 
-    /// <summary>
-    /// Waits until any of the specified job handles has completed and returns the first completed handle.
-    /// </summary>
-    /// <remarks>This method blocks the calling thread until at least one of the specified jobs has finished.
-    /// The returned handle corresponds to the job that completed first among those provided. The order of handles in
-    /// the span may affect which handle is returned if multiple jobs complete simultaneously.</remarks>
-    /// <param name="handles">A read-only span containing the job handles to monitor for completion. Each handle represents a job whose
-    /// completion status will be checked.</param>
-    /// <returns>The first job handle from the provided collection that has completed.</returns>
     public JobHandle WaitAny(params ReadOnlySpan<JobHandle> handles)
     {
         var sleepThreshold = _SLEEP_THRESHOLD * handles.Length;

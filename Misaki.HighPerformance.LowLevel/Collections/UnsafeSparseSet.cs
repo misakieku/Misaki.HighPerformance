@@ -85,7 +85,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     private int _nextId; // Next available sparse index
     private int _capacity;
 
-    public readonly int Count => _count - 1;
+    public readonly int Count => _count;
     public readonly int Capacity => _capacity;
     public readonly bool IsCreated => _dense.IsCreated && _sparse.IsCreated && _reverse.IsCreated;
 
@@ -133,8 +133,6 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 
         _sparse.AsSpan().Fill(-1);
         _generations.Clear();
-
-        Add(default, out _); // Make index 0 invalid
     }
 
     /// <summary>
@@ -240,8 +238,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly bool Contains(int sparseIndex, int generation)
     {
-        // 0 is reserved as invalid index
-        if (sparseIndex <= 0 || sparseIndex >= _sparse.Count)
+        if (sparseIndex < 0 || sparseIndex >= _sparse.Count)
         {
             return false;
         }

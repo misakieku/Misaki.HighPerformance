@@ -16,34 +16,58 @@ namespace Misaki.HighPerformance.Image
             stbi__get8(s);
             tga_color_type = stbi__get8(s);
             if (tga_color_type > 1)
+            {
                 goto errorEnd;
+            }
+
             sz = stbi__get8(s);
             if (tga_color_type == 1)
             {
                 if (sz != 1 && sz != 9)
+                {
                     goto errorEnd;
+                }
+
                 stbi__skip(s, 4);
                 sz = stbi__get8(s);
                 if (sz != 8 && sz != 15 && sz != 16 && sz != 24 && sz != 32)
+                {
                     goto errorEnd;
+                }
+
                 stbi__skip(s, 4);
             }
             else
             {
                 if (sz != 2 && sz != 3 && sz != 10 && sz != 11)
+                {
                     goto errorEnd;
+                }
+
                 stbi__skip(s, 9);
             }
 
             if (stbi__get16le(s) < 1)
+            {
                 goto errorEnd;
+            }
+
             if (stbi__get16le(s) < 1)
+            {
                 goto errorEnd;
+            }
+
             sz = stbi__get8(s);
             if (tga_color_type == 1 && sz != 8 && sz != 16)
+            {
                 goto errorEnd;
+            }
+
             if (sz != 8 && sz != 15 && sz != 16 && sz != 24 && sz != 32)
+            {
                 goto errorEnd;
+            }
+
             res = 1;
         errorEnd:
             ;
@@ -82,9 +106,15 @@ namespace Misaki.HighPerformance.Image
             var RLE_repeating = 0;
             var read_next_pixel = 1;
             if (tga_height > 1 << 24)
+            {
                 return (byte*)(ulong)(stbi__err("too large") != 0 ? 0 : 0);
+            }
+
             if (tga_width > 1 << 24)
+            {
                 return (byte*)(ulong)(stbi__err("too large") != 0 ? 0 : 0);
+            }
+
             if (tga_image_type >= 8)
             {
                 tga_image_type -= 8;
@@ -93,20 +123,37 @@ namespace Misaki.HighPerformance.Image
 
             tga_inverted = 1 - ((tga_inverted >> 5) & 1);
             if (tga_indexed != 0)
+            {
                 tga_comp = stbi__tga_get_comp(tga_palette_bits, 0, &tga_rgb16);
+            }
             else
+            {
                 tga_comp = stbi__tga_get_comp(tga_bits_per_pixel, tga_image_type == 3 ? 1 : 0, &tga_rgb16);
+            }
+
             if (tga_comp == 0)
+            {
                 return (byte*)(ulong)(stbi__err("bad format") != 0 ? 0 : 0);
+            }
+
             *x = tga_width;
             *y = tga_height;
             if (comp != null)
+            {
                 *comp = tga_comp;
+            }
+
             if (stbi__mad3sizes_valid(tga_width, tga_height, tga_comp, 0) == 0)
+            {
                 return (byte*)(ulong)(stbi__err("too large") != 0 ? 0 : 0);
+            }
+
             tga_data = (byte*)stbi__malloc_mad3(tga_width, tga_height, tga_comp, 0);
             if (tga_data == null)
+            {
                 return (byte*)(ulong)(stbi__err("outofmem") != 0 ? 0 : 0);
+            }
+
             stbi__skip(s, tga_offset);
             if (tga_indexed == 0 && tga_is_RLE == 0 && tga_rgb16 == 0)
             {
@@ -179,10 +226,15 @@ namespace Misaki.HighPerformance.Image
                         {
                             var pal_idx = tga_bits_per_pixel == 8 ? stbi__get8(s) : stbi__get16le(s);
                             if (pal_idx >= tga_palette_len)
+                            {
                                 pal_idx = 0;
+                            }
+
                             pal_idx *= tga_comp;
                             for (j = 0; j < tga_comp; ++j)
+                            {
                                 raw_data[j] = tga_palette[pal_idx + j];
+                            }
                         }
                         else if (tga_rgb16 != 0)
                         {
@@ -191,18 +243,24 @@ namespace Misaki.HighPerformance.Image
                         else
                         {
                             for (j = 0; j < tga_comp; ++j)
+                            {
                                 raw_data[j] = stbi__get8(s);
+                            }
                         }
 
                         read_next_pixel = 0;
                     }
 
                     for (j = 0; j < tga_comp; ++j)
+                    {
                         tga_data[i * tga_comp + j] = raw_data[j];
+                    }
+
                     --RLE_count;
                 }
 
                 if (tga_inverted != 0)
+                {
                     for (j = 0; j * 2 < tga_height; ++j)
                     {
                         var index1 = j * tga_width * tga_comp;
@@ -216,9 +274,12 @@ namespace Misaki.HighPerformance.Image
                             ++index2;
                         }
                     }
+                }
 
                 if (tga_palette != null)
+                {
                     CRuntime.free(tga_palette);
+                }
             }
 
             if (tga_comp >= 3 && tga_rgb16 == 0)
@@ -234,7 +295,10 @@ namespace Misaki.HighPerformance.Image
             }
 
             if (req_comp != 0 && req_comp != tga_comp)
+            {
                 tga_data = stbi__convert_format(tga_data, tga_comp, req_comp, (uint)tga_width, (uint)tga_height);
+            }
+
             tga_palette_start = tga_palette_len = tga_palette_bits = tga_x_origin = tga_y_origin = 0;
             return tga_data;
         }
@@ -328,18 +392,30 @@ namespace Misaki.HighPerformance.Image
             }
 
             if (x != null)
+            {
                 *x = tga_w;
+            }
+
             if (y != null)
+            {
                 *y = tga_h;
+            }
+
             if (comp != null)
+            {
                 *comp = tga_comp;
+            }
+
             return 1;
         }
 
         public static int stbi__tga_get_comp(int bits_per_pixel, int is_grey, int* is_rgb16)
         {
             if (is_rgb16 != null)
+            {
                 *is_rgb16 = 0;
+            }
+
             switch (bits_per_pixel)
             {
                 case 8:
@@ -347,9 +423,15 @@ namespace Misaki.HighPerformance.Image
                 case 16:
                 case 15:
                     if (bits_per_pixel == 16 && is_grey != 0)
+                    {
                         return STBI_grey_alpha;
+                    }
+
                     if (is_rgb16 != null)
+                    {
                         *is_rgb16 = 1;
+                    }
+
                     return STBI_rgb;
                 case 24:
                 case 32:

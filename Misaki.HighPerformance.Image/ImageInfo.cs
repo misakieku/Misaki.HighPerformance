@@ -1,15 +1,30 @@
-﻿using System.IO;
+using System.IO;
 
 namespace Misaki.HighPerformance.Image;
 
-public struct ImageInfo
+public readonly struct ImageInfo
 {
-    public int Width;
-    public int Height;
-    public ColorComponents ColorComponents;
-    public int BitsPerChannel;
+    public int Width
+    {
+        get; init;
+    }
 
-    public static unsafe ImageInfo? FromStream(Stream stream)
+    public int Height
+    {
+        get; init;
+    }
+
+    public ColorComponents ColorComponents
+    {
+        get; init;
+    }
+
+    public int BitsPerChannel
+    {
+        get; init;
+    }
+
+    public static unsafe ImageInfo FromStream(Stream stream)
     {
         int width, height, comp;
         var context = new StbImage.stbi__context(stream);
@@ -21,7 +36,9 @@ public struct ImageInfo
         StbImage.stbi__rewind(context);
 
         if (infoResult == 0)
-            return null;
+        {
+            return default;
+        }
 
         return new ImageInfo
         {
