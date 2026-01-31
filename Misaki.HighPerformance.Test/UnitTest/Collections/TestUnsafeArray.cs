@@ -20,6 +20,12 @@ public class TestUnsafeArray
         _arr.Dispose();
     }
 
+    [GlobalTestCleanup]
+    public static void GlobalCleanup(TestContext ctx)
+    {
+        AllocationManager.Dispose();
+    }
+
     [TestMethod]
     public void TestIndexAccess()
     {

@@ -1,4 +1,50 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Misaki.HighPerformance.LowLevel.Buffer;
+
+public readonly struct MemoryHandle : IEquatable<MemoryHandle>
+{
+    public readonly int id;
+    public readonly int generation;
+
+    public readonly static MemoryHandle Invalid = new(-1, -1);
+
+    public MemoryHandle(int id, int generation)
+    {
+        this.id = id;
+        this.generation = generation;
+    }
+
+    public bool Equals(MemoryHandle other)
+    {
+        return id == other.id && generation == other.generation;
+    }
+
+    public override bool Equals([NotNullWhen(true)] object? obj)
+    {
+        return obj is MemoryHandle other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return id ^ generation;
+    }
+
+    public override string? ToString()
+    {
+        return $"MemoryHandle(Id: {id}, Generation: {generation})";
+    }
+
+    public static bool operator ==(MemoryHandle left, MemoryHandle right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(MemoryHandle left, MemoryHandle right)
+    {
+        return !(left == right);
+    }
+}
 
 /// <summary>
 /// A structure that encapsulates function pointers for memory allocation operations.
@@ -6,11 +52,11 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 public readonly unsafe struct AllocationHandle
 {
     /// <summary>
-    /// Gets a pointer to the allocator instance associated with this allocation handle.
+    /// Gets a pointer to the state instance associated with this allocation handle.
     /// </summary>
-    public void* pAllocator
+    public void* State
     {
-        get;
+        get; init;
     }
 
     /// <summary>
@@ -18,7 +64,7 @@ public readonly unsafe struct AllocationHandle
     /// </summary>
     public AllocFunc Alloc
     {
-        get;
+        get; init;
     }
 
     /// <summary>
@@ -26,7 +72,7 @@ public readonly unsafe struct AllocationHandle
     /// </summary>
     public ReallocFunc Realloc
     {
-        get;
+        get; init;
     }
 
     /// <summary>
@@ -34,37 +80,29 @@ public readonly unsafe struct AllocationHandle
     /// </summary>
     public FreeFunc Free
     {
-        get;
+        get; init;
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AllocationHandle"/> struct with the specified allocator and memory
-    /// management functions.
+    /// Gets a function pointer for validating a memory handle.
     /// </summary>
-    /// <param name="allocator">A pointer to the allocator instance used for memory management.</param>
-    /// <param name="alloc">The function used to allocate memory.</param>
-    /// <param name="realloc">The function used to reallocate memory.</param>
-    /// <param name="free">The function used to free allocated memory.</param>
-    public AllocationHandle(void* allocator, AllocFunc alloc, ReallocFunc realloc, FreeFunc free)
+    public IsValidFunc IsValid
     {
-        pAllocator = allocator;
-        Alloc = alloc;
-        Realloc = realloc;
-        Free = free;
+        get; init;
     }
 }
 
 /// <summary>
-/// Represents an allocator interface for managing memory allocations.
+/// Represents an state interface for managing memory allocations.
 /// </summary>
 /// <remarks>
-/// The allocator must be pined to a specific memory region.
-/// Otherwise the reference of the <see cref="AllocationHandle.pAllocator"/>, may become invalid and lead to undefined behavior.
+/// The state must be pined to a specific memory region.
+/// Otherwise the reference of the <see cref="AllocationHandle.State"/>, may become invalid and lead to undefined behavior.
 /// </remarks>
 public interface IAllocator
 {
     /// <summary>
-    /// Gets a reference to the allocation handle associated with this allocator.
+    /// Gets a reference to the allocation handle associated with this state.
     /// </summary>
     AllocationHandle Handle
     {

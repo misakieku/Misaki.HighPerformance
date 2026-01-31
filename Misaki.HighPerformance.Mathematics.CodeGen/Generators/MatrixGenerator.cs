@@ -61,7 +61,8 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             }
 
             sourceBuilder.AppendLine();
-            sourceBuilder.AppendLine($@"
+
+            sourceBuilder.AppendLine(@$"
         public unsafe ref {typeInfo.ComponentTypeFullName} this[int index]
         {{
             {INLINE_METHOD_ATTRIBUTE}
@@ -72,7 +73,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             }}
         }}");
 
-            sourceBuilder.AppendLine($@"
+            sourceBuilder.AppendLine(@$"
         [global::System.Diagnostics.Conditional(""ENABLE_COLLECTION_CHECKS"")]
         private void RangeCheck(int index)
         {{

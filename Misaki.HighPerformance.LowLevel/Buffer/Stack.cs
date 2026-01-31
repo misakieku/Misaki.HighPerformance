@@ -2,12 +2,33 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
+public unsafe partial struct Stack
+{
+    private static void** s_pStackBuffers = null;
+    private static int s_stackCount = 0;
+    private static int s_stackCapacity = 0;
+    private static readonly SpinLock s_locker = new SpinLock(false);
+
+    public static void DisposeAll()
+    {
+        if (s_pStackBuffers == null)
+        {
+            return;
+        }
+
+        for (var i = 0; i < s_stackCount; i++)
+        {
+            Free(s_pStackBuffers[i]);
+        }
+    }
+}
+
 /// <summary>
 /// Provides a stack-based memory allocator for unmanaged memory, enabling fast allocation and deallocation of memory
 /// blocks within a preallocated buffer.
 /// </summary>
 /// <remarks>This is not a thread-safe implementation.</remarks>
-public unsafe struct Stack : IDisposable
+public unsafe partial struct Stack : IDisposable
 {
     private const nuint _DEFAULT_SIZE = 1024 * 1024; // 1MB
 
@@ -42,6 +63,14 @@ public unsafe struct Stack : IDisposable
     private nuint _offset;
     private uint _activeScopeCount;
 
+    internal readonly byte* Buffer => _buffer;
+
+    public nuint Offset
+    {
+        readonly get => _offset;
+        internal set => _offset = value;
+    }
+
     /// <summary>
     /// Initializes a new instance of the StackAllocator class with a buffer of the specified size.
     /// </summary>
@@ -67,6 +96,38 @@ public unsafe struct Stack : IDisposable
         _size = size;
         _offset = 0;
         _activeScopeCount = 0;
+
+        var token = false;
+        try
+        {
+            s_locker.Enter(ref token);
+            if (s_pStackBuffers == null)
+            {
+                s_pStackBuffers = (void**)Malloc((nuint)sizeof(void*) * 4u);
+                s_stackCapacity = 4;
+            }
+
+            if (s_stackCount >= s_stackCapacity)
+            {
+                var pOld = s_pStackBuffers;
+                var newCapacity = s_stackCapacity * 2;
+                var pNew = (void**)Realloc(pOld, (nuint)sizeof(void*) * (nuint)newCapacity);
+
+                s_pStackBuffers = pNew;
+                s_stackCapacity = newCapacity;
+            }
+
+            s_pStackBuffers[s_stackCount] = _buffer;
+            s_stackCount++;
+        }
+        finally
+        {
+            if (token)
+            {
+                s_locker.Exit();
+            }
+        }
+
     }
 
     private readonly void ThrowIfNoScope()

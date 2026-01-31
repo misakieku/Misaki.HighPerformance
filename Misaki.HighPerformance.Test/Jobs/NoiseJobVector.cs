@@ -2,6 +2,8 @@ using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.Mathematics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics.X86;
 
 namespace Misaki.HighPerformance.Test.Jobs;
 
@@ -12,7 +14,7 @@ internal unsafe struct NoiseJobVector : IJobParallelFor
     public int height;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static float Frac(float x)
+    public static float Frac(float x)
     {
         return x - MathF.Truncate(x);
     }
@@ -86,5 +88,103 @@ internal unsafe struct NoiseJobMath : IJobParallelFor
         var y = loopIndex / height;
         var uv = new float2(x, y) / new float2(width, height);
         buffers[loopIndex] = GradientNoise(uv);
+    }
+}
+
+internal unsafe struct NoiseJobMathV : IJobParallelFor
+{
+    public float* buffers;
+    public int width;
+    public int height;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static Vector256<float> Mod289(Vector256<float> x)
+    {
+        var div = x / Vector256.Create(289.0f);
+        var flr = Vector256.Floor(div);
+        return x - (flr * Vector256.Create(289.0f));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static Vector256<float> Fade(Vector256<float> t)
+    {
+        return t * t * t * (t * (t * Vector256.Create(6.0f) - Vector256.Create(15.0f)) + Vector256.Create(10.0f));
+    }
+
+    // HELPER: Calculate gradients for 8 pixels at once
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static Vector256<float> GradDot(Vector256<float> ix, Vector256<float> iy, Vector256<float> fx, Vector256<float> fy)
+    {
+        var hx = Mod289(ix);
+        var hy = Mod289(iy);
+
+        var p = hx * Vector256.Create(34.0f) + Vector256.Create(1.0f);
+        p = Mod289(p * hx + hy);
+        p = p * Vector256.Create(34.0f) + Vector256.Create(1.0f);
+        p = Mod289(p * hx);
+
+        var r = (p / 41.0f);
+        r = (r - Vector256.Floor(r)) * 2.0f - Vector256<float>.One;
+
+        var gx = r - Vector256.Floor(r + Vector256.Create(0.5f));
+        var gy = Vector256.Abs(r) - Vector256.Create(0.5f);
+
+        // Normalize
+        var len = Vector256.Sqrt(gx * gx + gy * gy);
+        gx /= len;
+        gy /= len;
+
+        return gx * fx + gy * fy;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector256<float> GradientNoiseAVX(Vector256<float> uvX, Vector256<float> uvY)
+    {
+        var ipX = Vector256.Floor(uvX);
+        var ipY = Vector256.Floor(uvY);
+        var fpX = uvX - ipX;
+        var fpY = uvY - ipY;
+
+        var uX = Fade(fpX);
+        var uY = Fade(fpY);
+
+        var d00 = GradDot(ipX, ipY, fpX, fpY);
+        var d01 = GradDot(ipX, ipY + Vector256<float>.One, fpX, fpY - Vector256<float>.One);
+        var d10 = GradDot(ipX + Vector256<float>.One, ipY, fpX - Vector256<float>.One, fpY);
+        var d11 = GradDot(ipX + Vector256<float>.One, ipY + Vector256<float>.One, fpX - Vector256<float>.One, fpY - Vector256<float>.One);
+
+        var lerpX1 = d00 + (d10 - d00) * uX;
+        var lerpX2 = d01 + (d11 - d01) * uX;
+
+        return lerpX1 + (lerpX2 - lerpX1) * uY;
+    }
+
+    public void Execute(int loopIndex, int threadIndex)
+    {
+        // ---------------------------------------------------------
+        // IMPORTANT: Loop Stride is now 8!
+        // ---------------------------------------------------------
+        int baseIndex = loopIndex * 8;
+
+        // Safety check
+        if (baseIndex + 7 >= width * height)
+            return;
+
+        // Calculate Coords
+        int y = baseIndex / width;
+        int x = baseIndex % width;
+
+        // Sequence: 0, 1, 2, 3, 4, 5, 6, 7
+        var vSeqX = Vector256.Create(0f, 1f, 2f, 3f, 4f, 5f, 6f, 7f);
+        var vBaseX = Vector256.Create((float)x) + vSeqX;
+        var vBaseY = Vector256.Create((float)y);
+
+        var vWidth = Vector256.Create((float)width);
+        var vHeight = Vector256.Create((float)height);
+
+        var result = GradientNoiseAVX(vBaseX / vWidth, vBaseY / vHeight);
+
+        // Store 8 floats (32 bytes)
+        Avx.Store(buffers + baseIndex, result);
     }
 }

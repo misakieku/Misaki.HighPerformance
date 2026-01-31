@@ -7,28 +7,24 @@ namespace Misaki.HighPerformance.Buffer
         where T : class
     {
         private readonly Func<T> _factory;
+        private readonly Action<T>? _resetAction;
         private readonly ConcurrentQueue<T> _pool = new();
 
         private bool _disposed;
 
-        public uint InitialSize
+        public int InitialSize
         {
             get;
         }
 
-        public uint MaxSize
-        {
-            get;
-        }
-
-        public ObjectPool(Func<T> factory, uint initialSize = uint.MinValue, uint maxSize = uint.MaxValue)
+        public ObjectPool(Func<T> factory, Action<T>? resetAction, int initialSize = 0)
         {
             _factory = factory;
+            _resetAction = resetAction;
 
             InitialSize = initialSize;
-            MaxSize = maxSize;
 
-            if (initialSize != uint.MinValue)
+            if (initialSize > 0)
             {
                 for (var i = 0; i < initialSize; i++)
                 {
@@ -51,8 +47,6 @@ namespace Misaki.HighPerformance.Buffer
             }
 
             var newInstance = _factory();
-            _pool.Enqueue(newInstance);
-
             return newInstance;
         }
 
@@ -73,20 +67,15 @@ namespace Misaki.HighPerformance.Buffer
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            if (_pool.Count < MaxSize)
-            {
-                _pool.Enqueue(obj);
-            }
+            _resetAction?.Invoke(obj);
+            _pool.Enqueue(obj);
         }
 
         public void Reset()
         {
             foreach (var obj in _pool)
             {
-                if (obj is IDisposable disposable)
-                {
-                    disposable.Dispose();
-                }
+                _resetAction?.Invoke(obj);
             }
 
             _pool.Clear();

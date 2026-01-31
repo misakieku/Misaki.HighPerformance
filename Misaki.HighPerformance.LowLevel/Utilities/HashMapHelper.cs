@@ -1,5 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
+using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
@@ -89,7 +90,25 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public readonly bool IsEmpty => !IsCreated || _count == 0;
 
-    public readonly bool IsCreated => _buffer != null && _allocationHandle.pAllocator != null && _memoryHandle.IsValid;
+    public readonly bool IsCreated
+    {
+        get
+        {
+            if (_buffer != null)
+            {
+                if (_allocationHandle.IsValid != null)
+                {
+                    return _allocationHandle.IsValid(_allocationHandle.State, _memoryHandle);
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
 
     private static int CalculateDataSize(int capacity, int bucketCapacity, int sizeOfTValue, out int outKeyOffset, out int outNextOffset, out int outBucketOffset)
     {
@@ -142,6 +161,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [Conditional("ENABLE_COLLECTION_CHECKS")]
     private readonly void ThrowIfNotCreated()
     {
         if (!IsCreated)
@@ -191,8 +211,13 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void AllocateBuffer(int totalSize, int keyOffset, int nextOffset, int bucketOffset, AllocationOption allocationOption)
     {
+        if (_allocationHandle.Alloc == null)
+        {
+            throw new InvalidOperationException("Target allocation handle does not support allocation.");
+        }
+
         MemoryHandle memHandle;
-        var buf = (byte*)_allocationHandle.Alloc(_allocationHandle.pAllocator, (uint)totalSize, (nuint)_alignment, allocationOption, &memHandle);
+        var buf = (byte*)_allocationHandle.Alloc(_allocationHandle.State, (uint)totalSize, (nuint)_alignment, allocationOption, &memHandle);
 
         _buffer = buf;
         _keys = (TKey*)(_buffer + keyOffset);
@@ -228,7 +253,10 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             }
         }
 
-        _allocationHandle.Free(_allocationHandle.pAllocator, oldBuffer, oldMemoryHandle);
+        if (_allocationHandle.Free != null)
+        {
+            _allocationHandle.Free(_allocationHandle.State, oldBuffer, oldMemoryHandle);
+        }
     }
 
     public void Resize(int newCapacity)
@@ -399,6 +427,21 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return false;
     }
 
+    public ref TValue GetValueRef<TValue>(in TKey key, out bool exists)
+        where TValue : unmanaged
+    {
+        ThrowIfNotCreated();
+        var idx = Find(key);
+        if (idx != -1)
+        {
+            exists = true;
+            return ref UnsafeUtility.ReadArrayElementRef<TValue>(_buffer, idx);
+        }
+
+        exists = false;
+        return ref Unsafe.NullRef<TValue>();
+    }
+
     public bool MoveNextSearch(ref int bucketIndex, ref int nextIndex, out int index)
     {
         ThrowIfNotCreated();
@@ -522,9 +565,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             return;
         }
 
-        if (_allocationHandle.pAllocator != null)
+        if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.pAllocator, _buffer, _memoryHandle);
+            _allocationHandle.Free(_allocationHandle.State, _buffer, _memoryHandle);
         }
 
         _buffer = null;

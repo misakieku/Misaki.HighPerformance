@@ -41,16 +41,22 @@ namespace Misaki.HighPerformance.Analyzer
                 .OfType<ExpressionSyntax>()
                 .First();
 
-            // Register a code action that will invoke the fix.
             context.RegisterCodeFix(
                 CodeAction.Create(
-                    title: "Share",
-                    createChangedDocument: c => TransferOwnershipAsync(context.Document, expressionSyntax, c),
-                    equivalenceKey: nameof(StructCopyCodeFixProvider)),
+                    "Share memory",
+                    c => ShareAsync(context.Document, expressionSyntax, c),
+                    "StructCopyCodeFixProvider_ShareMemory"),
+                diagnostic);
+
+            context.RegisterCodeFix(
+                CodeAction.Create(
+                    "Transfer ownership",
+                    c => TransferOwnershipAsync(context.Document, expressionSyntax, c),
+                    "StructCopyCodeFixProvider_TransferOwnership"),
                 diagnostic);
         }
 
-        private async Task<Document> TransferOwnershipAsync(Document document, ExpressionSyntax expressionToFix, CancellationToken cancellationToken)
+        private async Task<Document> ShareAsync(Document document, ExpressionSyntax expressionToFix, CancellationToken cancellationToken)
         {
             // 1. Get the semantic model to figure out exactly what type we are dealing with
             var semanticModel = await document.GetSemanticModelAsync(cancellationToken);
@@ -66,6 +72,33 @@ namespace Misaki.HighPerformance.Analyzer
                 SyntaxKind.SimpleMemberAccessExpression,
                 expressionToFix, // The 'a' in 'b = a'
                 SyntaxFactory.IdentifierName("Share")
+            );
+
+            var detachInvocation = SyntaxFactory.InvocationExpression(detachMethod);
+
+            // 4. Replace the old node with the new node in the Syntax Tree
+            var root = await document.GetSyntaxRootAsync(cancellationToken);
+            var newRoot = root.ReplaceNode(expressionToFix, detachInvocation);
+
+            return document.WithSyntaxRoot(newRoot);
+        }
+
+        private async Task<Document> TransferOwnershipAsync(Document document, ExpressionSyntax expressionToFix, CancellationToken cancellationToken)
+        {
+            // 1. Get the semantic model to figure out exactly what type we are dealing with
+            var semanticModel = await document.GetSemanticModelAsync(cancellationToken);
+            var typeSymbol = semanticModel.GetTypeInfo(expressionToFix).Type;
+
+            // 2. Generate the type name string (e.g., "UniquePtr<ID3D12Device>")
+            // We use ToMinimalDisplayString so Roslyn handles namespaces/using directives automatically.
+            var typeName = typeSymbol.ToMinimalDisplayString(semanticModel, expressionToFix.SpanStart);
+            var typeSyntax = SyntaxFactory.ParseTypeName(typeName);
+
+            // 3. Create the "Detach()" invocation: expression.Detach()
+            var detachMethod = SyntaxFactory.MemberAccessExpression(
+                SyntaxKind.SimpleMemberAccessExpression,
+                expressionToFix, // The 'a' in 'b = a'
+                SyntaxFactory.IdentifierName("Detach")
             );
 
             var detachInvocation = SyntaxFactory.InvocationExpression(detachMethod);

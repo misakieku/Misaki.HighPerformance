@@ -81,7 +81,6 @@ namespace {typeInfo.TypeSymbol.ContainingNamespace.ToDisplayString()}
         protected virtual void GenerateTypeStart()
         {
             sourceBuilder.Append($@"
-    //[global::System.Runtime.CompilerServices.SkipLocalsInit]
     public partial struct {typeInfo.TypeSymbol.Name} : global::System.IEquatable<{typeInfo.TypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)}>
     {{");
         }

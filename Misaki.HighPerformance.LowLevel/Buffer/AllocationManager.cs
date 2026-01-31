@@ -1,56 +1,9 @@
 using Misaki.HighPerformance.Collections;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
-
-public readonly struct MemoryHandle : IEquatable<MemoryHandle>
-{
-    public readonly int id;
-    public readonly int generation;
-
-    public readonly bool IsValid => AllocationManager.ContainsAllocation(this);
-
-    public readonly static MemoryHandle Invalid = new(-1, -1);
-
-    public MemoryHandle(int id, int generation)
-    {
-        this.id = id;
-        this.generation = generation;
-    }
-
-    public bool Equals(MemoryHandle other)
-    {
-        return id == other.id && generation == other.generation;
-    }
-
-    public override bool Equals([NotNullWhen(true)] object? obj)
-    {
-        return obj is MemoryHandle other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-        return id ^ generation;
-    }
-
-    public override string? ToString()
-    {
-        return $"MemoryHandle(Id: {id}, Generation: {generation})";
-    }
-
-    public static bool operator ==(MemoryHandle left, MemoryHandle right)
-    {
-        return left.Equals(right);
-    }
-
-    public static bool operator !=(MemoryHandle left, MemoryHandle right)
-    {
-        return !(left == right);
-    }
-}
 
 /// <summary>
 /// Holds information about a memory allocation.
@@ -93,15 +46,27 @@ public static unsafe class AllocationManager
 
     private struct ArenaAllocator : IAllocator, IDisposable
     {
+        private const int _ARENA_MAGIC_ID = -3941029;
+
         private DynamicArena _arena;
         private AllocationHandle _handle;
+        private int _currentTick;
 
         public readonly AllocationHandle Handle => _handle;
+        public readonly int CurrentTick => _currentTick;
 
         public void Init(uint initialSize)
         {
             _arena = new DynamicArena(initialSize);
-            _handle = new AllocationHandle(Unsafe.AsPointer(ref this), &Allocate, &Reallocate, &Free);
+            _handle = new AllocationHandle
+            {
+                State = Unsafe.AsPointer(ref this),
+                Alloc = &Allocate,
+                Realloc = &Reallocate,
+                Free = null,
+                IsValid = &IsValid
+            };
+            _currentTick = 0;
         }
 
         private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
@@ -114,7 +79,7 @@ public static unsafe class AllocationManager
                 return null;
             }
 
-            *pHandle = GetMagicHandle();
+            *pHandle = new MemoryHandle(_ARENA_MAGIC_ID, selfPtr->_currentTick);
             return ptr;
         }
 
@@ -134,17 +99,20 @@ public static unsafe class AllocationManager
 
             MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
 
+            *pHandle = new MemoryHandle(_ARENA_MAGIC_ID, selfPtr->_currentTick);
             return newPtr;
         }
 
-        private static void Free(void* instance, void* ptr, MemoryHandle handle)
+        private static bool IsValid(void* instance, MemoryHandle handle)
         {
-            // The arena allocator does not free individual blocks, as it manages memory in chunks.
+            var selfPtr = (ArenaAllocator*)instance;
+            return handle.id == _ARENA_MAGIC_ID && handle.generation == selfPtr->_currentTick;
         }
 
         public void Reset()
         {
             _arena.Reset();
+            _currentTick++;
         }
 
         public void Dispose()
@@ -161,27 +129,33 @@ public static unsafe class AllocationManager
 
         public void Init()
         {
-            _handle = new AllocationHandle(Unsafe.AsPointer(ref this), &Allocate, &Reallocate, &Free);
+            _handle = new AllocationHandle
+            {
+                State = null,
+                Alloc = &Allocate,
+                Realloc = &Reallocate,
+                Free = &Free,
+                IsValid = &IsValid
+            };
         }
 
-        private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
+        private static void* Allocate(void* _, nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
         {
             return HeapAlloc(size, alignment, allocationOption, pHandle);
         }
 
-        private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
+        private static void* Reallocate(void* _, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
         {
             if (ptr == null)
             {
-                return Allocate(instance, newSize, alignment, allocationOption, pHandle);
+                return Allocate(null, newSize, alignment, allocationOption, pHandle);
             }
 
             MemoryHandle newHandle;
             var newPtr = HeapAlloc(newSize, alignment, allocationOption, &newHandle);
             if (newPtr == null)
             {
-                // Allocation failed, return original pointer
-                return ptr;
+                return null;
             }
 
             MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
@@ -191,15 +165,21 @@ public static unsafe class AllocationManager
             return newPtr;
         }
 
-        private static void Free(void* instance, void* ptr, MemoryHandle handle)
+        private static void Free(void* _, void* ptr, MemoryHandle handle)
         {
             HeapFree(ptr, handle);
+        }
+
+        private static bool IsValid(void* _, MemoryHandle handle)
+        {
+            return ContainsAllocation(handle);
         }
     }
 
     private struct StackAllocator : IAllocator
     {
-        // Thread-local stack for allocations. We does not track allocations across threads, which leads us to let system clean up the memory when thread exits.
+        private const int _STACK_MAGIC_ID = -6843541;
+
         [ThreadStatic]
         private static Stack s_stack;
         private AllocationHandle _handle;
@@ -208,7 +188,14 @@ public static unsafe class AllocationManager
 
         public void Init()
         {
-            _handle = new(Unsafe.AsPointer(ref this), &Allocate, &Reallocate, &Free);
+            _handle = new AllocationHandle
+            {
+                State = Unsafe.AsPointer(ref this),
+                Alloc = &Allocate,
+                Realloc = &Reallocate,
+                Free = null,
+                IsValid = &IsValid
+            };
         }
 
         private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
@@ -220,7 +207,7 @@ public static unsafe class AllocationManager
                 return null;
             }
 
-            *pHandle = GetMagicHandle();
+            *pHandle = new MemoryHandle(_STACK_MAGIC_ID, (int)s_stack.Offset);
             return ptr;
         }
 
@@ -231,6 +218,24 @@ public static unsafe class AllocationManager
                 return Allocate(instance, newSize, alignment, allocationOption, pHandle);
             }
 
+            // Optimize for last allocation. Set offset directly.
+            var oldBase = s_stack.Buffer + s_stack.Offset - oldSize;
+            if (ptr == oldBase)
+            {
+                if (newSize > oldSize)
+                {
+                    var diff = newSize - oldSize;
+                    s_stack.Offset += diff;
+                    if (allocationOption.HasFlag(AllocationOption.Clear))
+                    {
+                        MemClear(s_stack.Buffer + s_stack.Offset - diff, diff);
+                    }
+                }
+
+                *pHandle = new MemoryHandle(_STACK_MAGIC_ID, (int)s_stack.Offset);
+                return ptr;
+            }
+
             var newPtr = s_stack.Allocate(newSize, alignment, allocationOption);
             if (newPtr == null)
             {
@@ -239,11 +244,13 @@ public static unsafe class AllocationManager
 
             MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
 
+            *pHandle = new MemoryHandle(_STACK_MAGIC_ID, (int)s_stack.Offset);
             return newPtr;
         }
 
-        private static void Free(void* instance, void* ptr, MemoryHandle handle)
+        private static bool IsValid(void* instance, MemoryHandle handle)
         {
+            return handle.id == _STACK_MAGIC_ID && handle.generation <= (int)s_stack.Offset;
         }
 
         public static Stack.Scope CreateScope(StackAllocator* pSelf)
@@ -264,7 +271,9 @@ public static unsafe class AllocationManager
     private static AllocationHeader* s_pLiveHead;
     private static SpinLock s_liveLock;
 
-    private readonly static ConcurrentSlotMap<IntPtr> s_allocations;
+    private static readonly ConcurrentSlotMap<IntPtr> s_allocations;
+
+    public static readonly MemoryHandle MagicHandle = new MemoryHandle(int.MinValue, int.MinValue);
 
     /// <summary>
     /// Gets the number of live persistent heap allocations when the debug layer is disabled.
@@ -276,11 +285,14 @@ public static unsafe class AllocationManager
     /// </summary>
     public static bool IsDebugLayerEnabled => s_debugLayer;
 
+
     static AllocationManager()
     {
-        s_pArenaAllocator = (ArenaAllocator*)NativeMemory.Alloc((nuint)sizeof(ArenaAllocator));
-        s_pHeapAllocator = (HeapAllocator*)NativeMemory.Alloc((nuint)sizeof(HeapAllocator));
-        s_pStackAllocator = (StackAllocator*)NativeMemory.Alloc((nuint)sizeof(StackAllocator));
+        var allocatorTotalSize = (nuint)(sizeof(ArenaAllocator) + sizeof(HeapAllocator) + sizeof(StackAllocator));
+        var basePtr = NativeMemory.Alloc(allocatorTotalSize);
+        s_pArenaAllocator = (ArenaAllocator*)basePtr;
+        s_pHeapAllocator = (HeapAllocator*)((byte*)basePtr + (nuint)sizeof(ArenaAllocator));
+        s_pStackAllocator = (StackAllocator*)((byte*)basePtr + (nuint)(sizeof(ArenaAllocator) + sizeof(HeapAllocator)));
 
         s_liveLock = new SpinLock(false);
 
@@ -429,7 +441,7 @@ public static unsafe class AllocationManager
         MemCpy(newUser, userPtr, newSize);
         if (allocationOption.HasFlag(AllocationOption.Clear) && newSize > oldSize)
         {
-            MemClear((byte*)newUser + oldSize, newSize - oldSize);
+            MemClear(newUser + oldSize, newSize - oldSize);
         }
 
         // Unlink and free the old block (without freeing the StackTrace pHandle again)
@@ -465,21 +477,21 @@ public static unsafe class AllocationManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static AllocationHandle GetAllocationHandle(Allocator allocator)
     {
-        switch (allocator)
+        return allocator switch
         {
-            case Allocator.Temp:
-                return s_pArenaAllocator->Handle;
-            case Allocator.Persistent:
-                return s_pHeapAllocator->Handle;
-            default:
-                throw new ArgumentException("Target allocator type does not support custom allocation.", nameof(allocator));
-        }
+            Allocator.Temp => s_pArenaAllocator->Handle,
+            Allocator.Persistent => s_pHeapAllocator->Handle,
+            _ => throw new ArgumentException("Target allocator type does not support custom allocation.", nameof(allocator)),
+        };
     }
 
     /// <summary>
-    /// Allocates a block of memory from the heap with the specified size and alignment, using the given allocation
-    /// options.
+    /// Allocates a block of memory from the heap with the specified size and alignment, using the given allocation options.
     /// </summary>
+    /// <remarks>
+    /// This will allocate memory from the heap. If the debug layer is enabled, additional tracking information will be recorded.
+    /// The memory handle is always tracked unless the <see cref="AllocationOption.Untrack"/> flag is specified.
+    /// </remarks>
     /// <param name="size">The number of bytes to allocate. Must be greater than zero.</param>
     /// <param name="alignment">The alignment, in bytes, for the allocated memory block. Must be a power of two.</param>
     /// <param name="allocationOption">An optional set of flags that control allocation behavior, such as whether the memory should be cleared or
@@ -488,8 +500,10 @@ public static unsafe class AllocationManager
     /// <exception cref="OutOfMemoryException">Thrown if the allocation fails.</exception>
     public static void* HeapAlloc(nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
     {
+        var isUntrack = allocationOption.HasFlag(AllocationOption.Untrack);
+
         void* ptr;
-        if (s_debugLayer)
+        if (s_debugLayer && !isUntrack)
         {
             ptr = DebugAllocate(size, alignment);
         }
@@ -509,7 +523,15 @@ public static unsafe class AllocationManager
             MemClear(ptr, size);
         }
 
-        *pHandle = AddAllocation((IntPtr)ptr);
+        if (isUntrack)
+        {
+            *pHandle = MagicHandle;
+        }
+        else
+        {
+            *pHandle = AddAllocation((IntPtr)ptr);
+        }
+
         return ptr;
     }
 
@@ -521,7 +543,7 @@ public static unsafe class AllocationManager
     /// <param name="handle">The handle representing the memory allocation to free. The handle must be valid and previously allocated.</param>
     public static void HeapFree(void* ptr, MemoryHandle handle)
     {
-        if (s_debugLayer)
+        if (s_debugLayer && handle != MagicHandle)
         {
             DebugFree(ptr);
         }
@@ -576,12 +598,6 @@ public static unsafe class AllocationManager
         return new MemoryHandle(id, generation);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static MemoryHandle GetMagicHandle()
-    {
-        return new MemoryHandle(int.MinValue, int.MinValue);
-    }
-
     /// <summary>
     /// Removes the memory allocation associated with the specified handle.
     /// </summary>
@@ -608,14 +624,17 @@ public static unsafe class AllocationManager
     /// <summary>
     /// Determines whether the specified memory handle refers to a currently tracked allocation.
     /// </summary>
+    /// <remarks>
+    /// This only validates the memory when you added the allocation via <see cref="AddAllocation(IntPtr)"/>.
+    /// For validating memory from <see cref="AllocationHandle"/>, use <see cref="AllocationHandle.IsValid"/> instead.
+    /// </remarks>
     /// <param name="handle">The memory handle to check for an associated allocation.</param>
     /// <returns>true if the allocation corresponding to the handle exists; otherwise, false.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool ContainsAllocation(MemoryHandle handle)
     {
-        if (handle.id == int.MinValue && handle.generation == int.MinValue)
+        if (handle == MagicHandle)
         {
-            // Magic handle always valid
             return true;
         }
 
@@ -679,20 +698,14 @@ public static unsafe class AllocationManager
             throw new MemoryLeakException($"Found {LiveAllocationCount} memory lakes! Please enable debug layer for more informations.");
         }
 
+        // NOTE: Arena allocator holds the base ptr for all allocators, heap and stack allocators do not own any memory themselves.
         if (s_pArenaAllocator != null)
         {
             s_pArenaAllocator->Dispose();
+
+            Stack.DisposeAll();
+
             NativeMemory.Free(s_pArenaAllocator);
-        }
-
-        if (s_pHeapAllocator != null)
-        {
-            NativeMemory.Free(s_pHeapAllocator);
-        }
-
-        if (s_pStackAllocator != null)
-        {
-            NativeMemory.Free(s_pStackAllocator);
         }
 
         s_disposed = true;

@@ -55,7 +55,6 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
 
             return result;
         }
-
         set
         {
             var idx = _helper.Find(key);
@@ -98,7 +97,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="key">The key to add.</param>
     /// <param name="item">The value to add.</param>
     /// <returns>True if the key-value pair was added.</returns>
-    public bool TryAdd(TKey key, TValue item)
+    public bool TryAdd(in TKey key, TValue item)
     {
         var idx = _helper.TryAdd(key);
         if (idx != -1)
@@ -117,7 +116,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="key">The key to add.</param>
     /// <param name="item">The value to add.</param>
     /// <exception cref="ArgumentException">Thrown if the key was already present.</exception>
-    public void Add(TKey key, TValue item)
+    public void Add(in TKey key, TValue item)
     {
         var result = TryAdd(key, item);
         if (!result)
@@ -131,7 +130,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// </summary>
     /// <param name="item">The value to remove.</param>
     /// <returns>True if the value was present.</returns>
-    public bool Remove(TKey key)
+    public bool Remove(in TKey key)
     {
         return -1 != _helper.TryRemove(key);
     }
@@ -142,9 +141,30 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="key">The key to look up.</param>
     /// <param name="item">Outputs the value associated with the key. Outputs default if the key was not present.</param>
     /// <returns>True if the key was present.</returns>
-    public bool TryGetValue(TKey key, out TValue item)
+    public bool TryGetValue(in TKey key, out TValue item)
     {
         return _helper.TryGetValue(key, out item);
+    }
+
+    /// <summary>
+    /// Retrieves the value associated with the specified key, or returns a default value if the key is not found.
+    /// </summary>
+    /// <param name="key">The key whose value to retrieve.</param>
+    /// <param name="defaultValue">The value to return if the specified key does not exist. If not specified, the default value for the type is used.</param>
+    /// <returns>The value associated with the specified key if the key is found; otherwise, the specified default value.</returns>
+    public TValue GetValueOrDefault(in TKey key, TValue defaultValue = default)
+    {
+        if (_helper.TryGetValue<TValue>(key, out var value))
+        {
+            return value;
+        }
+
+        return defaultValue;
+    }
+
+    public ref TValue GetValueRef(in TKey key, out bool exists)
+    {
+        return ref _helper.GetValueRef<TValue>(key, out exists);
     }
 
     /// <summary>
@@ -152,7 +172,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// </summary>
     /// <param name="key">The key to look up.</param>
     /// <returns>True if the key was present.</returns>
-    public bool ContainsKey(TKey key)
+    public bool ContainsKey(in TKey key)
     {
         return -1 != _helper.Find(key);
     }

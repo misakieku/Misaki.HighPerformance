@@ -17,7 +17,25 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     public readonly nuint Size => _size;
     public readonly nuint Alignment => _alignment;
 
-    public readonly bool IsCreated => _buffer != null && _allocationHandle.pAllocator != null && _memoryHandle.IsValid;
+    public readonly bool IsCreated
+    {
+        get
+        {
+            if (_buffer != null)
+            {
+                if (_allocationHandle.IsValid != null)
+                {
+                    return _allocationHandle.IsValid(_allocationHandle.State, _memoryHandle);
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
 
     /// <summary>
     /// Constructs an UnsafeArray with a default size of 1 and uses the Persistent allocator.
@@ -34,8 +52,13 @@ public unsafe struct UnTypedArray : IUnTypedCollection
             throw new ArgumentOutOfRangeException(nameof(size), "Count must be greater than zero.");
         }
 
+        if (handle.Alloc == null)
+        {
+            throw new InvalidOperationException("Target allocation handle does not support allocation.");
+        }
+
         MemoryHandle memHandle;
-        _buffer = handle.Alloc(_allocationHandle.pAllocator, size, alignment, allocationOption, &memHandle);
+        _buffer = handle.Alloc(_allocationHandle.State, size, alignment, allocationOption, &memHandle);
         _size = size;
         _alignment = alignment;
 
@@ -87,7 +110,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
         }
 
         MemoryHandle memHandle = _memoryHandle;
-        _buffer = _allocationHandle.Realloc(_allocationHandle.pAllocator, _buffer, _size, newSize, _alignment, option, &memHandle);
+        _buffer = _allocationHandle.Realloc(_allocationHandle.State, _buffer, _size, newSize, _alignment, option, &memHandle);
         _size = newSize;
         _memoryHandle = memHandle;
     }
@@ -232,9 +255,9 @@ public unsafe struct UnTypedArray : IUnTypedCollection
             return;
         }
 
-        if (_allocationHandle.pAllocator != null)
+        if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.pAllocator, _buffer, _memoryHandle);
+            _allocationHandle.Free(_allocationHandle.State, _buffer, _memoryHandle);
         }
 
         _buffer = null;

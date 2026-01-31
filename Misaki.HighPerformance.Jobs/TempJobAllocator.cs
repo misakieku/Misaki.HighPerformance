@@ -8,8 +8,10 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
 {
     private const int _FRAME_LATENCY = 4;
     private const uint _ARENA_SIZE = 1024 * 1024; // 1 MB
+    private const int _MAGIC_ID = -559038737;
 
     private DynamicArena* _pArena;
+    private int _currentFrameCount;
     private int _currentFrameIndex;
     private fixed int _allocationsPerFrame[_FRAME_LATENCY];
 
@@ -23,6 +25,7 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
         var memoryHandle = default(MemoryHandle);
 
         _pArena = (DynamicArena*)AllocationManager.HeapAlloc((nuint)(sizeof(DynamicArena) * _FRAME_LATENCY), MemoryUtility.AlignOf<DynamicArena>(), AllocationOption.Clear, &memoryHandle);
+        _currentFrameCount = 0;
         _currentFrameIndex = 0;
         _memoryHandle = memoryHandle;
 
@@ -32,13 +35,20 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
             _allocationsPerFrame[i] = 0;
         }
 
-        _handle = new(Unsafe.AsPointer(ref this), &Allocate, &Reallocate, &Free);
+        _handle = new AllocationHandle
+        {
+            State = Unsafe.AsPointer(ref this),
+            Alloc = &Allocate,
+            Realloc = &Reallocate,
+            Free = &Free,
+            IsValid = &IsValid,
+        };
     }
 
     private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
     {
-        var selfPtr = (TempJobAllocator*)instance;
-        var pCurrentArena = selfPtr->_pArena + selfPtr->_currentFrameIndex;
+        var pSelf = (TempJobAllocator*)instance;
+        var pCurrentArena = pSelf->_pArena + pSelf->_currentFrameIndex;
         var ptr = pCurrentArena->Allocate(size, alignment, allocationOption);
         if (ptr == null)
         {
@@ -46,8 +56,8 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
             return null;
         }
 
-        Interlocked.Increment(ref selfPtr->_allocationsPerFrame[selfPtr->_currentFrameIndex]);
-        *pHandle = AllocationManager.GetMagicHandle();
+        Interlocked.Increment(ref pSelf->_allocationsPerFrame[pSelf->_currentFrameIndex]);
+        *pHandle = new MemoryHandle(_MAGIC_ID, pSelf->_currentFrameCount);
         return ptr;
     }
 
@@ -58,8 +68,8 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
             return Allocate(instance, newSize, alignment, allocationOption, pHandle);
         }
 
-        var selfPtr = (TempJobAllocator*)instance;
-        var pCurrentArena = selfPtr->_pArena + selfPtr->_currentFrameIndex;
+        var pSelf = (TempJobAllocator*)instance;
+        var pCurrentArena = pSelf->_pArena + pSelf->_currentFrameIndex;
         var newPtr = pCurrentArena->Allocate(newSize, alignment, allocationOption);
         if (newPtr == null)
         {
@@ -71,20 +81,27 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
         return newPtr;
     }
 
-    private static void Free(void* instance, void* ptr, MemoryHandle pHandle)
+    private static void Free(void* instance, void* ptr, MemoryHandle handle)
     {
         // The arena allocator does not free individual blocks, as it manages memory in chunks.
-        var selfPtr = (TempJobAllocator*)instance;
-        Interlocked.Decrement(ref selfPtr->_allocationsPerFrame[selfPtr->_currentFrameIndex]);
+        var pSelf = (TempJobAllocator*)instance;
+        Interlocked.Decrement(ref pSelf->_allocationsPerFrame[pSelf->_currentFrameIndex]);
+    }
+
+    private static bool IsValid(void* instance, MemoryHandle handle)
+    {
+        var pSelf = (TempJobAllocator*)instance;
+        return handle.id == _MAGIC_ID && handle.generation > pSelf->_currentFrameCount - _FRAME_LATENCY;
     }
 
     public int AdvanceFrame()
     {
         var allocations = Interlocked.Exchange(ref _allocationsPerFrame[_currentFrameIndex], 0);
 
-        _currentFrameIndex = (_currentFrameIndex + 1) % _FRAME_LATENCY;
-        var pCurrentArena = _pArena + _currentFrameIndex;
-        pCurrentArena->Reset();
+        _currentFrameCount++;
+        _currentFrameIndex = _currentFrameCount % _FRAME_LATENCY;
+
+        (_pArena + _currentFrameIndex)->Reset();
 
         return allocations;
     }

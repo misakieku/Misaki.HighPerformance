@@ -102,7 +102,25 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         }
     }
 
-    public readonly bool IsCreated => _buffer != null && _allocationHandle.pAllocator != null && _memoryHandle.IsValid;
+    public readonly bool IsCreated
+    {
+        get
+        {
+            if (_buffer != null)
+            {
+                if (_allocationHandle.IsValid != null)
+                {
+                    return _allocationHandle.IsValid(_allocationHandle.State, _memoryHandle);
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
 
     public Enumerator GetEnumerator() => new((UnsafeArray<T>*)UnsafeUtility.AddressOf(ref this));
     IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
@@ -130,8 +148,13 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             throw new ArgumentOutOfRangeException(nameof(count), "Count can not be less than zero.");
         }
 
+        if (handle.Alloc == null)
+        {
+            throw new InvalidOperationException("Target allocation handle does not support allocation.");
+        }
+
         MemoryHandle memHandle;
-        var buff = handle.Alloc(handle.pAllocator, (nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption, &memHandle);
+        var buff = handle.Alloc(handle.State, (nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption, &memHandle);
 
         _buffer = (T*)buff;
         _memoryHandle = memHandle;
@@ -168,6 +191,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [Conditional("ENABLE_COLLECTION_CHECKS")]
     private readonly void ThrowIfNotCreated()
     {
         if (!IsCreated)
@@ -202,6 +226,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     {
         ThrowIfNotCreated();
 
+        if (_allocationHandle.Realloc == null)
+        {
+            throw new InvalidOperationException("Target allocation handle does not support reallocation.");
+        }
+
         if (newSize == Count)
         {
             return;
@@ -209,7 +238,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
         MemoryHandle memHandle = _memoryHandle;
         var elemSize = SizeOf<T>();
-        _buffer = (T*)_allocationHandle.Realloc(_allocationHandle.pAllocator, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option, &memHandle);
+        _buffer = (T*)_allocationHandle.Realloc(_allocationHandle.State, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option, &memHandle);
         _memoryHandle = memHandle;
         _count = newSize;
     }
@@ -273,9 +302,9 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
-        if (_allocationHandle.pAllocator != null)
+        if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.pAllocator, _buffer, _memoryHandle);
+            _allocationHandle.Free(_allocationHandle.State, _buffer, _memoryHandle);
         }
 
         _buffer = null;

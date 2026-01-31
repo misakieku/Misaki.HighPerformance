@@ -14,8 +14,10 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 [StructLayout(LayoutKind.Sequential, Size = 32)]
 public unsafe struct FixedText32
 {
+    public const int MAX_LENGTH = 30;
+
     private ushort _length;
-    private fixed byte _buffer[30];
+    private fixed byte _buffer[MAX_LENGTH];
 
     public readonly ushort Length => _length;
     public string Value
@@ -36,14 +38,14 @@ public unsafe struct FixedText32
             }
 
             var maxBytes = Encoding.UTF8.GetByteCount(value);
-            if (maxBytes > 30)
+            if (maxBytes > MAX_LENGTH)
             {
                 throw new ArgumentException("Input string is too long to fit in FixedText32.");
             }
 
             fixed (byte* bufferPtr = _buffer)
             {
-                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, 30));
+                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, MAX_LENGTH));
             }
         }
     }
@@ -51,7 +53,7 @@ public unsafe struct FixedText32
     public FixedText32(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
-        if (maxBytes > 30)
+        if (maxBytes > MAX_LENGTH)
         {
             throw new ArgumentException("Input string is too long to fit in FixedText32.");
         }
@@ -59,7 +61,7 @@ public unsafe struct FixedText32
         fixed (char* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, 30);
+            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, MAX_LENGTH);
             _length = (ushort)actualByteCount;
         }
     }
@@ -76,7 +78,7 @@ public unsafe struct FixedText32
 
     public FixedText32(ReadOnlySpan<byte> input)
     {
-        if (input.Length > 30)
+        if (input.Length > MAX_LENGTH)
         {
             throw new ArgumentException("Input byte array is too long to fit in FixedText32.");
         }
@@ -105,12 +107,9 @@ public unsafe struct FixedText32
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public byte* GetUnsafePointer()
+    public readonly byte* GetUnsafePtr()
     {
-        fixed (byte* ptr = _buffer)
-        {
-            return ptr;
-        }
+        return (byte*)((ushort*)Unsafe.AsPointer(in this) + 1);
     }
 
     public override string ToString()
@@ -129,8 +128,10 @@ public unsafe struct FixedText32
 [StructLayout(LayoutKind.Sequential, Size = 64)]
 public unsafe struct FixedText64
 {
+    public const int MAX_LENGTH = 62;
+
     private ushort _length;
-    private fixed byte _buffer[62];
+    private fixed byte _buffer[MAX_LENGTH];
 
     public readonly ushort Length => _length;
     public string Value
@@ -151,14 +152,14 @@ public unsafe struct FixedText64
             }
 
             var maxBytes = Encoding.UTF8.GetByteCount(value);
-            if (maxBytes > 62)
+            if (maxBytes > MAX_LENGTH)
             {
                 throw new ArgumentException("Input string is too long to fit in FixedText64.");
             }
 
             fixed (byte* bufferPtr = _buffer)
             {
-                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, 62));
+                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, MAX_LENGTH));
             }
         }
     }
@@ -166,7 +167,7 @@ public unsafe struct FixedText64
     public FixedText64(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
-        if (maxBytes > 62)
+        if (maxBytes > MAX_LENGTH)
         {
             throw new ArgumentException("Input string is too long to fit in FixedText64.");
         }
@@ -174,7 +175,7 @@ public unsafe struct FixedText64
         fixed (char* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, 62);
+            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, MAX_LENGTH);
             _length = (ushort)actualByteCount;
         }
     }
@@ -191,7 +192,7 @@ public unsafe struct FixedText64
 
     public FixedText64(ReadOnlySpan<byte> input)
     {
-        if (input.Length > 62)
+        if (input.Length > MAX_LENGTH)
         {
             throw new ArgumentException("Input byte array is too long to fit in FixedText64.");
         }
@@ -220,12 +221,9 @@ public unsafe struct FixedText64
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public byte* GetUnsafePointer()
+    public readonly byte* GetUnsafePtr()
     {
-        fixed (byte* ptr = _buffer)
-        {
-            return ptr;
-        }
+        return (byte*)((ushort*)Unsafe.AsPointer(in this) + 1);
     }
 
     public override string ToString()
@@ -244,8 +242,10 @@ public unsafe struct FixedText64
 [StructLayout(LayoutKind.Sequential, Size = 128)]
 public unsafe struct FixedText128
 {
+    public const int MAX_LENGTH = 126;
+
     private ushort _length;
-    private fixed byte _buffer[126];
+    private fixed byte _buffer[MAX_LENGTH];
 
     public readonly ushort Length => _length;
     public string Value
@@ -266,14 +266,14 @@ public unsafe struct FixedText128
             }
 
             var maxBytes = Encoding.UTF8.GetByteCount(value);
-            if (maxBytes > 126)
+            if (maxBytes > MAX_LENGTH)
             {
                 throw new ArgumentException("Input string is too long to fit in FixedText128.");
             }
 
             fixed (byte* bufferPtr = _buffer)
             {
-                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, 126));
+                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, MAX_LENGTH));
             }
         }
     }
@@ -281,7 +281,7 @@ public unsafe struct FixedText128
     public FixedText128(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
-        if (maxBytes > 126)
+        if (maxBytes > MAX_LENGTH)
         {
             throw new ArgumentException("Input string is too long to fit in FixedText128.");
         }
@@ -289,7 +289,7 @@ public unsafe struct FixedText128
         fixed (char* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, 126);
+            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, MAX_LENGTH);
             _length = (ushort)actualByteCount;
         }
     }
@@ -306,7 +306,7 @@ public unsafe struct FixedText128
 
     public FixedText128(ReadOnlySpan<byte> input)
     {
-        if (input.Length > 126)
+        if (input.Length > MAX_LENGTH)
         {
             throw new ArgumentException("Input byte array is too long to fit in FixedText128.");
         }
@@ -335,12 +335,9 @@ public unsafe struct FixedText128
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public byte* GetUnsafePointer()
+    public readonly byte* GetUnsafePtr()
     {
-        fixed (byte* ptr = _buffer)
-        {
-            return ptr;
-        }
+        return (byte*)((ushort*)Unsafe.AsPointer(in this) + 1);
     }
 
     public override string ToString()
@@ -359,8 +356,10 @@ public unsafe struct FixedText128
 [StructLayout(LayoutKind.Sequential, Size = 256)]
 public unsafe struct FixedText256
 {
+    public const int MAX_LENGTH = 254;
+
     private ushort _length;
-    private fixed byte _buffer[254];
+    private fixed byte _buffer[MAX_LENGTH];
 
     public readonly ushort Length => _length;
     public string Value
@@ -381,14 +380,14 @@ public unsafe struct FixedText256
             }
 
             var maxBytes = Encoding.UTF8.GetByteCount(value);
-            if (maxBytes > 254)
+            if (maxBytes > MAX_LENGTH)
             {
                 throw new ArgumentException("Input string is too long to fit in FixedText256.");
             }
 
             fixed (byte* bufferPtr = _buffer)
             {
-                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, 254));
+                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, MAX_LENGTH));
             }
         }
     }
@@ -396,7 +395,7 @@ public unsafe struct FixedText256
     public FixedText256(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
-        if (maxBytes > 254)
+        if (maxBytes > MAX_LENGTH)
         {
             throw new ArgumentException("Input string is too long to fit in FixedText256.");
         }
@@ -404,7 +403,7 @@ public unsafe struct FixedText256
         fixed (char* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, 254);
+            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, MAX_LENGTH);
             _length = (ushort)actualByteCount;
         }
     }
@@ -421,7 +420,7 @@ public unsafe struct FixedText256
 
     public FixedText256(ReadOnlySpan<byte> input)
     {
-        if (input.Length > 254)
+        if (input.Length > MAX_LENGTH)
         {
             throw new ArgumentException("Input byte array is too long to fit in FixedText256.");
         }
@@ -450,12 +449,9 @@ public unsafe struct FixedText256
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public byte* GetUnsafePointer()
+    public readonly byte* GetUnsafePtr()
     {
-        fixed (byte* ptr = _buffer)
-        {
-            return ptr;
-        }
+        return (byte*)((ushort*)Unsafe.AsPointer(in this) + 1);
     }
 
     public override string ToString()
@@ -474,8 +470,10 @@ public unsafe struct FixedText256
 [StructLayout(LayoutKind.Sequential, Size = 512)]
 public unsafe struct FixedText512
 {
+    public const int MAX_LENGTH = 510;
+
     private ushort _length;
-    private fixed byte _buffer[510];
+    private fixed byte _buffer[MAX_LENGTH];
 
     public readonly ushort Length => _length;
     public string Value
@@ -496,14 +494,14 @@ public unsafe struct FixedText512
             }
 
             var maxBytes = Encoding.UTF8.GetByteCount(value);
-            if (maxBytes > 510)
+            if (maxBytes > MAX_LENGTH)
             {
                 throw new ArgumentException("Input string is too long to fit in FixedText512.");
             }
 
             fixed (byte* bufferPtr = _buffer)
             {
-                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, 510));
+                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, MAX_LENGTH));
             }
         }
     }
@@ -511,7 +509,7 @@ public unsafe struct FixedText512
     public FixedText512(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
-        if (maxBytes > 510)
+        if (maxBytes > MAX_LENGTH)
         {
             throw new ArgumentException("Input string is too long to fit in FixedText512.");
         }
@@ -519,7 +517,7 @@ public unsafe struct FixedText512
         fixed (char* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, 510);
+            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, MAX_LENGTH);
             _length = (ushort)actualByteCount;
         }
     }
@@ -536,7 +534,7 @@ public unsafe struct FixedText512
 
     public FixedText512(ReadOnlySpan<byte> input)
     {
-        if (input.Length > 510)
+        if (input.Length > MAX_LENGTH)
         {
             throw new ArgumentException("Input byte array is too long to fit in FixedText512.");
         }
@@ -565,12 +563,9 @@ public unsafe struct FixedText512
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public byte* GetUnsafePointer()
+    public readonly byte* GetUnsafePtr()
     {
-        fixed (byte* ptr = _buffer)
-        {
-            return ptr;
-        }
+        return (byte*)((ushort*)Unsafe.AsPointer(in this) + 1);
     }
 
     public override string ToString()
@@ -589,8 +584,10 @@ public unsafe struct FixedText512
 [StructLayout(LayoutKind.Sequential, Size = 1024)]
 public unsafe struct FixedText1024
 {
+    public const int MAX_LENGTH = 1022;
+
     private ushort _length;
-    private fixed byte _buffer[1022];
+    private fixed byte _buffer[MAX_LENGTH];
 
     public readonly ushort Length => _length;
     public string Value
@@ -611,14 +608,14 @@ public unsafe struct FixedText1024
             }
 
             var maxBytes = Encoding.UTF8.GetByteCount(value);
-            if (maxBytes > 1022)
+            if (maxBytes > MAX_LENGTH)
             {
                 throw new ArgumentException("Input string is too long to fit in FixedText1024.");
             }
 
             fixed (byte* bufferPtr = _buffer)
             {
-                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, 1022));
+                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, MAX_LENGTH));
             }
         }
     }
@@ -626,7 +623,7 @@ public unsafe struct FixedText1024
     public FixedText1024(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
-        if (maxBytes > 1022)
+        if (maxBytes > MAX_LENGTH)
         {
             throw new ArgumentException("Input string is too long to fit in FixedText1024.");
         }
@@ -634,7 +631,7 @@ public unsafe struct FixedText1024
         fixed (char* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, 1022);
+            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, MAX_LENGTH);
             _length = (ushort)actualByteCount;
         }
     }
@@ -651,7 +648,7 @@ public unsafe struct FixedText1024
 
     public FixedText1024(ReadOnlySpan<byte> input)
     {
-        if (input.Length > 1022)
+        if (input.Length > MAX_LENGTH)
         {
             throw new ArgumentException("Input byte array is too long to fit in FixedText1024.");
         }
@@ -680,12 +677,9 @@ public unsafe struct FixedText1024
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public byte* GetUnsafePointer()
+    public readonly byte* GetUnsafePtr()
     {
-        fixed (byte* ptr = _buffer)
-        {
-            return ptr;
-        }
+        return (byte*)((ushort*)Unsafe.AsPointer(in this) + 1);
     }
 
     public override string ToString()
@@ -704,8 +698,10 @@ public unsafe struct FixedText1024
 [StructLayout(LayoutKind.Sequential, Size = 2048)]
 public unsafe struct FixedText2048
 {
+    public const int MAX_LENGTH = 2046;
+
     private ushort _length;
-    private fixed byte _buffer[2046];
+    private fixed byte _buffer[MAX_LENGTH];
 
     public readonly ushort Length => _length;
     public string Value
@@ -726,14 +722,14 @@ public unsafe struct FixedText2048
             }
 
             var maxBytes = Encoding.UTF8.GetByteCount(value);
-            if (maxBytes > 2046)
+            if (maxBytes > MAX_LENGTH)
             {
                 throw new ArgumentException("Input string is too long to fit in FixedText2048.");
             }
 
             fixed (byte* bufferPtr = _buffer)
             {
-                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, 2046));
+                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, MAX_LENGTH));
             }
         }
     }
@@ -741,7 +737,7 @@ public unsafe struct FixedText2048
     public FixedText2048(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
-        if (maxBytes > 2046)
+        if (maxBytes > MAX_LENGTH)
         {
             throw new ArgumentException("Input string is too long to fit in FixedText2048.");
         }
@@ -749,7 +745,7 @@ public unsafe struct FixedText2048
         fixed (char* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, 2046);
+            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, MAX_LENGTH);
             _length = (ushort)actualByteCount;
         }
     }
@@ -766,7 +762,7 @@ public unsafe struct FixedText2048
 
     public FixedText2048(ReadOnlySpan<byte> input)
     {
-        if (input.Length > 2046)
+        if (input.Length > MAX_LENGTH)
         {
             throw new ArgumentException("Input byte array is too long to fit in FixedText2048.");
         }
@@ -795,12 +791,9 @@ public unsafe struct FixedText2048
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public byte* GetUnsafePointer()
+    public readonly byte* GetUnsafePtr()
     {
-        fixed (byte* ptr = _buffer)
-        {
-            return ptr;
-        }
+        return (byte*)((ushort*)Unsafe.AsPointer(in this) + 1);
     }
 
     public override string ToString()
@@ -819,8 +812,10 @@ public unsafe struct FixedText2048
 [StructLayout(LayoutKind.Sequential, Size = 4096)]
 public unsafe struct FixedText4096
 {
+    public const int MAX_LENGTH = 4094;
+
     private ushort _length;
-    private fixed byte _buffer[4094];
+    private fixed byte _buffer[MAX_LENGTH];
 
     public readonly ushort Length => _length;
     public string Value
@@ -841,14 +836,14 @@ public unsafe struct FixedText4096
             }
 
             var maxBytes = Encoding.UTF8.GetByteCount(value);
-            if (maxBytes > 4094)
+            if (maxBytes > MAX_LENGTH)
             {
                 throw new ArgumentException("Input string is too long to fit in FixedText4096.");
             }
 
             fixed (byte* bufferPtr = _buffer)
             {
-                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, 4094));
+                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, MAX_LENGTH));
             }
         }
     }
@@ -856,7 +851,7 @@ public unsafe struct FixedText4096
     public FixedText4096(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
-        if (maxBytes > 4094)
+        if (maxBytes > MAX_LENGTH)
         {
             throw new ArgumentException("Input string is too long to fit in FixedText4096.");
         }
@@ -864,7 +859,7 @@ public unsafe struct FixedText4096
         fixed (char* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, 4094);
+            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, MAX_LENGTH);
             _length = (ushort)actualByteCount;
         }
     }
@@ -881,7 +876,7 @@ public unsafe struct FixedText4096
 
     public FixedText4096(ReadOnlySpan<byte> input)
     {
-        if (input.Length > 4094)
+        if (input.Length > MAX_LENGTH)
         {
             throw new ArgumentException("Input byte array is too long to fit in FixedText4096.");
         }
@@ -910,12 +905,9 @@ public unsafe struct FixedText4096
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public byte* GetUnsafePointer()
+    public readonly byte* GetUnsafePtr()
     {
-        fixed (byte* ptr = _buffer)
-        {
-            return ptr;
-        }
+        return (byte*)((ushort*)Unsafe.AsPointer(in this) + 1);
     }
 
     public override string ToString()

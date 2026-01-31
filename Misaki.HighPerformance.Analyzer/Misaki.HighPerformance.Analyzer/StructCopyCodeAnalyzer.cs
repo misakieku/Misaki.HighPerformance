@@ -11,12 +11,13 @@ namespace Misaki.HighPerformance.Analyzer
     public class StructCopyCodeAnalyzer : DiagnosticAnalyzer
     {
         public const string DIAGNOSTIC_ID = "MHP001";
-        private const string _TITLE = "Struct marked as NonCopyable was copied";
-        private const string _MESSAGE_FORMAT = "The struct '{0}' is designed for unique ownership and cannot be copied. Use .Detach(), .Get(), .Share() or pass by reference.";
-        private const string _CATEGORY = "Safety";
-
         private static readonly DiagnosticDescriptor s_rule = new DiagnosticDescriptor(
-            DIAGNOSTIC_ID, _TITLE, _MESSAGE_FORMAT, _CATEGORY, DiagnosticSeverity.Error, isEnabledByDefault: true);
+            DIAGNOSTIC_ID,
+            "Struct marked as NonCopyable was copied",
+            "The struct '{0}' is designed for unique ownership and cannot be copied. Use .Detach(), .Get(), .Share() or pass by reference.",
+            "Safety",
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(s_rule);
 

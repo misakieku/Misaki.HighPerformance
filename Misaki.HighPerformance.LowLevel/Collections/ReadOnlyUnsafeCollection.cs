@@ -1,5 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -50,18 +51,26 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
     private readonly T* _buffer;
     private readonly int _count;
 
-    public readonly int Count => _count;
+    public int Count => _count;
 
-    public readonly T this[int index]
+    public ref readonly T this[int index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => UnsafeUtility.ReadArrayElement<T>(_buffer, index);
+        get
+        {
+            CheckIndexBounds(index);
+            return ref UnsafeUtility.ReadArrayElementRef<T>(_buffer, index);
+        }
     }
 
-    public readonly T this[uint index]
+    public ref readonly T this[uint index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => UnsafeUtility.ReadArrayElement<T>(_buffer, index);
+        get
+        {
+            CheckIndexBounds((int)index);
+            return ref UnsafeUtility.ReadArrayElementRef<T>(_buffer, index);
+        }
     }
 
     public Enumerator GetEnumerator() => new Enumerator(in this);
@@ -72,6 +81,16 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
     {
         _buffer = buffer;
         _count = count;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    private readonly void CheckIndexBounds(int index)
+    {
+        if (index >= _count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
+        }
     }
 
     /// <summary>

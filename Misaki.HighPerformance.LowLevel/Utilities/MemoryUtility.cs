@@ -1,5 +1,7 @@
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics;
 
 namespace Misaki.HighPerformance.LowLevel.Utilities;
 
@@ -21,7 +23,14 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Malloc(nuint size)
     {
-        return NativeMemory.Alloc(size);
+        try
+        {
+            return NativeMemory.Alloc(size);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -32,7 +41,14 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Calloc(nuint size)
     {
-        return NativeMemory.AllocZeroed(size);
+        try
+        {
+            return NativeMemory.AllocZeroed(size);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -44,7 +60,14 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* AlignedAlloc(nuint size, nuint alignment)
     {
-        return NativeMemory.AlignedAlloc(size, alignment);
+        try
+        {
+            return NativeMemory.AlignedAlloc(size, alignment);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -56,7 +79,14 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Realloc(void* ptr, nuint size)
     {
-        return NativeMemory.Realloc(ptr, size);
+        try
+        {
+            return NativeMemory.Realloc(ptr, size);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -70,7 +100,14 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* AlignedRealloc(void* ptr, nuint size, nuint alignment)
     {
-        return NativeMemory.AlignedRealloc(ptr, size, alignment);
+        try
+        {
+            return NativeMemory.AlignedRealloc(ptr, size, alignment);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -128,6 +165,42 @@ public static unsafe partial class MemoryUtility
     public static void MemCpy(void* destination, void* source, nuint size)
     {
         NativeMemory.Copy(source, destination, size);
+    }
+
+    /// <summary>
+    /// Moves a block of memory from a source location to a destination location, handling overlapping regions correctly.
+    /// </summary>
+    /// <param name="destination">Indicates the memory address where the data will be moved to.</param>
+    /// <param name="source">Specifies the memory address from which data will be moved.</param>
+    /// <param name="size">Defines the number of bytes to be moved from the source to the destination.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void MemMove(void* destination, void* source, nuint size)
+    {
+        // NativeMemory.Copy use memmove internally.
+        NativeMemory.Copy(source, destination, size);
+    }
+
+    /// <summary>
+    /// Compares two blocks of memory byte by byte for a specified length.
+    /// </summary>
+    /// <param name="ptr1">A pointer to the first block of memory to compare.</param>
+    /// <param name="ptr2">A pointer to the second block of memory to compare.</param>
+    /// <param name="size">The number of bytes to compare. Must not exceed the length of either memory block.</param>
+    /// <returns>A signed integer that indicates the relative order of the memory blocks: less than zero if the first differing
+    ///     byte in ptr1 is less than the corresponding byte in ptr2; zero if all compared bytes are equal; greater than
+    ///     zero if the first differing byte in ptr1 is greater than the corresponding byte in ptr2.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int MemCmp(void* ptr1, void* ptr2, nuint size)
+    {
+        if (ptr1 == ptr2)
+        {
+            return 0;
+        }
+
+        var span1 = new ReadOnlySpan<byte>(ptr1, (int)size);
+        var span2 = new ReadOnlySpan<byte>(ptr2, (int)size);
+
+        return span1.SequenceCompareTo(span2);
     }
 
     /// <summary>

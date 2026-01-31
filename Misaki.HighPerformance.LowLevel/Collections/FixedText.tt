@@ -21,8 +21,10 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 [StructLayout(LayoutKind.Sequential, Size = <#= i #>)]
 public unsafe struct FixedText<#= i #>
 {
+    public const int MAX_LENGTH = <#= i - 2 #>;
+
     private ushort _length;
-    private fixed byte _buffer[<#= i - 2 #>];
+    private fixed byte _buffer[MAX_LENGTH];
 
     public readonly ushort Length => _length;
     public string Value
@@ -43,14 +45,14 @@ public unsafe struct FixedText<#= i #>
             }
 
             var maxBytes = Encoding.UTF8.GetByteCount(value);
-            if (maxBytes > <#= i - 2 #>)
+            if (maxBytes > MAX_LENGTH)
             {
                 throw new ArgumentException("Input string is too long to fit in FixedText<#= i #>.");
             }
 
             fixed (byte* bufferPtr = _buffer)
             {
-                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, <#= i - 2 #>));
+                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, MAX_LENGTH));
             }
         }
     }
@@ -58,7 +60,7 @@ public unsafe struct FixedText<#= i #>
     public FixedText<#= i #>(ReadOnlySpan<char> input)
     {
         var maxBytes = Encoding.UTF8.GetByteCount(input);
-        if (maxBytes > <#= i - 2 #>)
+        if (maxBytes > MAX_LENGTH)
         {
             throw new ArgumentException("Input string is too long to fit in FixedText<#= i #>.");
         }
@@ -66,7 +68,7 @@ public unsafe struct FixedText<#= i #>
         fixed (char* inputPtr = input)
         fixed (byte* bufferPtr = _buffer)
         {
-            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, <#= i - 2 #>);
+            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, MAX_LENGTH);
             _length = (ushort)actualByteCount;
         }
     }
@@ -83,7 +85,7 @@ public unsafe struct FixedText<#= i #>
 
     public FixedText<#= i #>(ReadOnlySpan<byte> input)
     {
-        if (input.Length > <#= i - 2 #>)
+        if (input.Length > MAX_LENGTH)
         {
             throw new ArgumentException("Input byte array is too long to fit in FixedText<#= i #>.");
         }
@@ -112,12 +114,9 @@ public unsafe struct FixedText<#= i #>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public byte* GetUnsafePointer()
+    public readonly byte* GetUnsafePtr()
     {
-        fixed (byte* ptr = _buffer)
-        {
-            return ptr;
-        }
+        return (byte*)((ushort*)Unsafe.AsPointer(in this) + 1);
     }
 
     public override string ToString()

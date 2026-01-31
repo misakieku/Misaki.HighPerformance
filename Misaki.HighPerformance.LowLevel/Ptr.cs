@@ -136,7 +136,7 @@ public unsafe struct UniquePtr<T> : IEquatable<UniquePtr<T>>
     }
 }
 
-public ref struct Ref<T>
+public ref struct Ref<T> : IEquatable<Ref<T>>
 {
     private ref T _value;
 
@@ -148,6 +148,11 @@ public ref struct Ref<T>
     public ref T Get()
     {
         return ref _value;
+    }
+
+    public bool Equals(Ref<T> other)
+    {
+        return Unsafe.AreSame(ref _value, ref other._value);
     }
 
     [Obsolete("Equals() on Ref will always throw an exception. Use the equality operator instead.")]
@@ -166,7 +171,7 @@ public ref struct Ref<T>
 
     public static bool operator ==(Ref<T> left, Ref<T> right)
     {
-        return Unsafe.AreSame(ref left._value, ref right._value);
+        return left.Equals(right);
     }
 
     public static bool operator !=(Ref<T> left, Ref<T> right)
