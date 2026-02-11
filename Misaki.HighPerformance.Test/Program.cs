@@ -1,9 +1,15 @@
 using Misaki.HighPerformance;
+using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.LowLevel;
 using Misaki.HighPerformance.LowLevel.Utilities;
+using Misaki.HighPerformance.Mathematics.SPMD;
+using Misaki.HighPerformance.Test.UnitTest.Jobs;
+using System.Numerics;
+using System.Runtime.Intrinsics;
+using System.Text;
 
-BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.MathematicsBenchmark>();
-
+BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.SPMDBenchmark>();
+//return;
 //using Misaki.HighPerformance.Collections;
 //using Misaki.HighPerformance.LowLevel.Buffer;
 //using Misaki.HighPerformance.LowLevel.Collections;

@@ -1,18 +1,21 @@
-﻿namespace Misaki.HighPerformance.Jobs;
+namespace Misaki.HighPerformance.Jobs;
 
 public readonly struct JobHandle : IEquatable<JobHandle>
 {
-    internal readonly int _id;
-    internal readonly int _generation;
+    private readonly int _id;
+    private readonly int _generation;
 
-    public static JobHandle Invalid => new(-1, -1);
+    public int ID => _id - 1;
+    public int Generation => _generation - 1;
+
+    public static JobHandle Invalid => default;
 
     public bool IsValid => this != Invalid;
 
     internal JobHandle(int id, int generation)
     {
-        _id = id;
-        _generation = generation;
+        _id = id + 1;
+        _generation = generation + 1;
     }
 
     public bool Equals(JobHandle other)

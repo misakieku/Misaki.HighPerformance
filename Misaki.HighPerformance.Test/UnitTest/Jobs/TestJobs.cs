@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.Jobs;
+using Misaki.HighPerformance.Jobs;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Jobs;
 
@@ -69,5 +69,29 @@ internal unsafe struct ParallelMultiplyJob : IJobParallelFor
     public void Execute(int loopIndex, int threadIndex)
     {
         inout[loopIndex] *= multiplier;
+    }
+}
+
+public unsafe struct WaitJob : IJob
+{
+    public bool* pSignal;
+
+    public void Execute(int loopIndex)
+    {
+        var spin = new SpinWait();
+        while (!Volatile.Read(ref *pSignal))
+        {
+            spin.SpinOnce();
+        }
+    }
+}
+
+public unsafe struct IncrementJob : IJob
+{
+    public int* pCounter;
+
+    public void Execute(int loopIndex)
+    {
+        Interlocked.Increment(ref *pCounter);
     }
 }

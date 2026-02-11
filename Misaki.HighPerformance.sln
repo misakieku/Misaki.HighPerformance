@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.3.11218.70 d18.3
+VisualStudioVersion = 18.3.11218.70
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Misaki.HighPerformance", "Misaki.HighPerformance\Misaki.HighPerformance.csproj", "{275B2E80-9B2A-4567-A157-F147A6B28A0F}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Misaki.HighPerformance.Analyzer.Package", "Misaki.HighPerformance.Analyzer\Misaki.HighPerformance.Analyzer.Package\Misaki.HighPerformance.Analyzer.Package.csproj", "{446213EF-4E44-4EEF-970A-536F0AFC7AEB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzer", "Analyzer", "{457CB43B-38FA-4221-BCC2-BE866D0A2A06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Misaki.HighPerformance.Mathematics.SPMD", "Misaki.HighPerformance.Mathematics.SPMD\Misaki.HighPerformance.Mathematics.SPMD.csproj", "{09DF7B3B-F36D-4925-B086-E8827E228FFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{446213EF-4E44-4EEF-970A-536F0AFC7AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{446213EF-4E44-4EEF-970A-536F0AFC7AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{446213EF-4E44-4EEF-970A-536F0AFC7AEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09DF7B3B-F36D-4925-B086-E8827E228FFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09DF7B3B-F36D-4925-B086-E8827E228FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09DF7B3B-F36D-4925-B086-E8827E228FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09DF7B3B-F36D-4925-B086-E8827E228FFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -87,7 +87,7 @@ public interface IJobScheduler
     /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
     ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
-    public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, int threadIndex)
+    JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, int threadIndex)
         where T : unmanaged, IJobParallelFor;
 
     /// <summary>
@@ -100,7 +100,7 @@ public interface IJobScheduler
     /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
     ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
-    public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, JobHandle dependency)
+    JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize, JobHandle dependency)
         where T : unmanaged, IJobParallelFor;
 
     /// <summary>
@@ -113,7 +113,7 @@ public interface IJobScheduler
     /// <param name="threadIndex">The index of the thread that will execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
     ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
-    public JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize)
+    JobHandle ScheduleParallel<T>(ref T job, int totalIteration, int batchSize)
         where T : unmanaged, IJobParallelFor;
 
     /// <summary>
@@ -122,7 +122,7 @@ public interface IJobScheduler
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> instances representing the dependencies to combine.</param>
     /// <returns>A <see cref="JobHandle"/> that represents the combined dependencies. The returned handle can be used to ensure
     ///     that all specified dependencies are completed before proceeding.</returns>
-    public JobHandle CombineDependencies(params ReadOnlySpan<JobHandle> dependencies);
+    JobHandle CombineDependencies(params ReadOnlySpan<JobHandle> dependencies);
 
     /// <summary>
     /// Retrieves the current status of a job identified by the specified handle.
@@ -130,13 +130,13 @@ public interface IJobScheduler
     /// <param name="handle">The handle representing the job whose status is to be retrieved. The handle must be valid.</param>
     /// <returns>The current status of the job as a <see cref="JobState"/> value.
     ///     Returns <see cref="JobState.Invalid"/> if the handle is invalid or the job does not exist.</returns>
-    public JobState GetJobStatus(JobHandle handle);
+    JobState GetJobStatus(JobHandle handle);
 
     /// <summary>
     /// Blocks the calling thread until the specified job is completed.
     /// </summary>
     /// <param name="handle">The handle of the job to wait for.</param>
-    public void WaitComplete(JobHandle handle);
+    void WaitComplete(JobHandle handle);
 
     /// <summary>
     /// Blocks the calling thread until all specified job handles have completed.
@@ -147,7 +147,7 @@ public interface IJobScheduler
     /// concurrently from multiple threads.</remarks>
     /// <param name="handles">A collection of job handles to wait for. Each handle represents an asynchronous job whose completion is awaited.
     /// The collection must not be empty.</param>
-    public void WaitAll(params ReadOnlySpan<JobHandle> handles);
+    void WaitAll(params ReadOnlySpan<JobHandle> handles);
 
     /// <summary>
     /// Waits until any of the specified job handles has completed and returns the first completed handle.
@@ -158,12 +158,14 @@ public interface IJobScheduler
     /// <param name="handles">A read-only span containing the job handles to monitor for completion. Each handle represents a job whose
     /// completion status will be checked.</param>
     /// <returns>The first job handle from the provided collection that has completed.</returns>
-    public JobHandle WaitAny(params ReadOnlySpan<JobHandle> handles);
+    JobHandle WaitAny(params ReadOnlySpan<JobHandle> handles);
 }
 
 public unsafe partial class JobScheduler
 {
-    public static readonly TempJobAllocator* pTempAllocator;
+    public static int MainThreadIndex => -1;
+
+    public static TempJobAllocator* pTempAllocator;
 
     /// <summary>
     /// Gets the allocation handle for the temporary job allocator.
@@ -173,7 +175,7 @@ public unsafe partial class JobScheduler
     /// </remarks>
     public static AllocationHandle TempAllocatorHandle => pTempAllocator->Handle;
 
-    static JobScheduler()
+    public static void InitTempAllocator()
     {
         pTempAllocator = (TempJobAllocator*)MemoryUtility.Malloc((nuint)sizeof(TempJobAllocator));
         pTempAllocator->Init();
@@ -194,14 +196,18 @@ public unsafe partial class JobScheduler
 /// </summary>
 public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 {
-    private const int _SLEEP_THRESHOLD = 100;
+    // Don't sleep indefinitely because that causes our 1ms job to become 15ms.
+    private const int _SLEEP_THRESHOLD = -1;
+
+    // Lock-Free constants: State mask (low 16 bits) and RC unit (1 << 16)
+    private const int _STATE_MASK = 0xFFFF;
+    private const int _RC_ONE = 0x10000;
 
     private FreeList _jobDataAllocator;
     private readonly ConcurrentSlotMap<JobInfo> _jobInfoPool;
     private readonly ConcurrentQueue<JobHandle> _jobQueue;
     private readonly WorkerThread[] _workerThreads;
 
-    private readonly Lock _lock;
     private readonly SemaphoreSlim _workSignal;
     private readonly CancellationTokenSource _cts;
 
@@ -221,7 +227,6 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         _jobInfoPool = new();
         _jobQueue = new();
 
-        _lock = new();
         _workSignal = new(0);
         _cts = new();
 
@@ -246,10 +251,11 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
     private void EnqueueJobIfReady(JobHandle handle)
     {
-        ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle._id, handle._generation, out var exist);
+        ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out var exist);
 
         if (exist && Volatile.Read(ref jobInfo.dependencyCount) == 0)
         {
+            // Note: JobState.Created is 0, JobState.Scheduled is 1. We assume RC logic doesn't touch initial state (RC=0).
             if (Interlocked.CompareExchange(ref jobInfo.state, JobState.Scheduled, JobState.Created) != JobState.Created)
             {
                 return;
@@ -293,28 +299,74 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
                 continue;
             }
 
-            lock (_lock)
+            ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(dependency.ID, dependency.Generation, out var exist);
+            if (!exist)
             {
-                ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(dependency._id, dependency._generation, out var exist);
-                if (!exist || Volatile.Read(ref Unsafe.As<JobState, int>(ref depJobInfo.state)) == (int)JobState.Completed)
-                {
-                    continue;
-                }
-
-                if (depJobInfo.dependentCount >= JobInfo.MAX_DEPENDENTS)
-                {
-                    // Too many dependents
-                    // TODO: Handle this case properly
-                    _jobDataAllocator.Free(jobInfo.pJobData);
-                    return JobHandle.Invalid;
-                }
-
-                depJobInfo.dependentsID[depJobInfo.dependentCount] = id;
-                depJobInfo.dependentsGeneration[depJobInfo.dependentCount] = generation;
-                depJobInfo.dependentCount++;
+                // Dependency does not exist (likely completed already)
+                continue;
             }
 
-            Interlocked.Increment(ref infoInPool.dependencyCount);
+            // Lock-free registration: Try to acquire "Reader Lock" by incrementing RC in high bits.
+            // If state is already Completed, we skip (dependency met).
+            var registered = false;
+            var completed = false;
+            var spin = new SpinWait();
+
+            while (true)
+            {
+                var stateVal = Volatile.Read(ref Unsafe.As<JobState, int>(ref depJobInfo.state));
+                var state = (JobState)(stateVal & _STATE_MASK);
+
+                if (state == JobState.Completed)
+                {
+                    completed = true;
+                    break;
+                }
+
+                // Attempt to increment RC (Reader Count)
+                if (Interlocked.CompareExchange(ref Unsafe.As<JobState, int>(ref depJobInfo.state), stateVal + _RC_ONE, stateVal) == stateVal)
+                {
+                    // RC acquired. We are safe from "Remove" and state change.
+                    var count = Interlocked.Increment(ref depJobInfo.dependentCount);
+                    if (count <= JobInfo.MAX_DEPENDENTS)
+                    {
+                        // Safely write to the fixed buffer
+                        depJobInfo.dependentsID[count - 1] = id;
+                        depJobInfo.dependentsGeneration[count - 1] = generation;
+                        registered = true;
+                    }
+
+                    // Release RC
+                    Interlocked.Add(ref Unsafe.As<JobState, int>(ref depJobInfo.state), -_RC_ONE);
+
+                    if (!registered)
+                    {
+                        // Failed to register because MAX_DEPENDENTS reached.
+                        // Backtrack the counter increment.
+                        Interlocked.Decrement(ref depJobInfo.dependentCount);
+
+                        // Cleanup and fail
+                        _jobDataAllocator.Free(jobInfo.pJobData);
+                        return JobHandle.Invalid;
+                    }
+
+                    break;
+                }
+
+                spin.SpinOnce(-1);
+            }
+
+            if (!registered && !completed)
+            {
+                // Should not happen if logic is correct, unless loop logic changed
+                Interlocked.Increment(ref infoInPool.dependencyCount);
+            }
+            else if (registered)
+            {
+                // Successfully added dependency
+                Interlocked.Increment(ref infoInPool.dependencyCount);
+            }
+            // else: completed is true, registered is false -> Dependency is already done, so we don't increment our dependencyCount.
         }
 
         EnqueueJobIfReady(handle);
@@ -325,7 +377,20 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal bool HasWork()
     {
-        return !_jobQueue.IsEmpty || _workerThreads.Any(w => !w.LocalQueue.IsEmpty);
+        if (!_jobQueue.IsEmpty)
+        {
+            return true;
+        }
+
+        for (var i = 0; i < _workerThreads.Length; i++)
+        {
+            if (!_workerThreads[i].LocalQueue.IsEmpty)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -360,7 +425,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             return ref Unsafe.NullRef<JobInfo>();
         }
 
-        return ref _jobInfoPool.GetElementReferenceAt(handle._id, handle._generation, out exist);
+        return ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out exist);
     }
 
     internal void MarkJobComplete(JobHandle handle)
@@ -370,37 +435,77 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             return;
         }
 
-        ref var info = ref _jobInfoPool.GetElementReferenceAt(handle._id, handle._generation, out var exist);
+        ref var info = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out var exist);
         if (!exist)
         {
             return;
         }
 
-        if (Interlocked.CompareExchange(ref info.state, JobState.Completed, JobState.Running) != JobState.Running)
+        // Lock-free Completion:
+        // 1. Transition State to Completed (preserving or setting upper bits?).
+        //    Actually, we want to block new Readers. Setting state to Completed blocks new Readers.
+        // 2. Wait for existing Readers (RC == 0).
+        var spin = new SpinWait();
+        while (true)
         {
-            return;
+            var stateVal = Volatile.Read(ref Unsafe.As<JobState, int>(ref info.state));
+            var state = (JobState)(stateVal & _STATE_MASK);
+
+            if (state == JobState.Completed)
+            {
+                return; // Already completed (shouldn't happen for single-execution jobs)
+            }
+
+            if (state != JobState.Running)
+            {
+                // If in valid state (e.g. Scheduled?), we still assume we can complete it.
+                // Usually it should be Running.
+            }
+
+            // Construct new value: State=Completed, preserve RC (temporarily) or strictly replace only low bits?
+            // We set low bits to Completed. High bits (RC) remain.
+            var newState = (stateVal & ~_STATE_MASK) | (int)JobState.Completed;
+
+            if (Interlocked.CompareExchange(ref Unsafe.As<JobState, int>(ref info.state), newState, stateVal) == stateVal)
+            {
+                // Successfully set State to Completed. New readers will see Completed and back off.
+                // Now we must wait for existing readers to finish (RC to become 0).
+                while (true)
+                {
+                    var current = Volatile.Read(ref Unsafe.As<JobState, int>(ref info.state));
+                    if (((uint)current >> 16) == 0)
+                    {
+                        break; // RC is 0. Safe to proceed.
+                    }
+
+                    spin.SpinOnce(-1);
+                }
+                break;
+            }
+
+            spin.SpinOnce(-1);
         }
 
-        var dependentsToNotify = stackalloc JobHandle[JobInfo.MAX_DEPENDENTS];
-        var dependentCount = 0;
+        // We now have exclusive access to dependentsID (no new readers, old readers finished).
+        // Safely capture dependents.
+        var dependentCount = info.dependentCount;
+        dependentCount = Math.Min(dependentCount, JobInfo.MAX_DEPENDENTS); // Safety cap
 
-        lock (_lock)
+        // Use stackalloc to avoid allocation, but we'll copy to notify after freeing parent.
+        var dependentsToNotify = stackalloc JobHandle[dependentCount];
+        for (var i = 0; i < dependentCount; i++)
         {
-            dependentCount = info.dependentCount;
-            for (var i = 0; i < dependentCount; i++)
-            {
-                dependentsToNotify[i] = new JobHandle(info.dependentsID[i], info.dependentsGeneration[i]);
-            }
+            dependentsToNotify[i] = new JobHandle(info.dependentsID[i], info.dependentsGeneration[i]);
         }
 
         _jobDataAllocator.Free(info.pJobData);
-        _jobInfoPool.Remove(handle._id, handle._generation);
+        _jobInfoPool.Remove(handle.ID, handle.Generation);
 
         for (var i = 0; i < dependentCount; i++)
         {
             var depHandle = dependentsToNotify[i];
 
-            ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(depHandle._id, depHandle._generation, out var depExist);
+            ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(depHandle.ID, depHandle.Generation, out var depExist);
             if (depExist && Interlocked.Decrement(ref depJobInfo.dependencyCount) == 0)
             {
                 EnqueueJobIfReady(depHandle);
@@ -437,8 +542,8 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     }
 
     public JobHandle Schedule<T>(ref T job, int threadIndex)
-    where T : unmanaged, IJob
-    => Schedule(ref job, threadIndex, JobHandle.Invalid);
+        where T : unmanaged, IJob
+        => Schedule(ref job, threadIndex, JobHandle.Invalid);
 
     public JobHandle Schedule<T>(ref T job, JobHandle dependency)
         where T : unmanaged, IJob
@@ -519,13 +624,14 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             return JobState.Invalid;
         }
 
-        ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle._id, handle._generation, out var exist);
+        ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out var exist);
         if (!exist)
         {
             return JobState.Completed; // We assume completed if not found. Invalid state is reserved for error.
         }
 
-        return (JobState)Volatile.Read(ref Unsafe.As<JobState, int>(ref jobInfo.state));
+        // Mask out the Reader Count (upper 16 bits) to return the actual State
+        return (JobState)(Volatile.Read(ref Unsafe.As<JobState, int>(ref jobInfo.state)) & _STATE_MASK);
     }
 
     public void WaitComplete(JobHandle handle)
@@ -536,9 +642,10 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         }
 
         var spin = new SpinWait();
-        while (_jobInfoPool.TryGetElement(handle._id, handle._generation, out var jobInfo))
+        while (_jobInfoPool.TryGetElement(handle.ID, handle.Generation, out var jobInfo))
         {
-            if (jobInfo.state == JobState.Completed)
+            // Mask out RC
+            if ((jobInfo.state & (JobState)_STATE_MASK) == JobState.Completed)
             {
                 return;
             }
@@ -549,7 +656,6 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
     public void WaitAll(params ReadOnlySpan<JobHandle> handles)
     {
-        var sleepThreshold = _SLEEP_THRESHOLD * handles.Length;
         var spin = new SpinWait();
 
         while (true)
@@ -557,7 +663,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             var completedCount = 0;
             foreach (var handle in handles)
             {
-                if (!_jobInfoPool.Contains(handle._id, handle._generation))
+                if (!_jobInfoPool.Contains(handle.ID, handle.Generation))
                 {
                     completedCount++;
                 }
@@ -568,26 +674,25 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
                 return;
             }
 
-            spin.SpinOnce(sleepThreshold);
+            spin.SpinOnce(_SLEEP_THRESHOLD);
         }
     }
 
     public JobHandle WaitAny(params ReadOnlySpan<JobHandle> handles)
     {
-        var sleepThreshold = _SLEEP_THRESHOLD * handles.Length;
         var spin = new SpinWait();
 
         while (true)
         {
             foreach (var handle in handles)
             {
-                if (!_jobInfoPool.Contains(handle._id, handle._generation))
+                if (!_jobInfoPool.Contains(handle.ID, handle.Generation))
                 {
                     return handle;
                 }
             }
 
-            spin.SpinOnce(sleepThreshold);
+            spin.SpinOnce(_SLEEP_THRESHOLD);
         }
     }
 

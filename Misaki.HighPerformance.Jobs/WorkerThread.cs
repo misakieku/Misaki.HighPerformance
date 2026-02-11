@@ -1,9 +1,11 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 
 namespace Misaki.HighPerformance.Jobs;
 
 internal class WorkerThread : IDisposable
 {
+    private const int _MAX_STEAL_ATTEMPTS = 8;
+
     private readonly int _index;
     private readonly Thread _thread;
     private readonly ConcurrentQueue<JobHandle> _localQueue;
@@ -29,54 +31,55 @@ internal class WorkerThread : IDisposable
 
     public void Start() => _thread.Start();
 
-    private JobHandle FindJob()
+    private bool TryFindJob(out JobHandle handle)
     {
-        var handle = JobHandle.Invalid;
-        if (_localQueue.TryDequeue(out handle)
-            || _scheduler.TryStealJob(-1, out handle))
+        // 1. Check own local queue first
+        if (_localQueue.TryDequeue(out handle))
         {
-            return handle;
+            return true;
         }
 
-        while (true)
+        // 2. Check global queue
+        if (_scheduler.TryStealJob(-1, out handle))
+        {
+            return true;
+        }
+
+        // 3. Bounded random work stealing from other workers
+        for (var i = 0; i < _MAX_STEAL_ATTEMPTS; i++)
         {
             var randomIndex = _random.Next(0, _scheduler.WorkerCount);
-            if (_scheduler.TryStealJob(randomIndex, out handle))
+            if (randomIndex != _index && _scheduler.TryStealJob(randomIndex, out handle))
             {
-                return handle;
+                return true;
             }
         }
+
+        handle = JobHandle.Invalid;
+        return false;
     }
 
     private unsafe void WorkLoop()
     {
         while (!_scheduler.IsCancellationRequested)
         {
-            var spinner = new SpinWait();
-            for (var i = 0; i < 25; i++)
-            {
-                spinner.SpinOnce(-1);
-
-                if (_scheduler.HasWork())
-                {
-                    // Instead of goto, we still need to go through the WaitForWork to claim a release.
-                    // This causes lock and lots of branches inside the SemaphoreSlim, which lost 0.03ms.
-                    // goto DoWork;
-                    break;
-                }
-            }
-
+            // Wait for work signal directly — the semaphore already acts as
+            // both a notification and a count of available work items.
             try
             {
                 _scheduler.WaitForWork();
             }
             catch (OperationCanceledException)
             {
+                break;
+            }
+
+            // After being signaled, try to find and execute a job.
+            if (!TryFindJob(out var handle))
+            {
                 continue;
             }
 
-            //DoWork:
-            var handle = FindJob();
             ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
 
             if (exist)

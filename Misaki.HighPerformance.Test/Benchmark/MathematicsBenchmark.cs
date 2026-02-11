@@ -1,7 +1,8 @@
-#define NOISE_BENCHMARK
+#define ADD_BENCHMARK
 
 using BenchmarkDotNet.Attributes;
 using Misaki.HighPerformance.Mathematics;
+using Misaki.HighPerformance.Mathematics.SPMD;
 using System.Numerics;
 using System.Runtime.Intrinsics;
 
@@ -9,7 +10,7 @@ namespace Misaki.HighPerformance.Test.Benchmark;
 
 public class MathematicsBenchmark
 {
-#if VECTOR_BENCHMARK
+#if ADD_BENCHMARK
     private Vector4 _va = new Vector4(1, 2, 1, 2);
     private Vector4 _vb = new Vector4(3, 4, 3, 4);
 
@@ -39,61 +40,52 @@ public class MathematicsBenchmark
     }
 #endif
 
-#if NOISE_BENCHMARK
+#if FMA_BENCHMARK
+    private Vector4 _va = new Vector4(1, 2, 1, 2);
+    private Vector4 _vb = new Vector4(3, 4, 3, 4);
+    private Vector4 _vc = new Vector4(5, 6, 5, 6);
 
-    private const int _SIZE = 32;
+    private Vector128<float> _va128 = Vector128.Create(1f, 2f, 1f, 2f);
+    private Vector128<float> _vb128 = Vector128.Create(3f, 4f, 3f, 4f);
+    private Vector128<float> _vc128 = Vector128.Create(5f, 6f, 5f, 6f);
+
+    private float4 _fa = new float4(1, 2, 1, 2);
+    private float4 _fb = new float4(3, 4, 3, 4);
+    private float4 _fc = new float4(5, 6, 5, 6);
 
     [Benchmark]
-    public unsafe void VectorNoise()
+    public Vector4 Vector4()
     {
-        var buf = stackalloc float[_SIZE * _SIZE];
-        var job = new Misaki.HighPerformance.Test.Jobs.NoiseJobVector
+        for (var i = 0; i < 10; i++)
         {
-            buffers = buf,
-            width = _SIZE,
-            height = _SIZE,
-        };
-
-        for (var i = 0; i < _SIZE * _SIZE; i++)
-        {
-            job.Execute(i, 0);
+            _va = _vb * _vc + _va;
         }
+
+        return _va;
     }
 
     [Benchmark]
-    public unsafe void MathNoise()
+    public Vector128<float> VectorFMA()
     {
-        var buf = stackalloc float[_SIZE * _SIZE];
-        var job = new Misaki.HighPerformance.Test.Jobs.NoiseJobMath
+        for (var i = 0; i < 10; i++)
         {
-            buffers = buf,
-            width = _SIZE,
-            height = _SIZE,
-        };
-
-        for (var i = 0; i < _SIZE * _SIZE; i++)
-        {
-            job.Execute(i, 0);
+            _va128 = System.Runtime.Intrinsics.X86.Fma.MultiplyAdd(_vb128, _vc128, _va128);
         }
+
+        return _va128;
     }
 
     [Benchmark]
-    // This is 10x faster than VectorNoise and MathNoise, but writing a burst like compiler to compile MathNoise into this is incredibly hard.
-    public unsafe void MathVNoise()
+    public float4 floatFMA()
     {
-        var buf = stackalloc float[_SIZE * _SIZE];
-        var job = new Misaki.HighPerformance.Test.Jobs.NoiseJobMathV
+        for (var i = 0; i < 10; i++)
         {
-            buffers = buf,
-            width = _SIZE,
-            height = _SIZE,
-        };
-
-        for (var i = 0; i < _SIZE * _SIZE / 8; i++)
-        {
-            job.Execute(i, 0);
+            _fa = _fb * _fc + _fa;
         }
+
+        return _fa;
     }
+
 #endif
 
 #if MATRIX_BENCHMARK

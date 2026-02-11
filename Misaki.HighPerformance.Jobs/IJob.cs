@@ -1,4 +1,4 @@
-﻿namespace Misaki.HighPerformance.Jobs;
+namespace Misaki.HighPerformance.Jobs;
 
 /// <summary>
 /// Represents a job that performs a single unit of work.
@@ -23,4 +23,25 @@ public interface IJobParallelFor
     /// <param name="loopIndex">The index of the item to process.</param>
     /// <param name="threadIndex">The index of the thread executing the job, useful for thread-specific operations.</param>
     void Execute(int loopIndex, int threadIndex);
+}
+
+public static class IJobExtensions
+{
+    public static void Run<T>(this ref T job, int threadIndex)
+        where T : unmanaged, IJob
+    {
+        job.Execute(threadIndex);
+    }
+}
+
+public static class IJobParallelForExtensions
+{
+    public static void Run<T>(this ref T job, int totalIterations, int threadIndex)
+        where T : unmanaged, IJobParallelFor
+    {
+        for (var i = 0; i < totalIterations; i++)
+        {
+            job.Execute(i, threadIndex);
+        }
+    }
 }

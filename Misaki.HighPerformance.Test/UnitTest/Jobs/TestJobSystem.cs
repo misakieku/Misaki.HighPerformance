@@ -1,19 +1,28 @@
-﻿using Misaki.HighPerformance.Jobs;
+using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.LowLevel.Utilities;
+using Misaki.HighPerformance.Mathematics.SPMD;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Jobs;
 
 [TestClass]
+[DoNotParallelize]
 public unsafe class TestJobSystem
 {
     private JobScheduler _jobScheduler = null!;
 
+    public TestContext TestContext
+    {
+        get;
+        set;
+    }
+
     [TestInitialize]
     public void Initialize()
     {
-        _jobScheduler = new JobScheduler(Environment.ProcessorCount);
+        _jobScheduler = new JobScheduler(3);
     }
 
     [TestCleanup]
@@ -250,5 +259,103 @@ public unsafe class TestJobSystem
         var completedHandle = _jobScheduler.WaitAny(handle1, handle2);
 
         Assert.AreEqual(JobState.Completed, _jobScheduler.GetJobStatus(completedHandle));
+    }
+
+    [TestMethod]
+    public void RaceConditionTest()
+    {
+        const int jobCount = 20000;
+        
+        var pExecutedCount = (int*)NativeMemory.Alloc(sizeof(int));
+        *pExecutedCount = 0;
+
+        var startSignal = false;
+
+        // 1. Create a "Gatekeeper" vectorJob that spins/blocks a worker thread until signaled.
+        //    This allows us to control exactly when the dependency completes.
+        var rootJob = new WaitJob { pSignal = &startSignal };
+        var rootHandle = _jobScheduler.Schedule(ref rootJob);
+
+        // 2. Start a background task to flood the scheduler with dependencies on the Gatekeeper.
+        using var barrier = new Barrier(2);
+        var scheduleTask = Task.Run(() =>
+        {
+            var depJob = new IncrementJob { pCounter = pExecutedCount };
+            barrier.SignalAndWait(TestContext.CancellationTokenSource.Token); // Synchronize start with main thread
+
+            for (var i = 0; i < jobCount; i++)
+            {
+                // CONTENTION POINT: 
+                // Trying to add a dependency to 'rootHandle'. 
+                // Eventually, this will happen exactly while 'rootHandle' is transitioning to Completed.
+                _jobScheduler.Schedule(ref depJob, rootHandle);
+            }
+        }, TestContext.CancellationTokenSource.Token);
+
+        barrier.SignalAndWait(TestContext.CancellationTokenSource.Token); // Wait for scheduler task to be ready
+
+        // Allow the scheduling loop to get a head start and queue some readers
+        Thread.Sleep(5);
+
+        // 3. Open the gate.
+        // This triggers the Gatekeeper to complete. It will change its State and iterate its dependency list.
+        // This happens CONCURRENTLY with the loop above adding more items to that same list.
+        startSignal = true;
+
+        scheduleTask.Wait(TestContext.CancellationTokenSource.Token);
+
+        // 4. Validate results
+        // If the lock-free logic works, every single dependent vectorJob must eventually execute.
+        // If there is a race (e.g., missed notification), pExecutedCount will stick below jobCount.
+        var spin = new SpinWait();
+        var timeout = DateTime.Now.AddSeconds(10);
+
+        while (Volatile.Read(ref *pExecutedCount) < jobCount)
+        {
+            if (DateTime.Now > timeout)
+            {
+                break;
+            }
+
+            spin.SpinOnce();
+        }
+
+        // Ensure the root vectorJob is officially cleaned up
+        _jobScheduler.WaitComplete(rootHandle);
+
+        Assert.AreEqual(jobCount, *pExecutedCount, "Race condition detected: Some dependent jobs failed to execute (Wait timeout).");
+
+        NativeMemory.Free(pExecutedCount);
+    }
+
+    [TestMethod]
+    public void SPMDCorrectness()
+    {
+        const int size = 8;
+
+        var vectorBuf = stackalloc float[size * size];
+        var vs = new Span<float>(vectorBuf, size * size);
+        var vectorJob = new Misaki.HighPerformance.Test.Jobs.NoiseJobVector
+        {
+            buffers = vectorBuf,
+            width = size,
+            height = size,
+        };
+
+        vectorJob.Run(size * size, -1);
+
+        var spmdBuf = stackalloc float[size * size];
+        var ss = new Span<float>(spmdBuf, size * size);
+        var spmdJob = new Misaki.HighPerformance.Test.Jobs.NoiseJobMath
+        {
+            buffers = spmdBuf,
+            width = size,
+            height = size,
+        };
+
+        spmdJob.Run(size * size, -1);
+
+        var eq = vs.SequenceCompareTo(ss);
+        Assert.AreEqual(0, eq);
     }
 }

@@ -2503,7 +2503,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float tan(float x)
     {
-        return (float)System.Math.Tan(x);
+        return MathF.Tan(x);
     }
 
     /// <summary>Returns the componentwise tangent of a float2 vector.</summary>
@@ -2540,7 +2540,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double tan(double x)
     {
-        return System.Math.Tan(x);
+        return Math.Tan(x);
     }
 
     /// <summary>Returns the componentwise tangent of a double2 vector.</summary>
@@ -2577,7 +2577,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float tanh(float x)
     {
-        return (float)System.Math.Tanh(x);
+        return MathF.Tanh(x);
     }
 
     /// <summary>Returns the componentwise hyperbolic tangent of a float2 vector.</summary>
@@ -2614,7 +2614,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double tanh(double x)
     {
-        return System.Math.Tanh(x);
+        return Math.Tanh(x);
     }
 
     /// <summary>Returns the componentwise hyperbolic tangent of a double2 vector.</summary>
@@ -2651,7 +2651,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float atan(float x)
     {
-        return (float)System.Math.Atan(x);
+        return MathF.Atan(x);
     }
 
     /// <summary>Returns the componentwise arctangent of a float2 vector.</summary>
@@ -2688,7 +2688,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double atan(double x)
     {
-        return System.Math.Atan(x);
+        return Math.Atan(x);
     }
 
     /// <summary>Returns the componentwise arctangent of a double2 vector.</summary>
@@ -2726,7 +2726,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float atan2(float y, float x)
     {
-        return (float)System.Math.Atan2(y, x);
+        return MathF.Atan2(y, x);
     }
 
     /// <summary>Returns the componentwise 2-argument arctangent of a pair of floats2 vectors.</summary>
@@ -2767,7 +2767,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double atan2(double y, double x)
     {
-        return System.Math.Atan2(y, x);
+        return Math.Atan2(y, x);
     }
 
     /// <summary>Returns the 2-argument arctangent of a pair of double2 vectors.</summary>
@@ -2807,7 +2807,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float cos(float x)
     {
-        return (float)System.Math.Cos(x);
+        return MathF.Cos(x);
     }
 
     /// <summary>Returns the componentwise cosine of a float2 vector.</summary>
@@ -2844,7 +2844,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double cos(double x)
     {
-        return System.Math.Cos(x);
+        return Math.Cos(x);
     }
 
     /// <summary>Returns the componentwise cosine of a double2 vector.</summary>
@@ -2881,7 +2881,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float cosh(float x)
     {
-        return (float)System.Math.Cosh(x);
+        return MathF.Cosh(x);
     }
 
     /// <summary>Returns the componentwise hyperbolic cosine of a float2 vector.</summary>
@@ -2918,7 +2918,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double cosh(double x)
     {
-        return System.Math.Cosh(x);
+        return Math.Cosh(x);
     }
 
     /// <summary>Returns the componentwise hyperbolic cosine of a double2 vector.</summary>
@@ -2955,7 +2955,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float acos(float x)
     {
-        return (float)System.Math.Acos((float)x);
+        return MathF.Acos(x);
     }
 
     /// <summary>Returns the componentwise arccosine of a float2 vector.</summary>
@@ -2992,7 +2992,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double acos(double x)
     {
-        return System.Math.Acos(x);
+        return Math.Acos(x);
     }
 
     /// <summary>Returns the componentwise arccosine of a double2 vector.</summary>
@@ -3029,7 +3029,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float sin(float x)
     {
-        return (float)System.Math.Sin((float)x);
+        return MathF.Sin(x);
     }
 
     /// <summary>Returns the componentwise sine of a float2 vector.</summary>
@@ -3066,7 +3066,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double sin(double x)
     {
-        return System.Math.Sin(x);
+        return Math.Sin(x);
     }
 
     /// <summary>Returns the componentwise sine of a double2 vector.</summary>
@@ -3103,7 +3103,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float sinh(float x)
     {
-        return (float)System.Math.Sinh((float)x);
+        return MathF.Sinh(x);
     }
 
     /// <summary>Returns the componentwise hyperbolic sine of a float2 vector.</summary>
@@ -3140,7 +3140,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double sinh(double x)
     {
-        return System.Math.Sinh(x);
+        return Math.Sinh(x);
     }
 
     /// <summary>Returns the componentwise hyperbolic sine of a double2 vector.</summary>
@@ -3177,7 +3177,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float asin(float x)
     {
-        return (float)System.Math.Asin((float)x);
+        return MathF.Asin(x);
     }
 
     /// <summary>Returns the componentwise arcsine of a float2 vector.</summary>
@@ -3214,7 +3214,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double asin(double x)
     {
-        return System.Math.Asin(x);
+        return Math.Asin(x);
     }
 
     /// <summary>Returns the componentwise arcsine of a double2 vector.</summary>
@@ -3251,7 +3251,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float floor(float x)
     {
-        return (float)System.Math.Floor((float)x);
+        return MathF.Floor(x);
     }
 
     /// <summary>Returns the result of rounding each component of a float2 vector value down to the nearest value less or equal to the original value.</summary>
@@ -3288,7 +3288,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double floor(double x)
     {
-        return System.Math.Floor(x);
+        return Math.Floor(x);
     }
 
     /// <summary>Returns the result of rounding each component of a double2 vector value down to the nearest value less or equal to the original value.</summary>
@@ -3325,7 +3325,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float ceil(float x)
     {
-        return (float)System.Math.Ceiling((float)x);
+        return MathF.Ceiling(x);
     }
 
     /// <summary>Returns the result of rounding each component of a float2 vector value up to the nearest value greater or equal to the original value.</summary>
@@ -3362,7 +3362,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double ceil(double x)
     {
-        return System.Math.Ceiling(x);
+        return Math.Ceiling(x);
     }
 
     /// <summary>Returns the result of rounding each component of a double2 vector value up to the nearest integral value greater or equal to the original value.</summary>
@@ -3399,7 +3399,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float round(float x)
     {
-        return (float)System.Math.Round((float)x);
+        return MathF.Round(x);
     }
 
     /// <summary>Returns the result of rounding each component of a float2 vector value to the nearest integral value.</summary>
@@ -3436,7 +3436,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double round(double x)
     {
-        return System.Math.Round(x);
+        return Math.Round(x);
     }
 
     /// <summary>Returns the result of rounding each component of a double2 vector value to the nearest integral value.</summary>
@@ -3473,7 +3473,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float trunc(float x)
     {
-        return (float)System.Math.Truncate((float)x);
+        return MathF.Truncate(x);
     }
 
     /// <summary>Returns the result of a componentwise truncation of a float2 value to an integral float2 value.</summary>
@@ -3500,7 +3500,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 trunc(float4 x)
     {
-        return Vector128.Truncate(x.AsVector128()).Asfloat4();
+        return Vector128.Truncate(x.__v).Asfloat4();
     }
 
 
@@ -3510,7 +3510,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double trunc(double x)
     {
-        return System.Math.Truncate(x);
+        return Math.Truncate(x);
     }
 
     /// <summary>Returns the result of a componentwise truncation of a double2 value to an integral double2 value.</summary>
@@ -3537,7 +3537,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 trunc(double4 x)
     {
-        return Vector256.Truncate(x.AsVector256()).Asdouble4();
+        return Vector256.Truncate(x.__v).Asdouble4();
     }
 
 
@@ -3805,7 +3805,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float pow(float x, float y)
     {
-        return (float)System.Math.Pow((float)x, (float)y);
+        return MathF.Pow(x, (float)y);
     }
 
     /// <summary>Returns the componentwise result of raising x to the power y.</summary>
@@ -3846,7 +3846,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double pow(double x, double y)
     {
-        return System.Math.Pow(x, y);
+        return Math.Pow(x, y);
     }
 
     /// <summary>Returns the componentwise result of raising x to the power y.</summary>
@@ -3886,7 +3886,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float exp(float x)
     {
-        return (float)System.Math.Exp((float)x);
+        return MathF.Exp(x);
     }
 
     /// <summary>Returns the componentwise base-e exponential of x.</summary>
@@ -3923,7 +3923,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double exp(double x)
     {
-        return System.Math.Exp(x);
+        return Math.Exp(x);
     }
 
     /// <summary>Returns the componentwise base-e exponential of x.</summary>
@@ -3960,7 +3960,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float exp2(float x)
     {
-        return (float)System.Math.Exp((float)x * 0.69314718f);
+        return MathF.Exp(x * 0.69314718f);
     }
 
     /// <summary>Returns the componentwise base-2 exponential of x.</summary>
@@ -3997,7 +3997,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double exp2(double x)
     {
-        return System.Math.Exp(x * 0.693147180559945309);
+        return Math.Exp(x * 0.693147180559945309);
     }
 
     /// <summary>Returns the componentwise base-2 exponential of x.</summary>
@@ -4034,7 +4034,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float exp10(float x)
     {
-        return (float)System.Math.Exp((float)x * 2.30258509f);
+        return MathF.Exp(x * 2.30258509f);
     }
 
     /// <summary>Returns the componentwise base-10 exponential of x.</summary>
@@ -4071,7 +4071,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double exp10(double x)
     {
-        return System.Math.Exp(x * 2.302585092994045684);
+        return Math.Exp(x * 2.302585092994045684);
     }
 
     /// <summary>Returns the componentwise base-10 exponential of x.</summary>
@@ -4108,7 +4108,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float log(float x)
     {
-        return (float)System.Math.Log((float)x);
+        return MathF.Log(x);
     }
 
     /// <summary>Returns the componentwise natural logarithm of a float2 vector.</summary>
@@ -4145,7 +4145,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double log(double x)
     {
-        return System.Math.Log(x);
+        return Math.Log(x);
     }
 
     /// <summary>Returns the componentwise natural logarithm of a double2 vector.</summary>
@@ -4182,7 +4182,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float log2(float x)
     {
-        return (float)System.Math.Log((float)x, 2.0f);
+        return MathF.Log(x, 2.0f);
     }
 
     /// <summary>Returns the componentwise base-2 logarithm of a float2 vector.</summary>
@@ -4219,7 +4219,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double log2(double x)
     {
-        return System.Math.Log(x, 2.0);
+        return Math.Log(x, 2.0);
     }
 
     /// <summary>Returns the componentwise base-2 logarithm of a double2 vector.</summary>
@@ -4255,7 +4255,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float log10(float x)
     {
-        return (float)System.Math.Log10((float)x);
+        return MathF.Log10(x);
     }
 
     /// <summary>Returns the componentwise base-10 logarithm of a float2 vector.</summary>
@@ -4292,7 +4292,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double log10(double x)
     {
-        return System.Math.Log10(x);
+        return Math.Log10(x);
     }
 
     /// <summary>Returns the componentwise base-10 logarithm of a double2 vector.</summary>
@@ -4519,7 +4519,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float sqrt(float x)
     {
-        return (float)System.Math.Sqrt((float)x);
+        return MathF.Sqrt(x);
     }
 
     /// <summary>Returns the componentwise square root of a float2 vector.</summary>
@@ -4556,7 +4556,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double sqrt(double x)
     {
-        return System.Math.Sqrt(x);
+        return Math.Sqrt(x);
     }
 
     /// <summary>Returns the componentwise square root of a double2 vector.</summary>
@@ -4727,8 +4727,8 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 normalizesafe(float2 x, float2 defaultvalue = new float2())
     {
-        var len = math.dot(x, x);
-        return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
+        var len = dot(x, x);
+        return select(defaultvalue, x * rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
     /// <summary>
@@ -4741,8 +4741,8 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 normalizesafe(float3 x, float3 defaultvalue = new float3())
     {
-        var len = math.dot(x, x);
-        return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
+        var len = dot(x, x);
+        return select(defaultvalue, x * rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
     /// <summary>
@@ -4755,8 +4755,8 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 normalizesafe(float4 x, float4 defaultvalue = new float4())
     {
-        var len = math.dot(x, x);
-        return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
+        var len = dot(x, x);
+        return select(defaultvalue, x * rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
 
@@ -4770,8 +4770,8 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 normalizesafe(double2 x, double2 defaultvalue = new double2())
     {
-        var len = math.dot(x, x);
-        return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
+        var len = dot(x, x);
+        return select(defaultvalue, x * rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
     /// <summary>
@@ -4784,8 +4784,8 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 normalizesafe(double3 x, double3 defaultvalue = new double3())
     {
-        var len = math.dot(x, x);
-        return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
+        var len = dot(x, x);
+        return select(defaultvalue, x * rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
     /// <summary>
@@ -4798,8 +4798,8 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 normalizesafe(double4 x, double4 defaultvalue = new double4())
     {
-        var len = math.dot(x, x);
-        return math.select(defaultvalue, x * math.rsqrt(len), len > FLT_MIN_NORMAL);
+        var len = dot(x, x);
+        return select(defaultvalue, x * rsqrt(len), len > FLT_MIN_NORMAL);
     }
 
 
@@ -8665,7 +8665,7 @@ public static partial class math
         var d1 = qv * qv.wwww * float4(2f); //xw, yw, zw, ww
         var d2 = qv * qv.yzxw * float4(2f); //xy, yz, zx, ww
         var d3 = qv * qv;
-        var euler = Misaki.HighPerformance.Mathematics.float3.zero;
+        var euler = Mathematics.float3.zero;
 
         var y1 = d2.z - d1.y;
         if (y1 * y1 < cutoff)
@@ -8705,7 +8705,7 @@ public static partial class math
         var d1 = qv * qv.wwww * float4(2f); //xw, yw, zw, ww
         var d2 = qv * qv.yzxw * float4(2f); //xy, yz, zx, ww
         var d3 = qv * qv;
-        var euler = Misaki.HighPerformance.Mathematics.float3.zero;
+        var euler = Mathematics.float3.zero;
 
         var y1 = d2.x + d1.z;
         if (y1 * y1 < cutoff)
@@ -8745,7 +8745,7 @@ public static partial class math
         var d1 = qv * qv.wwww * float4(2f); //xw, yw, zw, ww
         var d2 = qv * qv.yzxw * float4(2f); //xy, yz, zx, ww
         var d3 = qv * qv;
-        var euler = Misaki.HighPerformance.Mathematics.float3.zero;
+        var euler = Mathematics.float3.zero;
 
         var y1 = d2.y + d1.x;
         if (y1 * y1 < cutoff)
@@ -8785,7 +8785,7 @@ public static partial class math
         var d1 = qv * qv.wwww * float4(2f); //xw, yw, zw, ww
         var d2 = qv * qv.yzxw * float4(2f); //xy, yz, zx, ww
         var d3 = qv * qv;
-        var euler = Misaki.HighPerformance.Mathematics.float3.zero;
+        var euler = Mathematics.float3.zero;
 
         var y1 = d2.x - d1.z;
         if (y1 * y1 < cutoff)
@@ -8825,7 +8825,7 @@ public static partial class math
         var d1 = qv * qv.wwww * float4(2f); //xw, yw, zw, ww
         var d2 = qv * qv.yzxw * float4(2f); //xy, yz, zx, ww
         var d3 = qv * qv;
-        var euler = Misaki.HighPerformance.Mathematics.float3.zero;
+        var euler = Mathematics.float3.zero;
 
         var y1 = d2.y - d1.x;
         if (y1 * y1 < cutoff)
@@ -8864,7 +8864,7 @@ public static partial class math
         var d1 = qv * qv.wwww * float4(2f); //xw, yw, zw, ww
         var d2 = qv * qv.yzxw * float4(2f); //xy, yz, zx, ww
         var d3 = qv * qv;
-        var euler = Misaki.HighPerformance.Mathematics.float3.zero;
+        var euler = Mathematics.float3.zero;
 
         var y1 = d2.z + d1.y;
         if (y1 * y1 < cutoff)
@@ -8898,24 +8898,24 @@ public static partial class math
     /// <param name="order">The order in which the rotations are applied.</param>
     /// <returns>The Euler angle representation of the quaternion in the specified order.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float3 Euler(quaternion q, math.RotationOrder order = math.RotationOrder.Default)
+    public static float3 Euler(quaternion q, math.RotationOrder order = RotationOrder.Default)
     {
         switch (order)
         {
-            case math.RotationOrder.XYZ:
+            case RotationOrder.XYZ:
                 return EulerXYZ(q);
-            case math.RotationOrder.XZY:
+            case RotationOrder.XZY:
                 return EulerXZY(q);
-            case math.RotationOrder.YXZ:
+            case RotationOrder.YXZ:
                 return EulerYXZ(q);
-            case math.RotationOrder.YZX:
+            case RotationOrder.YZX:
                 return EulerYZX(q);
-            case math.RotationOrder.ZXY:
+            case RotationOrder.ZXY:
                 return EulerZXY(q);
-            case math.RotationOrder.ZYX:
+            case RotationOrder.ZYX:
                 return EulerZYX(q);
             default:
-                return Misaki.HighPerformance.Mathematics.float3.zero;
+                return Mathematics.float3.zero;
         }
     }
 
