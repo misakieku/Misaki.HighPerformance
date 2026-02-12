@@ -1,4 +1,4 @@
-﻿using Misaki.HighPerformance.Mathematics;
+using Misaki.HighPerformance.Mathematics;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Mathematics;
 
@@ -10,28 +10,18 @@ public class TestBool2
     {
         // Default constructor
         var v1 = new bool2();
-        Assert.IsFalse(v1.x);
-        Assert.IsFalse(v1.y);
+        Assert.AreNotEqual(math.TRUE, v1.x);
+        Assert.AreNotEqual(math.TRUE, v1.y);
 
         // Single value constructor
         var v2 = new bool2(true);
-        Assert.IsTrue(v2.x);
-        Assert.IsTrue(v2.y);
+        Assert.AreEqual(math.TRUE, v2.x);
+        Assert.AreEqual(math.TRUE, v2.y);
 
         // Component constructor
         var v3 = new bool2(true, false);
-        Assert.IsTrue(v3.x);
-        Assert.IsFalse(v3.y);
-    }
-
-    [TestMethod]
-    public void TestLogicalOperators()
-    {
-        var a = new bool2(true, false);
-        var b = new bool2(false, true);
-
-        // Note: bool types don't typically have bitwise operators in this implementation
-        // They are primarily used for conditional operations with math functions
+        Assert.AreEqual(math.TRUE, v3.x);
+        Assert.AreNotEqual(math.TRUE, v3.y);
     }
 
     [TestMethod]
@@ -54,12 +44,12 @@ public class TestBool2
     {
         var v = new bool2(true, false);
 
-        Assert.IsTrue(v.x);
-        Assert.IsFalse(v.y);
+        Assert.AreEqual(math.TRUE, v.x);
+        Assert.AreNotEqual(math.TRUE, v.y);
 
         var xy = v.xy;
-        Assert.IsTrue(xy.x);
-        Assert.IsFalse(xy.y);
+        Assert.AreEqual(math.TRUE, xy.x);
+        Assert.AreNotEqual(math.TRUE, xy.y);
     }
 
     [TestMethod]
@@ -89,7 +79,7 @@ public class TestBool2
     {
         var v = new bool2(true, false);
 
-        Assert.IsTrue(v[0]);
-        Assert.IsFalse(v[1]);
+        Assert.AreEqual(math.TRUE, v[0]);
+        Assert.AreNotEqual(math.TRUE, v[1]);
     }
 }

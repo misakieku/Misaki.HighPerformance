@@ -11,6 +11,9 @@ namespace Misaki.HighPerformance.Mathematics;
 public static partial class math
 #pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
 {
+    public const uint TRUE = 0xFFFFFFFF;
+    public const uint FALSE = 0x00000000;
+
     /// <summary>Extrinsic rotation order. Specifies in which order rotations around the principal axes (x, y and z) are to be applied.</summary>
     public enum RotationOrder : byte
     {
@@ -201,6 +204,28 @@ public static partial class math
     /// is NAN, use isnan().
     /// </summary>
     public const float NAN = Single.NaN;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static uint BoolToMask(bool b)
+    {
+        return (uint)-Unsafe.As<bool, byte>(ref b);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector128<uint> PackVector256(Vector256<uint> vector)
+    {
+        var shuffle = Vector256.Create(0u, 2u, 4u, 6u, 0u, 0u, 0u, 0u);
+        var packed = Vector256.Shuffle(vector, shuffle);
+        return packed.GetLower();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector256<uint> UnpackVector128(Vector128<uint> vector)
+    {
+        var shuffle = Vector256.Create(0u, 0u, 1u, 1u, 2u, 2u, 3u, 3u);
+        var unpacked = Vector256<uint>.Zero.WithLower(vector);
+        return Vector256.Shuffle(unpacked, shuffle);
+    }
 
     /// <summary>Returns the bit pattern of a uint as an int.</summary>
     /// <param name="x">The uint bits to copy.</param>
@@ -543,14 +568,26 @@ public static partial class math
     public static int bitmask(bool4 value)
     {
         var mask = 0;
-        if (value.x)
+        if (value.x == TRUE)
+        {
             mask |= 0x01;
-        if (value.y)
+        }
+
+        if (value.y == TRUE)
+        {
             mask |= 0x02;
-        if (value.z)
+        }
+
+        if (value.z == TRUE)
+        {
             mask |= 0x04;
-        if (value.w)
+        }
+
+        if (value.w == TRUE)
+        {
             mask |= 0x08;
+        }
+
         return mask;
     }
 
@@ -795,8 +832,8 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool2 isnan(double2 x)
     {
-        return bool2((asulong(x.x) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000,
-                     (asulong(x.y) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000);
+        return new bool2((asulong(x.x) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000,
+                         (asulong(x.y) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000);
     }
 
     /// <summary>Returns a bool3 indicating for each component of a double3 whether it is a NaN (not a number) floating point value.</summary>
@@ -808,9 +845,9 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool3 isnan(double3 x)
     {
-        return bool3((asulong(x.x) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000,
-                     (asulong(x.y) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000,
-                     (asulong(x.z) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000);
+        return new bool3((asulong(x.x) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000,
+                         (asulong(x.y) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000,
+                         (asulong(x.z) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000);
     }
 
     /// <summary>Returns a bool4 indicating for each component of a double4 whether it is a NaN (not a number) floating point value.</summary>
@@ -822,10 +859,13 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool4 isnan(double4 x)
     {
-        return bool4((asulong(x.x) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000,
-                     (asulong(x.y) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000,
-                     (asulong(x.z) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000,
-                     (asulong(x.w) & 0x7FFFFFFFFFFFFFFF) > 0x7FF0000000000000);
+        var v = x.__v;
+        var isNan = Vector256.IsNaN(v);
+
+        Unsafe.SkipInit<bool4>(out var result);
+        result.__v = PackVector256(Vector256.AsUInt32(isNan));
+
+        return result;
     }
 
     /// <summary>
@@ -849,7 +889,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool2 ispow2(int2 x)
     {
-        return new bool2(ispow2(x.x), ispow2(x.y));
+        return new bool2(ispow2(x.x) ? TRUE : FALSE, ispow2(x.y) ? TRUE : FALSE);
     }
 
     /// <summary>
@@ -941,7 +981,9 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int2 min(int2 x, int2 y)
     {
-        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asint2();
+        return new int2(
+            x.x < y.x ? x.x : y.x,
+            x.y < y.y ? x.y : y.y);
     }
 
     /// <summary>Returns the componentwise minimum of two int3 vectors.</summary>
@@ -951,7 +993,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int3 min(int3 x, int3 y)
     {
-        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asint3();
+        return new int3(
+            x.x < y.x ? x.x : y.x,
+            x.y < y.y ? x.y : y.y,
+            x.z < y.z ? x.z : y.z);
     }
 
     /// <summary>Returns the componentwise minimum of two int4 vectors.</summary>
@@ -961,7 +1006,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int4 min(int4 x, int4 y)
     {
-        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asint4();
+        return Vector128.Min(x.__v, y.__v).Asint4();
     }
 
 
@@ -982,7 +1027,9 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint2 min(uint2 x, uint2 y)
     {
-        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asuint2();
+        return new uint2(
+            x.x < y.x ? x.x : y.x,
+            x.y < y.y ? x.y : y.y);
     }
 
     /// <summary>Returns the componentwise minimum of two uint3 vectors.</summary>
@@ -992,7 +1039,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint3 min(uint3 x, uint3 y)
     {
-        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asuint3();
+        return new uint3(
+            x.x < y.x ? x.x : y.x,
+            x.y < y.y ? x.y : y.y,
+            x.z < y.z ? x.z : y.z);
     }
 
     /// <summary>Returns the componentwise minimum of two uint4 vectors.</summary>
@@ -1002,7 +1052,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint4 min(uint4 x, uint4 y)
     {
-        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asuint4();
+        return Vector128.Min(x.__v, y.__v).Asuint4();
     }
 
 
@@ -1045,7 +1095,9 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 min(float2 x, float2 y)
     {
-        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asfloat2();
+        return new float2(
+            float.IsNaN(y.x) || x.x < y.x ? x.x : y.x,
+            float.IsNaN(y.y) || x.y < y.y ? x.y : y.y);
     }
 
     /// <summary>Returns the componentwise minimum of two float3 vectors.</summary>
@@ -1055,7 +1107,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 min(float3 x, float3 y)
     {
-        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asfloat3();
+        return new float3(
+            float.IsNaN(y.x) || x.x < y.x ? x.x : y.x,
+            float.IsNaN(y.y) || x.y < y.y ? x.y : y.y,
+            float.IsNaN(y.z) || x.z < y.z ? x.z : y.z);
     }
 
     /// <summary>Returns the componentwise minimum of two float4 vectors.</summary>
@@ -1065,7 +1120,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 min(float4 x, float4 y)
     {
-        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asfloat4();
+        return Vector128.Min(x.__v, y.__v).Asfloat4();
     }
 
 
@@ -1086,7 +1141,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 min(double2 x, double2 y)
     {
-        return Vector128.Min(x.AsVector128(), y.AsVector128()).Asdouble2();
+        return Vector128.Min(x.__v, y.__v).Asdouble2();
     }
 
     /// <summary>Returns the componentwise minimum of two double3 vectors.</summary>
@@ -1096,7 +1151,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 min(double3 x, double3 y)
     {
-        return Vector256.Min(x.AsVector256(), y.AsVector256()).Asdouble3();
+        return new double3(
+            double.IsNaN(y.x) || x.x < y.x ? x.x : y.x,
+            double.IsNaN(y.y) || x.y < y.y ? x.y : y.y,
+            double.IsNaN(y.z) || x.z < y.z ? x.z : y.z);
     }
 
     /// <summary>Returns the componentwise minimum of two double4 vectors.</summary>
@@ -1106,7 +1164,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 min(double4 x, double4 y)
     {
-        return Vector256.Min(x.AsVector256(), y.AsVector256()).Asdouble4();
+        return Vector256.Min(x.__v, y.__v).Asdouble4();
     }
 
 
@@ -1127,7 +1185,9 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int2 max(int2 x, int2 y)
     {
-        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asint2();
+        return new int2(
+            x.x > y.x ? x.x : y.x,
+            x.y > y.y ? x.y : y.y);
     }
 
     /// <summary>Returns the componentwise maximum of two int3 vectors.</summary>
@@ -1137,7 +1197,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int3 max(int3 x, int3 y)
     {
-        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asint3();
+        return new int3(
+            x.x > y.x ? x.x : y.x,
+            x.y > y.y ? x.y : y.y,
+            x.z > y.z ? x.z : y.z);
     }
 
     /// <summary>Returns the componentwise maximum of two int4 vectors.</summary>
@@ -1147,7 +1210,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int4 max(int4 x, int4 y)
     {
-        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asint4();
+        return Vector128.Max(x.__v, y.__v).Asint4();
     }
 
 
@@ -1168,7 +1231,9 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint2 max(uint2 x, uint2 y)
     {
-        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asuint2();
+        return new uint2(
+            x.x > y.x ? x.x : y.x,
+            x.y > y.y ? x.y : y.y);
     }
 
     /// <summary>Returns the componentwise maximum of two uint3 vectors.</summary>
@@ -1178,7 +1243,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint3 max(uint3 x, uint3 y)
     {
-        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asuint3();
+        return new uint3(
+            x.x > y.x ? x.x : y.x,
+            x.y > y.y ? x.y : y.y,
+            x.z > y.z ? x.z : y.z);
     }
 
     /// <summary>Returns the componentwise maximum of two uint4 vectors.</summary>
@@ -1188,7 +1256,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint4 max(uint4 x, uint4 y)
     {
-        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asuint4();
+        return Vector128.Max(x.__v, y.__v).Asuint4();
     }
 
 
@@ -1231,7 +1299,9 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 max(float2 x, float2 y)
     {
-        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asfloat2();
+        return new float2(
+            float.IsNaN(y.x) || x.x > y.x ? x.x : y.x,
+            float.IsNaN(y.y) || x.y > y.y ? x.y : y.y);
     }
 
     /// <summary>Returns the componentwise maximum of two float3 vectors.</summary>
@@ -1241,7 +1311,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 max(float3 x, float3 y)
     {
-        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asfloat3();
+        return new float3(
+            float.IsNaN(y.x) || x.x > y.x ? x.x : y.x,
+            float.IsNaN(y.y) || x.y > y.y ? x.y : y.y,
+            float.IsNaN(y.z) || x.z > y.z ? x.z : y.z);
     }
 
     /// <summary>Returns the componentwise maximum of two float4 vectors.</summary>
@@ -1251,7 +1324,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 max(float4 x, float4 y)
     {
-        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asfloat4();
+        return Vector128.Max(x.__v, y.__v).Asfloat4();
     }
 
 
@@ -1272,7 +1345,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 max(double2 x, double2 y)
     {
-        return Vector128.Max(x.AsVector128(), y.AsVector128()).Asdouble2();
+        return Vector128.Max(x.__v, y.__v).Asdouble2();
     }
 
     /// <summary>Returns the componentwise maximum of two double3 vectors.</summary>
@@ -1282,7 +1355,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 max(double3 x, double3 y)
     {
-        return Vector256.Max(x.AsVector256(), y.AsVector256()).Asdouble3();
+        return new double3(
+            double.IsNaN(y.x) || x.x > y.x ? x.x : y.x,
+            double.IsNaN(y.y) || x.y > y.y ? x.y : y.y,
+            double.IsNaN(y.z) || x.z > y.z ? x.z : y.z);
     }
 
     /// <summary>Returns the componentwise maximum of two double4 vectors.</summary>
@@ -1292,7 +1368,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 max(double4 x, double4 y)
     {
-        return Vector256.Max(x.AsVector256(), y.AsVector256()).Asdouble4();
+        return Vector256.Max(x.__v, y.__v).Asdouble4();
     }
 
 
@@ -1321,7 +1397,9 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 lerp(float2 start, float2 end, float t)
     {
-        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), Vector128.Create(t)).Asfloat2();
+        return new float2(
+            lerp(start.x, end.x, t),
+            lerp(start.y, end.y, t));
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the interpolation parameter t.</summary>
@@ -1335,7 +1413,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 lerp(float3 start, float3 end, float t)
     {
-        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), Vector128.Create(t)).Asfloat3();
+        return new float3(
+            lerp(start.x, end.x, t),
+            lerp(start.y, end.y, t),
+            lerp(start.z, end.z, t));
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the interpolation parameter t.</summary>
@@ -1349,7 +1430,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 lerp(float4 start, float4 end, float t)
     {
-        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), Vector128.Create(t)).Asfloat4();
+        return Vector128.Lerp(start.__v, end.__v, Vector128.Create(t)).Asfloat4();
     }
 
 
@@ -1364,7 +1445,9 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 lerp(float2 start, float2 end, float2 t)
     {
-        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), t.AsVector128()).Asfloat2();
+        return new float2(
+            lerp(start.x, end.x, t.x),
+            lerp(start.y, end.y, t.y));
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the corresponding components of the interpolation parameter t.</summary>
@@ -1378,7 +1461,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 lerp(float3 start, float3 end, float3 t)
     {
-        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), t.AsVector128()).Asfloat3();
+        return new float3(
+            lerp(start.x, end.x, t.x),
+            lerp(start.y, end.y, t.y),
+            lerp(start.z, end.z, t.z));
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the corresponding components of the interpolation parameter t.</summary>
@@ -1392,7 +1478,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 lerp(float4 start, float4 end, float4 t)
     {
-        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), t.AsVector128()).Asfloat4();
+        return Vector128.Lerp(start.__v, end.__v, t.__v).Asfloat4();
     }
 
 
@@ -1421,7 +1507,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 lerp(double2 start, double2 end, double t)
     {
-        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), Vector128.Create(t)).Asdouble2();
+        return Vector128.Lerp(start.__v, end.__v, Vector128.Create(t)).Asdouble2();
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the interpolation parameter t.</summary>
@@ -1435,7 +1521,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 lerp(double3 start, double3 end, double t)
     {
-        return Vector256.Lerp(start.AsVector256(), end.AsVector256(), Vector256.Create(t)).Asdouble3();
+        return new double3(
+            lerp(start.x, end.x, t),
+            lerp(start.y, end.y, t),
+            lerp(start.z, end.z, t));
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the interpolation parameter t.</summary>
@@ -1449,7 +1538,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 lerp(double4 start, double4 end, double t)
     {
-        return Vector256.Lerp(start.AsVector256(), end.AsVector256(), Vector256.Create(t)).Asdouble4();
+        return Vector256.Lerp(start.__v, end.__v, Vector256.Create(t)).Asdouble4();
     }
 
 
@@ -1464,7 +1553,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 lerp(double2 start, double2 end, double2 t)
     {
-        return Vector128.Lerp(start.AsVector128(), end.AsVector128(), t.AsVector128()).Asdouble2();
+        return Vector128.Lerp(start.__v, end.__v, t.__v).Asdouble2();
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the corresponding components of the interpolation parameter t.</summary>
@@ -1478,7 +1567,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 lerp(double3 start, double3 end, double3 t)
     {
-        return Vector256.Lerp(start.AsVector256(), end.AsVector256(), t.AsVector256()).Asdouble3();
+        return new double3(
+            lerp(start.x, end.x, t.x),
+            lerp(start.y, end.y, t.y),
+            lerp(start.z, end.z, t.z));
     }
 
     /// <summary>Returns the result of a componentwise linear interpolating from x to y using the corresponding components of the interpolation parameter t.</summary>
@@ -1492,7 +1584,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 lerp(double4 start, double4 end, double4 t)
     {
-        return Vector256.Lerp(start.AsVector256(), end.AsVector256(), t.AsVector256()).Asdouble4();
+        return Vector256.Lerp(start.__v, end.__v, t.__v).Asdouble4();
     }
 
 
@@ -1835,7 +1927,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 mad(float2 mulA, float2 mulB, float2 addC)
     {
-        return Vector128.FusedMultiplyAdd(mulA.AsVector128(), mulB.AsVector128(), addC.AsVector128()).Asfloat2();
+        return mulA * mulB + addC;
     }
 
     /// <summary>Returns the result of a componentwise multiply-add operation (a * b + c) on 3 float3 vectors.</summary>
@@ -1851,7 +1943,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 mad(float3 mulA, float3 mulB, float3 addC)
     {
-        return Vector128.FusedMultiplyAdd(mulA.AsVector128(), mulB.AsVector128(), addC.AsVector128()).Asfloat3();
+        return mulA * mulB + addC;
     }
 
     /// <summary>Returns the result of a componentwise multiply-add operation (a * b + c) on 3 float4 vectors.</summary>
@@ -1867,7 +1959,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 mad(float4 mulA, float4 mulB, float4 addC)
     {
-        return Vector128.FusedMultiplyAdd(mulA.AsVector128(), mulB.AsVector128(), addC.AsVector128()).Asfloat4();
+        return Vector128.FusedMultiplyAdd(mulA.__v, mulB.__v, addC.__v).Asfloat4();
     }
 
 
@@ -1900,7 +1992,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 mad(double2 mulA, double2 mulB, double2 addC)
     {
-        return Vector128.FusedMultiplyAdd(mulA.AsVector128(), mulB.AsVector128(), addC.AsVector128()).Asdouble2();
+        return Vector128.FusedMultiplyAdd(mulA.__v, mulB.__v, addC.__v).Asdouble2();
     }
 
     /// <summary>Returns the result of a componentwise multiply-add operation (a * b + c) on 3 double3 vectors.</summary>
@@ -1916,7 +2008,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 mad(double3 mulA, double3 mulB, double3 addC)
     {
-        return Vector256.FusedMultiplyAdd(mulA.AsVector256(), mulB.AsVector256(), addC.AsVector256()).Asdouble3();
+        return mulA * mulB + addC;
     }
 
     /// <summary>Returns the result of a componentwise multiply-add operation (a * b + c) on 3 double4 vectors.</summary>
@@ -1932,7 +2024,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 mad(double4 mulA, double4 mulB, double4 addC)
     {
-        return Vector256.FusedMultiplyAdd(mulA.AsVector256(), mulB.AsVector256(), addC.AsVector256()).Asdouble4();
+        return Vector256.FusedMultiplyAdd(mulA.__v, mulB.__v, addC.__v).Asdouble4();
     }
 
 
@@ -1955,7 +2047,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int2 clamp(int2 valueToClamp, int2 lowerBound, int2 upperBound)
     {
-        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asint2();
+        return new int2(
+            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y,  upperBound.y)
+        );
     }
 
     /// <summary>Returns the result of a componentwise clamping of the int3 x into the interval [a, b], where x, a and b are int3 vectors.</summary>
@@ -1966,7 +2061,11 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int3 clamp(int3 valueToClamp, int3 lowerBound, int3 upperBound)
     {
-        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asint3();
+        return new int3(
+            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y,  upperBound.y),
+            clamp(valueToClamp.z, lowerBound.z,  upperBound.z)
+        );
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are int4 vectors.</summary>
@@ -1977,7 +2076,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int4 clamp(int4 valueToClamp, int4 lowerBound, int4 upperBound)
     {
-        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asint4();
+        return Vector128.Clamp(valueToClamp.__v, lowerBound.__v, upperBound.__v).Asint4();
     }
 
 
@@ -2000,7 +2099,9 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint2 clamp(uint2 valueToClamp, uint2 lowerBound, uint2 upperBound)
     {
-        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asuint2();
+        return new uint2(
+            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y,  upperBound.y));
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are uint3 vectors.</summary>
@@ -2011,7 +2112,11 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint3 clamp(uint3 valueToClamp, uint3 lowerBound, uint3 upperBound)
     {
-        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asuint3();
+        return new uint3(
+            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y,  upperBound.y),
+            clamp(valueToClamp.z, lowerBound.z,  upperBound.z)
+        );
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are uint4 vectors.</summary>
@@ -2022,7 +2127,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint4 clamp(uint4 valueToClamp, uint4 lowerBound, uint4 upperBound)
     {
-        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asuint4();
+        return Vector128.Clamp(valueToClamp.__v, lowerBound.__v, upperBound.__v).Asuint4();
     }
 
 
@@ -2068,7 +2173,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 clamp(float2 valueToClamp, float2 lowerBound, float2 upperBound)
     {
-        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asfloat2();
+        return new float2(
+            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y,  upperBound.y)
+        );
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are float3 vectors.</summary>
@@ -2079,7 +2187,11 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 clamp(float3 valueToClamp, float3 lowerBound, float3 upperBound)
     {
-        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asfloat3();
+        return new float3(
+            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y,  upperBound.y),
+            clamp(valueToClamp.z, lowerBound.z,  upperBound.z)
+        );
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are float4 vectors.</summary>
@@ -2090,7 +2202,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 clamp(float4 valueToClamp, float4 lowerBound, float4 upperBound)
     {
-        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asfloat4();
+        return Vector128.Clamp(valueToClamp.__v, lowerBound.__v, upperBound.__v).Asfloat4();
     }
 
 
@@ -2113,7 +2225,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 clamp(double2 valueToClamp, double2 lowerBound, double2 upperBound)
     {
-        return Vector128.Clamp(valueToClamp.AsVector128(), lowerBound.AsVector128(), upperBound.AsVector128()).Asdouble2();
+        return Vector128.Clamp(valueToClamp.__v, lowerBound.__v, upperBound.__v).Asdouble2();
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are double3 vectors.</summary>
@@ -2124,7 +2236,11 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 clamp(double3 valueToClamp, double3 lowerBound, double3 upperBound)
     {
-        return Vector256.Clamp(valueToClamp.AsVector256(), lowerBound.AsVector256(), upperBound.AsVector256()).Asdouble3();
+        return new double3(
+            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y,  upperBound.y),
+            clamp(valueToClamp.z, lowerBound.z,  upperBound.z)
+        );
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are double4 vectors.</summary>
@@ -2135,7 +2251,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 clamp(double4 valueToClamp, double4 lowerBound, double4 upperBound)
     {
-        return Vector256.Clamp(valueToClamp.AsVector256(), lowerBound.AsVector256(), upperBound.AsVector256()).Asdouble4();
+        return Vector256.Clamp(valueToClamp.__v, lowerBound.__v, upperBound.__v).Asdouble4();
     }
 
 
@@ -2228,7 +2344,9 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int2 abs(int2 x)
     {
-        return Vector128.Abs(x.AsVector128()).Asint2();
+        return new int2(
+            abs(x.x),
+            abs(x.y));
     }
 
     /// <summary>Returns the componentwise absolute value of a int3 vector.</summary>
@@ -2237,7 +2355,10 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int3 abs(int3 x)
     {
-        return Vector128.Abs(x.AsVector128()).Asint3();
+        return new int3(
+            abs(x.x),
+            abs(x.y),
+            abs(x.z));
     }
 
     /// <summary>Returns the componentwise absolute value of a int4 vector.</summary>
@@ -2246,7 +2367,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int4 abs(int4 x)
     {
-        return Vector128.Abs(x.AsVector128()).Asint4();
+        return Vector128.Abs(x.__v).Asint4();
     }
 
     /// <summary>Returns the absolute value of a long value.</summary>
@@ -2350,7 +2471,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int dot(int2 x, int2 y)
     {
-        return Vector128.Dot(x.AsVector128(), y.AsVector128());
+        return x.x * y.x + x.y * y.y;
     }
 
     /// <summary>Returns the dot product of two int3 vectors.</summary>
@@ -2360,7 +2481,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int dot(int3 x, int3 y)
     {
-        return Vector128.Dot(x.AsVector128(), y.AsVector128());
+        return x.x * y.x + x.y * y.y + x.z * y.z;
     }
 
     /// <summary>Returns the dot product of two int4 vectors.</summary>
@@ -2370,7 +2491,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int dot(int4 x, int4 y)
     {
-        return Vector128.Dot(x.AsVector128(), y.AsVector128());
+        return Vector128.Dot(x.__v, y.__v);
     }
 
 
@@ -2391,7 +2512,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint dot(uint2 x, uint2 y)
     {
-        return Vector128.Dot(x.AsVector128(), y.AsVector128());
+        return x.x * y.x + x.y * y.y;
     }
 
     /// <summary>Returns the dot product of two uint3 vectors.</summary>
@@ -2401,7 +2522,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint dot(uint3 x, uint3 y)
     {
-        return Vector128.Dot(x.AsVector128(), y.AsVector128());
+        return x.x * y.x + x.y * y.y + x.z * y.z;
     }
 
     /// <summary>Returns the dot product of two uint4 vectors.</summary>
@@ -2411,7 +2532,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint dot(uint4 x, uint4 y)
     {
-        return Vector128.Dot(x.AsVector128(), y.AsVector128());
+        return Vector128.Dot(x.__v, y.__v);
     }
 
 
@@ -2432,7 +2553,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float dot(float2 x, float2 y)
     {
-        return Vector128.Dot(x.AsVector128(), y.AsVector128());
+        return x.x * y.x + x.y * y.y;
     }
 
     /// <summary>Returns the dot product of two float3 vectors.</summary>
@@ -2442,7 +2563,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float dot(float3 x, float3 y)
     {
-        return Vector128.Dot(x.AsVector128(), y.AsVector128());
+        return x.x * y.x + x.y * y.y + x.z * y.z;
     }
 
     /// <summary>Returns the dot product of two float4 vectors.</summary>
@@ -2452,7 +2573,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float dot(float4 x, float4 y)
     {
-        return Vector128.Dot(x.AsVector128(), y.AsVector128());
+        return Vector128.Dot(x.__v, y.__v);
     }
 
 
@@ -2473,7 +2594,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double dot(double2 x, double2 y)
     {
-        return Vector128.Dot(x.AsVector128(), y.AsVector128());
+        return Vector128.Dot(x.__v, y.__v);
     }
 
     /// <summary>Returns the dot product of two double3 vectors.</summary>
@@ -2483,7 +2604,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double dot(double3 x, double3 y)
     {
-        return Vector256.Dot(x.AsVector256(), y.AsVector256());
+        return x.x * y.x + x.y * y.y + x.z * y.z;
     }
 
     /// <summary>Returns the dot product of two double4 vectors.</summary>
@@ -2493,7 +2614,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double dot(double4 x, double4 y)
     {
-        return Vector256.Dot(x.AsVector256(), y.AsVector256());
+        return Vector256.Dot(x.__v, y.__v);
     }
 
 
@@ -2816,7 +2937,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 cos(float2 x)
     {
-        return Vector128.Cos(x.AsVector128()).Asfloat2();
+        return new float2(cos(x.x), cos(x.y));
     }
 
     /// <summary>Returns the componentwise cosine of a float3 vector.</summary>
@@ -2825,7 +2946,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 cos(float3 x)
     {
-        return Vector128.Cos(x.AsVector128()).Asfloat3();
+        return new float3(cos(x.x), cos(x.y), cos(x.z));
     }
 
     /// <summary>Returns the componentwise cosine of a float4 vector.</summary>
@@ -2834,7 +2955,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 cos(float4 x)
     {
-        return Vector128.Cos(x.AsVector128()).Asfloat4();
+        return Vector128.Cos(x.__v).Asfloat4();
     }
 
 
@@ -2853,7 +2974,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 cos(double2 x)
     {
-        return Vector128.Cos(x.AsVector128()).Asdouble2();
+        return Vector128.Cos(x.__v).Asdouble2();
     }
 
     /// <summary>Returns the componentwise cosine of a double3 vector.</summary>
@@ -2862,7 +2983,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 cos(double3 x)
     {
-        return Vector256.Cos(x.AsVector256()).Asdouble3();
+        return new double3(cos(x.x), cos(x.y), cos(x.z));
     }
 
     /// <summary>Returns the componentwise cosine of a double4 vector.</summary>
@@ -2871,7 +2992,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 cos(double4 x)
     {
-        return Vector256.Cos(x.AsVector256()).Asdouble4();
+        return Vector256.Cos(x.__v).Asdouble4();
     }
 
 
@@ -3038,7 +3159,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 sin(float2 x)
     {
-        return Vector128.Sin(x.AsVector128()).Asfloat2();
+        return new float2(sin(x.x), sin(x.y));
     }
 
     /// <summary>Returns the componentwise sine of a float3 vector.</summary>
@@ -3047,7 +3168,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 sin(float3 x)
     {
-        return Vector128.Sin(x.AsVector128()).Asfloat3();
+        return new float3(sin(x.x), sin(x.y), sin(x.z));
     }
 
     /// <summary>Returns the componentwise sine of a float4 vector.</summary>
@@ -3056,7 +3177,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 sin(float4 x)
     {
-        return Vector128.Sin(x.AsVector128()).Asfloat4();
+        return Vector128.Sin(x.__v).Asfloat4();
     }
 
 
@@ -3075,7 +3196,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 sin(double2 x)
     {
-        return Vector128.Sin(x.AsVector128()).Asdouble2();
+        return Vector128.Sin(x.__v).Asdouble2();
     }
 
     /// <summary>Returns the componentwise sine of a double3 vector.</summary>
@@ -3084,7 +3205,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 sin(double3 x)
     {
-        return Vector256.Sin(x.AsVector256()).Asdouble3();
+        return new double3(sin(x.x), sin(x.y), sin(x.z));
     }
 
     /// <summary>Returns the componentwise sine of a double4 vector.</summary>
@@ -3093,7 +3214,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 sin(double4 x)
     {
-        return Vector256.Sin(x.AsVector256()).Asdouble4();
+        return Vector256.Sin(x.__v).Asdouble4();
     }
 
 
@@ -3260,7 +3381,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 floor(float2 x)
     {
-        return Vector128.Floor(x.AsVector128()).Asfloat2();
+        return new float2(floor(x.x), floor(x.y));
     }
 
     /// <summary>Returns the result of rounding each component of a float3 vector value down to the nearest value less or equal to the original value.</summary>
@@ -3269,7 +3390,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 floor(float3 x)
     {
-        return Vector128.Floor(x.AsVector128()).Asfloat3();
+        return new float3(floor(x.x), floor(x.y), floor(x.z));
     }
 
     /// <summary>Returns the result of rounding each component of a float4 vector value down to the nearest value less or equal to the original value.</summary>
@@ -3278,7 +3399,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 floor(float4 x)
     {
-        return Vector128.Floor(x.AsVector128()).Asfloat4();
+        return Vector128.Floor(x.__v).Asfloat4();
     }
 
 
@@ -3297,7 +3418,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 floor(double2 x)
     {
-        return Vector128.Floor(x.AsVector128()).Asdouble2();
+        return Vector128.Floor(x.__v).Asdouble2();
     }
 
     /// <summary>Returns the result of rounding each component of a double3 vector value down to the nearest value less or equal to the original value.</summary>
@@ -3306,7 +3427,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 floor(double3 x)
     {
-        return Vector256.Floor(x.AsVector256()).Asdouble3();
+        return new double3(floor(x.x), floor(x.y), floor(x.z));
     }
 
     /// <summary>Returns the result of rounding each component of a double4 vector value down to the nearest value less or equal to the original value.</summary>
@@ -3315,7 +3436,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 floor(double4 x)
     {
-        return Vector256.Floor(x.AsVector256()).Asdouble4();
+        return Vector256.Floor(x.__v).Asdouble4();
     }
 
 
@@ -3334,7 +3455,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 ceil(float2 x)
     {
-        return Vector128.Ceiling(x.AsVector128()).Asfloat2();
+        return new float2(ceil(x.x), ceil(x.y));
     }
 
     /// <summary>Returns the result of rounding each component of a float3 vector value up to the nearest value greater or equal to the original value.</summary>
@@ -3343,7 +3464,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 ceil(float3 x)
     {
-        return Vector128.Ceiling(x.AsVector128()).Asfloat3();
+        return new float3(ceil(x.x), ceil(x.y), ceil(x.z));
     }
 
     /// <summary>Returns the result of rounding each component of a float4 vector value up to the nearest value greater or equal to the original value.</summary>
@@ -3352,7 +3473,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 ceil(float4 x)
     {
-        return Vector128.Ceiling(x.AsVector128()).Asfloat4();
+        return Vector128.Ceiling(x.__v).Asfloat4();
     }
 
 
@@ -3371,7 +3492,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 ceil(double2 x)
     {
-        return Vector128.Ceiling(x.AsVector128()).Asdouble2();
+        return Vector128.Ceiling(x.__v).Asdouble2();
     }
 
     /// <summary>Returns the result of rounding each component of a double3 vector value up to the nearest integral value greater or equal to the original value..</summary>
@@ -3380,7 +3501,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 ceil(double3 x)
     {
-        return Vector256.Ceiling(x.AsVector256()).Asdouble3();
+        return new double3(ceil(x.x), ceil(x.y), ceil(x.z));
     }
 
     /// <summary>Returns the result of rounding each component of a double4 vector value up to the nearest integral value greater or equal to the original value.</summary>
@@ -3389,7 +3510,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 ceil(double4 x)
     {
-        return Vector256.Ceiling(x.AsVector256()).Asdouble4();
+        return Vector256.Ceiling(x.__v).Asdouble4();
     }
 
 
@@ -3408,7 +3529,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 round(float2 x)
     {
-        return Vector128.Round(x.AsVector128()).Asfloat2();
+        return new float2(round(x.x), round(x.y));
     }
 
     /// <summary>Returns the result of rounding each component of a float3 vector value to the nearest integral value.</summary>
@@ -3417,7 +3538,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 round(float3 x)
     {
-        return Vector128.Round(x.AsVector128()).Asfloat3();
+        return new float3(round(x.x), round(x.y), round(x.z));
     }
 
     /// <summary>Returns the result of rounding each component of a float4 vector value to the nearest integral value.</summary>
@@ -3426,7 +3547,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 round(float4 x)
     {
-        return Vector128.Round(x.AsVector128()).Asfloat4();
+        return Vector128.Round(x.__v).Asfloat4();
     }
 
 
@@ -3445,7 +3566,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 round(double2 x)
     {
-        return Vector128.Round(x.AsVector128()).Asdouble2();
+        return Vector128.Round(x.__v).Asdouble2();
     }
 
     /// <summary>Returns the result of rounding each component of a double3 vector value to the nearest integral value.</summary>
@@ -3454,7 +3575,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 round(double3 x)
     {
-        return Vector256.Round(x.AsVector256()).Asdouble3();
+        return new double3(round(x.x), round(x.y), round(x.z));
     }
 
     /// <summary>Returns the result of rounding each component of a double4 vector value to the nearest integral value.</summary>
@@ -3463,7 +3584,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 round(double4 x)
     {
-        return Vector256.Round(x.AsVector256()).Asdouble4();
+        return Vector256.Round(x.__v).Asdouble4();
     }
 
 
@@ -3482,7 +3603,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 trunc(float2 x)
     {
-        return Vector128.Truncate(x.AsVector128()).Asfloat2();
+        return new float2(trunc(x.x), trunc(x.y));
     }
 
     /// <summary>Returns the result of a componentwise truncation of a float3 value to an integral float3 value.</summary>
@@ -3491,7 +3612,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 trunc(float3 x)
     {
-        return Vector128.Truncate(x.AsVector128()).Asfloat3();
+        return new float3(trunc(x.x), trunc(x.y), trunc(x.z));
     }
 
     /// <summary>Returns the result of a componentwise truncation of a float4 value to an integral float4 value.</summary>
@@ -3519,7 +3640,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 trunc(double2 x)
     {
-        return Vector128.Truncate(x.AsVector128()).Asdouble2();
+        return Vector128.Truncate(x.__v).Asdouble2();
     }
 
     /// <summary>Returns the result of a componentwise truncation of a double3 value to an integral double3 value.</summary>
@@ -3528,7 +3649,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 trunc(double3 x)
     {
-        return Vector256.Truncate(x.AsVector256()).Asdouble3();
+        return double3(trunc(x.x), trunc(x.y), trunc(x.z));
     }
 
     /// <summary>Returns the result of a componentwise truncation of a double4 value to an integral double4 value.</summary>
@@ -3895,7 +4016,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 exp(float2 x)
     {
-        return Vector128.Exp(x.AsVector128()).Asfloat2();
+        return new float2(exp(x.x), exp(x.y));
     }
 
     /// <summary>Returns the componentwise base-e exponential of x.</summary>
@@ -3904,7 +4025,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 exp(float3 x)
     {
-        return Vector128.Exp(x.AsVector128()).Asfloat3();
+        return new float3(exp(x.x), exp(x.y), exp(x.z));
     }
 
     /// <summary>Returns the componentwise base-e exponential of x.</summary>
@@ -3913,7 +4034,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 exp(float4 x)
     {
-        return Vector128.Exp(x.AsVector128()).Asfloat4();
+        return Vector128.Exp(x.__v).Asfloat4();
     }
 
 
@@ -3932,7 +4053,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 exp(double2 x)
     {
-        return Vector128.Exp(x.AsVector128()).Asdouble2();
+        return Vector128.Exp(x.__v).Asdouble2();
     }
 
     /// <summary>Returns the componentwise base-e exponential of x.</summary>
@@ -3941,7 +4062,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 exp(double3 x)
     {
-        return Vector256.Exp(x.AsVector256()).Asdouble3();
+        return new double3(exp(x.x), exp(x.y), exp(x.z));
     }
 
     /// <summary>Returns the componentwise base-e exponential of x.</summary>
@@ -3950,7 +4071,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 exp(double4 x)
     {
-        return Vector256.Exp(x.AsVector256()).Asdouble4();
+        return Vector256.Exp(x.__v).Asdouble4();
     }
 
 
@@ -4117,7 +4238,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 log(float2 x)
     {
-        return Vector128.Log(x.AsVector128()).Asfloat2();
+        return new float2(log(x.x), log(x.y));
     }
 
     /// <summary>Returns the componentwise natural logarithm of a float3 vector.</summary>
@@ -4126,7 +4247,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 log(float3 x)
     {
-        return Vector128.Log(x.AsVector128()).Asfloat3();
+        return new float3(log(x.x), log(x.y), log(x.z));
     }
 
     /// <summary>Returns the componentwise natural logarithm of a float4 vector.</summary>
@@ -4135,7 +4256,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 log(float4 x)
     {
-        return Vector128.Log(x.AsVector128()).Asfloat4();
+        return Vector128.Log(x.__v).Asfloat4();
     }
 
 
@@ -4154,7 +4275,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 log(double2 x)
     {
-        return Vector128.Log(x.AsVector128()).Asdouble2();
+        return Vector128.Log(x.__v).Asdouble2();
     }
 
     /// <summary>Returns the componentwise natural logarithm of a double3 vector.</summary>
@@ -4163,7 +4284,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 log(double3 x)
     {
-        return Vector256.Log(x.AsVector256()).Asdouble3();
+        return new double3(log(x.x), log(x.y), log(x.z));
     }
 
     /// <summary>Returns the componentwise natural logarithm of a double4 vector.</summary>
@@ -4172,7 +4293,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 log(double4 x)
     {
-        return Vector256.Log(x.AsVector256()).Asdouble4();
+        return Vector256.Log(x.__v).Asdouble4();
     }
 
 
@@ -4191,7 +4312,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 log2(float2 x)
     {
-        return Vector128.Log2(x.AsVector128()).Asfloat2();
+        return new float2(log2(x.x), log2(x.y));
     }
 
     /// <summary>Returns the componentwise base-2 logarithm of a float3 vector.</summary>
@@ -4200,7 +4321,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 log2(float3 x)
     {
-        return Vector128.Log2(x.AsVector128()).Asfloat3();
+        return new float3(log2(x.x), log2(x.y), log2(x.z));
     }
 
     /// <summary>Returns the componentwise base-2 logarithm of a float4 vector.</summary>
@@ -4209,7 +4330,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 log2(float4 x)
     {
-        return Vector128.Log2(x.AsVector128()).Asfloat4();
+        return Vector128.Log2(x.__v).Asfloat4();
     }
 
 
@@ -4228,7 +4349,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 log2(double2 x)
     {
-        return Vector128.Log2(x.AsVector128()).Asdouble2();
+        return Vector128.Log2(x.__v).Asdouble2();
     }
 
     /// <summary>Returns the componentwise base-2 logarithm of a double3 vector.</summary>
@@ -4237,7 +4358,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 log2(double3 x)
     {
-        return Vector256.Log2(x.AsVector256()).Asdouble3();
+        return new double3(log2(x.x), log2(x.y), log2(x.z));
     }
 
     /// <summary>Returns the componentwise base-2 logarithm of a double4 vector.</summary>
@@ -4528,7 +4649,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 sqrt(float2 x)
     {
-        return Vector128.Sqrt(x.AsVector128()).Asfloat2();
+        return new float2(sqrt(x.x), sqrt(x.y));
     }
 
     /// <summary>Returns the componentwise square root of a float3 vector.</summary>
@@ -4537,7 +4658,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 sqrt(float3 x)
     {
-        return Vector128.Sqrt(x.AsVector128()).Asfloat3();
+        return new float3(sqrt(x.x), sqrt(x.y), sqrt(x.z));
     }
 
     /// <summary>Returns the componentwise square root of a float4 vector.</summary>
@@ -4546,7 +4667,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 sqrt(float4 x)
     {
-        return Vector128.Sqrt(x.AsVector128()).Asfloat4();
+        return Vector128.Sqrt(x.__v).Asfloat4();
     }
 
 
@@ -4565,7 +4686,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 sqrt(double2 x)
     {
-        return Vector128.Sqrt(x.AsVector128()).Asdouble2();
+        return Vector128.Sqrt(x.__v).Asdouble2();
     }
 
     /// <summary>Returns the componentwise square root of a double3 vector.</summary>
@@ -4574,7 +4695,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 sqrt(double3 x)
     {
-        return Vector256.Sqrt(x.AsVector256()).Asdouble3();
+        return new double3(sqrt(x.x), sqrt(x.y), sqrt(x.z));
     }
 
     /// <summary>Returns the componentwise square root of a double4 vector.</summary>
@@ -4583,7 +4704,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 sqrt(double4 x)
     {
-        return Vector256.Sqrt(x.AsVector256()).Asdouble4();
+        return Vector256.Sqrt(x.__v).Asdouble4();
     }
 
 
@@ -4756,7 +4877,7 @@ public static partial class math
     public static float4 normalizesafe(float4 x, float4 defaultvalue = new float4())
     {
         var len = dot(x, x);
-        return select(defaultvalue, x * rsqrt(len), len > FLT_MIN_NORMAL);
+        return select(x * rsqrt(len), defaultvalue, len > FLT_MIN_NORMAL);
     }
 
 
@@ -4771,7 +4892,7 @@ public static partial class math
     public static double2 normalizesafe(double2 x, double2 defaultvalue = new double2())
     {
         var len = dot(x, x);
-        return select(defaultvalue, x * rsqrt(len), len > FLT_MIN_NORMAL);
+        return select(x * rsqrt(len), defaultvalue, len > FLT_MIN_NORMAL);
     }
 
     /// <summary>
@@ -4785,7 +4906,7 @@ public static partial class math
     public static double3 normalizesafe(double3 x, double3 defaultvalue = new double3())
     {
         var len = dot(x, x);
-        return select(defaultvalue, x * rsqrt(len), len > FLT_MIN_NORMAL);
+        return select(x * rsqrt(len), defaultvalue, len > FLT_MIN_NORMAL);
     }
 
     /// <summary>
@@ -4799,7 +4920,7 @@ public static partial class math
     public static double4 normalizesafe(double4 x, double4 defaultvalue = new double4())
     {
         var len = dot(x, x);
-        return select(defaultvalue, x * rsqrt(len), len > FLT_MIN_NORMAL);
+        return select(x * rsqrt(len), defaultvalue, len > FLT_MIN_NORMAL);
     }
 
 
@@ -5240,7 +5361,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool any(bool2 x)
     {
-        return x.x || x.y;
+        return (x.x | x.y) == TRUE;
     }
 
     /// <summary>Returns true if any component of the input bool3 vector is true, false otherwise.</summary>
@@ -5249,7 +5370,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool any(bool3 x)
     {
-        return x.x || x.y || x.z;
+        return (x.x | x.y | x.z) == TRUE;
     }
 
     /// <summary>Returns true if any components of the input bool4 vector is true, false otherwise.</summary>
@@ -5258,7 +5379,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool any(bool4 x)
     {
-        return x.x || x.y || x.z || x.w;
+        return Vector128.AnyWhereAllBitsSet(x.__v);
     }
 
 
@@ -5268,7 +5389,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool any(int2 x)
     {
-        return x.x != 0 || x.y != 0;
+        return (x.x | x.y) != 0;
     }
 
     /// <summary>Returns true if any component of the input int3 vector is non-zero, false otherwise.</summary>
@@ -5277,7 +5398,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool any(int3 x)
     {
-        return x.x != 0 || x.y != 0 || x.z != 0;
+        return (x.x | x.y | x.z) != 0;
     }
 
     /// <summary>Returns true if any components of the input int4 vector is non-zero, false otherwise.</summary>
@@ -5286,7 +5407,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool any(int4 x)
     {
-        return x.x != 0 || x.y != 0 || x.z != 0 || x.w != 0;
+        return !Vector128.All(x.__v, (int)FALSE);
     }
 
 
@@ -5314,7 +5435,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool any(uint4 x)
     {
-        return x.x != 0 || x.y != 0 || x.z != 0 || x.w != 0;
+        return !Vector128.All(x.__v, FALSE);
     }
 
 
@@ -5324,7 +5445,8 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool any(float2 x)
     {
-        return x.x != 0.0f || x.y != 0.0f;
+        var u = asuint(x);
+        return (u.x | u.y) != 0;
     }
 
     /// <summary>Returns true if any component of the input float3 vector is non-zero, false otherwise.</summary>
@@ -5333,7 +5455,8 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool any(float3 x)
     {
-        return x.x != 0.0f || x.y != 0.0f || x.z != 0.0f;
+        var u = asuint(x);
+        return (u.x | u.y | u.z) != 0;
     }
 
     /// <summary>Returns true if any component of the input float4 vector is non-zero, false otherwise.</summary>
@@ -5342,7 +5465,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool any(float4 x)
     {
-        return x.x != 0.0f || x.y != 0.0f || x.z != 0.0f || x.w != 0.0f;
+        return !Vector128.All(x.__v, (float)FALSE);
     }
 
 
@@ -5350,18 +5473,20 @@ public static partial class math
     /// <param name="x">Vector of values to compare.</param>
     /// <returns>True if any the components of x are non-zero, false otherwise.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool any(double2 x)
+    public static unsafe bool any(double2 x)
     {
-        return x.x != 0.0 || x.y != 0.0;
+        var pu = (ulong*)&x;
+        return (pu[0] | pu[1]) != 0;
     }
 
     /// <summary>Returns true if any component of the input double3 vector is non-zero, false otherwise.</summary>
     /// <param name="x">Vector of values to compare.</param>
     /// <returns>True if any the components of x are non-zero, false otherwise.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool any(double3 x)
+    public static unsafe bool any(double3 x)
     {
-        return x.x != 0.0 || x.y != 0.0 || x.z != 0.0;
+        var pu = (ulong*)&x;
+        return (pu[0] | pu[1] | pu[2]) != 0;
     }
 
     /// <summary>Returns true if any component of the input double4 vector is non-zero, false otherwise.</summary>
@@ -5370,7 +5495,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool any(double4 x)
     {
-        return x.x != 0.0 || x.y != 0.0 || x.z != 0.0 || x.w != 0.0;
+        return !Vector256.All(x.__v, (double)FALSE);
     }
 
 
@@ -5380,7 +5505,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(bool2 x)
     {
-        return x.x && x.y;
+        return (x.x & x.y) == TRUE;
     }
 
     /// <summary>Returns true if all components of the input bool3 vector are true, false otherwise.</summary>
@@ -5389,7 +5514,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(bool3 x)
     {
-        return x.x && x.y && x.z;
+        return (x.x & x.y & x.z) == TRUE;
     }
 
     /// <summary>Returns true if all components of the input bool4 vector are true, false otherwise.</summary>
@@ -5398,7 +5523,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(bool4 x)
     {
-        return x.x && x.y && x.z && x.w;
+        return Vector128.All(x.__v, TRUE);
     }
 
 
@@ -5408,7 +5533,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(int2 x)
     {
-        return x.x != 0 && x.y != 0;
+        return (x.x & x.y) != 0;
     }
 
     /// <summary>Returns true if all components of the input int3 vector are non-zero, false otherwise.</summary>
@@ -5417,7 +5542,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(int3 x)
     {
-        return x.x != 0 && x.y != 0 && x.z != 0;
+        return (x.x & x.y & x.z) != 0;
     }
 
     /// <summary>Returns true if all components of the input int4 vector are non-zero, false otherwise.</summary>
@@ -5426,7 +5551,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(int4 x)
     {
-        return x.x != 0 && x.y != 0 && x.z != 0 && x.w != 0;
+        return !Vector128.Any(x.__v, (int)FALSE);
     }
 
 
@@ -5436,7 +5561,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(uint2 x)
     {
-        return x.x != 0 && x.y != 0;
+        return (x.x & x.y) != 0;
     }
 
     /// <summary>Returns true if all components of the input uint3 vector are non-zero, false otherwise.</summary>
@@ -5445,7 +5570,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(uint3 x)
     {
-        return x.x != 0 && x.y != 0 && x.z != 0;
+        return (x.x & x.y & x.z) != 0;
     }
 
     /// <summary>Returns true if all components of the input uint4 vector are non-zero, false otherwise.</summary>
@@ -5454,7 +5579,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(uint4 x)
     {
-        return x.x != 0 && x.y != 0 && x.z != 0 && x.w != 0;
+        return !Vector128.Any(x.__v, FALSE);
     }
 
 
@@ -5464,7 +5589,8 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(float2 x)
     {
-        return x.x != 0.0f && x.y != 0.0f;
+        var u = asuint(x);
+        return (u.x & u.y) != 0;
     }
 
     /// <summary>Returns true if all components of the input float3 vector are non-zero, false otherwise.</summary>
@@ -5473,7 +5599,8 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(float3 x)
     {
-        return x.x != 0.0f && x.y != 0.0f && x.z != 0.0f;
+        var u = asuint(x);
+        return (u.x & u.y & u.z) != 0;
     }
 
     /// <summary>Returns true if all components of the input float4 vector are non-zero, false otherwise.</summary>
@@ -5482,7 +5609,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(float4 x)
     {
-        return x.x != 0.0f && x.y != 0.0f && x.z != 0.0f && x.w != 0.0f;
+        return !Vector128.Any(x.__v, FALSE);
     }
 
 
@@ -5490,18 +5617,20 @@ public static partial class math
     /// <param name="x">Vector of values to compare.</param>
     /// <returns>True if all the components of x are non-zero, false otherwise.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool all(double2 x)
+    public static unsafe bool all(double2 x)
     {
-        return x.x != 0.0 && x.y != 0.0;
+        var pu = (ulong*)&x;
+        return (pu[0] & pu[1]) != 0;
     }
 
     /// <summary>Returns true if all components of the input double3 vector are non-zero, false otherwise.</summary>
     /// <param name="x">Vector of values to compare.</param>
     /// <returns>True if all the components of x are non-zero, false otherwise.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool all(double3 x)
+    public static unsafe bool all(double3 x)
     {
-        return x.x != 0.0 && x.y != 0.0 && x.z != 0.0;
+        var pu = (ulong*)&x;
+        return (pu[0] & pu[1] & pu[2]) != 0;
     }
 
     /// <summary>Returns true if all components of the input double4 vector are non-zero, false otherwise.</summary>
@@ -5510,7 +5639,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool all(double4 x)
     {
-        return x.x != 0.0 && x.y != 0.0 && x.z != 0.0 && x.w != 0.0;
+        return !Vector256.Any(x.__v, FALSE);
     }
 
 
@@ -5520,7 +5649,7 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int select(int falseValue, int trueValue, bool test)
+    public static int select(int trueValue, int falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5531,7 +5660,7 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int2 select(int2 falseValue, int2 trueValue, bool test)
+    public static int2 select(int2 trueValue, int2 falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5542,7 +5671,7 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int3 select(int3 falseValue, int3 trueValue, bool test)
+    public static int3 select(int3 trueValue, int3 falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5553,95 +5682,7 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int4 select(int4 falseValue, int4 trueValue, bool test)
-    {
-        return test ? trueValue : falseValue;
-    }
-
-
-    /// <summary>
-    /// Returns a componentwise selection between two double4 vectors falseValue and trueValue based on a bool4 selection mask test.
-    /// Per component, the component from trueValue is selected when test is true, otherwise the component from falseValue is selected.
-    /// </summary>
-    /// <param name="falseValue">Values to use if test is false.</param>
-    /// <param name="trueValue">Values to use if test is true.</param>
-    /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
-    /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int2 select(int2 falseValue, int2 trueValue, bool2 test)
-    {
-        return new int2(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y);
-    }
-
-    /// <summary>
-    /// Returns a componentwise selection between two double4 vectors falseValue and trueValue based on a bool4 selection mask test.
-    /// Per component, the component from trueValue is selected when test is true, otherwise the component from falseValue is selected.
-    /// </summary>
-    /// <param name="falseValue">Values to use if test is false.</param>
-    /// <param name="trueValue">Values to use if test is true.</param>
-    /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
-    /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int3 select(int3 falseValue, int3 trueValue, bool3 test)
-    {
-        return new int3(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y, test.z ? trueValue.z : falseValue.z);
-    }
-
-    /// <summary>
-    /// Returns a componentwise selection between two double4 vectors falseValue and trueValue based on a bool4 selection mask test.
-    /// Per component, the component from trueValue is selected when test is true, otherwise the component from falseValue is selected.
-    /// </summary>
-    /// <param name="falseValue">Values to use if test is false.</param>
-    /// <param name="trueValue">Values to use if test is true.</param>
-    /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
-    /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int4 select(int4 falseValue, int4 trueValue, bool4 test)
-    {
-        return new int4(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y, test.z ? trueValue.z : falseValue.z, test.w ? trueValue.w : falseValue.w);
-    }
-
-
-    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
-    /// <param name="falseValue">Value to use if test is false.</param>
-    /// <param name="trueValue">Value to use if test is true.</param>
-    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
-    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint select(uint falseValue, uint trueValue, bool test)
-    {
-        return test ? trueValue : falseValue;
-    }
-
-    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
-    /// <param name="falseValue">Value to use if test is false.</param>
-    /// <param name="trueValue">Value to use if test is true.</param>
-    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
-    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint2 select(uint2 falseValue, uint2 trueValue, bool test)
-    {
-        return test ? trueValue : falseValue;
-    }
-
-    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
-    /// <param name="falseValue">Value to use if test is false.</param>
-    /// <param name="trueValue">Value to use if test is true.</param>
-    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
-    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint3 select(uint3 falseValue, uint3 trueValue, bool test)
-    {
-        return test ? trueValue : falseValue;
-    }
-
-    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
-    /// <param name="falseValue">Value to use if test is false.</param>
-    /// <param name="trueValue">Value to use if test is true.</param>
-    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
-    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint4 select(uint4 falseValue, uint4 trueValue, bool test)
+    public static int4 select(int4 trueValue, int4 falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5656,9 +5697,10 @@ public static partial class math
     /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
     /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint2 select(uint2 falseValue, uint2 trueValue, bool2 test)
+    public static int2 select(int2 trueValue, int2 falseValue, bool2 test)
     {
-        return new uint2(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y);
+        return new int2((trueValue.x & (int)test.x) | (falseValue.x & (int)~test.x),
+                        (trueValue.y & (int)test.y) | (falseValue.y & (int)~test.y));
     }
 
     /// <summary>
@@ -5670,9 +5712,11 @@ public static partial class math
     /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
     /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint3 select(uint3 falseValue, uint3 trueValue, bool3 test)
+    public static int3 select(int3 trueValue, int3 falseValue, bool3 test)
     {
-        return new uint3(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y, test.z ? trueValue.z : falseValue.z);
+        return new int3((trueValue.x & (int)test.x) | (falseValue.x & (int)~test.x),
+                        (trueValue.y & (int)test.y) | (falseValue.y & (int)~test.y),
+                        (trueValue.z & (int)test.z) | (falseValue.z & (int)~test.z));
     }
 
     /// <summary>
@@ -5684,9 +5728,9 @@ public static partial class math
     /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
     /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint4 select(uint4 falseValue, uint4 trueValue, bool4 test)
+    public static int4 select(int4 trueValue, int4 falseValue, bool4 test)
     {
-        return new uint4(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y, test.z ? trueValue.z : falseValue.z, test.w ? trueValue.w : falseValue.w);
+        return Vector128.ConditionalSelect(Vector128.AsInt32(test.__v), falseValue.__v, trueValue.__v).Asint4();
     }
 
 
@@ -5696,30 +5740,7 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static long select(long falseValue, long trueValue, bool test)
-    {
-        return test ? trueValue : falseValue;
-    }
-
-    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
-    /// <param name="falseValue">Value to use if test is false.</param>
-    /// <param name="trueValue">Value to use if test is true.</param>
-    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
-    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ulong select(ulong falseValue, ulong trueValue, bool test)
-    {
-        return test ? trueValue : falseValue;
-    }
-
-
-    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
-    /// <param name="falseValue">Value to use if test is false.</param>
-    /// <param name="trueValue">Value to use if test is true.</param>
-    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
-    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float select(float falseValue, float trueValue, bool test)
+    public static uint select(uint trueValue, uint falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5730,7 +5751,7 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float2 select(float2 falseValue, float2 trueValue, bool test)
+    public static uint2 select(uint2 trueValue, uint2 falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5741,7 +5762,7 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float3 select(float3 falseValue, float3 trueValue, bool test)
+    public static uint3 select(uint3 trueValue, uint3 falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5752,7 +5773,7 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float4 select(float4 falseValue, float4 trueValue, bool test)
+    public static uint4 select(uint4 trueValue, uint4 falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5767,9 +5788,10 @@ public static partial class math
     /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
     /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float2 select(float2 falseValue, float2 trueValue, bool2 test)
+    public static uint2 select(uint2 trueValue, uint2 falseValue, bool2 test)
     {
-        return new float2(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y);
+        return new uint2((trueValue.x & test.x) | (falseValue.x & ~test.x),
+                         (trueValue.y & test.y) | (falseValue.y & ~test.y));
     }
 
     /// <summary>
@@ -5781,9 +5803,11 @@ public static partial class math
     /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
     /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float3 select(float3 falseValue, float3 trueValue, bool3 test)
+    public static uint3 select(uint3 trueValue, uint3 falseValue, bool3 test)
     {
-        return new float3(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y, test.z ? trueValue.z : falseValue.z);
+        return new uint3((trueValue.x & test.x) | (falseValue.x & ~test.x),
+                         (trueValue.y & test.y) | (falseValue.y & ~test.y),
+                         (trueValue.z & test.z) | (falseValue.z & ~test.z));
     }
 
     /// <summary>
@@ -5795,9 +5819,9 @@ public static partial class math
     /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
     /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float4 select(float4 falseValue, float4 trueValue, bool4 test)
+    public static uint4 select(uint4 trueValue, uint4 falseValue, bool4 test)
     {
-        return new float4(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y, test.z ? trueValue.z : falseValue.z, test.w ? trueValue.w : falseValue.w);
+        return Vector128.ConditionalSelect(test.__v, falseValue.__v, trueValue.__v).Asuint4();
     }
 
 
@@ -5807,7 +5831,7 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double select(double falseValue, double trueValue, bool test)
+    public static long select(long trueValue, long falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5818,7 +5842,19 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double2 select(double2 falseValue, double2 trueValue, bool test)
+    public static ulong select(ulong trueValue, ulong falseValue, bool test)
+    {
+        return test ? trueValue : falseValue;
+    }
+
+
+    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
+    /// <param name="falseValue">Value to use if test is false.</param>
+    /// <param name="trueValue">Value to use if test is true.</param>
+    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
+    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float select(float trueValue, float falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5829,7 +5865,7 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double3 select(double3 falseValue, double3 trueValue, bool test)
+    public static float2 select(float2 trueValue, float2 falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5840,7 +5876,117 @@ public static partial class math
     /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
     /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double4 select(double4 falseValue, double4 trueValue, bool test)
+    public static float3 select(float3 trueValue, float3 falseValue, bool test)
+    {
+        return test ? trueValue : falseValue;
+    }
+
+    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
+    /// <param name="falseValue">Value to use if test is false.</param>
+    /// <param name="trueValue">Value to use if test is true.</param>
+    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
+    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float4 select(float4 trueValue, float4 falseValue, bool test)
+    {
+        return test ? trueValue : falseValue;
+    }
+
+
+    /// <summary>
+    /// Returns a componentwise selection between two double4 vectors falseValue and trueValue based on a bool4 selection mask test.
+    /// Per component, the component from trueValue is selected when test is true, otherwise the component from falseValue is selected.
+    /// </summary>
+    /// <param name="falseValue">Values to use if test is false.</param>
+    /// <param name="trueValue">Values to use if test is true.</param>
+    /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
+    /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float2 select(float2 trueValue, float2 falseValue, bool2 test)
+    {
+        var tu = asuint(trueValue);
+        var fu = asuint(falseValue);
+        var result = new uint2((tu.x & test.x) | (fu.x & ~test.x),
+                                    (tu.y & test.y) | (fu.y & ~test.y));
+
+        return asfloat(result);
+    }
+
+    /// <summary>
+    /// Returns a componentwise selection between two double4 vectors falseValue and trueValue based on a bool4 selection mask test.
+    /// Per component, the component from trueValue is selected when test is true, otherwise the component from falseValue is selected.
+    /// </summary>
+    /// <param name="falseValue">Values to use if test is false.</param>
+    /// <param name="trueValue">Values to use if test is true.</param>
+    /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
+    /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float3 select(float3 trueValue, float3 falseValue, bool3 test)
+    {
+        var fu = asuint(falseValue);
+        var tu = asuint(trueValue);
+        var result = new uint3((tu.x & test.x) | (fu.x & ~test.x),
+                                    (tu.y & test.y) | (fu.y & ~test.y),
+                                    (tu.z & test.z) | (fu.z & ~test.z));
+
+        return asfloat(result);
+    }
+
+    /// <summary>
+    /// Returns a componentwise selection between two double4 vectors falseValue and trueValue based on a bool4 selection mask test.
+    /// Per component, the component from trueValue is selected when test is true, otherwise the component from falseValue is selected.
+    /// </summary>
+    /// <param name="falseValue">Values to use if test is false.</param>
+    /// <param name="trueValue">Values to use if test is true.</param>
+    /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
+    /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static float4 select(float4 trueValue, float4 falseValue, bool4 test)
+    {
+        return Vector128.ConditionalSelect(Vector128.AsSingle(test.__v), trueValue.__v, falseValue.__v).Asfloat4();
+    }
+
+
+    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
+    /// <param name="falseValue">Value to use if test is false.</param>
+    /// <param name="trueValue">Value to use if test is true.</param>
+    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
+    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static double select(double trueValue, double falseValue, bool test)
+    {
+        return test ? trueValue : falseValue;
+    }
+
+    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
+    /// <param name="falseValue">Value to use if test is false.</param>
+    /// <param name="trueValue">Value to use if test is true.</param>
+    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
+    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static double2 select(double2 trueValue, double2 falseValue, bool test)
+    {
+        return test ? trueValue : falseValue;
+    }
+
+    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
+    /// <param name="falseValue">Value to use if test is false.</param>
+    /// <param name="trueValue">Value to use if test is true.</param>
+    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
+    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static double3 select(double3 trueValue, double3 falseValue, bool test)
+    {
+        return test ? trueValue : falseValue;
+    }
+
+    /// <summary>Returns trueValue if test is true, falseValue otherwise.</summary>
+    /// <param name="falseValue">Value to use if test is false.</param>
+    /// <param name="trueValue">Value to use if test is true.</param>
+    /// <param name="test">Bool value to choose between falseValue and trueValue.</param>
+    /// <returns>The selection between falseValue and trueValue according to bool test.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static double4 select(double4 trueValue, double4 falseValue, bool test)
     {
         return test ? trueValue : falseValue;
     }
@@ -5854,9 +6000,14 @@ public static partial class math
     /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
     /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double2 select(double2 falseValue, double2 trueValue, bool2 test)
+    public static unsafe double2 select(double2 trueValue, double2 falseValue, bool2 test)
     {
-        return new double2(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y);
+        var pt = (ulong*)&trueValue;
+        var pf = (ulong*)&falseValue;
+        var result = new double2((pt[0] & test.x) | (pf[0] & ~test.x),
+                                       (pt[1] & test.y) | (pf[1] & ~test.y));
+
+        return result;
     }
 
     /// <summary>
@@ -5868,9 +6019,15 @@ public static partial class math
     /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
     /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double3 select(double3 falseValue, double3 trueValue, bool3 test)
+    public static unsafe double3 select(double3 trueValue, double3 falseValue, bool3 test)
     {
-        return new double3(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y, test.z ? trueValue.z : falseValue.z);
+        var pt = (ulong*)&trueValue;
+        var pf = (ulong*)&falseValue;
+        var result = new double3((pt[0] & test.x) | (pf[0] & ~test.x),
+                                       (pt[1] & test.y) | (pf[1] & ~test.y),
+                                       (pt[2] & test.z) | (pf[2] & ~test.z));
+
+        return result;
     }
 
     /// <summary>
@@ -5882,9 +6039,9 @@ public static partial class math
     /// <param name="test">Selection mask to choose between falseValue and trueValue.</param>
     /// <returns>The componentwise selection between falseValue and trueValue according to selection mask test.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double4 select(double4 falseValue, double4 trueValue, bool4 test)
+    public static double4 select(double4 trueValue, double4 falseValue, bool4 test)
     {
-        return new double4(test.x ? trueValue.x : falseValue.x, test.y ? trueValue.y : falseValue.y, test.z ? trueValue.z : falseValue.z, test.w ? trueValue.w : falseValue.w);
+        return Vector256.ConditionalSelect(Vector256.AsDouble(UnpackVector128(test.__v)), falseValue.__v, trueValue.__v).Asdouble4();
     }
 
 
@@ -5895,7 +6052,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float step(float threshold, float x)
     {
-        return select(0.0f, 1.0f, x >= threshold);
+        return select(1.0f, 0.0f, x >= threshold);
     }
 
     /// <summary>Returns the result of a componentwise step function where each component is 1.0f when x &gt;= threshold and 0.0f otherwise.</summary>
@@ -5905,7 +6062,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 step(float2 threshold, float2 x)
     {
-        return select(float2(0.0f), float2(1.0f), x >= threshold);
+        return select(float2(1.0f), float2(0.0f), x >= threshold);
     }
 
     /// <summary>Returns the result of a componentwise step function where each component is 1.0f when x &gt;= threshold and 0.0f otherwise.</summary>
@@ -5915,7 +6072,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 step(float3 threshold, float3 x)
     {
-        return select(float3(0.0f), float3(1.0f), x >= threshold);
+        return select(float3(1.0f), float3(0.0f), x >= threshold);
     }
 
     /// <summary>Returns the result of a componentwise step function where each component is 1.0f when x &gt;= threshold and 0.0f otherwise.</summary>
@@ -5925,7 +6082,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 step(float4 threshold, float4 x)
     {
-        return select(float4(0.0f), float4(1.0f), x >= threshold);
+        return select(float4(1.0f), float4(0.0f), x >= threshold);
     }
 
 
@@ -5936,7 +6093,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double step(double threshold, double x)
     {
-        return select(0.0, 1.0, x >= threshold);
+        return select(1.0, 0.0, x >= threshold);
     }
 
     /// <summary>Returns the result of a componentwise step function where each component is 1.0f when x &gt;= threshold and 0.0f otherwise.</summary>
@@ -5946,7 +6103,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 step(double2 threshold, double2 x)
     {
-        return select(double2(0.0), double2(1.0), x >= threshold);
+        return select(double2(1.0), double2(0.0), x >= threshold);
     }
 
     /// <summary>Returns the result of a componentwise step function where each component is 1.0f when x &gt;= threshold and 0.0f otherwise.</summary>
@@ -5956,7 +6113,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 step(double3 threshold, double3 x)
     {
-        return select(double3(0.0), double3(1.0), x >= threshold);
+        return select(double3(1.0), double3(0.0), x >= threshold);
     }
 
     /// <summary>Returns the result of a componentwise step function where each component is 1.0f when x &gt;= threshold and 0.0f otherwise.</summary>
@@ -5966,7 +6123,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 step(double4 threshold, double4 x)
     {
-        return select(double4(0.0), double4(1.0), x >= threshold);
+        return select(double4(1.0), double4(0.0), x >= threshold);
     }
 
 
@@ -6042,7 +6199,7 @@ public static partial class math
     {
         var ni = dot(n, i);
         var k = 1.0f - indexOfRefraction * indexOfRefraction * (1.0f - ni * ni);
-        return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
+        return select(indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, 0.0f, k >= 0);
     }
 
     /// <summary>Returns the refraction vector given the incident vector i, the normal vector n and the refraction index.</summary>
@@ -6055,7 +6212,7 @@ public static partial class math
     {
         var ni = dot(n, i);
         var k = 1.0f - indexOfRefraction * indexOfRefraction * (1.0f - ni * ni);
-        return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
+        return select(indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, 0.0f, k >= 0);
     }
 
     /// <summary>Returns the refraction vector given the incident vector i, the normal vector n and the refraction index.</summary>
@@ -6068,7 +6225,7 @@ public static partial class math
     {
         var ni = dot(n, i);
         var k = 1.0f - indexOfRefraction * indexOfRefraction * (1.0f - ni * ni);
-        return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
+        return select(indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, 0.0f, k >= 0);
     }
 
 
@@ -6082,7 +6239,7 @@ public static partial class math
     {
         var ni = dot(n, i);
         var k = 1.0 - indexOfRefraction * indexOfRefraction * (1.0 - ni * ni);
-        return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
+        return select(indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, 0.0f, k >= 0);
     }
 
     /// <summary>Returns the refraction vector given the incident vector i, the normal vector n and the refraction index.</summary>
@@ -6095,7 +6252,7 @@ public static partial class math
     {
         var ni = dot(n, i);
         var k = 1.0 - indexOfRefraction * indexOfRefraction * (1.0 - ni * ni);
-        return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
+        return select(indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, 0.0f, k >= 0);
     }
 
     /// <summary>Returns the refraction vector given the incident vector i, the normal vector n and the refraction index.</summary>
@@ -6108,7 +6265,7 @@ public static partial class math
     {
         var ni = dot(n, i);
         var k = 1.0 - indexOfRefraction * indexOfRefraction * (1.0 - ni * ni);
-        return select(0.0f, indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, k >= 0);
+        return select(indexOfRefraction * i - (indexOfRefraction * ni + sqrt(k)) * n, 0.0f, k >= 0);
     }
 
     /// <summary>
@@ -6126,7 +6283,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 project(float2 a, float2 ontoB)
     {
-        return (dot(a, ontoB) / dot(ontoB, ontoB)) * ontoB;
+        return dot(a, ontoB) / dot(ontoB, ontoB) * ontoB;
     }
 
     /// <summary>
@@ -6144,7 +6301,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 project(float3 a, float3 ontoB)
     {
-        return (dot(a, ontoB) / dot(ontoB, ontoB)) * ontoB;
+        return dot(a, ontoB) / dot(ontoB, ontoB) * ontoB;
     }
 
     /// <summary>
@@ -6162,7 +6319,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 project(float4 a, float4 ontoB)
     {
-        return (dot(a, ontoB) / dot(ontoB, ontoB)) * ontoB;
+        return dot(a, ontoB) / dot(ontoB, ontoB) * ontoB;
     }
 
     /// <summary>
@@ -6183,7 +6340,7 @@ public static partial class math
     {
         var proj = project(a, ontoB);
 
-        return select(defaultValue, proj, all(isfinite(proj)));
+        return select(proj, defaultValue, all(isfinite(proj)));
     }
 
     /// <summary>
@@ -6204,7 +6361,7 @@ public static partial class math
     {
         var proj = project(a, ontoB);
 
-        return select(defaultValue, proj, all(isfinite(proj)));
+        return select(proj, defaultValue, all(isfinite(proj)));
     }
 
     /// <summary>
@@ -6225,7 +6382,7 @@ public static partial class math
     {
         var proj = project(a, ontoB);
 
-        return select(defaultValue, proj, all(isfinite(proj)));
+        return select(proj, defaultValue, all(isfinite(proj)));
     }
 
     /// <summary>
@@ -6243,7 +6400,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 project(double2 a, double2 ontoB)
     {
-        return (dot(a, ontoB) / dot(ontoB, ontoB)) * ontoB;
+        return dot(a, ontoB) / dot(ontoB, ontoB) * ontoB;
     }
 
     /// <summary>
@@ -6261,7 +6418,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 project(double3 a, double3 ontoB)
     {
-        return (dot(a, ontoB) / dot(ontoB, ontoB)) * ontoB;
+        return dot(a, ontoB) / dot(ontoB, ontoB) * ontoB;
     }
 
     /// <summary>
@@ -6279,7 +6436,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 project(double4 a, double4 ontoB)
     {
-        return (dot(a, ontoB) / dot(ontoB, ontoB)) * ontoB;
+        return dot(a, ontoB) / dot(ontoB, ontoB) * ontoB;
     }
 
     /// <summary>
@@ -6300,7 +6457,7 @@ public static partial class math
     {
         var proj = project(a, ontoB);
 
-        return select(defaultValue, proj, all(isfinite(proj)));
+        return select(proj, defaultValue, all(isfinite(proj)));
     }
 
     /// <summary>
@@ -6321,7 +6478,7 @@ public static partial class math
     {
         var proj = project(a, ontoB);
 
-        return select(defaultValue, proj, all(isfinite(proj)));
+        return select(proj, defaultValue, all(isfinite(proj)));
     }
 
     /// <summary>
@@ -6342,7 +6499,7 @@ public static partial class math
     {
         var proj = project(a, ontoB);
 
-        return select(defaultValue, proj, all(isfinite(proj)));
+        return select(proj, defaultValue, all(isfinite(proj)));
     }
 
     /// <summary>Conditionally flips a vector n if two vectors i and ng are pointing in the same direction. Returns n if dot(i, ng) &lt; 0, -n otherwise.</summary>
@@ -6353,7 +6510,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float2 faceforward(float2 n, float2 i, float2 ng)
     {
-        return select(n, -n, dot(ng, i) >= 0.0f);
+        return select(-n, n, dot(ng, i) >= 0.0f);
     }
 
     /// <summary>Conditionally flips a vector n if two vectors i and ng are pointing in the same direction. Returns n if dot(i, ng) &lt; 0, -n otherwise.</summary>
@@ -6364,7 +6521,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3 faceforward(float3 n, float3 i, float3 ng)
     {
-        return select(n, -n, dot(ng, i) >= 0.0f);
+        return select(-n, n, dot(ng, i) >= 0.0f);
     }
 
     /// <summary>Conditionally flips a vector n if two vectors i and ng are pointing in the same direction. Returns n if dot(i, ng) &lt; 0, -n otherwise.</summary>
@@ -6375,7 +6532,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float4 faceforward(float4 n, float4 i, float4 ng)
     {
-        return select(n, -n, dot(ng, i) >= 0.0f);
+        return select(-n, n, dot(ng, i) >= 0.0f);
     }
 
 
@@ -6387,7 +6544,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double2 faceforward(double2 n, double2 i, double2 ng)
     {
-        return select(n, -n, dot(ng, i) >= 0.0f);
+        return select(-n, n, dot(ng, i) >= 0.0f);
     }
 
     /// <summary>Conditionally flips a vector n if two vectors i and ng are pointing in the same direction. Returns n if dot(i, ng) &lt; 0, -n otherwise.</summary>
@@ -6398,7 +6555,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double3 faceforward(double3 n, double3 i, double3 ng)
     {
-        return select(n, -n, dot(ng, i) >= 0.0f);
+        return select(-n, n, dot(ng, i) >= 0.0f);
     }
 
     /// <summary>Conditionally flips a vector n if two vectors i and ng are pointing in the same direction. Returns n if dot(i, ng) &lt; 0, -n otherwise.</summary>
@@ -6409,7 +6566,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double4 faceforward(double4 n, double4 i, double4 ng)
     {
-        return select(n, -n, dot(ng, i) >= 0.0f);
+        return select(-n, n, dot(ng, i) >= 0.0f);
     }
 
 
@@ -6657,7 +6814,10 @@ public static partial class math
     public static int lzcnt(uint x)
     {
         if (x == 0)
+        {
             return 32;
+        }
+
         LongDoubleUnion u;
         u.doubleValue = 0.0;
         u.longValue = 0x4330000000000000L + x;
@@ -6710,7 +6870,9 @@ public static partial class math
     public static int lzcnt(ulong x)
     {
         if (x == 0)
+        {
             return 64;
+        }
 
         var xh = (uint)(x >> 32);
         var bits = xh != 0 ? xh : (uint)x;
@@ -6802,7 +6964,9 @@ public static partial class math
     public static int tzcnt(uint x)
     {
         if (x == 0)
+        {
             return 32;
+        }
 
         x &= (uint)-x;
         LongDoubleUnion u;
@@ -6890,7 +7054,9 @@ public static partial class math
     public static int tzcnt(ulong x)
     {
         if (x == 0)
+        {
             return 64;
+        }
 
         x = x & (ulong)-(long)x;
         var xl = (uint)x;
@@ -8055,7 +8221,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float csum(float4 x)
     {
-        return (x.x + x.y) + (x.z + x.w);
+        return x.x + x.y + (x.z + x.w);
     }
 
 
@@ -8083,7 +8249,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double csum(double4 x)
     {
-        return (x.x + x.y) + (x.z + x.w);
+        return x.x + x.y + (x.z + x.w);
     }
 
     /// <summary>
@@ -8311,14 +8477,25 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static unsafe int compress(int* output, int index, int4 val, bool4 mask)
     {
-        if (mask.x)
+        if (mask.x == TRUE)
+        {
             output[index++] = val.x;
-        if (mask.y)
+        }
+
+        if (mask.y == TRUE)
+        {
             output[index++] = val.y;
-        if (mask.z)
+        }
+
+        if (mask.z == TRUE)
+        {
             output[index++] = val.z;
-        if (mask.w)
+        }
+
+        if (mask.w == TRUE)
+        {
             output[index++] = val.w;
+        }
 
         return index;
     }
@@ -8498,7 +8675,7 @@ public static partial class math
             }
 
             var pbyte = (byte*)puint;
-            for (var i = 0; i < ((numBytes) & 3); ++i)
+            for (var i = 0; i < (numBytes & 3); ++i)
             {
                 hash += (*pbyte++) * Prime5;
                 hash = rol(hash, 11) * Prime1;
@@ -8552,7 +8729,7 @@ public static partial class math
                 p += 4;
             }
 
-            for (var i = 0; i < ((numBytes) & 3); ++i)
+            for (var i = 0; i < (numBytes & 3); ++i)
             {
                 hash += (*p++) * Prime5;
                 hash = rol(hash, 11) * Prime1;

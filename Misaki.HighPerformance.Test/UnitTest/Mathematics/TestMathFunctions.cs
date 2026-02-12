@@ -282,7 +282,7 @@ public class TestMathFunctions
         var a = new float3(1f, 2f, 3f);
         var b = new float3(4f, 5f, 6f);
 
-        var result = math.select(b, a, condition);
+        var result = math.select(a, b, condition);
 
         Assert.AreEqual(1f, result.x, 1e-6f); // condition is true, so select a.x
         Assert.AreEqual(5f, result.y, 1e-6f); // condition is false, so select b.y

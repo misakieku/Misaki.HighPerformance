@@ -401,7 +401,10 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         }}");
 
             // Bitwise operators
-            sourceBuilder.AppendLine($@"
+            if (typeInfo.ElementTypeSymbol?.SpecialType != SpecialType.System_Single
+                    && typeInfo.ElementTypeSymbol?.SpecialType != SpecialType.System_Double)
+            {
+                sourceBuilder.AppendLine($@"
         public static {typeInfo.TypeFullName} operator <<({typeInfo.TypeFullName} lhs, int shift)
         {{
             return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"lhs.{c} << shift"))});
@@ -431,6 +434,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {{
             return new({string.Join(", ", s_matrixComponents.Take(typeInfo.Column).Select(c => $"~value.{c}"))});
         }}");
+            }
         }
 
         private void GenerateMathMethod()

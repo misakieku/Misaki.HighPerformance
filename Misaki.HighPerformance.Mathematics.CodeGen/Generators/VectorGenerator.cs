@@ -102,7 +102,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             {
                 sourceBuilder.AppendLine($@"
         [global::System.Runtime.InteropServices.FieldOffset(0)]
-        internal global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{typeInfo.ComponentTypeFullName}> __v;");
+        public global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{typeInfo.ComponentTypeFullName}> __v;");
 
                 for (var i = 0; i < typeInfo.Row; i++)
                 {
@@ -356,12 +356,43 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         public override readonly bool Equals(object? obj)
         {{
             return obj is {typeName} value && Equals(value);
-        }}
+        }}");
 
+            if (CanUseVectorStorage && typeInfo.ComponentTypeSymbol.SpecialType != SpecialType.System_Double)
+            {
+                var pack = _vectorBitsSize > 128 ? $"global::Misaki.HighPerformance.Mathematics.math.PackVector256" : string.Empty;
+                sourceBuilder.AppendLine($@"
         {INLINE_METHOD_ATTRIBUTE}
         public readonly bool Equals({typeName} other)
         {{
-            return {string.Join(" && ", components.Select(c => $"this.{c}.Equals(other.{c})"))};
+            return global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.EqualsAll(this.__v, other.__v);
+        }}
+
+        {INLINE_METHOD_ATTRIBUTE}
+        public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} operator ==({typeName} lhs, {typeName} rhs)
+        {{
+            var cmp = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Equals(lhs.__v, rhs.__v);
+            global::System.Runtime.CompilerServices.Unsafe.SkipInit<global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}>(out var result);
+            result.__v = {pack}(global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.AsUInt32(cmp));
+            return result;
+        }}
+
+        {INLINE_METHOD_ATTRIBUTE}
+        public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} operator !=({typeName} lhs, {typeName} rhs)
+        {{
+            var cmp = ~global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Equals(lhs.__v, rhs.__v);
+            global::System.Runtime.CompilerServices.Unsafe.SkipInit<global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}>(out var result);
+            result.__v = {pack}(global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.AsUInt32(cmp));
+            return result;
+        }}");
+            }
+            else
+            {
+                sourceBuilder.AppendLine($@"
+        {INLINE_METHOD_ATTRIBUTE}
+        public readonly bool Equals({typeName} other)
+        {{
+            return global::Misaki.HighPerformance.Mathematics.math.all(this == other);
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
@@ -374,8 +405,10 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} operator !=({typeName} lhs, {typeName} rhs)
         {{
             return new({string.Join(", ", components.Select(c => $"lhs.{c} != rhs.{c}"))});
-        }}
-        
+        }}");
+            }
+
+            sourceBuilder.AppendLine($@"
         {INLINE_METHOD_ATTRIBUTE}
         public static implicit operator {typeName}(global::System.ReadOnlySpan<{componentType}> value)
         {{
@@ -789,68 +822,154 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             return value - new {typeName}(1{_componentTypePrefix});
         }}");
 
-            // Comparison operators
-            sourceBuilder.AppendLine($@"
+            var hasBitwiseOperators = typeInfo.ComponentTypeSymbol.SpecialType != SpecialType.System_Single
+                && typeInfo.ComponentTypeSymbol.SpecialType != SpecialType.System_Double;
+
+            if (CanUseVectorStorage && typeInfo.ComponentTypeSymbol.SpecialType != SpecialType.System_Double)
+            {
+                var pack = _vectorBitsSize > 128 ? $"global::Misaki.HighPerformance.Mathematics.math.PackVector256" : string.Empty;
+                // Comparison operators
+                sourceBuilder.AppendLine($@"
         {INLINE_METHOD_ATTRIBUTE}
-        public static bool{typeInfo.Row} operator <({typeName} lhs, {typeName} rhs)
+        public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} operator <({typeName} lhs, {typeName} rhs)
         {{
-            var vector = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.LessThan(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}());
-            return new({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select((_, i) => $"vector[{i}] != 0"))});
+            var cmp = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.LessThan(lhs.__v, rhs.__v);
+            global::System.Runtime.CompilerServices.Unsafe.SkipInit<global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}>(out var result);
+            result.__v = {pack}(global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.AsUInt32(cmp));
+            return result;
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
-        public static bool{typeInfo.Row} operator <=({typeName} lhs, {typeName} rhs)
+        public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} operator <=({typeName} lhs, {typeName} rhs)
         {{
-            var vector = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.LessThanOrEqual(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}());
-            return new({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select((_, i) => $"vector[{i}] != 0"))});
+            var cmp = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.LessThanOrEqual(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}());
+            global::System.Runtime.CompilerServices.Unsafe.SkipInit<global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}>(out var result);
+            result.__v = {pack}(global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.AsUInt32(cmp));
+            return result;
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
-        public static bool{typeInfo.Row} operator >({typeName} lhs, {typeName} rhs)
+        public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} operator >({typeName} lhs, {typeName} rhs)
         {{
-            var vector = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.GreaterThan(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}());
-            return new({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select((_, i) => $"vector[{i}] != 0"))});
+            var cmp = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.GreaterThan(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}());
+            global::System.Runtime.CompilerServices.Unsafe.SkipInit<global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}>(out var result);
+            result.__v = {pack}(global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.AsUInt32(cmp));
+            return result;
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
-        public static bool{typeInfo.Row} operator >=({typeName} lhs, {typeName} rhs)
+        public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} operator >=({typeName} lhs, {typeName} rhs)
         {{
-            var vector = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.GreaterThanOrEqual(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}());
-            return new({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select((_, i) => $"vector[{i}] != 0"))});
+            var cmp = global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.GreaterThanOrEqual(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}());
+            global::System.Runtime.CompilerServices.Unsafe.SkipInit<global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}>(out var result);
+            result.__v = {pack}(global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.AsUInt32(cmp));
+            return result;
         }}");
 
-            // Bitwise operators
-            sourceBuilder.AppendLine($@"
+                if (hasBitwiseOperators)
+                {
+
+                    // Bitwise operators
+                    sourceBuilder.AppendLine($@"
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator <<({typeName} x, int n)
         {{
-            return (x.AsVector{_vectorBitsSize}() << n).{asResult};
+            return (x.__v << n).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator >>({typeName} x, int n)
         {{
-            return (x.AsVector{_vectorBitsSize}() >> n).{asResult};
+            return (x.__v >> n).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator &({typeName} lhs, {typeName} rhs)
         {{
-            return (global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.BitwiseAnd(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}())).{asResult};
+            return (global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.BitwiseAnd(lhs.__v, rhs.__v)).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator |({typeName} lhs, {typeName} rhs)
         {{
-            return (global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.BitwiseOr(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}())).{asResult};
+            return (global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.BitwiseOr(lhs.__v, rhs.__v)).{asResult};
         }}
 
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator ^({typeName} lhs, {typeName} rhs)
         {{
-            return (global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Xor(lhs.AsVector{_vectorBitsSize}(), rhs.AsVector{_vectorBitsSize}())).{asResult};
+            return (global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}.Xor(lhs.__v, rhs.__v)).{asResult};
+        }}");
+                }
+            }
+            else
+            {
+                // Comparison operators
+                sourceBuilder.AppendLine($@"
+        {INLINE_METHOD_ATTRIBUTE}
+        public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} operator <({typeName} lhs, {typeName} rhs)
+        {{
+            return new global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select(c => $"lhs.{c} < rhs.{c}"))});
         }}
 
+        {INLINE_METHOD_ATTRIBUTE}
+        public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} operator <=({typeName} lhs, {typeName} rhs)
+        {{
+            return new global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select(c => $"lhs.{c} <= rhs.{c}"))});
+        }}
+
+        {INLINE_METHOD_ATTRIBUTE}
+        public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} operator >({typeName} lhs, {typeName} rhs)
+        {{
+            return new global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select(c => $"lhs.{c} > rhs.{c}"))});
+        }}
+
+        {INLINE_METHOD_ATTRIBUTE}
+        public static global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row} operator >=({typeName} lhs, {typeName} rhs)
+        {{
+            return new global::Misaki.HighPerformance.Mathematics.bool{typeInfo.Row}({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select(c => $"lhs.{c} >= rhs.{c}"))});
+        }}");
+
+                if (hasBitwiseOperators)
+                {
+                    // Bitwise operators
+                    sourceBuilder.AppendLine($@"
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeName} operator <<({typeName} x, int n)
+        {{
+            return new {typeName}({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select(c => $"x.{c} << n"))});
+        }}
+
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeName} operator >>({typeName} x, int n)
+        {{
+            return new {typeName}({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select(c => $"x.{c} >> n"))});
+        }}
+
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeName} operator &({typeName} lhs, {typeName} rhs)
+        {{
+            return new {typeName}({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select(c => $"lhs.{c} & rhs.{c}"))});
+        }}
+
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeName} operator |({typeName} lhs, {typeName} rhs)
+        {{
+            return new {typeName}({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select(c => $"lhs.{c} | rhs.{c}"))});
+        }}
+
+        {INLINE_METHOD_ATTRIBUTE}
+        public static {typeName} operator ^({typeName} lhs, {typeName} rhs)
+        {{
+            return new {typeName}({string.Join(", ", s_vectorComponents.Take(typeInfo.Row).Select(c => $"lhs.{c} ^ rhs.{c}"))});
+        }}");
+
+                }
+            }
+
+            if (hasBitwiseOperators)
+            {
+                sourceBuilder.AppendLine($@"
         {INLINE_METHOD_ATTRIBUTE}
         public static {typeName} operator ~({typeName} value)
         {{
@@ -859,6 +978,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
                 return value ^ new {typeName}(({componentType})-1);
             }}
         }}");
+            }
 
             EndRegion();
         }
@@ -937,14 +1057,13 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
     public static partial class VectorInterop
     {{
         {INLINE_METHOD_ATTRIBUTE}
-        public unsafe static global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}> AsVector{_vectorBitsSize}(this in {typeName} value)
+        public unsafe static global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}> AsVector{_vectorBitsSize}(this {typeName} value)
         {{");
 
             if (CanUseVectorStorage)
             {
                 sourceBuilder.Append($@"
-            ref var v = ref global::System.Runtime.CompilerServices.Unsafe.AsRef(in value);
-            return global::System.Runtime.CompilerServices.Unsafe.As<{typeName}, global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}>>(ref v);");
+            return global::System.Runtime.CompilerServices.Unsafe.BitCast<{typeName}, global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}>>(value);");
             }
             else
             {
@@ -960,9 +1079,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             if (CanUseVectorStorage)
             {
                 sourceBuilder.AppendLine($@"
-            var result = default({typeName});
-            result.__v = value;
-            return result;
+            return global::System.Runtime.CompilerServices.Unsafe.BitCast<global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{componentType}>, {typeName}>(value);
         }}
     }}");
             }
@@ -996,6 +1113,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         }}");
             }
 
+            // Shuffle select
             sourceBuilder.AppendLine($@"
         {INLINE_METHOD_ATTRIBUTE}
         public static {componentTypeFullName} shuffle({typeFullName} left, {typeFullName} right, ShuffleComponent x)
@@ -1049,6 +1167,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
                     throw new System.ArgumentException(""Invalid shuffle component: "" + component);
             }}
         }}");
+
             sourceBuilder.Append($@"
     }}");
         }
