@@ -17,6 +17,9 @@ public class MathematicsBenchmark
     private float4 _fa = new float4(1, 2, 1, 2);
     private float4 _fb = new float4(3, 4, 3, 4);
 
+    private Vector64<float> _va64 = Vector64.Create(1f, 2f);
+    private Vector64<float> _vb64 = Vector64.Create(3f, 4f);
+
     [Benchmark]
     public Vector4 VectorAdd()
     {
@@ -28,7 +31,7 @@ public class MathematicsBenchmark
         return _va;
     }
 
-    [Benchmark]
+    //[Benchmark]
     public float4 floatAdd()
     {
         for (var i = 0; i < 10; i++)
@@ -37,6 +40,17 @@ public class MathematicsBenchmark
         }
 
         return _fa;
+    }
+
+    [Benchmark]
+    public Vector64<float> Vector64Add()
+    {
+        for (var i = 0; i < 10; i++)
+        {
+            _va64 += _vb64;
+        }
+
+        return _va64;
     }
 #endif
 

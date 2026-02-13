@@ -1,6 +1,4 @@
 using System.Numerics;
-using System.Runtime.CompilerServices;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Misaki.HighPerformance.Mathematics.SPMD;
 
@@ -18,12 +16,20 @@ public interface ISPMD
     }
 }
 
+// TODO:
+// - ReduceAdd
+// - ReduceMin
+// - ReduceMax
+// - LeadingZeroCount
+// - TrailingZeroCount
+// - PopCount
+
 /// <summary>
 /// Represents a single-lane or multi-lane (vectorized) SPMD value and the operations supported on it.
 /// </summary>
 /// <typeparam name="TSelf">The concrete SPMD lane type implementing this interface.</typeparam>
 /// <typeparam name="TNumber">The underlying numeric element type.</typeparam>
-public interface ISPMD<TSelf, TNumber> : ISPMD
+public interface ISPMD<TSelf, TNumber> : ISPMD, IEquatable<TSelf>
     where TSelf : ISPMD<TSelf, TNumber>
     where TNumber : unmanaged, INumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
 {
@@ -159,26 +165,12 @@ public interface ISPMD<TSelf, TNumber> : ISPMD
     /// <returns>The lane-wise sum.</returns>
     static abstract TSelf operator +(TSelf a, TSelf b);
     /// <summary>
-    /// Adds a lane value and a scalar element-wise.
-    /// </summary>
-    /// <param name="a">The lane value.</param>
-    /// <param name="b">The scalar value.</param>
-    /// <returns>The lane value with the scalar added to each element.</returns>
-    static abstract TSelf operator +(TSelf a, TNumber b);
-    /// <summary>
     /// Subtracts two lane values element-wise.
     /// </summary>
     /// <param name="a">The first lane value.</param>
     /// <param name="b">The second lane value.</param>
     /// <returns>The lane-wise difference.</returns>
     static abstract TSelf operator -(TSelf a, TSelf b);
-    /// <summary>
-    /// Subtracts a scalar from a lane value element-wise.
-    /// </summary>
-    /// <param name="a">The lane value.</param>
-    /// <param name="b">The scalar value.</param>
-    /// <returns>The lane value with the scalar subtracted from each element.</returns>
-    static abstract TSelf operator -(TSelf a, TNumber b);
     /// <summary>
     /// Multiplies two lane values element-wise.
     /// </summary>
@@ -187,13 +179,6 @@ public interface ISPMD<TSelf, TNumber> : ISPMD
     /// <returns>The lane-wise product.</returns>
     static abstract TSelf operator *(TSelf a, TSelf b);
     /// <summary>
-    /// Multiplies a lane value by a scalar element-wise.
-    /// </summary>
-    /// <param name="a">The lane value.</param>
-    /// <param name="b">The scalar value.</param>
-    /// <returns>The lane value scaled by the scalar.</returns>
-    static abstract TSelf operator *(TSelf a, TNumber b);
-    /// <summary>
     /// Divides two lane values element-wise.
     /// </summary>
     /// <param name="a">The first lane value.</param>
@@ -201,26 +186,12 @@ public interface ISPMD<TSelf, TNumber> : ISPMD
     /// <returns>The lane-wise quotient.</returns>
     static abstract TSelf operator /(TSelf a, TSelf b);
     /// <summary>
-    /// Divides a lane value by a scalar element-wise.
-    /// </summary>
-    /// <param name="a">The lane value.</param>
-    /// <param name="b">The scalar value.</param>
-    /// <returns>The lane value divided by the scalar.</returns>
-    static abstract TSelf operator /(TSelf a, TNumber b);
-    /// <summary>
     /// Computes the modulus of two lane values element-wise.
     /// </summary>
     /// <param name="a">The first lane value.</param>
     /// <param name="b">The second lane value.</param>
     /// <returns>The lane-wise modulus.</returns>
     static abstract TSelf operator %(TSelf a, TSelf b);
-    /// <summary>
-    /// Computes the modulus of a lane value and a scalar element-wise.
-    /// </summary>
-    /// <param name="a">The lane value.</param>
-    /// <param name="b">The scalar value.</param>
-    /// <returns>The lane value modulus scalar.</returns>
-    static abstract TSelf operator %(TSelf a, TNumber b);
 
     /// <summary>
     /// Negates the lane value element-wise.
@@ -237,26 +208,12 @@ public interface ISPMD<TSelf, TNumber> : ISPMD
     /// <returns>The result of the bitwise AND.</returns>
     static abstract TSelf operator &(TSelf a, TSelf b);
     /// <summary>
-    /// Computes the bitwise AND of a lane value and a scalar element-wise.
-    /// </summary>
-    /// <param name="a">The lane value.</param>
-    /// <param name="b">The scalar value.</param>
-    /// <returns>The result of the bitwise AND.</returns>
-    static abstract TSelf operator &(TSelf a, TNumber b);
-    /// <summary>
     /// Computes the bitwise OR of two lane values element-wise.
     /// </summary>
     /// <param name="a">The first lane value.</param>
     /// <param name="b">The second lane value.</param>
     /// <returns>The result of the bitwise OR.</returns>
     static abstract TSelf operator |(TSelf a, TSelf b);
-    /// <summary>
-    /// Computes the bitwise OR of a lane value and a scalar element-wise.
-    /// </summary>
-    /// <param name="a">The lane value.</param>
-    /// <param name="b">The scalar value.</param>
-    /// <returns>The result of the bitwise OR.</returns>
-    static abstract TSelf operator |(TSelf a, TNumber b);
     /// <summary>
     /// Computes the bitwise XOR of two lane values element-wise.
     /// </summary>
@@ -265,18 +222,27 @@ public interface ISPMD<TSelf, TNumber> : ISPMD
     /// <returns>The result of the bitwise XOR.</returns>
     static abstract TSelf operator ^(TSelf a, TSelf b);
     /// <summary>
-    /// Computes the bitwise XOR of a lane value and a scalar element-wise.
-    /// </summary>
-    /// <param name="a">The lane value.</param>
-    /// <param name="b">The scalar value.</param>
-    /// <returns>The result of the bitwise XOR.</returns>
-    static abstract TSelf operator ^(TSelf a, TNumber b);
-    /// <summary>
     /// Computes the bitwise NOT of a lane value element-wise.
     /// </summary>
     /// <param name="a">The lane value.</param>
     /// <returns>The bitwise complement of the lane value.</returns>
     static abstract TSelf operator ~(TSelf a);
+    /// <summary>
+    /// Determines whether two instances of the type are equal component-wise.
+    /// </summary>
+    /// <param name="a">The first value to compare.</param>
+    /// <param name="b">The second value to compare.</param>
+    /// <returns>All bits set where the elements are equal; otherwise, all bits cleared.</returns>
+    static abstract TSelf operator ==(TSelf a, TSelf b);
+    /// <summary>
+    /// Determines whether two instances of the type are not equal component-wise.
+    /// </summary>
+    /// <param name="a">The first value to compare.</param>
+    /// <param name="b">The second value to compare.</param>
+    /// <returns>All bits set where the elements are not equal; otherwise, all bits cleared.</returns>
+    static abstract TSelf operator !=(TSelf a, TSelf b);
+
+    static abstract implicit operator TSelf(TNumber value);
 
     /// <summary>
     /// Computes the absolute value of the lane value element-wise.

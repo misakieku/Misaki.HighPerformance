@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Mathematics.SPMD;
 
-public static unsafe class ShuffleTableGenerator
+internal static unsafe class ShuffleTableGenerator
 {
     public static uint* ComputeShuffleTable512_32Bit()
     {

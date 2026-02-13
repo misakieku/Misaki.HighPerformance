@@ -38,6 +38,20 @@ internal struct SPMDJobWrapper<T, TNumber> : IJobParallelFor
     }
 }
 
+internal struct SPMDScalerJobWrapper<T, TNumber> : IJobParallelFor
+    where T : unmanaged, IJobSPMD<TNumber>
+    where TNumber : unmanaged, INumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+{
+    public T innerJob;
+    public int totalCount;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Execute(int loopIndex, int threadIndex)
+    {
+        innerJob.Execute<ScalarLane<TNumber>>(loopIndex, threadIndex);
+    }
+}
+
 public static class IJobParallelForSPMDExtensions
 {
     public static void Run<T, TNumber>(this ref T job, int totalCount, int threadIndex)
@@ -68,13 +82,26 @@ public static class IJobParallelForSPMDExtensions
         where T : unmanaged, IJobSPMD<TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        var warper = new SPMDJobWrapper<T, TNumber>
+        if (WideLane.IsSupported)
         {
-            innerJob = job,
-            totalCount = totalCount,
-        };
+            var warper = new SPMDJobWrapper<T, TNumber>
+            {
+                innerJob = job,
+                totalCount = totalCount,
+            };
 
-        var iterations = (totalCount + WideLane<TNumber>.LaneWidth - 1) / WideLane<TNumber>.LaneWidth;
-        return jobScheduler.ScheduleParallel(ref warper, iterations, batchSize, threadIndex, dependency);
+            var iterations = (totalCount + WideLane<TNumber>.LaneWidth - 1) / WideLane<TNumber>.LaneWidth;
+            return jobScheduler.ScheduleParallel(ref warper, iterations, batchSize, threadIndex, dependency);
+        }
+        else
+        {
+            var warper = new SPMDScalerJobWrapper<T, TNumber>
+            {
+                innerJob = job,
+                totalCount = totalCount,
+            };
+
+            return jobScheduler.ScheduleParallel(ref warper, totalCount, batchSize, threadIndex, dependency);
+        }
     }
 }

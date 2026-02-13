@@ -1,4 +1,5 @@
 using Misaki.HighPerformance.Jobs;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using Misaki.HighPerformance.Mathematics;
 using Misaki.HighPerformance.Mathematics.SPMD;
 using System.Numerics;
@@ -60,8 +61,7 @@ internal unsafe struct NoiseJobMath : IJobParallelFor
 
     private static float2 GradientNoiseDirect(float2 uv)
     {
-        uv.x %= 289;
-        uv.y %= 289;
+        uv %= 289;
         var x = (34 * uv.x + 1) * uv.x % 289 + uv.y;
         x = (34 * x + 1) * x % 289;
         x = math.frac(x / 41) * 2 - 1;
@@ -261,7 +261,7 @@ internal unsafe struct NoiseJobMathSPMD : IJobSPMD<float>
 
         var uvX = (indices % w) / w;
         var uvY = TLane.Floor(indices / w) / h;
-        
+
         var result = Noise(uvX, uvY);
         result.Store(buffers + baseIndex);
     }

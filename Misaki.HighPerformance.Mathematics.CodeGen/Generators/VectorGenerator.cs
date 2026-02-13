@@ -128,7 +128,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             get 
             {{
                 RangeCheck(index);
-                return ref (({typeInfo.ComponentTypeFullName}*)global::System.Runtime.CompilerServices.Unsafe.AsPointer(ref this))[index];
+                return ref global::System.Runtime.CompilerServices.Unsafe.Add(ref {s_vectorComponents[0]}, index);
             }}
         }}");
 

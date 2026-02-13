@@ -1,2 +1,1 @@
-BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.SPMDBenchmark>();
-return;
+BenchmarkDotNet.Running.BenchmarkRunner.Run<Misaki.HighPerformance.Test.Benchmark.MathematicsBenchmark>();
