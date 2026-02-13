@@ -2,7 +2,6 @@
 
 using BenchmarkDotNet.Attributes;
 using Misaki.HighPerformance.Mathematics;
-using Misaki.HighPerformance.Mathematics.SPMD;
 using System.Numerics;
 using System.Runtime.Intrinsics;
 

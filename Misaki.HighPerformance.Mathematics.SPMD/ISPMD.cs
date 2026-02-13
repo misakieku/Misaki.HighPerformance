@@ -31,7 +31,7 @@ public interface ISPMD
 /// <typeparam name="TNumber">The underlying numeric element type.</typeparam>
 public interface ISPMD<TSelf, TNumber> : ISPMD, IEquatable<TSelf>
     where TSelf : ISPMD<TSelf, TNumber>
-    where TNumber : unmanaged, INumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
 {
     /// <summary>
     /// Gets a lane value where all lanes are set to numeric zero.
@@ -241,7 +241,39 @@ public interface ISPMD<TSelf, TNumber> : ISPMD, IEquatable<TSelf>
     /// <param name="b">The second value to compare.</param>
     /// <returns>All bits set where the elements are not equal; otherwise, all bits cleared.</returns>
     static abstract TSelf operator !=(TSelf a, TSelf b);
+    /// <summary>
+    /// Determines whether one instance of the type is greater than another instance component-wise.
+    /// </summary>
+    /// <param name="a">The first value to compare.</param>
+    /// <param name="b">The second value to compare.</param>
+    /// <returns>A value indicating whether the first parameter is greater than the second parameter.</returns>
+    static abstract TSelf operator >(TSelf a, TSelf b);
+    /// <summary>
+    /// Determines whether the first operand is greater than or equal to the second operand component-wise.
+    /// </summary>
+    /// <param name="a">The first value to compare.</param>
+    /// <param name="b">The second value to compare.</param>
+    /// <returns>All bits set where the first parameter is greater than or equal to the second parameter; otherwise, all bits cleared.</returns>
+    static abstract TSelf operator >=(TSelf a, TSelf b);
+    /// <summary>
+    /// Determines whether one instance of the type is less than another instance component-wise.
+    /// </summary>
+    /// <param name="a">The first value to compare.</param>
+    /// <param name="b">The second value to compare.</param>
+    /// <returns>All bits set where the first parameter is less than the second parameter; otherwise, all bits cleared.</returns>
+    static abstract TSelf operator <(TSelf a, TSelf b);
+    /// <summary>
+    /// Determines whether the first operand is less than or equal to the second operand component-wise.
+    /// </summary>
+    /// <param name="a">The first value to compare.</param>
+    /// <param name="b">The second value to compare.</param>
+    /// <returns>All bits set where the first parameter is less than or equal to the second parameter; otherwise, all bits cleared.</returns>
+    static abstract TSelf operator <=(TSelf a, TSelf b);
 
+    /// <summary>
+    /// Implicitly converts a scalar numeric value to a lane value where all lanes are set to that value.
+    /// </summary>
+    /// <param name="value">The scalar numeric value to convert.</param>
     static abstract implicit operator TSelf(TNumber value);
 
     /// <summary>

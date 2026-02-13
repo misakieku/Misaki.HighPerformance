@@ -1,0 +1,420 @@
+<#@ import namespace="System.Text" #>
+<#+
+private const string TLane = "TLane";
+private const string TNumber = "TNumber";
+
+private string TLaneRestrictions = $@"where {TLane} : ISPMD<{TLane}, {TNumber}>";
+private string TNumberRestrictions = $@"where {TNumber} : unmanaged, INumber<{TNumber}>, IBinaryNumber<{TNumber}>, IMinMaxValue<{TNumber}>, IBitwiseOperators<{TNumber}, {TNumber}, {TNumber}>";
+
+private int[] dimensions = new int[] { 2, 3, 4 };
+private char[] components = new char[] { 'x', 'y', 'z', 'w' };
+
+public string Indent(string str, int spaces)
+{
+    var indent = new string(' ', spaces);
+    return indent + str;
+}
+
+private string ForEachDimension(int maxDimension, int indentation, string spliter, Action<int, StringBuilder> action, bool spliterOnFirst = true)
+{
+    var sb = new StringBuilder();
+    for (var dimension = 0; dimension < maxDimension; dimension++)
+    {
+        if ((dimension > 0 || spliterOnFirst) && indentation > 0)
+        {
+            sb.Append(new string(' ', indentation));
+        }
+
+        action(dimension, sb);
+        if (dimension < maxDimension - 1)
+        {
+            sb.Append(spliter);
+        }
+    }
+
+    return sb.ToString();
+}
+
+public StringBuilder GenerateVectorType(int dimension)
+{
+    var sb = new StringBuilder();
+
+    var typeName = $"Vector{dimension}<{TLane}, {TNumber}>";
+
+    sb.AppendLine(@$"
+public unsafe struct {typeName} : IEquatable<{typeName}>
+    {TLaneRestrictions}
+    {TNumberRestrictions}
+{{
+{ForEachDimension(dimension, 4, Environment.NewLine, (dim, sb) => sb.Append($"public {TLane} {components[dim]};"))}
+
+    public static {typeName} Zero
+    {{
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {{
+            return new {typeName}
+            {{
+{ForEachDimension(dimension, 16, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = {TLane}.Zero,"))}
+            }};
+        }}
+    }}
+
+    public static {typeName} One
+    {{
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {{
+            return new {typeName}
+            {{
+{ForEachDimension(dimension, 16, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = {TLane}.One,"))}
+            }};
+        }}
+    }}
+
+    public {TLane} this[int index]
+    {{
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {{
+            RangeCheck(index);
+            return Unsafe.Add(ref x, index);
+        }}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [Conditional(""ENABLE_COLLECTION_CHECKS"")]
+    private static void RangeCheck(int index)
+    {{
+        if (index < 0 || index >= {dimension})
+        {{
+            throw new IndexOutOfRangeException($""Index {{index}} is out of range for Vector2."");
+        }}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Store({TNumber}* pDst)
+    {{
+        var width = {TLane}.LaneWidth;
+
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"var {components[dim]} = stackalloc {TNumber}[width];"))}
+
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"this.{components[dim]}.Store({components[dim]});"))}
+
+        for (var i = 0; i < width; i++)
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"pDst[i * 2 + {dim}] = {components[dim]}[i];"))}
+        }}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Store(ref {TNumber} dst)
+    {{
+        Store(({TNumber}*)Unsafe.AsPointer(ref dst));
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Store({ForEachDimension(dimension, 1, ", ", (dim, sb) => sb.Append($"{TNumber}* p{components[dim]}"), false)})
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.Store(p{components[dim]});"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Store({ForEachDimension(dimension, 1, ", ", (dim, sb) => sb.Append($"ref {TNumber} {components[dim]}"), false)})
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"this.{components[dim]}.Store(ref {components[dim]});"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator +(in {typeName} left, in {typeName} right)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = left.{components[dim]} + right.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator +(in {typeName} vector, {TLane} lane)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = vector.{components[dim]} + lane,"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator +({TLane} lane, in {typeName} vector)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = lane + vector.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator -(in {typeName} left, in {typeName} right)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = left.{components[dim]} - right.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator -(in {typeName} vector, {TLane} lane)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = vector.{components[dim]} - lane,"))}
+        }};
+    }}
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator -({TLane} lane, in {typeName} vector)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = lane - vector.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator *(in {typeName} left, in {typeName} right)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = left.{components[dim]} * right.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator *(in {typeName} vector, {TLane} lane)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = vector.{components[dim]} * lane,"))}
+        }};
+    }}
+        
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator *({TLane} lane, in {typeName} vector)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = lane * vector.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator /(in {typeName} left, in {typeName} right)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = left.{components[dim]} / right.{components[dim]},"))}
+        }};
+    }}
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator /(in {typeName} vector, {TLane} lane)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = vector.{components[dim]} / lane,"))}
+        }};
+    }}
+        
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator /({TLane} lane, in {typeName} vector)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = lane / vector.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator ==(in {typeName} left, in {typeName} right)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = left.{components[dim]} == right.{components[dim]},"))}
+        }};
+    }}
+
+        
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator ==(in {typeName} vector, {TLane} lane)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = vector.{components[dim]} == lane,"))}
+        }};
+    }}
+        
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator ==({TLane} lane, in {typeName} vector)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = lane == vector.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator !=(in {typeName} left, in {typeName} right)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = left.{components[dim]} != right.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator !=(in {typeName} vector, {TLane} lane)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = vector.{components[dim]} != lane,"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator !=({TLane} lane, in {typeName} vector)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = lane != vector.{components[dim]},"))}
+        }};
+    }}
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator >(in {typeName} left, in {typeName} right)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = left.{components[dim]} > right.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator >(in {typeName} vector, {TLane} lane)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = vector.{components[dim]} > lane,"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator >({TLane} lane, in {typeName} vector)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = lane > vector.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator >=(in {typeName} left, in {typeName} right)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = left.{components[dim]} >= right.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator >=(in {typeName} vector, {TLane} lane)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = vector.{components[dim]} >= lane,"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator >=({TLane} lane, in {typeName} vector)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = lane >= vector.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator <(in {typeName} left, in {typeName} right)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = left.{components[dim]} < right.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator <(in {typeName} vector, {TLane} lane)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = vector.{components[dim]} < lane,"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator <({TLane} lane, in {typeName} vector)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = lane < vector.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator <=(in {typeName} left, in {typeName} right)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = left.{components[dim]} <= right.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator <=(in {typeName} vector, {TLane} lane)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = vector.{components[dim]} <= lane,"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator <=({TLane} lane, in {typeName} vector)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = lane <= vector.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly bool Equals({typeName} other)
+    {{
+        return {ForEachDimension(dimension, 0, " && ", (dim, sb) => sb.Append($"this.{components[dim]}.Equals(other.{components[dim]})"), false)};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override readonly bool Equals(object? obj)
+    {{
+        return obj is {typeName} other && Equals(other);
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override int GetHashCode()
+    {{
+        throw new NotImplementedException();
+    }}
+}}");
+
+    return sb;
+}
+#>

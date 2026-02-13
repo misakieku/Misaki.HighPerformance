@@ -1,3 +1,4 @@
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics;
@@ -6813,16 +6814,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int lzcnt(uint x)
     {
-        if (x == 0)
-        {
-            return 32;
-        }
-
-        LongDoubleUnion u;
-        u.doubleValue = 0.0;
-        u.longValue = 0x4330000000000000L + x;
-        u.doubleValue -= 4503599627370496.0;
-        return 0x41E - (int)(u.longValue >> 52);
+        return BitOperations.LeadingZeroCount(x);
     }
 
     /// <summary>Returns the componentwise number of leading zeros in the binary representations of a uint2 vector.</summary>
@@ -6869,20 +6861,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int lzcnt(ulong x)
     {
-        if (x == 0)
-        {
-            return 64;
-        }
-
-        var xh = (uint)(x >> 32);
-        var bits = xh != 0 ? xh : (uint)x;
-        var offset = xh != 0 ? 0x41E : 0x43E;
-
-        LongDoubleUnion u;
-        u.doubleValue = 0.0;
-        u.longValue = 0x4330000000000000L + bits;
-        u.doubleValue -= 4503599627370496.0;
-        return offset - (int)(u.longValue >> 52);
+        return BitOperations.LeadingZeroCount(x);
     }
 
     /// <summary>
@@ -6963,17 +6942,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int tzcnt(uint x)
     {
-        if (x == 0)
-        {
-            return 32;
-        }
-
-        x &= (uint)-x;
-        LongDoubleUnion u;
-        u.doubleValue = 0.0;
-        u.longValue = 0x4330000000000000L + x;
-        u.doubleValue -= 4503599627370496.0;
-        return (int)(u.longValue >> 52) - 0x3FF;
+        return BitOperations.TrailingZeroCount(x);
     }
 
     /// <summary>
@@ -7053,22 +7022,7 @@ public static partial class math
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int tzcnt(ulong x)
     {
-        if (x == 0)
-        {
-            return 64;
-        }
-
-        x = x & (ulong)-(long)x;
-        var xl = (uint)x;
-
-        var bits = xl != 0 ? xl : (uint)(x >> 32);
-        var offset = xl != 0 ? 0x3FF : 0x3DF;
-
-        LongDoubleUnion u;
-        u.doubleValue = 0.0;
-        u.longValue = 0x4330000000000000L + bits;
-        u.doubleValue -= 4503599627370496.0;
-        return (int)(u.longValue >> 52) - offset;
+        return BitOperations.TrailingZeroCount(x);
     }
 
 

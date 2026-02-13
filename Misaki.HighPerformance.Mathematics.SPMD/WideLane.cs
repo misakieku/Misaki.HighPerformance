@@ -33,7 +33,7 @@ public static unsafe class WideLane
 
 [StructLayout(LayoutKind.Sequential)]
 public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumber>
-    where TNumber : unmanaged, INumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
 {
     private static readonly Vector<TNumber> s_indices;
 
@@ -80,9 +80,9 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
         var pValues = stackalloc TNumber[LaneWidth];
         for (var i = 0; i < LaneWidth; i++)
         {
-            pValues[i] = TNumber.CreateChecked(i);
+            pValues[i] = TNumber.CreateTruncating(i);
         }
-
+        
         s_indices = Vector.Load(pValues);
     }
 
@@ -373,6 +373,30 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
         return ~Equal(a, b);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> operator >(WideLane<TNumber> a, WideLane<TNumber> b)
+    {
+        return GreaterThan(a, b);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> operator >=(WideLane<TNumber> a, WideLane<TNumber> b)
+    {
+        return GreaterThanOrEqual(a, b);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> operator <(WideLane<TNumber> a, WideLane<TNumber> b)
+    {
+        return LessThan(a, b);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> operator <=(WideLane<TNumber> a, WideLane<TNumber> b)
+    {
+        return LessThanOrEqual(a, b);
+    }
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator WideLane<TNumber>(TNumber value)
@@ -538,7 +562,7 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
         // This is complex to do right (Payne-Hanek), but for games
         // a simple approximation: value = value - (PI * Round(value / PI)) is good enough.
 
-        var pi = Create(TNumber.CreateChecked(Math.PI));
+        var pi = Create(TNumber.CreateTruncating(Math.PI));
         var x = value - pi * Round(value / pi);
 
         // 2. The Approximation (Remez Polynomial)
@@ -546,8 +570,8 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
         // Factored (Horner's Method) for fewer ops: value * (1 + value^2 * (c1 + c2*value^2))
 
         var x2 = x * x;
-        var vc1 = Create(TNumber.CreateChecked(0.3333314036)); // 1/3
-        var vc2 = Create(TNumber.CreateChecked(0.1333923995)); // 2/15
+        var vc1 = Create(TNumber.CreateTruncating(0.3333314036)); // 1/3
+        var vc2 = Create(TNumber.CreateTruncating(0.1333923995)); // 2/15
 
         // x2 * (c1 + c2 * x2)
         var poly = MultipleAdd(x2, vc2, vc1);
@@ -560,7 +584,7 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
     {
         // asin(value) = pi/2 - acos(value)
 
-        var piOver2 = Create(TNumber.CreateChecked(Math.PI / 2));
+        var piOver2 = Create(TNumber.CreateTruncating(Math.PI / 2));
         return piOver2 - Acos(value);
     }
 
@@ -572,10 +596,10 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
 
         var x = Abs(value);
 
-        var c0 = Create(TNumber.CreateChecked(1.5707288f)); // pi/2
-        var c1 = Create(TNumber.CreateChecked(-0.2121144f));
-        var c2 = Create(TNumber.CreateChecked(0.0742610f));
-        var c3 = Create(TNumber.CreateChecked(-0.0187293f));
+        var c0 = Create(TNumber.CreateTruncating(1.5707288f)); // pi/2
+        var c1 = Create(TNumber.CreateTruncating(-0.2121144f));
+        var c2 = Create(TNumber.CreateTruncating(0.0742610f));
+        var c3 = Create(TNumber.CreateTruncating(-0.0187293f));
 
         var term1 = MultipleAdd(x, c3, c2);
         var term2 = MultipleAdd(x, term1, c1);
@@ -584,7 +608,7 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
         var sqrtTerm = Sqrt(One - x);
         var result = poly * sqrtTerm;
 
-        var pi = Create(TNumber.CreateChecked(Math.PI));
+        var pi = Create(TNumber.CreateTruncating(Math.PI));
         var isNegative = LessThan(value, Zero);
 
         return Select(isNegative, pi - result, result);
@@ -595,8 +619,8 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
     {
         // atan(value) = value * (c1 + c2*value^2)
 
-        var c1 = Create(TNumber.CreateChecked(0.97239411f));
-        var c2 = Create(TNumber.CreateChecked(-0.19194795f));
+        var c1 = Create(TNumber.CreateTruncating(0.97239411f));
+        var c2 = Create(TNumber.CreateTruncating(-0.19194795f));
 
         var x2 = value * value;
         var poly = MultipleAdd(x2, c2, c1);
@@ -622,8 +646,8 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
         var t2 = t * t;
 
         // 2. Polynomial Approximation (Odd function: value * (c1 + c2*value^2))
-        var c1 = Create(TNumber.CreateChecked(0.97239411f));
-        var c2 = Create(TNumber.CreateChecked(-0.19194795f));
+        var c1 = Create(TNumber.CreateTruncating(0.97239411f));
+        var c2 = Create(TNumber.CreateTruncating(-0.19194795f));
 
         // (c1 + c2 * t2)
         var poly = MultipleAdd(c2, t2, c1);
@@ -633,12 +657,12 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
 
         // 3. Reconstruct the angle
         // If we swapped value/y (yGtX), the identity is: atan(value/y) = PI/2 - atan(y/value)
-        var halfPi = Create(TNumber.CreateChecked(1.570796327f));
+        var halfPi = Create(TNumber.CreateTruncating(1.570796327f));
         result = Select(yGtX, halfPi - result, result);
 
         // 4. Adjust for Quadrants (Signs)
         // If value < 0, we are in quadrants 2 or 3, so we need to add PI
-        var pi = Create(TNumber.CreateChecked(3.141592654f));
+        var pi = Create(TNumber.CreateTruncating(3.141592654f));
         var xLtZero = LessThan(x, Zero);
         result = Select(xLtZero, pi - result, result);
 
@@ -680,7 +704,7 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Exp2(WideLane<TNumber> value)
     {
-        return Pow(Create(TNumber.CreateChecked(2)), value);
+        return Pow(Create(TNumber.CreateTruncating(2)), value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

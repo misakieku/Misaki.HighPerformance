@@ -28,7 +28,7 @@ public interface IJobParallelFor
 public static class IJobExtensions
 {
     public static void Run<T>(this ref T job, int threadIndex)
-        where T : unmanaged, IJob
+        where T : struct, IJob
     {
         job.Execute(threadIndex);
     }
@@ -37,7 +37,7 @@ public static class IJobExtensions
 public static class IJobParallelForExtensions
 {
     public static void Run<T>(this ref T job, int totalIterations, int threadIndex)
-        where T : unmanaged, IJobParallelFor
+        where T : struct, IJobParallelFor
     {
         for (var i = 0; i < totalIterations; i++)
         {

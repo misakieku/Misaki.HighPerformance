@@ -8,7 +8,80 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Templates\Vector2 - Copy (2).gen.cs" />
+    <Compile Remove="Templates\Vector2 - Copy.gen.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Templates\Vector2.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vector2.tt</DependentUpon>
+    </None>
+    <None Include="Templates\Vector{T}Helper.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vector{T}Helper.ttinclude</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Misaki.HighPerformance.Jobs\Misaki.HighPerformance.Jobs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Templates\MathV.Vector.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MathV.Vector.gen.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Vector3.tt">
+      <LastGenOutput>Vector3.gen.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Vector4.tt">
+      <LastGenOutput>Vector4.gen.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Vector2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Vector2.gen.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Vector{T}Helper.ttinclude">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Vector{T}Helper.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Templates\MathV.Vector.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MathV.Vector.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Vector2.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vector2.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Vector3.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vector3.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Vector4.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vector4.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Vector{T}Helper.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vector{T}Helper.ttinclude</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,13 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ include file="Vector{T}Helper.ttinclude" #>
+<#@ output extension=".gen.cs" #>
+<#
+var code = GenerateVectorType(2);
+#>
+using System.Diagnostics;
+using System.Numerics;
+using System.Runtime.CompilerServices;
+
+namespace Misaki.HighPerformance.Mathematics.SPMD;
+<#= code #>

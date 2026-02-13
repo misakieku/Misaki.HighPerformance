@@ -6,7 +6,7 @@ namespace Misaki.HighPerformance.Mathematics.SPMD;
 
 [StructLayout(LayoutKind.Sequential)]
 public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, TNumber>
-    where TNumber : unmanaged, INumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
 {
     public readonly TNumber value;
 
@@ -186,13 +186,37 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator ==(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value == b.value ? ~TNumber.Zero : TNumber.Zero);
+        return Equal(a, b);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator !=(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value != b.value ? ~TNumber.Zero : TNumber.Zero);
+        return ~Equal(a, b);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> operator >(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
+    {
+        return GreaterThan(a, b);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> operator >=(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
+    {
+        return GreaterThanOrEqual(a, b);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> operator <(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
+    {
+        return LessThan(a, b);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> operator <=(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
+    {
+        return LessThanOrEqual(a, b);
     }
 
 
@@ -479,7 +503,7 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Exp2(ScalarLane<TNumber> value)
     {
-        return Pow(new ScalarLane<TNumber>(TNumber.CreateChecked(2)), value);
+        return Pow(new ScalarLane<TNumber>(TNumber.CreateTruncating(2)), value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
