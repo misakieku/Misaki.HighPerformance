@@ -869,5 +869,22 @@ public static unsafe partial class MathV
 
 # endregion
 
+
+# region Vector3 Specific
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> Cross<TLane, TNumber>(in Vector3<TLane, TNumber> a, in Vector3<TLane, TNumber> b)
+        where TLane : ISPMD<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector3<TLane, TNumber>
+        {
+            x = a.y * b.z - a.z * b.y,
+            y = a.z * b.x - a.x * b.z,
+            z = a.x * b.y - a.y * b.x,
+        };
+    }
+
+# endregion
 }
 

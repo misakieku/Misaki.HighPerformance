@@ -317,6 +317,23 @@ public static unsafe partial class MathV
 # endregion
 
 <# } #>
+
+# region Vector3 Specific
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<<#= GenericParameters #>> Cross<<#= GenericParameters #>>(in Vector3<<#= GenericParameters #>> a, in Vector3<<#= GenericParameters #>> b)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        return new Vector3<<#= GenericParameters #>>
+        {
+            x = a.y * b.z - a.z * b.y,
+            y = a.z * b.x - a.x * b.z,
+            z = a.x * b.y - a.y * b.x,
+        };
+    }
+
+# endregion
 }
 
 <#+

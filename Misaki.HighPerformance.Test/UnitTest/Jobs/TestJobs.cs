@@ -50,25 +50,31 @@ internal unsafe struct KahanSumJob : IJob
     }
 }
 
-internal unsafe struct ParallelAddJob : IJobParallelFor
+internal unsafe struct ParallelAddJob : IJobParallel
 {
     public float value;
     public float* inout;
 
-    public void Execute(int loopIndex, int threadIndex)
+    public void Execute(int startIndex, int endIndex, int threadIndex)
     {
-        inout[loopIndex] += value;
+        for (var i = startIndex; i < endIndex; i++)
+        {
+            inout[i] += value;
+        }
     }
 }
 
-internal unsafe struct ParallelMultiplyJob : IJobParallelFor
+internal unsafe struct ParallelMultiplyJob : IJobParallel
 {
     public float multiplier;
     public float* inout;
 
-    public void Execute(int loopIndex, int threadIndex)
+    public void Execute(int startIndex, int endIndex, int threadIndex)
     {
-        inout[loopIndex] *= multiplier;
+        for (var i = startIndex; i < endIndex; i++)
+        {
+            inout[i] *= multiplier;
+        }
     }
 }
 

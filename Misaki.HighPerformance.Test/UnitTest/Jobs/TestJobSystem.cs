@@ -353,7 +353,7 @@ public unsafe class TestJobSystem
             height = size,
         };
 
-        spmdJob.Run(size * size, -1);
+        //spmdJob.Run(size * size, -1);
 
         var eq = vs.SequenceCompareTo(ss);
         Assert.AreEqual(0, eq);

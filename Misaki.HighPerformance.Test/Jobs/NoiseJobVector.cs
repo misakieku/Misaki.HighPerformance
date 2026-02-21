@@ -1,5 +1,4 @@
 using Misaki.HighPerformance.Jobs;
-using Misaki.HighPerformance.LowLevel.Utilities;
 using Misaki.HighPerformance.Mathematics;
 using Misaki.HighPerformance.Mathematics.SPMD;
 using System.Numerics;
@@ -8,7 +7,22 @@ using System.Runtime.Intrinsics;
 
 namespace Misaki.HighPerformance.Test.Jobs;
 
-internal unsafe struct NoiseJobVector : IJobParallelFor
+internal unsafe struct NoiseJobVectorFor : IJobParallelFor
+{
+    public float* buffers;
+    public int width;
+    public int height;
+
+    public void Execute(int loopIndex, int threadIndex)
+    {
+        var x = loopIndex % width;
+        var y = loopIndex / height;
+        var uv = new Vector2(x, y) / new Vector2(width, height);
+        buffers[loopIndex] = NoiseJobVector.GradientNoise(uv);
+    }
+}
+
+internal unsafe struct NoiseJobVector : IJobParallel
 {
     public float* buffers;
     public int width;
@@ -20,16 +34,23 @@ internal unsafe struct NoiseJobVector : IJobParallelFor
         return x - MathF.Floor(x);
     }
 
+    private static float Mod289(float x)
+    {
+        return x - MathF.Floor(x / 289) * 289;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Vector2 GradientNoiseDirect(Vector2 uv)
     {
-        uv.X %= 289;
-        uv.Y %= 289;
-        var x = (34 * uv.X + 1) * uv.X % 289 + uv.Y;
-        x = (34 * x + 1) * x % 289;
+        uv.X = Mod289(uv.X);
+        uv.Y = Mod289(uv.Y);
+        var x = (34 * uv.X + 1) * Mod289(uv.X) + uv.Y;
+        x = (34 * x + 1) * Mod289(x);
         x = Frac(x / 41) * 2 - 1;
         return Vector2.Normalize(new Vector2(x - MathF.Floor(x + 0.5f), MathF.Abs(x) - 0.5f));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float GradientNoise(Vector2 uv)
     {
         var ip = new Vector2(MathF.Floor(uv.X), MathF.Floor(uv.Y));
@@ -44,30 +65,35 @@ internal unsafe struct NoiseJobVector : IJobParallelFor
         return float.Lerp(float.Lerp(d00, d10, fp.Y), float.Lerp(d01, d11, fp.Y), fp.X);
     }
 
-    public void Execute(int loopIndex, int threadIndex)
+    public void Execute(int startIndex, int endIndex, int threadIndex)
     {
-        var x = loopIndex % width;
-        var y = loopIndex / height;
-        var uv = new Vector2(x, y) / new Vector2(width, height);
-        buffers[loopIndex] = GradientNoise(uv);
+        for (int i = startIndex; i < endIndex; i++)
+        {
+            var x = i % width;
+            var y = i / height;
+            var uv = new Vector2(x, y) / new Vector2(width, height);
+            buffers[i] = GradientNoise(uv);
+        }
     }
 }
 
-internal unsafe struct NoiseJobMath : IJobParallelFor
+internal unsafe struct NoiseJobMath : IJobParallel
 {
     public float* buffers;
     public int width;
     public int height;
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static float2 GradientNoiseDirect(float2 uv)
     {
-        uv %= 289;
-        var x = (34 * uv.x + 1) * uv.x % 289 + uv.y;
-        x = (34 * x + 1) * x % 289;
+        uv  = noise.mod289(uv);
+        var x = (34 * uv.x + 1) * noise.mod289(uv.x) + uv.y;
+        x = (34 * x + 1) * noise.mod289(x);
         x = math.frac(x / 41) * 2 - 1;
         return math.normalize(new float2(x - math.floor(x + 0.5f), math.abs(x) - 0.5f));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float GradientNoise(float2 uv)
     {
         var ip = new float2(math.floor(uv.x), math.floor(uv.y));
@@ -82,6 +108,7 @@ internal unsafe struct NoiseJobMath : IJobParallelFor
         return float.Lerp(float.Lerp(d00, d10, fp.y), float.Lerp(d01, d11, fp.y), fp.x);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Execute(int loopIndex, int threadIndex)
     {
         var x = loopIndex % width;
@@ -89,9 +116,21 @@ internal unsafe struct NoiseJobMath : IJobParallelFor
         var uv = new float2(x, y) / new float2(width, height);
         buffers[loopIndex] = GradientNoise(uv);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Execute(int startIndex, int endIndex, int threadIndex)
+    {
+        for (var i = startIndex; i < endIndex; i++)
+        {
+            var x = i % width;
+            var y = i / height;
+            var uv = new float2(x, y) / new float2(width, height);
+            buffers[i] = GradientNoise(uv);
+        }
+    }
 }
 
-internal unsafe struct NoiseJobMathV : IJobParallelFor
+internal unsafe struct NoiseJobMathV : IJobParallel
 {
     public float* buffers;
     public int width;
@@ -160,35 +199,35 @@ internal unsafe struct NoiseJobMathV : IJobParallelFor
         return lerpY1 + (lerpY2 - lerpY1) * uX;
     }
 
-    public void Execute(int loopIndex, int threadIndex)
+    public void Execute(int startIndex, int endIndex, int threadIndex)
     {
-        // ---------------------------------------------------------
-        // IMPORTANT: Loop Stride is now 8!
-        // ---------------------------------------------------------
-        var baseIndex = loopIndex * 8;
-
-        // Safety check
-        if (baseIndex + 7 >= width * height)
+        for (int i = startIndex; i < endIndex; i++)
         {
-            return;
+            var baseIndex = i * 8;
+
+            // Safety check
+            if (baseIndex + 7 >= width * height)
+            {
+                return;
+            }
+
+            // Calculate Coords
+            var y = baseIndex / width;
+            var x = baseIndex % width;
+
+            // Sequence: 0, 1, 2, 3, 4, 5, 6, 7
+            var vSeqX = Vector256.Create(0f, 1f, 2f, 3f, 4f, 5f, 6f, 7f);
+            var vBaseX = Vector256.Create((float)x) + vSeqX;
+            var vBaseY = Vector256.Create((float)y);
+
+            var vWidth = Vector256.Create((float)width);
+            var vHeight = Vector256.Create((float)height);
+
+            var result = GradientNoiseAVX(vBaseX / vWidth, vBaseY / vHeight);
+
+            // Store 8 floats (32 bytes)
+            result.Store(buffers + baseIndex);
         }
-
-        // Calculate Coords
-        var y = baseIndex / width;
-        var x = baseIndex % width;
-
-        // Sequence: 0, 1, 2, 3, 4, 5, 6, 7
-        var vSeqX = Vector256.Create(0f, 1f, 2f, 3f, 4f, 5f, 6f, 7f);
-        var vBaseX = Vector256.Create((float)x) + vSeqX;
-        var vBaseY = Vector256.Create((float)y);
-
-        var vWidth = Vector256.Create((float)width);
-        var vHeight = Vector256.Create((float)height);
-
-        var result = GradientNoiseAVX(vBaseX / vWidth, vBaseY / vHeight);
-
-        // Store 8 floats (32 bytes)
-        result.Store(buffers + baseIndex);
     }
 }
 

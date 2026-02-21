@@ -102,6 +102,23 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
+    /// Attempts to return the object at the top of the collection without removing it.
+    /// </summary>
+    /// <param name="value">The item at the front of the queue if the operation is successful; otherwise, the default value of <typeparamref name="T"/>.</param>
+    /// <returns><see langword="true"/> if an object was returned successfully; otherwise, <see langword="false"/>.</returns>
+    public readonly bool TryPeek(out T value)
+    {
+        if (_count == 0)
+        {
+            value = default;
+            return false;
+        }
+
+        value = _array[_offset];
+        return true;
+    }
+
+    /// <summary>
     /// Adds an element to the end of a collection, resizing if the current capacity is reached. The new element is
     /// stored in a circular buffer.
     /// </summary>

@@ -25,7 +25,7 @@ internal static unsafe class JobExecutor
         return true;
     }
 
-    public static bool ExecuteParallel<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, int threadIndex)
+    public static bool ExecuteParallelFor<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, int threadIndex)
         where T : unmanaged, IJobParallelFor
     {
         var pJob = (T*)pJobData;
@@ -43,6 +43,29 @@ internal static unsafe class JobExecutor
                 pJob->Execute(i, threadIndex);
             }
 
+            if (Interlocked.Decrement(ref remainingBatches) == 0)
+            {
+                wasTheLastBatch = true;
+            }
+        }
+
+        return wasTheLastBatch;
+    }
+
+    public static bool ExecuteParallel<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, int threadIndex)
+        where T : unmanaged, IJobParallel
+    {
+        var pJob = (T*)pJobData;
+        var wasTheLastBatch = false;
+
+        while (true)
+        {
+            if (!GetWorkerStealingRange(ref jobRanges, out var start, out var end))
+            {
+                break;
+            }
+
+            pJob->Execute(start, end, threadIndex);
             if (Interlocked.Decrement(ref remainingBatches) == 0)
             {
                 wasTheLastBatch = true;

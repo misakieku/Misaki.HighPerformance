@@ -1,6 +1,5 @@
 using Misaki.HighPerformance.Jobs;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Mathematics.SPMD;
 
@@ -18,7 +17,6 @@ internal struct SPMDJobWrapper<T, TNumber> : IJobParallelFor
     public T innerJob;
     public int totalCount;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Execute(int loopIndex, int threadIndex)
     {
         var baseIndex = loopIndex * WideLane<TNumber>.LaneWidth;
@@ -30,12 +28,33 @@ internal struct SPMDJobWrapper<T, TNumber> : IJobParallelFor
         }
         else
         {
-            for (var i = 0; i < remaining; i++)
+            for (var j = 0; j < remaining; j++)
             {
-                innerJob.Execute<ScalarLane<TNumber>>(baseIndex + i, threadIndex);
+                innerJob.Execute<ScalarLane<TNumber>>(baseIndex + j, threadIndex);
             }
         }
     }
+
+    //public void Execute(int startIndex, int endIndex, int threadIndex)
+    //{
+    //    for (int i = startIndex; i < endIndex; i++)
+    //    {
+    //        var baseIndex = i * WideLane<TNumber>.LaneWidth;
+    //        var remaining = totalCount - baseIndex;
+
+    //        if (remaining >= WideLane<TNumber>.LaneWidth)
+    //        {
+    //            innerJob.Execute<WideLane<TNumber>>(baseIndex, threadIndex);
+    //        }
+    //        else
+    //        {
+    //            for (var j = 0; j < remaining; j++)
+    //            {
+    //                innerJob.Execute<ScalarLane<TNumber>>(baseIndex + j, threadIndex);
+    //            }
+    //        }
+    //    }
+    //}
 }
 
 internal struct SPMDScalerJobWrapper<T, TNumber> : IJobParallelFor
@@ -45,11 +64,19 @@ internal struct SPMDScalerJobWrapper<T, TNumber> : IJobParallelFor
     public T innerJob;
     public int totalCount;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Execute(int loopIndex, int threadIndex)
     {
         innerJob.Execute<ScalarLane<TNumber>>(loopIndex, threadIndex);
     }
+
+    //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+    //public void Execute(int startIndex, int endIndex, int threadIndex)
+    //{
+    //    for (int i = startIndex; i < endIndex; i++)
+    //    {
+    //        innerJob.Execute<ScalarLane<TNumber>>(i, threadIndex);
+    //    }
+    //}
 }
 
 public static class IJobParallelForSPMDExtensions
@@ -101,7 +128,7 @@ public static class IJobParallelForSPMDExtensions
             };
 
             var iterations = (totalCount + WideLane<TNumber>.LaneWidth - 1) / WideLane<TNumber>.LaneWidth;
-            return jobScheduler.ScheduleParallel(ref warper, iterations, batchSize, threadIndex, dependency);
+            return jobScheduler.ScheduleParallelFor(ref warper, iterations, batchSize, threadIndex, dependency);
         }
         else
         {
@@ -111,7 +138,7 @@ public static class IJobParallelForSPMDExtensions
                 totalCount = totalCount,
             };
 
-            return jobScheduler.ScheduleParallel(ref warper, totalCount, batchSize, threadIndex, dependency);
+            return jobScheduler.ScheduleParallelFor(ref warper, totalCount, batchSize, threadIndex, dependency);
         }
     }
 }

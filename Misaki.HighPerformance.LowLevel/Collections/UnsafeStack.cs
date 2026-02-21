@@ -181,6 +181,23 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
         return _array[_count - 1];
     }
 
+    /// <summary>
+    /// Attempts to return the item at the top of the stack without removing it.
+    /// </summary>
+    /// <param name="value">When this method returns, contains the item at the top of the stack if the stack is not empty; otherwise, the default value of <typeparamref name="T"/>.</param>
+    /// <returns><see langword="true"/> if an item was successfully returned; otherwise, <see langword="false"/>.</returns>
+    public readonly bool TryPeek(out T value)
+    {
+        if (_count == 0)
+        {
+            value = default;
+            return false;
+        }
+
+        value = _array[_count - 1];
+        return true;
+    }
+
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
         _array.Resize(newSize, option);

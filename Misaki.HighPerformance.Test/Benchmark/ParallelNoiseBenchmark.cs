@@ -10,8 +10,8 @@ namespace Misaki.HighPerformance.Test.Benchmark;
 [MemoryDiagnoser]
 public class ParallelNoiseBenchmark
 {
-    private const int _WIDTH = 64;
-    private const int _HEIGHT = 64;
+    private const int _WIDTH = 2048;
+    private const int _HEIGHT = 2048;
     private const int _LENGTH = _WIDTH * _HEIGHT;
 
     internal JobScheduler _jobScheduler = null!;
@@ -20,7 +20,7 @@ public class ParallelNoiseBenchmark
     [GlobalSetup]
     public void Setup()
     {
-        _jobScheduler = new JobScheduler(Environment.ProcessorCount - 1);
+        _jobScheduler = new JobScheduler(Environment.ProcessorCount);
         _buffers = new UnsafeArray<float>(_LENGTH, Allocator.Persistent);
     }
 
@@ -52,7 +52,7 @@ public class ParallelNoiseBenchmark
         {
             var x = i % _WIDTH;
             var y = i / _HEIGHT;
-            var uv = new Vector2(x, y);
+            var uv = new Vector2(x, y) / new Vector2(_WIDTH, _HEIGHT);
             _buffers[i] = NoiseJobVector.GradientNoise(uv);
         });
     }
@@ -64,7 +64,7 @@ public class ParallelNoiseBenchmark
         {
             var x = i % _WIDTH;
             var y = i / _HEIGHT;
-            var uv = new Vector2(x, y);
+            var uv = new Vector2(x, y) / new Vector2(_WIDTH, _HEIGHT);
             _buffers[i] = NoiseJobVector.GradientNoise(uv);
         }
     }

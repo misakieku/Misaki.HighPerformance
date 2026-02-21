@@ -33,23 +33,20 @@ internal class WorkerThread : IDisposable
 
     private bool TryFindJob(out JobHandle handle)
     {
-        // 1. Check own local queue first
         if (_localQueue.TryDequeue(out handle))
         {
             return true;
         }
 
-        // 2. Check global queue
-        if (_scheduler.TryStealJob(-1, out handle))
+        if (_scheduler.TryStealFromMain(-1, out handle))
         {
             return true;
         }
 
-        // 3. Bounded random work stealing from other workers
         for (var i = 0; i < _MAX_STEAL_ATTEMPTS; i++)
         {
             var randomIndex = _random.Next(0, _scheduler.WorkerCount);
-            if (randomIndex != _index && _scheduler.TryStealJob(randomIndex, out handle))
+            if (randomIndex != _index && _scheduler.TryStealFromWorker(randomIndex, out handle))
             {
                 return true;
             }
@@ -63,25 +60,41 @@ internal class WorkerThread : IDisposable
     {
         while (!_scheduler.IsCancellationRequested)
         {
-            // Wait for work signal directly — the semaphore already acts as
-            // both a notification and a count of available work items.
-            try
+            var handle = JobHandle.Invalid;
+            var spin = new SpinWait();
+            var found = false;
+
+            while (!spin.NextSpinWillYield)
             {
-                _scheduler.WaitForWork();
-            }
-            catch (OperationCanceledException)
-            {
-                break;
+                if (TryFindJob(out handle))
+                {
+                    _scheduler.WaitForWork(0); // Consume the signal if we found work immediately
+
+                    found = true;
+                    break;
+                }
+
+                spin.SpinOnce(-1);
             }
 
-            // After being signaled, try to find and execute a job.
-            if (!TryFindJob(out var handle))
+            if (!found)
             {
-                continue;
+                try
+                {
+                    _scheduler.WaitForWork(Timeout.Infinite);
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
+
+                if (!TryFindJob(out handle))
+                {
+                    continue;
+                }
             }
 
             ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
-
             if (exist)
             {
                 Interlocked.CompareExchange(ref jobInfo.state, JobState.Running, JobState.Scheduled);
