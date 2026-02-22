@@ -56,18 +56,10 @@ jobs:
               echo "✅ Version $VERSION of $PACKAGE_ID already exists. Skipping..."
             else
               echo "🆕 Version $VERSION of $PACKAGE_ID is new."
-              
-              # 4. EXPLICIT BUILD (Creates the DLLs)
-              echo "Building $projfile..."
-              if ! dotnet build "$projfile" -c Release; then
-                 echo "❌ Failed to build $projfile"
-                 exit 1
-              fi
 
-              # 5. PACK (Packages the DLLs created above)
+              # 4. PACK (Packages the DLLs created above)
               echo "Packing $projfile..."
-              # We use --no-build because we just built it in step 4
-              if ! dotnet pack "$projfile" -c Release -o ./artifacts --no-build; then
+              if ! dotnet pack "$projfile" -c Release -o ./artifacts; then
                  echo "❌ Failed to pack $projfile"
                  exit 1
               fi

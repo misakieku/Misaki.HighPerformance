@@ -3,6 +3,7 @@
       <TargetFrameworks></TargetFrameworks>
       <PackageLicenseUrl>Public Domain</PackageLicenseUrl>
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+      <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
       <TargetFramework>net10.0</TargetFramework>
       <Authors>Misaki</Authors>
       <AssemblyVersion>1.1.0</AssemblyVersion>
