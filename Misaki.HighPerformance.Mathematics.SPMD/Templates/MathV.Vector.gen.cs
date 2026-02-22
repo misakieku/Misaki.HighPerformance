@@ -395,7 +395,7 @@ public static unsafe partial class MathV
         where TLane : ISPMD<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        return a.x * b.x + a.y * b.y;
+        return a.x * b.x + a.y * b.y + a.z * b.z;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -689,7 +689,7 @@ public static unsafe partial class MathV
         where TLane : ISPMD<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        return a.x * b.x + a.y * b.y;
+        return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -140,7 +140,7 @@ public static unsafe partial class MathV
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
-        return a.x * b.x + a.y * b.y;
+        return <#= ForEachDimension(dimension, i => $"a.{components[i]} * b.{components[i]}", " + ") #>;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
