@@ -1,7 +1,5 @@
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics;
 
 namespace Misaki.HighPerformance.LowLevel.Utilities;
 
@@ -25,7 +23,11 @@ public static unsafe partial class MemoryUtility
     {
         try
         {
+#if NET6_0_OR_GREATER
             return NativeMemory.Alloc(size);
+#else
+            return Marshal.AllocHGlobal((IntPtr)size).ToPointer();
+#endif
         }
         catch (Exception)
         {
@@ -43,7 +45,13 @@ public static unsafe partial class MemoryUtility
     {
         try
         {
+#if NET6_0_OR_GREATER
             return NativeMemory.AllocZeroed(size);
+#else
+            var ptr = Marshal.AllocHGlobal((IntPtr)size).ToPointer();
+            Unsafe.InitBlock(ptr, 0, (uint)size);
+            return ptr;
+#endif
         }
         catch (Exception)
         {
@@ -62,7 +70,11 @@ public static unsafe partial class MemoryUtility
     {
         try
         {
+#if NET6_0_OR_GREATER
             return NativeMemory.AlignedAlloc(size, alignment);
+#else
+            return Marshal.AllocHGlobal((IntPtr)(size + alignment - 1)).ToPointer();
+#endif
         }
         catch (Exception)
         {
@@ -81,7 +93,11 @@ public static unsafe partial class MemoryUtility
     {
         try
         {
+#if NET6_0_OR_GREATER
             return NativeMemory.Realloc(ptr, size);
+#else
+            return Marshal.ReAllocHGlobal((IntPtr)ptr, (IntPtr)size).ToPointer();
+#endif
         }
         catch (Exception)
         {
@@ -102,7 +118,23 @@ public static unsafe partial class MemoryUtility
     {
         try
         {
+#if NET6_0_OR_GREATER
             return NativeMemory.AlignedRealloc(ptr, size, alignment);
+#else
+            var newPtr = Marshal.AllocHGlobal((IntPtr)(size + alignment - 1)).ToPointer();
+            if (newPtr == null)
+            {
+                return null;
+            }
+
+            if (ptr != null)
+            {
+                Unsafe.CopyBlock(newPtr, ptr, (uint)size);
+                Marshal.FreeHGlobal((IntPtr)ptr);
+            }
+
+            return newPtr;
+#endif
         }
         catch (Exception)
         {
@@ -117,7 +149,11 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Free(void* ptr)
     {
+#if NET6_0_OR_GREATER
         NativeMemory.Free(ptr);
+#else
+        Marshal.FreeHGlobal((IntPtr)ptr);
+#endif
     }
 
     /// <summary>
@@ -128,7 +164,11 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AlignedFree(void* ptr)
     {
+#if NET6_0_OR_GREATER
         NativeMemory.AlignedFree(ptr);
+#else
+        Marshal.FreeHGlobal((IntPtr)ptr);
+#endif
     }
 
     /// <summary>
@@ -140,7 +180,11 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MemClear(void* ptr, nuint size)
     {
+#if NET6_0_OR_GREATER
         NativeMemory.Clear(ptr, size);
+#else
+        Unsafe.InitBlock(ptr, 0, (uint)size);
+#endif
     }
 
     /// <summary>
@@ -152,7 +196,11 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MemSet(void* ptr, byte value, nuint size)
     {
+#if NET6_0_OR_GREATER
         NativeMemory.Fill(ptr, size, value);
+#else
+        Unsafe.InitBlock(ptr, value, (uint)size);
+#endif
     }
 
     /// <summary>
@@ -164,7 +212,11 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MemCpy(void* destination, void* source, nuint size)
     {
+#if NET6_0_OR_GREATER
         NativeMemory.Copy(source, destination, size);
+#else
+        Unsafe.CopyBlock(destination, source, (uint)size);
+#endif
     }
 
     /// <summary>
@@ -176,8 +228,12 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MemMove(void* destination, void* source, nuint size)
     {
+#if NET6_0_OR_GREATER
         // NativeMemory.Copy use memmove internally.
         NativeMemory.Copy(source, destination, size);
+#else
+        Unsafe.CopyBlock(destination, source, (uint)size);
+#endif
     }
 
     /// <summary>

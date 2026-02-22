@@ -13,7 +13,8 @@
     <RepositoryUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</RepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <developmentDependency>true</developmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>contentFiles</ContentTargetFolders>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -30,15 +31,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="*.cs" Pack="true" PackagePath="contentFiles/cs/net10.0/Misaki.HighPerformance.LowLevel/" />
+    <Content Include="contentFiles\cs\any\**\*.cs">
+      <Pack>true</Pack>
+      <PackagePath>contentFiles\cs\any\</PackagePath>
+      <BuildAction>Compile</BuildAction>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Collections\FixedString.tt">
+    <None Update="contentFiles\cs\any\Collections\FixedString.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FixedString.gen.cs</LastGenOutput>
     </None>
-    <None Update="Collections\FixedText.tt">
+    <None Update="contentFiles\cs\any\Collections\FixedText.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FixedText.gen.cs</LastGenOutput>
     </None>
@@ -49,12 +54,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Collections\FixedString.gen.cs">
+    <Compile Update="contentFiles\cs\any\Collections\FixedString.gen.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FixedString.tt</DependentUpon>
     </Compile>
-    <Compile Update="Collections\FixedText.gen.cs">
+    <Compile Update="contentFiles\cs\any\Collections\FixedText.gen.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FixedText.tt</DependentUpon>
