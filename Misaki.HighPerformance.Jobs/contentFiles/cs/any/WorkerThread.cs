@@ -33,6 +33,12 @@ internal class WorkerThread : IDisposable
 
     private bool TryFindJob(out JobHandle handle)
     {
+        if (Interlocked.CompareExchange(ref _scheduler._totalJobCount, 0, 0) == 0)
+        {
+            handle = JobHandle.Invalid;
+            return false;
+        }
+
         if (_localQueue.TryDequeue(out handle))
         {
             return true;
@@ -95,13 +101,10 @@ internal class WorkerThread : IDisposable
             }
 
             ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
-            if (exist)
+            if (exist && Interlocked.CompareExchange(ref jobInfo.state, JobState.Running, JobState.Scheduled) == JobState.Scheduled)
             {
-                Interlocked.CompareExchange(ref jobInfo.state, JobState.Running, JobState.Scheduled);
-                var executeDelegate = jobInfo.pExecutionFunc;
-
-                if (executeDelegate == null
-                    || executeDelegate(jobInfo.pJobData, ref jobInfo.jobRanges, ref jobInfo.remainingBatches, _index))
+                if (jobInfo.pExecutionFunc == null
+                    || jobInfo.pExecutionFunc(jobInfo.pJobData, ref jobInfo.jobRanges, ref jobInfo.remainingBatches, _index))
                 {
                     _scheduler.MarkJobComplete(handle);
                 }

@@ -266,6 +266,8 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
     private bool _disposed = false;
 
+    internal volatile int _totalJobCount;
+
     internal bool IsCancellationRequested => _cts.IsCancellationRequested;
 
     public int WorkerCount => _workerThreads.Length;
@@ -333,6 +335,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
                 jobQueue.Enqueue(handle);
             }
 
+            Interlocked.Increment(ref _totalJobCount);
             _workSignal.Release(handleCount);
         }
     }
@@ -501,7 +504,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
             if (state == JobState.Completed)
             {
-                return; // Already completed (shouldn't happen for single-execution jobs)
+                return;
             }
 
             //if (state != JobState.Running)
@@ -535,11 +538,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         }
 
         // We now have exclusive access to dependentsID (no new readers, old readers finished).
-        // Safely capture dependents.
         var dependentCount = info.dependentCount;
-        dependentCount = Math.Min(dependentCount, JobInfo.MAX_DEPENDENTS); // Safety cap
-
-        // Use stackalloc to avoid allocation, but we'll copy to notify after freeing parent.
         var dependentsToNotify = stackalloc JobHandle[dependentCount];
         for (var i = 0; i < dependentCount; i++)
         {
@@ -548,6 +547,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
         _jobDataAllocator.Free(info.pJobData);
         _jobInfoPool.Remove(handle.ID, handle.Generation);
+        Interlocked.Decrement(ref _totalJobCount);
 
         for (var i = 0; i < dependentCount; i++)
         {
