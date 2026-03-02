@@ -34,27 +34,6 @@ internal struct SPMDJobWrapper<T, TNumber> : IJobParallelFor
             }
         }
     }
-
-    //public void Execute(int startIndex, int endIndex, int threadIndex)
-    //{
-    //    for (int i = startIndex; i < endIndex; i++)
-    //    {
-    //        var baseIndex = i * WideLane<TNumber>.LaneWidth;
-    //        var remaining = totalCount - baseIndex;
-
-    //        if (remaining >= WideLane<TNumber>.LaneWidth)
-    //        {
-    //            innerJob.Execute<WideLane<TNumber>>(baseIndex, threadIndex);
-    //        }
-    //        else
-    //        {
-    //            for (var j = 0; j < remaining; j++)
-    //            {
-    //                innerJob.Execute<ScalarLane<TNumber>>(baseIndex + j, threadIndex);
-    //            }
-    //        }
-    //    }
-    //}
 }
 
 internal struct SPMDScalerJobWrapper<T, TNumber> : IJobParallelFor
@@ -68,15 +47,6 @@ internal struct SPMDScalerJobWrapper<T, TNumber> : IJobParallelFor
     {
         innerJob.Execute<ScalarLane<TNumber>>(loopIndex, threadIndex);
     }
-
-    //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-    //public void Execute(int startIndex, int endIndex, int threadIndex)
-    //{
-    //    for (int i = startIndex; i < endIndex; i++)
-    //    {
-    //        innerJob.Execute<ScalarLane<TNumber>>(i, threadIndex);
-    //    }
-    //}
 }
 
 public static class IJobParallelForSPMDExtensions

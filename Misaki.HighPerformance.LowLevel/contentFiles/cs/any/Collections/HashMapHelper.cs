@@ -1,10 +1,10 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
-using Misaki.HighPerformance.LowLevel.Collections;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-namespace Misaki.HighPerformance.LowLevel.Utilities;
+namespace Misaki.HighPerformance.LowLevel.Collections;
 
 public unsafe struct HashMapHelper<TKey> : IDisposable
     where TKey : unmanaged, IEquatable<TKey>

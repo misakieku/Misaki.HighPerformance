@@ -176,11 +176,12 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// Attempts to remove the item at the specified slot index and generation from the collection.
     /// </summary>
     /// <param name="slotIndex">The zero-based index of the slot to remove. Must be within the valid range of slot indices.</param>
-    /// <param name="generation">The generation value associated with the slot. Removal succeeds only if this matches the current generation of
-    /// the slot.</param>
+    /// <param name="generation">The generation value associated with the slot. Removal succeeds only if this matches the current generation of the slot.</param>
+    /// <param name="item">When this method returns, contains the item that was removed if the removal was successful; otherwise, the default value for type <typeparamref name="T"/>.</param>
     /// <returns>true if the item was successfully removed; otherwise, false.</returns>
-    public bool Remove(int slotIndex, int generation)
+    public bool Remove(int slotIndex, int generation, out T item)
     {
+        item = default;
         if (slotIndex < 0 || slotIndex >= _capacity)
         {
             return false;
@@ -192,6 +193,8 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
             return false;
         }
 
+        item = _data[slotIndex];
+
         gen++;
         _validBits.ClearBit(slotIndex);
         _freeSlots.Enqueue(slotIndex);
@@ -199,6 +202,18 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         _count--;
 
         return true;
+    }
+
+    /// <summary>
+    /// Attempts to remove the item at the specified slot index and generation from the collection.
+    /// </summary>
+    /// <param name="slotIndex">The zero-based index of the slot to remove. Must be within the valid range of slot indices.</param>
+    /// <param name="generation">The generation value associated with the slot. Removal succeeds only if this matches the current generation of
+    /// the slot.</param>
+    /// <returns>true if the item was successfully removed; otherwise, false.</returns>
+    public bool Remove(int slotIndex, int generation)
+    {
+        return Remove(slotIndex, generation, out _);
     }
 
     /// <summary>

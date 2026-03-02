@@ -79,6 +79,8 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// </remarks>
     public unsafe struct ParallelWriter
     {
+        private volatile int _resizeLock;
+
         /// <summary>
         /// The UnsafeList to write to.
         /// </summary>
@@ -259,22 +261,20 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// Adds a range of elements to the collection.
     /// </summary>
     /// <param name="values">A span containing the elements to add. The span must not exceed the specified <paramref name="count"/>.</param>
-    /// <param name="count">The number of elements to add from the <paramref name="values"/> span. Must be non-negative and less than or
-    /// equal to the length of <paramref name="values"/>.</param>
-    public void AddRange(Span<T> values, int count)
+    public void AddRange(Span<T> values)
     {
-        var newSize = _count + count;
+        var newSize = _count + values.Length;
         if (newSize > Capacity)
         {
-            Resize(Capacity + count);
+            Resize(Capacity + values.Length);
         }
 
         fixed (T* ptr = values)
         {
-            MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
+            MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(values.Length * sizeof(T)));
         }
 
-        _count += count;
+        _count += values.Length;
     }
 
     /// <summary>

@@ -195,6 +195,49 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// </summary>
     /// <param name="sparseIndex">The sparse index of the value to remove.</param>
     /// <param name="generation">The generation number associated with the sparse index to validate.</param>
+    /// <param name="item">When this method returns, contains the item that was removed if the removal was successful; otherwise, the default value for type <typeparamref name="T"/>.</param>
+    /// <returns>True if the value was removed, false if the sparse index was not found.</returns>
+    public bool Remove(int sparseIndex, int generation, out T item)
+    {
+        item = default;
+        if (!Contains(sparseIndex, generation))
+        {
+            return false;
+        }
+
+        var denseIndex = _sparse[sparseIndex];
+        var lastIndex = _count - 1;
+
+        if (denseIndex != lastIndex)
+        {
+            // Move the last element to the position of the removed element
+            var lastValue = _dense[lastIndex];
+            var lastSparseIndex = _reverse[lastIndex]; // Get sparse index of last element
+
+            _dense[denseIndex] = lastValue;
+            _reverse[denseIndex] = lastSparseIndex;
+
+            // Update the sparse mapping for the moved element
+            _sparse[lastSparseIndex] = denseIndex;
+        }
+
+        // Mark the sparse index as unused and add to free list
+        _sparse[sparseIndex] = -1;
+        _generations[sparseIndex]++; // Increment generation to invalidate old references
+        
+        item = _dense[denseIndex];
+
+        _freeSparse.Push(sparseIndex);
+        _count--;
+
+        return true;
+    }
+
+    /// <summary>
+    /// Removes the value at the specified sparse index.
+    /// </summary>
+    /// <param name="sparseIndex">The sparse index of the value to remove.</param>
+    /// <param name="generation">The generation number associated with the sparse index to validate.</param>
     /// <returns>True if the value was removed, false if the sparse index was not found.</returns>
     public bool Remove(int sparseIndex, int generation)
     {

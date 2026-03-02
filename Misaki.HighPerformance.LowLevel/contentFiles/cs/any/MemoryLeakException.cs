@@ -1,5 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Misaki.HighPerformance.LowLevel;
@@ -45,9 +46,11 @@ public class MemoryLeakException : Exception
         for (var i = 0; i < stackTrace.FrameCount; i++)
         {
             var frame = stackTrace.GetFrame(i);
-            if (frame != null)
+            var fileName = frame?.GetFileName();
+            
+            if (frame != null && fileName != null)
             {
-                stringBuilder.AppendLine($"File: {frame.GetFileName()}, Method: {DiagnosticMethodInfo.Create(frame)?.Name}, Line: {frame.GetFileLineNumber()}");
+                stringBuilder.AppendLine($"File: {fileName}, Method: {DiagnosticMethodInfo.Create(frame)?.Name}, Line: {frame.GetFileLineNumber()}");
             }
         }
 
