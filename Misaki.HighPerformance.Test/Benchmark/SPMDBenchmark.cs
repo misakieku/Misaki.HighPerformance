@@ -37,7 +37,7 @@ public unsafe class SPMDBenchmark
         };
 
         var handle = _scheduler.ScheduleParallelSPDM<Jobs.NoiseJobMathSPMD, float>(ref job, _SIZE * _SIZE, 64, -1, JobHandle.Invalid);
-        _scheduler.WaitComplete(handle);
+        _scheduler.Wait(handle);
     }
 
     [Benchmark]
@@ -51,7 +51,7 @@ public unsafe class SPMDBenchmark
         };
         
         var handle = _scheduler.ScheduleParallelFor(ref job, _SIZE * _SIZE, 64, -1, JobHandle.Invalid);
-        _scheduler.WaitComplete(handle);
+        _scheduler.Wait(handle);
     }
 
     //[Benchmark]
@@ -65,7 +65,7 @@ public unsafe class SPMDBenchmark
         };
 
         var handle = _scheduler.ScheduleParallel(ref job, _SIZE * _SIZE, 64, -1, JobHandle.Invalid);
-        _scheduler.WaitComplete(handle);
+        _scheduler.Wait(handle);
     }
 
     //[Benchmark]
@@ -80,7 +80,7 @@ public unsafe class SPMDBenchmark
 
         Parallel.For(0, _SIZE * _SIZE, (i) =>
         {
-            job.Execute(i, 0);
+            job.Execute(i, default);
         });
     }
 
@@ -94,6 +94,7 @@ public unsafe class SPMDBenchmark
             height = _SIZE,
         };
 
-        job.Run(_SIZE * _SIZE, 0);
+        var ctx = new JobExecutionContext(-1, _scheduler);
+        job.Run(_SIZE * _SIZE, in ctx);
     }
 }

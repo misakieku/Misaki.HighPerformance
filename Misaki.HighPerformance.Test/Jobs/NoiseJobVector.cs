@@ -13,7 +13,7 @@ internal unsafe struct NoiseJobVectorFor : IJobParallelFor
     public int width;
     public int height;
 
-    public void Execute(int loopIndex, int threadIndex)
+    public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
         var x = loopIndex % width;
         var y = loopIndex / height;
@@ -65,7 +65,7 @@ internal unsafe struct NoiseJobVector : IJobParallel
         return float.Lerp(float.Lerp(d00, d10, fp.Y), float.Lerp(d01, d11, fp.Y), fp.X);
     }
 
-    public void Execute(int startIndex, int endIndex, int threadIndex)
+    public void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx)
     {
         for (int i = startIndex; i < endIndex; i++)
         {
@@ -118,7 +118,7 @@ internal unsafe struct NoiseJobMath : IJobParallel
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Execute(int startIndex, int endIndex, int threadIndex)
+    public void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx)
     {
         for (var i = startIndex; i < endIndex; i++)
         {
@@ -199,7 +199,7 @@ internal unsafe struct NoiseJobMathV : IJobParallel
         return lerpY1 + (lerpY2 - lerpY1) * uX;
     }
 
-    public void Execute(int startIndex, int endIndex, int threadIndex)
+    public void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx)
     {
         for (int i = startIndex; i < endIndex; i++)
         {
@@ -291,7 +291,7 @@ internal unsafe struct NoiseJobMathSPMD : IJobSPMD<float>
         return T.Lerp(T.Lerp(d00, d10, uY), T.Lerp(d01, d11, uY), uX);
     }
 
-    public readonly void Execute<TLane>(int baseIndex, int threadIndex)
+    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
         where TLane : ISPMD<TLane, float>
     {
         var indices = TLane.Sequence(baseIndex, 1f);

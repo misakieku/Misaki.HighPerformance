@@ -7,7 +7,8 @@ using System.Runtime.CompilerServices;
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
 public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValuePair<TKey, TValue>>
-    where TKey : unmanaged, IEquatable<TKey> where TValue : unmanaged
+    where TKey : unmanaged, IEquatable<TKey>
+    where TValue : unmanaged
 {
     public struct Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>
     {
@@ -22,9 +23,15 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext() => _enumerator.MoveNext();
+        public bool MoveNext()
+        {
+            return _enumerator.MoveNext();
+        }
 
-        public void Reset() => _enumerator.Reset();
+        public void Reset()
+        {
+            _enumerator.Reset();
+        }
 
         public void Dispose()
         {
@@ -68,9 +75,20 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
         }
     }
 
-    public Enumerator GetEnumerator() => new((HashMapHelper<TKey>*)UnsafeUtility.AddressOf(ref this));
-    IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator() => GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public Enumerator GetEnumerator()
+    {
+        return new((HashMapHelper<TKey>*)UnsafeUtility.AddressOf(ref this));
+    }
+
+    IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
     /// <summary>
     /// Invalid constructor, use <see cref="UnsafeHashMap(int, Allocator, AllocationOption)"/> or <see cref="UnsafeHashMap(int, ref AllocationHandle, AllocationOption)"/> instead.
@@ -167,6 +185,11 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
         return ref _helper.GetValueRef<TValue>(key, out exists);
     }
 
+    public ref TValue GetValueRefOrAddDefault(in TKey key, out bool exists)
+    {
+        return ref _helper.GetValueRefOrAddDefault<TValue>(key, out exists);
+    }
+
     /// <summary>
     /// Returns true if a given key is present in this hash map.
     /// </summary>
@@ -180,7 +203,10 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <summary>
     /// Sets the capacity to match what it would be if it had been originally initialized with all its entries.
     /// </summary>
-    public void TrimExcess() => _helper.TrimExcess();
+    public void TrimExcess()
+    {
+        _helper.TrimExcess();
+    }
 
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
@@ -196,20 +222,29 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// Retrieves an array of keys from the hash map.
     /// </summary>
     /// <returns>An array containing the keys stored in the hash map.</returns>
-    public UnsafeArray<TKey> GetKeyArray(Allocator allocator) => _helper.GetKeyArray(allocator);
+    public UnsafeArray<TKey> GetKeyArray(Allocator allocator)
+    {
+        return _helper.GetKeyArray(allocator);
+    }
 
     /// <summary>
     /// Retrieves an array of values from the underlying hash map.
     /// </summary>
     /// <returns>An UnsafeArray containing the values stored in the hash map.</returns>
-    public UnsafeArray<TValue> GetValueArray(Allocator allocator) => _helper.GetValueArray<TValue>(allocator);
+    public UnsafeArray<TValue> GetValueArray(Allocator allocator)
+    {
+        return _helper.GetValueArray<TValue>(allocator);
+    }
 
     /// <summary>
     /// Retrieves an array of key-value pairs from the hash map. The keys are of type TKey and the values are of type
     /// TValue.
     /// </summary>
     /// <returns>Returns an UnsafeArray containing KeyValuePair objects.</returns>
-    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(Allocator allocator) => _helper.GetKeyValueArrays<TValue>(allocator);
+    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(Allocator allocator)
+    {
+        return _helper.GetKeyValueArrays<TValue>(allocator);
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void* GetUnsafePtr()

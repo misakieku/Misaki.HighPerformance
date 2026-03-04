@@ -1,7 +1,8 @@
+using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.Mathematics;
 using Misaki.HighPerformance.Mathematics.SPMD;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Jobs;
 
@@ -11,7 +12,7 @@ internal unsafe struct DotProductJob : IJobSPMD<float>
     public float3* arrayB;    // source array 2
     public float* results;    // output array (dot products)
 
-    public readonly void Execute<TLane>(int baseIndex, int threadIndex)
+    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
         where TLane : ISPMD<TLane, float>
     {
         var vecA = MathV.LoadVector3<TLane, float>((float*)(arrayA + baseIndex));
@@ -28,7 +29,7 @@ internal unsafe struct Vector2LerpJob : IJobSPMD<float>
     public float2[] arrayB;
     public float[] results;
 
-    public readonly void Execute<TLane>(int baseIndex, int threadIndex)
+    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
         where TLane : ISPMD<TLane, float>
     {
         var a = MathV.LoadVector2<TLane, float>(ref arrayA[baseIndex].x);
@@ -47,7 +48,7 @@ internal unsafe struct Vector4NormalizeJob : IJobSPMD<float>
     public float4[] input;
     public float4[] output;
 
-    public readonly void Execute<TLane>(int baseIndex, int threadIndex)
+    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
         where TLane : ISPMD<TLane, float>
     {
         var vec = MathV.LoadVector4<TLane, float>(ref input[baseIndex].x);
@@ -62,7 +63,7 @@ internal unsafe struct Vector3CrossJob : IJobSPMD<float>
     public float3[] arrayB;
     public float3[] results;
 
-    public readonly void Execute<TLane>(int baseIndex, int threadIndex)
+    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
         where TLane : ISPMD<TLane, float>
     {
         var a = MathV.LoadVector3<TLane, float>(ref arrayA[baseIndex].x);
@@ -80,7 +81,7 @@ internal unsafe struct MinMaxClampJob : IJobSPMD<float>
     public float3[] maxs;
     public float3[] results;
 
-    public readonly void Execute<TLane>(int baseIndex, int threadIndex)
+    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
         where TLane : ISPMD<TLane, float>
     {
         var val = MathV.LoadVector3<TLane, float>(ref values[baseIndex].x);
@@ -98,7 +99,7 @@ internal unsafe struct DistanceJob : IJobSPMD<float>
     public float3[] arrayB;
     public float[] results;
 
-    public readonly void Execute<TLane>(int baseIndex, int threadIndex)
+    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
         where TLane : ISPMD<TLane, float>
     {
         var a = MathV.LoadVector3<TLane, float>(ref arrayA[baseIndex].x);
@@ -134,7 +135,8 @@ public class SPMDTest
             results = results
         };
 
-        job.Run<DotProductJob, float>(count, -1);
+
+        job.Run<DotProductJob, float>(count, default);
 
         // Verify first result: dot([0,1,2], [1,2,3]) = 0*1 + 1*2 + 2*3 = 8
         Assert.AreEqual(8.0f, results[0], 0.001f);
@@ -168,7 +170,7 @@ public class SPMDTest
             results = results
         };
 
-        job.Run<Vector2LerpJob, float>(count, -1);
+        job.Run<Vector2LerpJob, float>(count, default);
 
         // Verify first result: lerp([0,1], [10,11], 0.5) = [5,6], length = sqrt(25+36) = sqrt(61)
         var expectedFirst = math.sqrt(5 * 5 + 6 * 6);
@@ -198,7 +200,7 @@ public class SPMDTest
             output = output
         };
 
-        job.Run<Vector4NormalizeJob, float>(count, -1);
+        job.Run<Vector4NormalizeJob, float>(count, default);
 
         // Verify first result: normalize([1,2,3,4])
         var len0 = math.sqrt(1 * 1 + 2 * 2 + 3 * 3 + 4 * 4);
@@ -239,7 +241,7 @@ public class SPMDTest
             results = results
         };
 
-        job.Run<Vector3CrossJob, float>(count, -1);
+        job.Run<Vector3CrossJob, float>(count, default);
 
         // cross([1,0,0], [0,1,0]) = [0,0,1]
         for (var i = 0; i < count; i++)
@@ -275,7 +277,7 @@ public class SPMDTest
             results = results
         };
 
-        job.Run<MinMaxClampJob, float>(count, -1);
+        job.Run<MinMaxClampJob, float>(count, default);
 
         // Verify clamping works correctly
         for (var i = 0; i < count; i++)
@@ -313,7 +315,7 @@ public class SPMDTest
             results = results
         };
 
-        job.Run<DistanceJob, float>(count, -1);
+        job.Run<DistanceJob, float>(count, default);
 
         // distance([0,0,0], [3,4,0]) = 5
         for (var i = 0; i < count; i++)

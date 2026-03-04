@@ -9,7 +9,7 @@ internal unsafe struct TwoSumJob : IJob
 
     public float* result;
 
-    public void Execute(int threadIndex)
+    public void Execute(ref readonly JobExecutionContext ctx)
     {
         *result = value1 + value2;
     }
@@ -21,7 +21,7 @@ internal unsafe struct AddJob : IJob
 
     public float* result;
 
-    public void Execute(int threadIndex)
+    public void Execute(ref readonly JobExecutionContext ctx)
     {
         *result += value;
     }
@@ -33,7 +33,7 @@ internal unsafe struct KahanSumJob : IJob
     public int length;
     public float* output;
 
-    public void Execute(int threadIndex)
+    public void Execute(ref readonly JobExecutionContext ctx)
     {
         var sum = 0f;
         var c = 0f;  // Compensation for lost low-order bits
@@ -55,7 +55,7 @@ internal unsafe struct ParallelAddJob : IJobParallel
     public float value;
     public float* inout;
 
-    public void Execute(int startIndex, int endIndex, int threadIndex)
+    public void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx)
     {
         for (var i = startIndex; i < endIndex; i++)
         {
@@ -69,7 +69,7 @@ internal unsafe struct ParallelMultiplyJob : IJobParallel
     public float multiplier;
     public float* inout;
 
-    public void Execute(int startIndex, int endIndex, int threadIndex)
+    public void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx)
     {
         for (var i = startIndex; i < endIndex; i++)
         {
@@ -82,7 +82,7 @@ public unsafe struct WaitJob : IJob
 {
     public bool* pSignal;
 
-    public void Execute(int loopIndex)
+    public void Execute(ref readonly JobExecutionContext ctx)
     {
         var spin = new SpinWait();
         while (!Volatile.Read(ref *pSignal))
@@ -96,7 +96,7 @@ public unsafe struct IncrementJob : IJob
 {
     public int* pCounter;
 
-    public void Execute(int loopIndex)
+    public void Execute(ref readonly JobExecutionContext ctx)
     {
         Interlocked.Increment(ref *pCounter);
     }

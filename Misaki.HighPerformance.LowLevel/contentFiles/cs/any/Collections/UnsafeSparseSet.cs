@@ -89,9 +89,20 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     public readonly int Capacity => _capacity;
     public readonly bool IsCreated => _dense.IsCreated && _sparse.IsCreated && _reverse.IsCreated;
 
-    public Enumerator GetEnumerator() => new((UnsafeSparseSet<T>*)UnsafeUtility.AddressOf(ref this));
-    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public Enumerator GetEnumerator()
+    {
+        return new((UnsafeSparseSet<T>*)UnsafeUtility.AddressOf(ref this));
+    }
+
+    IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
     /// <summary>
     /// Constructs an UnsafeSparseSet with a default size of 1 and uses the Persistent allocator.

@@ -2,11 +2,11 @@ namespace Misaki.HighPerformance.Jobs;
 
 internal static unsafe class JobExecutor
 {
-    public static bool Execute<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, int threadIndex)
+    public static bool Execute<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, ref readonly JobExecutionContext ctx)
         where T : unmanaged, IJob
     {
         var pJob = (T*)pJobData;
-        pJob->Execute(threadIndex);
+        pJob->Execute(in ctx);
 
         return Interlocked.Decrement(ref remainingBatches) == 0;
     }
@@ -25,7 +25,7 @@ internal static unsafe class JobExecutor
         return true;
     }
 
-    public static bool ExecuteParallelFor<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, int threadIndex)
+    public static bool ExecuteParallelFor<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, ref readonly JobExecutionContext ctx)
         where T : unmanaged, IJobParallelFor
     {
         var pJob = (T*)pJobData;
@@ -40,7 +40,7 @@ internal static unsafe class JobExecutor
 
             for (var i = start; i < end; i++)
             {
-                pJob->Execute(i, threadIndex);
+                pJob->Execute(i, in ctx);
             }
 
             if (Interlocked.Decrement(ref remainingBatches) == 0)
@@ -52,7 +52,7 @@ internal static unsafe class JobExecutor
         return wasTheLastBatch;
     }
 
-    public static bool ExecuteParallel<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, int threadIndex)
+    public static bool ExecuteParallel<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, ref readonly JobExecutionContext ctx)
         where T : unmanaged, IJobParallel
     {
         var pJob = (T*)pJobData;
@@ -65,7 +65,7 @@ internal static unsafe class JobExecutor
                 break;
             }
 
-            pJob->Execute(start, end, threadIndex);
+            pJob->Execute(start, end, in ctx);
             if (Interlocked.Decrement(ref remainingBatches) == 0)
             {
                 wasTheLastBatch = true;

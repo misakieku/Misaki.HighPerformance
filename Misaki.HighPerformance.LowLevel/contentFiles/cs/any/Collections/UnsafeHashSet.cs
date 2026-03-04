@@ -27,9 +27,15 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext() => _enumerator.MoveNext();
+        public bool MoveNext()
+        {
+            return _enumerator.MoveNext();
+        }
 
-        public void Reset() => _enumerator.Reset();
+        public void Reset()
+        {
+            _enumerator.Reset();
+        }
 
         public readonly void Dispose()
         {
@@ -42,9 +48,20 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     public readonly int Capacity => _helper.Capacity;
     public readonly bool IsCreated => _helper.IsCreated;
 
-    public Enumerator GetEnumerator() => new((HashMapHelper<T>*)UnsafeUtility.AddressOf(ref this));
-    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public Enumerator GetEnumerator()
+    {
+        return new((HashMapHelper<T>*)UnsafeUtility.AddressOf(ref this));
+    }
+
+    IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
     /// <summary>
     /// Invalid constructor. Use <see cref="UnsafeHashSet(int, Allocator, AllocationOption)"/> or <see cref="UnsafeHashSet(int, ref AllocationHandle, AllocationOption)"/> instead."/>
@@ -97,7 +114,10 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     /// <summary>
     /// Sets the capacity to match what it would be if it had been originally initialized with all its entries.
     /// </summary>
-    public void TrimExcess() => _helper.TrimExcess();
+    public void TrimExcess()
+    {
+        _helper.TrimExcess();
+    }
 
     /// <summary>
     /// Returns an array with a copy of this set's values (in no particular order).

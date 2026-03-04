@@ -15,23 +15,33 @@ public static unsafe partial class MemoryUtility
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Vector128<byte> LoadVector128(ref byte start, nuint offset)
-        => Unsafe.ReadUnaligned<Vector128<byte>>(ref Unsafe.AddByteOffset(ref start, offset));
+    {
+        return Unsafe.ReadUnaligned<Vector128<byte>>(ref Unsafe.AddByteOffset(ref start, offset));
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Vector256<byte> LoadVector256(ref byte start, nuint offset)
-        => Unsafe.ReadUnaligned<Vector256<byte>>(ref Unsafe.AddByteOffset(ref start, offset));
+    {
+        return Unsafe.ReadUnaligned<Vector256<byte>>(ref Unsafe.AddByteOffset(ref start, offset));
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static nuint GetByteVector128SpanLength(nuint offset, int length)
-        => (uint)((length - (int)offset) & ~(Vector128<byte>.Count - 1));
+    {
+        return (uint)((length - (int)offset) & ~(Vector128<byte>.Count - 1));
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static nuint GetByteVector256SpanLength(nuint offset, int length)
-        => (uint)((length - (int)offset) & ~(Vector256<byte>.Count - 1));
+    {
+        return (uint)((length - (int)offset) & ~(Vector256<byte>.Count - 1));
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static nuint GetByteVector512SpanLength(nuint offset, int length)
-        => (uint)((length - (int)offset) & ~(Vector512<byte>.Count - 1));
+    {
+        return (uint)((length - (int)offset) & ~(Vector512<byte>.Count - 1));
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static unsafe nuint UnalignedCountVector128(byte* searchSpace)

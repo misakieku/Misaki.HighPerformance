@@ -8,8 +8,8 @@ public interface IJob
     /// <summary>
     /// Executes the job logic.
     /// </summary>
-    /// <param name="threadIndex">The index of the thread executing the job, useful for thread-specific operations.</param>
-    void Execute(int threadIndex);
+    /// <param name="ctx">The context of the job execution, providing access to thread-specific information and job scheduling capabilities.</param>
+    void Execute(ref readonly JobExecutionContext ctx);
 }
 
 /// <summary>
@@ -21,8 +21,8 @@ public interface IJobParallelFor
     /// Executes the job for a single item at the given index.
     /// </summary>
     /// <param name="loopIndex">The index of the item to process.</param>
-    /// <param name="threadIndex">The index of the thread executing the job, useful for thread-specific operations.</param>
-    void Execute(int loopIndex, int threadIndex);
+    /// <param name="ctx">The context of the job execution, providing access to thread-specific information and job scheduling capabilities.</param>
+    void Execute(int loopIndex, ref readonly JobExecutionContext ctx);
 }
 
 /// <summary>
@@ -35,36 +35,36 @@ public interface IJobParallel
     /// </summary>
     /// <param name="startIndex">The zero-based index at which to begin the operation.</param>
     /// <param name="endIndex">The zero-based index at which to end the operation.</param>
-    /// <param name="threadIndex">The index of the thread executing the job, useful for thread-specific operations.</param>
-    void Execute(int startIndex, int endIndex, int threadIndex);
+    /// <param name="ctx">The context of the job execution, providing access to thread-specific information and job scheduling capabilities.</param>
+    void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx);
 }
 
 public static class IJobExtensions
 {
-    public static void Run<T>(this ref T job, int threadIndex)
+    public static void Run<T>(this ref T job, ref readonly JobExecutionContext ctx)
         where T : struct, IJob
     {
-        job.Execute(threadIndex);
+        job.Execute(in ctx);
     }
 }
 
 public static class IJobParallelForExtensions
 {
-    public static void Run<T>(this ref T job, int totalIterations, int threadIndex)
-    where T : struct, IJobParallelFor
+    public static void Run<T>(this ref T job, int totalIterations, ref readonly JobExecutionContext ctx)
+        where T : struct, IJobParallelFor
     {
-        for (int i = 0; i < totalIterations; i++)
+        for (var i = 0; i < totalIterations; i++)
         {
-            job.Execute(i, threadIndex);
+            job.Execute(i, in ctx);
         }
     }
 }
 
 public static class IJobParallelExtensions
 {
-    public static void Run<T>(this ref T job, int totalIterations, int threadIndex)
-    where T : struct, IJobParallel
+    public static void Run<T>(this ref T job, int totalIterations, ref readonly JobExecutionContext ctx)
+        where T : struct, IJobParallel
     {
-        job.Execute(0, totalIterations, threadIndex);
+        job.Execute(0, totalIterations, in ctx);
     }
 }

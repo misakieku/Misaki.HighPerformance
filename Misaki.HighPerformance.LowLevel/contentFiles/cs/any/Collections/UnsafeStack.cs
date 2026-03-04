@@ -81,9 +81,20 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     public readonly int Capacity => _array.Count;
     public readonly bool IsCreated => _array.IsCreated;
 
-    public Enumerator GetEnumerator() => new((UnsafeStack<T>*)UnsafeUtility.AddressOf(ref this));
-    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public Enumerator GetEnumerator()
+    {
+        return new((UnsafeStack<T>*)UnsafeUtility.AddressOf(ref this));
+    }
+
+    IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
     /// <summary>
     /// Invalid constructor, use <see cref="UnsafeStack(int, Allocator, AllocationOption)"/> or <see cref="UnsafeStack(int, ref AllocationHandle, AllocationOption)"/> instead.

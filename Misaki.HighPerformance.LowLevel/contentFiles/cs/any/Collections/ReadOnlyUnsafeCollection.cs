@@ -73,9 +73,20 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
         }
     }
 
-    public Enumerator GetEnumerator() => new Enumerator(in this);
-    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public Enumerator GetEnumerator()
+    {
+        return new Enumerator(in this);
+    }
+
+    IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
     public ReadOnlyUnsafeCollection(T* buffer, int count)
     {

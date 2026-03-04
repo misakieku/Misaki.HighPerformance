@@ -86,9 +86,20 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
     public readonly bool IsCreated => _data.IsCreated && _generations.IsCreated && _freeSlots.IsCreated && _validBits.IsCreated;
 
-    public Enumerator GetEnumerator() => new((UnsafeSlotMap<T>*)UnsafeUtility.AddressOf(ref this));
-    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public Enumerator GetEnumerator()
+    {
+        return new((UnsafeSlotMap<T>*)UnsafeUtility.AddressOf(ref this));
+    }
+
+    IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
     /// <summary>
     /// Invalid constructor. Use <see cref="UnsafeSlotMap(int, Allocator, AllocationOption)"/> or <see cref="UnsafeSlotMap(int, ref AllocationHandle, AllocationOption)"/> instead."/>

@@ -62,9 +62,20 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
         set => _array[index] = value;
     }
 
-    public Enumerator GetEnumerator() => new((UnsafeQueue<T>*)UnsafeUtility.AddressOf(ref this));
-    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public Enumerator GetEnumerator()
+    {
+        return new((UnsafeQueue<T>*)UnsafeUtility.AddressOf(ref this));
+    }
+
+    IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
     /// <summary>
     /// Invalid constructor. Use <see cref="UnsafeQueue(int, Allocator, AllocationOption)"/> or <see cref="UnsafeQueue(int, ref AllocationHandle, AllocationOption)"/> instead."/>

@@ -122,9 +122,20 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         }
     }
 
-    public Enumerator GetEnumerator() => new((UnsafeArray<T>*)UnsafeUtility.AddressOf(ref this));
-    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public Enumerator GetEnumerator()
+    {
+        return new((UnsafeArray<T>*)UnsafeUtility.AddressOf(ref this));
+    }
+
+    IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
     /// <summary>
     /// Invalid constructor, use <see cref="UnsafeArray(int, Allocator, AllocationOption)"/> or <see cref="UnsafeArray(int, ref AllocationHandle, AllocationOption)"/> instead.

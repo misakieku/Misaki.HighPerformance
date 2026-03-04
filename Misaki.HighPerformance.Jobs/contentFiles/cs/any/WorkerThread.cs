@@ -103,11 +103,17 @@ internal class WorkerThread : IDisposable
             ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
             if (exist && Interlocked.CompareExchange(ref jobInfo.state, JobState.Running, JobState.Scheduled) == JobState.Scheduled)
             {
-                if (jobInfo.pExecutionFunc == null
-                    || jobInfo.pExecutionFunc(jobInfo.pJobData, ref jobInfo.jobRanges, ref jobInfo.remainingBatches, _index))
+                if (jobInfo.pExecutionFunc != null)
                 {
-                    _scheduler.MarkJobComplete(handle);
+                    var ctx = new JobExecutionContext(_index, _scheduler);
+                    if (!jobInfo.pExecutionFunc(jobInfo.pJobData, ref jobInfo.jobRanges, ref jobInfo.remainingBatches, in ctx))
+                    {
+                        // If the job returns false, it means it we are not the last worker to process this job, so we should not mark it as complete yet.
+                        continue;
+                    }
                 }
+
+                _scheduler.MarkJobComplete(handle);
             }
         }
     }

@@ -176,7 +176,7 @@ public static unsafe class AllocationManager
         }
     }
 
-    private struct StackAllocator : IAllocator
+    private struct StackAllocator : IAllocator, IDisposable
     {
         private const int _STACK_MAGIC_ID = -6843541;
 
@@ -257,6 +257,11 @@ public static unsafe class AllocationManager
         {
             return s_stack.CreateScope(pSelf->_handle);
         }
+
+        public readonly void Dispose()
+        {
+            Stack.DisposeAll();
+        }
     }
 
     private const uint _DEFAULT_MEMORY_POOL_SIZE = 1024 * 1024; // 1 MB
@@ -313,10 +318,16 @@ public static unsafe class AllocationManager
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static GCHandle HeaderGetHandle(AllocationHeader* header) => header->stackHandle;
+    private static GCHandle HeaderGetHandle(AllocationHeader* header)
+    {
+        return header->stackHandle;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void HeaderSetHandle(AllocationHeader* header, GCHandle handle) => header->stackHandle = handle;
+    private static void HeaderSetHandle(AllocationHeader* header, GCHandle handle)
+    {
+        header->stackHandle = handle;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void HeaderFreeHandle(AllocationHeader* header)
@@ -691,9 +702,10 @@ public static unsafe class AllocationManager
             {
                 throw new MemoryLeakException(CollectionsMarshal.AsSpan(snapshot));
             }
-        }
 
-        if (LiveAllocationCount != 0)
+            Debug.Assert(LiveAllocationCount == 0);
+        }
+        else if (LiveAllocationCount != 0)
         {
             throw new MemoryLeakException($"Found {LiveAllocationCount} memory lakes! Please enable debug layer for more informations.");
         }
@@ -702,8 +714,7 @@ public static unsafe class AllocationManager
         if (s_pArenaAllocator != null)
         {
             s_pArenaAllocator->Dispose();
-
-            Stack.DisposeAll();
+            s_pStackAllocator->Dispose();
 
             NativeMemory.Free(s_pArenaAllocator);
         }

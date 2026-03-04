@@ -1,7 +1,9 @@
 using Misaki.HighPerformance.Collections;
 using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections.Concurrent;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Jobs;
@@ -189,27 +191,18 @@ public interface IJobScheduler
     /// Blocks the calling thread until the specified job is completed.
     /// </summary>
     /// <param name="handle">The handle of the job to wait for.</param>
-    void WaitComplete(JobHandle handle);
+    void Wait(JobHandle handle);
 
     /// <summary>
     /// Blocks the calling thread until all specified job handles have completed.
     /// </summary>
-    /// <remarks>This method waits for all jobs referenced by the provided handles to complete before
-    /// returning. The calling thread will be blocked until every job has finished. If any handle is invalid or does not
-    /// correspond to an active job, it is considered completed. This method is not thread-safe and should not be called
-    /// concurrently from multiple threads.</remarks>
-    /// <param name="handles">A collection of job handles to wait for. Each handle represents an asynchronous job whose completion is awaited.
-    /// The collection must not be empty.</param>
+    /// <param name="handles">A collection of job handles to wait for.</param>
     void WaitAll(params ReadOnlySpan<JobHandle> handles);
 
     /// <summary>
     /// Waits until any of the specified job handles has completed and returns the first completed handle.
     /// </summary>
-    /// <remarks>This method blocks the calling thread until at least one of the specified jobs has finished.
-    /// The returned handle corresponds to the job that completed first among those provided. The order of handles in
-    /// the span may affect which handle is returned if multiple jobs complete simultaneously.</remarks>
-    /// <param name="handles">A read-only span containing the job handles to monitor for completion. Each handle represents a job whose
-    /// completion status will be checked.</param>
+    /// <param name="handles">A read-only span containing the job handles to monitor for completion.</param>
     /// <returns>The first job handle from the provided collection that has completed.</returns>
     JobHandle WaitAny(params ReadOnlySpan<JobHandle> handles);
 }
@@ -730,7 +723,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         return (JobState)(Volatile.Read(ref Unsafe.As<JobState, int>(ref jobInfo.state)) & _STATE_MASK);
     }
 
-    public void WaitComplete(JobHandle handle)
+    public void Wait(JobHandle handle)
     {
         if (!handle.IsValid)
         {
@@ -756,15 +749,29 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
     public void WaitAll(params ReadOnlySpan<JobHandle> handles)
     {
+        if (handles.Length == 0)
+        {
+            return;
+        }
+
+        using var orderedHandles = new UnsafeArray<JobHandle>(handles.Length, Allocator.Temp);
         var spin = new SpinWait();
+        var completedCount = 0;
+
+        orderedHandles.CopyFrom(handles);
 
         while (true)
         {
-            var completedCount = 0;
-            foreach (var handle in handles)
+            for (int i = completedCount; i < orderedHandles.Length; i++)
             {
+                var handle = orderedHandles[i];
                 if (!_jobInfoPool.Contains(handle.ID, handle.Generation))
                 {
+                    // Move completed handle to the front (completedCount index) to avoid checking it again.
+                    var temp = orderedHandles[completedCount];
+                    orderedHandles[completedCount] = handle;
+                    orderedHandles[i] = temp;
+
                     completedCount++;
                 }
             }

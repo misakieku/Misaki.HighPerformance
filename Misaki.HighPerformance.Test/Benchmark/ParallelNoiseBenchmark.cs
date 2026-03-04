@@ -42,7 +42,7 @@ public class ParallelNoiseBenchmark
         };
 
         var handle = _jobScheduler.ScheduleParallel(ref job, _LENGTH, 64, -1, JobHandle.Invalid);
-        _jobScheduler.WaitComplete(handle);
+        _jobScheduler.Wait(handle);
     }
 
     [Benchmark]

@@ -22,7 +22,7 @@ internal class UnsafeListDebugView<T>
         get
         {
             var array = new T[_list.Count];
-            for (int i = 0; i < _list.Count; i++)
+            for (var i = 0; i < _list.Count; i++)
             {
                 array[i] = _list[i];
             }
@@ -72,19 +72,55 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
+    /// A Parallel reader for an UnsafeList.
+    /// </summary>
+    /// <remarks>
+    /// Use <see cref="AsParallelReader"/> to create a parallel reader for a list.
+    /// The list must live at least as long as the parallel reader, and the parallel reader must not be used after the list is disposed.
+    /// </remarks>
+    public readonly unsafe struct ParallelReader
+    {
+        public readonly UnsafeList<T>* listData;
+        public readonly int Count => listData->_count;
+
+        public ref readonly T this[int index]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => ref listData->_array[index];
+        }
+
+        public ref readonly T this[uint index]
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => ref listData->_array[index];
+        }
+
+        internal ParallelReader(UnsafeList<T>* list)
+        {
+            listData = list;
+        }
+
+        public readonly Enumerator GetEnumerator()
+        {
+            return new Enumerator(listData);
+        }
+
+        public readonly ReadOnlySpan<T> AsSpan()
+        {
+            return new ReadOnlySpan<T>(listData->_array.GetUnsafePtr(), listData->_count);
+        }
+    }
+
+    /// <summary>
     /// A parallel writer for an UnsafeList.
     /// </summary>
     /// <remarks>
     /// Use <see cref="AsParallelWriter"/> to create a parallel writer for a list.
+    /// The list must live at least as long as the parallel writer, and the parallel writer must not be used after the list is disposed.
     /// </remarks>
-    public unsafe struct ParallelWriter
+    public readonly unsafe struct ParallelWriter
     {
-        private volatile int _resizeLock;
-
-        /// <summary>
-        /// The UnsafeList to write to.
-        /// </summary>
-        public UnsafeList<T>* listData;
+        public readonly UnsafeList<T>* listData;
 
         internal ParallelWriter(UnsafeList<T>* list)
         {
@@ -139,23 +175,6 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         get => ref _array[index];
     }
 
-    public Enumerator GetEnumerator() => new ((UnsafeList<T>*)UnsafeUtility.AddressOf(ref this));
-    IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    /// <summary>
-    /// Provides a parallel writer for the current list, enabling thread-safe additions to the list.
-    /// </summary>
-    /// <returns>A <see cref="ParallelWriter"/> instance that can be used to add items to the list in a thread-safe manner.</returns>
-    public ParallelWriter AsParallelWriter() => new((UnsafeList<T>*)UnsafeUtility.AddressOf(ref this));
-
-    /// <summary>
-    /// Converts the current list to an UnsafeArray representation.
-    /// </summary>
-    /// <returns>A new <see cref="UnsafeArray{T}"/> instance.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public readonly UnsafeArray<T> AsUnsafeArray() => new((T*)_array.GetUnsafePtr(), _count);
-
     /// <summary>
     /// Invalid constructor, use <see cref="UnsafeList(int, Allocator, AllocationOption)"/> or <see cref="UnsafeList(int, ref AllocationHandle, AllocationOption)"/> instead.
     /// </summary>
@@ -196,9 +215,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     {
         if (index + count > Capacity)
         {
-            throw new Exception(
-                $"AddNoResize assumes that list capacity is sufficient (Capacity {Capacity}, Size {Count}), requested count {count}!"
-            );
+            throw new Exception($"AddNoResize assumes that list capacity is sufficient (Capacity {Capacity}, Size {Count}), requested count {count}!");
         }
     }
 
@@ -225,6 +242,66 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         }
     }
 
+    public Enumerator GetEnumerator()
+    {
+        return new((UnsafeList<T>*)UnsafeUtility.AddressOf(ref this));
+    }
+
+    IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    /// <summary>
+    /// Provides a parallel reader for the current list, enabling thread-safe read operations.
+    /// </summary>
+    /// <remarks>
+    /// The list must live at least as long as the parallel reader, and the parallel reader must not be used after the list is disposed.
+    /// For example, if you need to access the list in job system and wait that job in another stack frame, please always allocate the list struct itself on heap.
+    /// Otherwise the parallel reader will be invalid after the stack frame that creates the list is popped, even if the list's internal array is still valid.
+    /// </remarks>
+    /// <returns>A <see cref="ParallelReader"/> instance that can be used to read items from the list in a thread-safe manner.</returns>
+    public ParallelReader AsParallelReader()
+    {
+        return new((UnsafeList<T>*)UnsafeUtility.AddressOf(ref this));
+    }
+
+    /// <summary>
+    /// Provides a parallel writer for the current list, enabling thread-safe additions to the list.
+    /// </summary>
+    /// <remarks>
+    /// The list must live at least as long as the parallel writer, and the parallel writer must not be used after the list is disposed.
+    /// For example, if you need to access the list in job system and wait that job in another stack frame, please always allocate the list struct itself on heap.
+    /// Otherwise the parallel writer will be invalid after the stack frame that creates the list is popped, even if the list's internal array is still valid.
+    /// </remarks>
+    /// <returns>A <see cref="ParallelWriter"/> instance that can be used to add items to the list in a thread-safe manner.</returns>
+    public ParallelWriter AsParallelWriter()
+    {
+        return new((UnsafeList<T>*)UnsafeUtility.AddressOf(ref this));
+    }
+
+    /// <summary>
+    /// Converts the current list to an UnsafeArray representation.
+    /// </summary>
+    /// <remarks>
+    /// The returned <see cref="UnsafeArray{T}"/> shares the same underlying data as the list and does not own the memory.
+    /// </remarks>
+    /// <returns>A new <see cref="UnsafeArray{T}"/> instance.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly UnsafeArray<T> AsUnsafeArray()
+    {
+        return new UnsafeArray<T>((T*)_array.GetUnsafePtr(), _count);
+    }
+
+    /// <summary>
+    /// Converts the current list to a read-only collection that provides unsafe access to its elements.
+    /// </summary>
+    /// <returns>A new <see cref="ReadOnlyUnsafeCollection{T}"/> instance that allows for read-only access to the list's elements without copying.</returns>
     public readonly ReadOnlyUnsafeCollection<T> AsReadOnly()
     {
         return new ReadOnlyUnsafeCollection<T>((T*)_array.GetUnsafePtr(), _count);

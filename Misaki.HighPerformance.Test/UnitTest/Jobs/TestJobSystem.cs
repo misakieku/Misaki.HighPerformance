@@ -3,6 +3,7 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using Misaki.HighPerformance.Mathematics.SPMD;
+using Misaki.HighPerformance.Test.Jobs;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Jobs;
@@ -11,7 +12,7 @@ namespace Misaki.HighPerformance.Test.UnitTest.Jobs;
 [DoNotParallelize]
 public unsafe class TestJobSystem
 {
-    private JobScheduler _jobScheduler = null!;
+    private static JobScheduler s_jobScheduler = null!;
 
     public TestContext TestContext
     {
@@ -19,16 +20,17 @@ public unsafe class TestJobSystem
         set;
     }
 
-    [TestInitialize]
-    public void Initialize()
+    [ClassInitialize]
+    public static void Initialize(TestContext testContext)
     {
-        _jobScheduler = new JobScheduler(3);
+        s_jobScheduler = new JobScheduler(3);
     }
 
-    [TestCleanup]
-    public void Cleanup()
+    [ClassCleanup(ClassCleanupBehavior.EndOfClass)]
+    public static void Cleanup()
     {
-        _jobScheduler.Dispose();
+        s_jobScheduler.Dispose();
+        AllocationManager.Dispose();
     }
 
     [TestMethod]
@@ -42,8 +44,8 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var handle = _jobScheduler.Schedule(ref job, -1);
-        _jobScheduler.WaitComplete(handle);
+        var handle = s_jobScheduler.Schedule(ref job, -1);
+        s_jobScheduler.Wait(handle);
 
         Assert.AreEqual(4.0f, *result);
     }
@@ -59,7 +61,7 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var handle1 = _jobScheduler.Schedule(ref job1, -1);
+        var handle1 = s_jobScheduler.Schedule(ref job1, -1);
 
         var job2 = new AddJob
         {
@@ -67,8 +69,8 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var handle2 = _jobScheduler.Schedule(ref job2, -1, handle1);
-        _jobScheduler.WaitComplete(handle2);
+        var handle2 = s_jobScheduler.Schedule(ref job2, -1, handle1);
+        s_jobScheduler.Wait(handle2);
 
         Assert.AreEqual(8.0f, *result);
     }
@@ -84,8 +86,8 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var handle1 = _jobScheduler.Schedule(ref job1);
-        _jobScheduler.WaitComplete(handle1);
+        var handle1 = s_jobScheduler.Schedule(ref job1);
+        s_jobScheduler.Wait(handle1);
 
         var job2 = new AddJob
         {
@@ -93,8 +95,8 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var handle2 = _jobScheduler.Schedule(ref job2, handle1);
-        _jobScheduler.WaitComplete(handle2);
+        var handle2 = s_jobScheduler.Schedule(ref job2, handle1);
+        s_jobScheduler.Wait(handle2);
 
         Assert.AreEqual(8.0f, *result);
     }
@@ -110,7 +112,7 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var handle1 = _jobScheduler.Schedule(ref job1);
+        var handle1 = s_jobScheduler.Schedule(ref job1);
 
         var job2 = new AddJob
         {
@@ -118,7 +120,7 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var handle2 = _jobScheduler.Schedule(ref job2, handle1);
+        var handle2 = s_jobScheduler.Schedule(ref job2, handle1);
 
         var job3 = new AddJob
         {
@@ -126,10 +128,10 @@ public unsafe class TestJobSystem
             result = result
         };
 
-        var combinedHandle = _jobScheduler.CombineDependencies(handle1, handle2);
-        var handle3 = _jobScheduler.Schedule(ref job3, combinedHandle);
+        var combinedHandle = s_jobScheduler.CombineDependencies(handle1, handle2);
+        var handle3 = s_jobScheduler.Schedule(ref job3, combinedHandle);
 
-        _jobScheduler.WaitComplete(handle3);
+        s_jobScheduler.Wait(handle3);
 
         Assert.AreEqual(19.0f, *result);
     }
@@ -146,8 +148,8 @@ public unsafe class TestJobSystem
             inout = result
         };
 
-        var handle = _jobScheduler.ScheduleParallel(ref job, size, 64);
-        _jobScheduler.WaitComplete(handle);
+        var handle = s_jobScheduler.ScheduleParallel(ref job, size, 64);
+        s_jobScheduler.Wait(handle);
 
         Assert.AreEqual(1.0f, result[500]);
     }
@@ -198,11 +200,11 @@ public unsafe class TestJobSystem
             output = result
         };
 
-        var handle1 = _jobScheduler.ScheduleParallel(ref addJob, arraySize, 64);
-        var handle2 = _jobScheduler.ScheduleParallel(ref multiplyJob, arraySize, 64);
-        var handle3 = _jobScheduler.Schedule(ref sumJob, handle2);
+        var handle1 = s_jobScheduler.ScheduleParallel(ref addJob, arraySize, 64);
+        var handle2 = s_jobScheduler.ScheduleParallel(ref multiplyJob, arraySize, 64);
+        var handle3 = s_jobScheduler.Schedule(ref sumJob, handle2);
 
-        _jobScheduler.WaitComplete(handle3);
+        s_jobScheduler.Wait(handle3);
 
         var expected = ComputeExpectedSum(arraySize);
         Assert.AreEqual(expected, *result, 0.01f);
@@ -226,13 +228,13 @@ public unsafe class TestJobSystem
             result = result2
         };
 
-        var handle1 = _jobScheduler.Schedule(ref job1);
-        var handle2 = _jobScheduler.Schedule(ref job2);
+        var handle1 = s_jobScheduler.Schedule(ref job1);
+        var handle2 = s_jobScheduler.Schedule(ref job2);
 
-        _jobScheduler.WaitAll(handle1, handle2);
+        s_jobScheduler.WaitAll(handle1, handle2);
 
-        Assert.AreEqual(JobState.Completed, _jobScheduler.GetJobStatus(handle1));
-        Assert.AreEqual(JobState.Completed, _jobScheduler.GetJobStatus(handle2));
+        Assert.AreEqual(JobState.Completed, s_jobScheduler.GetJobStatus(handle1));
+        Assert.AreEqual(JobState.Completed, s_jobScheduler.GetJobStatus(handle2));
     }
 
     [TestMethod]
@@ -253,12 +255,12 @@ public unsafe class TestJobSystem
             result = result2
         };
 
-        var handle1 = _jobScheduler.Schedule(ref job1);
-        var handle2 = _jobScheduler.Schedule(ref job2);
+        var handle1 = s_jobScheduler.Schedule(ref job1);
+        var handle2 = s_jobScheduler.Schedule(ref job2);
 
-        var completedHandle = _jobScheduler.WaitAny(handle1, handle2);
+        var completedHandle = s_jobScheduler.WaitAny(handle1, handle2);
 
-        Assert.AreEqual(JobState.Completed, _jobScheduler.GetJobStatus(completedHandle));
+        Assert.AreEqual(JobState.Completed, s_jobScheduler.GetJobStatus(completedHandle));
     }
 
     [TestMethod]
@@ -274,7 +276,7 @@ public unsafe class TestJobSystem
         // 1. Create a "Gatekeeper" vectorJob that spins/blocks a worker thread until signaled.
         //    This allows us to control exactly when the dependency completes.
         var rootJob = new WaitJob { pSignal = &startSignal };
-        var rootHandle = _jobScheduler.Schedule(ref rootJob);
+        var rootHandle = s_jobScheduler.Schedule(ref rootJob);
 
         // 2. Start a background task to flood the scheduler with dependencies on the Gatekeeper.
         using var barrier = new Barrier(2);
@@ -288,7 +290,7 @@ public unsafe class TestJobSystem
                 // CONTENTION POINT: 
                 // Trying to add a dependency to 'rootHandle'. 
                 // Eventually, this will happen exactly while 'rootHandle' is transitioning to Completed.
-                _jobScheduler.Schedule(ref depJob, rootHandle);
+                s_jobScheduler.Schedule(ref depJob, rootHandle);
             }
         }, TestContext.CancellationTokenSource.Token);
 
@@ -321,7 +323,7 @@ public unsafe class TestJobSystem
         }
 
         // Ensure the root vectorJob is officially cleaned up
-        _jobScheduler.WaitComplete(rootHandle);
+        s_jobScheduler.Wait(rootHandle);
 
         Assert.AreEqual(jobCount, *pExecutedCount, "Race condition detected: Some dependent jobs failed to execute (Wait timeout).");
 
@@ -335,27 +337,71 @@ public unsafe class TestJobSystem
 
         var vectorBuf = stackalloc float[size * size];
         var vs = new Span<float>(vectorBuf, size * size);
-        var vectorJob = new Misaki.HighPerformance.Test.Jobs.NoiseJobVector
+        var vectorJob = new NoiseJobVector
         {
             buffers = vectorBuf,
             width = size,
             height = size,
         };
 
-        vectorJob.Run(size * size, -1);
+        var ctx = new JobExecutionContext(-1, s_jobScheduler);
+        vectorJob.Run(size * size, in ctx);
 
         var spmdBuf = stackalloc float[size * size];
         var ss = new Span<float>(spmdBuf, size * size);
-        var spmdJob = new Misaki.HighPerformance.Test.Jobs.NoiseJobMath
+        var spmdJob = new NoiseJobMath
         {
             buffers = spmdBuf,
             width = size,
             height = size,
         };
 
-        //spmdJob.Run(size * size, -1);
+        spmdJob.Run(size * size, default);
 
         var eq = vs.SequenceCompareTo(ss);
         Assert.AreEqual(0, eq);
+    }
+
+    [TestMethod]
+    public void DynamicDispatch()
+    {
+        using var arr = new UnsafeArray<UnsafeArray<int>>(256, Allocator.Persistent);
+        for (var i = 0; i < arr.Length; i++)
+        {
+            arr[i] = new UnsafeArray<int>(256, Allocator.Persistent);
+            for (var j = 0; j < arr[i].Length; j++)
+            {
+                arr[i][j] = j;
+            }
+        }
+
+        using var handles = new UnsafeList<JobHandle>(arr.Length, Allocator.Persistent);
+
+        var job = new JobDispatchingJob
+        {
+            data = arr,
+            handles = handles.AsParallelWriter()
+        };
+
+        var handle = s_jobScheduler.ScheduleParallelFor(ref job, arr.Length, 64);
+
+        s_jobScheduler.Wait(handle);
+        s_jobScheduler.WaitAll(handles.AsSpan());
+
+        for (var i = 0; i < arr.Length; i++)
+        {
+            if (i % 2 == 0)
+            {
+                for (var j = 0; j < arr[i].Length; j++)
+                {
+                    Assert.AreEqual(j * 2, arr[i][j]);
+                }
+            }
+        }
+
+        for (var i = 0; i < arr.Length; i++)
+        {
+            arr[i].Dispose();
+        }
     }
 }

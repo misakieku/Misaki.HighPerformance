@@ -24,6 +24,11 @@ public readonly unsafe struct SharedPtr<T> : IEquatable<SharedPtr<T>>
         return _value;
     }
 
+    public ref T GetRef()
+    {
+        return ref *_value;
+    }
+
     public bool Equals(SharedPtr<T> other)
     {
         return _value == other._value;
@@ -81,9 +86,14 @@ public unsafe struct UniquePtr<T> : IEquatable<UniquePtr<T>>
         _value = value;
     }
 
-    public readonly T* Get()
+    public T* Get()
     {
         return _value;
+    }
+
+    public ref T GetRef()
+    {
+        return ref *_value;
     }
 
     public readonly SharedPtr<T> Share()

@@ -9,7 +9,7 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 public unsafe struct HashMapHelper<TKey> : IDisposable
     where TKey : unmanaged, IEquatable<TKey>
 {
-    internal unsafe struct Enumerator
+    internal struct Enumerator
     {
         public HashMapHelper<TKey>* buffer;
         public int index;
@@ -193,10 +193,16 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private readonly int GetBucket(int hash)
+    {
+        return hash & (_bucketCapacity - 1);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private readonly int GetBucket(in TKey key)
     {
-        var h = (uint)key.GetHashCode();
-        return (int)(h & (uint)(_bucketCapacity - 1));
+        var h = key.GetHashCode();
+        return GetBucket(h);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -431,6 +437,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         where TValue : unmanaged
     {
         ThrowIfNotCreated();
+
         var idx = Find(key);
         if (idx != -1)
         {
@@ -440,6 +447,82 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
         exists = false;
         return ref Unsafe.NullRef<TValue>();
+    }
+
+    public ref TValue GetValueRefOrAddDefault<TValue>(in TKey key, out bool exists)
+        where TValue : unmanaged
+    {
+        ThrowIfNotCreated();
+
+        var idx = -1;
+        var bucket = -1;
+        var hash = key.GetHashCode();
+
+        if (_allocatedIndex > 0)
+        {
+            // First find the slot based on the hash
+            bucket = GetBucket(hash);
+            var entryIdx = _buckets[bucket];
+
+            if ((uint)entryIdx < (uint)_capacity)
+            {
+                var nextPtrs = _next;
+                while (!UnsafeUtility.ReadArrayElement<TKey>(_keys, entryIdx).Equals(key))
+                {
+                    entryIdx = nextPtrs[entryIdx];
+                    if ((uint)entryIdx >= (uint)_capacity)
+                    {
+                        goto Found;
+                    }
+                }
+
+                idx = entryIdx;
+                goto Found;
+            }
+        }
+
+    Found:
+
+        if (idx != -1)
+        {
+            exists = true;
+            return ref UnsafeUtility.ReadArrayElementRef<TValue>(_buffer, idx);
+        }
+
+        int* next;
+
+        if (_allocatedIndex >= _capacity && _firstFreeIndex < 0)
+        {
+            var newCap = CalcCapacityCeilPow2(_capacity + (1 << _log2MinGrowth));
+            Resize(newCap);
+        }
+
+        idx = _firstFreeIndex;
+
+        if (idx >= 0)
+        {
+            _firstFreeIndex = _next[idx];
+        }
+        else
+        {
+            idx = _allocatedIndex++;
+        }
+
+        CheckIndexOutOfBounds(idx);
+
+        UnsafeUtility.WriteArrayElement(_keys, idx, key);
+        bucket = GetBucket(hash);
+
+        // Add the index to the hash-map
+        next = _next;
+        next[idx] = _buckets[bucket];
+        _buckets[bucket] = idx;
+        _count++;
+
+        UnsafeUtility.WriteArrayElement(_buffer, idx, default(TValue));
+
+        exists = false;
+        return ref UnsafeUtility.ReadArrayElementRef<TValue>(_buffer, idx);
     }
 
     public bool MoveNextSearch(ref int bucketIndex, ref int nextIndex, out int index)
