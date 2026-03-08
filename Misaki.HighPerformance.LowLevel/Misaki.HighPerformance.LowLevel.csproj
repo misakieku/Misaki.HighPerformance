@@ -7,13 +7,12 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Misaki</Authors>
-    <AssemblyVersion>1.4.1</AssemblyVersion>
+    <AssemblyVersion>1.4.2</AssemblyVersion>
     <Version>$(AssemblyVersion)</Version>
     <PackageProjectUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</PackageProjectUrl>
     <RepositoryUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</RepositoryUrl>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>contentFiles</ContentTargetFolders>
-    <PackageType>Dependency</PackageType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,6 +26,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Misaki.HighPerformance\Misaki.HighPerformance.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="*.cs">
+      <Pack>true</Pack>
+      <PackagePath>contentFiles\cs\any\Misaki.HighPerformance.LowLevel\</PackagePath>
+      <PackageCopyToOutput>false</PackageCopyToOutput>
+      <BuildAction>Compile</BuildAction>
+    </Content>
   </ItemGroup>
   
   <ItemGroup>
