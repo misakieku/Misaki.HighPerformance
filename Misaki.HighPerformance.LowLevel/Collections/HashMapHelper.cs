@@ -1,6 +1,7 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
@@ -215,6 +216,40 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private int AllocateEntry(in TKey key)
+    {
+        int idx;
+
+        if (_allocatedIndex >= _capacity && _firstFreeIndex < 0)
+        {
+            var newCap = CalcCapacityCeilPow2(_capacity + (1 << _log2MinGrowth));
+            Resize(newCap);
+        }
+
+        idx = _firstFreeIndex;
+
+        if (idx >= 0)
+        {
+            _firstFreeIndex = _next[idx];
+        }
+        else
+        {
+            idx = _allocatedIndex++;
+        }
+
+        CheckIndexOutOfBounds(idx);
+
+        UnsafeUtility.WriteArrayElement(_keys, idx, key);
+        var bucket = GetBucket(key);
+
+        _next[idx] = _buckets[bucket];
+        _buckets[bucket] = idx;
+        _count++;
+
+        return idx;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void AllocateBuffer(int totalSize, int keyOffset, int nextOffset, int bucketOffset, AllocationOption allocationOption)
     {
         if (_allocationHandle.Alloc == null)
@@ -254,7 +289,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         {
             for (var idx = oldBuckets[i]; idx != -1; idx = oldNext[idx])
             {
-                var newIdx = TryAdd(oldKeys[idx]);
+                var newIdx = Add(oldKeys[idx]);
                 MemCpy(_buffer + _sizeOfTValue * newIdx, oldBuffer + _sizeOfTValue * idx, (nuint)_sizeOfTValue);
             }
         }
@@ -323,45 +358,19 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     {
         ThrowIfNotCreated();
 
-        var k = key;
         if (Find(in key) != -1)
         {
             return -1;
         }
 
-        // Allocate an entry from the free list
-        int idx;
-        int* next;
+        return AllocateEntry(key);
+    }
 
-        if (_allocatedIndex >= _capacity && _firstFreeIndex < 0)
-        {
-            var newCap = CalcCapacityCeilPow2(_capacity + (1 << _log2MinGrowth));
-            Resize(newCap);
-        }
+    public int Add(in TKey key)
+    {
+        ThrowIfNotCreated();
 
-        idx = _firstFreeIndex;
-
-        if (idx >= 0)
-        {
-            _firstFreeIndex = _next[idx];
-        }
-        else
-        {
-            idx = _allocatedIndex++;
-        }
-
-        CheckIndexOutOfBounds(idx);
-
-        UnsafeUtility.WriteArrayElement(_keys, idx, key);
-        var bucket = GetBucket(key);
-
-        // Add the index to the hash-map
-        next = _next;
-        next[idx] = _buckets[bucket];
-        _buckets[bucket] = idx;
-        _count++;
-
-        return idx;
+        return AllocateEntry(key);
     }
 
     public int TryRemove(in TKey key)
@@ -416,6 +425,50 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return 0 != removed ? removed : -1;
     }
 
+    public int RemoveAll(in TKey key)
+    {
+        ThrowIfNotCreated();
+
+        if (_capacity == 0)
+        {
+            return 0;
+        }
+
+        var removed = 0;
+        var bucket = GetBucket(key);
+        var prevEntry = -1;
+        var entryIdx = _buckets[bucket];
+
+        while (entryIdx >= 0 && entryIdx < _capacity)
+        {
+            if (UnsafeUtility.ReadArrayElement<TKey>(_keys, entryIdx).Equals(key))
+            {
+                removed++;
+
+                var nextIdx = _next[entryIdx];
+                if (prevEntry < 0)
+                {
+                    _buckets[bucket] = nextIdx;
+                }
+                else
+                {
+                    _next[prevEntry] = nextIdx;
+                }
+
+                _next[entryIdx] = _firstFreeIndex;
+                _firstFreeIndex = entryIdx;
+                entryIdx = nextIdx;
+                continue;
+            }
+
+            prevEntry = entryIdx;
+            entryIdx = _next[entryIdx];
+        }
+
+        _count -= removed;
+        return removed;
+    }
+
     public bool TryGetValue<TValue>(in TKey key, out TValue item)
         where TValue : unmanaged
     {
@@ -433,6 +486,43 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return false;
     }
 
+    public int FindNext(int entryIdx, in TKey key)
+    {
+        ThrowIfNotCreated();
+
+        if ((uint)entryIdx >= (uint)_capacity)
+        {
+            return -1;
+        }
+
+        var nextIndex = _next[entryIdx];
+        while ((uint)nextIndex < (uint)_capacity)
+        {
+            if (UnsafeUtility.ReadArrayElement<TKey>(_keys, nextIndex).Equals(key))
+            {
+                return nextIndex;
+            }
+
+            nextIndex = _next[nextIndex];
+        }
+
+        return -1;
+    }
+
+    public int CountValuesForKey(in TKey key)
+    {
+        ThrowIfNotCreated();
+
+        var count = 0;
+        for (var idx = Find(key); idx != -1; idx = FindNext(idx, key))
+        {
+            count++;
+        }
+
+        return count;
+    }
+
+    [UnscopedRef]
     public ref TValue GetValueRef<TValue>(in TKey key, out bool exists)
         where TValue : unmanaged
     {
@@ -449,6 +539,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return ref Unsafe.NullRef<TValue>();
     }
 
+    [UnscopedRef]
     public ref TValue GetValueRefOrAddDefault<TValue>(in TKey key, out bool exists)
         where TValue : unmanaged
     {
@@ -489,35 +580,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             return ref UnsafeUtility.ReadArrayElementRef<TValue>(_buffer, idx);
         }
 
-        int* next;
-
-        if (_allocatedIndex >= _capacity && _firstFreeIndex < 0)
-        {
-            var newCap = CalcCapacityCeilPow2(_capacity + (1 << _log2MinGrowth));
-            Resize(newCap);
-        }
-
-        idx = _firstFreeIndex;
-
-        if (idx >= 0)
-        {
-            _firstFreeIndex = _next[idx];
-        }
-        else
-        {
-            idx = _allocatedIndex++;
-        }
-
-        CheckIndexOutOfBounds(idx);
-
-        UnsafeUtility.WriteArrayElement(_keys, idx, key);
-        bucket = GetBucket(hash);
-
-        // Add the index to the hash-map
-        next = _next;
-        next[idx] = _buckets[bucket];
-        _buckets[bucket] = idx;
-        _count++;
+        idx = AllocateEntry(key);
 
         UnsafeUtility.WriteArrayElement(_buffer, idx, default(TValue));
 

@@ -64,7 +64,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     }
 
     /// <summary>
-    /// Invalid constructor. Use <see cref="UnsafeHashSet(int, Allocator, AllocationOption)"/> or <see cref="UnsafeHashSet(int, ref AllocationHandle, AllocationOption)"/> instead."/>
+    /// Invalid constructor. Use <see cref="UnsafeHashSet(int, Allocator, AllocationOption)"/> or <see cref="UnsafeHashSet(int, AllocationHandle, AllocationOption)"/> instead."/>
     /// </summary>
     public UnsafeHashSet()
         : this(0, Allocator.Invalid)

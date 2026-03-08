@@ -3,7 +3,6 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections.Concurrent;
-using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Jobs;
@@ -730,19 +729,25 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             return;
         }
 
-        // TODO: We can steal a up stream job to execute while waiting.
+        // TODO: Maybe we can steal a up stream or current job to execute while waiting?
         // For example, if we wait on job A which depends on job B, and both are not scheduled yet, we can steal and execute job B to speed up the completion of A.
-        // And then maybe we can even execute A after B if we can guarantee the order and avoid deadlock. This is a common optimization in job systems called "helping" or "work stealing with dependencies".
 
         var spin = new SpinWait();
-        while (_jobInfoPool.TryGetElement(handle.ID, handle.Generation, out var jobInfo))
+        while (true)
         {
+            ref readonly var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out var exist);
+            if (!exist)
+            {
+                return;
+            }
+
             // Mask out RC
             if ((jobInfo.state & (JobState)_STATE_MASK) == JobState.Completed)
             {
                 return;
             }
 
+            // var sleepThreshold = jobInfo.jobRanges.totalIteration * jobInfo.jobRanges.batchSize * 100;
             spin.SpinOnce(_SLEEP_THRESHOLD);
         }
     }
@@ -762,7 +767,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
         while (true)
         {
-            for (int i = completedCount; i < orderedHandles.Length; i++)
+            for (var i = completedCount; i < orderedHandles.Length; i++)
             {
                 var handle = orderedHandles[i];
                 if (!_jobInfoPool.Contains(handle.ID, handle.Generation))

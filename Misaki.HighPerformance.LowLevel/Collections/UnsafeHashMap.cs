@@ -2,6 +2,7 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -91,7 +92,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     }
 
     /// <summary>
-    /// Invalid constructor, use <see cref="UnsafeHashMap(int, Allocator, AllocationOption)"/> or <see cref="UnsafeHashMap(int, ref AllocationHandle, AllocationOption)"/> instead.
+    /// Invalid constructor, use <see cref="UnsafeHashMap(int, Allocator, AllocationOption)"/> or <see cref="UnsafeHashMap(int, AllocationHandle, AllocationOption)"/> instead.
     /// </summary>
     public UnsafeHashMap()
         : this(0, Allocator.Invalid)
@@ -180,11 +181,13 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
         return defaultValue;
     }
 
+    [UnscopedRef]
     public ref TValue GetValueRef(in TKey key, out bool exists)
     {
         return ref _helper.GetValueRef<TValue>(key, out exists);
     }
 
+    [UnscopedRef]
     public ref TValue GetValueRefOrAddDefault(in TKey key, out bool exists)
     {
         return ref _helper.GetValueRefOrAddDefault<TValue>(key, out exists);

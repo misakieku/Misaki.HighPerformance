@@ -97,7 +97,7 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Invalid constructor, use <see cref="UnsafeStack(int, Allocator, AllocationOption)"/> or <see cref="UnsafeStack(int, ref AllocationHandle, AllocationOption)"/> instead.
+    /// Invalid constructor, use <see cref="UnsafeStack(int, Allocator, AllocationOption)"/> or <see cref="UnsafeStack(int, AllocationHandle, AllocationOption)"/> instead.
     /// </summary>
     public UnsafeStack()
         : this(0, Allocator.Invalid)
