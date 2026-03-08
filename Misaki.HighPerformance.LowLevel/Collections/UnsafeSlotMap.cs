@@ -102,7 +102,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Invalid constructor. Use <see cref="UnsafeSlotMap(int, Allocator, AllocationOption)"/> or <see cref="UnsafeSlotMap(int, ref AllocationHandle, AllocationOption)"/> instead."/>
+    /// Invalid constructor. Use <see cref="UnsafeSlotMap(int, Allocator, AllocationOption)"/> or <see cref="UnsafeSlotMap(int, AllocationHandle, AllocationOption)"/> instead."/>
     /// </summary>
     public UnsafeSlotMap()
         : this(0, Allocator.Invalid)

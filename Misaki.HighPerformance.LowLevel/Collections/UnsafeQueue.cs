@@ -78,7 +78,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Invalid constructor. Use <see cref="UnsafeQueue(int, Allocator, AllocationOption)"/> or <see cref="UnsafeQueue(int, ref AllocationHandle, AllocationOption)"/> instead."/>
+    /// Invalid constructor. Use <see cref="UnsafeQueue(int, Allocator, AllocationOption)"/> or <see cref="UnsafeQueue(int, AllocationHandle, AllocationOption)"/> instead."/>
     /// </summary>
     public UnsafeQueue()
         : this(0, Allocator.Invalid)

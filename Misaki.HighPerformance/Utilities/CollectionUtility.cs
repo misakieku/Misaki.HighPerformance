@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Utilities;
@@ -13,6 +14,7 @@ public static class CollectionUtility
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list whose elements the span will cover. Can be null.</param>
     /// <returns>A span over the elements of the list, or an empty span if the list is null or empty.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Span<T> AsSpan<T>(this List<T>? list)
     {
         return CollectionsMarshal.AsSpan(list);
@@ -42,5 +44,31 @@ public static class CollectionUtility
 
         list.RemoveAt(lastIndex);
         return true;
+    }
+
+    /// <summary>
+    /// Returns a reference to the element at the specified index within the given span without performing bounds checking.
+    /// </summary>
+    /// <typeparam name="T">The type of elements contained in the span.</typeparam>
+    /// <param name="span">The span from which to retrieve the element.</param>
+    /// <param name="index">The zero-based index of the element to retrieve.</param>
+    /// <returns>A reference to the element at the specified index in the span.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ref readonly T GetElementUnsafe<T>(this Span<T> span, int index)
+    {
+        return ref Unsafe.Add(ref MemoryMarshal.GetReference(span), index);
+    }
+
+    /// <summary>
+    /// Returns a read-only reference to the element at the specified index within the given span without performing bounds checking.
+    /// </summary>
+    /// <typeparam name="T">The type of elements contained in the span.</typeparam>
+    /// <param name="span">The read-only span from which to retrieve the element.</param>
+    /// <param name="index">The zero-based index of the element to retrieve.</param>
+    /// <returns>A read-only reference to the element at the specified index in the span.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ref readonly T GetElementUnsafe<T>(this ReadOnlySpan<T> span, int index)
+    {
+        return ref Unsafe.Add(ref MemoryMarshal.GetReference(span), index);
     }
 }

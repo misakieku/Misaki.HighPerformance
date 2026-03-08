@@ -138,7 +138,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Invalid constructor, use <see cref="UnsafeArray(int, Allocator, AllocationOption)"/> or <see cref="UnsafeArray(int, ref AllocationHandle, AllocationOption)"/> instead.
+    /// Invalid constructor, use <see cref="UnsafeArray(int, Allocator, AllocationOption)"/> or <see cref="UnsafeArray(int, AllocationHandle, AllocationOption)"/> instead.
     /// </summary>
     public UnsafeArray()
         : this(0, Allocator.Invalid)

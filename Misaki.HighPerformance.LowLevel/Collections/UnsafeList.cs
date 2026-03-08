@@ -176,7 +176,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Invalid constructor, use <see cref="UnsafeList(int, Allocator, AllocationOption)"/> or <see cref="UnsafeList(int, ref AllocationHandle, AllocationOption)"/> instead.
+    /// Invalid constructor, use <see cref="UnsafeList(int, Allocator, AllocationOption)"/> or <see cref="UnsafeList(int, AllocationHandle, AllocationOption)"/> instead.
     /// </summary>
     public UnsafeList()
         : this(0, Allocator.Invalid)

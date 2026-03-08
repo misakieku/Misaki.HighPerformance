@@ -7,12 +7,13 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Misaki</Authors>
-    <AssemblyVersion>1.4.0</AssemblyVersion>
+    <AssemblyVersion>1.4.1</AssemblyVersion>
     <Version>$(AssemblyVersion)</Version>
     <PackageProjectUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</PackageProjectUrl>
     <RepositoryUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</RepositoryUrl>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>contentFiles</ContentTargetFolders>
+    <PackageType>Dependency</PackageType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,22 +28,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Misaki.HighPerformance\Misaki.HighPerformance.csproj" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <Content Include="contentFiles\cs\any\**\*.cs">
-      <Pack>true</Pack>
-      <PackagePath>contentFiles\cs\any\Misaki.HighPerformance.LowLevel\</PackagePath>
-      <PackageCopyToOutput>false</PackageCopyToOutput>
-      <BuildAction>Compile</BuildAction>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="contentFiles\cs\any\Collections\FixedString.tt">
+    <None Update="Collections\FixedString.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FixedString.gen.cs</LastGenOutput>
     </None>
-    <None Update="contentFiles\cs\any\Collections\FixedText.tt">
+    <None Update="Collections\FixedText.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FixedText.gen.cs</LastGenOutput>
     </None>
@@ -53,12 +45,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="contentFiles\cs\any\Collections\FixedString.gen.cs">
+    <Compile Update="Collections\FixedString.gen.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FixedString.tt</DependentUpon>
     </Compile>
-    <Compile Update="contentFiles\cs\any\Collections\FixedText.gen.cs">
+    <Compile Update="Collections\FixedText.gen.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FixedText.tt</DependentUpon>
