@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
@@ -290,6 +290,8 @@ public unsafe struct FreeList : IDisposable
         header->blockSize = 0;
         header->magicNumber = 0;
     }
+
+    // FIX: This may introduce ABA problem. Consider adding a version counter to the free list nodes if this becomes an issue.
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private readonly void* TryPopFromBucket(int bucketIndex)

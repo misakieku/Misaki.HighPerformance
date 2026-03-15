@@ -86,6 +86,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     /// </summary>
     /// <param name="item">The value to add.</param>
     /// <returns>True if the value was not already present.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Add(T item)
     {
         return -1 != _helper.TryAdd(item);
@@ -96,6 +97,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     /// </summary>
     /// <param name="item">The value to remove.</param>
     /// <returns>True if the value was present.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Remove(T item)
     {
         return -1 != _helper.TryRemove(item);
@@ -106,6 +108,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     /// </summary>
     /// <param name="item">The value to check for.</param>
     /// <returns>True if the value was present.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Contains(T item)
     {
         return -1 != _helper.Find(item);
@@ -114,6 +117,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     /// <summary>
     /// Sets the capacity to match what it would be if it had been originally initialized with all its entries.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void TrimExcess()
     {
         _helper.TrimExcess();
@@ -124,16 +128,19 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     /// </summary>
     /// <param name="allocator">The allocator to use.</param>
     /// <returns>An array with a copy of the set's values.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public UnsafeArray<T> ToNativeArray(Allocator allocator)
     {
         return _helper.GetKeyArray(allocator);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
         _helper.Resize(newSize);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear()
     {
         _helper.Clear();

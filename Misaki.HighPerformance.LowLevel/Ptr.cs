@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel;
@@ -86,7 +87,7 @@ public unsafe struct UniquePtr<T> : IEquatable<UniquePtr<T>>
         _value = value;
     }
 
-    public T* Get()
+    public readonly T* Get()
     {
         return _value;
     }
@@ -99,6 +100,12 @@ public unsafe struct UniquePtr<T> : IEquatable<UniquePtr<T>>
     public readonly SharedPtr<T> Share()
     {
         return new SharedPtr<T>(_value);
+    }
+
+    public void Attach(T* value)
+    {
+        Debug.Assert(_value == null);
+        _value = value;
     }
 
     public T* Detach()
@@ -141,6 +148,67 @@ public unsafe struct UniquePtr<T> : IEquatable<UniquePtr<T>>
     }
 
     public static bool operator !=(UniquePtr<T> left, UniquePtr<T> right)
+    {
+        return !(left == right);
+    }
+}
+
+[NonCopyable]
+public unsafe struct DisposablePtr<T> : IDisposable, IEquatable<DisposablePtr<T>>
+    where T : unmanaged, IDisposable
+{
+    private T* _value;
+
+    public DisposablePtr(T* value)
+    {
+        _value = value;
+    }
+
+    public readonly T* Get()
+    {
+        return _value;
+    }
+
+    public ref T GetRef()
+    {
+        return ref *_value;
+    }
+
+    public readonly SharedPtr<T> Share()
+    {
+        return new SharedPtr<T>(_value);
+    }
+
+    public void Dispose()
+    {
+        if (_value != null)
+        {
+            _value->Dispose();
+            _value = null;
+        }
+    }
+
+    public readonly bool Equals(DisposablePtr<T> other)
+    {
+        return other._value == _value;
+    }
+
+    public override readonly bool Equals(object? obj)
+    {
+        return obj is DisposablePtr<T> ptr && Equals(ptr);
+    }
+
+    public override readonly int GetHashCode()
+    {
+        return ((nint)_value).GetHashCode();
+    }
+
+    public static bool operator ==(DisposablePtr<T> left, DisposablePtr<T> right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(DisposablePtr<T> left, DisposablePtr<T> right)
     {
         return !(left == right);
     }
@@ -193,23 +261,23 @@ public ref struct Ref<T> : IEquatable<Ref<T>>
 /// <summary>
 /// Provides a wrapper for a value type that implements <see cref="IDisposable"/>, ensuring proper disposal of the contained value.
 /// </summary>
-/// <remarks>The <see cref="Owner{T}"/> class manages the lifetime of the contained value by calling its
+/// <remarks>The <see cref="Wrapper{T}"/> class manages the lifetime of the contained value by calling its
 ///     <see cref="IDisposable.Dispose"/> method when the wrapper is disposed or finalized. After disposal, accessing the value
 ///     will throw an <see cref="ObjectDisposedException"/>.</remarks>
 /// <typeparam name="T">The value type to wrap. Must be a struct that implements <see cref="IDisposable"/>.</typeparam>
-public class Owner<T> : IDisposable
+public class Wrapper<T> : IDisposable
     where T : struct, IDisposable
 {
     private T _value;
 
     private bool _disposed;
 
-    public Owner(T value)
+    public Wrapper(T value)
     {
         _value = value;
     }
 
-    ~Owner()
+    ~Wrapper()
     {
         Dispose();
     }

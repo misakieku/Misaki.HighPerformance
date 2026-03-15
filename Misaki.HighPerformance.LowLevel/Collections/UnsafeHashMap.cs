@@ -116,7 +116,8 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="key">The key to add.</param>
     /// <param name="item">The value to add.</param>
     /// <returns>True if the key-value pair was added.</returns>
-    public bool TryAdd(in TKey key, TValue item)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool TryAdd(scoped in TKey key, TValue item)
     {
         var idx = _helper.TryAdd(key);
         if (idx != -1)
@@ -135,7 +136,8 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="key">The key to add.</param>
     /// <param name="item">The value to add.</param>
     /// <exception cref="ArgumentException">Thrown if the key was already present.</exception>
-    public void Add(in TKey key, TValue item)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Add(scoped in TKey key, TValue item)
     {
         var result = TryAdd(key, item);
         if (!result)
@@ -149,7 +151,8 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// </summary>
     /// <param name="item">The value to remove.</param>
     /// <returns>True if the value was present.</returns>
-    public bool Remove(in TKey key)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool Remove(scoped in TKey key)
     {
         return -1 != _helper.TryRemove(key);
     }
@@ -160,7 +163,8 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="key">The key to look up.</param>
     /// <param name="item">Outputs the value associated with the key. Outputs default if the key was not present.</param>
     /// <returns>True if the key was present.</returns>
-    public bool TryGetValue(in TKey key, out TValue item)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool TryGetValue(scoped in TKey key, out TValue item)
     {
         return _helper.TryGetValue(key, out item);
     }
@@ -171,7 +175,8 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="key">The key whose value to retrieve.</param>
     /// <param name="defaultValue">The value to return if the specified key does not exist. If not specified, the default value for the type is used.</param>
     /// <returns>The value associated with the specified key if the key is found; otherwise, the specified default value.</returns>
-    public TValue GetValueOrDefault(in TKey key, TValue defaultValue = default)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public TValue GetValueOrDefault(scoped in TKey key, TValue defaultValue = default)
     {
         if (_helper.TryGetValue<TValue>(key, out var value))
         {
@@ -181,14 +186,26 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
         return defaultValue;
     }
 
-    [UnscopedRef]
-    public ref TValue GetValueRef(in TKey key, out bool exists)
+    /// <summary>
+    /// Returns a reference to the value associated with the specified key, and a boolean indicating whether the key exists in the hash map.
+    /// </summary>
+    /// <param name="key">The key whose value to retrieve.</param>
+    /// <param name="exists">Outputs true if the key exists in the hash map; otherwise, false.</param>
+    /// <returns>A reference to the value associated with the specified key.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ref TValue GetValueRef(scoped in TKey key, out bool exists)
     {
         return ref _helper.GetValueRef<TValue>(key, out exists);
     }
 
-    [UnscopedRef]
-    public ref TValue GetValueRefOrAddDefault(in TKey key, out bool exists)
+    /// <summary>
+    /// Returns a reference to the value associated with the specified key if it exists; otherwise, adds a new key with a default value and returns a reference to that value. The method also outputs a boolean indicating whether the key already existed in the hash map.
+    /// </summary>
+    /// <param name="key">The key whose value to retrieve or add.</param>
+    /// <param name="exists">Outputs true if the key already existed in the hash map; otherwise, false.</param>
+    /// <returns>A reference to the value associated with the specified key.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ref TValue GetValueRefOrAddDefault(scoped in TKey key, out bool exists)
     {
         return ref _helper.GetValueRefOrAddDefault<TValue>(key, out exists);
     }
@@ -198,7 +215,8 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// </summary>
     /// <param name="key">The key to look up.</param>
     /// <returns>True if the key was present.</returns>
-    public bool ContainsKey(in TKey key)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool ContainsKey(scoped in TKey key)
     {
         return -1 != _helper.Find(key);
     }
@@ -206,16 +224,19 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <summary>
     /// Sets the capacity to match what it would be if it had been originally initialized with all its entries.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void TrimExcess()
     {
         _helper.TrimExcess();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
         _helper.Resize(newSize);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear()
     {
         _helper.Clear();
@@ -225,6 +246,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// Retrieves an array of keys from the hash map.
     /// </summary>
     /// <returns>An array containing the keys stored in the hash map.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public UnsafeArray<TKey> GetKeyArray(Allocator allocator)
     {
         return _helper.GetKeyArray(allocator);
@@ -234,6 +256,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// Retrieves an array of values from the underlying hash map.
     /// </summary>
     /// <returns>An UnsafeArray containing the values stored in the hash map.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public UnsafeArray<TValue> GetValueArray(Allocator allocator)
     {
         return _helper.GetValueArray<TValue>(allocator);
@@ -244,6 +267,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// TValue.
     /// </summary>
     /// <returns>Returns an UnsafeArray containing KeyValuePair objects.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(Allocator allocator)
     {
         return _helper.GetKeyValueArrays<TValue>(allocator);

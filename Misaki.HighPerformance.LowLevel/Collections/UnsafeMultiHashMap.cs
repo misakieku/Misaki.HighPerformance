@@ -43,7 +43,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         internal TKey _key;
         internal int _entryIndex;
 
-        internal Iterator(in TKey key, int entryIndex)
+        internal Iterator(scoped in TKey key, int entryIndex)
         {
             _key = key;
             _entryIndex = entryIndex;
@@ -55,7 +55,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         private readonly HashMapHelper<TKey>* _data;
         private readonly TKey _key;
 
-        internal ValueEnumerable(HashMapHelper<TKey>* data, in TKey key)
+        internal ValueEnumerable(HashMapHelper<TKey>* data, scoped in TKey key)
         {
             _data = data;
             _key = key;
@@ -77,7 +77,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         public readonly TValue Current => UnsafeUtility.ReadArrayElement<TValue>(_data->Buffer, _entryIndex);
         readonly object IEnumerator.Current => Current;
 
-        internal ValueEnumerator(HashMapHelper<TKey>* data, in TKey key)
+        internal ValueEnumerator(HashMapHelper<TKey>* data, scoped in TKey key)
         {
             _data = data;
             _key = key;
@@ -151,18 +151,18 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     {
     }
 
-    public void Add(in TKey key, TValue item)
+    public void Add(scoped in TKey key, TValue item)
     {
         var idx = _helper.Add(key);
         UnsafeUtility.WriteArrayElement(_helper.Buffer, idx, item);
     }
 
-    public bool Remove(in TKey key)
+    public bool Remove(scoped in TKey key)
     {
         return _helper.RemoveAll(key) != 0;
     }
 
-    public bool TryGetFirstValue(in TKey key, out TValue item, out Iterator iterator)
+    public bool TryGetFirstValue(scoped in TKey key, out TValue item, out Iterator iterator)
     {
         var entryIndex = _helper.Find(key);
         if (entryIndex == -1)
@@ -198,12 +198,12 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         return true;
     }
 
-    public bool TryGetValue(in TKey key, out TValue item)
+    public bool TryGetValue(scoped in TKey key, out TValue item)
     {
         return _helper.TryGetValue(key, out item);
     }
 
-    public TValue GetValueOrDefault(in TKey key, TValue defaultValue = default)
+    public TValue GetValueOrDefault(scoped in TKey key, TValue defaultValue = default)
     {
         if (_helper.TryGetValue<TValue>(key, out var value))
         {
@@ -213,17 +213,17 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         return defaultValue;
     }
 
-    public ValueEnumerable GetValuesForKey(in TKey key)
+    public ValueEnumerable GetValuesForKey(scoped in TKey key)
     {
         return new((HashMapHelper<TKey>*)UnsafeUtility.AddressOf(ref this), key);
     }
 
-    public int CountValuesForKey(in TKey key)
+    public int CountValuesForKey(scoped in TKey key)
     {
         return _helper.CountValuesForKey(key);
     }
 
-    public bool ContainsKey(in TKey key)
+    public bool ContainsKey(scoped in TKey key)
     {
         return _helper.Find(key) != -1;
     }

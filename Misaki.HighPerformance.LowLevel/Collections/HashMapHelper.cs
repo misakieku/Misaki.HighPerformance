@@ -200,7 +200,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private readonly int GetBucket(in TKey key)
+    private readonly int GetBucket(scoped in TKey key)
     {
         var h = key.GetHashCode();
         return GetBucket(h);
@@ -216,7 +216,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private int AllocateEntry(in TKey key)
+    private int AllocateEntry(scoped in TKey key)
     {
         int idx;
 
@@ -323,7 +323,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         ResizeExact(capacity, capacity * 2);
     }
 
-    public int Find(in TKey key)
+    public int Find(scoped in TKey key)
     {
         ThrowIfNotCreated();
 
@@ -354,7 +354,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return -1;
     }
 
-    public int TryAdd(in TKey key)
+    public int TryAdd(scoped in TKey key)
     {
         ThrowIfNotCreated();
 
@@ -366,14 +366,14 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return AllocateEntry(key);
     }
 
-    public int Add(in TKey key)
+    public int Add(scoped in TKey key)
     {
         ThrowIfNotCreated();
 
         return AllocateEntry(key);
     }
 
-    public int TryRemove(in TKey key)
+    public int TryRemove(scoped in TKey key)
     {
         ThrowIfNotCreated();
 
@@ -425,7 +425,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return 0 != removed ? removed : -1;
     }
 
-    public int RemoveAll(in TKey key)
+    public int RemoveAll(scoped in TKey key)
     {
         ThrowIfNotCreated();
 
@@ -469,7 +469,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return removed;
     }
 
-    public bool TryGetValue<TValue>(in TKey key, out TValue item)
+    public bool TryGetValue<TValue>(scoped in TKey key, out TValue item)
         where TValue : unmanaged
     {
         ThrowIfNotCreated();
@@ -486,7 +486,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return false;
     }
 
-    public int FindNext(int entryIdx, in TKey key)
+    public int FindNext(int entryIdx, scoped in TKey key)
     {
         ThrowIfNotCreated();
 
@@ -509,7 +509,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return -1;
     }
 
-    public int CountValuesForKey(in TKey key)
+    public int CountValuesForKey(scoped in TKey key)
     {
         ThrowIfNotCreated();
 
@@ -522,8 +522,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return count;
     }
 
-    [UnscopedRef]
-    public ref TValue GetValueRef<TValue>(in TKey key, out bool exists)
+    public ref TValue GetValueRef<TValue>(scoped in TKey key, out bool exists)
         where TValue : unmanaged
     {
         ThrowIfNotCreated();
@@ -539,8 +538,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return ref Unsafe.NullRef<TValue>();
     }
 
-    [UnscopedRef]
-    public ref TValue GetValueRefOrAddDefault<TValue>(in TKey key, out bool exists)
+    public ref TValue GetValueRefOrAddDefault<TValue>(scoped in TKey key, out bool exists)
         where TValue : unmanaged
     {
         ThrowIfNotCreated();

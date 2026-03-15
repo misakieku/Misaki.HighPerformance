@@ -88,14 +88,14 @@ public unsafe readonly struct ImageResultFloat : IDisposable
         return FromStream(stream, requiredComponents);
     }
 
-    public Span<byte> AsSpan()
+    public Span<float> AsSpan()
     {
         if (Data == null)
         {
-            return Span<byte>.Empty;
+            return Span<float>.Empty;
         }
 
-        return new Span<byte>(Data, (int)Size);
+        return new Span<float>(Data, (int)Size);
     }
 
     public void Dispose()
