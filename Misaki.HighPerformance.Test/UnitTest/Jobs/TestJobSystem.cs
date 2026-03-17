@@ -26,7 +26,7 @@ public unsafe class TestJobSystem
         s_jobScheduler = new JobScheduler(3);
     }
 
-    [ClassCleanup(ClassCleanupBehavior.EndOfClass)]
+    [ClassCleanup]
     public static void Cleanup()
     {
         s_jobScheduler.Dispose();

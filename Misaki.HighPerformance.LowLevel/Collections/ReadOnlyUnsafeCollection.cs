@@ -52,6 +52,7 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
     private readonly int _count;
 
     public int Count => _count;
+    public int Length => _count;
 
     public ref readonly T this[int index]
     {
@@ -108,6 +109,7 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
     /// Returns a read-only span that represents the valid elements in the underlying buffer.
     /// </summary>
     /// <returns>A <see cref="ReadOnlySpan{T}"/> containing the elements of the buffer up to the current count.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ReadOnlySpan<T> AsSpan()
     {
         return new ReadOnlySpan<T>(_buffer, _count);
@@ -122,13 +124,23 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
     public ReadOnlyUnsafeCollection<U> Reinterpret<U>()
         where U : unmanaged
     {
-        var totalSize = (nuint)(Count * sizeof(T));
-        if (totalSize % (nuint)sizeof(U) != 0)
+        var totalSize = Count * sizeof(T);
+        if (totalSize % sizeof(U) != 0)
         {
             throw new InvalidOperationException("Cannot reinterpret collection: size mismatch.");
         }
 
-        var newCount = (int)(totalSize / (nuint)sizeof(U));
+        var newCount = totalSize / sizeof(U);
         return new ReadOnlyUnsafeCollection<U>((U*)_buffer, newCount);
+    }
+
+    /// <summary>
+    /// Returns an unsafe pointer to the underlying buffer of the collection, allowing for low-level access to the memory.
+    /// </summary>
+    /// <returns>The pointer to the first element of the collection's buffer.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void* GetUnsafePtr()
+    {
+        return _buffer;
     }
 }
