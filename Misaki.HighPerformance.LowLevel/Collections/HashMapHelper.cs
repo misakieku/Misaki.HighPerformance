@@ -131,15 +131,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public HashMapHelper(int capacity, int sizeOfTValue, int alignOfTValue, uint minGrowth, AllocationHandle handle, AllocationOption allocationOption)
     {
-        if (capacity <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
-        }
-
-        if (sizeOfTValue < 0 || alignOfTValue < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(sizeOfTValue), "Size or alignment of TValue can not be less than zero.");
-        }
+        ArgumentOutOfRangeException.ThrowIfNegative(capacity);
+        ArgumentOutOfRangeException.ThrowIfNegative(sizeOfTValue);
+        ArgumentOutOfRangeException.ThrowIfNegative(alignOfTValue);
 
         _capacity = CalcCapacityCeilPow2(capacity);
         _bucketCapacity = _capacity * 2;

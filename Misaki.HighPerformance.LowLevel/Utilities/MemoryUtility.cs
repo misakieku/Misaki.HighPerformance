@@ -21,18 +21,11 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Malloc(nuint size)
     {
-        try
-        {
 #if NET6_0_OR_GREATER
-            return NativeMemory.Alloc(size);
+        return NativeMemory.Alloc(size);
 #else
-            return Marshal.AllocHGlobal((IntPtr)size).ToPointer();
+        return Marshal.AllocHGlobal((IntPtr)size).ToPointer();
 #endif
-        }
-        catch (Exception)
-        {
-            return null;
-        }
     }
 
     /// <summary>
@@ -43,20 +36,13 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Calloc(nuint size)
     {
-        try
-        {
 #if NET6_0_OR_GREATER
-            return NativeMemory.AllocZeroed(size);
+        return NativeMemory.AllocZeroed(size);
 #else
-            var ptr = Marshal.AllocHGlobal((IntPtr)size).ToPointer();
-            Unsafe.InitBlock(ptr, 0, (uint)size);
-            return ptr;
+        var ptr = Marshal.AllocHGlobal((IntPtr)size).ToPointer();
+        Unsafe.InitBlock(ptr, 0, (uint)size);
+        return ptr;
 #endif
-        }
-        catch (Exception)
-        {
-            return null;
-        }
     }
 
     /// <summary>
@@ -68,18 +54,11 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* AlignedAlloc(nuint size, nuint alignment)
     {
-        try
-        {
 #if NET6_0_OR_GREATER
-            return NativeMemory.AlignedAlloc(size, alignment);
+        return NativeMemory.AlignedAlloc(size, alignment);
 #else
-            return Marshal.AllocHGlobal((IntPtr)(size + alignment - 1)).ToPointer();
+        return Marshal.AllocHGlobal((IntPtr)(size + alignment - 1)).ToPointer();
 #endif
-        }
-        catch (Exception)
-        {
-            return null;
-        }
     }
 
     /// <summary>
@@ -91,18 +70,11 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Realloc(void* ptr, nuint size)
     {
-        try
-        {
 #if NET6_0_OR_GREATER
-            return NativeMemory.Realloc(ptr, size);
+        return NativeMemory.Realloc(ptr, size);
 #else
-            return Marshal.ReAllocHGlobal((IntPtr)ptr, (IntPtr)size).ToPointer();
+        return Marshal.ReAllocHGlobal((IntPtr)ptr, (IntPtr)size).ToPointer();
 #endif
-        }
-        catch (Exception)
-        {
-            return null;
-        }
     }
 
     /// <summary>
@@ -116,30 +88,23 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* AlignedRealloc(void* ptr, nuint size, nuint alignment)
     {
-        try
-        {
 #if NET6_0_OR_GREATER
-            return NativeMemory.AlignedRealloc(ptr, size, alignment);
+        return NativeMemory.AlignedRealloc(ptr, size, alignment);
 #else
-            var newPtr = Marshal.AllocHGlobal((IntPtr)(size + alignment - 1)).ToPointer();
-            if (newPtr == null)
-            {
-                return null;
-            }
-
-            if (ptr != null)
-            {
-                Unsafe.CopyBlock(newPtr, ptr, (uint)size);
-                Marshal.FreeHGlobal((IntPtr)ptr);
-            }
-
-            return newPtr;
-#endif
-        }
-        catch (Exception)
+        var newPtr = Marshal.AllocHGlobal((IntPtr)(size + alignment - 1)).ToPointer();
+        if (newPtr == null)
         {
             return null;
         }
+
+        if (ptr != null)
+        {
+            Unsafe.CopyBlock(newPtr, ptr, (uint)size);
+            Marshal.FreeHGlobal((IntPtr)ptr);
+        }
+
+        return newPtr;
+#endif
     }
 
     /// <summary>

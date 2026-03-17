@@ -270,14 +270,15 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     /// <param name="threadCount">The number of worker threads to create. If less than 1, at least one thread will be created.</param>
     public JobScheduler(int threadCount)
     {
-        _jobDataAllocator = new(8);
+        var workerCount = Math.Max(1, threadCount);
+
+        _jobDataAllocator = new(8, maxConcurrencyLevel: workerCount + 1);
         _jobInfoPool = new();
         _jobQueue = new();
 
         _workSignal = new(0);
         _cts = new();
 
-        var workerCount = Math.Max(1, threadCount);
         _workerThreads = new WorkerThread[workerCount];
 
         for (var i = 0; i < workerCount; i++)

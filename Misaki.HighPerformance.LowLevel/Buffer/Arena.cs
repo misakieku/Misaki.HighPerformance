@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -17,6 +17,8 @@ public unsafe struct Arena : IDisposable
 
     public Arena(nuint size)
     {
+        ArgumentOutOfRangeException.ThrowIfNegative(size);
+
         if (_buffer != null)
         {
             return;

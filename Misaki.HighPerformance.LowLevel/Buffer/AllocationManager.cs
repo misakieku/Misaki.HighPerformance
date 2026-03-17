@@ -33,16 +33,17 @@ public readonly struct AllocationInfo
 /// </summary>
 public static unsafe class AllocationManager
 {
-    // === Intrusive allocation tracking (enabled when debug layer is on) ===
+#if ENABLE_DEBUG_LAYER
     [StructLayout(LayoutKind.Sequential)]
     private struct AllocationHeader
     {
         public AllocationHeader* prev;
         public AllocationHeader* next;
-        public void* basePtr;      // pointer returned by underlying allocator
-        public nuint userSize;     // requested size from the user
-        public GCHandle stackHandle;   // GCHandle to managed StackTrace
+        public void* basePtr;           // pointer returned by underlying allocator
+        public nuint userSize;          // requested size from the user
+        public GCHandle stackHandle;    // GCHandle to managed StackTrace
     }
+#endif
 
     private struct ArenaAllocator : IAllocator, IDisposable
     {
@@ -270,11 +271,12 @@ public static unsafe class AllocationManager
     private static readonly HeapAllocator* s_pHeapAllocator;
     private static readonly StackAllocator* s_pStackAllocator;
 
-    private static bool s_debugLayer;
     private static bool s_disposed;
 
-    private static AllocationHeader* s_pLiveHead;
+#if ENABLE_DEBUG_LAYER
     private static SpinLock s_liveLock;
+    private static AllocationHeader* s_pLiveHead;
+#endif
 
     private static readonly ConcurrentSlotMap<IntPtr> s_allocations;
 
@@ -285,31 +287,28 @@ public static unsafe class AllocationManager
     /// </summary>
     public static int LiveAllocationCount => s_allocations.Count;
 
-    /// <summary>
-    /// Gets a value indicating whether the debug layer is currently enabled.
-    /// </summary>
-    public static bool IsDebugLayerEnabled => s_debugLayer;
-
-
     static AllocationManager()
     {
         var allocatorTotalSize = (nuint)(sizeof(ArenaAllocator) + sizeof(HeapAllocator) + sizeof(StackAllocator));
-        var basePtr = NativeMemory.Alloc(allocatorTotalSize);
+        var basePtr = Malloc(allocatorTotalSize);
+
         s_pArenaAllocator = (ArenaAllocator*)basePtr;
         s_pHeapAllocator = (HeapAllocator*)((byte*)basePtr + (nuint)sizeof(ArenaAllocator));
         s_pStackAllocator = (StackAllocator*)((byte*)basePtr + (nuint)(sizeof(ArenaAllocator) + sizeof(HeapAllocator)));
 
+#if ENABLE_DEBUG_LAYER
         s_liveLock = new SpinLock(false);
+        s_pLiveHead = null;
+#endif
 
         s_allocations = new ConcurrentSlotMap<IntPtr>(256);
 
         s_pArenaAllocator->Init(_DEFAULT_MEMORY_POOL_SIZE);
         s_pHeapAllocator->Init();
         s_pStackAllocator->Init();
-
-        s_pLiveHead = null;
     }
 
+#if ENABLE_DEBUG_LAYER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static byte* AlignUp(byte* p, nuint alignment)
     {
@@ -462,22 +461,7 @@ public static unsafe class AllocationManager
 
         return newUser;
     }
-
-    /// <summary>
-    /// Enables the debug layer, allowing additional diagnostic information to be collected.
-    /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void EnableDebugLayer()
-    {
-        // To avoid ambiguity between pointers allocated before/after enabling, this must be called
-        // before any heap allocations are live.
-        if (s_allocations.Count != 0)
-        {
-            throw new InvalidOperationException("EnableDebugLayer must be called before any allocations are active.");
-        }
-
-        s_debugLayer = true;
-    }
+#endif
 
     /// <summary>
     /// Gets a reference to the allocation pHandle for the specified allocator type.
@@ -499,10 +483,6 @@ public static unsafe class AllocationManager
     /// <summary>
     /// Allocates a block of memory from the heap with the specified size and alignment, using the given allocation options.
     /// </summary>
-    /// <remarks>
-    /// This will allocate memory from the heap. If the debug layer is enabled, additional tracking information will be recorded.
-    /// The memory handle is always tracked unless the <see cref="AllocationOption.Untrack"/> flag is specified.
-    /// </remarks>
     /// <param name="size">The number of bytes to allocate. Must be greater than zero.</param>
     /// <param name="alignment">The alignment, in bytes, for the allocated memory block. Must be a power of two.</param>
     /// <param name="allocationOption">An optional set of flags that control allocation behavior, such as whether the memory should be cleared or
@@ -511,17 +491,11 @@ public static unsafe class AllocationManager
     /// <exception cref="OutOfMemoryException">Thrown if the allocation fails.</exception>
     public static void* HeapAlloc(nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
     {
-        var isUntrack = allocationOption.HasFlag(AllocationOption.Untrack);
-
-        void* ptr;
-        if (s_debugLayer && !isUntrack)
-        {
-            ptr = DebugAllocate(size, alignment);
-        }
-        else
-        {
-            ptr = AlignedAlloc(size, alignment);
-        }
+#if ENABLE_DEBUG_LAYER
+        var ptr = DebugAllocate(size, alignment);
+#else
+        var ptr = AlignedAlloc(size, alignment);
+#endif
 
         if (ptr == null)
         {
@@ -534,15 +508,7 @@ public static unsafe class AllocationManager
             MemClear(ptr, size);
         }
 
-        if (isUntrack)
-        {
-            *pHandle = MagicHandle;
-        }
-        else
-        {
-            *pHandle = AddAllocation((IntPtr)ptr);
-        }
-
+        *pHandle = AddAllocation((IntPtr)ptr);
         return ptr;
     }
 
@@ -554,11 +520,13 @@ public static unsafe class AllocationManager
     /// <param name="handle">The handle representing the memory allocation to free. The handle must be valid and previously allocated.</param>
     public static void HeapFree(void* ptr, MemoryHandle handle)
     {
-        if (s_debugLayer && handle != MagicHandle)
+#if ENABLE_DEBUG_LAYER
+        if (handle != MagicHandle)
         {
             DebugFree(ptr);
         }
         else
+#endif
         {
             AlignedFree(ptr);
         }
@@ -662,53 +630,53 @@ public static unsafe class AllocationManager
             return;
         }
 
+#if ENABLE_DEBUG_LAYER
         // In debug mode, walk the intrusive list to surface any leaks.
-        if (s_debugLayer)
+        var snapshot = new List<AllocationInfo>();
+        var taken = false;
+        try
         {
-            var snapshot = new List<AllocationInfo>();
-            var taken = false;
-            try
+            s_liveLock.Enter(ref taken);
+            if (s_pLiveHead != null)
             {
-                s_liveLock.Enter(ref taken);
-                if (s_pLiveHead != null)
+                snapshot.Capacity = 128;
+                for (var p = s_pLiveHead; p != null; p = p->next)
                 {
-                    snapshot.Capacity = 128;
-                    for (var p = s_pLiveHead; p != null; p = p->next)
+                    var trace = (StackTrace)HeaderGetHandle(p).Target!;
+                    snapshot.Add(new AllocationInfo
                     {
-                        var trace = (StackTrace)HeaderGetHandle(p).Target!;
-                        snapshot.Add(new AllocationInfo
-                        {
-                            Size = p->userSize,
-                            StackTrace = trace
-                        });
-                    }
+                        Size = p->userSize,
+                        StackTrace = trace
+                    });
                 }
             }
-            finally
-            {
-                if (taken)
-                {
-                    s_liveLock.Exit();
-                }
-            }
-
-            nuint unfreeBytes = 0u;
-            foreach (var info in snapshot)
-            {
-                unfreeBytes += info.Size;
-            }
-
-            if (unfreeBytes > 0u)
-            {
-                throw new MemoryLeakException(CollectionsMarshal.AsSpan(snapshot));
-            }
-
-            Debug.Assert(LiveAllocationCount == 0);
         }
-        else if (LiveAllocationCount != 0)
+        finally
+        {
+            if (taken)
+            {
+                s_liveLock.Exit();
+            }
+        }
+
+        nuint unfreeBytes = 0u;
+        foreach (var info in snapshot)
+        {
+            unfreeBytes += info.Size;
+        }
+
+        if (unfreeBytes > 0u)
+        {
+            throw new MemoryLeakException(CollectionsMarshal.AsSpan(snapshot));
+        }
+
+        Debug.Assert(LiveAllocationCount == 0);
+#else
+        if (LiveAllocationCount != 0)
         {
             throw new MemoryLeakException($"Found {LiveAllocationCount} memory lakes! Please enable debug layer for more informations.");
         }
+#endif
 
         // NOTE: Arena allocator holds the base ptr for all allocators, heap and stack allocators do not own any memory themselves.
         if (s_pArenaAllocator != null)

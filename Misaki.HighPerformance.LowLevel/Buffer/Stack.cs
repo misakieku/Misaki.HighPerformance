@@ -87,12 +87,19 @@ public unsafe partial struct Stack : IDisposable
 
     private void Init(nuint size)
     {
+        ArgumentOutOfRangeException.ThrowIfNegative(size);
+
         if (_buffer != null)
         {
             Free(_buffer);
         }
 
         _buffer = (byte*)Malloc(size);
+        if (_buffer == null)
+        {
+            throw new OutOfMemoryException("Failed to allocate memory for the stack.");
+        }
+
         _size = size;
         _offset = 0;
         _activeScopeCount = 0;
@@ -103,15 +110,15 @@ public unsafe partial struct Stack : IDisposable
             s_locker.Enter(ref token);
             if (s_pStackBuffers == null)
             {
-                s_pStackBuffers = (void**)Malloc((nuint)sizeof(void*) * 4u);
-                s_stackCapacity = 4;
+                s_pStackBuffers = (void**)Malloc((nuint)(sizeof(void*) * Environment.ProcessorCount));
+                s_stackCapacity = Environment.ProcessorCount;
             }
 
             if (s_stackCount >= s_stackCapacity)
             {
                 var pOld = s_pStackBuffers;
                 var newCapacity = s_stackCapacity * 2;
-                var pNew = (void**)Realloc(pOld, (nuint)sizeof(void*) * (nuint)newCapacity);
+                var pNew = (void**)Realloc(pOld, (nuint)(sizeof(void*) * newCapacity));
 
                 s_pStackBuffers = pNew;
                 s_stackCapacity = newCapacity;

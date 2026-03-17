@@ -3,6 +3,7 @@ using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Diagnostics;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -154,10 +155,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
     public UnsafeArray(int count, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        if (count < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(count), "Count can not be less than zero.");
-        }
+        ArgumentOutOfRangeException.ThrowIfNegative(count);
 
         if (handle.Alloc == null)
         {

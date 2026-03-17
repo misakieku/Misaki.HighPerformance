@@ -10,11 +10,7 @@ public enum AllocationOption : byte
     /// <summary>
     /// Clear the memory to zero upon allocation.
     /// </summary>
-    Clear = 1 << 0,
-    /// <summary>
-    /// Specify that this memory allocation should not been tracked competly, which <see cref="AllocationManager"/> will not perform any safty check like use after free and leack detection.
-    /// </summary>
-    Untrack = 1 << 1,
+    Clear = 1 << 0
 }
 
 public enum Allocator : byte

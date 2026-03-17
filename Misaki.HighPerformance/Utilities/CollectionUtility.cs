@@ -54,7 +54,7 @@ public static class CollectionUtility
     /// <param name="index">The zero-based index of the element to retrieve.</param>
     /// <returns>A reference to the element at the specified index in the span.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ref readonly T GetElementUnsafe<T>(this Span<T> span, int index)
+    public static ref T GetElementUnsafe<T>(this Span<T> span, int index)
     {
         return ref Unsafe.Add(ref MemoryMarshal.GetReference(span), index);
     }

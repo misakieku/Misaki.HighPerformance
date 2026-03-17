@@ -7,12 +7,6 @@ namespace Misaki.HighPerformance.Test.UnitTest.Buffer;
 [TestClass]
 public class TestAllocationManager
 {
-    [TestInitialize]
-    public void Initialize()
-    {
-        AllocationManager.EnableDebugLayer();
-    }
-
     [TestMethod]
     public void ShouldNotLeakTest()
     {
