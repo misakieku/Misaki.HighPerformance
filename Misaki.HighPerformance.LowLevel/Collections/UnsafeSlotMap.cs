@@ -132,8 +132,8 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         if (!allocationOption.HasFlag(AllocationOption.Clear))
         {
             _generations.AsSpan().Clear();
+            _validBits.ClearAll();
         }
-        _validBits.ClearAll();
 
         _count = 0;
         _capacity = capacity;
@@ -324,8 +324,6 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         _validBits.ClearAll();
 
         _count = 0;
-
-        Add(default, out _);
     }
 
     public readonly void* GetUnsafePtr()

@@ -193,7 +193,6 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
 
     public void Clear()
     {
-        _array.Clear();
         _count = 0;
         _offset = 0;
     }

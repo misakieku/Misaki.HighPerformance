@@ -28,7 +28,7 @@ public interface IUnsafeCollection<T> : IUnsafeCollection, IEnumerable<T>
     where T : unmanaged
 {
     /// <summary>
-    /// Gets the number of elements in a collection. The value is read-only.
+    /// Gets the number of elements in a collection.
     /// </summary>
     int Count
     {

@@ -467,7 +467,6 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
     public void Clear()
     {
-        _array.Clear();
         _count = 0;
     }
 

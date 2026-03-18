@@ -540,10 +540,15 @@ public unsafe struct FreeList : IDisposable
                     ptr = TryPopFromBucket(cache, cacheIndex, bucketIndex);
                 }
             }
-
-            if (ptr == null)
+            else
             {
-                ptr = AllocateFromChunk(cacheIndex, totalSize, alignment);
+                // Oversized block: Bypass chunk linking entirely and go straight to the OS
+                ptr = AlignedAlloc(totalSize, alignment);
+                if (ptr != null)
+                {
+                    // Pass null for ownerChunk so 'Free' knows this is a standalone allocation
+                    AssignBlockHeader((BlockHeader*)ptr, null, totalSize, cacheIndex);
+                }
             }
 
             if (ptr == null)
@@ -604,10 +609,10 @@ public unsafe struct FreeList : IDisposable
 
         if (bucketIndex < 0)
         {
-            header->ownerChunk = null;
-            header->blockSize = 0;
+            // This is an oversized allocation. It doesn't belong to a bucket or a chunk.
+            // Erase the magic number for safety and instantly yield it back to the OS.
             header->magicNumber = 0;
-            header->ownerCacheIndex = 0;
+            AlignedFree(blockStartPtr);
             return;
         }
 

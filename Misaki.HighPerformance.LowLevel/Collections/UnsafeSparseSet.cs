@@ -396,8 +396,6 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 
         _count = 0;
         _nextId = 0;
-
-        Add(default, out _);
     }
 
     /// <inheritdoc/>
