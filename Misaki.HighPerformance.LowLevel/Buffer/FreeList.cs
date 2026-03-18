@@ -4,8 +4,7 @@ using System.Runtime.InteropServices;
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
 /// <summary>
-/// A thread-safe variable-size allocator that uses per-thread caches for the hot path and
-/// a remote-free queue for cross-thread deallocation.
+/// A variable-size allocator that uses per-thread caches for the hot path and a remote-free queue for cross-thread deallocation.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public unsafe struct FreeList : IDisposable
@@ -93,11 +92,6 @@ public unsafe struct FreeList : IDisposable
     /// Gets the alignment requirement for allocations.
     /// </summary>
     public readonly nuint Alignment => _alignment;
-
-    /// <summary>
-    /// Gets whether the allocator has been disposed.
-    /// </summary>
-    public readonly bool IsDisposed => _disposed != 0;
 
     /// <summary>
     /// Gets the chunk size used by this allocator.
@@ -208,7 +202,7 @@ public unsafe struct FreeList : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private readonly int FindBucket(nuint size)
+    private static int FindBucket(nuint size)
     {
         var blockSize = _MIN_BLOCK_SIZE;
         for (var i = 0; i < _MAX_BUCKETS; i++)
@@ -240,7 +234,7 @@ public unsafe struct FreeList : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void DrainRemoteFrees(ThreadCache* cache)
+    private readonly void DrainRemoteFrees(ThreadCache* cache)
     {
         var head = (FreeNode*)Interlocked.Exchange(ref cache->remoteFreeHead, 0);
         while (head != null)
@@ -320,7 +314,7 @@ public unsafe struct FreeList : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void* TryPopFromBucket(ThreadCache* cache, int cacheIndex, int bucketIndex)
+    private readonly void* TryPopFromBucket(ThreadCache* cache, int cacheIndex, int bucketIndex)
     {
         var buckets = GetBuckets(cache);
         var bucket = &buckets[bucketIndex];
@@ -338,7 +332,7 @@ public unsafe struct FreeList : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void PushToBucket(ThreadCache* cache, int bucketIndex, void* ptr, MemoryChunk* ownerChunk, nuint blockSize)
+    private readonly void PushToBucket(ThreadCache* cache, int bucketIndex, void* ptr, MemoryChunk* ownerChunk, nuint blockSize)
     {
         var buckets = GetBuckets(cache);
         var bucket = &buckets[bucketIndex];
@@ -490,6 +484,9 @@ public unsafe struct FreeList : IDisposable
     /// <summary>
     /// Allocates a memory block of the specified size.
     /// </summary>
+    /// <remarks>
+    /// This is thread safe.
+    /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void* Allocate(nuint size, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
     {
@@ -548,6 +545,7 @@ public unsafe struct FreeList : IDisposable
             {
                 ptr = AllocateFromChunk(cacheIndex, totalSize, alignment);
             }
+
             if (ptr == null)
             {
                 return null;
@@ -576,6 +574,9 @@ public unsafe struct FreeList : IDisposable
     /// <summary>
     /// Frees a previously allocated memory block.
     /// </summary>
+    /// <remarks>
+    /// This is thread safe.
+    /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Free(void* ptr)
     {

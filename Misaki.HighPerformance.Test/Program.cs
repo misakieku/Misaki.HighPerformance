@@ -1,4 +1,5 @@
 using BenchmarkDotNet.Running;
+using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using Misaki.HighPerformance.Mathematics.SPMD;
@@ -10,7 +11,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
-BenchmarkRunner.Run<SPMDBenchmark>();
+//BenchmarkRunner.Run<SPMDBenchmark>();
 //var hashMap = new UnsafeHashMap<int, int>(10, Misaki.HighPerformance.LowLevel.Buffer.Allocator.Persistent);
 //hashMap[0] = 5;
 //hashMap[1] = 6;
@@ -40,3 +41,14 @@ BenchmarkRunner.Run<SPMDBenchmark>();
 //        return ref Unsafe.NullRef<int>();
 //    }
 //}
+
+AllocationManager.Initialize(1024 * 1024 * 1024, 1);
+
+// Should be undefined or throw exception because AllocationManager does not initialized.
+var arr = new UnsafeArray<int>(1000, Allocator.FreeList);
+for (int i = 0; i < arr.Length; i++)
+{
+    Console.WriteLine(arr[i]);
+}
+arr.Dispose();
+AllocationManager.Dispose();

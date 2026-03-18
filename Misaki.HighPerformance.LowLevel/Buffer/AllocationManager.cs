@@ -1,7 +1,6 @@
 using Misaki.HighPerformance.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -49,16 +48,16 @@ public static unsafe class AllocationManager
     {
         private const int _ARENA_MAGIC_ID = -3941029;
 
-        private DynamicArena _arena;
-        private AllocationHandle _handle;
+        private VirtualArena _arena;
         private int _currentTick;
+        private AllocationHandle _handle;
 
         public readonly AllocationHandle Handle => _handle;
         public readonly int CurrentTick => _currentTick;
 
-        public void Init(uint initialSize)
+        public void Init(nuint capacity)
         {
-            _arena = new DynamicArena(initialSize);
+            _arena = new VirtualArena(capacity);
             _handle = new AllocationHandle
             {
                 State = Unsafe.AsPointer(ref this),
@@ -67,6 +66,7 @@ public static unsafe class AllocationManager
                 Free = null,
                 IsValid = &IsValid
             };
+
             _currentTick = 0;
         }
 
@@ -265,20 +265,94 @@ public static unsafe class AllocationManager
         }
     }
 
-    private const uint _DEFAULT_MEMORY_POOL_SIZE = 1024 * 1024; // 1 MB
+    private struct FreeListAllocator : IAllocator, IDisposable
+    {
+        private FreeList _freeList;
+        private AllocationHandle _handle;
 
-    private static readonly ArenaAllocator* s_pArenaAllocator;
-    private static readonly HeapAllocator* s_pHeapAllocator;
-    private static readonly StackAllocator* s_pStackAllocator;
+        public readonly AllocationHandle Handle => _handle;
 
-    private static bool s_disposed;
+        public void Init(int concurrencyLevel)
+        {
+            _freeList = new FreeList(8, 64 * 1024, concurrencyLevel);
+            _handle = new AllocationHandle
+            {
+                State = Unsafe.AsPointer(ref this),
+                Alloc = &Allocate,
+                Realloc = &Reallocate,
+                Free = &Free,
+                IsValid = &IsValid
+            };
+        }
+
+        private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
+        {
+            var selfPtr = (FreeListAllocator*)instance;
+            var ptr = selfPtr->_freeList.Allocate(size, alignment, allocationOption);
+            if (ptr == null)
+            {
+                *pHandle = MemoryHandle.Invalid;
+                return null;
+            }
+
+            *pHandle = AddAllocation(ptr);
+            return ptr;
+        }
+
+        private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
+        {
+            if (ptr == null)
+            {
+                return Allocate(instance, newSize, alignment, allocationOption, pHandle);
+            }
+
+            var selfPtr = (FreeListAllocator*)instance;
+            var newPtr = selfPtr->_freeList.Allocate(newSize, alignment, allocationOption);
+            if (newPtr == null)
+            {
+                return null;
+            }
+
+            MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
+
+            selfPtr->_freeList.Free(ptr);
+            RemoveAllocation(*pHandle);
+
+            *pHandle = AddAllocation(newPtr);
+            return newPtr;
+        }
+
+        private static bool IsValid(void* instance, MemoryHandle handle)
+        {
+            return ContainsAllocation(handle);
+        }
+
+        private static void Free(void* instance, void* ptr, MemoryHandle handle)
+        {
+            var selfPtr = (FreeListAllocator*)instance;
+            selfPtr->_freeList.Free(ptr);
+            RemoveAllocation(handle);
+        }
+
+        public void Dispose()
+        {
+            _freeList.Dispose();
+        }
+    }
+
+    private static ArenaAllocator* s_pArenaAllocator;
+    private static HeapAllocator* s_pHeapAllocator;
+    private static StackAllocator* s_pStackAllocator;
+    private static FreeListAllocator* s_pFreeListAllocator;
+
+    private static bool s_initialized;
 
 #if ENABLE_DEBUG_LAYER
     private static SpinLock s_liveLock;
     private static AllocationHeader* s_pLiveHead;
 #endif
 
-    private static readonly ConcurrentSlotMap<IntPtr> s_allocations;
+    private static ConcurrentSlotMap<IntPtr> s_allocations = null!;
 
     public static readonly MemoryHandle MagicHandle = new MemoryHandle(int.MinValue, int.MinValue);
 
@@ -287,14 +361,12 @@ public static unsafe class AllocationManager
     /// </summary>
     public static int LiveAllocationCount => s_allocations.Count;
 
-    static AllocationManager()
+    public static void Initialize(nuint arenaCapacity, int freeListConcurrencyLevel)
     {
-        var allocatorTotalSize = (nuint)(sizeof(ArenaAllocator) + sizeof(HeapAllocator) + sizeof(StackAllocator));
-        var basePtr = Malloc(allocatorTotalSize);
-
-        s_pArenaAllocator = (ArenaAllocator*)basePtr;
-        s_pHeapAllocator = (HeapAllocator*)((byte*)basePtr + (nuint)sizeof(ArenaAllocator));
-        s_pStackAllocator = (StackAllocator*)((byte*)basePtr + (nuint)(sizeof(ArenaAllocator) + sizeof(HeapAllocator)));
+        if (s_initialized)
+        {
+            return;
+        }
 
 #if ENABLE_DEBUG_LAYER
         s_liveLock = new SpinLock(false);
@@ -303,9 +375,19 @@ public static unsafe class AllocationManager
 
         s_allocations = new ConcurrentSlotMap<IntPtr>(256);
 
-        s_pArenaAllocator->Init(_DEFAULT_MEMORY_POOL_SIZE);
+        var ptr = (byte*)Malloc((nuint)(sizeof(ArenaAllocator) + sizeof(HeapAllocator) + sizeof(StackAllocator) + sizeof(FreeListAllocator)));
+
+        s_pArenaAllocator = (ArenaAllocator*)ptr;
+        s_pHeapAllocator = (HeapAllocator*)(ptr + sizeof(ArenaAllocator));
+        s_pStackAllocator = (StackAllocator*)(ptr + sizeof(ArenaAllocator) + sizeof(HeapAllocator));
+        s_pFreeListAllocator = (FreeListAllocator*)(ptr + sizeof(ArenaAllocator) + sizeof(HeapAllocator) + sizeof(StackAllocator));
+
+        s_pArenaAllocator->Init(arenaCapacity);
         s_pHeapAllocator->Init();
         s_pStackAllocator->Init();
+        s_pFreeListAllocator->Init(freeListConcurrencyLevel);
+
+        s_initialized = true;
     }
 
 #if ENABLE_DEBUG_LAYER
@@ -472,10 +554,13 @@ public static unsafe class AllocationManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static AllocationHandle GetAllocationHandle(Allocator allocator)
     {
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
+
         return allocator switch
         {
             Allocator.Temp => s_pArenaAllocator->Handle,
             Allocator.Persistent => s_pHeapAllocator->Handle,
+            Allocator.FreeList => s_pFreeListAllocator->Handle,
             _ => throw new ArgumentException("Target allocator type does not support custom allocation.", nameof(allocator)),
         };
     }
@@ -491,6 +576,8 @@ public static unsafe class AllocationManager
     /// <exception cref="OutOfMemoryException">Thrown if the allocation fails.</exception>
     public static void* HeapAlloc(nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
     {
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
+
 #if ENABLE_DEBUG_LAYER
         var ptr = DebugAllocate(size, alignment);
 #else
@@ -508,7 +595,7 @@ public static unsafe class AllocationManager
             MemClear(ptr, size);
         }
 
-        *pHandle = AddAllocation((IntPtr)ptr);
+        *pHandle = AddAllocation(ptr);
         return ptr;
     }
 
@@ -520,6 +607,8 @@ public static unsafe class AllocationManager
     /// <param name="handle">The handle representing the memory allocation to free. The handle must be valid and previously allocated.</param>
     public static void HeapFree(void* ptr, MemoryHandle handle)
     {
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
+
 #if ENABLE_DEBUG_LAYER
         if (handle != MagicHandle)
         {
@@ -540,6 +629,8 @@ public static unsafe class AllocationManager
     /// <param name="handle">The handle representing the memory allocation to free. The handle must be valid and previously allocated.</param>
     public static void HeapFree(MemoryHandle handle)
     {
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
+
         if (TryGetAllocation(handle, out var ptr))
         {
             HeapFree((void*)ptr, handle);
@@ -552,6 +643,7 @@ public static unsafe class AllocationManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ResetTempAllocator()
     {
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
         s_pArenaAllocator->Reset();
     }
 
@@ -562,6 +654,7 @@ public static unsafe class AllocationManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Stack.Scope CreateStackScope()
     {
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
         return StackAllocator.CreateScope(s_pStackAllocator);
     }
 
@@ -571,9 +664,11 @@ public static unsafe class AllocationManager
     /// <param name="ptr">A pointer to the memory block to be registered. The pointer must reference a valid, allocated memory region.</param>
     /// <returns>A MemoryHandle representing the registered allocation.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static MemoryHandle AddAllocation(IntPtr ptr)
+    public static MemoryHandle AddAllocation(void* ptr)
     {
-        var id = s_allocations.Add(ptr, out var generation);
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
+
+        var id = s_allocations.Add((nint)ptr, out var generation);
         return new MemoryHandle(id, generation);
     }
 
@@ -585,6 +680,7 @@ public static unsafe class AllocationManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool RemoveAllocation(MemoryHandle handle)
     {
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
         return s_allocations.Remove(handle.id, handle.generation);
     }
 
@@ -597,6 +693,7 @@ public static unsafe class AllocationManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool TryGetAllocation(MemoryHandle handle, out IntPtr ptr)
     {
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
         return s_allocations.TryGetElement(handle.id, handle.generation, out ptr);
     }
 
@@ -612,6 +709,8 @@ public static unsafe class AllocationManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool ContainsAllocation(MemoryHandle handle)
     {
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
+
         if (handle == MagicHandle)
         {
             return true;
@@ -625,7 +724,7 @@ public static unsafe class AllocationManager
     /// </summary>
     public static void Dispose()
     {
-        if (s_disposed)
+        if (!s_initialized)
         {
             return;
         }
@@ -678,15 +777,12 @@ public static unsafe class AllocationManager
         }
 #endif
 
-        // NOTE: Arena allocator holds the base ptr for all allocators, heap and stack allocators do not own any memory themselves.
-        if (s_pArenaAllocator != null)
-        {
-            s_pArenaAllocator->Dispose();
-            s_pStackAllocator->Dispose();
+        s_pArenaAllocator->Dispose();
+        s_pStackAllocator->Dispose();
+        s_pFreeListAllocator->Dispose();
 
-            NativeMemory.Free(s_pArenaAllocator);
-        }
+        Free(s_pArenaAllocator);
 
-        s_disposed = true;
+        s_initialized = false;
     }
 }

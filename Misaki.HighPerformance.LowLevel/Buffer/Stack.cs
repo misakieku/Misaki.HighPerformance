@@ -221,6 +221,11 @@ public unsafe partial struct Stack : IDisposable
 
     public void Dispose()
     {
+        if (_buffer == null)
+        {
+            return;
+        }
+
         Free(_buffer);
 
         _buffer = null;

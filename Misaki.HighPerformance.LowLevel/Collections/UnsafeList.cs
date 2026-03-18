@@ -206,11 +206,15 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     {
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [Conditional("ENABLE_COLLECTION_CHECKS")]
     private readonly void CheckNoResizeCapacity(int count)
     {
         CheckNoResizeCapacity(count, Count);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [Conditional("ENABLE_COLLECTION_CHECKS")]
     private readonly void CheckNoResizeCapacity(int index, int count)
     {
         if (index + count > Capacity)
@@ -242,16 +246,19 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Enumerator GetEnumerator()
     {
         return new((UnsafeList<T>*)UnsafeUtility.AddressOf(ref this));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     IEnumerator<T> IEnumerable<T>.GetEnumerator()
     {
         return GetEnumerator();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();
@@ -266,6 +273,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// Otherwise the parallel reader will be invalid after the stack frame that creates the list is popped, even if the list's internal array is still valid.
     /// </remarks>
     /// <returns>A <see cref="ParallelReader"/> instance that can be used to read items from the list in a thread-safe manner.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ParallelReader AsParallelReader()
     {
         return new((UnsafeList<T>*)UnsafeUtility.AddressOf(ref this));
@@ -280,6 +288,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// Otherwise the parallel writer will be invalid after the stack frame that creates the list is popped, even if the list's internal array is still valid.
     /// </remarks>
     /// <returns>A <see cref="ParallelWriter"/> instance that can be used to add items to the list in a thread-safe manner.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ParallelWriter AsParallelWriter()
     {
         return new((UnsafeList<T>*)UnsafeUtility.AddressOf(ref this));

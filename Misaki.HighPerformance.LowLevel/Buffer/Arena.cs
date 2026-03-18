@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
@@ -30,10 +31,11 @@ public unsafe struct Arena : IDisposable
     }
 
     /// <summary>
-    /// Allocates a block of memory of a specified size with a given alignment. Returns a pointer to the allocated
-    /// memory or null if allocation fails.
-    /// You don't need to free the memory manually, it will be freed when the arena is disposed.
+    /// Allocates a block of memory of a specified size with a given alignment.
     /// </summary>
+    /// <remarks>
+    /// This is thread safe.
+    /// </remarks>
     /// <param name="size">Specifies the amount of memory to allocate in bytes.</param>
     /// <param name="alignment">Defines the alignment requirement for the allocated memory.</param>
     /// <param name="allocationOption">The option when allocating memory.</param>
@@ -81,17 +83,11 @@ public unsafe struct Arena : IDisposable
     }
 
     /// <summary>
-    /// Resets the arena, optionally clearing the allocated memory.
+    /// Resets the arena.
     /// </summary>
-    /// <param name="clear">If true, the allocated memory will be cleared; otherwise, it will not be cleared.</param>
-    /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Reset()
     {
-        if (_buffer == null)
-        {
-            throw new ObjectDisposedException(nameof(DynamicArena));
-        }
-
         _offset = 0;
     }
 

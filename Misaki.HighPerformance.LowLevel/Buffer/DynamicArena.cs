@@ -3,8 +3,7 @@ using System.Runtime.InteropServices;
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
 /// <summary>
-/// A dynamic memory management structure that automatically grows by creating linked arenas
-/// when more space is needed.
+/// A dynamic memory management structure that automatically grows by creating linked arenas when more space is needed.
 /// </summary>
 [StructLayout(LayoutKind.Explicit, Size = 128)]
 public unsafe struct DynamicArena : IDisposable
@@ -97,6 +96,9 @@ public unsafe struct DynamicArena : IDisposable
     /// <summary>
     /// Allocates a block of memory with specified size and alignment. Creates a new arena if current one is full.
     /// </summary>
+    /// <remarks>
+    /// This is thread safe.
+    /// </remarks>
     /// <param name="size">Size of the memory block to allocate in bytes.</param>
     /// <param name="alignment">Alignment requirement for the memory block.</param>
     /// <returns>Pointer to the allocated memory block.</returns>
@@ -132,10 +134,8 @@ public unsafe struct DynamicArena : IDisposable
     }
 
     /// <summary>
-    /// Resets all arenas in the chain, optionally clearing their memory.
+    /// Resets all arenas in the chain.
     /// </summary>
-    /// <param name="clear">If true, memory will be cleared during reset.</param>
-    /// <exception cref="ObjectDisposedException">Thrown if the arena has been disposed.</exception>
     public void Reset()
     {
         var current = _root;

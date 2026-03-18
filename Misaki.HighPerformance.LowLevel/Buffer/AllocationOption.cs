@@ -25,4 +25,8 @@ public enum Allocator : byte
     /// Allocator for persistent allocations. Allocations are not automatically released after use.
     /// </summary>
     Persistent,
+    /// <summary>
+    /// Allocator for persistent allocations using a free list. Allocations are not automatically released after use, but can be reused to reduce fragmentation and improve performance.
+    /// </summary>
+    FreeList
 }

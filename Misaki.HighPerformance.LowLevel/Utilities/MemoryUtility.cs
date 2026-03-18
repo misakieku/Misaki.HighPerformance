@@ -1,10 +1,55 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace Misaki.HighPerformance.LowLevel.Utilities;
 
+[Flags]
+public enum VirtualAllocationFlags
+{
+    Reserve = 1 << 0,
+    Commit = 1 << 1,
+}
+
 public static unsafe partial class MemoryUtility
 {
+    private const uint _MEM_COMMIT = 0x00001000;
+    private const uint _MEM_RESERVE = 0x00002000;
+    private const uint _MEM_RELEASE = 0x00008000;
+    private const uint _PAGE_READWRITE = 0x04;
+
+    [SupportedOSPlatform("windows")]
+    [DllImport("kernel32.dll")]
+    private static extern void* VirtualAlloc(void* lpAddress, nuint dwSize, uint flAllocationType, uint flProtect);
+
+    [SupportedOSPlatform("windows")]
+    [DllImport("kernel32.dll")]
+    private static extern int VirtualFree(void* lpAddress, nuint dwSize, uint dwFreeType);
+
+    private const int _PROT_NONE = 0x0;
+    private const int _PROT_READ = 0x1;
+    private const int _PROT_WRITE = 0x2;
+    private const int _MAP_PRIVATE = 0x02;
+
+    // Note: MAP_ANONYMOUS varies by OS. Linux is 0x20, macOS is 0x1000.
+    private static int GetMapAnonymousFlag() => RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? 0x1000 : 0x20;
+
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("macos")]
+    [DllImport("libc")]
+    private static extern void* mmap(void* addr, nuint length, int prot, int flags, int fd, nint offset);
+
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("macos")]
+    [DllImport("libc")]
+    private static extern int munmap(void* addr, nuint length);
+
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("macos")]
+    [DllImport("libc")]
+    private static extern int mprotect(void* addr, nuint len, int prot);
+
+
     [StructLayout(LayoutKind.Sequential)]
     private struct AlignOfHelper<T>
         where T : struct
@@ -222,6 +267,79 @@ public static unsafe partial class MemoryUtility
         var span2 = new ReadOnlySpan<byte>(ptr2, (int)size);
 
         return span1.SequenceCompareTo(span2);
+    }
+
+    public static void* Mmap(void* addr, nuint size, VirtualAllocationFlags flags)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            var allocFlags = 0u;
+            var protect = _PAGE_READWRITE;
+
+            if (flags.HasFlag(VirtualAllocationFlags.Reserve))
+            {
+                allocFlags |= _MEM_RESERVE;
+            }
+
+            if (flags.HasFlag(VirtualAllocationFlags.Commit))
+            {
+                allocFlags |= _MEM_COMMIT;
+            }
+
+            var ptr = VirtualAlloc(addr, size, allocFlags, protect);
+            if (ptr == null)
+            {
+                throw new OutOfMemoryException("Failed to allocate memory using MMap.");
+            }
+
+            return ptr;
+        }
+        else if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
+        {
+            if (flags == VirtualAllocationFlags.Commit)
+            {
+                // POSIX commit changes protection of already-reserved memory
+                if (mprotect(addr, size, _PROT_READ | _PROT_WRITE) == -1)
+                {
+                    throw new OutOfMemoryException("Failed to commit physical RAM via mprotect.");
+                }
+
+                return addr;
+            }
+
+            // Reserve or Reserve|Commit creates a new mapping
+            var prot = flags.HasFlag(VirtualAllocationFlags.Commit) ? _PROT_READ | _PROT_WRITE : _PROT_NONE;
+            var ptr = mmap(addr, size, prot, _MAP_PRIVATE | GetMapAnonymousFlag(), -1, 0);
+
+            if (ptr == (void*)-1)
+            {
+                throw new OutOfMemoryException("Failed to allocate memory using MMap.");
+            }
+
+            return ptr;
+        }
+
+        throw new PlatformNotSupportedException("Mmap is not supported on this platform.");
+    }
+
+
+    public static bool Munmap(void* ptr, nuint size)
+    {
+        if (ptr == null)
+        {
+            return false;
+        }
+
+        if (OperatingSystem.IsWindows())
+        {
+            return VirtualFree(ptr, 0, _MEM_RELEASE) != 0;
+        }
+        else if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
+        {
+            return munmap(ptr, size) == 0;
+        }
+
+        throw new PlatformNotSupportedException("Munmap is not supported on this platform.");
     }
 
     /// <summary>
