@@ -35,7 +35,7 @@
       <BuildAction>Compile</BuildAction>
     </Content>
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Update="Collections\FixedString.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

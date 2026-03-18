@@ -1,3 +1,4 @@
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
@@ -18,7 +19,7 @@ public unsafe partial struct Stack
 
         for (var i = 0; i < s_stackCount; i++)
         {
-            Free(s_pStackBuffers[i]);
+            MemoryUtility.Free(s_pStackBuffers[i]);
         }
     }
 }
@@ -28,8 +29,18 @@ public unsafe partial struct Stack
 /// blocks within a preallocated buffer.
 /// </summary>
 /// <remarks>This is not a thread-safe implementation.</remarks>
-public unsafe partial struct Stack : IDisposable
+public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
 {
+    public struct CreationOpts
+    {
+        public nuint size;
+    }
+
+    public static Stack Create(in CreationOpts opts)
+    {
+        return new Stack(opts.size);
+    }
+
     private const nuint _DEFAULT_SIZE = 1024 * 1024; // 1MB
 
     public readonly ref struct Scope : IDisposable
@@ -209,6 +220,10 @@ public unsafe partial struct Stack : IDisposable
         }
 
         return ptr;
+    }
+
+    public readonly void Free(void* ptr)
+    {
     }
 
     /// <summary>

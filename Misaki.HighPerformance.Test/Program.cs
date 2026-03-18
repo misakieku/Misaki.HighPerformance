@@ -1,15 +1,5 @@
-using BenchmarkDotNet.Running;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
-using Misaki.HighPerformance.LowLevel.Utilities;
-using Misaki.HighPerformance.Mathematics.SPMD;
-using Misaki.HighPerformance.Test.Benchmark;
-using Misaki.HighPerformance.Test.Jobs;
-using System.Dynamic;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 
 //BenchmarkRunner.Run<SPMDBenchmark>();
 //var hashMap = new UnsafeHashMap<int, int>(10, Misaki.HighPerformance.LowLevel.Buffer.Allocator.Persistent);
@@ -42,13 +32,13 @@ using System.Text.Json.Serialization;
 //    }
 //}
 
-AllocationManager.Initialize(1024 * 1024 * 1024, 1);
+using var pool = new MemoryPool<Stack, Stack.CreationOpts>(new Stack.CreationOpts() { size = 1024 * 1024 });
+using var scope = pool.Allocator.CreateScope(pool.AllocationHandle);
 
-// Should be undefined or throw exception because AllocationManager does not initialized.
-var arr = new UnsafeArray<int>(1000, Allocator.FreeList);
-for (int i = 0; i < arr.Length; i++)
+var arr = new UnsafeArray<int>(1000, scope.AllocationHandle);
+for (var i = 0; i < arr.Length; i++)
 {
     Console.WriteLine(arr[i]);
 }
+
 arr.Dispose();
-AllocationManager.Dispose();

@@ -109,3 +109,12 @@ public interface IAllocator
         get;
     }
 }
+
+public unsafe interface IMemoryAllocator<TSelf, TOpts> : IDisposable
+    where TSelf : unmanaged, IMemoryAllocator<TSelf, TOpts>
+{
+    static abstract TSelf Create(in TOpts opts);
+
+    void* Allocate(nuint size, nuint alignment, AllocationOption option = AllocationOption.None);
+    void Free(void* ptr);
+}

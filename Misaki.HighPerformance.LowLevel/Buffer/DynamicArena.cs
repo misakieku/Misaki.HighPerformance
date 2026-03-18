@@ -6,8 +6,18 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 /// A dynamic memory management structure that automatically grows by creating linked arenas when more space is needed.
 /// </summary>
 [StructLayout(LayoutKind.Explicit, Size = 128)]
-public unsafe struct DynamicArena : IDisposable
+public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.CreateOptions>
 {
+    public struct CreateOptions
+    {
+        public uint initialSize;
+    }
+
+    public static DynamicArena Create(in CreateOptions options)
+    {
+        return new DynamicArena(options.initialSize);
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     private struct ArenaNode
     {
@@ -131,6 +141,10 @@ public unsafe struct DynamicArena : IDisposable
 
         _current = current;
         return result;
+    }
+
+    public readonly void Free(void* ptr)
+    {
     }
 
     /// <summary>

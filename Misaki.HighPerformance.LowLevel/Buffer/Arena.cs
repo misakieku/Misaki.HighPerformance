@@ -7,8 +7,18 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 /// A memory management structure that allocates and resets memory blocks with specified alignment.
 /// </summary>
 [StructLayout(LayoutKind.Explicit, Size = 64)] // Cache line aligned to prevent false sharing
-public unsafe struct Arena : IDisposable
+public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreateOptions>
 {
+    public struct CreateOptions
+    {
+        public nuint size;
+    }
+
+    public static Arena Create(in CreateOptions opts)
+    {
+        return new Arena(opts.size);
+    }
+
     [FieldOffset(0)]
     private byte* _buffer;
     [FieldOffset(8)]
@@ -80,6 +90,11 @@ public unsafe struct Arena : IDisposable
         }
 
         return ptr;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly void Free(void* ptr)
+    {
     }
 
     /// <summary>

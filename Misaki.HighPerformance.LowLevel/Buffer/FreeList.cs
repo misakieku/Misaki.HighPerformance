@@ -7,8 +7,20 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 /// A variable-size allocator that uses per-thread caches for the hot path and a remote-free queue for cross-thread deallocation.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public unsafe struct FreeList : IDisposable
+public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpts>
 {
+    public struct CreationOpts
+    {
+        public nuint alignment;
+        public nuint chunkSize;
+        public int maxConcurrencyLevel;
+    }
+
+    public static FreeList Create(in CreationOpts opts)
+    {
+        return new FreeList(opts.alignment, opts.chunkSize, opts.maxConcurrencyLevel);
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     private struct FreeNode
     {
