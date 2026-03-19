@@ -32,7 +32,7 @@ using Misaki.HighPerformance.LowLevel.Collections;
 //    }
 //}
 
-using var pool = new MemoryPool<Stack, Stack.CreationOpts>(new Stack.CreationOpts() { size = 1024 * 1024 });
+using var pool = new MemoryPool<VirtualStack, VirtualStack.CreationOpts>(new VirtualStack.CreationOpts() { reserveCapacity = 1024 * 1024 });
 using var scope = pool.Allocator.CreateScope(pool.AllocationHandle);
 
 var arr = new UnsafeArray<int>(1000, scope.AllocationHandle);

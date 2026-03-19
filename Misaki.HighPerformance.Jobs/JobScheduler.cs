@@ -220,10 +220,10 @@ public unsafe partial class JobScheduler
     /// </remarks>
     public static AllocationHandle TempAllocatorHandle => pTempAllocator->Handle;
 
-    public static void InitTempAllocator()
+    public static void InitTempAllocator(nuint capacityPerFrame)
     {
         pTempAllocator = (TempJobAllocator*)MemoryUtility.Malloc((nuint)sizeof(TempJobAllocator));
-        pTempAllocator->Init();
+        pTempAllocator->Initialize(capacityPerFrame);
     }
 
     public static void ReleaseTempAllocator()

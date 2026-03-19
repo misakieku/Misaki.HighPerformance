@@ -1,28 +1,7 @@
-using Misaki.HighPerformance.LowLevel.Utilities;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
-
-public unsafe partial struct Stack
-{
-    private static void** s_pStackBuffers = null;
-    private static int s_stackCount = 0;
-    private static int s_stackCapacity = 0;
-    private static readonly SpinLock s_locker = new SpinLock(false);
-
-    public static void DisposeAll()
-    {
-        if (s_pStackBuffers == null)
-        {
-            return;
-        }
-
-        for (var i = 0; i < s_stackCount; i++)
-        {
-            MemoryUtility.Free(s_pStackBuffers[i]);
-        }
-    }
-}
 
 /// <summary>
 /// Provides a stack-based memory allocator for unmanaged memory, enabling fast allocation and deallocation of memory
@@ -41,8 +20,6 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
         return new Stack(opts.size);
     }
 
-    private const nuint _DEFAULT_SIZE = 1024 * 1024; // 1MB
-
     public readonly ref struct Scope : IDisposable
     {
         private readonly Stack* _allocator;
@@ -56,7 +33,9 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
             _allocator = allocator;
             _handle = handle;
             _originalOffset = allocator->_offset;
+#if ENABLE_SAFETY_CHECKS
             _allocator->_activeScopeCount++;
+#endif
         }
 
         public void Dispose()
@@ -64,7 +43,9 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
             if (_allocator != null)
             {
                 _allocator->_offset = _allocator->_offset > _originalOffset ? _originalOffset : _allocator->_offset;
+#if ENABLE_SAFETY_CHECKS
                 _allocator->_activeScopeCount--;
+#endif
             }
         }
     }
@@ -72,14 +53,15 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
     private byte* _buffer;
     private nuint _size;
     private nuint _offset;
+#if ENABLE_SAFETY_CHECKS
     private uint _activeScopeCount;
+#endif
 
     internal readonly byte* Buffer => _buffer;
-
-    public nuint Offset
+    internal nuint Offset
     {
         readonly get => _offset;
-        internal set => _offset = value;
+        set => _offset = value;
     }
 
     /// <summary>
@@ -88,80 +70,14 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
     /// <param name="size">The size, in bytes, of the memory buffer to allocate for stack-based allocations. Must be greater than zero.</param>
     public Stack(nuint size)
     {
-        if (size == 0)
-        {
-            throw new ArgumentException("Size must be greater than zero.", nameof(size));
-        }
-
-        Init(size);
-    }
-
-    private void Init(nuint size)
-    {
         ArgumentOutOfRangeException.ThrowIfNegative(size);
 
-        if (_buffer != null)
-        {
-            Free(_buffer);
-        }
-
         _buffer = (byte*)Malloc(size);
-        if (_buffer == null)
-        {
-            throw new OutOfMemoryException("Failed to allocate memory for the stack.");
-        }
-
         _size = size;
         _offset = 0;
+#if ENABLE_SAFETY_CHECKS
         _activeScopeCount = 0;
-
-        var token = false;
-        try
-        {
-            s_locker.Enter(ref token);
-            if (s_pStackBuffers == null)
-            {
-                s_pStackBuffers = (void**)Malloc((nuint)(sizeof(void*) * Environment.ProcessorCount));
-                s_stackCapacity = Environment.ProcessorCount;
-            }
-
-            if (s_stackCount >= s_stackCapacity)
-            {
-                var pOld = s_pStackBuffers;
-                var newCapacity = s_stackCapacity * 2;
-                var pNew = (void**)Realloc(pOld, (nuint)(sizeof(void*) * newCapacity));
-
-                s_pStackBuffers = pNew;
-                s_stackCapacity = newCapacity;
-            }
-
-            s_pStackBuffers[s_stackCount] = _buffer;
-            s_stackCount++;
-        }
-        finally
-        {
-            if (token)
-            {
-                s_locker.Exit();
-            }
-        }
-
-    }
-
-    private readonly void ThrowIfNoScope()
-    {
-        if (_activeScopeCount == 0)
-        {
-            throw new InvalidOperationException("Allocations can only be made within an active memory scope.");
-        }
-    }
-
-    private void EnsureInitialize()
-    {
-        if (_buffer == null || _size == 0)
-        {
-            Init(_DEFAULT_SIZE);
-        }
+#endif
     }
 
     /// <summary>
@@ -174,7 +90,6 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Scope CreateScope(AllocationHandle handle)
     {
-        EnsureInitialize();
         return new Scope((Stack*)Unsafe.AsPointer(ref this), handle);
     }
 
@@ -189,7 +104,12 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
     /// there is insufficient space in the buffer.</returns>
     public void* Allocate(nuint size, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
     {
-        ThrowIfNoScope();
+#if ENABLE_SAFETY_CHECKS
+        if (_activeScopeCount == 0)
+        {
+            throw new InvalidOperationException("Allocations can only be made within an active memory scope.");
+        }
+#endif
 
         if (size == 0)
         {
@@ -202,7 +122,6 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
         }
 
         var alignedOffset = (_offset + alignment - 1) & ~(alignment - 1);
-
         var newOffset = alignedOffset + size;
 
         if (newOffset > _size)
@@ -222,6 +141,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
         return ptr;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void Free(void* ptr)
     {
     }
@@ -229,6 +149,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
     /// <summary>
     /// Resets the internal offset to its initial position.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Reset()
     {
         _offset = 0;

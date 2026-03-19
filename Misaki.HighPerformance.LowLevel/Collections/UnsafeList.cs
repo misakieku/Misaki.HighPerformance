@@ -207,14 +207,14 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("ENABLE_SAFETY_CHECKS")]
     private readonly void CheckNoResizeCapacity(int count)
     {
         CheckNoResizeCapacity(count, Count);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("ENABLE_SAFETY_CHECKS")]
     private readonly void CheckNoResizeCapacity(int index, int count)
     {
         if (index + count > Capacity)

@@ -7,10 +7,9 @@ namespace Misaki.HighPerformance.Jobs;
 public unsafe struct TempJobAllocator : IAllocator, IDisposable
 {
     private const int _FRAME_LATENCY = 4;
-    private const uint _ARENA_SIZE = 1024 * 1024; // 1 MB
     private const int _MAGIC_ID = -559038737;
 
-    private DynamicArena* _pArena;
+    private VirtualArena* _pArena;
     private int _currentFrameCount;
     private int _currentFrameIndex;
     private fixed int _allocationsPerFrame[_FRAME_LATENCY];
@@ -20,18 +19,18 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
 
     public readonly AllocationHandle Handle => _handle;
 
-    internal void Init()
+    public void Initialize(nuint capacity)
     {
         var memoryHandle = default(MemoryHandle);
 
-        _pArena = (DynamicArena*)AllocationManager.HeapAlloc((nuint)(sizeof(DynamicArena) * _FRAME_LATENCY), MemoryUtility.AlignOf<DynamicArena>(), AllocationOption.Clear, &memoryHandle);
+        _pArena = (VirtualArena*)AllocationManager.HeapAlloc((nuint)(sizeof(VirtualArena) * _FRAME_LATENCY), MemoryUtility.AlignOf<VirtualArena>(), AllocationOption.Clear, &memoryHandle);
         _currentFrameCount = 0;
         _currentFrameIndex = 0;
         _memoryHandle = memoryHandle;
 
         for (int i = 0; i < _FRAME_LATENCY; i++)
         {
-            _pArena[i].Initialize(_ARENA_SIZE);
+            _pArena[i] = new VirtualArena(capacity);
             _allocationsPerFrame[i] = 0;
         }
 

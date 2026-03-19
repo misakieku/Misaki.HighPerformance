@@ -1,6 +1,9 @@
 using Misaki.HighPerformance.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+#if ENABLE_DEBUG_LAYER
+using System.Runtime.InteropServices;
+#endif
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -21,6 +24,24 @@ public readonly struct AllocationInfo
     /// Get the stack trace at the time of allocation for debugging purposes.
     /// </summary>
     public StackTrace StackTrace
+    {
+        get; init;
+    }
+}
+
+public readonly struct AllocationManagerInitOpts
+{
+    public nuint ArenaCapacity
+    {
+        get; init;
+    }
+
+    public nuint StackCapacity
+    {
+        get; init;
+    }
+
+    public int FreeListConcurrencyLevel
     {
         get; init;
     }
@@ -181,8 +202,13 @@ public static unsafe class AllocationManager
     {
         private const int _STACK_MAGIC_ID = -6843541;
 
+        private static void** s_pStackBuffers = null;
+        private static int s_stackCount = 0;
+        private static int s_stackCapacity = 0;
+        private static readonly SpinLock s_locker = new SpinLock(false);
+
         [ThreadStatic]
-        private static Stack s_stack;
+        private static VirtualStack s_stack;
         private AllocationHandle _handle;
 
         public readonly AllocationHandle Handle => _handle;
@@ -199,8 +225,49 @@ public static unsafe class AllocationManager
             };
         }
 
+        private static void EnsureInitialize()
+        {
+            if (s_stack.Buffer == null)
+            {
+                s_stack = new VirtualStack(s_threadLocalStackDefaultSize);
+
+                var token = false;
+                try
+                {
+                    s_locker.Enter(ref token);
+                    if (s_pStackBuffers == null)
+                    {
+                        s_pStackBuffers = (void**)Malloc((nuint)(sizeof(void*) * Environment.ProcessorCount));
+                        s_stackCapacity = Environment.ProcessorCount;
+                    }
+
+                    if (s_stackCount >= s_stackCapacity)
+                    {
+                        var pOld = s_pStackBuffers;
+                        var newCapacity = s_stackCapacity * 2;
+                        var pNew = (void**)Realloc(pOld, (nuint)(sizeof(void*) * newCapacity));
+
+                        s_pStackBuffers = pNew;
+                        s_stackCapacity = newCapacity;
+                    }
+
+                    s_pStackBuffers[s_stackCount] = s_stack.Buffer;
+                    s_stackCount++;
+                }
+                finally
+                {
+                    if (token)
+                    {
+                        s_locker.Exit();
+                    }
+                }
+            }
+        }
+
         private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
         {
+            EnsureInitialize();
+
             var ptr = s_stack.Allocate(size, alignment, allocationOption);
             if (ptr == null)
             {
@@ -218,6 +285,8 @@ public static unsafe class AllocationManager
             {
                 return Allocate(instance, newSize, alignment, allocationOption, pHandle);
             }
+
+            EnsureInitialize();
 
             // Optimize for last allocation. Set offset directly.
             var oldBase = s_stack.Buffer + s_stack.Offset - oldSize;
@@ -254,14 +323,23 @@ public static unsafe class AllocationManager
             return handle.id == _STACK_MAGIC_ID && handle.generation <= (int)s_stack.Offset;
         }
 
-        public static Stack.Scope CreateScope(StackAllocator* pSelf)
+        public static VirtualStack.Scope CreateScope(StackAllocator* pSelf)
         {
+            EnsureInitialize();
             return s_stack.CreateScope(pSelf->_handle);
         }
 
         public readonly void Dispose()
         {
-            Stack.DisposeAll();
+            if (s_pStackBuffers == null)
+            {
+                return;
+            }
+
+            for (var i = 0; i < s_stackCount; i++)
+            {
+                Free(s_pStackBuffers[i]);
+            }
         }
     }
 
@@ -345,8 +423,6 @@ public static unsafe class AllocationManager
     private static StackAllocator* s_pStackAllocator;
     private static FreeListAllocator* s_pFreeListAllocator;
 
-    private static bool s_initialized;
-
 #if ENABLE_DEBUG_LAYER
     private static SpinLock s_liveLock;
     private static AllocationHeader* s_pLiveHead;
@@ -356,12 +432,16 @@ public static unsafe class AllocationManager
 
     public static readonly MemoryHandle MagicHandle = new MemoryHandle(int.MinValue, int.MinValue);
 
+    private static bool s_initialized;
+
+    internal static nuint s_threadLocalStackDefaultSize;
+
     /// <summary>
-    /// Gets the number of live persistent heap allocations when the debug layer is disabled.
+    /// Gets the number of live tracked heap allocations.
     /// </summary>
     public static int LiveAllocationCount => s_allocations.Count;
 
-    public static void Initialize(nuint arenaCapacity, int freeListConcurrencyLevel)
+    public static void Initialize(AllocationManagerInitOpts opts)
     {
         if (s_initialized)
         {
@@ -382,10 +462,12 @@ public static unsafe class AllocationManager
         s_pStackAllocator = (StackAllocator*)(ptr + sizeof(ArenaAllocator) + sizeof(HeapAllocator));
         s_pFreeListAllocator = (FreeListAllocator*)(ptr + sizeof(ArenaAllocator) + sizeof(HeapAllocator) + sizeof(StackAllocator));
 
-        s_pArenaAllocator->Init(arenaCapacity);
+        s_pArenaAllocator->Init(opts.ArenaCapacity);
         s_pHeapAllocator->Init();
         s_pStackAllocator->Init();
-        s_pFreeListAllocator->Init(freeListConcurrencyLevel);
+        s_pFreeListAllocator->Init(opts.FreeListConcurrencyLevel);
+
+        s_threadLocalStackDefaultSize = opts.StackCapacity;
 
         s_initialized = true;
     }
@@ -652,7 +734,7 @@ public static unsafe class AllocationManager
     /// </summary>
     /// <returns>A <see cref="Stack.Scope"/> instance representing the newly created stack scope. The scope must be disposed when no longer needed to release allocated resources.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Stack.Scope CreateStackScope()
+    public static VirtualStack.Scope CreateStackScope()
     {
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
         return StackAllocator.CreateScope(s_pStackAllocator);

@@ -6,8 +6,17 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 /// <summary>
 /// A thread-safe memory management structure that reserves a large virtual address space and commits physical memory on demand as allocations are made.
 /// </summary>
-public unsafe struct VirtualArena
+public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.CreationOptions>
 {
+    public struct CreationOptions
+    {
+        public nuint reserveCapacity;
+    }
+    public static VirtualArena Create(in CreationOptions opts)
+    {
+        return new VirtualArena(opts.reserveCapacity);
+    }
+
     private const nuint _PAGE_SIZE = 64 * 1024;
 
     private byte* _baseAddress;
@@ -93,6 +102,11 @@ public unsafe struct VirtualArena
         }
 
         return ptr;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly void Free(void* ptr)
+    {
     }
 
     /// <summary>

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
@@ -30,27 +31,17 @@ public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.
     [FieldOffset(8)]
     private ArenaNode* _current;
     [FieldOffset(16)]
-    private uint _initialSize;
+    private readonly nuint _initialSize;
 
-    [FieldOffset(20)]
+    [FieldOffset(24)]
     private volatile int _nodeCreationLock;
 
     /// <summary>
     /// Initializes a new instance of DynamicArena with the specified initial size.
     /// </summary>
     /// <param name="initialSize">The initial size in bytes for the first arena block.</param>
-    public DynamicArena(uint initialSize)
+    public DynamicArena(nuint initialSize)
     {
-        Initialize(initialSize);
-    }
-
-    public void Initialize(uint initialSize)
-    {
-        if (_root != null)
-        {
-            return;
-        }
-
         _initialSize = initialSize;
         _root = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
         _root->arena = new Arena(initialSize);
@@ -143,6 +134,7 @@ public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.
         return result;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void Free(void* ptr)
     {
     }

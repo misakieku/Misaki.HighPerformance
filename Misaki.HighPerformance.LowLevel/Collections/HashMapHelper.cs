@@ -156,7 +156,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("ENABLE_SAFETY_CHECKS")]
     private readonly void ThrowIfNotCreated()
     {
         if (!IsCreated)

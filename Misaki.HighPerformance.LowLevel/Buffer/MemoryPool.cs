@@ -38,8 +38,7 @@ public unsafe struct MemoryPool<T, TOpts> : IDisposable
             return Allocate(pAllocator, newSize, alignment, allocationOption, pHandle);
         }
 
-        MemoryHandle newHandle;
-        var newPtr = Allocate(pAllocator, newSize, alignment, allocationOption, &newHandle);
+        var newPtr = Allocate(pAllocator, newSize, alignment, allocationOption, pHandle);
         if (newPtr == null)
         {
             return null;
@@ -48,7 +47,6 @@ public unsafe struct MemoryPool<T, TOpts> : IDisposable
         MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
         Free(pAllocator, ptr, *pHandle);
 
-        *pHandle = newHandle;
         return newPtr;
     }
 

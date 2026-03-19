@@ -200,7 +200,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("ENABLE_SAFETY_CHECKS")]
     private readonly void ThrowIfNotCreated()
     {
         if (!IsCreated)
@@ -210,7 +210,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("ENABLE_SAFETY_CHECKS")]
     private readonly void CheckIndexBounds(int index)
     {
         ThrowIfNotCreated();

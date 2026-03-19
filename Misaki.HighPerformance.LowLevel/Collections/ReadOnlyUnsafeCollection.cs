@@ -96,7 +96,7 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("ENABLE_SAFETY_CHECKS")]
     private readonly void CheckIndexBounds(int index)
     {
         if (index >= _count)
