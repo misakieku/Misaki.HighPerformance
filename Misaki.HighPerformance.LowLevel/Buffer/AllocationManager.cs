@@ -1,3 +1,7 @@
+#if DEBUG
+#define ENABLE_DEBUG_LAYER
+#endif
+
 using Misaki.HighPerformance.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -338,7 +342,7 @@ public static unsafe class AllocationManager
 
             for (var i = 0; i < s_stackCount; i++)
             {
-                Free(s_pStackBuffers[i]);
+                Munmap(s_pStackBuffers[i], s_threadLocalStackDefaultSize);
             }
         }
     }
@@ -366,6 +370,33 @@ public static unsafe class AllocationManager
         private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
         {
             var selfPtr = (FreeListAllocator*)instance;
+#if ENABLE_DEBUG_LAYER
+            var pad = alignment == 0 ? (nuint)IntPtr.Size : alignment;
+            var total = size + (nuint)sizeof(AllocationHeader) + (pad - 1);
+            var basePtr = selfPtr->_freeList.Allocate(total, pad, allocationOption);
+            if (basePtr == null)
+            {
+                *pHandle = MemoryHandle.Invalid;
+                return null;
+            }
+
+            var user = AlignUp((byte*)basePtr + (nuint)sizeof(AllocationHeader), pad);
+            var header = (AllocationHeader*)(user - (nuint)sizeof(AllocationHeader));
+
+            header->basePtr = basePtr;
+            header->userSize = size;
+            HeaderSetHandle(header, GCHandle.Alloc(new StackTrace(2, true)));
+
+            LinkHeader(header);
+
+            if (allocationOption.HasFlag(AllocationOption.Clear))
+            {
+                MemClear(user, size);
+            }
+
+            *pHandle = AddAllocation(user);
+            return user;
+#else
             var ptr = selfPtr->_freeList.Allocate(size, alignment, allocationOption);
             if (ptr == null)
             {
@@ -375,6 +406,7 @@ public static unsafe class AllocationManager
 
             *pHandle = AddAllocation(ptr);
             return ptr;
+#endif
         }
 
         private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
@@ -385,6 +417,41 @@ public static unsafe class AllocationManager
             }
 
             var selfPtr = (FreeListAllocator*)instance;
+
+#if ENABLE_DEBUG_LAYER
+            var oldHeader = (AllocationHeader*)((byte*)ptr - (nuint)sizeof(AllocationHeader));
+            var handle = HeaderGetHandle(oldHeader);
+
+            var pad = alignment == 0 ? (nuint)IntPtr.Size : alignment;
+            var total = newSize + (nuint)sizeof(AllocationHeader) + (pad - 1);
+            var newBase = selfPtr->_freeList.Allocate(total, pad, allocationOption);
+            if (newBase == null)
+            {
+                return null;
+            }
+
+            var newUser = AlignUp((byte*)newBase + (nuint)sizeof(AllocationHeader), pad);
+            var newHeader = (AllocationHeader*)(newUser - (nuint)sizeof(AllocationHeader));
+
+            newHeader->basePtr = newBase;
+            newHeader->userSize = newSize;
+            HeaderSetHandle(newHeader, handle);
+
+            LinkHeader(newHeader);
+
+            MemCpy(newUser, ptr, Math.Min(oldSize, newSize));
+            if (allocationOption.HasFlag(AllocationOption.Clear) && newSize > oldSize)
+            {
+                MemClear(newUser + oldSize, newSize - oldSize);
+            }
+
+            UnlinkHeader(oldHeader);
+            selfPtr->_freeList.Free(oldHeader->basePtr);
+            RemoveAllocation(*pHandle);
+
+            *pHandle = AddAllocation(newUser);
+            return newUser;
+#else
             var newPtr = selfPtr->_freeList.Allocate(newSize, alignment, allocationOption);
             if (newPtr == null)
             {
@@ -398,6 +465,7 @@ public static unsafe class AllocationManager
 
             *pHandle = AddAllocation(newPtr);
             return newPtr;
+#endif
         }
 
         private static bool IsValid(void* instance, MemoryHandle handle)
@@ -408,7 +476,14 @@ public static unsafe class AllocationManager
         private static void Free(void* instance, void* ptr, MemoryHandle handle)
         {
             var selfPtr = (FreeListAllocator*)instance;
+#if ENABLE_DEBUG_LAYER
+            var header = (AllocationHeader*)((byte*)ptr - (nuint)sizeof(AllocationHeader));
+            UnlinkHeader(header);
+            HeaderFreeHandle(header);
+            selfPtr->_freeList.Free(header->basePtr);
+#else
             selfPtr->_freeList.Free(ptr);
+#endif
             RemoveAllocation(handle);
         }
 
@@ -430,11 +505,10 @@ public static unsafe class AllocationManager
 
     private static ConcurrentSlotMap<IntPtr> s_allocations = null!;
 
-    public static readonly MemoryHandle MagicHandle = new MemoryHandle(int.MinValue, int.MinValue);
-
     private static bool s_initialized;
+    private static nuint s_threadLocalStackDefaultSize;
 
-    internal static nuint s_threadLocalStackDefaultSize;
+    public static readonly MemoryHandle MagicHandle = new MemoryHandle(int.MinValue, int.MinValue);
 
     /// <summary>
     /// Gets the number of live tracked heap allocations.

@@ -32,13 +32,14 @@ using Misaki.HighPerformance.LowLevel.Collections;
 //    }
 //}
 
-using var pool = new MemoryPool<VirtualStack, VirtualStack.CreationOpts>(new VirtualStack.CreationOpts() { reserveCapacity = 1024 * 1024 });
-using var scope = pool.Allocator.CreateScope(pool.AllocationHandle);
-
-var arr = new UnsafeArray<int>(1000, scope.AllocationHandle);
-for (var i = 0; i < arr.Length; i++)
+var opts = new AllocationManagerInitOpts
 {
-    Console.WriteLine(arr[i]);
-}
+    ArenaCapacity = 1024 * 1024,
+    StackCapacity = 1024 * 1024,
+    FreeListConcurrencyLevel = 1
+};
 
-arr.Dispose();
+AllocationManager.Initialize(opts);
+
+var arr = new UnsafeArray<int>(10, Allocator.FreeList);
+AllocationManager.Dispose();
