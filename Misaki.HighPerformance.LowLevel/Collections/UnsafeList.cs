@@ -346,7 +346,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// <summary>
     /// Adds a range of elements to the collection.
     /// </summary>
-    /// <param name="values">A span containing the elements to add. The span must not exceed the specified <paramref name="count"/>.</param>
+    /// <param name="values">A span containing the elements to add.</param>
     public void AddRange(Span<T> values)
     {
         var newSize = _count + values.Length;
@@ -361,6 +361,32 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         }
 
         _count += values.Length;
+    }
+
+    /// <summary>
+    /// Adds a range of elements to the collection.
+    /// </summary>
+    /// <param name="values">A collection containing the elements to add.</param>
+    public void AddRange(ReadOnlyUnsafeCollection<T> collection)
+    {
+        AddRange((T*)collection.GetUnsafePtr(), collection.Count);
+    }
+
+    /// <summary>
+    /// Adds a range of elements from a pointer to the collection.
+    /// </summary>
+    /// <param name="ptr">Points to the source data to be copied into the collection.</param>
+    /// <param name="count">Indicates the number of elements to be added from the source data.</param>
+    public void AddRange(T* ptr, int count)
+    {
+        var newSize = _count + count;
+        if (newSize > Capacity)
+        {
+            Resize(Capacity + count);
+        }
+
+        MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
+        _count += count;
     }
 
     /// <summary>
@@ -493,5 +519,20 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     {
         _array.Dispose();
         _count = 0;
+    }
+
+    public static implicit operator UnsafeArray<T>(UnsafeList<T> list)
+    {
+        return list.AsUnsafeArray();
+    }
+
+    public static implicit operator ReadOnlyUnsafeCollection<T>(UnsafeList<T> list)
+    {
+        return list.AsReadOnly();
+    }
+
+    public static implicit operator Span<T>(UnsafeList<T> list)
+    {
+        return list.AsSpan();
     }
 }

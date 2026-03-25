@@ -5,6 +5,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
@@ -318,5 +319,15 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
         _buffer = null;
         _count = 0;
+    }
+
+    public static implicit operator ReadOnlyUnsafeCollection<T>(UnsafeArray<T> array)
+    {
+        return array.AsReadOnly();
+    }
+
+    public static implicit operator Span<T>(UnsafeArray<T> array)
+    {
+        return array.AsSpan();
     }
 }
