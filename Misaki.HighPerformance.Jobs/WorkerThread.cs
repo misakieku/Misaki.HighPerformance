@@ -1,3 +1,4 @@
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections.Concurrent;
 
 namespace Misaki.HighPerformance.Jobs;
@@ -121,6 +122,5 @@ internal class WorkerThread : IDisposable
     public void Dispose()
     {
         _thread.Join();
-        _localQueue.Clear();
     }
 }

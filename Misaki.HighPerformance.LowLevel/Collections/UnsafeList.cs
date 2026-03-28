@@ -118,7 +118,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// Use <see cref="AsParallelWriter"/> to create a parallel writer for a list.
     /// The list must live at least as long as the parallel writer, and the parallel writer must not be used after the list is disposed.
     /// </remarks>
-    public readonly unsafe struct ParallelWriter
+    public readonly struct ParallelWriter
     {
         public readonly UnsafeList<T>* listData;
 
@@ -515,15 +515,100 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         return _array.AsSpan(start, length);
     }
 
+
+    /// <summary>
+    /// Copies elements from a source UnsafeCollection to a destination Span, ensuring both have the same size.
+    /// </summary>
+    /// <param name="destination">Represents the target span where elements are copied to.</param>
+    public readonly void CopyTo(Span<T> destination)
+    {
+        var size = Math.Min(destination.Length, Count);
+        fixed (T* pDest = destination)
+        {
+            MemCpy(pDest, _array.GetUnsafePtr(), (uint)(size * sizeof(T)));
+        }
+    }
+
+    /// <summary>
+    /// Copies a range of elements from a source collection to a destination span, ensuring both are adequately sized.
+    /// </summary>
+    /// <param name="destination">The span where the elements will be copied to.</param>
+    /// <param name="sourceIndex">The starting index in the source collection for the copy operation.</param>
+    /// <param name="destinationIndex">The starting index in the destination span where the elements will be placed.</param>
+    /// <param name="length">The number of elements to copy from the source to the destination.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified range exceeds the bounds of the source collection or destination span.</exception>
+    public readonly void CopyTo(Span<T> destination, int sourceIndex, int destinationIndex, int length)
+    {
+        if (sourceIndex + length > _count || destinationIndex + length > destination.Length)
+        {
+            throw new ArgumentOutOfRangeException(nameof(length), "Source collection or destination span is too small for the specified range.");
+        }
+
+        fixed (T* pDest = destination)
+        {
+            MemCpy(pDest + destinationIndex, (byte*)_array.GetUnsafePtr() + sourceIndex * sizeof(T), (nuint)(length * sizeof(T)));
+        }
+    }
+
+    /// <summary>
+    /// Copies elements from a source span to a destination unsafe collection, ensuring both have the same size.
+    /// </summary>
+    /// <param name="source">Represents the span containing the elements to be copied to the unsafe collection.</param>
+    public void CopyFrom(ReadOnlySpan<T> source)
+    {
+        if (_count < source.Length)
+        {
+            Resize(source.Length);
+        }
+
+        fixed (T* pSrc = source)
+        {
+            MemCpy(_array.GetUnsafePtr(), pSrc, (nuint)(source.Length * sizeof(T)));
+        }
+    }
+
+    /// <summary>
+    /// Copies a specified range of elements from a source span to a destination collection.
+    /// </summary>
+    /// <param name="source">The span containing the elements to be copied.</param>
+    /// <param name="sourceIndex">The starting index in the source span from which to begin copying.</param>
+    /// <param name="destinationIndex">The starting index in the destination collection where the elements will be placed.</param>
+    /// <param name="length">The number of elements to copy from the source span to the destination collection.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified range exceeds the bounds of the source span or destination collection.</exception>
+    public void CopyFrom(ReadOnlySpan<T> source, int sourceIndex, int destinationIndex, int length)
+    {
+        if (sourceIndex + length > source.Length)
+        {
+            throw new ArgumentOutOfRangeException(nameof(length), "Source span or destination collection is too small for the specified range.");
+        }
+
+        if (destinationIndex + length > _count)
+        {
+            Resize(destinationIndex + length);
+        }
+
+        fixed (T* pSrc = source)
+        {
+            MemCpy((byte*)_array.GetUnsafePtr() + destinationIndex * sizeof(T), pSrc + sourceIndex, (nuint)(length * sizeof(T)));
+        }
+    }
+
+    /// <summary>
+    /// Creates a new <see cref="List{T}"/> containing the elements.
+    /// </summary>
+    /// <returns>A <see cref="List{T}"/> containing all elements.</returns>
+    public readonly List<T> ToList()
+    {
+        var list = new List<T>(_count);
+        var span = new Span<T>(_array.GetUnsafePtr(), _count);
+        list.AddRange(span);
+        return list;
+    }
+
     public void Dispose()
     {
         _array.Dispose();
         _count = 0;
-    }
-
-    public static implicit operator UnsafeArray<T>(UnsafeList<T> list)
-    {
-        return list.AsUnsafeArray();
     }
 
     public static implicit operator ReadOnlyUnsafeCollection<T>(UnsafeList<T> list)

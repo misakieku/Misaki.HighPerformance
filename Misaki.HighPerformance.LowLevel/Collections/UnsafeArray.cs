@@ -286,6 +286,9 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <summary>
     /// Reinterprets the underlying buffer as an array of a different unmanaged type without copying the data.
     /// </summary>
+    /// <remarks>
+    /// The returned UnsafeArray<U> shares the same memory as the original array, and does not own the memory.
+    /// </remarks>
     /// <typeparam name="U">The unmanaged type to reinterpret the buffer as.</typeparam>
     /// <returns>An UnsafeArray<U> that views the same memory as the original array, but as elements of type U.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the total size of the buffer in bytes is not a multiple of the size of type U.</exception>
@@ -302,6 +305,92 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
         var newCount = (int)(totalSize / (nuint)sizeof(U));
         return new UnsafeArray<U>((U*)_buffer, newCount);
+    }
+
+    /// <summary>
+    /// Copies elements from a source UnsafeCollection to a destination Span, ensuring both have the same size.
+    /// </summary>
+    /// <param name="destination">Represents the target span where elements are copied to.</param>
+    public readonly void CopyTo(Span<T> destination)
+    {
+        var size = Math.Min(destination.Length, Count);
+        fixed (T* pDest = destination)
+        {
+            MemCpy(pDest, _buffer, (uint)(size * sizeof(T)));
+        }
+    }
+
+    /// <summary>
+    /// Copies a range of elements from a source collection to a destination span, ensuring both are adequately sized.
+    /// </summary>
+    /// <param name="destination">The span where the elements will be copied to.</param>
+    /// <param name="sourceIndex">The starting index in the source collection for the copy operation.</param>
+    /// <param name="destinationIndex">The starting index in the destination span where the elements will be placed.</param>
+    /// <param name="length">The number of elements to copy from the source to the destination.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified range exceeds the bounds of the source collection or destination span.</exception>
+    public readonly void CopyTo(Span<T> destination, int sourceIndex, int destinationIndex, int length)
+    {
+        if (sourceIndex + length > _count || destinationIndex + length > destination.Length)
+        {
+            throw new ArgumentOutOfRangeException(nameof(length), "Source collection or destination span is too small for the specified range.");
+        }
+
+        fixed (T* pDest = destination)
+        {
+            MemCpy(pDest + destinationIndex, _buffer + sourceIndex, (nuint)(length * sizeof(T)));
+        }
+    }
+
+    /// <summary>
+    /// Copies elements from a source span to a destination unsafe collection, ensuring both have the same size.
+    /// </summary>
+    /// <param name="source">Represents the span containing the elements to be copied to the unsafe collection.</param>
+    public void CopyFrom(ReadOnlySpan<T> source)
+    {
+        if (_count < source.Length)
+        {
+            Resize(source.Length);
+        }
+
+        fixed (T* pSrc = source)
+        {
+            MemCpy(_buffer, pSrc, (nuint)(source.Length * sizeof(T)));
+        }
+    }
+
+    /// <summary>
+    /// Copies a specified range of elements from a source span to a destination collection.
+    /// </summary>
+    /// <param name="source">The span containing the elements to be copied.</param>
+    /// <param name="sourceIndex">The starting index in the source span from which to begin copying.</param>
+    /// <param name="destinationIndex">The starting index in the destination collection where the elements will be placed.</param>
+    /// <param name="length">The number of elements to copy from the source span to the destination collection.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified range exceeds the bounds of the source span or destination collection.</exception>
+    public void CopyFrom(ReadOnlySpan<T> source, int sourceIndex, int destinationIndex, int length)
+    {
+        if (sourceIndex + length > source.Length)
+        {
+            throw new ArgumentOutOfRangeException(nameof(length), "Source span or destination collection is too small for the specified range.");
+        }
+
+        if (destinationIndex + length > _count)
+        {
+            Resize(destinationIndex + length);
+        }
+
+        fixed (T* pSrc = source)
+        {
+            MemCpy(_buffer + destinationIndex, pSrc + sourceIndex, (nuint)(length * sizeof(T)));
+        }
+    }
+
+    /// <summary>
+    /// Creates a new array containing all elements.
+    /// </summary>
+    /// <returns>An array containing all elements.</returns>
+    public readonly T[] ToArray()
+    {
+        return new Span<T>(_buffer, _count).ToArray();
     }
 
     /// <inheritdoc/>

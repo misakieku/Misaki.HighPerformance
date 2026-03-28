@@ -1,5 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
+using Misaki.HighPerformance.LowLevel.Utilities;
 
 //BenchmarkRunner.Run<SPMDBenchmark>();
 //var hashMap = new UnsafeHashMap<int, int>(10, Misaki.HighPerformance.LowLevel.Buffer.Allocator.Persistent);
@@ -41,5 +42,8 @@ var opts = new AllocationManagerInitOpts
 
 AllocationManager.Initialize(opts);
 
-var arr = new UnsafeArray<int>(10, Allocator.FreeList);
+using var arr = new UnsafeArray<int>(10, Allocator.FreeList);
+var marr = new int[10];
+arr.CopyTo(marr);
+
 AllocationManager.Dispose();

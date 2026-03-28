@@ -1,7 +1,3 @@
-#if DEBUG
-#define ENABLE_DEBUG_LAYER
-#endif
-
 using Misaki.HighPerformance.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
