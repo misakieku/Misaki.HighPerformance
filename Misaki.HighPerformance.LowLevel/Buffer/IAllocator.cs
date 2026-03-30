@@ -4,20 +4,27 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 
 public readonly struct MemoryHandle : IEquatable<MemoryHandle>
 {
-    public readonly int id;
-    public readonly int generation;
+    public readonly int ID
+    {
+        get => field - 1;
+    }
 
-    public readonly static MemoryHandle Invalid = new(-1, -1);
+    public readonly int Generation
+    {
+        get => field - 1;
+    }
+
+    public static readonly MemoryHandle Invalid = default;
 
     public MemoryHandle(int id, int generation)
     {
-        this.id = id;
-        this.generation = generation;
+        ID = id + 1;
+        Generation = generation + 1;
     }
 
     public bool Equals(MemoryHandle other)
     {
-        return id == other.id && generation == other.generation;
+        return ID == other.ID && Generation == other.Generation;
     }
 
     public override bool Equals([NotNullWhen(true)] object? obj)
@@ -27,12 +34,12 @@ public readonly struct MemoryHandle : IEquatable<MemoryHandle>
 
     public override int GetHashCode()
     {
-        return id ^ generation;
+        return ID ^ Generation;
     }
 
     public override string? ToString()
     {
-        return $"MemoryHandle(Id: {id}, Generation: {generation})";
+        return $"MemoryHandle(Id: {ID}, Generation: {Generation})";
     }
 
     public static bool operator ==(MemoryHandle left, MemoryHandle right)

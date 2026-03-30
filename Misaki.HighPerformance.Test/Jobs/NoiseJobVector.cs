@@ -67,7 +67,7 @@ internal unsafe struct NoiseJobVector : IJobParallel
 
     public void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx)
     {
-        for (int i = startIndex; i < endIndex; i++)
+        for (var i = startIndex; i < endIndex; i++)
         {
             var x = i % width;
             var y = i / height;
@@ -86,7 +86,7 @@ internal unsafe struct NoiseJobMath : IJobParallel
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static float2 GradientNoiseDirect(float2 uv)
     {
-        uv  = noise.mod289(uv);
+        uv = noise.mod289(uv);
         var x = (34 * uv.x + 1) * noise.mod289(uv.x) + uv.y;
         x = (34 * x + 1) * noise.mod289(x);
         x = math.frac(x / 41) * 2 - 1;
@@ -201,7 +201,7 @@ internal unsafe struct NoiseJobMathV : IJobParallel
 
     public void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx)
     {
-        for (int i = startIndex; i < endIndex; i++)
+        for (var i = startIndex; i < endIndex; i++)
         {
             var baseIndex = i * 8;
 

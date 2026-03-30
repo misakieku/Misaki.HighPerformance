@@ -41,9 +41,30 @@ This package is the lowest-level layer in the solution. It is intended for code 
 ## Example
 
 ```csharp
-// The low-level layer is meant for advanced ownership and allocation scenarios.
-// Prefer the higher-level packages when they already satisfy your use case.
+var opts = new AllocationManagerInitOpts
+{
+    ArenaCapacity = 1024 * 1024,
+    StackCapacity = 1024 * 1024,
+    FreeListConcurrencyLevel = 1
+};
+
+AllocationManager.Initialize(opts);
+
+var arr = new UnsafeArray<int>(10, Allocator.Persistent);
+
+// Use the array
+
+arr.Dispose();
+
+AllocationManager.Dispose();
 ```
+
+You can enable debug features for leak detection and use-after-free checks by defining `ENABLE_SAFETY_CHECKS` in your project. And define `ENABLE_DEBUG_LAYER` to enable additional debug features such as tracking allocations and providing detailed error messages.
+> Which means if you disable the safety checks, the library will not perform any safety checks and provide the maximum performance, and it will be your responsibility to ensure correct usage to avoid memory leaks and undefined behavior.
+> Even `IUnsafeCollection.IsCreated` will only check if the internal pointer is non-null, without verifying the actual validity of the memory.
+
+You can also define `ENABLE_MIMALLOC` to use mimalloc as the underlying allocator instead of the default C allocator.
+> Using mimalloc requires to install the TerraFX.Interop.Mimalloc package and ensure the native mimalloc library is available at runtime.
 
 ## Package reference
 

@@ -34,7 +34,7 @@ internal unsafe struct Vector2LerpJob : IJobSPMD<float>
     {
         var a = MathV.LoadVector2<TLane, float>(ref arrayA[baseIndex].x);
         var b = MathV.LoadVector2<TLane, float>(ref arrayB[baseIndex].x);
-        
+
         var t = TLane.Create(0.5f);
         var lerped = MathV.Lerp(a, b, t);
         var len = TLane.Sqrt(MathV.LengthSquared(lerped));
@@ -213,7 +213,7 @@ public class SPMDTest
         // Verify all normalized vectors have length ~1
         for (var i = 0; i < count; i++)
         {
-            var length = math.sqrt(output[i].x * output[i].x + output[i].y * output[i].y + 
+            var length = math.sqrt(output[i].x * output[i].x + output[i].y * output[i].y +
                                    output[i].z * output[i].z + output[i].w * output[i].w);
             Assert.AreEqual(1.0f, length, 0.001f, $"Vector at index {i} is not normalized");
         }

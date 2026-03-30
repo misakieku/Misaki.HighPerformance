@@ -11,7 +11,7 @@ namespace Misaki.HighPerformance.Image;
 /// <remarks>The image data is stored as a contiguous block of unmanaged memory and must be released by calling
 ///     <see cref="Dispose"/> when no longer needed. Be careful that this struct won't stop your double free if you copy it.
 ///     Ensure to have proper ownership management when using this struct.</remarks>
-public unsafe readonly struct ImageResult : IDisposable
+public readonly unsafe struct ImageResult : IDisposable
 {
     public byte* Data
     {

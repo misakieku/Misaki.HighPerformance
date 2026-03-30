@@ -23,14 +23,14 @@ public class TestUnsafeStack
     [TestMethod]
     public void TestPushPop()
     {
-        for (int i = 0; i < 10; i++)
+        for (var i = 0; i < 10; i++)
         {
             _stack.Push(i);
         }
         Assert.AreEqual(10, _stack.Count);
-        for (int i = 9; i >= 0; i--)
+        for (var i = 9; i >= 0; i--)
         {
-            int value = _stack.Pop();
+            var value = _stack.Pop();
             Assert.AreEqual(i, value);
         }
         Assert.AreEqual(0, _stack.Count);
@@ -40,7 +40,7 @@ public class TestUnsafeStack
     public void TestPeek()
     {
         _stack.Push(42);
-        int value = _stack.Peek();
+        var value = _stack.Peek();
         Assert.AreEqual(42, value);
         Assert.AreEqual(1, _stack.Count);
     }
@@ -48,12 +48,12 @@ public class TestUnsafeStack
     [TestMethod]
     public void TestEnumeration()
     {
-        for (int i = 0; i < 5; i++)
+        for (var i = 0; i < 5; i++)
         {
             _stack.Push(i);
         }
 
-        int expected = 4;
+        var expected = 4;
         foreach (var item in _stack)
         {
             Assert.AreEqual(expected, item);

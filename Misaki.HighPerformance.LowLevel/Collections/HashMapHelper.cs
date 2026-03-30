@@ -1,7 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
@@ -78,7 +77,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     private readonly int _sizeOfTValue;
     private readonly int _log2MinGrowth;
 
+#if ENABLE_DEBUG_LAYER
     private MemoryHandle _memoryHandle;
+#endif
     private AllocationHandle _allocationHandle;
 
     public const int MINIMAL_CAPACITY = 64;
@@ -95,6 +96,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     {
         get
         {
+#if ENABLE_DEBUG_LAYER
             if (_buffer != null)
             {
                 if (_allocationHandle.IsValid != null)
@@ -108,6 +110,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             }
 
             return false;
+#else
+            return _buffer != null;
+#endif
         }
     }
 
@@ -251,14 +256,22 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
+#if ENABLE_DEBUG_LAYER
         MemoryHandle memHandle;
-        var buf = (byte*)_allocationHandle.Alloc(_allocationHandle.State, (uint)totalSize, (nuint)_alignment, allocationOption, &memHandle);
+#endif
+        var buf = (byte*)_allocationHandle.Alloc(_allocationHandle.State, (uint)totalSize, (nuint)_alignment, allocationOption
+#if ENABLE_DEBUG_LAYER
+            , &memHandle
+#endif
+            );
 
         _buffer = buf;
         _keys = (TKey*)(_buffer + keyOffset);
         _next = (int*)(_buffer + nextOffset);
         _buckets = (int*)(_buffer + bucketOffset);
+#if ENABLE_DEBUG_LAYER
         _memoryHandle = memHandle;
+#endif
     }
 
     private void ResizeExact(int newCapacity, int newBucketCapacity)
@@ -271,7 +284,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         var oldNext = _next;
         var oldBuckets = _buckets;
         var oldBucketCapacity = _bucketCapacity;
+#if ENABLE_DEBUG_LAYER
         var oldMemoryHandle = _memoryHandle;
+#endif
 
         AllocateBuffer(totalSize, keyOffset, nextOffset, bucketOffset, AllocationOption.None);
         _capacity = newCapacity;
@@ -290,7 +305,11 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
         if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.State, oldBuffer, oldMemoryHandle);
+            _allocationHandle.Free(_allocationHandle.State, oldBuffer
+#if ENABLE_DEBUG_LAYER
+                , oldMemoryHandle
+#endif
+                );
         }
     }
 
@@ -705,7 +724,11 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
         if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.State, _buffer, _memoryHandle);
+            _allocationHandle.Free(_allocationHandle.State, _buffer
+#if ENABLE_DEBUG_LAYER
+                , _memoryHandle
+#endif
+                );
         }
 
         _buffer = null;

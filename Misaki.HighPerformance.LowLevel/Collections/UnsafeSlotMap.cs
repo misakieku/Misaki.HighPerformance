@@ -35,7 +35,7 @@ internal class UnsafeSlotMapDebugView<T>
 
 /// <summary>
 /// Provides an unsafe, high-performance slot map for storing and managing unmanaged values, supporting fast insertion,
-/// removal, and lookup by slot index and generation.
+/// removal, and lookup by slot index and Generation.
 /// </summary>
 /// <typeparam name="T">The type of value to store in the slot map. Must be unmanaged.</typeparam>
 [DebuggerTypeProxy(typeof(UnsafeSlotMapDebugView<>))]
@@ -155,7 +155,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// Adds the specified item to the collection and returns the index of the slot where it was stored.
     /// </summary>
     /// <param name="item">The item to add to the collection.</param>
-    /// <param name="generation">When this method returns, contains the generation number associated with the slot where the item was stored.</param>
+    /// <param name="generation">When this method returns, contains the Generation number associated with the slot where the item was stored.</param>
     /// <returns>The index of the slot in which the item was stored.</returns>
     public int Add(T item, out int generation)
     {
@@ -184,10 +184,10 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Attempts to remove the item at the specified slot index and generation from the collection.
+    /// Attempts to remove the item at the specified slot index and Generation from the collection.
     /// </summary>
     /// <param name="slotIndex">The zero-based index of the slot to remove. Must be within the valid range of slot indices.</param>
-    /// <param name="generation">The generation value associated with the slot. Removal succeeds only if this matches the current generation of the slot.</param>
+    /// <param name="generation">The Generation value associated with the slot. Removal succeeds only if this matches the current Generation of the slot.</param>
     /// <param name="item">When this method returns, contains the item that was removed if the removal was successful; otherwise, the default value for type <typeparamref name="T"/>.</param>
     /// <returns>true if the item was successfully removed; otherwise, false.</returns>
     public bool Remove(int slotIndex, int generation, out T item)
@@ -216,10 +216,10 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Attempts to remove the item at the specified slot index and generation from the collection.
+    /// Attempts to remove the item at the specified slot index and Generation from the collection.
     /// </summary>
     /// <param name="slotIndex">The zero-based index of the slot to remove. Must be within the valid range of slot indices.</param>
-    /// <param name="generation">The generation value associated with the slot. Removal succeeds only if this matches the current generation of
+    /// <param name="generation">The Generation value associated with the slot. Removal succeeds only if this matches the current Generation of
     /// the slot.</param>
     /// <returns>true if the item was successfully removed; otherwise, false.</returns>
     public bool Remove(int slotIndex, int generation)
@@ -228,11 +228,11 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Determines whether the specified slot index contains a valid entry with the given generation.
+    /// Determines whether the specified slot index contains a valid entry with the given Generation.
     /// </summary>
     /// <param name="slotIndex">The zero-based index of the slot to check. Must be greater than or equal to 0 and less than the current capacity.</param>
-    /// <param name="generation">The generation value to compare against the slot's generation.</param>
-    /// <returns>true if the slot at the specified index is valid and its generation matches the specified value; otherwise, false.</returns>
+    /// <param name="generation">The Generation value to compare against the slot's Generation.</param>
+    /// <returns>true if the slot at the specified index is valid and its Generation matches the specified value; otherwise, false.</returns>
     public readonly bool Contains(int slotIndex, int generation)
     {
         if (slotIndex < 0 || slotIndex >= _capacity)
@@ -249,14 +249,14 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Attempts to retrieve the element at the specified slot index and generation.
+    /// Attempts to retrieve the element at the specified slot index and Generation.
     /// </summary>
     /// <param name="slotIndex">The zero-based index of the slot to retrieve. Must be within the valid range of slots.</param>
-    /// <param name="generation">The generation identifier associated with the slot. Used to verify that the slot has not been replaced or
+    /// <param name="generation">The Generation identifier associated with the slot. Used to verify that the slot has not been replaced or
     /// invalidated.</param>
-    /// <param name="value">When this method returns, contains the element at the specified slot and generation if found; otherwise, the
+    /// <param name="value">When this method returns, contains the element at the specified slot and Generation if found; otherwise, the
     /// default value for type <typeparamref name="T"/>.</param>
-    /// <returns>true if the element at the specified slot index and generation is found; otherwise, false.</returns>
+    /// <returns>true if the element at the specified slot index and Generation is found; otherwise, false.</returns>
     public readonly bool TryGetElementAt(int slotIndex, int generation, out T value)
     {
         if (!Contains(slotIndex, generation))
@@ -270,13 +270,13 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Retrieves the element stored at the specified slot index and generation.
+    /// Retrieves the element stored at the specified slot index and Generation.
     /// </summary>
     /// <param name="slotIndex">The zero-based index of the slot from which to retrieve the element. Must be within the valid range of allocated slots.</param>
-    /// <param name="generation">The generation identifier associated with the slot. Used to ensure the element has not been replaced or removed since allocation.</param>
-    /// <returns>The element of type <see cref="T"/> stored at the specified slot and generation.</returns>
+    /// <param name="generation">The Generation identifier associated with the slot. Used to ensure the element has not been replaced or removed since allocation.</param>
+    /// <returns>The element of type <see cref="T"/> stored at the specified slot and Generation.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slotIndex"/> is less than zero or greater than or equal to the capacity.</exception>
-    /// <exception cref="InvalidOperationException">Thrown when the specified slot is not occupied or the generation does not match.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the specified slot is not occupied or the Generation does not match.</exception>
     public readonly T GetElementAt(int slotIndex, int generation)
     {
         if (!Contains(slotIndex, generation))
@@ -288,13 +288,13 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Returns a reference to the element at the specified slot index and generation, if it exists; otherwise, returns
+    /// Returns a reference to the element at the specified slot index and Generation, if it exists; otherwise, returns
     /// a null reference.
     /// </summary>
     /// <param name="slotIndex">The zero-based index of the slot to retrieve. Must be within the valid range of allocated slots.</param>
-    /// <param name="generation">The expected generation value for the slot. Used to verify that the slot has not been recycled or replaced.</param>
-    /// <param name="exist">When this method returns, contains <see langword="true"/> if a valid element exists at the specified slot and generation; otherwise, <see langword="false"/>.</param>
-    /// <returns>A reference to the element of type <typeparamref name="T"/> at the specified slot and generation if it exists; otherwise, a null reference.</returns>
+    /// <param name="generation">The expected Generation value for the slot. Used to verify that the slot has not been recycled or replaced.</param>
+    /// <param name="exist">When this method returns, contains <see langword="true"/> if a valid element exists at the specified slot and Generation; otherwise, <see langword="false"/>.</param>
+    /// <returns>A reference to the element of type <typeparamref name="T"/> at the specified slot and Generation if it exists; otherwise, a null reference.</returns>
     public ref T GetElementReferenceAt(int slotIndex, int generation, out bool exist)
     {
         if (!Contains(slotIndex, generation))

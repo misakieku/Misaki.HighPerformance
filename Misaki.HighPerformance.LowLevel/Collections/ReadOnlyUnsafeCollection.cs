@@ -143,4 +143,9 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
     {
         return _buffer;
     }
+
+    public static implicit operator ReadOnlySpan<T>(ReadOnlyUnsafeCollection<T> collection)
+    {
+        return collection.AsSpan();
+    }
 }

@@ -1,6 +1,6 @@
-using System.Runtime.CompilerServices;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Utilities;
+using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
@@ -28,7 +28,7 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
         _currentFrameIndex = 0;
         _memoryHandle = memoryHandle;
 
-        for (int i = 0; i < _FRAME_LATENCY; i++)
+        for (var i = 0; i < _FRAME_LATENCY; i++)
         {
             _pArena[i] = new VirtualArena(capacity);
             _allocationsPerFrame[i] = 0;
@@ -75,7 +75,7 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
             return null;
         }
 
-        MemoryUtility.MemCpy(ptr, newPtr,Math.Min(oldSize, newSize));
+        MemoryUtility.MemCpy(ptr, newPtr, Math.Min(oldSize, newSize));
 
         return newPtr;
     }
@@ -90,7 +90,7 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
     private static bool IsValid(void* instance, MemoryHandle handle)
     {
         var pSelf = (TempJobAllocator*)instance;
-        return handle.id == _MAGIC_ID && handle.generation > pSelf->_currentFrameCount - _FRAME_LATENCY;
+        return handle.ID == _MAGIC_ID && handle.Generation > pSelf->_currentFrameCount - _FRAME_LATENCY;
     }
 
     public int AdvanceFrame()
@@ -107,7 +107,7 @@ public unsafe struct TempJobAllocator : IAllocator, IDisposable
 
     public void Dispose()
     {
-        for (int i = 0; i < _FRAME_LATENCY; i++)
+        for (var i = 0; i < _FRAME_LATENCY; i++)
         {
             _pArena[i].Dispose();
         }

@@ -36,7 +36,7 @@ public static class CompressStoreTest
         );
     }
 
-    private unsafe static void TestPattern_Double(double[] input, bool[] keepPattern)
+    private static unsafe void TestPattern_Double(double[] input, bool[] keepPattern)
     {
         // 1. Setup Input Vector
         // Handle case where Vector<TLane> is smaller than 8 (e.g. 2 or 4)

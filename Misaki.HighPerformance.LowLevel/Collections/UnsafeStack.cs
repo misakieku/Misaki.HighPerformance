@@ -23,7 +23,7 @@ internal class UnsafeStackDebugView<T>
         {
             var items = new T[_stack.Count];
             var pItems = (T*)_stack.GetUnsafePtr();
-            for (int i = 0; i < _stack.Count; i++)
+            for (var i = 0; i < _stack.Count; i++)
             {
                 items[i] = pItems[i];
             }

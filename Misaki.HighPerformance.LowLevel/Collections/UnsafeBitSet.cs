@@ -1,5 +1,4 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
-using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -40,7 +39,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
         private UnsafeBitSet _bitSet;
         private int _currentBit;
 
-        public Iterator (UnsafeBitSet bitSet)
+        public Iterator(UnsafeBitSet bitSet)
         {
             _bitSet = bitSet;
             _currentBit = -1;
@@ -116,7 +115,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     public UnsafeBitSet(Span<uint> bits, Allocator allocator)
     {
         _bits = new UnsafeArray<uint>(bits.Length, allocator, AllocationOption.None);
-        _bits.CopyFrom<UnsafeArray<uint>, uint>(bits);
+        _bits.CopyFrom(bits);
 
         _highestBit = 0;
         _max = _bits.Count * (_BIT_SIZE + 1) - 1; // Calculate the maximum index in use
@@ -135,9 +134,9 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     }
 
     /// <summary>
-    /// Determines the required length of an <see cref="UnsafeBitSet"/> to hold the passed id or bit.
+    /// Determines the required length of an <see cref="UnsafeBitSet"/> to hold the passed ID or bit.
     /// </summary>
-    /// <param name="id">The id or bit.</param>
+    /// <param name="id">The ID or bit.</param>
     /// <returns>A size of required <see cref="uint"/>s for the bitset.</returns>
     public static int RequiredLength(int id)
     {
@@ -788,14 +787,14 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
         return !(left == right);
     }
 
-    public readonly override int GetHashCode()
+    public override readonly int GetHashCode()
     {
         var hash = new HashCode();
         hash.AddBytes(MemoryMarshal.AsBytes(_bits.AsSpan()));
         return hash.ToHashCode();
     }
 
-    public readonly override string ToString()
+    public override readonly string ToString()
     {
         // Convert uint to binary form for pretty printing
         var binaryBuilder = new StringBuilder();

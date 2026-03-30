@@ -49,7 +49,7 @@ public unsafe class SPMDBenchmark
             width = _SIZE,
             height = _SIZE,
         };
-        
+
         var handle = _scheduler.ScheduleParallelFor(ref job, _SIZE * _SIZE, 64, -1, JobHandle.Invalid);
         _scheduler.Wait(handle);
     }

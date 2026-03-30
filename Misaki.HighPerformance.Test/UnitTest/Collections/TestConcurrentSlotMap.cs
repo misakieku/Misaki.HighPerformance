@@ -49,7 +49,7 @@ public class TestConcurrentSlotMap
     {
         var slotIndex = _slotMap.Add(200, out var generation);
         Assert.IsTrue(_slotMap.Contains(slotIndex, generation));
-        var removed = _slotMap.Remove(slotIndex, generation + 1); // Wrong generation
+        var removed = _slotMap.Remove(slotIndex, generation + 1); // Wrong Generation
         Assert.IsFalse(removed);
         Assert.IsTrue(_slotMap.Contains(slotIndex, generation));
     }
@@ -71,11 +71,11 @@ public class TestConcurrentSlotMap
         const int itemsPerThread = 1000;
         var tasks = new List<Task>();
 
-        for (int t = 0; t < threadCount; t++)
+        for (var t = 0; t < threadCount; t++)
         {
             tasks.Add(Task.Run(() =>
             {
-                for (int i = 0; i < itemsPerThread; i++)
+                for (var i = 0; i < itemsPerThread; i++)
                 {
                     _slotMap.Add(i, out _);
                 }
@@ -98,11 +98,11 @@ public class TestConcurrentSlotMap
 
         var count = 0;
 
-        for (int t = 0; t < threadCount; t++)
+        for (var t = 0; t < threadCount; t++)
         {
             tasks.Add(Task.Run(() =>
             {
-                for (int i = 0; i < operationsPerThread; i++)
+                for (var i = 0; i < operationsPerThread; i++)
                 {
                     if (rand.NextDouble() < 0.5)
                     {

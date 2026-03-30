@@ -78,7 +78,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     private UnsafeArray<T> _dense;
     private UnsafeArray<int> _generations;
     private UnsafeArray<int> _sparse;
-    private UnsafeArray<int> _reverse; // Maps dense index to sparse index. Since this is a general purpose sparse set, we have to include reverse array. In real world ecs, this should be replaced with entity id array.
+    private UnsafeArray<int> _reverse; // Maps dense index to sparse index. Since this is a general purpose sparse set, we have to include reverse array. In real world ecs, this should be replaced with entity ID array.
     private UnsafeStack<int> _freeSparse;
 
     private int _count;
@@ -168,7 +168,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// Adds a value to the sparse set and returns a unique sparse index for the value.
     /// </summary>
     /// <param name="value">The value to add to the sparse set.</param>
-    /// <param name="generation">Outputs the generation number associated with the added value.</param>
+    /// <param name="generation">Outputs the Generation number associated with the added value.</param>
     /// <returns>A unique sparse index that can be used to reference this value.</returns>
     public int Add(T value, out int generation)
     {
@@ -205,7 +205,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// Removes the value at the specified sparse index.
     /// </summary>
     /// <param name="sparseIndex">The sparse index of the value to remove.</param>
-    /// <param name="generation">The generation number associated with the sparse index to validate.</param>
+    /// <param name="generation">The Generation number associated with the sparse index to validate.</param>
     /// <param name="item">When this method returns, contains the item that was removed if the removal was successful; otherwise, the default value for type <typeparamref name="T"/>.</param>
     /// <returns>True if the value was removed, false if the sparse index was not found.</returns>
     public bool Remove(int sparseIndex, int generation, out T item)
@@ -234,8 +234,8 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 
         // Mark the sparse index as unused and add to free list
         _sparse[sparseIndex] = -1;
-        _generations[sparseIndex]++; // Increment generation to invalidate old references
-        
+        _generations[sparseIndex]++; // Increment Generation to invalidate old references
+
         item = _dense[denseIndex];
 
         _freeSparse.Push(sparseIndex);
@@ -248,7 +248,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// Removes the value at the specified sparse index.
     /// </summary>
     /// <param name="sparseIndex">The sparse index of the value to remove.</param>
-    /// <param name="generation">The generation number associated with the sparse index to validate.</param>
+    /// <param name="generation">The Generation number associated with the sparse index to validate.</param>
     /// <returns>True if the value was removed, false if the sparse index was not found.</returns>
     public bool Remove(int sparseIndex, int generation)
     {
@@ -275,7 +275,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 
         // Mark the sparse index as unused and add to free list
         _sparse[sparseIndex] = -1;
-        _generations[sparseIndex]++; // Increment generation to invalidate old references
+        _generations[sparseIndex]++; // Increment Generation to invalidate old references
 
         _freeSparse.Push(sparseIndex);
         _count--;
@@ -287,7 +287,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// Checks if the sparse set contains a value at the specified sparse index.
     /// </summary>
     /// <param name="sparseIndex">The sparse index to check.</param>
-    /// <param name="generation">The generation number to validate against the stored generation.</param>
+    /// <param name="generation">The Generation number to validate against the stored Generation.</param>
     /// <returns>True if the sparse index is valid and contains a value, false otherwise.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly bool Contains(int sparseIndex, int generation)
@@ -302,10 +302,10 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Gets the value at the specified sparse index and generation.
+    /// Gets the value at the specified sparse index and Generation.
     /// </summary>
     /// <param name="sparseIndex">The sparse index to retrieve the value from.</param>
-    /// <param name="generation">The generation number to validate against the stored generation.</param>
+    /// <param name="generation">The Generation number to validate against the stored Generation.</param>
     /// <param name="value">When this method returns, contains the value at the specified sparse index, if found.</param>
     /// <returns>True if the sparse index contains a value, false otherwise.</returns>
     public readonly bool TryGetValue(int sparseIndex, int generation, out T value)
@@ -321,10 +321,10 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Gets the value at the specified sparse index and generation.
+    /// Gets the value at the specified sparse index and Generation.
     /// </summary>
     /// <param name="sparseIndex">The sparse index to retrieve the value from.</param>
-    /// <param name="generation">The generation number to validate against the stored generation.</param>
+    /// <param name="generation">The Generation number to validate against the stored Generation.</param>
     /// <returns>The value at the specified sparse index.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the sparse index is not found.</exception>
     public readonly T GetValue(int sparseIndex, int generation)
@@ -338,10 +338,10 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Gets reference of the value at the specified sparse index and generation.
+    /// Gets reference of the value at the specified sparse index and Generation.
     /// </summary>
     /// <param name="sparseIndex">The sparse index to retrieve the value from.</param>
-    /// <param name="generation">The generation number to validate against the stored generation.</param>
+    /// <param name="generation">The Generation number to validate against the stored Generation.</param>
     /// <param name="exist">Outputs whether the sparse index exists in the set.</param>
     /// <returns>Reference of the value at the specified sparse index.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the sparse index is not found.</exception>
@@ -361,7 +361,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// Updates the value at the specified sparse index.
     /// </summary>
     /// <param name="sparseIndex">The sparse index of the value to update.</param>
-    /// <param name="generation">The generation number to validate against the stored generation.</param>
+    /// <param name="generation">The Generation number to validate against the stored Generation.</param>
     /// <param name="value">The new value.</param>
     /// <returns>True if the value was updated, false if the sparse index was not found.</returns>
     public bool SetValue(int sparseIndex, int generation, T value)

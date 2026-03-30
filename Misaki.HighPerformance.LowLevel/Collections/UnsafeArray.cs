@@ -3,9 +3,7 @@ using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Diagnostics;
-using System.Drawing;
 using System.Runtime.CompilerServices;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
@@ -26,7 +24,7 @@ internal class UnsafeArrayDebugView<T>
         {
             var count = _array.Count;
             var result = new T[count];
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 result[i] = _array[i];
             }
@@ -78,7 +76,9 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
     private T* _buffer;
     private int _count;
+#if ENABLE_DEBUG_LAYER
     private MemoryHandle _memoryHandle;
+#endif
     private AllocationHandle _allocationHandle;
 
     public readonly int Count => _count;
@@ -108,6 +108,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     {
         get
         {
+#if ENABLE_DEBUG_LAYER
             if (_buffer != null)
             {
                 if (_allocationHandle.IsValid != null)
@@ -121,6 +122,9 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             }
 
             return false;
+#else
+            return _buffer != null;
+#endif
         }
     }
 
@@ -163,11 +167,19 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
+#if ENABLE_DEBUG_LAYER
         MemoryHandle memHandle;
-        var buff = handle.Alloc(handle.State, (nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption, &memHandle);
+#endif
+        var buff = handle.Alloc(handle.State, (nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption
+#if ENABLE_DEBUG_LAYER
+            , &memHandle
+#endif
+            );
 
         _buffer = (T*)buff;
+#if ENABLE_DEBUG_LAYER
         _memoryHandle = memHandle;
+#endif
         _allocationHandle = handle;
         _count = count;
     }
@@ -246,10 +258,18 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
+#if ENABLE_DEBUG_LAYER
         MemoryHandle memHandle = _memoryHandle;
+#endif
         var elemSize = SizeOf<T>();
-        _buffer = (T*)_allocationHandle.Realloc(_allocationHandle.State, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option, &memHandle);
+        _buffer = (T*)_allocationHandle.Realloc(_allocationHandle.State, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option
+#if ENABLE_DEBUG_LAYER
+            , &memHandle
+#endif
+            );
+#if ENABLE_DEBUG_LAYER
         _memoryHandle = memHandle;
+#endif
         _count = newSize;
     }
 
@@ -403,7 +423,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
         if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.State, _buffer, _memoryHandle);
+            _allocationHandle.Free(_allocationHandle.State, _buffer
+#if ENABLE_DEBUG_LAYER
+                , _memoryHandle
+#endif
+                );
         }
 
         _buffer = null;

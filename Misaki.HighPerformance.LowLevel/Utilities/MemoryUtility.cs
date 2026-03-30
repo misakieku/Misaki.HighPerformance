@@ -1,6 +1,9 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+#if ENABLE_MIMALLOC
+using TerraFX.Interop.Mimalloc;
+#endif
 
 namespace Misaki.HighPerformance.LowLevel.Utilities;
 
@@ -66,7 +69,9 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Malloc(nuint size)
     {
-#if NET6_0_OR_GREATER
+#if ENABLE_MIMALLOC
+        return Mimalloc.mi_malloc(size);
+#elif NET6_0_OR_GREATER
         return NativeMemory.Alloc(size);
 #else
         return Marshal.AllocHGlobal((IntPtr)size).ToPointer();
@@ -81,7 +86,9 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Calloc(nuint size)
     {
-#if NET6_0_OR_GREATER
+#if ENABLE_MIMALLOC
+        return Mimalloc.mi_zalloc(size);
+#elif NET6_0_OR_GREATER
         return NativeMemory.AllocZeroed(size);
 #else
         var ptr = Marshal.AllocHGlobal((IntPtr)size).ToPointer();
@@ -99,7 +106,9 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* AlignedAlloc(nuint size, nuint alignment)
     {
-#if NET6_0_OR_GREATER
+#if ENABLE_MIMALLOC
+        return Mimalloc.mi_aligned_alloc(alignment, size);
+#elif NET6_0_OR_GREATER
         return NativeMemory.AlignedAlloc(size, alignment);
 #else
         return Marshal.AllocHGlobal((IntPtr)(size + alignment - 1)).ToPointer();
@@ -115,7 +124,9 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Realloc(void* ptr, nuint size)
     {
-#if NET6_0_OR_GREATER
+#if ENABLE_MIMALLOC
+        return Mimalloc.mi_realloc(ptr, size);
+#elif NET6_0_OR_GREATER
         return NativeMemory.Realloc(ptr, size);
 #else
         return Marshal.ReAllocHGlobal((IntPtr)ptr, (IntPtr)size).ToPointer();
@@ -133,7 +144,9 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* AlignedRealloc(void* ptr, nuint size, nuint alignment)
     {
-#if NET6_0_OR_GREATER
+#if ENABLE_MIMALLOC
+        return Mimalloc.mi_realloc_aligned(ptr, size, alignment);
+#elif NET6_0_OR_GREATER
         return NativeMemory.AlignedRealloc(ptr, size, alignment);
 #else
         var newPtr = Marshal.AllocHGlobal((IntPtr)(size + alignment - 1)).ToPointer();
@@ -159,7 +172,9 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Free(void* ptr)
     {
-#if NET6_0_OR_GREATER
+#if ENABLE_MIMALLOC
+        Mimalloc.mi_free(ptr);
+#elif NET6_0_OR_GREATER
         NativeMemory.Free(ptr);
 #else
         Marshal.FreeHGlobal((IntPtr)ptr);
@@ -174,7 +189,9 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AlignedFree(void* ptr)
     {
-#if NET6_0_OR_GREATER
+#if ENABLE_MIMALLOC
+        Mimalloc.mi_free(ptr);
+#elif NET6_0_OR_GREATER
         NativeMemory.AlignedFree(ptr);
 #else
         Marshal.FreeHGlobal((IntPtr)ptr);

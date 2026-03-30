@@ -82,7 +82,7 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
         {
             pValues[i] = TNumber.CreateTruncating(i);
         }
-        
+
         s_indices = Vector.Load(pValues);
     }
 

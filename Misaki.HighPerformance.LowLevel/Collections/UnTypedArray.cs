@@ -109,7 +109,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
             return;
         }
 
-        MemoryHandle memHandle = _memoryHandle;
+        var memHandle = _memoryHandle;
         _buffer = _allocationHandle.Realloc(_allocationHandle.State, _buffer, _size, newSize, _alignment, option, &memHandle);
         _size = newSize;
         _memoryHandle = memHandle;

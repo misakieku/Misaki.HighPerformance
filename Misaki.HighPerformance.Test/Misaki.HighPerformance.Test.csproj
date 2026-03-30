@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants);ENABLE_COLLECTION_CHECKS;PLATFORM_WINDOWS</DefineConstants>
+    <DefineConstants>$(DefineConstants);PLATFORM_WINDOWS;ENABLE_SAFETY_CHECKS</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

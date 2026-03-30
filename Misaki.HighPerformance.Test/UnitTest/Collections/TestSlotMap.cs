@@ -1,5 +1,4 @@
 using Misaki.HighPerformance.Collections;
-using System.Collections.Concurrent;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Collections;
 
@@ -43,7 +42,7 @@ public class TestSlotMap
     {
         var slotIndex = _slotMap.Add(200, out var generation);
         Assert.IsTrue(_slotMap.Contains(slotIndex, generation));
-        var removed = _slotMap.Remove(slotIndex, generation + 1); // Wrong generation
+        var removed = _slotMap.Remove(slotIndex, generation + 1); // Wrong Generation
         Assert.IsFalse(removed);
         Assert.IsTrue(_slotMap.Contains(slotIndex, generation));
     }

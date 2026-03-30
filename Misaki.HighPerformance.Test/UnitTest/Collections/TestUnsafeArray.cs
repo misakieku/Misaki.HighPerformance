@@ -29,12 +29,12 @@ public class TestUnsafeArray
     [TestMethod]
     public void TestIndexAccess()
     {
-        for (int i = 0; i < _arr.Count; i++)
+        for (var i = 0; i < _arr.Count; i++)
         {
             _arr[i] = i * 10;
         }
 
-        for (int i = 0; i < _arr.Count; i++)
+        for (var i = 0; i < _arr.Count; i++)
         {
             Assert.AreEqual(i * 10, _arr[i]);
         }
@@ -45,7 +45,7 @@ public class TestUnsafeArray
     {
         _arr.Clear();
 
-        int expectedValue = 0;
+        var expectedValue = 0;
         foreach (var item in _arr)
         {
             Assert.AreEqual(expectedValue, item);

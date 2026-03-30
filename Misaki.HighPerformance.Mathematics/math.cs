@@ -2049,8 +2049,8 @@ public static partial class math
     public static int2 clamp(int2 valueToClamp, int2 lowerBound, int2 upperBound)
     {
         return new int2(
-            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
-            clamp(valueToClamp.y, lowerBound.y,  upperBound.y)
+            clamp(valueToClamp.x, lowerBound.x, upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y, upperBound.y)
         );
     }
 
@@ -2063,9 +2063,9 @@ public static partial class math
     public static int3 clamp(int3 valueToClamp, int3 lowerBound, int3 upperBound)
     {
         return new int3(
-            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
-            clamp(valueToClamp.y, lowerBound.y,  upperBound.y),
-            clamp(valueToClamp.z, lowerBound.z,  upperBound.z)
+            clamp(valueToClamp.x, lowerBound.x, upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y, upperBound.y),
+            clamp(valueToClamp.z, lowerBound.z, upperBound.z)
         );
     }
 
@@ -2101,8 +2101,8 @@ public static partial class math
     public static uint2 clamp(uint2 valueToClamp, uint2 lowerBound, uint2 upperBound)
     {
         return new uint2(
-            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
-            clamp(valueToClamp.y, lowerBound.y,  upperBound.y));
+            clamp(valueToClamp.x, lowerBound.x, upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y, upperBound.y));
     }
 
     /// <summary>Returns the result of a componentwise clamping of the value valueToClamp into the interval (inclusive) [lowerBound, upperBound], where valueToClamp, lowerBound and upperBound are uint3 vectors.</summary>
@@ -2114,9 +2114,9 @@ public static partial class math
     public static uint3 clamp(uint3 valueToClamp, uint3 lowerBound, uint3 upperBound)
     {
         return new uint3(
-            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
-            clamp(valueToClamp.y, lowerBound.y,  upperBound.y),
-            clamp(valueToClamp.z, lowerBound.z,  upperBound.z)
+            clamp(valueToClamp.x, lowerBound.x, upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y, upperBound.y),
+            clamp(valueToClamp.z, lowerBound.z, upperBound.z)
         );
     }
 
@@ -2175,8 +2175,8 @@ public static partial class math
     public static float2 clamp(float2 valueToClamp, float2 lowerBound, float2 upperBound)
     {
         return new float2(
-            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
-            clamp(valueToClamp.y, lowerBound.y,  upperBound.y)
+            clamp(valueToClamp.x, lowerBound.x, upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y, upperBound.y)
         );
     }
 
@@ -2189,9 +2189,9 @@ public static partial class math
     public static float3 clamp(float3 valueToClamp, float3 lowerBound, float3 upperBound)
     {
         return new float3(
-            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
-            clamp(valueToClamp.y, lowerBound.y,  upperBound.y),
-            clamp(valueToClamp.z, lowerBound.z,  upperBound.z)
+            clamp(valueToClamp.x, lowerBound.x, upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y, upperBound.y),
+            clamp(valueToClamp.z, lowerBound.z, upperBound.z)
         );
     }
 
@@ -2238,9 +2238,9 @@ public static partial class math
     public static double3 clamp(double3 valueToClamp, double3 lowerBound, double3 upperBound)
     {
         return new double3(
-            clamp(valueToClamp.x, lowerBound.x,  upperBound.x),
-            clamp(valueToClamp.y, lowerBound.y,  upperBound.y),
-            clamp(valueToClamp.z, lowerBound.z,  upperBound.z)
+            clamp(valueToClamp.x, lowerBound.x, upperBound.x),
+            clamp(valueToClamp.y, lowerBound.y, upperBound.y),
+            clamp(valueToClamp.z, lowerBound.z, upperBound.z)
         );
     }
 
@@ -8606,7 +8606,7 @@ public static partial class math
             var hash = seed + Prime5;
             if (numBytes >= 16)
             {
-                uint4 state = new uint4(Prime1 + Prime2, Prime2, 0, (uint)-Prime1) + seed;
+                var state = new uint4(Prime1 + Prime2, Prime2, 0, (uint)-Prime1) + seed;
 
                 var count = numBytes >> 4;
                 for (var i = 0; i < count; ++i)
@@ -8659,7 +8659,7 @@ public static partial class math
             var hash = seed + Prime5;
             if (numBytes >= 16)
             {
-                uint4 state = new uint4(Prime1 + Prime2, Prime2, 0, (uint)-Prime1) + seed;
+                var state = new uint4(Prime1 + Prime2, Prime2, 0, (uint)-Prime1) + seed;
 
                 var count = numBytes >> 4;
                 for (var i = 0; i < count; ++i)

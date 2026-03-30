@@ -18,7 +18,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     {
         internal HashMapHelper<T>.Enumerator _enumerator;
 
-        public readonly T Current  => _enumerator.buffer->_keys[_enumerator.index];
+        public readonly T Current => _enumerator.buffer->_keys[_enumerator.index];
         readonly object IEnumerator.Current => Current;
 
         public Enumerator(HashMapHelper<T>* hashMap)
