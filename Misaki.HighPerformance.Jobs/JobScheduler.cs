@@ -1,9 +1,7 @@
 using Misaki.HighPerformance.Collections;
-using Misaki.HighPerformance.LowLevel.Buffer;
-using Misaki.HighPerformance.LowLevel.Collections;
-using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
@@ -195,8 +193,11 @@ public interface IJobScheduler
     /// <summary>
     /// Blocks the calling thread until all specified job handles have completed.
     /// </summary>
+    /// <remarks>
+    /// The collection handles will be reordered in-place to move completed handles to the front.
+    /// </remarks>
     /// <param name="handles">A collection of job handles to wait for.</param>
-    void WaitAll(params ReadOnlySpan<JobHandle> handles);
+    void WaitAll(params Span<JobHandle> handles);
 
     /// <summary>
     /// Waits until any of the specified job handles has completed and returns the first completed handle.
@@ -204,36 +205,6 @@ public interface IJobScheduler
     /// <param name="handles">A read-only span containing the job handles to monitor for completion.</param>
     /// <returns>The first job handle from the provided collection that has completed.</returns>
     JobHandle WaitAny(params ReadOnlySpan<JobHandle> handles);
-}
-
-public unsafe partial class JobScheduler
-{
-    public static int MainThreadIndex => -1;
-
-    public static TempJobAllocator* pTempAllocator;
-
-    /// <summary>
-    /// Gets the allocation handle for the temporary job allocator.
-    /// </summary>
-    /// <remarks>
-    /// You must dispose the allocation before the fourth time you call <see cref="TempJobAllocator.AdvanceFrame"/> after obtaining this handle.
-    /// </remarks>
-    public static AllocationHandle TempAllocatorHandle => pTempAllocator->Handle;
-
-    public static void InitTempAllocator(nuint capacityPerFrame)
-    {
-        pTempAllocator = (TempJobAllocator*)MemoryUtility.Malloc((nuint)sizeof(TempJobAllocator));
-        pTempAllocator->Initialize(capacityPerFrame);
-    }
-
-    public static void ReleaseTempAllocator()
-    {
-        if (pTempAllocator != null)
-        {
-            pTempAllocator->Dispose();
-            MemoryUtility.Free(pTempAllocator);
-        }
-    }
 }
 
 /// <summary>
@@ -248,7 +219,6 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     private const int _STATE_MASK = 0xFFFF;
     private const int _RC_ONE = 0x10000;
 
-    private FreeList _jobDataAllocator;
     private readonly ConcurrentSlotMap<JobInfo> _jobInfoPool;
     private readonly ConcurrentQueue<JobHandle> _jobQueue;
     private readonly WorkerThread[] _workerThreads;
@@ -272,7 +242,6 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     {
         var workerCount = Math.Max(1, threadCount);
 
-        _jobDataAllocator = new(8, maxConcurrencyLevel: workerCount + 1);
         _jobInfoPool = new();
         _jobQueue = new();
 
@@ -395,7 +364,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
                         Interlocked.Decrement(ref depJobInfo.dependentCount);
 
                         // Cleanup and fail
-                        _jobDataAllocator.Free(jobInfo.pJobData);
+                        NativeMemory.Free(jobInfo.pJobData);
                         return JobHandle.Invalid;
                     }
 
@@ -538,7 +507,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             dependentsToNotify[i] = new JobHandle(info.dependentsID[i], info.dependentsGeneration[i]);
         }
 
-        _jobDataAllocator.Free(info.pJobData);
+        NativeMemory.Free(info.pJobData);
         _jobInfoPool.Remove(handle.ID, handle.Generation);
         Interlocked.Decrement(ref _totalJobCount);
 
@@ -557,16 +526,13 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     public JobHandle Schedule<T>(ref readonly T job, int threadIndex, JobHandle dependency)
         where T : unmanaged, IJob
     {
-        var pJobData = _jobDataAllocator.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
+        var pJobData = NativeMemory.Alloc((nuint)sizeof(T));
         if (pJobData == null)
         {
             return JobHandle.Invalid;
         }
 
-        fixed (T* pJob = &job)
-        {
-            MemoryUtility.MemCpy(pJobData, pJob, MemoryUtility.SizeOf<T>());
-        }
+        Unsafe.Copy(pJobData, in job);
 
         var jobInfo = new JobInfo
         {
@@ -597,7 +563,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, JobHandle dependency)
         where T : unmanaged, IJobParallelFor
     {
-        var pJobData = _jobDataAllocator.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
+        var pJobData = NativeMemory.Alloc((nuint)sizeof(T));
         if (pJobData == null)
         {
             return JobHandle.Invalid;
@@ -605,7 +571,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
         fixed (T* pJob = &job)
         {
-            MemoryUtility.MemCpy(pJobData, pJob, MemoryUtility.SizeOf<T>());
+            NativeMemory.Copy(pJobData, pJob, (nuint)sizeof(T));
         }
 
         var optimalBatchSize = Math.Max(1, batchSize);
@@ -645,7 +611,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, JobHandle dependency)
         where T : unmanaged, IJobParallel
     {
-        var pJobData = _jobDataAllocator.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
+        var pJobData = NativeMemory.Alloc((nuint)sizeof(T));
         if (pJobData == null)
         {
             return JobHandle.Invalid;
@@ -653,7 +619,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
         fixed (T* pJob = &job)
         {
-            MemoryUtility.MemCpy(pJobData, pJob, MemoryUtility.SizeOf<T>());
+            NativeMemory.Copy(pJobData, pJob, (nuint)sizeof(T));
         }
 
         var optimalBatchSize = Math.Max(1, batchSize);
@@ -753,30 +719,27 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         }
     }
 
-    public void WaitAll(params ReadOnlySpan<JobHandle> handles)
+    public void WaitAll(params Span<JobHandle> handles)
     {
         if (handles.Length == 0)
         {
             return;
         }
 
-        using var orderedHandles = new UnsafeArray<JobHandle>(handles.Length, Allocator.Temp);
         var spin = new SpinWait();
         var completedCount = 0;
 
-        orderedHandles.CopyFrom(handles);
-
         while (true)
         {
-            for (var i = completedCount; i < orderedHandles.Length; i++)
+            for (var i = completedCount; i < handles.Length; i++)
             {
-                var handle = orderedHandles[i];
+                var handle = handles[i];
                 if (!_jobInfoPool.Contains(handle.ID, handle.Generation))
                 {
                     // Move completed handle to the front (completedCount index) to avoid checking it again.
-                    var temp = orderedHandles[completedCount];
-                    orderedHandles[completedCount] = handle;
-                    orderedHandles[i] = temp;
+                    var temp = handles[completedCount];
+                    handles[completedCount] = handle;
+                    handles[i] = temp;
 
                     completedCount++;
                 }
@@ -825,7 +788,6 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
         _jobInfoPool.Clear();
         _jobQueue.Clear();
-        _jobDataAllocator.Dispose();
 
         _workSignal.Dispose();
         _cts.Dispose();

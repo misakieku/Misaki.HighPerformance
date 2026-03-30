@@ -30,7 +30,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
             _allocator = allocator;
             _handle = handle;
             _originalOffset = allocator->_allocatedOffset;
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             _allocator->_activeScopeCount++;
 #endif
         }
@@ -40,7 +40,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
             if (_allocator != null)
             {
                 _allocator->_allocatedOffset = _allocator->_allocatedOffset > _originalOffset ? _originalOffset : _allocator->_allocatedOffset;
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 _allocator->_activeScopeCount--;
 #endif
             }
@@ -51,7 +51,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
     private nuint _reserveCapacity;
     private nuint _committedSize;
     private nuint _allocatedOffset;
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
     private uint _activeScopeCount;
 #endif
 
@@ -70,7 +70,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
 
         _baseAddress = (byte*)Mmap(null, _reserveCapacity, VirtualAllocationFlags.Reserve);
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         _activeScopeCount = 0;
 #endif
     }
@@ -96,7 +96,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
     /// </remarks>
     public void* Allocate(nuint size, nuint alignment, AllocationOption option = AllocationOption.None)
     {
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         if (_activeScopeCount == 0)
         {
             throw new InvalidOperationException("Allocations can only be made within an active memory scope.");

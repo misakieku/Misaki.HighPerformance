@@ -1,11 +1,9 @@
-#define ENABLE_DEBUG_LAYER
-
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
 using Misaki.HighPerformance.Collections;
 #endif
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_STACKTRACE
 using System.Runtime.InteropServices;
 #endif
 
@@ -32,11 +30,11 @@ public readonly struct AllocationInfo
         get; init;
     }
 
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_STACKTRACE
     /// <summary>
     /// Gets the stack trace at the time of allocation for debugging purposes.
     /// </summary>
-    public GCHandle StackTrace
+    public StackTrace? StackTrace
     {
         get; init;
     }
@@ -67,18 +65,6 @@ public readonly struct AllocationManagerInitOpts
 /// </summary>
 public static unsafe class AllocationManager
 {
-#if ENABLE_DEBUG_LAYER
-    [StructLayout(LayoutKind.Sequential)]
-    private struct AllocationHeader
-    {
-        public AllocationHeader* prev;
-        public AllocationHeader* next;
-        public void* basePtr;           // pointer returned by underlying allocator
-        public nuint userSize;          // requested size from the user
-        public GCHandle stackHandle;    // GCHandle to managed StackTrace
-    }
-#endif
-
     private struct ArenaAllocator : IAllocator, IDisposable
     {
         private const int _ARENA_MAGIC_ID = -3941029;
@@ -99,7 +85,7 @@ public static unsafe class AllocationManager
                 Alloc = &Allocate,
                 Realloc = &Reallocate,
                 Free = null,
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 IsValid = &IsValid
 #else
                 IsValid = null
@@ -110,7 +96,7 @@ public static unsafe class AllocationManager
         }
 
         private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             , MemoryHandle* pHandle
 #endif
             )
@@ -119,20 +105,20 @@ public static unsafe class AllocationManager
             var ptr = selfPtr->_arena.Allocate(size, alignment, allocationOption);
             if (ptr == null)
             {
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 *pHandle = MemoryHandle.Invalid;
 #endif
                 return null;
             }
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             *pHandle = new MemoryHandle(_ARENA_MAGIC_ID, selfPtr->_currentTick);
 #endif
             return ptr;
         }
 
         private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             , MemoryHandle* pHandle
 #endif
             )
@@ -140,7 +126,7 @@ public static unsafe class AllocationManager
             if (ptr == null)
             {
                 return Allocate(instance, newSize, alignment, allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                     , pHandle
 #endif
                     );
@@ -155,13 +141,13 @@ public static unsafe class AllocationManager
 
             MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             *pHandle = new MemoryHandle(_ARENA_MAGIC_ID, selfPtr->_currentTick);
 #endif
             return newPtr;
         }
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         private static bool IsValid(void* instance, MemoryHandle handle)
         {
             var selfPtr = (ArenaAllocator*)instance;
@@ -195,7 +181,7 @@ public static unsafe class AllocationManager
                 Alloc = &Allocate,
                 Realloc = &Reallocate,
                 Free = &Free,
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 IsValid = &IsValid
 #else
                 IsValid = null
@@ -204,13 +190,13 @@ public static unsafe class AllocationManager
         }
 
         private static void* Allocate(void* _, nuint size, nuint alignment, AllocationOption allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             , MemoryHandle* pHandle
 #endif
             )
         {
             return HeapAlloc(size, alignment, allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 , pHandle
 #else
                 , default
@@ -219,7 +205,7 @@ public static unsafe class AllocationManager
         }
 
         private static void* Reallocate(void* _, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             , MemoryHandle* pHandle
 #endif
             )
@@ -227,7 +213,7 @@ public static unsafe class AllocationManager
             if (ptr == null)
             {
                 return Allocate(null, newSize, alignment, allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                     , pHandle
 #endif
                     );
@@ -242,27 +228,27 @@ public static unsafe class AllocationManager
 
             MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
             HeapFree(ptr
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 , *pHandle
 #else
                 , default
 #endif
                 );
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             *pHandle = newHandle;
 #endif
             return newPtr;
         }
 
         private static void Free(void* _, void* ptr
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             , MemoryHandle handle
 #endif
             )
         {
             HeapFree(ptr
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 , handle
 #else
                 , default
@@ -270,7 +256,7 @@ public static unsafe class AllocationManager
                 );
         }
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         private static bool IsValid(void* _, MemoryHandle handle)
         {
             return ContainsAllocation(handle);
@@ -301,7 +287,7 @@ public static unsafe class AllocationManager
                 Alloc = &Allocate,
                 Realloc = &Reallocate,
                 Free = null,
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 IsValid = &IsValid
 #else
                 IsValid = null
@@ -349,7 +335,7 @@ public static unsafe class AllocationManager
         }
 
         private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             , MemoryHandle* pHandle
 #endif
             )
@@ -359,20 +345,20 @@ public static unsafe class AllocationManager
             var ptr = s_stack.Allocate(size, alignment, allocationOption);
             if (ptr == null)
             {
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 *pHandle = MemoryHandle.Invalid;
 #endif
                 return null;
             }
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             *pHandle = new MemoryHandle(_STACK_MAGIC_ID, (int)s_stack.Offset);
 #endif
             return ptr;
         }
 
         private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             , MemoryHandle* pHandle
 #endif
             )
@@ -380,7 +366,7 @@ public static unsafe class AllocationManager
             if (ptr == null)
             {
                 return Allocate(instance, newSize, alignment, allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                     , pHandle
 #endif
                     );
@@ -402,7 +388,7 @@ public static unsafe class AllocationManager
                     }
                 }
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 *pHandle = new MemoryHandle(_STACK_MAGIC_ID, (int)s_stack.Offset);
 #endif
                 return ptr;
@@ -416,13 +402,13 @@ public static unsafe class AllocationManager
 
             MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             *pHandle = new MemoryHandle(_STACK_MAGIC_ID, (int)s_stack.Offset);
 #endif
             return newPtr;
         }
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         private static bool IsValid(void* instance, MemoryHandle handle)
         {
             return handle.ID == _STACK_MAGIC_ID && handle.Generation <= (int)s_stack.Offset;
@@ -465,7 +451,7 @@ public static unsafe class AllocationManager
                 Alloc = &Allocate,
                 Realloc = &Reallocate,
                 Free = &Free,
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 IsValid = &IsValid
 #else
                 IsValid = null
@@ -474,54 +460,26 @@ public static unsafe class AllocationManager
         }
 
         private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             , MemoryHandle* pHandle
 #endif
             )
         {
             var selfPtr = (FreeListAllocator*)instance;
-#if ENABLE_DEBUG_LAYER
-            var pad = alignment == 0 ? (nuint)IntPtr.Size : alignment;
-            var total = size + (nuint)sizeof(AllocationHeader) + (pad - 1);
-            var basePtr = selfPtr->_freeList.Allocate(total, pad, allocationOption);
-            if (basePtr == null)
-            {
-                *pHandle = MemoryHandle.Invalid;
-                return null;
-            }
-
-            var user = AlignUp((byte*)basePtr + (nuint)sizeof(AllocationHeader), pad);
-            var header = (AllocationHeader*)(user - (nuint)sizeof(AllocationHeader));
-
-            header->basePtr = basePtr;
-            header->userSize = size;
-            HeaderSetHandle(header, GCHandle.Alloc(new StackTrace(2, true)));
-
-            LinkHeader(header);
-
-            if (allocationOption.HasFlag(AllocationOption.Clear))
-            {
-                MemClear(user, size);
-            }
-
-            *pHandle = AddAllocation(user, size);
-            return user;
-#else
             var ptr = selfPtr->_freeList.Allocate(size, alignment, allocationOption);
             if (ptr == null)
             {
                 return null;
             }
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             *pHandle = AddAllocation(ptr, size);
 #endif
             return ptr;
-#endif
         }
 
         private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             , MemoryHandle* pHandle
 #endif
             )
@@ -529,48 +487,13 @@ public static unsafe class AllocationManager
             if (ptr == null)
             {
                 return Allocate(instance, newSize, alignment, allocationOption
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                     , pHandle
 #endif
                     );
             }
 
             var selfPtr = (FreeListAllocator*)instance;
-
-#if ENABLE_DEBUG_LAYER
-            var oldHeader = (AllocationHeader*)((byte*)ptr - (nuint)sizeof(AllocationHeader));
-            var handle = HeaderGetHandle(oldHeader);
-
-            var pad = alignment == 0 ? (nuint)IntPtr.Size : alignment;
-            var total = newSize + (nuint)sizeof(AllocationHeader) + (pad - 1);
-            var newBase = selfPtr->_freeList.Allocate(total, pad, allocationOption);
-            if (newBase == null)
-            {
-                return null;
-            }
-
-            var newUser = AlignUp((byte*)newBase + (nuint)sizeof(AllocationHeader), pad);
-            var newHeader = (AllocationHeader*)(newUser - (nuint)sizeof(AllocationHeader));
-
-            newHeader->basePtr = newBase;
-            newHeader->userSize = newSize;
-            HeaderSetHandle(newHeader, handle);
-
-            LinkHeader(newHeader);
-
-            MemCpy(newUser, ptr, Math.Min(oldSize, newSize));
-            if (allocationOption.HasFlag(AllocationOption.Clear) && newSize > oldSize)
-            {
-                MemClear(newUser + oldSize, newSize - oldSize);
-            }
-
-            UnlinkHeader(oldHeader);
-            selfPtr->_freeList.Free(oldHeader->basePtr);
-            RemoveAllocation(*pHandle);
-
-            *pHandle = AddAllocation(newUser, newSize);
-            return newUser;
-#else
             var newPtr = selfPtr->_freeList.Allocate(newSize, alignment, allocationOption);
             if (newPtr == null)
             {
@@ -581,16 +504,15 @@ public static unsafe class AllocationManager
 
             selfPtr->_freeList.Free(ptr);
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             RemoveAllocation(*pHandle);
             *pHandle = AddAllocation(newPtr, newSize);
 #endif
 
             return newPtr;
-#endif
         }
 
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         private static bool IsValid(void* instance, MemoryHandle handle)
         {
             return ContainsAllocation(handle);
@@ -598,23 +520,15 @@ public static unsafe class AllocationManager
 #endif
 
         private static void Free(void* instance, void* ptr
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             , MemoryHandle handle
 #endif
             )
         {
             var selfPtr = (FreeListAllocator*)instance;
-#if ENABLE_DEBUG_LAYER
-            var header = (AllocationHeader*)((byte*)ptr - (nuint)sizeof(AllocationHeader));
-            UnlinkHeader(header);
-            HeaderFreeHandle(header);
-            selfPtr->_freeList.Free(header->basePtr);
-            RemoveAllocation(handle);
-#else
             selfPtr->_freeList.Free(ptr);
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             RemoveAllocation(handle);
-#endif
 #endif
         }
 
@@ -629,14 +543,8 @@ public static unsafe class AllocationManager
     private static StackAllocator* s_pStackAllocator;
     private static FreeListAllocator* s_pFreeListAllocator;
 
-#if ENABLE_DEBUG_LAYER
-    private static SpinLock s_liveLock;
-    private static AllocationHeader* s_pLiveHead;
-#endif
-
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
     private static ConcurrentSlotMap<AllocationInfo> s_allocations = null!;
-    public static readonly MemoryHandle MagicHandle = new MemoryHandle(int.MinValue, int.MinValue);
 
     /// <summary>
     /// Gets the number of live tracked heap allocations.
@@ -644,7 +552,7 @@ public static unsafe class AllocationManager
     public static int LiveAllocationCount => s_allocations.Count;
 #endif
 
-    private static bool s_initialized;
+    private static volatile bool s_initialized;
     private static nuint s_threadLocalStackDefaultSize;
 
     public static void Initialize(AllocationManagerInitOpts opts)
@@ -654,11 +562,7 @@ public static unsafe class AllocationManager
             return;
         }
 
-#if ENABLE_DEBUG_LAYER
-        s_liveLock = new SpinLock(false);
-        s_pLiveHead = null;
-#endif
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         s_allocations = new ConcurrentSlotMap<AllocationInfo>(256);
 #endif
 
@@ -678,161 +582,6 @@ public static unsafe class AllocationManager
 
         s_initialized = true;
     }
-
-#if ENABLE_DEBUG_LAYER
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static byte* AlignUp(byte* p, nuint alignment)
-    {
-        var a = alignment == 0 ? (nuint)IntPtr.Size : alignment;
-        return (byte*)(((nuint)p + (a - 1)) & ~(a - 1));
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static GCHandle HeaderGetHandle(AllocationHeader* header)
-    {
-        return header->stackHandle;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void HeaderSetHandle(AllocationHeader* header, GCHandle handle)
-    {
-        header->stackHandle = handle;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void HeaderFreeHandle(AllocationHeader* header)
-    {
-        if (header->stackHandle.IsAllocated)
-        {
-            header->stackHandle.Free();
-        }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void LinkHeader(AllocationHeader* header)
-    {
-        var taken = false;
-        try
-        {
-            s_liveLock.Enter(ref taken);
-            header->prev = null;
-            header->next = s_pLiveHead;
-            if (s_pLiveHead != null)
-            {
-                s_pLiveHead->prev = header;
-            }
-            s_pLiveHead = header;
-        }
-        finally
-        {
-            if (taken)
-            {
-                s_liveLock.Exit();
-            }
-        }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void UnlinkHeader(AllocationHeader* header)
-    {
-        var taken = false;
-        try
-        {
-            s_liveLock.Enter(ref taken);
-            var prev = header->prev;
-            var next = header->next;
-
-            if (prev != null)
-            {
-                prev->next = next;
-            }
-            else
-            {
-                s_pLiveHead = next;
-            }
-
-            if (next != null)
-            {
-                next->prev = prev;
-            }
-
-            header->prev = header->next = null;
-        }
-        finally
-        {
-            if (taken)
-            {
-                s_liveLock.Exit();
-            }
-        }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void* DebugAllocate(nuint size, nuint alignment)
-    {
-        // Over-allocate to fit header + alignment padding; we align the user pointer, header is placed just before it.
-        var pad = alignment == 0 ? (nuint)IntPtr.Size : alignment;
-        var total = size + (nuint)sizeof(AllocationHeader) + (pad - 1);
-
-        var basePtr = AlignedAlloc(total, pad);
-        var user = AlignUp((byte*)basePtr + (nuint)sizeof(AllocationHeader), pad);
-        var header = (AllocationHeader*)(user - (nuint)sizeof(AllocationHeader));
-
-        header->basePtr = basePtr;
-        header->userSize = size;
-        HeaderSetHandle(header, GCHandle.Alloc(new StackTrace(2, true)));
-
-        LinkHeader(header);
-        return user;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void DebugFree(void* userPtr)
-    {
-        var header = (AllocationHeader*)((byte*)userPtr - (nuint)sizeof(AllocationHeader));
-        UnlinkHeader(header);
-        HeaderFreeHandle(header);
-        AlignedFree(header->basePtr);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void* DebugReallocate(void* userPtr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
-    {
-        if (userPtr == null)
-        {
-            return DebugAllocate(newSize, alignment);
-        }
-
-        var oldHeader = (AllocationHeader*)((byte*)userPtr - (nuint)sizeof(AllocationHeader));
-        var handle = HeaderGetHandle(oldHeader); // preserve original allocation StackTrace
-
-        var pad = alignment == 0 ? (nuint)IntPtr.Size : alignment;
-        var total = newSize + (nuint)sizeof(AllocationHeader) + (pad - 1);
-        var newBase = AlignedAlloc(total, pad);
-        var newUser = AlignUp((byte*)newBase + (nuint)sizeof(AllocationHeader), pad);
-        var newHeader = (AllocationHeader*)(newUser - (nuint)sizeof(AllocationHeader));
-
-        newHeader->basePtr = newBase;
-        newHeader->userSize = newSize;
-        HeaderSetHandle(newHeader, handle); // transfer ownership to the new header
-
-        LinkHeader(newHeader);
-
-        // Mirror original behavior: copy newSize bytes
-        MemCpy(newUser, userPtr, newSize);
-        if (allocationOption.HasFlag(AllocationOption.Clear) && newSize > oldSize)
-        {
-            MemClear(newUser + oldSize, newSize - oldSize);
-        }
-
-        // Unlink and free the old block (without freeing the StackTrace pHandle again)
-        //oldHeader->stackHandle = GCHandle.FromIntPtr(0);
-        UnlinkHeader(oldHeader);
-        AlignedFree(oldHeader->basePtr);
-
-        return newUser;
-    }
-#endif
 
     /// <summary>
     /// Gets a reference to the allocation pHandle for the specified allocator type.
@@ -867,12 +616,7 @@ public static unsafe class AllocationManager
     {
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
-#if ENABLE_DEBUG_LAYER
-        var ptr = DebugAllocate(size, alignment);
-#else
         var ptr = AlignedAlloc(size, alignment);
-#endif
-
         if (ptr == null)
         {
             *pHandle = MemoryHandle.Invalid;
@@ -884,7 +628,9 @@ public static unsafe class AllocationManager
             MemClear(ptr, size);
         }
 
+#if MHP_ENABLE_SAFETY_CHECKS
         *pHandle = AddAllocation(ptr, size);
+#endif
         return ptr;
     }
 
@@ -898,18 +644,9 @@ public static unsafe class AllocationManager
     {
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
-#if ENABLE_DEBUG_LAYER
-        if (handle != MagicHandle)
-        {
-            DebugFree(ptr);
-        }
-        else
-#endif
-        {
-            AlignedFree(ptr);
-        }
+        AlignedFree(ptr);
 
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
         RemoveAllocation(handle);
 #endif
     }
@@ -922,9 +659,9 @@ public static unsafe class AllocationManager
     {
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
-        if (TryGetAllocation(handle, out var ptr))
+        if (TryGetAllocation(handle, out var info))
         {
-            HeapFree((void*)ptr, handle);
+            HeapFree((void*)info.Address, handle);
         }
     }
 
@@ -953,22 +690,23 @@ public static unsafe class AllocationManager
     /// Registers a memory allocation and returns a handle that can be used to manage or reference the allocated memory.
     /// </summary>
     /// <remarks>
-    /// Always returns an invalid handle if ENABLE_SAFETY_CHECKS is disabled.
+    /// Always returns an invalid handle if MHP_ENABLE_SAFETY_CHECKS is disabled.
     /// </remarks>
     /// <param name="ptr">A pointer to the memory block to be registered. The pointer must reference a valid, allocated memory region.</param>
+    /// <param name="size">The size of the memory block to be registered.</param>
     /// <returns>A MemoryHandle representing the registered allocation.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static MemoryHandle AddAllocation(void* ptr, nuint size)
     {
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
         var info = new AllocationInfo
         {
             Address = (IntPtr)ptr,
             Size = size,
-#if ENABLE_DEBUG_LAYER
-            StackTrace = GCHandle.Alloc(new StackTrace(1, true))
+#if MHP_ENABLE_STACKTRACE
+            StackTrace = new StackTrace(1, true)
 #endif
         };
 
@@ -990,9 +728,9 @@ public static unsafe class AllocationManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool RemoveAllocation(MemoryHandle handle)
     {
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-        return s_allocations.Remove(handle.ID, handle.Generation);
+        return s_allocations.Remove(handle.ID, handle.Generation, out var info);
 #else
         return false;
 #endif
@@ -1005,16 +743,16 @@ public static unsafe class AllocationManager
     /// Always returns false if debug layer is disabled, and the output pointer will be set to <see cref="IntPtr.Zero"/>.
     /// </remarks>
     /// <param name="handle">The memory handle identifying the allocation to retrieve allocation.</param>
-    /// <param name="ptr">When this method returns, contains the pointer to the memory allocation if found; otherwise, <see cref="IntPtr.Zero"/>.</param>
-    /// <returns>true if the allocation was found and <paramref name="ptr"/> contains a valid pointer; otherwise, false.</returns>
+    /// <param name="info">When this method returns, contains the allocation information associated with the specified handle, if the allocation was found; otherwise, an uninitialized value.</param>
+    /// <returns>true if the allocation was found and <paramref name="info"/> contains valid allocation information; otherwise, false.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool TryGetAllocation(MemoryHandle handle, out IntPtr ptr)
+    public static bool TryGetAllocation(MemoryHandle handle, out AllocationInfo info)
     {
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-        return s_allocations.TryGetElement(handle.ID, handle.Generation, out ptr);
+        return s_allocations.TryGetElement(handle.ID, handle.Generation, out info);
 #else
-        ptr = IntPtr.Zero;
+        info = default;
         return false;
 #endif
     }
@@ -1032,14 +770,8 @@ public static unsafe class AllocationManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool ContainsAllocation(MemoryHandle handle)
     {
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-
-        if (handle == MagicHandle)
-        {
-            return true;
-        }
-
         return s_allocations.Contains(handle.ID, handle.Generation);
 #else
         return false;
@@ -1056,51 +788,12 @@ public static unsafe class AllocationManager
             return;
         }
 
-#if ENABLE_DEBUG_LAYER
-        // In debug mode, walk the intrusive list to surface any leaks.
-        var snapshot = new List<AllocationInfo>();
-        var taken = false;
-        try
-        {
-            s_liveLock.Enter(ref taken);
-            if (s_pLiveHead != null)
-            {
-                snapshot.Capacity = 128;
-                for (var p = s_pLiveHead; p != null; p = p->next)
-                {
-                    var trace = (StackTrace)HeaderGetHandle(p).Target!;
-                    snapshot.Add(new AllocationInfo
-                    {
-                        Size = p->userSize,
-                        StackTrace = trace
-                    });
-                }
-            }
-        }
-        finally
-        {
-            if (taken)
-            {
-                s_liveLock.Exit();
-            }
-        }
+        s_initialized = false;
 
-        nuint unfreeBytes = 0u;
-        foreach (var info in snapshot)
+#if MHP_ENABLE_SAFETY_CHECKS
+        if (s_allocations.Count > 0)
         {
-            unfreeBytes += info.Size;
-        }
-
-        if (unfreeBytes > 0u)
-        {
-            throw new MemoryLeakException(CollectionsMarshal.AsSpan(snapshot));
-        }
-#endif
-
-#if ENABLE_SAFETY_CHECKS
-        if (s_allocations.Count != 0)
-        {
-            throw new InvalidOperationException($"There are still {s_allocations.Count} live tracked allocations.");
+            throw new MemoryLeakException(s_allocations);
         }
 #endif
 
@@ -1109,7 +802,5 @@ public static unsafe class AllocationManager
         s_pFreeListAllocator->Dispose();
 
         Free(s_pArenaAllocator);
-
-        s_initialized = false;
     }
 }

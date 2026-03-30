@@ -37,8 +37,32 @@ This package provides job contracts, scheduling, worker threads, dependency hand
 ```csharp
 using Misaki.HighPerformance.Jobs;
 
-// Implement IJob, IJobParallelFor, or IJobParallel and schedule the work through JobScheduler.
-// The scheduler copies job data internally and tracks completion through JobHandle.
+public struct AddJob : IJob
+{
+    public int* pA;
+    public int* pB;
+    public int* pResult;
+
+    public void Execute(ref readonly JobExecutionContext ctx)
+    {
+        *pResult = *pA + *pB;
+    }
+}
+
+int a = 5;
+int b = 10;
+int result = 0;
+
+var job = new AddJob
+{
+    pA = &a,
+    pB = &b,
+    pResult = &result
+};
+
+JobHandle handle = jobScheduler.Schedule(job);
+jobScheduler.Wait(handle);
+
 ```
 
 ## Package reference

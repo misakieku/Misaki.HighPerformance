@@ -9,7 +9,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
 {
     private struct SlotEntry
     {
-        public T? value;
+        public T value;
         public int generation;
         public int isValid;
     }
@@ -22,7 +22,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         public Enumerator(ConcurrentSlotMap<T> slotMap)
         {
             _slotMap = slotMap;
-            _currentIndex = 0;
+            _currentIndex = -1;
         }
 
         public readonly T Current => _slotMap._data[_currentIndex].value!;
@@ -42,7 +42,10 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
             return false;
         }
 
-        public void Reset() => _currentIndex = 0;
+        public void Reset()
+        {
+            _currentIndex = -1;
+        }
 
         public void Dispose()
         {
@@ -178,10 +181,16 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
 
     public bool Remove(int slotIndex, int generation)
     {
+        return Remove(slotIndex, generation, out _);
+    }
+
+    public bool Remove(int slotIndex, int generation, [MaybeNullWhen(false)] out T value)
+    {
         var capacity = Volatile.Read(ref _capacity);
 
         if (slotIndex < 0 || slotIndex >= capacity)
         {
+            value = default;
             return false;
         }
 
@@ -190,6 +199,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         // Check if slot is valid and generation matches
         if (Volatile.Read(ref slot.isValid) == 0 || Volatile.Read(ref slot.generation) != generation)
         {
+            value = default;
             return false;
         }
 
@@ -197,13 +207,15 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         if (Interlocked.CompareExchange(ref slot.isValid, 0, 1) == 1)
         {
             Interlocked.Increment(ref slot.generation);
-            slot.value = default;
+            value = slot.value;
+            slot.value = default!;
 
             _freeSlots.Enqueue(slotIndex);
             Interlocked.Decrement(ref _count);
             return true;
         }
 
+        value = default;
         return false; // Another thread already removed it
     }
 
@@ -288,11 +300,9 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
             ref var slot = ref _data[i];
             Volatile.Write(ref slot.isValid, 0);
             slot.generation = 0;
-            slot.value = default;
+            slot.value = default!;
         }
 
         _freeSlots.Clear();
-
-        Add(default!, out _);
     }
 }

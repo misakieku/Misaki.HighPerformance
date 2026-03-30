@@ -32,7 +32,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
             _allocator = allocator;
             _handle = handle;
             _originalOffset = allocator->_offset;
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             _allocator->_activeScopeCount++;
 #endif
         }
@@ -42,7 +42,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
             if (_allocator != null)
             {
                 _allocator->_offset = _allocator->_offset > _originalOffset ? _originalOffset : _allocator->_offset;
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
                 _allocator->_activeScopeCount--;
 #endif
             }
@@ -52,7 +52,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
     private byte* _buffer;
     private nuint _size;
     private nuint _offset;
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
     private uint _activeScopeCount;
 #endif
 
@@ -74,7 +74,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
         _buffer = (byte*)Malloc(size);
         _size = size;
         _offset = 0;
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         _activeScopeCount = 0;
 #endif
     }
@@ -103,7 +103,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
     /// there is insufficient space in the buffer.</returns>
     public void* Allocate(nuint size, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
     {
-#if ENABLE_SAFETY_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
         if (_activeScopeCount == 0)
         {
             throw new InvalidOperationException("Allocations can only be made within an active memory scope.");

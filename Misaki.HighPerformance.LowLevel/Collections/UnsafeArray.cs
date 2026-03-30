@@ -76,7 +76,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
     private T* _buffer;
     private int _count;
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
     private MemoryHandle _memoryHandle;
 #endif
     private AllocationHandle _allocationHandle;
@@ -108,7 +108,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     {
         get
         {
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
             if (_buffer != null)
             {
                 if (_allocationHandle.IsValid != null)
@@ -167,17 +167,17 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
         MemoryHandle memHandle;
 #endif
         var buff = handle.Alloc(handle.State, (nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
             , &memHandle
 #endif
             );
 
         _buffer = (T*)buff;
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle = memHandle;
 #endif
         _allocationHandle = handle;
@@ -213,7 +213,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [Conditional("ENABLE_SAFETY_CHECKS")]
+    [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
     private readonly void ThrowIfNotCreated()
     {
         if (!IsCreated)
@@ -223,7 +223,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [Conditional("ENABLE_SAFETY_CHECKS")]
+    [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
     private readonly void CheckIndexBounds(int index)
     {
         ThrowIfNotCreated();
@@ -258,16 +258,16 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
         MemoryHandle memHandle = _memoryHandle;
 #endif
         var elemSize = SizeOf<T>();
         _buffer = (T*)_allocationHandle.Realloc(_allocationHandle.State, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
             , &memHandle
 #endif
             );
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle = memHandle;
 #endif
         _count = newSize;
@@ -424,7 +424,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         if (_allocationHandle.Free != null)
         {
             _allocationHandle.Free(_allocationHandle.State, _buffer
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
                 , _memoryHandle
 #endif
                 );

@@ -26,31 +26,55 @@ public unsafe struct MemoryPool<T, TOpts> : IDisposable
         };
     }
 
-    private static void* Allocate(void* pAllocator, nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
+    private static void* Allocate(void* pAllocator, nuint size, nuint alignment, AllocationOption allocationOption
+#if MHP_ENABLE_SAFETY_CHECKS
+        , MemoryHandle* pHandle
+#endif
+        )
     {
         return ((T*)pAllocator)->Allocate(size, alignment, allocationOption);
     }
 
-    private static void* Reallocate(void* pAllocator, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
+    private static void* Reallocate(void* pAllocator, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption
+#if MHP_ENABLE_SAFETY_CHECKS
+        , MemoryHandle* pHandle
+#endif
+        )
     {
         if (ptr == null)
         {
-            return Allocate(pAllocator, newSize, alignment, allocationOption, pHandle);
+            return Allocate(pAllocator, newSize, alignment, allocationOption
+#if MHP_ENABLE_SAFETY_CHECKS
+                , pHandle
+#endif
+                );
         }
 
-        var newPtr = Allocate(pAllocator, newSize, alignment, allocationOption, pHandle);
+        var newPtr = Allocate(pAllocator, newSize, alignment, allocationOption
+#if MHP_ENABLE_SAFETY_CHECKS
+            , pHandle
+#endif
+            );
         if (newPtr == null)
         {
             return null;
         }
 
         MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
-        Free(pAllocator, ptr, *pHandle);
+        Free(pAllocator, ptr
+#if MHP_ENABLE_SAFETY_CHECKS
+            , *pHandle
+#endif
+            );
 
         return newPtr;
     }
 
-    private static void Free(void* pAllocator, void* ptr, MemoryHandle handle)
+    private static void Free(void* pAllocator, void* ptr
+#if MHP_ENABLE_SAFETY_CHECKS
+        , MemoryHandle handle
+#endif
+        )
     {
         ((T*)pAllocator)->Free(ptr);
     }

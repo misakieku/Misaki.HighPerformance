@@ -77,7 +77,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     private readonly int _sizeOfTValue;
     private readonly int _log2MinGrowth;
 
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
     private MemoryHandle _memoryHandle;
 #endif
     private AllocationHandle _allocationHandle;
@@ -96,7 +96,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     {
         get
         {
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
             if (_buffer != null)
             {
                 if (_allocationHandle.IsValid != null)
@@ -161,7 +161,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [Conditional("ENABLE_SAFETY_CHECKS")]
+    [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
     private readonly void ThrowIfNotCreated()
     {
         if (!IsCreated)
@@ -256,11 +256,11 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
         MemoryHandle memHandle;
 #endif
         var buf = (byte*)_allocationHandle.Alloc(_allocationHandle.State, (uint)totalSize, (nuint)_alignment, allocationOption
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
             , &memHandle
 #endif
             );
@@ -269,7 +269,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         _keys = (TKey*)(_buffer + keyOffset);
         _next = (int*)(_buffer + nextOffset);
         _buckets = (int*)(_buffer + bucketOffset);
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle = memHandle;
 #endif
     }
@@ -284,7 +284,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         var oldNext = _next;
         var oldBuckets = _buckets;
         var oldBucketCapacity = _bucketCapacity;
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
         var oldMemoryHandle = _memoryHandle;
 #endif
 
@@ -306,7 +306,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         if (_allocationHandle.Free != null)
         {
             _allocationHandle.Free(_allocationHandle.State, oldBuffer
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
                 , oldMemoryHandle
 #endif
                 );
@@ -725,7 +725,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         if (_allocationHandle.Free != null)
         {
             _allocationHandle.Free(_allocationHandle.State, _buffer
-#if ENABLE_DEBUG_LAYER
+#if MHP_ENABLE_SAFETY_CHECKS
                 , _memoryHandle
 #endif
                 );

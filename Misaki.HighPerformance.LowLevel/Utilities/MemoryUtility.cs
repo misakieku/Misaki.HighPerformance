@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
-#if ENABLE_MIMALLOC
+#if MHP_ENABLE_MIMALLOC
 using TerraFX.Interop.Mimalloc;
 #endif
 
@@ -69,7 +69,7 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Malloc(nuint size)
     {
-#if ENABLE_MIMALLOC
+#if MHP_ENABLE_MIMALLOC
         return Mimalloc.mi_malloc(size);
 #elif NET6_0_OR_GREATER
         return NativeMemory.Alloc(size);
@@ -86,7 +86,7 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Calloc(nuint size)
     {
-#if ENABLE_MIMALLOC
+#if MHP_ENABLE_MIMALLOC
         return Mimalloc.mi_zalloc(size);
 #elif NET6_0_OR_GREATER
         return NativeMemory.AllocZeroed(size);
@@ -106,7 +106,7 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* AlignedAlloc(nuint size, nuint alignment)
     {
-#if ENABLE_MIMALLOC
+#if MHP_ENABLE_MIMALLOC
         return Mimalloc.mi_aligned_alloc(alignment, size);
 #elif NET6_0_OR_GREATER
         return NativeMemory.AlignedAlloc(size, alignment);
@@ -124,7 +124,7 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Realloc(void* ptr, nuint size)
     {
-#if ENABLE_MIMALLOC
+#if MHP_ENABLE_MIMALLOC
         return Mimalloc.mi_realloc(ptr, size);
 #elif NET6_0_OR_GREATER
         return NativeMemory.Realloc(ptr, size);
@@ -144,7 +144,7 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* AlignedRealloc(void* ptr, nuint size, nuint alignment)
     {
-#if ENABLE_MIMALLOC
+#if MHP_ENABLE_MIMALLOC
         return Mimalloc.mi_realloc_aligned(ptr, size, alignment);
 #elif NET6_0_OR_GREATER
         return NativeMemory.AlignedRealloc(ptr, size, alignment);
@@ -172,7 +172,7 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Free(void* ptr)
     {
-#if ENABLE_MIMALLOC
+#if MHP_ENABLE_MIMALLOC
         Mimalloc.mi_free(ptr);
 #elif NET6_0_OR_GREATER
         NativeMemory.Free(ptr);
@@ -189,7 +189,7 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AlignedFree(void* ptr)
     {
-#if ENABLE_MIMALLOC
+#if MHP_ENABLE_MIMALLOC
         Mimalloc.mi_free(ptr);
 #elif NET6_0_OR_GREATER
         NativeMemory.AlignedFree(ptr);

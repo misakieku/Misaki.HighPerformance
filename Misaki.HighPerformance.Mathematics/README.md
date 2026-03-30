@@ -44,6 +44,10 @@ using Misaki.HighPerformance.Mathematics;
 float radians = math.radians(90f);
 float degrees = math.degrees(radians);
 float tau = math.TAU;
+
+float3 a = new float3(1f, 2f, 3f);
+float3 b = new float3(4f, 5f, 6f);
+float3 c = math.cross(a, b);
 ```
 
 ## Package reference

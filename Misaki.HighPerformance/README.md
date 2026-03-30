@@ -38,6 +38,8 @@ values.Add(10);
 values.Add(20);
 values.Add(30);
 
+ref int firstValue = ref values[0];
+
 Span<int> span = values.AsSpan();
 ```
 

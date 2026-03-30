@@ -21,6 +21,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     {
         get
         {
+#if MHP_ENABLE_SAFETY_CHECKS
             if (_buffer != null)
             {
                 if (_allocationHandle.IsValid != null)
@@ -34,6 +35,9 @@ public unsafe struct UnTypedArray : IUnTypedCollection
             }
 
             return false;
+#else
+            return _buffer != null;
+#endif
         }
     }
 
@@ -57,12 +61,20 @@ public unsafe struct UnTypedArray : IUnTypedCollection
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
+#if MHP_ENABLE_SAFETY_CHECKS
         MemoryHandle memHandle;
-        _buffer = handle.Alloc(_allocationHandle.State, size, alignment, allocationOption, &memHandle);
+#endif
+        var buff = handle.Alloc(handle.State, size, alignment, allocationOption
+#if MHP_ENABLE_SAFETY_CHECKS
+            , &memHandle
+#endif
+            );
         _size = size;
         _alignment = alignment;
 
+#if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle = memHandle;
+#endif
         _allocationHandle = handle;
     }
 
@@ -109,10 +121,18 @@ public unsafe struct UnTypedArray : IUnTypedCollection
             return;
         }
 
+#if MHP_ENABLE_SAFETY_CHECKS
         var memHandle = _memoryHandle;
-        _buffer = _allocationHandle.Realloc(_allocationHandle.State, _buffer, _size, newSize, _alignment, option, &memHandle);
+#endif
+        _buffer = _allocationHandle.Realloc(_allocationHandle.State, _buffer, _size, newSize, _alignment, option
+#if MHP_ENABLE_SAFETY_CHECKS
+            , &memHandle
+#endif
+            );
         _size = newSize;
+#if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle = memHandle;
+#endif
     }
 
     /// <inheritdoc/>
@@ -257,7 +277,11 @@ public unsafe struct UnTypedArray : IUnTypedCollection
 
         if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.State, _buffer, _memoryHandle);
+            _allocationHandle.Free(_allocationHandle.State, _buffer
+#if MHP_ENABLE_SAFETY_CHECKS
+                , _memoryHandle
+#endif
+                );
         }
 
         _buffer = null;

@@ -8,7 +8,7 @@ public unsafe interface IUnsafeCollection : IDisposable
     /// Indicates whether the object has been created. Returns true if the object is created, otherwise false.
     /// </summary>
     /// <remarks>
-    /// If ENABLE_DEBUG_LAYER is not defined, this property will only check if the underlying pointer is not null, which may not be sufficient to determine if the collection is fully initialized and ready for use.
+    /// If MHP_ENABLE_STACKTRACE is not defined, this property will only check if the underlying pointer is not null, which may not be sufficient to determine if the collection is fully initialized and ready for use.
     /// </remarks>
     bool IsCreated
     {

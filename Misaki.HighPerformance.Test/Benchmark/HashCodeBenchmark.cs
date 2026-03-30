@@ -1,4 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes;
 using System.Numerics;
 
 namespace Misaki.HighPerformance.Test.Benchmark;
@@ -30,8 +30,6 @@ public class HashCodeBenchmark
 
     private Dictionary<Type, int> _hashCache = new();
     //private UnsafeHashMap<Guid, int> _hashMap = new(16);
-
-    private bool _disposed;
 
     //~HashCodeBenchmark()
     //{

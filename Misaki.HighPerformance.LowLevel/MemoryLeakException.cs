@@ -14,15 +14,21 @@ public class MemoryLeakException : Exception
 
     public override string Message => _message;
 
-    public MemoryLeakException(ReadOnlySpan<AllocationInfo> infos)
+    public MemoryLeakException(IEnumerable<AllocationInfo> infos)
     {
         var stringBuilder = new StringBuilder();
-        stringBuilder.AppendLine($"Found {infos.Length} memory lakes!");
+        stringBuilder.AppendLine($"Found {infos.Count()} memory lakes!");
+
+#if MHP_ENABLE_STACKTRACE
+        stringBuilder.AppendLine();
 
         foreach (var info in infos)
         {
-            stringBuilder.AppendLine(GetMessage(info.StackTrace));
+            GetMessage(stringBuilder, info.StackTrace);
         }
+#else
+        stringBuilder.AppendLine("No stack trace information available. Please enable MHP_ENABLE_STACKTRACE for detailed leak information.");
+#endif
 
         _message = stringBuilder.ToString();
     }
@@ -32,14 +38,14 @@ public class MemoryLeakException : Exception
         _message = message;
     }
 
-    private static string GetMessage(StackTrace? stackTrace)
+    private static void GetMessage(StringBuilder stringBuilder, StackTrace? stackTrace)
     {
         if (stackTrace == null)
         {
-            return "No stack trace available.";
+            stringBuilder.AppendLine("No stack trace available.");
+            return;
         }
 
-        var stringBuilder = new StringBuilder();
         stringBuilder.AppendLine("Memory leak detected at: ");
 
         for (var i = 0; i < stackTrace.FrameCount; i++)
@@ -49,10 +55,9 @@ public class MemoryLeakException : Exception
 
             if (frame != null)
             {
-                stringBuilder.AppendLine($"File: {fileName}, Method: {DiagnosticMethodInfo.Create(frame)?.Name}, Line: {frame.GetFileLineNumber()}");
+                var methodInfo = DiagnosticMethodInfo.Create(frame);
+                stringBuilder.AppendLine($"File: {fileName}, Type: {methodInfo?.DeclaringTypeName}, Method: {methodInfo?.Name}, Line: {frame.GetFileLineNumber()}");
             }
         }
-
-        return stringBuilder.ToString();
     }
 }

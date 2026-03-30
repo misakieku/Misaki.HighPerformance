@@ -33,6 +33,7 @@ This package focuses on practical image decoding with low-level control over mem
 
 ```csharp
 using Misaki.HighPerformance.Image;
+
 using var stream = File.OpenRead("image.png");
 using ImageResult image = ImageResult.FromStream(stream);
 

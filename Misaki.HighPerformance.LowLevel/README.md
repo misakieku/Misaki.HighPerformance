@@ -59,12 +59,12 @@ arr.Dispose();
 AllocationManager.Dispose();
 ```
 
-You can enable debug features for leak detection and use-after-free checks by defining `ENABLE_SAFETY_CHECKS` in your project. And define `ENABLE_DEBUG_LAYER` to enable additional debug features such as tracking allocations and providing detailed error messages.
+You can enable debug features for leak detection and use-after-free checks by defining `MHP_ENABLE_SAFETY_CHECKS` in your project. And define `MHP_ENABLE_STACKTRACE` to enable additional debug features such as tracking allocations and providing detailed error messages.
 > Which means if you disable the safety checks, the library will not perform any safety checks and provide the maximum performance, and it will be your responsibility to ensure correct usage to avoid memory leaks and undefined behavior.
 > Even `IUnsafeCollection.IsCreated` will only check if the internal pointer is non-null, without verifying the actual validity of the memory.
 
-You can also define `ENABLE_MIMALLOC` to use mimalloc as the underlying allocator instead of the default C allocator.
-> Using mimalloc requires to install the TerraFX.Interop.Mimalloc package and ensure the native mimalloc library is available at runtime.
+You can also define `MHP_ENABLE_MIMALLOC` to use mimalloc as the underlying allocator instead of the default C allocator.
+> Using mimalloc requires to install the `TerraFX.Interop.Mimalloc` package.
 
 ## Package reference
 

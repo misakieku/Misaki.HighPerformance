@@ -22,8 +22,10 @@ public class TestAllocationManager
         }
         finally
         {
+#if MHP_ENABLE_SAFETY_CHECKS
             var leaks = AllocationManager.LiveAllocationCount;
             Assert.AreEqual(0, leaks);
+#endif
         }
     }
 
@@ -39,8 +41,10 @@ public class TestAllocationManager
         }
         catch (MemoryLeakException)
         {
+#if MHP_ENABLE_SAFETY_CHECKS
             var leaks = AllocationManager.LiveAllocationCount;
             Assert.AreEqual(2, leaks);
+#endif
 
             return;
         }
@@ -50,6 +54,8 @@ public class TestAllocationManager
             array2.Dispose();
         }
 
+#if ENABLE_SAFETY_CHECKS
         Assert.Fail("Expected MemoryLeakException was not thrown.");
+#endif
     }
 }
