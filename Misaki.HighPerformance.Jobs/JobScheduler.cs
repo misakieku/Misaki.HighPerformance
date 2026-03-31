@@ -786,8 +786,13 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             worker.Dispose();
         }
 
-        _jobInfoPool.Clear();
-        _jobQueue.Clear();
+        foreach (var info in _jobInfoPool)
+        {
+            if (info.pJobData != null)
+            {
+                NativeMemory.Free(info.pJobData);
+            }
+        }
 
         _workSignal.Dispose();
         _cts.Dispose();

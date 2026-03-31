@@ -3,9 +3,6 @@ using Misaki.HighPerformance.Collections;
 #endif
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-#if MHP_ENABLE_STACKTRACE
-using System.Runtime.InteropServices;
-#endif
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -23,7 +20,7 @@ public readonly struct AllocationInfo
     }
 
     /// <summary>
-    /// Gets the size of the allocation in bytes.
+    /// Gets the newSize of the allocation in bytes.
     /// </summary>
     public nuint Size
     {
@@ -198,8 +195,6 @@ public static unsafe class AllocationManager
             return HeapAlloc(size, alignment, allocationOption
 #if MHP_ENABLE_SAFETY_CHECKS
                 , pHandle
-#else
-                , default
 #endif
                 );
         }
@@ -219,8 +214,15 @@ public static unsafe class AllocationManager
                     );
             }
 
+#if MHP_ENABLE_SAFETY_CHECKS
             MemoryHandle newHandle;
-            var newPtr = HeapAlloc(newSize, alignment, allocationOption, &newHandle);
+#endif
+            var newPtr = HeapAlloc(newSize, alignment, allocationOption
+#if MHP_ENABLE_SAFETY_CHECKS
+                , &newHandle
+#endif
+                );
+
             if (newPtr == null)
             {
                 return null;
@@ -230,8 +232,6 @@ public static unsafe class AllocationManager
             HeapFree(ptr
 #if MHP_ENABLE_SAFETY_CHECKS
                 , *pHandle
-#else
-                , default
 #endif
                 );
 
@@ -250,8 +250,6 @@ public static unsafe class AllocationManager
             HeapFree(ptr
 #if MHP_ENABLE_SAFETY_CHECKS
                 , handle
-#else
-                , default
 #endif
                 );
         }
@@ -545,11 +543,16 @@ public static unsafe class AllocationManager
 
 #if MHP_ENABLE_SAFETY_CHECKS
     private static ConcurrentSlotMap<AllocationInfo> s_allocations = null!;
+#endif
 
     /// <summary>
-    /// Gets the number of live tracked heap allocations.
+    /// Gets the number of live tracked heap allocations. Always returns 0 if MHP_ENABLE_SAFETY_CHECKS is disabled.
     /// </summary>
-    public static int LiveAllocationCount => s_allocations.Count;
+    public static int LiveAllocationCount =>
+#if MHP_ENABLE_SAFETY_CHECKS
+        s_allocations.Count;
+#else
+        0;
 #endif
 
     private static volatile bool s_initialized;
@@ -604,7 +607,7 @@ public static unsafe class AllocationManager
     }
 
     /// <summary>
-    /// Allocates a block of memory from the heap with the specified size and alignment, using the given allocation options.
+    /// Allocates a block of memory from the heap with the specified newSize and alignment, using the given allocation options.
     /// </summary>
     /// <param name="size">The number of bytes to allocate. Must be greater than zero.</param>
     /// <param name="alignment">The alignment, in bytes, for the allocated memory block. Must be a power of two.</param>
@@ -612,14 +615,20 @@ public static unsafe class AllocationManager
     /// tracked. The default is <see cref="AllocationOption.None"/>.</param>
     /// <returns>A pointer to the beginning of the allocated memory block.</returns>
     /// <exception cref="OutOfMemoryException">Thrown if the allocation fails.</exception>
-    public static void* HeapAlloc(nuint size, nuint alignment, AllocationOption allocationOption, MemoryHandle* pHandle)
+    public static void* HeapAlloc(nuint size, nuint alignment, AllocationOption allocationOption
+#if MHP_ENABLE_SAFETY_CHECKS
+        , MemoryHandle* pHandle
+#endif
+        )
     {
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
         var ptr = AlignedAlloc(size, alignment);
         if (ptr == null)
         {
+#if MHP_ENABLE_SAFETY_CHECKS
             *pHandle = MemoryHandle.Invalid;
+#endif
             return null;
         }
 
@@ -640,7 +649,11 @@ public static unsafe class AllocationManager
     /// <param name="ptr">A pointer to the memory block to be freed. The pointer must have been returned by a compatible heap allocation
     ///     method and must not be null.</param>
     /// <param name="handle">The handle representing the memory allocation to free. The handle must be valid and previously allocated.</param>
-    public static void HeapFree(void* ptr, MemoryHandle handle)
+    public static void HeapFree(void* ptr
+#if MHP_ENABLE_SAFETY_CHECKS
+        , MemoryHandle handle
+#endif
+        )
     {
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
@@ -654,15 +667,21 @@ public static unsafe class AllocationManager
     /// <summary>
     /// Releases a block of unmanaged memory previously allocated by the heap allocator.
     /// </summary>
+    /// <remarks>
+    /// No ops when MHP_ENABLE_SAFETY_CHECKS is disabled, as we cannot fetch the allocation info from the handle to get the pointer to free.
+    /// </remarks>
     /// <param name="handle">The handle representing the memory allocation to free. The handle must be valid and previously allocated.</param>
     public static void HeapFree(MemoryHandle handle)
     {
+#if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
         if (TryGetAllocation(handle, out var info))
         {
             HeapFree((void*)info.Address, handle);
         }
+#endif
+        // No-op when safety checks are disabled, as we cannot fetch the allocation info from the handle.
     }
 
     /// <summary>
@@ -693,7 +712,7 @@ public static unsafe class AllocationManager
     /// Always returns an invalid handle if MHP_ENABLE_SAFETY_CHECKS is disabled.
     /// </remarks>
     /// <param name="ptr">A pointer to the memory block to be registered. The pointer must reference a valid, allocated memory region.</param>
-    /// <param name="size">The size of the memory block to be registered.</param>
+    /// <param name="size">The newSize of the memory block to be registered.</param>
     /// <returns>A MemoryHandle representing the registered allocation.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static MemoryHandle AddAllocation(void* ptr, nuint size)

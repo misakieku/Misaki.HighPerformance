@@ -491,6 +491,24 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         }
     }
 
+    /// <summary>
+    /// Sets the count of the collection to a new value without modifying the underlying storage.
+    /// </summary>
+    /// <remarks>
+    /// This method will not initialize new elements, so it should be used with caution. The new count must be between 0 and the current capacity of the collection.
+    /// </remarks>
+    /// <param name="newCount">The new count value to set for the collection.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the new count is outside the valid range.</exception>
+    public void UnsafeSetCount(int newCount)
+    {
+        if (newCount < 0 || newCount > Capacity)
+        {
+            throw new ArgumentOutOfRangeException(nameof(newCount), $"Value for newCount {newCount} must be between 0 and Capacity {Capacity}.");
+        }
+
+        _count = newCount;
+    }
+
     public void Clear()
     {
         _count = 0;
