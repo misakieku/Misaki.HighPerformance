@@ -385,7 +385,9 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpts
             }
 
             var blockSize = bucket->blockSize;
-            var blocksToCreate = Math.Min(_chunkSize / blockSize, 256);
+            var blocksToCreate = Math.Max(1u, _chunkSize / blockSize);
+            blocksToCreate = Math.Min(blocksToCreate, 256);
+
             if (blocksToCreate == 0)
             {
                 return false;
