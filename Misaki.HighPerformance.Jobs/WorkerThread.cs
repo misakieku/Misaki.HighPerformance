@@ -101,8 +101,14 @@ internal class WorkerThread : IDisposable
             }
 
             ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
-            if (exist && Interlocked.CompareExchange(ref jobInfo.state, JobState.Running, JobState.Scheduled) == JobState.Scheduled)
+            if (exist)
             {
+                var priorState = Interlocked.CompareExchange(ref jobInfo.state, JobState.Running, JobState.Scheduled);
+                if (priorState != JobState.Scheduled && priorState != JobState.Running)
+                {
+                    continue;
+                }
+
                 if (jobInfo.pExecutionFunc != null)
                 {
                     var ctx = new JobExecutionContext(_index, _scheduler);
