@@ -54,6 +54,13 @@ public readonly struct AllocationManagerInitOpts
     {
         get; init;
     }
+
+    public static AllocationManagerInitOpts Default => new AllocationManagerInitOpts
+    {
+        ArenaCapacity = 1024 * 1024 * 1024, // 1 GB
+        StackCapacity = 16 * 1024 * 1024, // 16 MB per thread
+        FreeListConcurrencyLevel = Environment.ProcessorCount
+    };
 }
 
 /// <summary>

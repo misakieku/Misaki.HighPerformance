@@ -532,7 +532,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             return JobHandle.Invalid;
         }
 
-        Unsafe.Copy(pJobData, in job);
+        *(T*)pJobData = job;
 
         var jobInfo = new JobInfo
         {
@@ -569,10 +569,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             return JobHandle.Invalid;
         }
 
-        fixed (T* pJob = &job)
-        {
-            NativeMemory.Copy(pJobData, pJob, (nuint)sizeof(T));
-        }
+        *(T*)pJobData = job;
 
         var optimalBatchSize = Math.Max(1, batchSize);
         var totalBatches = (totalIteration + optimalBatchSize - 1) / optimalBatchSize;
@@ -617,10 +614,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             return JobHandle.Invalid;
         }
 
-        fixed (T* pJob = &job)
-        {
-            NativeMemory.Copy(pJobData, pJob, (nuint)sizeof(T));
-        }
+        *(T*)pJobData = job;
 
         var optimalBatchSize = Math.Max(1, batchSize);
         var totalBatches = (totalIteration + optimalBatchSize - 1) / optimalBatchSize;

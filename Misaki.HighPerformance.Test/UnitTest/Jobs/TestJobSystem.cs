@@ -22,6 +22,7 @@ public unsafe class TestJobSystem
     [ClassInitialize]
     public static void Initialize(TestContext testContext)
     {
+        AllocationManager.Initialize(AllocationManagerInitOpts.Default);
         s_jobScheduler = new JobScheduler(3);
     }
 
