@@ -719,6 +719,12 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     {
         if (!IsCreated)
         {
+#if DEBUG
+            if (_buffer == null)
+            {
+                return;
+            }
+
             var message = "The HashMapHelper is not created or already disposed.";
 #if MHP_ENABLE_STACKTRACE
             var stackTrace = new StackTrace(1, true);
@@ -736,6 +742,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             message += Environment.NewLine + sb.ToString();
 #endif
             Debug.WriteLine(message);
+#endif
             return;
         }
 
