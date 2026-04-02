@@ -54,7 +54,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         public Enumerator(UnsafeSlotMap<T>* collection)
         {
             _collection = collection;
-            _currentIndex = 0;
+            _currentIndex = -1;
         }
 
         public bool MoveNext()
@@ -65,7 +65,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
         public void Reset()
         {
-            _currentIndex = 0;
+            _currentIndex = -1;
         }
 
         public void Dispose()

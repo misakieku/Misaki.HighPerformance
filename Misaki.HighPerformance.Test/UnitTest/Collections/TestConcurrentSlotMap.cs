@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 namespace Misaki.HighPerformance.Test.UnitTest.Collections;
 
 [TestClass]
+[DoNotParallelize]
 public class TestConcurrentSlotMap
 {
     private ConcurrentSlotMap<int> _slotMap = null!;
@@ -79,10 +80,10 @@ public class TestConcurrentSlotMap
                 {
                     _slotMap.Add(i, out _);
                 }
-            }, TestContext.CancellationTokenSource.Token));
+            }, TestContext.CancellationToken));
         }
 
-        Task.WaitAll(tasks, TestContext.CancellationTokenSource.Token);
+        Task.WaitAll(tasks, TestContext.CancellationToken);
         Assert.AreEqual(threadCount * itemsPerThread, _slotMap.Count);
     }
 
@@ -93,7 +94,6 @@ public class TestConcurrentSlotMap
         const int operationsPerThread = 1000;
 
         var tasks = new List<Task>();
-        var rand = new Random();
         var addedItems = new ConcurrentBag<(int slotIndex, int generation)>();
 
         var count = 0;
@@ -104,7 +104,7 @@ public class TestConcurrentSlotMap
             {
                 for (var i = 0; i < operationsPerThread; i++)
                 {
-                    if (rand.NextDouble() < 0.5)
+                    if (Random.Shared.NextDouble() < 0.5)
                     {
                         var slotIndex = _slotMap.Add(i, out var generation);
                         addedItems.Add((slotIndex, generation));
@@ -113,14 +113,16 @@ public class TestConcurrentSlotMap
                     }
                     else if (addedItems.TryTake(out var item))
                     {
-                        _slotMap.Remove(item.slotIndex, item.generation);
-                        Interlocked.Decrement(ref count);
+                        if (_slotMap.Remove(item.slotIndex, item.generation))
+                        {
+                            Interlocked.Decrement(ref count);
+                        }
                     }
                 }
-            }, TestContext.CancellationTokenSource.Token));
+            }, TestContext.CancellationToken));
         }
 
-        Task.WaitAll(tasks, TestContext.CancellationTokenSource.Token);
+        Task.WaitAll(tasks, TestContext.CancellationToken);
 
         Assert.AreEqual(count, _slotMap.Count);
     }

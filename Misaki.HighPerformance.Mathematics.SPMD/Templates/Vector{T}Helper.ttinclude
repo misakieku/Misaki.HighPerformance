@@ -103,7 +103,7 @@ public unsafe struct {typeName} : IEquatable<{typeName}>
 
         for (var i = 0; i < width; i++)
         {{
-{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"pDst[i * 2 + {dim}] = {components[dim]}[i];"))}
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"pDst[i * {dimension} + {dim}] = {components[dim]}[i];"))}
         }}
     }}
 

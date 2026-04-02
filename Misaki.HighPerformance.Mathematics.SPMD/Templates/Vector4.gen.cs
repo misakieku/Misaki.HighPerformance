@@ -81,10 +81,10 @@ public unsafe struct Vector4<TLane, TNumber> : IEquatable<Vector4<TLane, TNumber
 
         for (var i = 0; i < width; i++)
         {
-            pDst[i * 2 + 0] = x[i];
-            pDst[i * 2 + 1] = y[i];
-            pDst[i * 2 + 2] = z[i];
-            pDst[i * 2 + 3] = w[i];
+            pDst[i * 4 + 0] = x[i];
+            pDst[i * 4 + 1] = y[i];
+            pDst[i * 4 + 2] = z[i];
+            pDst[i * 4 + 3] = w[i];
         }
     }
 
@@ -95,7 +95,7 @@ public unsafe struct Vector4<TLane, TNumber> : IEquatable<Vector4<TLane, TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Store(TNumber* px, TNumber* py, TNumber* pz, TNumber* pw)
+    public void Store(TNumber* px,  TNumber* py,  TNumber* pz,  TNumber* pw)
     {
         x.Store(px);
         y.Store(py);
@@ -104,7 +104,7 @@ public unsafe struct Vector4<TLane, TNumber> : IEquatable<Vector4<TLane, TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Store(ref TNumber x, ref TNumber y, ref TNumber z, ref TNumber w)
+    public void Store(ref TNumber x,  ref TNumber y,  ref TNumber z,  ref TNumber w)
     {
         this.x.Store(ref x);
         this.y.Store(ref y);
@@ -171,7 +171,7 @@ public unsafe struct Vector4<TLane, TNumber> : IEquatable<Vector4<TLane, TNumber
             w = vector.w - lane,
         };
     }
-
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> operator -(TLane lane, in Vector4<TLane, TNumber> vector)
     {
@@ -207,7 +207,7 @@ public unsafe struct Vector4<TLane, TNumber> : IEquatable<Vector4<TLane, TNumber
             w = vector.w * lane,
         };
     }
-
+        
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> operator *(TLane lane, in Vector4<TLane, TNumber> vector)
     {
@@ -231,7 +231,7 @@ public unsafe struct Vector4<TLane, TNumber> : IEquatable<Vector4<TLane, TNumber
             w = left.w / right.w,
         };
     }
-
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> operator /(in Vector4<TLane, TNumber> vector, TLane lane)
     {
@@ -243,7 +243,7 @@ public unsafe struct Vector4<TLane, TNumber> : IEquatable<Vector4<TLane, TNumber
             w = vector.w / lane,
         };
     }
-
+        
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> operator /(TLane lane, in Vector4<TLane, TNumber> vector)
     {
@@ -268,7 +268,7 @@ public unsafe struct Vector4<TLane, TNumber> : IEquatable<Vector4<TLane, TNumber
         };
     }
 
-
+        
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> operator ==(in Vector4<TLane, TNumber> vector, TLane lane)
     {
@@ -280,7 +280,7 @@ public unsafe struct Vector4<TLane, TNumber> : IEquatable<Vector4<TLane, TNumber
             w = vector.w == lane,
         };
     }
-
+        
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> operator ==(TLane lane, in Vector4<TLane, TNumber> vector)
     {
@@ -328,7 +328,7 @@ public unsafe struct Vector4<TLane, TNumber> : IEquatable<Vector4<TLane, TNumber
             w = lane != vector.w,
         };
     }
-
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> operator >(in Vector4<TLane, TNumber> left, in Vector4<TLane, TNumber> right)
     {

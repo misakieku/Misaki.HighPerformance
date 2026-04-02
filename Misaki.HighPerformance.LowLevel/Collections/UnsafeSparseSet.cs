@@ -56,7 +56,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         public Enumerator(UnsafeSparseSet<T>* collection)
         {
             _collection = collection;
-            _currentIndex = 0;
+            _currentIndex = -1;
         }
 
         public bool MoveNext()
@@ -67,7 +67,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 
         public void Reset()
         {
-            _currentIndex = 0;
+            _currentIndex = -1;
         }
 
         public readonly void Dispose()
@@ -364,7 +364,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// <param name="generation">The Generation number to validate against the stored Generation.</param>
     /// <param name="value">The new value.</param>
     /// <returns>True if the value was updated, false if the sparse index was not found.</returns>
-    public bool SetValue(int sparseIndex, int generation, T value)
+    public readonly bool SetValue(int sparseIndex, int generation, T value)
     {
         if (!Contains(sparseIndex, generation))
         {
@@ -422,7 +422,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void* GetUnsafePtr()
     {
-        return (T*)_dense.GetUnsafePtr() + 1;
+        return (T*)_dense.GetUnsafePtr();
     }
 
     /// <summary>
