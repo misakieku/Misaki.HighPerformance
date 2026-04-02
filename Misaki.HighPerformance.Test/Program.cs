@@ -10,14 +10,33 @@ var opts = new AllocationManagerInitOpts
     FreeListConcurrencyLevel = 1
 };
 
-AllocationManager.Initialize(opts);
+var pool = new MemoryPool<VirtualStack, VirtualStack.CreationOpts>(new VirtualStack.CreationOpts
+{
+    reserveCapacity = 1024 * 1024
+});
 
-var arr = new UnsafeArray<int>(10, Allocator.Persistent);
-var arrcpy = arr;
+var arr = new UnsafeArray<int>(1000, pool.AllocationHandle);
+
+Test(in pool);
 arr.Dispose();
-arrcpy.Dispose();
 
-Console.WriteLine(arr.IsCreated);
-Console.WriteLine(arrcpy.IsCreated);
+Console.WriteLine("Done.");
 
-AllocationManager.Dispose();
+void Test(ref readonly MemoryPool<VirtualStack, VirtualStack.CreationOpts> pool)
+{
+    using var arr = new UnsafeArray<int>(1000, pool.AllocationHandle);
+    if (true)
+    {
+        using var arr1 = new UnsafeArray<int>(1000, pool.AllocationHandle);
+    }
+
+    using var arr3 = Test2(in pool);
+    using var arr2 = new UnsafeArray<int>(1000, pool.AllocationHandle);
+}
+
+UnsafeArray<int> Test2(ref readonly MemoryPool<VirtualStack, VirtualStack.CreationOpts> pool)
+{
+    using var arr = new UnsafeArray<int>(1000, pool.AllocationHandle);
+    var arr1 = new UnsafeArray<int>(1000, pool.AllocationHandle);
+    return arr1;
+}
