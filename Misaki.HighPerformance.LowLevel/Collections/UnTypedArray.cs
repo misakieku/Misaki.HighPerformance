@@ -1,6 +1,7 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -272,6 +273,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     {
         if (!IsCreated)
         {
+            Debug.Fail("The UnsafeArray is not created or already disposed.");
             return;
         }
 

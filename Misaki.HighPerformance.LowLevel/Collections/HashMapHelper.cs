@@ -719,6 +719,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     {
         if (!IsCreated)
         {
+            Debug.Fail("The UnsafeArray is not created or already disposed.");
             return;
         }
 

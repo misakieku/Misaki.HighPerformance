@@ -1,5 +1,7 @@
 #if MHP_ENABLE_SAFETY_CHECKS
 using Misaki.HighPerformance.Collections;
+using System.Collections.Concurrent;
+
 #endif
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -801,6 +803,30 @@ public static unsafe class AllocationManager
         return s_allocations.Contains(handle.ID, handle.Generation);
 #else
         return false;
+#endif
+    }
+
+    /// <summary>
+    /// Gets the total newSize of all currently tracked allocations.
+    /// </summary>
+    /// <remarks>
+    /// Always returns 0 if MHP_ENABLE_SAFETY_CHECKS is disabled.
+    /// </remarks>
+    /// <returns>The total newSize of all currently tracked allocations.</returns>
+    public static nuint GetTotalAllocatedMemory()
+    {
+#if MHP_ENABLE_SAFETY_CHECKS
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
+        
+        nuint total = 0;
+        foreach (var allocation in s_allocations)
+        {
+            total += allocation.Size;
+        }
+
+        return total;
+#else
+        return 0;
 #endif
     }
 

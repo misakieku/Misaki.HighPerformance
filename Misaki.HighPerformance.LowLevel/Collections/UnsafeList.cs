@@ -364,15 +364,6 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Adds a range of elements to the collection.
-    /// </summary>
-    /// <param name="values">A collection containing the elements to add.</param>
-    public void AddRange(ReadOnlyUnsafeCollection<T> collection)
-    {
-        AddRange((T*)collection.GetUnsafePtr(), collection.Count);
-    }
-
-    /// <summary>
     /// Adds a range of elements from a pointer to the collection.
     /// </summary>
     /// <param name="ptr">Points to the source data to be copied into the collection.</param>

@@ -418,6 +418,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     {
         if (!IsCreated)
         {
+            Debug.Fail("The UnsafeArray is not created or already disposed.");
             return;
         }
 
