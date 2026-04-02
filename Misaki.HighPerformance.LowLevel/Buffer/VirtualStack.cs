@@ -162,16 +162,8 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Free(void* ptr)
+    public readonly void Free(void* ptr)
     {
-        if (ptr < _baseAddress && ptr >= _baseAddress + _committedSize)
-        {
-            Debug.Fail("Attempting to free a pointer that is out of bounds of the current stack allocation.");
-            return; // Pointer is out of bounds, ignore
-        }
-
-        var offset = (nuint)((byte*)ptr - _baseAddress);
-        _allocatedOffset = offset < _allocatedOffset ? offset : _allocatedOffset;
     }
 
     public void Dispose()

@@ -142,16 +142,8 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Free(void* ptr)
+    public readonly void Free(void* ptr)
     {
-        if (ptr < _buffer && ptr >= _buffer + _size)
-        {
-            Debug.Fail("Attempting to free a pointer that is out of bounds of the current stack allocation.");
-            return; // Pointer is out of bounds, ignore
-        }
-
-        var offset = (nuint)((byte*)ptr - _buffer);
-        _offset = offset < _offset ? offset : _offset;
     }
 
     /// <summary>
