@@ -418,7 +418,23 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     {
         if (!IsCreated)
         {
-            Debug.Fail("The UnsafeArray is not created or already disposed.");
+            var message = "The UnsafeArray is not created or already disposed.";
+#if MHP_ENABLE_STACKTRACE
+            var stackTrace = new StackTrace(1, true);
+            var sb = new System.Text.StringBuilder();
+            foreach (var frame in stackTrace.GetFrames())
+            {
+                var fileName = frame?.GetFileName();
+                if (frame != null)
+                {
+                    var methodInfo = DiagnosticMethodInfo.Create(frame);
+                    sb.AppendLine($"File: {fileName}, Type: {methodInfo?.DeclaringTypeName}, Method: {methodInfo?.Name}, Line: {frame.GetFileLineNumber()}");
+                }
+            }
+
+            message += Environment.NewLine + sb.ToString();
+#endif
+            Debug.WriteLine(message);
             return;
         }
 
