@@ -81,6 +81,8 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 #endif
     private AllocationHandle _allocationHandle;
 
+    internal readonly AllocationHandle AllocationHandle => _allocationHandle;
+
     public readonly int Count => _count;
     public readonly int Length => _count;
 

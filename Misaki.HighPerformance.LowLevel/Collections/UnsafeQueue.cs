@@ -183,12 +183,39 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
 
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
-        _array.Resize(newSize, option);
-
-        if (_count > newSize)
+        if (newSize < _count)
         {
-            _count = newSize;
+            newSize = _count;
         }
+
+        var newArray = new UnsafeArray<T>(newSize, _array.AllocationHandle, option);
+
+        if (_count > 0)
+        {
+            if (_offset + _count <= Capacity)
+            {
+                // No wrap-around, single copy
+                var sizeToCopy = (uint)(_count * sizeof(T));
+                MemCpy(newArray.GetUnsafePtr(), (byte*)_array.GetUnsafePtr() + _offset * sizeof(T), sizeToCopy);
+            }
+            else
+            {
+                // Wrap-around, two copies required
+                var firstPartElements = Capacity - _offset;
+                var secondPartElements = _count - firstPartElements;
+
+                // Copy from _offset to the end of the old array
+                MemCpy(newArray.GetUnsafePtr(), (byte*)_array.GetUnsafePtr() + _offset * sizeof(T), (uint)(firstPartElements * sizeof(T)));
+
+                // Copy from the start of the old array to the remaining count
+                MemCpy((byte*)newArray.GetUnsafePtr() + firstPartElements * sizeof(T), _array.GetUnsafePtr(), (uint)(secondPartElements * sizeof(T)));
+            }
+        }
+
+        _array.Dispose();
+        _array = newArray;
+
+        _offset = 0;
     }
 
     public void Clear()
