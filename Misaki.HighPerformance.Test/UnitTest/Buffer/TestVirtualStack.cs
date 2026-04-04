@@ -145,6 +145,7 @@ public unsafe class TestVirtualStack
         Assert.IsNull(stack.Buffer);
     }
 
+#if MHP_ENABLE_SAFETY_CHECKS
     [TestMethod]
     public void VirtualStack_AllocationFailsOutsideScope()
     {
@@ -161,6 +162,7 @@ public unsafe class TestVirtualStack
             stack.Dispose();
         }
     }
+#endif
 
     [TestMethod]
     public void VirtualStack_InvalidAlignment_Throws()

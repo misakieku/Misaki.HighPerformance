@@ -144,6 +144,7 @@ public unsafe class TestStack
         Assert.IsNull(stack.Buffer);
     }
 
+#if MHP_ENABLE_SAFETY_CHECKS
     [TestMethod]
     public void Stack_AllocationFailsOutsideScope()
     {
@@ -157,6 +158,7 @@ public unsafe class TestStack
             stack.Dispose();
         }
     }
+#endif
 
     [TestMethod]
     public void Stack_InvalidAlignment_Throws()
