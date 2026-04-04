@@ -1,3 +1,4 @@
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -158,7 +159,7 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
             return;
         }
 
-        Free(_buffer);
+        MemoryUtility.Free(_buffer);
 
         _buffer = null;
         _size = 0;

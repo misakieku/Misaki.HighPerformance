@@ -1,3 +1,4 @@
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -728,13 +729,13 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
 
         if (_caches != null)
         {
-            Free(_caches);
+            MemoryUtility.Free(_caches);
             _caches = null;
         }
 
         if (_instanceId != null)
         {
-            Free(_instanceId);
+            MemoryUtility.Free(_instanceId);
             _instanceId = null;
         }
 

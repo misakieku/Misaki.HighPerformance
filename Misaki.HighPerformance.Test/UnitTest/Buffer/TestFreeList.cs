@@ -15,9 +15,9 @@ public unsafe class TestFreeList
         var p2 = freeList.Allocate(32, 8);
         var p3 = freeList.Allocate(64, 8);
 
-        Assert.IsTrue(p1 != null);
-        Assert.IsTrue(p2 != null);
-        Assert.IsTrue(p3 != null);
+        Assert.IsNotNull(p1);
+        Assert.IsNotNull(p2);
+        Assert.IsNotNull(p3);
 
         // Free them
         freeList.Free(p1);
@@ -28,8 +28,8 @@ public unsafe class TestFreeList
         var p4 = freeList.Allocate(16, 8);
         var p5 = freeList.Allocate(32, 8);
 
-        Assert.IsTrue(p4 != null);
-        Assert.IsTrue(p5 != null);
+        Assert.IsNotNull(p4);
+        Assert.IsNotNull(p5);
 
         freeList.Free(p4);
         freeList.Free(p5);
@@ -50,7 +50,7 @@ public unsafe class TestFreeList
                 for (var j = 0; j < iterations; j++)
                 {
                     var ptr = freeList.Allocate(16, 8);
-                    Assert.IsTrue(ptr != null);
+                    Assert.IsNotNull(ptr);
                     freeList.Free(ptr);
                 }
             });
@@ -83,7 +83,7 @@ public unsafe class TestFreeList
                 for (var j = 0; j < iterations; j++)
                 {
                     var ptr = freeList.Allocate(32, 8);
-                    Assert.IsTrue(ptr != null);
+                    Assert.IsNotNull(ptr);
                     queue.Enqueue((IntPtr)ptr);
                 }
             });
@@ -132,7 +132,7 @@ public unsafe class TestFreeList
             threads[i] = new Thread(() =>
             {
                 var ptr = freeList.Allocate(16, 8);
-                Assert.IsTrue(ptr != null);
+                Assert.IsNotNull(ptr);
                 freeList.Free(ptr);
             });
         }
@@ -151,8 +151,30 @@ public unsafe class TestFreeList
         // Allocate larger than default chunk size
         nuint largeSize = 2048;
         var ptr = freeList.Allocate(largeSize, 8);
-        Assert.IsTrue(ptr != null);
+        Assert.IsNotNull(ptr);
 
         freeList.Free(ptr);
+    }
+
+    [TestMethod]
+    public void ZeroSizeAllocation_ReturnsNull()
+    {
+        using var freeList = new FreeList(8, 1024);
+        Assert.IsNull(freeList.Allocate(0, 8));
+    }
+
+    [TestMethod]
+    public void InvalidAlignment_Throws()
+    {
+        using var freeList = new FreeList(8, 1024);
+        Assert.ThrowsExactly<ArgumentException>(() => freeList.Allocate(16, 3));
+    }
+
+    [TestMethod]
+    public void DoubleDispose_IsSafe()
+    {
+        var freeList = new FreeList(8, 1024);
+        freeList.Dispose();
+        freeList.Dispose(); // Should not throw
     }
 }

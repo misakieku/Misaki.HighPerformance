@@ -1,3 +1,4 @@
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -197,7 +198,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
             return;
         }
 
-        Free(_buffer);
+        MemoryUtility.Free(_buffer);
 
         _buffer = null;
         _size = 0;

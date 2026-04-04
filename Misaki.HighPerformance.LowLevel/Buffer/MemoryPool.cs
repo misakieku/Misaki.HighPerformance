@@ -1,20 +1,21 @@
 using Misaki.HighPerformance.LowLevel.Utilities;
+using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
-public unsafe struct MemoryPool<T, TOpts> : IDisposable
-    where T : unmanaged, IMemoryAllocator<T, TOpts>
+public unsafe struct MemoryPool<TAllocator, TOpts> : IDisposable
+    where TAllocator : unmanaged, IMemoryAllocator<TAllocator, TOpts>
 {
-    private T* _pAllocator;
+    private TAllocator* _pAllocator;
     private AllocationHandle _allocationHandle;
 
-    public readonly ref T Allocator => ref *_pAllocator;
+    public readonly ref TAllocator Allocator => ref Unsafe.AsRef<TAllocator>(_pAllocator);
     public readonly AllocationHandle AllocationHandle => _allocationHandle;
 
     public MemoryPool(in TOpts opts)
     {
-        _pAllocator = (T*)Malloc((nuint)sizeof(T));
-        *_pAllocator = T.Create(opts);
+        _pAllocator = (TAllocator*)Malloc((nuint)sizeof(TAllocator));
+        *_pAllocator = TAllocator.Create(opts);
 
         _allocationHandle = new AllocationHandle
         {
@@ -32,7 +33,14 @@ public unsafe struct MemoryPool<T, TOpts> : IDisposable
 #endif
         )
     {
-        return ((T*)pAllocator)->Allocate(size, alignment, allocationOption);
+        var ptr =  ((TAllocator*)pAllocator)->Allocate(size, alignment, allocationOption);
+#if MHP_ENABLE_SAFETY_CHECKS
+        if (ptr != null)
+        {
+            *pHandle = AllocationManager.AddAllocation(ptr, size);
+        }
+#endif
+        return ptr;
     }
 
     private static void* Reallocate(void* pAllocator, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption
@@ -41,7 +49,25 @@ public unsafe struct MemoryPool<T, TOpts> : IDisposable
 #endif
         )
     {
-        return ((T*)pAllocator)->Reallocate(ptr, oldSize, newSize, alignment, allocationOption);
+        var newPtr = ((TAllocator*)pAllocator)->Reallocate(ptr, oldSize, newSize, alignment, allocationOption);
+#if MHP_ENABLE_SAFETY_CHECKS
+        if (ptr == null && newPtr != null)
+        {
+            *pHandle = AllocationManager.AddAllocation(newPtr, newSize);
+        }
+        else
+        {
+            if (newPtr == null)
+            {
+                AllocationManager.RemoveAllocation(*pHandle);
+            }
+            else
+            {
+                AllocationManager.UpdateAllocation(*pHandle, newPtr, newSize);
+            }
+        }
+#endif
+        return newPtr;
     }
 
     private static void Free(void* pAllocator, void* ptr
@@ -50,7 +76,10 @@ public unsafe struct MemoryPool<T, TOpts> : IDisposable
 #endif
         )
     {
-        ((T*)pAllocator)->Free(ptr);
+        ((TAllocator*)pAllocator)->Free(ptr);
+#if MHP_ENABLE_SAFETY_CHECKS
+        AllocationManager.RemoveAllocation(handle);
+#endif
     }
 
     public void Dispose()

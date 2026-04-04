@@ -22,6 +22,13 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
+      - name: Run tests
+        # Run all test projects in the repository. If any test fails, this step will exit non-zero
+        # and subsequent packaging/publish steps will not run.
+        run: |
+          echo "Running all tests..."
+          dotnet test --configuration Release --no-restore
+
       - name: Check, Build, and Pack Projects
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_TOKEN }}

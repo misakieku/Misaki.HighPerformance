@@ -79,17 +79,3 @@ public interface IUnsafeHashCollection<T> : IEnumerable<T>, IDisposable
     /// <param name="option">Specifies allocation options that may affect how memory is managed during the resize operation.</param>
     void Resize(int newSize, AllocationOption option);
 }
-
-public interface IUnTypedCollection : IUnsafeCollection
-{
-    /// <summary>
-    /// The total size of the buffer in bytes.
-    /// </summary>
-    nuint Size
-    {
-        get;
-    }
-
-    ref T GetElementAt<T>(nuint index)
-        where T : unmanaged;
-}

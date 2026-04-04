@@ -83,6 +83,12 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Scope CreateScope(AllocationHandle handle)
     {
+#if MHP_ENABLE_SAFETY_CHECKS
+        if (_baseAddress == null)
+        {
+            throw new InvalidOperationException("Allocator must be initialized before creating a scope.");
+        }
+#endif
         return new Scope((VirtualStack*)Unsafe.AsPointer(ref this), handle);
     }
 
@@ -151,6 +157,13 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
 
     public void* Reallocate(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
     {
+#if MHP_ENABLE_SAFETY_CHECKS
+        if (_activeScopeCount == 0)
+        {
+            throw new InvalidOperationException("Allocations can only be made within an active memory scope.");
+        }
+#endif
+
         if (_baseAddress == null)
         {
             return null;
@@ -193,6 +206,8 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
             {
                 MemClear(_baseAddress + _allocatedOffset - diff, diff);
             }
+
+            return ptr;
         }
 
         var newPtr = Allocate(newSize, alignment, allocationOption);

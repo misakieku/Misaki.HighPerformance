@@ -1,12 +1,10 @@
-using Misaki.HighPerformance.LowLevel.Buffer;
-using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace Misaki.HighPerformance.LowLevel.Collections;
+namespace Misaki.HighPerformance.LowLevel.Buffer;
 
-public unsafe struct UnTypedArray : IUnTypedCollection
+public unsafe struct MemoryBlock : IDisposable
 {
     private void* _buffer;
     private nuint _size;
@@ -42,20 +40,14 @@ public unsafe struct UnTypedArray : IUnTypedCollection
         }
     }
 
-    /// <summary>
-    /// Constructs an UnsafeArray with a default size of 1 and uses the Persistent allocator.
-    /// </summary>
-    public UnTypedArray()
-        : this(0, 8, Allocator.Invalid)
+    public MemoryBlock()
+        : this(0, 0, Allocator.Invalid)
     {
     }
 
-    public UnTypedArray(nuint size, nuint alignment, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    public MemoryBlock(nuint size, nuint alignment, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        if (size <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(size), "Count must be greater than zero.");
-        }
+        ArgumentOutOfRangeException.ThrowIfNegative(size);
 
         if (handle.Alloc == null)
         {
@@ -65,7 +57,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
 #if MHP_ENABLE_SAFETY_CHECKS
         MemoryHandle memHandle;
 #endif
-        var buff = handle.Alloc(handle.State, size, alignment, allocationOption
+        _buffer = handle.Alloc(handle.State, size, alignment, allocationOption
 #if MHP_ENABLE_SAFETY_CHECKS
             , &memHandle
 #endif
@@ -86,7 +78,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     /// <param name="allocator">Specifies the allocator to use for memory allocation, which determines the memory management strategy.</param>
     /// <param name="allocationOption">Determines how the memory should be allocated.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
-    public UnTypedArray(nuint size, nuint alignment, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
+    public MemoryBlock(nuint size, nuint alignment, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(size, alignment, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
     }
@@ -101,7 +93,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     /// Disposing of the UnsafeArray does not free the memory and only release the reference. The memory should be freed manually when no longer needed.
     /// Use <see cref="UnsafeArray(int, Allocator, AllocationOption)"/> constructor and <see cref="MemCpy(void*, void*, nuint)"/> if you are not sure what you are doing.
     /// </remarks>
-    public UnTypedArray(void* buffer, uint size)
+    public MemoryBlock(void* buffer, uint size)
     {
         _buffer = buffer;
         _size = size;
@@ -111,6 +103,13 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     public readonly ref T GetElementAt<T>(nuint index)
         where T : unmanaged
     {
+#if MHP_ENABLE_SAFETY_CHECKS
+        if (index * (uint)sizeof(T) >= _size)
+        {
+            throw new IndexOutOfRangeException($"Index {index} is out of range for collection of size {_size / (uint)sizeof(T)}.");
+        }
+#endif
+
         return ref UnsafeUtility.ReadArrayElementRef<T>(_buffer, index);
     }
 
@@ -245,10 +244,12 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     /// <summary>
     /// Converts into a Span for efficient memory access.
     /// </summary>
-    /// <returns>A Span that provides a view over the elements of the UnsafeCollection.</returns>
-    public readonly Span<byte> AsSpan<C>()
+    /// <returns>A <see cref="Span{T}"/> that provides a view over the elements of the UnsafeCollection.</returns>
+    public readonly Span<T> AsSpan<T>()
+        where T : unmanaged
     {
-        return new(_buffer, (int)_size);
+        Debug.Assert(_size % (uint)sizeof(T) == 0, "The size of the collection must be a multiple of the size of the element type.");
+        return new Span<T>(_buffer, (int)_size / sizeof(T));
     }
 
     /// <summary>
@@ -257,15 +258,16 @@ public unsafe struct UnTypedArray : IUnTypedCollection
     /// <param name="start">The zero-based index of the first element in the collection to include in the span. Must be greater than or equal to zero and less than the number of elements in the collection.</param>
     /// <param name="length">The number of elements to include in the span. Must be greater than or equal to zero and the range defined by
     /// <paramref name="start"/> and <paramref name="length"/> must not exceed the bounds of the collection.</param>
-    /// <returns>A <see cref="Span{byte}"/> representing the specified region of the collection.</returns>
-    public readonly Span<byte> AsSpan(int start, int length)
+    /// <returns>A <see cref="Span{T}"/> representing the specified region of the collection.</returns>
+    public readonly Span<T> AsSpan<T>(int start, int length)
+        where T : unmanaged
     {
-        if (start < 0 || length < 0 || (nuint)(start + length) > _size)
+        if (start < 0 || length < 0 || (nuint)(start + length) * (nuint)sizeof(T) > _size)
         {
             throw new ArgumentOutOfRangeException(nameof(start), "The specified range is out of bounds of the collection.");
         }
 
-        return new Span<byte>((byte*)_buffer + start, length);
+        return new Span<T>((T*)_buffer + start, length);
     }
 
     /// <inheritdoc/>
@@ -278,6 +280,7 @@ public unsafe struct UnTypedArray : IUnTypedCollection
             {
                 return;
             }
+
             var message = "The UnTypedArray is not created or already disposed.";
 #if MHP_ENABLE_STACKTRACE
             var stackTrace = new StackTrace(1, true);

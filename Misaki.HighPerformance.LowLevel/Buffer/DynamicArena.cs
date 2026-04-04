@@ -1,3 +1,4 @@
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -187,7 +188,7 @@ public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.
         {
             var next = current->next;
             current->arena.Dispose();
-            Free(current);
+            MemoryUtility.Free(current);
             current = next;
         }
 

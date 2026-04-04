@@ -1,7 +1,5 @@
 #if MHP_ENABLE_SAFETY_CHECKS
 using Misaki.HighPerformance.Collections;
-using System.Collections.Concurrent;
-
 #endif
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -52,6 +50,16 @@ public readonly struct AllocationManagerInitOpts
         get; init;
     }
 
+    public nuint FreeListChunkSize
+    {
+        get; init;
+    }
+
+    public nuint FreeListDefaultAlignment
+    {
+        get; init;
+    }
+
     public int FreeListConcurrencyLevel
     {
         get; init;
@@ -61,6 +69,8 @@ public readonly struct AllocationManagerInitOpts
     {
         ArenaCapacity = 1024 * 1024 * 1024, // 1 GB
         StackCapacity = 16 * 1024 * 1024, // 16 MB per thread
+        FreeListChunkSize = 64 * 1024 * 1024,
+        FreeListDefaultAlignment = 8,
         FreeListConcurrencyLevel = Environment.ProcessorCount
     };
 }
@@ -71,93 +81,6 @@ public readonly struct AllocationManagerInitOpts
 /// </summary>
 public static unsafe class AllocationManager
 {
-    private struct ArenaAllocator : IAllocator, IDisposable
-    {
-        private const int _ARENA_MAGIC_ID = -3941029;
-
-        private VirtualArena _arena;
-        private int _currentTick;
-        private AllocationHandle _handle;
-
-        public readonly AllocationHandle Handle => _handle;
-        public readonly int CurrentTick => _currentTick;
-
-        public void Init(nuint capacity)
-        {
-            _arena = new VirtualArena(capacity);
-            _handle = new AllocationHandle
-            {
-                State = Unsafe.AsPointer(ref this),
-                Alloc = &Allocate,
-                Realloc = &Reallocate,
-                Free = null,
-#if MHP_ENABLE_SAFETY_CHECKS
-                IsValid = &IsValid
-#else
-                IsValid = null
-#endif
-            };
-
-            _currentTick = 0;
-        }
-
-        private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , MemoryHandle* pHandle
-#endif
-            )
-        {
-            var selfPtr = (ArenaAllocator*)instance;
-            var ptr = selfPtr->_arena.Allocate(size, alignment, allocationOption);
-            if (ptr == null)
-            {
-#if MHP_ENABLE_SAFETY_CHECKS
-                *pHandle = MemoryHandle.Invalid;
-#endif
-                return null;
-            }
-
-#if MHP_ENABLE_SAFETY_CHECKS
-            *pHandle = new MemoryHandle(_ARENA_MAGIC_ID, selfPtr->_currentTick);
-#endif
-            return ptr;
-        }
-
-        private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , MemoryHandle* pHandle
-#endif
-            )
-        {
-            var selfPtr = (ArenaAllocator*)instance;
-            var newPtr = selfPtr->_arena.Reallocate(ptr, oldSize, newSize, alignment, allocationOption);
-
-#if MHP_ENABLE_SAFETY_CHECKS
-            *pHandle = new MemoryHandle(_ARENA_MAGIC_ID, selfPtr->_currentTick);
-#endif
-            return newPtr;
-        }
-
-#if MHP_ENABLE_SAFETY_CHECKS
-        private static bool IsValid(void* instance, MemoryHandle handle)
-        {
-            var selfPtr = (ArenaAllocator*)instance;
-            return handle.ID == _ARENA_MAGIC_ID && handle.Generation == selfPtr->_currentTick;
-        }
-#endif
-
-        public void Reset()
-        {
-            _arena.Reset();
-            _currentTick++;
-        }
-
-        public void Dispose()
-        {
-            _arena.Dispose();
-        }
-    }
-
     private struct HeapAllocator : IAllocator
     {
         private AllocationHandle _handle;
@@ -186,11 +109,24 @@ public static unsafe class AllocationManager
 #endif
             )
         {
-            return HeapAlloc(size, alignment, allocationOption
+            var ptr = AlignedAlloc(size, alignment);
+            if (ptr == null)
+            {
 #if MHP_ENABLE_SAFETY_CHECKS
-                , pHandle
+                *pHandle = MemoryHandle.Invalid;
 #endif
-                );
+                return null;
+            }
+
+            if (allocationOption.HasFlag(AllocationOption.Clear))
+            {
+                MemClear(ptr, size);
+            }
+
+#if MHP_ENABLE_SAFETY_CHECKS
+            *pHandle = AddAllocation(ptr, size);
+#endif
+            return ptr;
         }
 
         private static void* Reallocate(void* _, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption
@@ -199,39 +135,38 @@ public static unsafe class AllocationManager
 #endif
             )
         {
-            if (ptr == null)
-            {
-                return Allocate(null, newSize, alignment, allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-                    , pHandle
-#endif
-                    );
-            }
+            var newPtr = AlignedRealloc(ptr, newSize, alignment);
 
 #if MHP_ENABLE_SAFETY_CHECKS
-            MemoryHandle newHandle;
+            if (ptr == null && newPtr != null)
+            {
+                AddAllocation(newPtr, newSize);
+            }
+            else
+            {
+                if (newPtr == null)
+                {
+                    RemoveAllocation(*pHandle);
+                }
+                else
+                {
+                    UpdateAllocation(*pHandle, newPtr, newSize);
+                }
+            }
 #endif
-            var newPtr = HeapAlloc(newSize, alignment, allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-                , &newHandle
-#endif
-                );
 
             if (newPtr == null)
             {
                 return null;
             }
 
-            MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
-            HeapFree(ptr
-#if MHP_ENABLE_SAFETY_CHECKS
-                , *pHandle
-#endif
-                );
+            if (allocationOption.HasFlag(AllocationOption.Clear) && newSize > oldSize)
+            {
+                var offset = (byte*)newPtr + oldSize;
+                var clearSize = newSize - oldSize;
+                MemClear(offset, clearSize);
+            }
 
-#if MHP_ENABLE_SAFETY_CHECKS
-            *pHandle = newHandle;
-#endif
             return newPtr;
         }
 
@@ -241,11 +176,10 @@ public static unsafe class AllocationManager
 #endif
             )
         {
-            HeapFree(ptr
+            AlignedFree(ptr);
 #if MHP_ENABLE_SAFETY_CHECKS
-                , handle
+            RemoveAllocation(handle);
 #endif
-                );
         }
 
 #if MHP_ENABLE_SAFETY_CHECKS
@@ -256,231 +190,13 @@ public static unsafe class AllocationManager
 #endif
     }
 
-    private struct StackAllocator : IAllocator, IDisposable
-    {
-        private const int _STACK_MAGIC_ID = -6843541;
+    private static MemoryPool<VirtualArena, VirtualArena.CreationOptions> s_arenaAllocator;
+    private static MemoryPool<FreeList, FreeList.CreationOptions> s_freeListAllocator;
 
-        private static void** s_pStackBuffers = null;
-        private static int s_stackCount = 0;
-        private static int s_stackCapacity = 0;
-        private static readonly SpinLock s_locker = new SpinLock(false);
+    [ThreadStatic]
+    private static MemoryPool<VirtualStack, VirtualStack.CreationOptions> t_stackAllocator;
 
-        [ThreadStatic]
-        private static VirtualStack s_stack;
-        private AllocationHandle _handle;
-
-        public readonly AllocationHandle Handle => _handle;
-
-        public void Init()
-        {
-            _handle = new AllocationHandle
-            {
-                State = Unsafe.AsPointer(ref this),
-                Alloc = &Allocate,
-                Realloc = &Reallocate,
-                Free = null,
-#if MHP_ENABLE_SAFETY_CHECKS
-                IsValid = &IsValid
-#else
-                IsValid = null
-#endif
-            };
-        }
-
-        private static void EnsureInitialize()
-        {
-            if (s_stack.Buffer == null)
-            {
-                s_stack = new VirtualStack(s_threadLocalStackDefaultSize);
-
-                var token = false;
-                try
-                {
-                    s_locker.Enter(ref token);
-                    if (s_pStackBuffers == null)
-                    {
-                        s_pStackBuffers = (void**)Malloc((nuint)(sizeof(void*) * Environment.ProcessorCount));
-                        s_stackCapacity = Environment.ProcessorCount;
-                    }
-
-                    if (s_stackCount >= s_stackCapacity)
-                    {
-                        var pOld = s_pStackBuffers;
-                        var newCapacity = s_stackCapacity * 2;
-                        var pNew = (void**)Realloc(pOld, (nuint)(sizeof(void*) * newCapacity));
-
-                        s_pStackBuffers = pNew;
-                        s_stackCapacity = newCapacity;
-                    }
-
-                    s_pStackBuffers[s_stackCount] = s_stack.Buffer;
-                    s_stackCount++;
-                }
-                finally
-                {
-                    if (token)
-                    {
-                        s_locker.Exit();
-                    }
-                }
-            }
-        }
-
-        private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , MemoryHandle* pHandle
-#endif
-            )
-        {
-            EnsureInitialize();
-
-            var ptr = s_stack.Allocate(size, alignment, allocationOption);
-            if (ptr == null)
-            {
-#if MHP_ENABLE_SAFETY_CHECKS
-                *pHandle = MemoryHandle.Invalid;
-#endif
-                return null;
-            }
-
-#if MHP_ENABLE_SAFETY_CHECKS
-            *pHandle = new MemoryHandle(_STACK_MAGIC_ID, (int)s_stack.Offset);
-#endif
-            return ptr;
-        }
-
-        private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , MemoryHandle* pHandle
-#endif
-            )
-        {
-            EnsureInitialize();
-            var newPtr = s_stack.Reallocate(ptr, oldSize, newSize, alignment, allocationOption);
-
-#if MHP_ENABLE_SAFETY_CHECKS
-            *pHandle = new MemoryHandle(_STACK_MAGIC_ID, (int)s_stack.Offset);
-#endif
-            return newPtr;
-        }
-
-#if MHP_ENABLE_SAFETY_CHECKS
-        private static bool IsValid(void* instance, MemoryHandle handle)
-        {
-            return handle.ID == _STACK_MAGIC_ID && handle.Generation <= (int)s_stack.Offset;
-        }
-#endif
-
-        public static VirtualStack.Scope CreateScope(StackAllocator* pSelf)
-        {
-            EnsureInitialize();
-            return s_stack.CreateScope(pSelf->_handle);
-        }
-
-        public readonly void Dispose()
-        {
-            if (s_pStackBuffers == null)
-            {
-                return;
-            }
-
-            for (var i = 0; i < s_stackCount; i++)
-            {
-                Munmap(s_pStackBuffers[i], s_threadLocalStackDefaultSize);
-            }
-        }
-    }
-
-    private struct FreeListAllocator : IAllocator, IDisposable
-    {
-        private FreeList _freeList;
-        private AllocationHandle _handle;
-
-        public readonly AllocationHandle Handle => _handle;
-
-        public void Init(int concurrencyLevel)
-        {
-            _freeList = new FreeList(8, 64 * 1024, concurrencyLevel);
-            _handle = new AllocationHandle
-            {
-                State = Unsafe.AsPointer(ref this),
-                Alloc = &Allocate,
-                Realloc = &Reallocate,
-                Free = &Free,
-#if MHP_ENABLE_SAFETY_CHECKS
-                IsValid = &IsValid
-#else
-                IsValid = null
-#endif
-            };
-        }
-
-        private static void* Allocate(void* instance, nuint size, nuint alignment, AllocationOption allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , MemoryHandle* pHandle
-#endif
-            )
-        {
-            var selfPtr = (FreeListAllocator*)instance;
-            var ptr = selfPtr->_freeList.Allocate(size, alignment, allocationOption);
-            if (ptr == null)
-            {
-                return null;
-            }
-
-#if MHP_ENABLE_SAFETY_CHECKS
-            *pHandle = AddAllocation(ptr, size);
-#endif
-            return ptr;
-        }
-
-        private static void* Reallocate(void* instance, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , MemoryHandle* pHandle
-#endif
-            )
-        {
-            var selfPtr = (FreeListAllocator*)instance;
-            var newPtr = selfPtr->_freeList.Reallocate(ptr, oldSize, newSize, alignment, allocationOption);
-
-#if MHP_ENABLE_SAFETY_CHECKS
-            RemoveAllocation(*pHandle);
-            *pHandle = AddAllocation(newPtr, newSize);
-#endif
-
-            return newPtr;
-        }
-
-#if MHP_ENABLE_SAFETY_CHECKS
-        private static bool IsValid(void* instance, MemoryHandle handle)
-        {
-            return ContainsAllocation(handle);
-        }
-#endif
-
-        private static void Free(void* instance, void* ptr
-#if MHP_ENABLE_SAFETY_CHECKS
-            , MemoryHandle handle
-#endif
-            )
-        {
-            var selfPtr = (FreeListAllocator*)instance;
-            selfPtr->_freeList.Free(ptr);
-#if MHP_ENABLE_SAFETY_CHECKS
-            RemoveAllocation(handle);
-#endif
-        }
-
-        public void Dispose()
-        {
-            _freeList.Dispose();
-        }
-    }
-
-    private static ArenaAllocator* s_pArenaAllocator;
     private static HeapAllocator* s_pHeapAllocator;
-    private static StackAllocator* s_pStackAllocator;
-    private static FreeListAllocator* s_pFreeListAllocator;
 
 #if MHP_ENABLE_SAFETY_CHECKS
     private static ConcurrentSlotMap<AllocationInfo> s_allocations = null!;
@@ -497,7 +213,55 @@ public static unsafe class AllocationManager
 #endif
 
     private static volatile bool s_initialized;
-    private static nuint s_threadLocalStackDefaultSize;
+
+    private static nuint s_threadLocalStackSize;
+    private static readonly SpinLock s_stackLocker = new SpinLock(false);
+    private static VirtualStack** s_ppStack;
+    private static int s_ppStackCount;
+    private static int s_ppStackCapacity;
+
+    private static void EnsureThreadLocalStackInitialize()
+    {
+        if (Unsafe.IsNullRef(ref t_stackAllocator.Allocator))
+        {
+            t_stackAllocator = new MemoryPool<VirtualStack, VirtualStack.CreationOptions>(new VirtualStack.CreationOptions
+            {
+                reserveCapacity = s_threadLocalStackSize
+            });
+
+            var token = false;
+            try
+            {
+                s_stackLocker.Enter(ref token);
+                if (s_ppStack == null)
+                {
+                    s_ppStack = (VirtualStack**)Malloc((nuint)(sizeof(VirtualStack*) * Environment.ProcessorCount));
+                    s_ppStackCapacity = Environment.ProcessorCount;
+                }
+
+                if (s_ppStackCount >= s_ppStackCapacity)
+                {
+                    var pOld = s_ppStack;
+                    var newCapacity = s_ppStackCapacity * 2;
+                    var pNew = (VirtualStack**)Realloc(pOld, (nuint)(sizeof(VirtualStack*) * newCapacity));
+
+                    s_ppStack = pNew;
+                    s_ppStackCapacity = newCapacity;
+                }
+
+                s_ppStack[s_ppStackCount] = (VirtualStack*)Unsafe.AsPointer(ref t_stackAllocator.Allocator);
+                var test = s_ppStack[s_ppStackCount];
+                s_ppStackCount++;
+            }
+            finally
+            {
+                if (token)
+                {
+                    s_stackLocker.Exit();
+                }
+            }
+        }
+    }
 
     public static void Initialize(AllocationManagerInitOpts opts)
     {
@@ -510,19 +274,22 @@ public static unsafe class AllocationManager
         s_allocations = new ConcurrentSlotMap<AllocationInfo>(256);
 #endif
 
-        var ptr = (byte*)Malloc((nuint)(sizeof(ArenaAllocator) + sizeof(HeapAllocator) + sizeof(StackAllocator) + sizeof(FreeListAllocator)));
+        s_arenaAllocator = new MemoryPool<VirtualArena, VirtualArena.CreationOptions>(new VirtualArena.CreationOptions
+        {
+            reserveCapacity = opts.ArenaCapacity
+        });
 
-        s_pArenaAllocator = (ArenaAllocator*)ptr;
-        s_pHeapAllocator = (HeapAllocator*)(ptr + sizeof(ArenaAllocator));
-        s_pStackAllocator = (StackAllocator*)(ptr + sizeof(ArenaAllocator) + sizeof(HeapAllocator));
-        s_pFreeListAllocator = (FreeListAllocator*)(ptr + sizeof(ArenaAllocator) + sizeof(HeapAllocator) + sizeof(StackAllocator));
+        s_freeListAllocator = new MemoryPool<FreeList, FreeList.CreationOptions>(new FreeList.CreationOptions
+        {
+            alignment = opts.FreeListDefaultAlignment,
+            chunkSize = opts.FreeListChunkSize,
+            maxConcurrencyLevel = opts.FreeListConcurrencyLevel
+        });
 
-        s_pArenaAllocator->Init(opts.ArenaCapacity);
+        s_pHeapAllocator = (HeapAllocator*)Malloc((nuint)(sizeof(HeapAllocator)));
         s_pHeapAllocator->Init();
-        s_pStackAllocator->Init();
-        s_pFreeListAllocator->Init(opts.FreeListConcurrencyLevel);
 
-        s_threadLocalStackDefaultSize = opts.StackCapacity;
+        s_threadLocalStackSize = opts.StackCapacity;
 
         s_initialized = true;
     }
@@ -540,89 +307,11 @@ public static unsafe class AllocationManager
 
         return allocator switch
         {
-            Allocator.Temp => s_pArenaAllocator->Handle,
+            Allocator.Temp => s_arenaAllocator.AllocationHandle,
             Allocator.Persistent => s_pHeapAllocator->Handle,
-            Allocator.FreeList => s_pFreeListAllocator->Handle,
+            Allocator.FreeList => s_freeListAllocator.AllocationHandle,
             _ => throw new ArgumentException("Target allocator type does not support custom allocation.", nameof(allocator)),
         };
-    }
-
-    /// <summary>
-    /// Allocates a block of memory from the heap with the specified newSize and alignment, using the given allocation options.
-    /// </summary>
-    /// <param name="size">The number of bytes to allocate. Must be greater than zero.</param>
-    /// <param name="alignment">The alignment, in bytes, for the allocated memory block. Must be a power of two.</param>
-    /// <param name="allocationOption">An optional set of flags that control allocation behavior, such as whether the memory should be cleared or
-    /// tracked. The default is <see cref="AllocationOption.None"/>.</param>
-    /// <returns>A pointer to the beginning of the allocated memory block.</returns>
-    /// <exception cref="OutOfMemoryException">Thrown if the allocation fails.</exception>
-    public static void* HeapAlloc(nuint size, nuint alignment, AllocationOption allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-        , MemoryHandle* pHandle
-#endif
-        )
-    {
-        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-
-        var ptr = AlignedAlloc(size, alignment);
-        if (ptr == null)
-        {
-#if MHP_ENABLE_SAFETY_CHECKS
-            *pHandle = MemoryHandle.Invalid;
-#endif
-            return null;
-        }
-
-        if (allocationOption.HasFlag(AllocationOption.Clear))
-        {
-            MemClear(ptr, size);
-        }
-
-#if MHP_ENABLE_SAFETY_CHECKS
-        *pHandle = AddAllocation(ptr, size);
-#endif
-        return ptr;
-    }
-
-    /// <summary>
-    /// Releases a block of unmanaged memory previously allocated by the heap allocator.
-    /// </summary>
-    /// <param name="ptr">A pointer to the memory block to be freed. The pointer must have been returned by a compatible heap allocation
-    ///     method and must not be null.</param>
-    /// <param name="handle">The handle representing the memory allocation to free. The handle must be valid and previously allocated.</param>
-    public static void HeapFree(void* ptr
-#if MHP_ENABLE_SAFETY_CHECKS
-        , MemoryHandle handle
-#endif
-        )
-    {
-        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-
-        AlignedFree(ptr);
-
-#if MHP_ENABLE_SAFETY_CHECKS
-        RemoveAllocation(handle);
-#endif
-    }
-
-    /// <summary>
-    /// Releases a block of unmanaged memory previously allocated by the heap allocator.
-    /// </summary>
-    /// <remarks>
-    /// No ops when MHP_ENABLE_SAFETY_CHECKS is disabled, as we cannot fetch the allocation info from the handle to get the pointer to free.
-    /// </remarks>
-    /// <param name="handle">The handle representing the memory allocation to free. The handle must be valid and previously allocated.</param>
-    public static void HeapFree(MemoryHandle handle)
-    {
-#if MHP_ENABLE_SAFETY_CHECKS
-        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-
-        if (TryGetAllocation(handle, out var info))
-        {
-            HeapFree((void*)info.Address, handle);
-        }
-#endif
-        // No-op when safety checks are disabled, as we cannot fetch the allocation info from the handle.
     }
 
     /// <summary>
@@ -632,7 +321,7 @@ public static unsafe class AllocationManager
     public static void ResetTempAllocator()
     {
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-        s_pArenaAllocator->Reset();
+        s_arenaAllocator.Allocator.Reset();
     }
 
     /// <summary>
@@ -643,7 +332,9 @@ public static unsafe class AllocationManager
     public static VirtualStack.Scope CreateStackScope()
     {
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-        return StackAllocator.CreateScope(s_pStackAllocator);
+        
+        EnsureThreadLocalStackInitialize();
+        return t_stackAllocator.Allocator.CreateScope(t_stackAllocator.AllocationHandle);
     }
 
     /// <summary>
@@ -674,6 +365,24 @@ public static unsafe class AllocationManager
         return new MemoryHandle(id, generation);
 #else
         return MemoryHandle.Invalid;
+#endif
+    }
+
+    public static void UpdateAllocation(MemoryHandle handle, void* newPtr, nuint newSize)
+    {
+#if MHP_ENABLE_SAFETY_CHECKS
+        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
+
+        if (s_allocations.TryGetElement(handle.ID, handle.Generation, out var oldInfo))
+        {
+            var newInfo = oldInfo with
+            {
+                Address = (IntPtr)newPtr,
+                Size = newSize
+            };
+
+            s_allocations.UpdateElement(handle.ID, handle.Generation, newInfo);
+        }
 #endif
     }
 
@@ -749,7 +458,7 @@ public static unsafe class AllocationManager
     {
 #if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-        
+
         nuint total = 0;
         foreach (var allocation in s_allocations)
         {
@@ -781,10 +490,29 @@ public static unsafe class AllocationManager
         }
 #endif
 
-        s_pArenaAllocator->Dispose();
-        s_pStackAllocator->Dispose();
-        s_pFreeListAllocator->Dispose();
+        s_arenaAllocator.Dispose();
+        s_freeListAllocator.Dispose();
 
-        Free(s_pArenaAllocator);
+        if (s_ppStack != null)
+        {
+            for (var i = 0; i < s_ppStackCount; i++)
+            {
+                var pStack = s_ppStack[i];
+                if (pStack != null)
+                {
+                    pStack->Dispose();
+                    Free(pStack);
+                }
+            }
+
+            Free(s_ppStack);
+            s_ppStack = null;
+        }
+
+        if (s_pHeapAllocator != null)
+        {
+            Free(s_pHeapAllocator);
+            s_pHeapAllocator = null;
+        }
     }
 }
