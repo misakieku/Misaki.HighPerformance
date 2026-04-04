@@ -7,16 +7,16 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 /// A variable-size allocator that uses per-thread caches for the hot path and a remote-free queue for cross-thread deallocation.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpts>
+public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOptions>
 {
-    public struct CreationOpts
+    public struct CreationOptions
     {
         public nuint alignment;
         public nuint chunkSize;
         public int maxConcurrencyLevel;
     }
 
-    public static FreeList Create(in CreationOpts opts)
+    public static FreeList Create(in CreationOptions opts)
     {
         return new FreeList(opts.alignment, opts.chunkSize, opts.maxConcurrencyLevel);
     }
@@ -75,7 +75,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpts
     }
 
     private const int _MAX_BUCKETS = 16;
-    private const int _DEFAULT_MAX_CONCURRENCY_LEVEL = 16;
+    private const int _DEFAULT_MAX_CONCURRENCY_LEVEL = 1;
     private const int _OVERFLOW_CACHE_INDEX = 0;
     private const nuint _MIN_BLOCK_SIZE = 16;
     private const nuint _DEFAULT_CHUNK_SIZE = 64 * 1024;
@@ -506,7 +506,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpts
     {
         if (_disposed != 0)
         {
-            throw new ObjectDisposedException(nameof(FreeList));
+            return null;
         }
 
         if (size == 0)
@@ -588,6 +588,24 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpts
                 Interlocked.Exchange(ref _overflowLock, 0);
             }
         }
+    }
+
+    public void* Reallocate(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
+    {
+        if (_disposed != 0)
+        {
+            return null;
+        }
+
+        var newPtr = Allocate(newSize, alignment, allocationOption);
+        if (newPtr != null && ptr != null)
+        {
+            var copySize = Math.Min(oldSize, newSize);
+            MemCpy(newPtr, ptr, copySize);
+            Free(ptr);
+        }
+
+        return newPtr;
     }
 
     /// <summary>

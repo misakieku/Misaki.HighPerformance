@@ -1,7 +1,4 @@
 using Misaki.HighPerformance.LowLevel.Collections;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Collections;
 
@@ -50,14 +47,14 @@ public class TestUnsafeQueue
     {
         Assert.IsFalse(_queue.TryPeek(out _));
         _queue.Enqueue(5);
-        Assert.IsTrue(_queue.TryPeek(out int value));
+        Assert.IsTrue(_queue.TryPeek(out var value));
         Assert.AreEqual(5, value);
     }
 
     [TestMethod]
     public void TestResize()
     {
-        for (int i = 0; i < 10; i++)
+        for (var i = 0; i < 10; i++)
         {
             _queue.Enqueue(i);
         }
@@ -67,12 +64,12 @@ public class TestUnsafeQueue
         _queue.Dequeue();
         _queue.Dequeue();
 
-        for (int i = 10; i < 20; i++)
+        for (var i = 10; i < 20; i++)
         {
             _queue.Enqueue(i);
         }
 
-        for (int i = 2; i < 20; i++)
+        for (var i = 2; i < 20; i++)
         {
             Assert.AreEqual(i, _queue.Dequeue());
         }

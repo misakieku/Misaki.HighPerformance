@@ -123,5 +123,6 @@ public unsafe interface IMemoryAllocator<TSelf, TOpts> : IDisposable
     static abstract TSelf Create(in TOpts opts);
 
     void* Allocate(nuint size, nuint alignment, AllocationOption option = AllocationOption.None);
+    void* Reallocate(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption = AllocationOption.None);
     void Free(void* ptr);
 }

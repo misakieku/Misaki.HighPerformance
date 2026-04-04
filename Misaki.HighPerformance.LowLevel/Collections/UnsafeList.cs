@@ -454,19 +454,19 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
             return;
         }
 
-        var copyFrom = Math.Min(_count - length, start + length);
-        MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
-            UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
-            (uint)((_count - copyFrom) * sizeof(T))
-        );
+        var numToCopy = Math.Min(length, _count - (start + length));
+        var copyFrom = _count - numToCopy;
+
+        if (numToCopy > 0)
+        {
+            MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
+                UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
+                (uint)((_count - copyFrom) * sizeof(T)));
+        }
+
         _count -= length;
     }
 
-    /// <summary>
-    /// Removes the element at the specified index by swapping it with the last element and reducing the collection
-    /// size.
-    /// </summary>
-    /// <param name="index">The zero-based index of the element to remove. Must be within the bounds of the collection.</param>
     public void RemoveAtSwapBack(int index)
     {
         RemoveRangeSwapBack(index, 1);

@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using System.Collections;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
@@ -8,14 +8,14 @@ namespace Misaki.HighPerformance.LowLevel.Buffer;
 /// blocks within a preallocated buffer.
 /// </summary>
 /// <remarks>This is not a thread-safe implementation.</remarks>
-public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
+public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptions>
 {
-    public struct CreationOpts
+    public struct CreationOptions
     {
         public nuint size;
     }
 
-    public static Stack Create(in CreationOpts opts)
+    public static Stack Create(in CreationOptions opts)
     {
         return new Stack(opts.size);
     }
@@ -57,12 +57,9 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
     private uint _activeScopeCount;
 #endif
 
-    internal readonly byte* Buffer => _buffer;
-    internal nuint Offset
-    {
-        readonly get => _offset;
-        set => _offset = value;
-    }
+    public readonly byte* Buffer => _buffer;
+    public readonly nuint Size => _size;
+    public readonly nuint Offset => _offset;
 
     /// <summary>
     /// Initializes a new instance of the StackAllocator class with a buffer of the specified size.
@@ -139,6 +136,44 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOpts>
         }
 
         return ptr;
+    }
+
+    public void* Reallocate(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
+    {
+        if (_buffer == null)
+        {
+            return null;
+        }
+
+        if (ptr == null)
+        {
+            return Allocate(newSize, alignment, allocationOption);
+        }
+
+        var oldBase = _buffer + _offset - oldSize;
+        if (ptr == oldBase)
+        {
+            if (newSize > oldSize)
+            {
+                var diff = newSize - oldSize;
+                _offset += diff;
+                if (allocationOption.HasFlag(AllocationOption.Clear))
+                {
+                    MemClear(_buffer + _offset - diff, diff);
+                }
+            }
+
+            return ptr;
+        }
+
+        var newPtr = Allocate(newSize, alignment, allocationOption);
+        if (newPtr == null)
+        {
+            return null;
+        }
+
+        MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
+        return newPtr;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

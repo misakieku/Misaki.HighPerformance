@@ -129,23 +129,8 @@ public static unsafe class AllocationManager
 #endif
             )
         {
-            if (ptr == null)
-            {
-                return Allocate(instance, newSize, alignment, allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-                    , pHandle
-#endif
-                    );
-            }
-
             var selfPtr = (ArenaAllocator*)instance;
-            var newPtr = selfPtr->_arena.Allocate(newSize, alignment, allocationOption);
-            if (newPtr == null)
-            {
-                return null;
-            }
-
-            MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
+            var newPtr = selfPtr->_arena.Reallocate(ptr, oldSize, newSize, alignment, allocationOption);
 
 #if MHP_ENABLE_SAFETY_CHECKS
             *pHandle = new MemoryHandle(_ARENA_MAGIC_ID, selfPtr->_currentTick);
@@ -370,44 +355,8 @@ public static unsafe class AllocationManager
 #endif
             )
         {
-            if (ptr == null)
-            {
-                return Allocate(instance, newSize, alignment, allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-                    , pHandle
-#endif
-                    );
-            }
-
             EnsureInitialize();
-
-            // Optimize for last allocation. Set offset directly.
-            var oldBase = s_stack.Buffer + s_stack.Offset - oldSize;
-            if (ptr == oldBase)
-            {
-                if (newSize > oldSize)
-                {
-                    var diff = newSize - oldSize;
-                    s_stack.Offset += diff;
-                    if (allocationOption.HasFlag(AllocationOption.Clear))
-                    {
-                        MemClear(s_stack.Buffer + s_stack.Offset - diff, diff);
-                    }
-                }
-
-#if MHP_ENABLE_SAFETY_CHECKS
-                *pHandle = new MemoryHandle(_STACK_MAGIC_ID, (int)s_stack.Offset);
-#endif
-                return ptr;
-            }
-
-            var newPtr = s_stack.Allocate(newSize, alignment, allocationOption);
-            if (newPtr == null)
-            {
-                return null;
-            }
-
-            MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
+            var newPtr = s_stack.Reallocate(ptr, oldSize, newSize, alignment, allocationOption);
 
 #if MHP_ENABLE_SAFETY_CHECKS
             *pHandle = new MemoryHandle(_STACK_MAGIC_ID, (int)s_stack.Offset);
@@ -491,25 +440,8 @@ public static unsafe class AllocationManager
 #endif
             )
         {
-            if (ptr == null)
-            {
-                return Allocate(instance, newSize, alignment, allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-                    , pHandle
-#endif
-                    );
-            }
-
             var selfPtr = (FreeListAllocator*)instance;
-            var newPtr = selfPtr->_freeList.Allocate(newSize, alignment, allocationOption);
-            if (newPtr == null)
-            {
-                return null;
-            }
-
-            MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
-
-            selfPtr->_freeList.Free(ptr);
+            var newPtr = selfPtr->_freeList.Reallocate(ptr, oldSize, newSize, alignment, allocationOption);
 
 #if MHP_ENABLE_SAFETY_CHECKS
             RemoveAllocation(*pHandle);

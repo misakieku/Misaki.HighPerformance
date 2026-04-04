@@ -26,6 +26,10 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
     [FieldOffset(16)]
     private nuint _offset;
 
+    public readonly byte* Buffer => _buffer;
+    public readonly nuint Size => _size;
+    public readonly nuint Offset => _offset;
+
     public Arena(nuint size)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(size);
@@ -55,7 +59,7 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
     {
         if (_buffer == null)
         {
-            throw new ObjectDisposedException(nameof(Arena));
+            return null;
         }
 
         if (size == 0)
@@ -90,6 +94,47 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
         }
 
         return ptr;
+    }
+
+    public void* Reallocate(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
+    {
+        if (_buffer == null)
+        {
+            return null;
+        }
+
+        if (ptr == null)
+        {
+            return Allocate(newSize, alignment, allocationOption);
+        }
+
+        var additionalSize = newSize - oldSize;
+        var currentOffset = Volatile.Read(ref _offset);
+
+        if ((byte*)ptr + oldSize == _buffer + currentOffset)
+        {
+            if (currentOffset + additionalSize <= _size)
+            {
+                if (Interlocked.CompareExchange(ref _offset, currentOffset + additionalSize, currentOffset) == currentOffset)
+                {
+                    if (allocationOption.HasFlag(AllocationOption.Clear) && additionalSize > 0)
+                    {
+                        MemClear((byte*)ptr + oldSize, additionalSize);
+                    }
+
+                    return ptr;
+                }
+            }
+        }
+
+        var newPtr = Allocate(newSize, alignment, allocationOption);
+        if (newPtr == null)
+        {
+            return null;
+        }
+
+        MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
+        return newPtr;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

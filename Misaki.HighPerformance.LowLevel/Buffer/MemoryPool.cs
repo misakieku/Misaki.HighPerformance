@@ -41,33 +41,7 @@ public unsafe struct MemoryPool<T, TOpts> : IDisposable
 #endif
         )
     {
-        if (ptr == null)
-        {
-            return Allocate(pAllocator, newSize, alignment, allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-                , pHandle
-#endif
-                );
-        }
-
-        var newPtr = Allocate(pAllocator, newSize, alignment, allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , pHandle
-#endif
-            );
-        if (newPtr == null)
-        {
-            return null;
-        }
-
-        MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
-        Free(pAllocator, ptr
-#if MHP_ENABLE_SAFETY_CHECKS
-            , *pHandle
-#endif
-            );
-
-        return newPtr;
+        return ((T*)pAllocator)->Reallocate(ptr, oldSize, newSize, alignment, allocationOption);
     }
 
     private static void Free(void* pAllocator, void* ptr

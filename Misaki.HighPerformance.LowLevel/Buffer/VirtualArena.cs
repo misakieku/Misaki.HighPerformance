@@ -12,6 +12,7 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
     {
         public nuint reserveCapacity;
     }
+
     public static VirtualArena Create(in CreationOptions opts)
     {
         return new VirtualArena(opts.reserveCapacity);
@@ -24,7 +25,12 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
     private nuint _committedSize;
     private nuint _allocatedOffset;
 
-    private volatile int _allocationLock;
+    private int _allocationLock;
+
+    public readonly byte* Buffer => _baseAddress;
+    public readonly nuint Reserved => _reserveCapacity;
+    public readonly nuint Committed => _committedSize;
+    public readonly nuint Allocated => _allocatedOffset;
 
     public VirtualArena(nuint reserveCapacity)
     {
@@ -52,56 +58,162 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
     /// <returns>A pointer to the allocated memory block if the allocation succeeds, otherwise null.</returns>
     public void* Allocate(nuint size, nuint alignment, AllocationOption allocationOption)
     {
-        while (Interlocked.CompareExchange(ref _allocationLock, 1, 0) != 0)
+        if (_baseAddress == null || size == 0)
         {
-            Thread.SpinWait(1);
+            return null;
         }
 
-        void* ptr;
+        var spinWait = new SpinWait();
 
-        try
+        while (true)
         {
-            // Align the requested offset
-            var alignedOffset = (_allocatedOffset + alignment - 1) & ~(alignment - 1);
-            var newAllocatedOffset = alignedOffset + size;
+            var currentOffset = Volatile.Read(ref _allocatedOffset);
 
-            if (newAllocatedOffset > _reserveCapacity)
+            // Align the requested offset
+            var alignedOffset = (currentOffset + alignment - 1) & ~(alignment - 1);
+            var newOffset = alignedOffset + size;
+
+            if (newOffset > _reserveCapacity)
             {
-                return null; // Out of reserved space
+                return null;
             }
 
-            if (newAllocatedOffset > _committedSize)
+            if (newOffset <= Volatile.Read(ref _committedSize))
             {
-                var sizeToCommit = newAllocatedOffset - _committedSize;
-
-                // Align the commit size to the 64KB OS Page Size
-                sizeToCommit = (sizeToCommit + _PAGE_SIZE - 1) & ~(_PAGE_SIZE - 1);
-
-                var commitAddress = _baseAddress + _committedSize;
-                var result = Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
-
-                if (result == null)
+                // Try to atomically claim this space. 
+                if (Interlocked.CompareExchange(ref _allocatedOffset, newOffset, currentOffset) == currentOffset)
                 {
-                    return null; // Out of physical RAM
+                    var ptr = _baseAddress + alignedOffset;
+
+                    if (allocationOption.HasFlag(AllocationOption.Clear))
+                    {
+                        MemClear(ptr, size);
+                    }
+
+                    return ptr;
                 }
 
-                _committedSize += sizeToCommit;
+                spinWait.SpinOnce();
+                continue;
             }
 
-            ptr = _baseAddress + alignedOffset;
-            _allocatedOffset = newAllocatedOffset;
+            var lockWait = new SpinWait();
+            while (Interlocked.CompareExchange(ref _allocationLock, 1, 0) != 0)
+            {
+                lockWait.SpinOnce();
+            }
+
+            try
+            {
+                // DOUBLE-CHECK: Did another thread commit enough memory while we were waiting for the lock?
+                var currentCommitted = _committedSize;
+                if (newOffset > currentCommitted)
+                {
+                    var sizeToCommit = newOffset - currentCommitted;
+                    sizeToCommit = (sizeToCommit + _PAGE_SIZE - 1) & ~(_PAGE_SIZE - 1);
+
+                    var commitAddress = _baseAddress + currentCommitted;
+                    var result = Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
+
+                    if (result == null)
+                    {
+                        return null;
+                    }
+
+                    Volatile.Write(ref _committedSize, currentCommitted + sizeToCommit);
+                }
+            }
+            finally
+            {
+                Volatile.Write(ref _allocationLock, 0);
+            }
+
+            // We committed the memory (or realized someone else did).
+            // Loop back up to try the lock-free allocation again!
         }
-        finally
+    }
+
+    public void* Reallocate(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
+    {
+        if (_baseAddress == null || newSize == 0)
         {
-            Interlocked.Exchange(ref _allocationLock, 0);
+            return null;
         }
 
-        if (allocationOption.HasFlag(AllocationOption.Clear))
+        if (newSize <= oldSize)
         {
-            MemClear(ptr, size);
+            return ptr;
         }
 
-        return ptr;
+        if (ptr == null)
+        {
+            return Allocate(newSize, alignment, allocationOption);
+        }
+
+        var additionalSize = newSize - oldSize;
+        var currentOffset = Volatile.Read(ref _allocatedOffset);
+
+        // Fast-path: Check if it's the last allocated block
+        if ((byte*)ptr + oldSize == _baseAddress + currentOffset)
+        {
+            var newOffset = currentOffset + additionalSize;
+
+            // Check if we need to commit more physical memory
+            if (newOffset > Volatile.Read(ref _committedSize))
+            {
+                var spinWait = new SpinWait();
+                while (Interlocked.CompareExchange(ref _allocationLock, 1, 0) != 0)
+                {
+                    spinWait.SpinOnce();
+                }
+
+                try
+                {
+                    // DOUBLE CHECK: Did another thread commit the memory while we waited?
+                    var currentCommitted = _committedSize;
+                    if (newOffset > currentCommitted)
+                    {
+                        var sizeToCommit = newOffset - currentCommitted;
+                        sizeToCommit = (sizeToCommit + _PAGE_SIZE - 1) & ~(_PAGE_SIZE - 1);
+
+                        var commitAddress = _baseAddress + currentCommitted;
+                        var result = Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
+
+                        if (result == null)
+                        {
+                            return null; // OOM or mapping failure
+                        }
+
+                        Volatile.Write(ref _committedSize, currentCommitted + sizeToCommit);
+                    }
+                }
+                finally
+                {
+                    Volatile.Write(ref _allocationLock, 0);
+                }
+            }
+
+            // Try to atomically extend the block
+            if (Interlocked.CompareExchange(ref _allocatedOffset, newOffset, currentOffset) == currentOffset)
+            {
+                // Safe to clear: we own the space between oldSize and newOffset
+                if (allocationOption.HasFlag(AllocationOption.Clear) && additionalSize > 0)
+                {
+                    MemClear((byte*)ptr + oldSize, additionalSize);
+                }
+
+                return ptr;
+            }
+        }
+
+        var newPtr = Allocate(newSize, alignment, allocationOption);
+        if (newPtr == null)
+        {
+            return null;
+        }
+
+        MemCpy(newPtr, ptr, oldSize);
+        return newPtr;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

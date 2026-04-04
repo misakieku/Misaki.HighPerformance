@@ -1,19 +1,18 @@
 using Misaki.HighPerformance.LowLevel.Utilities;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
-public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.CreationOpts>
+public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.CreationOptions>
 {
     private const nuint _PAGE_SIZE = 64 * 1024;
 
-    public struct CreationOpts
+    public struct CreationOptions
     {
         public nuint reserveCapacity;
     }
 
-    public static VirtualStack Create(in CreationOpts opts)
+    public static VirtualStack Create(in CreationOptions opts)
     {
         return new VirtualStack(opts.reserveCapacity);
     }
@@ -56,12 +55,10 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
     private uint _activeScopeCount;
 #endif
 
-    internal readonly byte* Buffer => _baseAddress;
-    internal nuint Offset
-    {
-        readonly get => _allocatedOffset;
-        set => _allocatedOffset = value;
-    }
+    public readonly byte* Buffer => _baseAddress;
+    public readonly nuint Reserved => _reserveCapacity;
+    public readonly nuint Committed => _committedSize;
+    public readonly nuint Allocated => _allocatedOffset;
 
     public VirtualStack(nuint reserveCapacity)
     {
@@ -120,7 +117,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
 
         if (newAllocatedOffset > _reserveCapacity)
         {
-            return null; // Out of reserved space
+            return null;
         }
 
         if (newAllocatedOffset > _committedSize)
@@ -152,6 +149,68 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
         return userPtr;
     }
 
+    public void* Reallocate(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
+    {
+        if (_baseAddress == null)
+        {
+            return null;
+        }
+
+        if (newSize < oldSize)
+        {
+            return ptr;
+        }
+
+        if (ptr == null)
+        {
+            return Allocate(newSize, alignment, allocationOption);
+        }
+
+        if ((byte*)ptr + oldSize == _baseAddress + _allocatedOffset)
+        {
+            var diff = newSize - oldSize;
+            _allocatedOffset += diff;
+
+            if (_allocatedOffset > _committedSize)
+            {
+                var sizeToCommit = _allocatedOffset - _committedSize;
+
+                // Align the commit size to the 64KB OS Page Size
+                sizeToCommit = (sizeToCommit + _PAGE_SIZE - 1) & ~(_PAGE_SIZE - 1);
+
+                var commitAddress = _baseAddress + _committedSize;
+                var result = Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
+
+                if (result == null)
+                {
+                    return null;
+                }
+
+                _committedSize += sizeToCommit;
+            }
+
+            if (allocationOption.HasFlag(AllocationOption.Clear))
+            {
+                MemClear(_baseAddress + _allocatedOffset - diff, diff);
+            }
+        }
+
+        var newPtr = Allocate(newSize, alignment, allocationOption);
+        if (newPtr == null)
+        {
+            return null;
+        }
+
+        MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
+
+        return newPtr;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly void Free(void* ptr)
+    {
+    }
+
     /// <summary>
     /// Resets the internal offset to its initial position, keeping the committed physical memory intact for future reuse.
     /// </summary>
@@ -159,11 +218,6 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
     public void Reset()
     {
         _allocatedOffset = 0;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public readonly void Free(void* ptr)
-    {
     }
 
     public void Dispose()
