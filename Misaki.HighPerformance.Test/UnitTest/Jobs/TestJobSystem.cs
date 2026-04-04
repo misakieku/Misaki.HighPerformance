@@ -22,15 +22,13 @@ public unsafe class TestJobSystem
     [ClassInitialize]
     public static void Initialize(TestContext testContext)
     {
-        AllocationManager.Initialize(AllocationManagerInitOpts.Default);
-        s_jobScheduler = new JobScheduler(3);
+        s_jobScheduler = new JobScheduler(Environment.ProcessorCount);
     }
 
     [ClassCleanup]
     public static void Cleanup()
     {
         s_jobScheduler.Dispose();
-        AllocationManager.Dispose();
     }
 
     [TestMethod]
