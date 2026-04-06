@@ -1,4 +1,4 @@
-﻿namespace Misaki.HighPerformance.Collections;
+namespace Misaki.HighPerformance;
 
 public struct AtomicCounter32
 {

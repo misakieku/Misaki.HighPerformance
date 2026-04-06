@@ -262,6 +262,8 @@ public unsafe struct MemoryBlock : IDisposable
     public readonly Span<T> AsSpan<T>(int start, int length)
         where T : unmanaged
     {
+        Debug.Assert(_size % (uint)sizeof(T) == 0, "The size of the collection must be a multiple of the size of the element type.");
+
         if (start < 0 || length < 0 || (nuint)(start + length) * (nuint)sizeof(T) > _size)
         {
             throw new ArgumentOutOfRangeException(nameof(start), "The specified range is out of bounds of the collection.");

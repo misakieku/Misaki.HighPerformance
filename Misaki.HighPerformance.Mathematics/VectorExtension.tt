@@ -39,7 +39,7 @@ void EmitVector(string typePrefix, string[] components)
 {
     var swizzles = GenerateSwizzles(components, components.Length);
 #>
-    extension(<#= typePrefix + components.Length #> v)
+    extension(ref <#= typePrefix + components.Length #> v)
     {
 <#
     foreach (var (property, canSet) in swizzles)

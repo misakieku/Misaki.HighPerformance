@@ -20,10 +20,9 @@ public class MemoryLeakException : Exception
         stringBuilder.AppendLine($"Found {infos.Count()} memory lakes!");
 
 #if MHP_ENABLE_STACKTRACE
-        stringBuilder.AppendLine();
-
         foreach (var info in infos)
         {
+            stringBuilder.AppendLine();
             GetMessage(stringBuilder, info.StackTrace);
         }
 #else

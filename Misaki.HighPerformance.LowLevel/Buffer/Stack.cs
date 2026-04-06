@@ -1,5 +1,4 @@
 using Misaki.HighPerformance.LowLevel.Utilities;
-using System.Collections;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
