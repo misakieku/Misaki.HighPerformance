@@ -2,6 +2,7 @@ namespace Misaki.HighPerformance.Mathematics;
 
 [NumericType(typeof(uint), sizeof(uint), 2, 1, "global::Misaki.HighPerformance.Mathematics.uint")]
 [NumericConvertable("(uint){v}.{c}", typeof(int2), typeof(float2), typeof(double2), typeof(bool2))]
+[NumericConvertable("(uint){v}", typeof(int), typeof(float), typeof(double))]
 public partial struct uint2
 {
 }
@@ -23,6 +24,7 @@ public partial struct uint2x4
 
 [NumericType(typeof(uint), sizeof(uint), 3, 1, "global::Misaki.HighPerformance.Mathematics.uint")]
 [NumericConvertable("(uint){v}.{c}", typeof(int3), typeof(float3), typeof(double3), typeof(bool3))]
+[NumericConvertable("(uint){v}", typeof(int), typeof(float), typeof(double))]
 public partial struct uint3
 {
 }
@@ -44,6 +46,7 @@ public partial struct uint3x4
 
 [NumericType(typeof(uint), sizeof(uint), 4, 1, "global::Misaki.HighPerformance.Mathematics.uint")]
 [NumericConvertable("(uint){v}.{c}", typeof(int4), typeof(float4), typeof(double4), typeof(bool4))]
+[NumericConvertable("(uint){v}", typeof(int), typeof(float), typeof(double))]
 public partial struct uint4
 {
 }

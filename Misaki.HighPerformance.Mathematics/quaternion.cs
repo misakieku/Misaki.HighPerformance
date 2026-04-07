@@ -57,14 +57,14 @@ public partial struct quaternion : IEquatable<quaternion>
 
         var u_sign = (asuint(u.x) & 0x80000000);
         var t = v.y + asfloat(asuint(w.z) ^ u_sign);
-        var u_mask = new uint4(u_sign >> 31);
-        var t_mask = new uint4(asuint(t) >> 31);
+        var u_mask = new uint4((int)u_sign >> 31);
+        var t_mask = new uint4(asint(t) >> 31);
 
-        var tr = 1.0f + abs(u.x);
+        float tr = 1.0f + abs(u.x);
 
         var sign_flips = new uint4(0x00000000, 0x80000000, 0x80000000, 0x80000000) ^ (u_mask & new uint4(0x00000000, 0x80000000, 0x00000000, 0x80000000)) ^ (t_mask & new uint4(0x80000000, 0x80000000, 0x80000000, 0x00000000));
 
-        value = new float4(tr, u.y, w.x, v.z) + asfloat(asuint(new float4(t, v.x, u.z, w.y)) ^ sign_flips);   // +---, +++-, ++-+, +-++
+        value = float4(tr, u.y, w.x, v.z) + asfloat(asuint(float4(t, v.x, u.z, w.y)) ^ sign_flips);   // +---, +++-, ++-+, +-++
 
         value = asfloat((asuint(value) & ~u_mask) | (asuint(value.zwxy) & u_mask));
         value = asfloat((asuint(value.wzyx) & ~t_mask) | (asuint(value) & t_mask));
@@ -81,8 +81,8 @@ public partial struct quaternion : IEquatable<quaternion>
 
         var u_sign = (asuint(u.x) & 0x80000000);
         var t = v.y + asfloat(asuint(w.z) ^ u_sign);
-        var u_mask = new uint4(u_sign >> 31);
-        var t_mask = new uint4(asuint(t) >> 31);
+        var u_mask = new uint4((int)u_sign >> 31);
+        var t_mask = new uint4(asint(t) >> 31);
 
         var tr = 1.0f + abs(u.x);
 
