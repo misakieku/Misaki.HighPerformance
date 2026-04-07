@@ -1,4 +1,5 @@
 using Misaki.HighPerformance.Mathematics;
+using System.Numerics;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Mathematics;
 
@@ -287,5 +288,65 @@ public class TestMathFunctions
         Assert.AreEqual(1f, result.x, 1e-6f); // condition is true, so select a.x
         Assert.AreEqual(5f, result.y, 1e-6f); // condition is false, so select b.y
         Assert.AreEqual(3f, result.z, 1e-6f); // condition is true, so select a.z
+    }
+
+    [TestMethod]
+    public void TestMatrixFunctions()
+    {
+        // Test determinant and inverse of a 2x2 matrix
+        var m = new float2x2(new float2(1f, 2f), new float2(3f, 4f));
+        var det = math.determinant(m);
+
+        Assert.AreEqual(-2f, det, 1e-6f);
+
+        var inv = math.inverse(m);
+        var expectedInv = new float2x2(new float2(-2f, 1f), new float2(1.5f, -0.5f));
+        Assert.AreEqual(expectedInv.c0.x, inv.c0.x, 1e-6f);
+        Assert.AreEqual(expectedInv.c0.y, inv.c0.y, 1e-6f);
+        Assert.AreEqual(expectedInv.c1.x, inv.c1.x, 1e-6f);
+        Assert.AreEqual(expectedInv.c1.y, inv.c1.y, 1e-6f);
+    }
+
+    [TestMethod]
+    public void TestRflections()
+    {
+        // Test reflect function
+        var incident = new float3(1f, -1f, 0f);
+        var normal = math.normalize(new float3(0f, 1f, 0f));
+        var reflected = math.reflect(incident, normal);
+
+        // The reflected vector should be (1, 1, 0)
+        Assert.AreEqual(1f, reflected.x, 1e-6f);
+        Assert.AreEqual(1f, reflected.y, 1e-6f);
+        Assert.AreEqual(0f, reflected.z, 1e-6f);
+    }
+
+    [TestMethod]
+    public void TestProjections()
+    {
+        // Test project function
+        var vector = new float3(1f, 2f, 3f);
+        var onNormal = math.normalize(new float3(0f, 1f, 0f));
+        var projected = math.project(vector, onNormal);
+
+        // The projection of (1,2,3) onto the Y-axis should be (0,2,0)
+        Assert.AreEqual(0f, projected.x, 1e-6f);
+        Assert.AreEqual(2f, projected.y, 1e-6f);
+        Assert.AreEqual(0f, projected.z, 1e-6f);
+    }
+
+    [TestMethod]
+    public void TestRefraction()
+    {
+        // Test refract function
+        var incident = math.normalize(new float3(1f, -1f, 0f));
+        var normal = math.normalize(new float3(0f, 1f, 0f));
+        var eta = 0.5f; // Refractive index ratio
+        var refracted = math.refract(incident, normal, eta);
+        
+        // The refracted vector should be approximately (0.707, -0.707, 0)
+        Assert.AreEqual(0.3535534f, refracted.x, 1e-6f);
+        Assert.AreEqual(-0.9354144f, refracted.y, 1e-6f);
+        Assert.AreEqual(0f, refracted.z, 1e-6f);
     }
 }

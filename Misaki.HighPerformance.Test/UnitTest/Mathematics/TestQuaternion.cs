@@ -152,6 +152,18 @@ public class TestQuaternion
     }
 
     [TestMethod]
+    public void TestQuaternionNormalizeSafe()
+    {
+        // Create non-unit quaternion
+        var q = new quaternion(1f, 2f, 3f, 4f);
+
+        var normalized = math.normalizesafe(q);
+
+        // Should have length 1
+        Assert.AreEqual(1f, math.length(normalized.value), 1e-6f);
+    }
+
+    [TestMethod]
     public void TestMatrixFromQuaternion()
     {
         // Test conversion from quaternion to rotation matrix
@@ -224,6 +236,29 @@ public class TestQuaternion
         var forward = new float3(0f, 0f, -1f);
         var up = new float3(0f, 1f, 0f);
         var q = quaternion.LookRotation(forward, up);
+
+        // Should be unit quaternion
+        Assert.AreEqual(1f, math.length(q.value), 1e-6f);
+
+        // Should rotate (0,0,1) to approximately (0,0,1)
+        var rotatedForward = math.mul(q, forward);
+        Assert.AreEqual(0f, rotatedForward.x, 1e-6f);
+        Assert.AreEqual(0f, rotatedForward.y, 1e-6f);
+        Assert.AreEqual(1f, rotatedForward.z, 1e-6f);
+
+        // Should rotate (0,1,0) to approximately (0,1,0)
+        var rotatedUp = math.mul(q, up);
+        Assert.AreEqual(0f, rotatedUp.x, 1e-6f);
+        Assert.AreEqual(1f, rotatedUp.y, 1e-6f);
+        Assert.AreEqual(0f, rotatedUp.z, 1e-6f);
+    }
+
+    [TestMethod]
+    public void TestLookRotationSafe()
+    {
+        var forward = new float3(0f, 0f, -1f);
+        var up = new float3(0f, 1f, 0f);
+        var q = quaternion.LookRotationSafe(forward, up);
 
         // Should be unit quaternion
         Assert.AreEqual(1f, math.length(q.value), 1e-6f);

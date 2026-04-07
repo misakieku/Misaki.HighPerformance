@@ -6,7 +6,9 @@ using Misaki.HighPerformance.Test.Benchmark;
 
 var faceDirection = math.normalize(float3.zero - new float3(0.0f, 0.0f, 5.0f));
 var test = quaternion.LookRotation(faceDirection, math.up());
+var test2 = quaternion.LookRotationSafe(faceDirection, math.up());
 var rotation = quaternion.EulerXYZ(new float3(0, math.radians(180.0f), 0));
 
 Console.WriteLine(test);
+Console.WriteLine(test2);
 Console.WriteLine(rotation);

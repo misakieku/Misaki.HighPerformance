@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Mathematics;
 
@@ -18,23 +18,23 @@ public static class svd
     private static void condSwap(bool c, ref float x, ref float y)
     {
         var tmp = x;
-        x = math.select(x, y, c);
-        y = math.select(y, tmp, c);
+        x = math.select(y, x, c);
+        y = math.select(tmp, y, c);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void condNegSwap(bool c, ref float3 x, ref float3 y)
     {
         var tmp = -x;
-        x = math.select(x, y, c);
-        y = math.select(y, tmp, c);
+        x = math.select(y, x, c);
+        y = math.select(tmp, y, c);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static quaternion condNegSwapQuat(bool c, quaternion q, float4 mask)
     {
         const float halfSqrt2 = 0.707106781186548f;
-        return math.mul(q, math.select(quaternion.identity.value, mask * halfSqrt2, c));
+        return math.mul(q, math.select(mask * halfSqrt2, quaternion.identity.value, c));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -68,7 +68,7 @@ public static class svd
 
         var ch = 2f * (pq.x - pq.y); // approx cos(a/2)
         var sh = pq.z; // approx sin(a/2)
-        var r = math.select(new float4(s8, s8, s8, c8), new float4(sh, sh, sh, ch), g * sh * sh < ch * ch) * mask;
+        var r = math.select(new float4(sh, sh, sh, ch), new float4(s8, s8, s8, c8), g * sh * sh < ch * ch) * mask;
         return math.normalize(r);
     }
 
@@ -76,7 +76,7 @@ public static class svd
     private static quaternion qrGivensQuat(float2 pq, float4 mask)
     {
         var l = math.sqrt(pq.x * pq.x + pq.y * pq.y);
-        var sh = math.select(0f, pq.y, l > EPSILON_NORMAL_SQRT);
+        var sh = math.select(pq.y, 0f, l > EPSILON_NORMAL_SQRT);
         var ch = math.abs(pq.x) + math.max(l, EPSILON_NORMAL_SQRT);
         condSwap(pq.x < 0f, ref sh, ref ch);
 
@@ -148,7 +148,7 @@ public static class svd
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static float3 rcpsafe(float3 x, float epsilon = EPSILON_RCP) =>
-        math.select(math.rcp(x), float3.zero, math.abs(x) < epsilon);
+        math.select(float3.zero, math.rcp(x), math.abs(x) < epsilon);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float3x3 svdInverse(float3x3 a)

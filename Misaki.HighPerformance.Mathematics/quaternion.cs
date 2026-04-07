@@ -60,7 +60,7 @@ public partial struct quaternion : IEquatable<quaternion>
         var u_mask = new uint4((int)u_sign >> 31);
         var t_mask = new uint4(asint(t) >> 31);
 
-        float tr = 1.0f + abs(u.x);
+        var tr = 1.0f + abs(u.x);
 
         var sign_flips = new uint4(0x00000000, 0x80000000, 0x80000000, 0x80000000) ^ (u_mask & new uint4(0x00000000, 0x80000000, 0x00000000, 0x80000000)) ^ (t_mask & new uint4(0x80000000, 0x80000000, 0x80000000, 0x00000000));
 
@@ -428,7 +428,7 @@ public partial struct quaternion : IEquatable<quaternion>
         var mx = max(max(forwardLengthSq, upLengthSq), tLengthSq);
 
         var accept = mn > 1e-35f && mx < 1e35f && isfinite(forwardLengthSq) && isfinite(upLengthSq) && isfinite(tLengthSq);
-        return new quaternion(select(float4.unitW, new quaternion(new float3x3(t, cross(forward, t), forward)).value, accept));
+        return new quaternion(select(new quaternion(new float3x3(t, cross(forward, t), forward)).value, float4.unitW, accept));
     }
 
     /// <summary>Returns true if the quaternion is equal to a given quaternion, false otherwise.</summary>
@@ -559,7 +559,7 @@ public static partial class math
     {
         var x = q.value;
         var len = dot(x, x);
-        return quaternion(select(Mathematics.quaternion.identity.value, x * rsqrt(len), len > FLT_MIN_NORMAL));
+        return quaternion(select(x * rsqrt(len), Mathematics.quaternion.identity.value, len > FLT_MIN_NORMAL));
     }
 
     /// <summary>
@@ -574,7 +574,7 @@ public static partial class math
     {
         var x = q.value;
         var len = dot(x, x);
-        return quaternion(select(defaultvalue.value, x * rsqrt(len), len > FLT_MIN_NORMAL));
+        return quaternion(select(x * rsqrt(len), defaultvalue.value, len > FLT_MIN_NORMAL));
     }
 
     /// <summary>Returns the natural exponent of a quaternion. Assumes w is zero.</summary>
@@ -757,7 +757,7 @@ public static partial class math
     {
         i = adj(m, out var det);
         var c = abs(det) > epsilon;
-        var detInv = select(new float3(1f), rcp(det), c);
+        var detInv = select(rcp(det), new float3(1f), c);
         i = scaleMul(detInv, i);
         return c;
     }
