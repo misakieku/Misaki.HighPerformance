@@ -217,4 +217,27 @@ public class TestQuaternion
         Assert.AreEqual(q2.value.z, end.value.z, 1e-6f);
         Assert.AreEqual(q2.value.w, end.value.w, 1e-6f);
     }
+
+    [TestMethod]
+    public void TestLookRotation()
+    {
+        var forward = new float3(0f, 0f, -1f);
+        var up = new float3(0f, 1f, 0f);
+        var q = quaternion.LookRotation(forward, up);
+
+        // Should be unit quaternion
+        Assert.AreEqual(1f, math.length(q.value), 1e-6f);
+
+        // Should rotate (0,0,1) to approximately (0,0,1)
+        var rotatedForward = math.mul(q, forward);
+        Assert.AreEqual(0f, rotatedForward.x, 1e-6f);
+        Assert.AreEqual(0f, rotatedForward.y, 1e-6f);
+        Assert.AreEqual(1f, rotatedForward.z, 1e-6f);
+
+        // Should rotate (0,1,0) to approximately (0,1,0)
+        var rotatedUp = math.mul(q, up);
+        Assert.AreEqual(0f, rotatedUp.x, 1e-6f);
+        Assert.AreEqual(1f, rotatedUp.y, 1e-6f);
+        Assert.AreEqual(0f, rotatedUp.z, 1e-6f);
+    }
 }
