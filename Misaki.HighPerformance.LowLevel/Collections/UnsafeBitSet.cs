@@ -36,18 +36,18 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
 {
     public ref struct Iterator
     {
-        private UnsafeBitSet _bitSet;
+        private readonly UnsafeBitSet* _bitSet;
         private int _currentBit;
 
-        public Iterator(UnsafeBitSet bitSet)
+        public Iterator(UnsafeBitSet* bitSet, int start)
         {
             _bitSet = bitSet;
-            _currentBit = -1;
+            _currentBit = start - 1;
         }
 
         public bool Next(out int bitIndex)
         {
-            _currentBit = _bitSet.NextSetBit(_currentBit + 1);
+            _currentBit = _bitSet->NextSetBit(_currentBit + 1);
             bitIndex = _currentBit;
             return _currentBit != -1;
         }
@@ -143,9 +143,9 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
         return (id >> _INDEX_SIZE) + int.Sign(id & _BIT_SIZE);
     }
 
-    public readonly Iterator GetIterator()
+    public readonly Iterator GetIterator(int start = 0)
     {
-        return new Iterator(this);
+        return new Iterator((UnsafeBitSet*)Unsafe.AsPointer(in this), start);
     }
 
     /// <summary>

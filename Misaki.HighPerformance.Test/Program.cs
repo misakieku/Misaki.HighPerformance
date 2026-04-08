@@ -1,14 +1,12 @@
-using BenchmarkDotNet.Running;
-using Misaki.HighPerformance.Mathematics;
-using Misaki.HighPerformance.Test.Benchmark;
+using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Collections;
 
 //BenchmarkRunner.Run<SPMDBenchmark>();
 
-var faceDirection = math.normalize(float3.zero - new float3(0.0f, 0.0f, 5.0f));
-var test = quaternion.LookRotation(faceDirection, math.up());
-var test2 = quaternion.LookRotationSafe(faceDirection, math.up());
-var rotation = quaternion.EulerXYZ(new float3(0, math.radians(180.0f), 0));
+AllocationManager.Initialize(AllocationManagerInitOpts.Default);
+var set = new UnsafeBitSet(100, Allocator.Persistent, AllocationOption.Clear);
+set.SetBit(0);
+Console.WriteLine(set.NextSetBit(0));
 
-Console.WriteLine(test);
-Console.WriteLine(test2);
-Console.WriteLine(rotation);
+set.Dispose();
+AllocationManager.Dispose();
