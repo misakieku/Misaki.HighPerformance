@@ -3,6 +3,7 @@ using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -42,19 +43,17 @@ internal class UnsafeStackDebugView<T>
 public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
-    public struct Enumerator : IEnumerator<T>
+    public ref struct Enumerator
     {
-        private readonly UnsafeStack<T>* _collection;
+        private readonly ref UnsafeStack<T> _collection;
         private int _index;
 
-        public readonly ref T Current => ref _collection->_array[_index];
-        readonly T IEnumerator<T>.Current => Current;
-        readonly object IEnumerator.Current => Current;
+        public readonly ref T Current => ref _collection._array[_index];
 
-        public Enumerator(UnsafeStack<T>* collection)
+        public Enumerator(ref UnsafeStack<T> collection)
         {
-            _collection = collection;
-            _index = collection->Count;
+            _collection = ref collection;
+            _index = collection.Count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -66,11 +65,7 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
 
         public void Reset()
         {
-            _index = _collection->Count;
-        }
-
-        public readonly void Dispose()
-        {
+            _index = _collection.Count;
         }
     }
 
@@ -80,21 +75,6 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     public readonly int Count => _count;
     public readonly int Capacity => _array.Count;
     public readonly bool IsCreated => _array.IsCreated;
-
-    public Enumerator GetEnumerator()
-    {
-        return new((UnsafeStack<T>*)UnsafeUtility.AddressOf(ref this));
-    }
-
-    IEnumerator<T> IEnumerable<T>.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
 
     /// <summary>
     /// Invalid constructor, use <see cref="UnsafeStack(int, Allocator, AllocationOption)"/> or <see cref="UnsafeStack(int, AllocationHandle, AllocationOption)"/> instead.
@@ -125,6 +105,13 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     public UnsafeStack(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
+    public Enumerator GetEnumerator()
+    {
+        return new(ref this);
     }
 
     /// <summary>

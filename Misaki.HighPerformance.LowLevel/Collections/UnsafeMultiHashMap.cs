@@ -2,6 +2,7 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -10,16 +11,15 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     where TKey : unmanaged, IEquatable<TKey>
     where TValue : unmanaged
 {
-    public struct Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>
+    public ref struct Enumerator
     {
         internal HashMapHelper<TKey>.Enumerator _enumerator;
 
         public readonly KeyValuePair<TKey, TValue> Current => _enumerator.GetCurrent<TValue>();
-        readonly object IEnumerator.Current => Current;
 
-        public Enumerator(HashMapHelper<TKey>* data)
+        public Enumerator(ref HashMapHelper<TKey> data)
         {
-            _enumerator = new HashMapHelper<TKey>.Enumerator(data);
+            _enumerator = new HashMapHelper<TKey>.Enumerator(ref data);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -31,10 +31,6 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         public void Reset()
         {
             _enumerator.Reset();
-        }
-
-        public readonly void Dispose()
-        {
         }
     }
 
@@ -50,36 +46,35 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         }
     }
 
-    public struct ValueEnumerable
+    public ref struct ValueEnumerable
     {
-        private readonly HashMapHelper<TKey>* _data;
+        private ref HashMapHelper<TKey> _helper;
         private readonly TKey _key;
 
-        internal ValueEnumerable(HashMapHelper<TKey>* data, scoped in TKey key)
+        internal ValueEnumerable(ref HashMapHelper<TKey> data, scoped in TKey key)
         {
-            _data = data;
+            _helper = ref data;
             _key = key;
         }
 
         public readonly ValueEnumerator GetEnumerator()
         {
-            return new(_data, _key);
+            return new ValueEnumerator(ref _helper, _key);
         }
     }
 
-    public struct ValueEnumerator : IEnumerator<TValue>
+    public ref struct ValueEnumerator
     {
-        private readonly HashMapHelper<TKey>* _data;
+        private ref HashMapHelper<TKey> helper;
         private readonly TKey _key;
         private int _entryIndex;
         private bool _started;
 
-        public readonly TValue Current => UnsafeUtility.ReadArrayElement<TValue>(_data->Buffer, _entryIndex);
-        readonly object IEnumerator.Current => Current;
+        public readonly TValue Current => UnsafeUtility.ReadArrayElement<TValue>(helper.Buffer, _entryIndex);
 
-        internal ValueEnumerator(HashMapHelper<TKey>* data, scoped in TKey key)
+        internal ValueEnumerator(ref HashMapHelper<TKey> data, scoped in TKey key)
         {
-            _data = data;
+            helper = ref data;
             _key = key;
             _entryIndex = -1;
             _started = false;
@@ -90,7 +85,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         {
             if (!_started)
             {
-                _entryIndex = _data->Find(_key);
+                _entryIndex = helper.Find(_key);
                 _started = true;
                 return _entryIndex != -1;
             }
@@ -100,7 +95,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
                 return false;
             }
 
-            _entryIndex = _data->FindNext(_entryIndex, _key);
+            _entryIndex = helper.FindNext(_entryIndex, _key);
             return _entryIndex != -1;
         }
 
@@ -109,10 +104,6 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
             _entryIndex = -1;
             _started = false;
         }
-
-        public readonly void Dispose()
-        {
-        }
     }
 
     private HashMapHelper<TKey> _helper;
@@ -120,21 +111,6 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     public readonly int Count => _helper.Count;
     public readonly int Capacity => _helper.Capacity;
     public readonly bool IsCreated => _helper.IsCreated;
-
-    public Enumerator GetEnumerator()
-    {
-        return new((HashMapHelper<TKey>*)UnsafeUtility.AddressOf(ref this));
-    }
-
-    IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
 
     public UnsafeMultiHashMap()
         : this(0, Allocator.Invalid)
@@ -151,12 +127,21 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     {
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
+    public Enumerator GetEnumerator()
+    {
+        return new Enumerator(ref _helper);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Add(scoped in TKey key, TValue item)
     {
         var idx = _helper.Add(key);
         UnsafeUtility.WriteArrayElement(_helper.Buffer, idx, item);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Remove(scoped in TKey key)
     {
         return _helper.RemoveAll(key) != 0;
@@ -198,11 +183,13 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         return true;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetValue(scoped in TKey key, out TValue item)
     {
         return _helper.TryGetValue(key, out item);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public TValue GetValueOrDefault(scoped in TKey key, TValue defaultValue = default)
     {
         if (_helper.TryGetValue<TValue>(key, out var value))
@@ -213,46 +200,57 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         return defaultValue;
     }
 
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
     public ValueEnumerable GetValuesForKey(scoped in TKey key)
     {
-        return new((HashMapHelper<TKey>*)UnsafeUtility.AddressOf(ref this), key);
+        return new ValueEnumerable(ref _helper, key);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int CountValuesForKey(scoped in TKey key)
     {
         return _helper.CountValuesForKey(key);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool ContainsKey(scoped in TKey key)
     {
         return _helper.Find(key) != -1;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void TrimExcess()
     {
         _helper.TrimExcess();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
         _helper.Resize(newSize);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear()
     {
         _helper.Clear();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public UnsafeArray<TKey> GetKeyArray(Allocator allocator)
     {
         return _helper.GetKeyArray(allocator);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public UnsafeArray<TValue> GetValueArray(Allocator allocator)
     {
         return _helper.GetValueArray<TValue>(allocator);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(Allocator allocator)
     {
         return _helper.GetKeyValueArrays<TValue>(allocator);
@@ -264,6 +262,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         return _helper.Buffer;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Dispose()
     {
         _helper.Dispose();

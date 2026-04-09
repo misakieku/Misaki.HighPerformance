@@ -9,16 +9,16 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 public unsafe struct HashMapHelper<TKey> : IDisposable
     where TKey : unmanaged, IEquatable<TKey>
 {
-    internal struct Enumerator
+    internal ref struct Enumerator
     {
-        public HashMapHelper<TKey>* buffer;
+        public ref HashMapHelper<TKey> helper;
         public int index;
         public int bucketIndex;
         public int nextIndex;
 
-        public Enumerator(HashMapHelper<TKey>* data)
+        public Enumerator(ref HashMapHelper<TKey> data)
         {
-            buffer = data;
+            helper = ref data;
             index = -1;
             bucketIndex = 0;
             nextIndex = -1;
@@ -27,7 +27,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            return buffer->MoveNext(ref bucketIndex, ref nextIndex, out index);
+            return helper.MoveNext(ref bucketIndex, ref nextIndex, out index);
         }
 
         public void Reset()
@@ -41,7 +41,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         public KeyValuePair<TKey, TValue> GetCurrent<TValue>()
             where TValue : unmanaged
         {
-            return new KeyValuePair<TKey, TValue>(buffer->_keys[index], UnsafeUtility.ReadArrayElementRef<TValue>(buffer->_buffer, index));
+            return new KeyValuePair<TKey, TValue>(helper._keys[index], UnsafeUtility.ReadArrayElementRef<TValue>(helper._buffer, index));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -49,7 +49,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         {
             if (index != -1)
             {
-                return buffer->_keys[index];
+                return helper._keys[index];
             }
 
             return default;

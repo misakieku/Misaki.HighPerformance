@@ -3,6 +3,7 @@ using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -42,18 +43,16 @@ internal class UnsafeArrayDebugView<T>
 public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
-    public struct Enumerator : IEnumerator<T>
+    public ref struct Enumerator
     {
-        private readonly UnsafeArray<T>* _collection;
+        private ref UnsafeArray<T> _collection;
         private int _index;
 
-        public readonly ref T Current => ref _collection->_buffer[_index];
-        readonly T IEnumerator<T>.Current => Current;
-        readonly object IEnumerator.Current => Current;
+        public readonly ref T Current => ref _collection._buffer[_index];
 
-        public Enumerator(UnsafeArray<T>* collection)
+        public Enumerator(ref UnsafeArray<T> collection)
         {
-            _collection = collection;
+            _collection = ref collection;
             _index = -1;
         }
 
@@ -61,16 +60,12 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         public bool MoveNext()
         {
             _index++;
-            return _index < _collection->_count;
+            return _index < _collection._count;
         }
 
         public void Reset()
         {
             _index = -1;
-        }
-
-        public void Dispose()
-        {
         }
     }
 
@@ -128,21 +123,6 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return _buffer != null;
 #endif
         }
-    }
-
-    public Enumerator GetEnumerator()
-    {
-        return new((UnsafeArray<T>*)UnsafeUtility.AddressOf(ref this));
-    }
-
-    IEnumerator<T> IEnumerable<T>.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
     }
 
     /// <summary>
@@ -243,6 +223,13 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     public readonly ReadOnlyUnsafeCollection<T> AsReadOnly()
     {
         return new ReadOnlyUnsafeCollection<T>(_buffer, _count);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
+    public Enumerator GetEnumerator()
+    {
+        return new Enumerator(ref this);
     }
 
     /// <inheritdoc/>

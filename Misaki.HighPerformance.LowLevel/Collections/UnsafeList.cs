@@ -3,6 +3,7 @@ using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -39,18 +40,16 @@ internal class UnsafeListDebugView<T>
 public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
-    public struct Enumerator : IEnumerator<T>
+    public ref struct Enumerator
     {
-        private readonly UnsafeList<T>* _collection;
+        private ref UnsafeList<T> _collection;
         private int _index;
 
-        public readonly ref T Current => ref _collection->_array[_index];
-        readonly T IEnumerator<T>.Current => Current;
-        readonly object IEnumerator.Current => Current;
+        public readonly ref T Current => ref _collection._array[_index];
 
-        public Enumerator(UnsafeList<T>* collection)
+        public Enumerator(ref UnsafeList<T> collection)
         {
-            _collection = collection;
+            _collection = ref collection;
             _index = -1;
         }
 
@@ -58,16 +57,12 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         public bool MoveNext()
         {
             _index++;
-            return _index < _collection->_count;
+            return _index < _collection._count;
         }
 
         public void Reset()
         {
             _index = -1;
-        }
-
-        public readonly void Dispose()
-        {
         }
     }
 
@@ -76,7 +71,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// </summary>
     /// <remarks>
     /// Use <see cref="AsParallelReader"/> to create a parallel reader for a list.
-    /// The list must live at least as long as the parallel reader, and the parallel reader must not be used after the list is disposed.
+    /// The list must live and the address of the list remain stable at least as long as the parallel reader, and the parallel reader must not be used after the list is disposed.
     /// </remarks>
     public readonly unsafe struct ParallelReader
     {
@@ -102,7 +97,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
         public readonly Enumerator GetEnumerator()
         {
-            return new Enumerator(listData);
+            return new Enumerator(ref *listData);
         }
 
         public readonly ReadOnlySpan<T> AsSpan()
@@ -116,7 +111,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// </summary>
     /// <remarks>
     /// Use <see cref="AsParallelWriter"/> to create a parallel writer for a list.
-    /// The list must live at least as long as the parallel writer, and the parallel writer must not be used after the list is disposed.
+    /// The list must live and the address of the list remain stable at least as long as the parallel writer, and the parallel writer must not be used after the list is disposed.
     /// </remarks>
     public readonly struct ParallelWriter
     {
@@ -247,21 +242,10 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
     public Enumerator GetEnumerator()
     {
-        return new((UnsafeList<T>*)UnsafeUtility.AddressOf(ref this));
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    IEnumerator<T> IEnumerable<T>.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
+        return new Enumerator(ref this);
     }
 
     /// <summary>

@@ -3,6 +3,7 @@ using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -44,34 +45,28 @@ internal class ConcurrentSparseSetDebugView<T>
 public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
-    public struct Enumerator : IEnumerator<T>
+    public ref struct Enumerator
     {
-        private readonly UnsafeSparseSet<T>* _collection;
+        private ref UnsafeSparseSet<T> _collection;
         private int _currentIndex;
 
-        public readonly ref T Current => ref _collection->_dense[_currentIndex];
-        readonly T IEnumerator<T>.Current => Current;
-        readonly object IEnumerator.Current => Current;
+        public readonly ref T Current => ref _collection._dense[_currentIndex];
 
-        public Enumerator(UnsafeSparseSet<T>* collection)
+        public Enumerator(ref UnsafeSparseSet<T> collection)
         {
-            _collection = collection;
+            _collection = ref collection;
             _currentIndex = -1;
         }
 
         public bool MoveNext()
         {
             _currentIndex++;
-            return _currentIndex < _collection->_count;
+            return _currentIndex < _collection._count;
         }
 
         public void Reset()
         {
             _currentIndex = -1;
-        }
-
-        public readonly void Dispose()
-        {
         }
     }
 
@@ -89,26 +84,11 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     public readonly int Capacity => _capacity;
     public readonly bool IsCreated => _dense.IsCreated && _sparse.IsCreated && _reverse.IsCreated;
 
-    public Enumerator GetEnumerator()
-    {
-        return new((UnsafeSparseSet<T>*)UnsafeUtility.AddressOf(ref this));
-    }
-
-    IEnumerator<T> IEnumerable<T>.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
     /// <summary>
     /// Constructs an UnsafeSparseSet with a default size of 1 and uses the Persistent allocator.
     /// </summary>
     public UnsafeSparseSet()
-        : this(1, Allocator.Persistent)
+        : this(0, Allocator.Invalid)
     {
     }
 
@@ -162,6 +142,13 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     private readonly ref T GetDenseReferenceUnchecked(int sparseIndex)
     {
         return ref _dense[_sparse[sparseIndex]];
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
+    public Enumerator GetEnumerator()
+    {
+        return new Enumerator(ref this);
     }
 
     /// <summary>

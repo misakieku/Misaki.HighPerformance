@@ -27,7 +27,7 @@ public unsafe interface IUnsafeCollection : IDisposable
     void* GetUnsafePtr();
 }
 
-public interface IUnsafeCollection<T> : IUnsafeCollection, IEnumerable<T>
+public interface IUnsafeCollection<T> : IUnsafeCollection
     where T : unmanaged
 {
     /// <summary>
@@ -47,7 +47,7 @@ public interface IUnsafeCollection<T> : IUnsafeCollection, IEnumerable<T>
     void Resize(int newSize, AllocationOption option);
 }
 
-public interface IUnsafeHashCollection<T> : IEnumerable<T>, IDisposable
+public interface IUnsafeHashCollection<T> : IDisposable
     where T : unmanaged
 {
     /// <summary>

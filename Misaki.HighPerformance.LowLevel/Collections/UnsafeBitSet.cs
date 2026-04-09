@@ -1,5 +1,7 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -36,18 +38,18 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
 {
     public ref struct Iterator
     {
-        private readonly UnsafeBitSet* _bitSet;
+        private ref UnsafeBitSet _bitSet;
         private int _currentBit;
 
-        public Iterator(UnsafeBitSet* bitSet, int start)
+        public Iterator(ref UnsafeBitSet bitSet, int start)
         {
-            _bitSet = bitSet;
+            _bitSet = ref bitSet;
             _currentBit = start - 1;
         }
 
         public bool Next(out int bitIndex)
         {
-            _currentBit = _bitSet->NextSetBit(_currentBit + 1);
+            _currentBit = _bitSet.NextSetBit(_currentBit + 1);
             bitIndex = _currentBit;
             return _currentBit != -1;
         }
@@ -128,6 +130,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int RoundToPadding(int length)
     {
         return (length + s_padding - 1) / s_padding * s_padding;
@@ -138,14 +141,17 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     /// </summary>
     /// <param name="id">The ID or bit.</param>
     /// <returns>A size of required <see cref="uint"/>s for the bitset.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int RequiredLength(int id)
     {
         return (id >> _INDEX_SIZE) + int.Sign(id & _BIT_SIZE);
     }
 
-    public readonly Iterator GetIterator(int start = 0)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
+    public Iterator GetIterator(int start = 0)
     {
-        return new Iterator((UnsafeBitSet*)Unsafe.AsPointer(in this), start);
+        return new Iterator(ref this, start);
     }
 
     /// <summary>
@@ -153,6 +159,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     /// </summary>
     /// <param name="index">The index.</param>
     /// <returns>True if it is, otherwise false</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly bool IsSet(int index)
     {
         var b = index >> _INDEX_SIZE;
@@ -169,6 +176,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     /// Resizes its internal array if necessary.
     /// </summary>
     /// <param name="index">The index.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void SetBit(int index)
     {
         var b = index >> _INDEX_SIZE;
@@ -188,6 +196,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     /// Clears the bit at the given index.
     /// </summary>
     /// <param name="index">The index.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void ClearBit(int index)
     {
         var b = index >> _INDEX_SIZE;
@@ -202,6 +211,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     /// <summary>
     /// Sets all bits.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void SetAll()
     {
         _bits.AsSpan().Fill(0xffffffff);
@@ -213,6 +223,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     /// <summary>
     /// Clears all set bits.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void ClearAll()
     {
         _bits.Clear();

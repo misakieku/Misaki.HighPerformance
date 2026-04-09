@@ -2,6 +2,7 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -13,19 +14,17 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
-    public struct Enumerator : IEnumerator<T>
+    public ref struct Enumerator
     {
-        private readonly UnsafeQueue<T>* _collection;
+        private readonly ref UnsafeQueue<T> _collection;
         private int _currentIndex;
 
         // We assume _currentIndex will always be in range when accessed.
-        public readonly ref T Current => ref _collection->_array[(_collection->_offset + _currentIndex) % _collection->Capacity];
-        readonly T IEnumerator<T>.Current => Current;
-        readonly object IEnumerator.Current => Current;
+        public readonly ref T Current => ref _collection._array[(_collection._offset + _currentIndex) % _collection.Capacity];
 
-        public Enumerator(UnsafeQueue<T>* collection)
+        public Enumerator(ref UnsafeQueue<T> collection)
         {
-            _collection = collection;
+            _collection = ref collection;
             _currentIndex = -1;
         }
 
@@ -33,16 +32,12 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
         public bool MoveNext()
         {
             _currentIndex++;
-            return _currentIndex < _collection->_count;
+            return _currentIndex < _collection._count;
         }
 
         public void Reset()
         {
             _currentIndex = -1;
-        }
-
-        public readonly void Dispose()
-        {
         }
     }
 
@@ -60,21 +55,6 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
         get => _array[index];
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         set => _array[index] = value;
-    }
-
-    public Enumerator GetEnumerator()
-    {
-        return new((UnsafeQueue<T>*)UnsafeUtility.AddressOf(ref this));
-    }
-
-    IEnumerator<T> IEnumerable<T>.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
     }
 
     /// <summary>
@@ -95,6 +75,13 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     public UnsafeQueue(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationType)
     {
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
+    public Enumerator GetEnumerator()
+    {
+        return new Enumerator(ref this);
     }
 
     /// <summary>

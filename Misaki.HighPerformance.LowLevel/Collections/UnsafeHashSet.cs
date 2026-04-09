@@ -1,7 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
-using Misaki.HighPerformance.LowLevel.Utilities;
-using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -11,19 +10,18 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 /// removing, and checking for values.
 /// </summary>
 /// <typeparam name="T">Represents an unmanaged type that can be compared for equality.</typeparam>
-public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
+public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
     where T : unmanaged, IEquatable<T>
 {
-    public struct Enumerator : IEnumerator<T>
+    public ref struct Enumerator
     {
         internal HashMapHelper<T>.Enumerator _enumerator;
 
-        public readonly T Current => _enumerator.buffer->_keys[_enumerator.index];
-        readonly object IEnumerator.Current => Current;
+        public readonly T Current => _enumerator.helper._keys[_enumerator.index];
 
-        public Enumerator(HashMapHelper<T>* hashMap)
+        public Enumerator(ref HashMapHelper<T> hashMap)
         {
-            _enumerator = new HashMapHelper<T>.Enumerator(hashMap);
+            _enumerator = new HashMapHelper<T>.Enumerator(ref hashMap);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -36,10 +34,6 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
         {
             _enumerator.Reset();
         }
-
-        public readonly void Dispose()
-        {
-        }
     }
 
     private HashMapHelper<T> _helper;
@@ -47,21 +41,6 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     public readonly int Count => _helper.Count;
     public readonly int Capacity => _helper.Capacity;
     public readonly bool IsCreated => _helper.IsCreated;
-
-    public Enumerator GetEnumerator()
-    {
-        return new((HashMapHelper<T>*)UnsafeUtility.AddressOf(ref this));
-    }
-
-    IEnumerator<T> IEnumerable<T>.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
 
     /// <summary>
     /// Invalid constructor. Use <see cref="UnsafeHashSet(int, Allocator, AllocationOption)"/> or <see cref="UnsafeHashSet(int, AllocationHandle, AllocationOption)"/> instead."/>
@@ -79,6 +58,13 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IEnumerable<T>
     public UnsafeHashSet(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
+    public Enumerator GetEnumerator()
+    {
+        return new Enumerator(ref _helper);
     }
 
     /// <summary>

@@ -2,6 +2,7 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -10,16 +11,15 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     where TKey : unmanaged, IEquatable<TKey>
     where TValue : unmanaged
 {
-    public struct Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>
+    public ref struct Enumerator
     {
         internal HashMapHelper<TKey>.Enumerator _enumerator;
 
         public KeyValuePair<TKey, TValue> Current => _enumerator.GetCurrent<TValue>();
-        object IEnumerator.Current => Current;
 
-        public Enumerator(HashMapHelper<TKey>* data)
+        public Enumerator(ref HashMapHelper<TKey> data)
         {
-            _enumerator = new HashMapHelper<TKey>.Enumerator(data);
+            _enumerator = new HashMapHelper<TKey>.Enumerator(ref data);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -75,21 +75,6 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
         }
     }
 
-    public Enumerator GetEnumerator()
-    {
-        return new((HashMapHelper<TKey>*)UnsafeUtility.AddressOf(ref this));
-    }
-
-    IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
     /// <summary>
     /// Invalid constructor, use <see cref="UnsafeHashMap(int, Allocator, AllocationOption)"/> or <see cref="UnsafeHashMap(int, AllocationHandle, AllocationOption)"/> instead.
     /// </summary>
@@ -106,6 +91,13 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     public UnsafeHashMap(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
+    public Enumerator GetEnumerator()
+    {
+        return new Enumerator(ref _helper);
     }
 
     /// <summary>

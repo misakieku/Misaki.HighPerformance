@@ -3,6 +3,7 @@ using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
@@ -42,34 +43,28 @@ internal class UnsafeSlotMapDebugView<T>
 public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     where T : unmanaged
 {
-    public struct Enumerator : IEnumerator<T>
+    public ref struct Enumerator
     {
-        private readonly UnsafeSlotMap<T>* _collection;
+        private ref UnsafeSlotMap<T> _collection;
         private int _currentIndex;
 
-        public readonly ref T Current => ref _collection->_data[_currentIndex];
-        readonly T IEnumerator<T>.Current => Current;
-        readonly object? IEnumerator.Current => Current;
+        public readonly ref T Current => ref _collection._data[_currentIndex];
 
-        public Enumerator(UnsafeSlotMap<T>* collection)
+        public Enumerator(ref UnsafeSlotMap<T> collection)
         {
-            _collection = collection;
+            _collection = ref collection;
             _currentIndex = -1;
         }
 
         public bool MoveNext()
         {
-            _currentIndex = _collection->_validBits.NextSetBit(_currentIndex + 1);
+            _currentIndex = _collection._validBits.NextSetBit(_currentIndex + 1);
             return _currentIndex != -1;
         }
 
         public void Reset()
         {
             _currentIndex = -1;
-        }
-
-        public void Dispose()
-        {
         }
     }
 
@@ -85,21 +80,6 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     public readonly int Capacity => _capacity;
 
     public readonly bool IsCreated => _data.IsCreated && _generations.IsCreated && _freeSlots.IsCreated && _validBits.IsCreated;
-
-    public Enumerator GetEnumerator()
-    {
-        return new((UnsafeSlotMap<T>*)UnsafeUtility.AddressOf(ref this));
-    }
-
-    IEnumerator<T> IEnumerable<T>.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
 
     /// <summary>
     /// Invalid constructor. Use <see cref="UnsafeSlotMap(int, Allocator, AllocationOption)"/> or <see cref="UnsafeSlotMap(int, AllocationHandle, AllocationOption)"/> instead."/>
@@ -149,6 +129,13 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     public UnsafeSlotMap(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
+    public Enumerator GetEnumerator()
+    {
+        return new Enumerator(ref this);
     }
 
     /// <summary>
@@ -328,7 +315,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
     public readonly void* GetUnsafePtr()
     {
-        return (T*)_data.GetUnsafePtr() + 1;
+        return (T*)_data.GetUnsafePtr();
     }
 
     public void Dispose()
