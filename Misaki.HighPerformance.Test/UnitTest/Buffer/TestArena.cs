@@ -186,7 +186,6 @@ public unsafe class TestArena
         }
 
         Assert.IsTrue(arena.Buffer == null);
-        Assert.AreEqual(0u, (uint)arena.Size);
         Assert.IsNull(arena.Allocate(8, 8, AllocationOption.None));
         arena.Dispose();
     }

@@ -232,14 +232,18 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
 
     public void Dispose()
     {
-        if (_baseAddress != null)
+        if (_baseAddress == null)
         {
-            Munmap(_baseAddress, _reserveCapacity);
-
-            _baseAddress = null;
-            _reserveCapacity = 0;
-            _committedSize = 0;
-            _allocatedOffset = 0;
+            return;
         }
+
+        var ptr = _baseAddress;
+
+        _baseAddress = null;
+        _allocatedOffset = 0;
+        _committedSize = 0;
+        _reserveCapacity = 0;
+
+        Munmap(ptr, _reserveCapacity);
     }
 }

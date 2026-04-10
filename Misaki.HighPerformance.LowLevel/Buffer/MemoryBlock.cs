@@ -10,8 +10,10 @@ public unsafe struct MemoryBlock : IDisposable
     private nuint _size;
     private nuint _alignment;
 
-    private MemoryHandle _memoryHandle;
-    private AllocationHandle _allocationHandle;
+#if MHP_ENABLE_SAFETY_CHECKS
+    private readonly MemoryHandle _memoryHandle;
+#endif
+    private readonly AllocationHandle _allocationHandle;
 
     public readonly nuint Size => _size;
     public readonly nuint Alignment => _alignment;
@@ -23,14 +25,7 @@ public unsafe struct MemoryBlock : IDisposable
 #if MHP_ENABLE_SAFETY_CHECKS
             if (_buffer != null)
             {
-                if (_allocationHandle.IsValid != null)
-                {
-                    return _allocationHandle.IsValid(_allocationHandle.State, _memoryHandle);
-                }
-                else
-                {
-                    return true;
-                }
+                return _memoryHandle.IsValid;
             }
 
             return false;
@@ -54,19 +49,12 @@ public unsafe struct MemoryBlock : IDisposable
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
-#if MHP_ENABLE_SAFETY_CHECKS
-        MemoryHandle memHandle;
-#endif
-        _buffer = handle.Alloc(handle.State, size, alignment, allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , &memHandle
-#endif
-            );
+        _buffer = handle.Alloc(handle.State, size, alignment, allocationOption);
         _size = size;
         _alignment = alignment;
 
 #if MHP_ENABLE_SAFETY_CHECKS
-        _memoryHandle = memHandle;
+        _memoryHandle = MemoryHandle.Create(_buffer, _size);
 #endif
         _allocationHandle = handle;
     }
@@ -121,17 +109,10 @@ public unsafe struct MemoryBlock : IDisposable
             return;
         }
 
-#if MHP_ENABLE_SAFETY_CHECKS
-        var memHandle = _memoryHandle;
-#endif
-        _buffer = _allocationHandle.Realloc(_allocationHandle.State, _buffer, _size, newSize, _alignment, option
-#if MHP_ENABLE_SAFETY_CHECKS
-            , &memHandle
-#endif
-            );
+        _buffer = _allocationHandle.Realloc(_allocationHandle.State, _buffer, _size, newSize, _alignment, option);
         _size = newSize;
 #if MHP_ENABLE_SAFETY_CHECKS
-        _memoryHandle = memHandle;
+        _memoryHandle.Update(_buffer, _size);
 #endif
     }
 
@@ -277,44 +258,19 @@ public unsafe struct MemoryBlock : IDisposable
     {
         if (!IsCreated)
         {
-#if DEBUG
-            if (_buffer == null)
-            {
-                return;
-            }
-
-            var message = "The UnTypedArray is not created or already disposed.";
-#if MHP_ENABLE_STACKTRACE
-            var stackTrace = new StackTrace(1, true);
-            var sb = new System.Text.StringBuilder();
-            foreach (var frame in stackTrace.GetFrames())
-            {
-                var fileName = frame?.GetFileName();
-                if (frame != null)
-                {
-                    var methodInfo = DiagnosticMethodInfo.Create(frame);
-                    sb.AppendLine($"File: {fileName}, Type: {methodInfo?.DeclaringTypeName}, Method: {methodInfo?.Name}, Line: {frame.GetFileLineNumber()}");
-                }
-            }
-
-            message += Environment.NewLine + sb.ToString();
-#endif
-            Debug.WriteLine(message);
-#endif
+            UnsafeCollectionUtility.ReportDoubleFree<MemoryBlock>(_buffer);
             return;
         }
 
         if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.State, _buffer
-#if MHP_ENABLE_SAFETY_CHECKS
-                , _memoryHandle
-#endif
-                );
+            _allocationHandle.Free(_allocationHandle.State, _buffer);
         }
 
+#if MHP_ENABLE_SAFETY_CHECKS
+        _memoryHandle.Dispose();
+#endif
+
         _buffer = null;
-        _size = 0;
-        _alignment = 0;
     }
 }

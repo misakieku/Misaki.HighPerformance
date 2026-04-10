@@ -474,6 +474,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             MemoryUtility.Free(_blocks);
             _blocks = null;
         }
+
         if (_slBitmaps != null)
         {
             MemoryUtility.Free(_slBitmaps);
@@ -481,14 +482,13 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
         }
 
         MemoryChunk* chunk = _chunks;
+        _chunks = null;
+
         while (chunk != null)
         {
             MemoryChunk* next = chunk->next;
             AlignedFree(chunk->memory);
             chunk = next;
         }
-
-        _chunks = null;
-        _flBitmap = 0;
     }
 }

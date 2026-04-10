@@ -33,9 +33,6 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
             _allocator = allocator;
             _handle = handle;
             _originalOffset = allocator->_offset;
-#if MHP_ENABLE_SAFETY_CHECKS
-            _allocator->_activeScopeCount++;
-#endif
         }
 
         public void Dispose()
@@ -43,9 +40,6 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
             if (_allocator != null)
             {
                 _allocator->_offset = _allocator->_offset > _originalOffset ? _originalOffset : _allocator->_offset;
-#if MHP_ENABLE_SAFETY_CHECKS
-                _allocator->_activeScopeCount--;
-#endif
             }
         }
     }
@@ -53,9 +47,6 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
     private byte* _buffer;
     private nuint _size;
     private nuint _offset;
-#if MHP_ENABLE_SAFETY_CHECKS
-    private uint _activeScopeCount;
-#endif
 
     public readonly byte* Buffer => _buffer;
     public readonly nuint Size => _size;
@@ -72,9 +63,6 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
         _buffer = (byte*)Malloc(size);
         _size = size;
         _offset = 0;
-#if MHP_ENABLE_SAFETY_CHECKS
-        _activeScopeCount = 0;
-#endif
     }
 
     /// <summary>
@@ -101,13 +89,6 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
     /// there is insufficient space in the buffer.</returns>
     public void* Allocate(nuint size, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
     {
-#if MHP_ENABLE_SAFETY_CHECKS
-        if (_activeScopeCount == 0)
-        {
-            throw new InvalidOperationException("Allocations can only be made within an active memory scope.");
-        }
-#endif
-
         if (size == 0)
         {
             return null;
@@ -197,10 +178,12 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
             return;
         }
 
-        MemoryUtility.Free(_buffer);
+        var ptr = _buffer;
 
         _buffer = null;
-        _size = 0;
         _offset = 0;
+        _size = 0;
+
+        MemoryUtility.Free(ptr);
     }
 }

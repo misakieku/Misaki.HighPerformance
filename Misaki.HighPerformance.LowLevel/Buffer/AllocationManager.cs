@@ -94,27 +94,15 @@ public static unsafe class AllocationManager
                 State = null,
                 Alloc = &Allocate,
                 Realloc = &Reallocate,
-                Free = &Free,
-#if MHP_ENABLE_SAFETY_CHECKS
-                IsValid = &IsValid
-#else
-                IsValid = null
-#endif
+                Free = &Free
             };
         }
 
-        private static void* Allocate(void* _, nuint size, nuint alignment, AllocationOption allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , MemoryHandle* pHandle
-#endif
-            )
+        private static void* Allocate(void* _, nuint size, nuint alignment, AllocationOption allocationOption)
         {
             var ptr = AlignedAlloc(size, alignment);
             if (ptr == null)
             {
-#if MHP_ENABLE_SAFETY_CHECKS
-                *pHandle = MemoryHandle.Invalid;
-#endif
                 return null;
             }
 
@@ -123,38 +111,12 @@ public static unsafe class AllocationManager
                 MemClear(ptr, size);
             }
 
-#if MHP_ENABLE_SAFETY_CHECKS
-            *pHandle = AddAllocation(ptr, size);
-#endif
             return ptr;
         }
 
-        private static void* Reallocate(void* _, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , MemoryHandle* pHandle
-#endif
-            )
+        private static void* Reallocate(void* _, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
         {
             var newPtr = AlignedRealloc(ptr, newSize, alignment);
-
-#if MHP_ENABLE_SAFETY_CHECKS
-            if (ptr == null && newPtr != null)
-            {
-                AddAllocation(newPtr, newSize);
-            }
-            else
-            {
-                if (newPtr == null)
-                {
-                    RemoveAllocation(*pHandle);
-                }
-                else
-                {
-                    UpdateAllocation(*pHandle, newPtr, newSize);
-                }
-            }
-#endif
-
             if (newPtr == null)
             {
                 return null;
@@ -170,16 +132,9 @@ public static unsafe class AllocationManager
             return newPtr;
         }
 
-        private static void Free(void* _, void* ptr
-#if MHP_ENABLE_SAFETY_CHECKS
-            , MemoryHandle handle
-#endif
-            )
+        private static void Free(void* _, void* ptr)
         {
             AlignedFree(ptr);
-#if MHP_ENABLE_SAFETY_CHECKS
-            RemoveAllocation(handle);
-#endif
         }
 
 #if MHP_ENABLE_SAFETY_CHECKS
@@ -332,7 +287,7 @@ public static unsafe class AllocationManager
     public static VirtualStack.Scope CreateStackScope()
     {
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-        
+
         EnsureThreadLocalStackInitialize();
         return t_stackAllocator.Allocator.CreateScope(t_stackAllocator.AllocationHandle);
     }
@@ -373,15 +328,23 @@ public static unsafe class AllocationManager
 #if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
-        if (s_allocations.TryGetElement(handle.ID, handle.Generation, out var oldInfo))
+        if (newPtr == null)
         {
-            var newInfo = oldInfo with
-            {
-                Address = (IntPtr)newPtr,
-                Size = newSize
-            };
+            s_allocations.Remove(handle.ID, handle.Generation);
+        }
+        else
+        {
 
-            s_allocations.UpdateElement(handle.ID, handle.Generation, newInfo);
+            if (s_allocations.TryGetElement(handle.ID, handle.Generation, out var oldInfo))
+            {
+                var newInfo = oldInfo with
+                {
+                    Address = (IntPtr)newPtr,
+                    Size = newSize
+                };
+
+                s_allocations.UpdateElement(handle.ID, handle.Generation, newInfo);
+            }
         }
 #endif
     }
@@ -501,7 +464,6 @@ public static unsafe class AllocationManager
                 if (pStack != null)
                 {
                     pStack->Dispose();
-                    Free(pStack);
                 }
             }
 

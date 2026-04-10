@@ -159,10 +159,12 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
             return;
         }
 
-        MemoryUtility.Free(_buffer);
+        var ptr = _buffer;
 
         _buffer = null;
         _size = 0;
         _offset = 0;
+
+        MemoryUtility.Free(ptr);
     }
 }

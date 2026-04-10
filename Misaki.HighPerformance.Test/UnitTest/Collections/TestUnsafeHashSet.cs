@@ -17,10 +17,7 @@ public class TestUnsafeHashSet
     [TestCleanup]
     public void Cleanup()
     {
-        if (_set.IsCreated)
-        {
-            _set.Dispose();
-        }
+        _set.Dispose();
     }
 
     [TestMethod]

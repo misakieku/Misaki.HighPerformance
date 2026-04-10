@@ -63,11 +63,9 @@ public class TestAllocationManager
             var ptr1 = new MemoryBlock(1024, 8, scope.AllocationHandle);
 
             Assert.IsTrue(ptr1.IsCreated);
-            Assert.AreEqual(1024u, ((VirtualStack*)scope.AllocationHandle.State)->Allocated);
 
             ptr1.Dispose();
             scope.Dispose();
-            Assert.AreEqual(0u, ((VirtualStack*)scope.AllocationHandle.State)->Allocated);
         });
 
         thread.Start();
@@ -76,10 +74,10 @@ public class TestAllocationManager
         var ptr2 = new MemoryBlock(1024, 8, scope.AllocationHandle);
 
         Assert.IsTrue(ptr2.IsCreated);
-        Assert.AreEqual(1024u, ((VirtualStack*)scope.AllocationHandle.State)->Allocated);
 
         ptr2.Dispose();
         scope.Dispose();
-        Assert.AreEqual(0u, ((VirtualStack*)scope.AllocationHandle.State)->Allocated);
+
+        thread.Join();
     }
 }

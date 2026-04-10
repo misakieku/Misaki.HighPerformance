@@ -717,16 +717,6 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             }
         }
 
-        var chunk = _chunks;
-        while (chunk != null)
-        {
-            var next = chunk->next;
-            AlignedFree(chunk->memory);
-            chunk = next;
-        }
-
-        _chunkArena.Dispose();
-
         if (_caches != null)
         {
             MemoryUtility.Free(_caches);
@@ -739,7 +729,17 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             _instanceId = null;
         }
 
+        var arena = _chunkArena;
+        var chunk = _chunks;
         _chunks = null;
-        _cacheCount = 0;
+
+        while (chunk != null)
+        {
+            var next = chunk->next;
+            AlignedFree(chunk->memory);
+            chunk = next;
+        }
+
+        arena.Dispose();
     }
 }

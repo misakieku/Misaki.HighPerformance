@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
-public readonly struct MemoryHandle : IEquatable<MemoryHandle>
+public readonly struct MemoryHandle : IDisposable, IEquatable<MemoryHandle>
 {
     public readonly int ID
     {
@@ -16,10 +16,23 @@ public readonly struct MemoryHandle : IEquatable<MemoryHandle>
 
     public static readonly MemoryHandle Invalid = default;
 
+    public bool IsValid => AllocationManager.ContainsAllocation(this);
+    public bool IsInvalid => !IsValid;
+
     public MemoryHandle(int id, int generation)
     {
         ID = id + 1;
         Generation = generation + 1;
+    }
+
+    public unsafe static MemoryHandle Create(void* address, nuint size)
+    {
+        return AllocationManager.AddAllocation(address, size);
+    }
+
+    public unsafe void Update(void* newAddress, nuint newSize)
+    {
+        AllocationManager.UpdateAllocation(this, newAddress, newSize);
     }
 
     public bool Equals(MemoryHandle other)
@@ -42,6 +55,11 @@ public readonly struct MemoryHandle : IEquatable<MemoryHandle>
         return $"MemoryHandle(Id: {ID}, Generation: {Generation})";
     }
 
+    public void Dispose()
+    {
+        AllocationManager.RemoveAllocation(this);
+    }
+
     public static bool operator ==(MemoryHandle left, MemoryHandle right)
     {
         return left.Equals(right);
@@ -61,7 +79,7 @@ public readonly unsafe struct AllocationHandle
     /// <summary>
     /// Gets a pointer to the state instance associated with this allocation handle.
     /// </summary>
-    public void* State
+    public required void* State
     {
         get; init;
     }
@@ -69,7 +87,7 @@ public readonly unsafe struct AllocationHandle
     /// <summary>
     /// Gets a function pointer for allocating memory.
     /// </summary>
-    public AllocFunc Alloc
+    public required AllocFunc Alloc
     {
         get; init;
     }
@@ -77,7 +95,7 @@ public readonly unsafe struct AllocationHandle
     /// <summary>
     /// Gets a function pointer for reallocating memory.
     /// </summary>
-    public ReallocFunc Realloc
+    public required ReallocFunc Realloc
     {
         get; init;
     }
@@ -85,15 +103,7 @@ public readonly unsafe struct AllocationHandle
     /// <summary>
     /// Gets a function pointer for freeing allocated memory.
     /// </summary>
-    public FreeFunc Free
-    {
-        get; init;
-    }
-
-    /// <summary>
-    /// Gets a function pointer for validating a memory handle.
-    /// </summary>
-    public IsValidFunc IsValid
+    public required FreeFunc Free
     {
         get; init;
     }

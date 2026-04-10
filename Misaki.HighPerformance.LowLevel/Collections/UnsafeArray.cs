@@ -108,14 +108,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 #if MHP_ENABLE_SAFETY_CHECKS
             if (_buffer != null)
             {
-                if (_allocationHandle.IsValid != null)
-                {
-                    return _allocationHandle.IsValid(_allocationHandle.State, _memoryHandle);
-                }
-                else
-                {
-                    return true;
-                }
+                return _memoryHandle.IsValid;
             }
 
             return false;
@@ -149,18 +142,9 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
+        _buffer = (T*)handle.Alloc(handle.State, (nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption);
 #if MHP_ENABLE_SAFETY_CHECKS
-        MemoryHandle memHandle;
-#endif
-        var buff = handle.Alloc(handle.State, (nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , &memHandle
-#endif
-            );
-
-        _buffer = (T*)buff;
-#if MHP_ENABLE_SAFETY_CHECKS
-        _memoryHandle = memHandle;
+        _memoryHandle = MemoryHandle.Create(_buffer, (nuint)(count * sizeof(T)));
 #endif
         _allocationHandle = handle;
         _count = count;
@@ -247,19 +231,12 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
-#if MHP_ENABLE_SAFETY_CHECKS
-        MemoryHandle memHandle = _memoryHandle;
-#endif
         var elemSize = SizeOf<T>();
-        _buffer = (T*)_allocationHandle.Realloc(_allocationHandle.State, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option
-#if MHP_ENABLE_SAFETY_CHECKS
-            , &memHandle
-#endif
-            );
-#if MHP_ENABLE_SAFETY_CHECKS
-        _memoryHandle = memHandle;
-#endif
+        _buffer = (T*)_allocationHandle.Realloc(_allocationHandle.State, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option);
         _count = newSize;
+#if MHP_ENABLE_SAFETY_CHECKS
+        _memoryHandle.Update(_buffer, (nuint)newSize * elemSize);
+#endif
     }
 
     /// <inheritdoc/>
@@ -407,41 +384,18 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     {
         if (!IsCreated)
         {
-#if DEBUG
-            if (_buffer == null)
-            {
-                return;
-            }
-
-            var message = "The UnsafeArray is not created or already disposed.";
-#if MHP_ENABLE_STACKTRACE
-            var stackTrace = new StackTrace(1, true);
-            var sb = new System.Text.StringBuilder();
-            foreach (var frame in stackTrace.GetFrames())
-            {
-                var fileName = frame?.GetFileName();
-                if (frame != null)
-                {
-                    var methodInfo = DiagnosticMethodInfo.Create(frame);
-                    sb.AppendLine($"File: {fileName}, Type: {methodInfo?.DeclaringTypeName}, Method: {methodInfo?.Name}, Line: {frame.GetFileLineNumber()}");
-                }
-            }
-
-            message += Environment.NewLine + sb.ToString();
-#endif
-            Debug.WriteLine(message);
-#endif
+            UnsafeCollectionUtility.ReportDoubleFree<UnsafeArray<T>>(_buffer);
             return;
         }
 
         if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.State, _buffer
-#if MHP_ENABLE_SAFETY_CHECKS
-                , _memoryHandle
-#endif
-                );
+            _allocationHandle.Free(_allocationHandle.State, _buffer);
         }
+
+#if MHP_ENABLE_SAFETY_CHECKS
+        _memoryHandle.Dispose();
+#endif
 
         _buffer = null;
         _count = 0;

@@ -1,5 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Utilities;
@@ -8,8 +9,35 @@ namespace Misaki.HighPerformance.LowLevel.Utilities;
 /// Provides extension methods for copying elements between unsafe collections and spans, converting collections to
 /// arrays or lists, and searching for values.
 /// </summary>
-public static unsafe class UnsafeCollectionExtensions
+public static unsafe class UnsafeCollectionUtility
 {
+    [Conditional("DEBUG")]
+    internal static void ReportDoubleFree<T>(void* buffer)
+    {
+        if (buffer == null)
+        {
+            return;
+        }
+
+        var message = $"The {typeof(T).Name} is not created or already disposed.";
+#if MHP_ENABLE_STACKTRACE
+        var stackTrace = new StackTrace(1, true);
+        var sb = new System.Text.StringBuilder();
+        foreach (var frame in stackTrace.GetFrames())
+        {
+            var fileName = frame?.GetFileName();
+            if (frame != null)
+            {
+                var methodInfo = DiagnosticMethodInfo.Create(frame);
+                sb.AppendLine($"File: {fileName}, Type: {methodInfo?.DeclaringTypeName}, Method: {methodInfo?.Name}, Line: {frame.GetFileLineNumber()}");
+            }
+        }
+
+        message += Environment.NewLine + sb.ToString();
+#endif
+        Debug.WriteLine(message);
+    }
+
     /// <summary>
     /// Converts a managed array to an UnsafeArray by copying its elements to unmanaged memory.
     /// </summary>

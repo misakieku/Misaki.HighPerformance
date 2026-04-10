@@ -54,10 +54,6 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
             return default;
         }
-
-        public void Dispose()
-        {
-        }
     }
 
     // This buffer has 4 parts: TValue, TKey, Next, Buckets.
@@ -99,14 +95,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 #if MHP_ENABLE_SAFETY_CHECKS
             if (_buffer != null)
             {
-                if (_allocationHandle.IsValid != null)
-                {
-                    return _allocationHandle.IsValid(_allocationHandle.State, _memoryHandle);
-                }
-                else
-                {
-                    return true;
-                }
+                return _memoryHandle.IsValid;
             }
 
             return false;
@@ -156,7 +145,13 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         var totalSize = CalculateDataSize(_capacity, _bucketCapacity, sizeOfTValue,
             out var keyOffset, out var nextOffset, out var bucketOffset);
 
+        allocationOption &= ~AllocationOption.Clear;
         AllocateBuffer(totalSize, keyOffset, nextOffset, bucketOffset, allocationOption);
+
+#if MHP_ENABLE_SAFETY_CHECKS
+        _memoryHandle = MemoryHandle.Create(_buffer, (nuint)totalSize);
+#endif
+
         Clear();
     }
 
@@ -256,22 +251,12 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
-#if MHP_ENABLE_SAFETY_CHECKS
-        MemoryHandle memHandle;
-#endif
-        var buf = (byte*)_allocationHandle.Alloc(_allocationHandle.State, (uint)totalSize, (nuint)_alignment, allocationOption
-#if MHP_ENABLE_SAFETY_CHECKS
-            , &memHandle
-#endif
-            );
+        var buf = (byte*)_allocationHandle.Alloc(_allocationHandle.State, (uint)totalSize, (nuint)_alignment, allocationOption);
 
         _buffer = buf;
         _keys = (TKey*)(_buffer + keyOffset);
         _next = (int*)(_buffer + nextOffset);
         _buckets = (int*)(_buffer + bucketOffset);
-#if MHP_ENABLE_SAFETY_CHECKS
-        _memoryHandle = memHandle;
-#endif
     }
 
     private void ResizeExact(int newCapacity, int newBucketCapacity)
@@ -284,9 +269,6 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         var oldNext = _next;
         var oldBuckets = _buckets;
         var oldBucketCapacity = _bucketCapacity;
-#if MHP_ENABLE_SAFETY_CHECKS
-        var oldMemoryHandle = _memoryHandle;
-#endif
 
         AllocateBuffer(totalSize, keyOffset, nextOffset, bucketOffset, AllocationOption.None);
         _capacity = newCapacity;
@@ -305,12 +287,12 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
         if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.State, oldBuffer
-#if MHP_ENABLE_SAFETY_CHECKS
-                , oldMemoryHandle
-#endif
-                );
+            _allocationHandle.Free(_allocationHandle.State, oldBuffer);
         }
+
+#if MHP_ENABLE_SAFETY_CHECKS
+        _memoryHandle.Update(_buffer, (nuint)totalSize);
+#endif
     }
 
     public void Resize(int newCapacity)
@@ -719,41 +701,18 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     {
         if (!IsCreated)
         {
-#if DEBUG
-            if (_buffer == null)
-            {
-                return;
-            }
-
-            var message = "The HashMapHelper is not created or already disposed.";
-#if MHP_ENABLE_STACKTRACE
-            var stackTrace = new StackTrace(1, true);
-            var sb = new System.Text.StringBuilder();
-            foreach (var frame in stackTrace.GetFrames())
-            {
-                var fileName = frame?.GetFileName();
-                if (frame != null)
-                {
-                    var methodInfo = DiagnosticMethodInfo.Create(frame);
-                    sb.AppendLine($"File: {fileName}, Type: {methodInfo?.DeclaringTypeName}, Method: {methodInfo?.Name}, Line: {frame.GetFileLineNumber()}");
-                }
-            }
-
-            message += Environment.NewLine + sb.ToString();
-#endif
-            Debug.WriteLine(message);
-#endif
+            UnsafeCollectionUtility.ReportDoubleFree<HashMapHelper<TKey>>(_buffer);
             return;
         }
 
         if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.State, _buffer
-#if MHP_ENABLE_SAFETY_CHECKS
-                , _memoryHandle
-#endif
-                );
+            _allocationHandle.Free(_allocationHandle.State, _buffer);
         }
+
+#if MHP_ENABLE_SAFETY_CHECKS
+        _memoryHandle.Dispose();
+#endif
 
         _buffer = null;
         _keys = null;

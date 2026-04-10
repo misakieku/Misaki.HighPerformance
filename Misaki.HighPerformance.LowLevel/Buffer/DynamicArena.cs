@@ -183,7 +183,12 @@ public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.
             return;
         }
 
-        var current = _root;
+        var ptr = _root;
+
+        _root = null;
+        _current = null;
+
+        var current = ptr;
         while (current != null)
         {
             var next = current->next;
@@ -191,8 +196,5 @@ public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.
             MemoryUtility.Free(current);
             current = next;
         }
-
-        _root = null;
-        _current = null;
     }
 }

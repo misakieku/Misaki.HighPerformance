@@ -144,22 +144,6 @@ public unsafe class TestStack
         Assert.IsNull(stack.Buffer);
     }
 
-#if MHP_ENABLE_SAFETY_CHECKS
-    [TestMethod]
-    public void Stack_AllocationFailsOutsideScope()
-    {
-        var stack = new Stack(128 * 1024);
-        try
-        {
-            Assert.ThrowsExactly<InvalidOperationException>(() => stack.Allocate(32, 8, AllocationOption.Clear));
-        }
-        finally
-        {
-            stack.Dispose();
-        }
-    }
-#endif
-
     [TestMethod]
     public void Stack_InvalidAlignment_Throws()
     {

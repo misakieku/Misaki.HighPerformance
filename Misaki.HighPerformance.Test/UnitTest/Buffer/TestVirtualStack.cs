@@ -145,25 +145,6 @@ public unsafe class TestVirtualStack
         Assert.IsNull(stack.Buffer);
     }
 
-#if MHP_ENABLE_SAFETY_CHECKS
-    [TestMethod]
-    public void VirtualStack_AllocationFailsOutsideScope()
-    {
-        var stack = new VirtualStack(128 * 1024);
-        try
-        {
-            Assert.ThrowsExactly<InvalidOperationException>(() => stack.Allocate(32, 8, AllocationOption.Clear));
-
-            stack.Dispose();
-            Assert.IsTrue(stack.Buffer == null);
-        }
-        finally
-        {
-            stack.Dispose();
-        }
-    }
-#endif
-
     [TestMethod]
     public void VirtualStack_InvalidAlignment_Throws()
     {
