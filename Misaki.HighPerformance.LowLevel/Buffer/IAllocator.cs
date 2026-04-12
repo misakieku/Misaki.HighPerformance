@@ -84,17 +84,17 @@ public readonly unsafe struct AllocationHandle
     /// <summary>
     /// Allocator for temporary allocations. Allocations are automatically released after use automatically.
     /// </summary>
-    public static readonly AllocationHandle Temp = AllocationManager.s_arenaAllocator.AllocationHandle;
+    public static AllocationHandle Temp => AllocationManager.s_arenaAllocator.AllocationHandle;
 
     /// <summary>
     /// Allocator for persistent allocations. Allocations are not automatically released after use.
     /// </summary>
-    public static readonly AllocationHandle FreeList = AllocationManager.s_freeListAllocator.AllocationHandle;
+    public static AllocationHandle FreeList => AllocationManager.s_freeListAllocator.AllocationHandle;
 
     /// <summary>
     /// Allocator for persistent allocations using a free list. Allocations are not automatically released after use, but can be reused to reduce fragmentation, system call and improve performance.
     /// </summary>
-    public static readonly AllocationHandle Persistent = AllocationManager.s_pHeapAllocator->Handle;
+    public static AllocationHandle Persistent => AllocationManager.s_pHeapAllocator->Handle;
 
     /// <summary>
     /// Gets a pointer to the state instance associated with this allocation handle.
