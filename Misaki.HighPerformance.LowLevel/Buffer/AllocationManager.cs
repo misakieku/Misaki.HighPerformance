@@ -466,6 +466,7 @@ public static unsafe class AllocationManager
                 if (pStack != null)
                 {
                     pStack->Dispose();
+                    Free(pStack);
                 }
             }
 

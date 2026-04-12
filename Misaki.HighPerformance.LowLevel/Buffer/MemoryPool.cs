@@ -1,3 +1,4 @@
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
@@ -15,7 +16,7 @@ public unsafe struct MemoryPool<TAllocator, TOpts> : IDisposable
     {
         var allocator = TAllocator.Create(opts);
 
-        _pAllocator = (TAllocator*)allocator.Allocate((nuint)sizeof(TAllocator), AlignOf<TAllocator>(), AllocationOption.None);
+        _pAllocator = (TAllocator*)Malloc((nuint)sizeof(TAllocator));
         *_pAllocator = allocator;
 
         _allocationHandle = new AllocationHandle
@@ -50,6 +51,8 @@ public unsafe struct MemoryPool<TAllocator, TOpts> : IDisposable
         }
 
         _pAllocator->Dispose();
+
+        MemoryUtility.Free(_pAllocator);
 
         _pAllocator = null;
         _allocationHandle = default;
