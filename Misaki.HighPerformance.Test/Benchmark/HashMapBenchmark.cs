@@ -1,4 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Attributes;
 using Misaki.HighPerformance.LowLevel.Collections;
 
 namespace Misaki.HighPerformance.Test.Benchmark;
@@ -14,7 +14,7 @@ public class HashMapBenchmark
     [IterationSetup]
     public void Setup()
     {
-        //_unsafeHashMap = new UnsafeHashMap<int, float>(count, Allocator.Persistent);
+        //_unsafeHashMap = new UnsafeHashMap<int, float>(count, AllocationHandle.Persistent);
         _dictionary = new Dictionary<int, float>(count);
 
         for (var i = 0; i < count; i++)

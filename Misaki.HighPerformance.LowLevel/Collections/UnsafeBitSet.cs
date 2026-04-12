@@ -82,11 +82,11 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     public readonly bool IsCreated => _bits.IsCreated;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
+    /// Initializes a new instance of UnsafeBitSet with a default size of 1 and a persistent allocation handle.
     /// </summary>
     public UnsafeBitSet()
     {
-        _bits = new UnsafeArray<uint>(0, Allocator.Invalid, AllocationOption.None);
+        _bits = new UnsafeArray<uint>(1, AllocationHandle.Persistent, AllocationOption.None);
     }
 
     /// <summary>
@@ -106,6 +106,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     /// <summary>
     /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeBitSet(int minimalLength, Allocator allocator, AllocationOption option = AllocationOption.None)
         : this(minimalLength, AllocationManager.GetAllocationHandle(allocator), option)
     {
@@ -114,6 +115,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
     /// <summary>
     /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
     /// </summary>
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeBitSet(Span<uint> bits, Allocator allocator)
     {
         _bits = new UnsafeArray<uint>(bits.Length, allocator, AllocationOption.None);

@@ -58,10 +58,10 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Invalid constructor. Use <see cref="UnsafeQueue(int, Allocator, AllocationOption)"/> or <see cref="UnsafeQueue(int, AllocationHandle, AllocationOption)"/> instead."/>
+    /// Initializes a new instance of UnsafeQueue with a default size of 1 and a persistent allocation handle.
     /// </summary>
     public UnsafeQueue()
-        : this(0, Allocator.Invalid)
+        : this(1, AllocationHandle.Persistent)
     {
     }
 
@@ -72,6 +72,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
         _offset = 0;
     }
 
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeQueue(int capacity, Allocator allocator, AllocationOption allocationType = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationType)
     {

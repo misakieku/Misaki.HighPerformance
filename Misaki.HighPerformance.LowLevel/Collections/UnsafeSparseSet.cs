@@ -88,7 +88,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// Constructs an UnsafeSparseSet with a default size of 1 and uses the Persistent allocator.
     /// </summary>
     public UnsafeSparseSet()
-        : this(0, Allocator.Invalid)
+        : this(1, AllocationHandle.Persistent)
     {
     }
 
@@ -133,6 +133,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// <param name="allocator">Specifies the allocator to use for memory allocation, which determines the memory management strategy.</param>
     /// <param name="allocationOption">Determines how the memory should be allocated.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified capacity is less than or equal to zero.</exception>
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeSparseSet(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {

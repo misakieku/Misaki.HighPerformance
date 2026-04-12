@@ -174,7 +174,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// Invalid constructor, use <see cref="UnsafeList(int, Allocator, AllocationOption)"/> or <see cref="UnsafeList(int, AllocationHandle, AllocationOption)"/> instead.
     /// </summary>
     public UnsafeList()
-        : this(0, Allocator.Invalid)
+        : this(1, AllocationHandle.Persistent)
     {
     }
 
@@ -196,6 +196,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// <param name="capacity">Specifies the number of initial capacity to allocate in the list, which must be greater than zero.</param>
     /// <param name="allocator">Specifies the allocator to use for memory allocation, which determines the memory management strategy.</param>
     /// <param name="allocationOption">Determines how the memory should be allocated.</param>
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeList(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {

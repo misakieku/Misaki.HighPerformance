@@ -34,15 +34,25 @@ namespace Misaki.HighPerformance.Analyzer
 
             // 1. Basic Filters: Must be an instance method on a Value Type (Struct)
             if (method.IsStatic || instance == null)
+            {
                 return;
+            }
+
             if (!instance.Type.IsValueType)
+            {
                 return; // Classes don't copy
+            }
+
             if (instance.Type.IsReadOnly)
+            {
                 return;   // Readonly structs are safe (compiler enforced)
+            }
 
             // 2. If the method itself is 'readonly', it promises not to mutate, so no copy needed.
             if (method.IsReadOnly)
+            {
                 return;
+            }
 
             // 3. CHECK THE CONTEXT: Is the variable we are calling on "Read Only"?
             if (IsReadOnlyContext(instance, out var variableName))

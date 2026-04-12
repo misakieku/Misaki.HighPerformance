@@ -11,7 +11,7 @@ public class TestUnsafeSlotMap
     [TestInitialize]
     public void Initialize()
     {
-        _slotMap = new UnsafeSlotMap<int>(16, Allocator.Persistent);
+        _slotMap = new UnsafeSlotMap<int>(16, AllocationHandle.Persistent);
     }
 
     [TestCleanup]

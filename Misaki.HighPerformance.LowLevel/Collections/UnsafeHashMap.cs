@@ -75,10 +75,10 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     }
 
     /// <summary>
-    /// Invalid constructor, use <see cref="UnsafeHashMap(int, Allocator, AllocationOption)"/> or <see cref="UnsafeHashMap(int, AllocationHandle, AllocationOption)"/> instead.
+    /// Initializes a new instance of UnsafeHashMap with a default size of 1 and a persistent allocation handle.
     /// </summary>
     public UnsafeHashMap()
-        : this(0, Allocator.Invalid)
+        : this(1, AllocationHandle.Persistent)
     {
     }
 
@@ -87,6 +87,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
         _helper = new HashMapHelper<TKey>(capacity, sizeof(TValue), (int)AlignOf<TValue>(), HashMapHelper<TKey>.MINIMAL_CAPACITY, handle, allocationOption);
     }
 
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeHashMap(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
@@ -235,32 +236,34 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <summary>
     /// Retrieves an array of keys from the hash map.
     /// </summary>
+    /// <param name="allocationHandle">The allocation handle to use to allocate the array.</param>
     /// <returns>An array containing the keys stored in the hash map.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public UnsafeArray<TKey> GetKeyArray(Allocator allocator)
+    public UnsafeArray<TKey> GetKeyArray(AllocationHandle allocationHandle)
     {
-        return _helper.GetKeyArray(allocator);
+        return _helper.GetKeyArray(allocationHandle);
     }
 
     /// <summary>
     /// Retrieves an array of values from the underlying hash map.
     /// </summary>
+    /// <param name="allocationHandle">The allocation handle to use to allocate the array.</param>
     /// <returns>An UnsafeArray containing the values stored in the hash map.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public UnsafeArray<TValue> GetValueArray(Allocator allocator)
+    public UnsafeArray<TValue> GetValueArray(AllocationHandle allocationHandle)
     {
-        return _helper.GetValueArray<TValue>(allocator);
+        return _helper.GetValueArray<TValue>(allocationHandle);
     }
 
     /// <summary>
-    /// Retrieves an array of key-value pairs from the hash map. The keys are of type TKey and the values are of type
-    /// TValue.
+    /// Retrieves an array of key-value pairs from the hash map. The keys are of type TKey and the values are of type TValue.
     /// </summary>
+    /// <param name="allocationHandle">The allocation handle to use to allocate the array.</param>
     /// <returns>Returns an UnsafeArray containing KeyValuePair objects.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(Allocator allocator)
+    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(AllocationHandle allocationHandle)
     {
-        return _helper.GetKeyValueArrays<TValue>(allocator);
+        return _helper.GetKeyValueArrays<TValue>(allocationHandle);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

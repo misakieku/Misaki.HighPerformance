@@ -10,7 +10,7 @@ public class TestUnsafeQueue
     [TestInitialize]
     public void Setup()
     {
-        _queue = new UnsafeQueue<int>(4, LowLevel.Buffer.Allocator.Persistent);
+        _queue = new UnsafeQueue<int>(4, LowLevel.Buffer.AllocationHandle.Persistent);
     }
 
     [TestCleanup]

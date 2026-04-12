@@ -21,7 +21,7 @@ public class ParallelNoiseBenchmark
     public void Setup()
     {
         _jobScheduler = new JobScheduler(Environment.ProcessorCount);
-        _buffers = new UnsafeArray<float>(_LENGTH, Allocator.Persistent);
+        _buffers = new UnsafeArray<float>(_LENGTH, AllocationHandle.Persistent);
     }
 
     [GlobalCleanup]

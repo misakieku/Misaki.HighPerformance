@@ -9,8 +9,8 @@ public class TestAllocationManager
     [TestMethod]
     public void PersistentAllocationTest()
     {
-        var ptr1 = new MemoryBlock(1024, 8, Allocator.Persistent);
-        var ptr2 = new MemoryBlock(2048, 8, Allocator.Persistent);
+        var ptr1 = new MemoryBlock(1024, 8, AllocationHandle.Persistent);
+        var ptr2 = new MemoryBlock(2048, 8, AllocationHandle.Persistent);
 
         Assert.IsTrue(ptr1.IsCreated);
         Assert.IsTrue(ptr2.IsCreated);
@@ -25,8 +25,8 @@ public class TestAllocationManager
     [TestMethod]
     public void TempAllocationTest()
     {
-        var ptr1 = new MemoryBlock(1024, 8, Allocator.Temp);
-        var ptr2 = new MemoryBlock(2048, 8, Allocator.Temp);
+        var ptr1 = new MemoryBlock(1024, 8, AllocationHandle.Temp);
+        var ptr2 = new MemoryBlock(2048, 8, AllocationHandle.Temp);
 
         Assert.IsTrue(ptr1.IsCreated);
         Assert.IsTrue(ptr2.IsCreated);
@@ -41,8 +41,8 @@ public class TestAllocationManager
     [TestMethod]
     public void FreeListAllocationTest()
     {
-        var ptr1 = new MemoryBlock(1024, 8, Allocator.FreeList);
-        var ptr2 = new MemoryBlock(2048, 8, Allocator.FreeList);
+        var ptr1 = new MemoryBlock(1024, 8, AllocationHandle.FreeList);
+        var ptr2 = new MemoryBlock(2048, 8, AllocationHandle.FreeList);
 
         Assert.IsTrue(ptr1.IsCreated);
         Assert.IsTrue(ptr2.IsCreated);

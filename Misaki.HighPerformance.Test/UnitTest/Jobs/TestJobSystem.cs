@@ -171,7 +171,7 @@ public unsafe class TestJobSystem
     {
         const int arraySize = 10000;
 
-        using var array = new UnsafeArray<float>(arraySize, Allocator.Persistent);
+        using var array = new UnsafeArray<float>(arraySize, AllocationHandle.Persistent);
 
         for (var i = 0; i < arraySize; i++)
         {
@@ -296,17 +296,17 @@ public unsafe class TestJobSystem
     [TestMethod]
     public void DynamicDispatch()
     {
-        using var arr = new UnsafeArray<UnsafeArray<int>>(256, Allocator.Persistent);
+        using var arr = new UnsafeArray<UnsafeArray<int>>(256, AllocationHandle.Persistent);
         for (var i = 0; i < arr.Length; i++)
         {
-            arr[i] = new UnsafeArray<int>(256, Allocator.Persistent);
+            arr[i] = new UnsafeArray<int>(256, AllocationHandle.Persistent);
             for (var j = 0; j < arr[i].Length; j++)
             {
                 arr[i][j] = j;
             }
         }
 
-        using var handles = new UnsafeList<JobHandle>(arr.Length, Allocator.Persistent);
+        using var handles = new UnsafeList<JobHandle>(arr.Length, AllocationHandle.Persistent);
 
         var job = new JobDispatchingJob
         {

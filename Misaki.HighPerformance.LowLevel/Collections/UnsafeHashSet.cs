@@ -43,10 +43,10 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
     public readonly bool IsCreated => _helper.IsCreated;
 
     /// <summary>
-    /// Invalid constructor. Use <see cref="UnsafeHashSet(int, Allocator, AllocationOption)"/> or <see cref="UnsafeHashSet(int, AllocationHandle, AllocationOption)"/> instead."/>
+    /// Initializes a new instance of UnsafeHashSet with a default size of 1 and a persistent allocation handle.
     /// </summary>
     public UnsafeHashSet()
-        : this(0, Allocator.Invalid)
+        : this(1, AllocationHandle.Persistent)
     {
     }
 
@@ -55,6 +55,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
         _helper = new HashMapHelper<T>(capacity, 0, 0, HashMapHelper<T>.MINIMAL_CAPACITY, handle, allocationOption);
     }
 
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeHashSet(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
@@ -112,12 +113,12 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
     /// <summary>
     /// Returns an array with a copy of this set's values (in no particular order).
     /// </summary>
-    /// <param name="allocator">The allocator to use.</param>
+    /// <param name="allocationHandle">The allocation handle to use to allocate the array.</param>
     /// <returns>An array with a copy of the set's values.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public UnsafeArray<T> ToNativeArray(Allocator allocator)
+    public UnsafeArray<T> ToUnsafeArray(AllocationHandle allocationHandle)
     {
-        return _helper.GetKeyArray(allocator);
+        return _helper.GetKeyArray(allocationHandle);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -1,7 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
-using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -119,10 +118,10 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     }
 
     /// <summary>
-    /// Invalid constructor, use <see cref="UnsafeArray(int, Allocator, AllocationOption)"/> or <see cref="UnsafeArray(int, AllocationHandle, AllocationOption)"/> instead.
+    /// Initializes a new instance of UnsafeArray with a default size of 1 and a persistent allocation handle.
     /// </summary>
     public UnsafeArray()
-        : this(0, Allocator.Invalid)
+        : this(1, AllocationHandle.Persistent)
     {
     }
 
@@ -157,6 +156,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <param name="allocator">Specifies the allocator to use for memory allocation, which determines the memory management strategy.</param>
     /// <param name="allocationOption">Determines how the memory should be allocated.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeArray(int count, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(count, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {

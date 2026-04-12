@@ -82,10 +82,10 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     public readonly bool IsCreated => _data.IsCreated && _generations.IsCreated && _freeSlots.IsCreated && _validBits.IsCreated;
 
     /// <summary>
-    /// Invalid constructor. Use <see cref="UnsafeSlotMap(int, Allocator, AllocationOption)"/> or <see cref="UnsafeSlotMap(int, AllocationHandle, AllocationOption)"/> instead."/>
+    /// Initializes a new instance of UnsafeSlotMap with a default size of 1 and a persistent allocation handle.
     /// </summary>
     public UnsafeSlotMap()
-        : this(0, Allocator.Invalid)
+        : this(1, AllocationHandle.Persistent)
     {
     }
 
@@ -126,6 +126,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <param name="capacity">The initial number of slots to allocate for the map. Must be greater than zero.</param>
     /// <param name="allocator">The allocator to use for memory management of the slot map.</param>
     /// <param name="allocationOption">The allocation option that determines how memory is allocated. The default is AllocationOption.None.</param>
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeSlotMap(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {

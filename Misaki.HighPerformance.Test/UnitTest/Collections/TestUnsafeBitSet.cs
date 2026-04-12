@@ -12,8 +12,8 @@ public class TestUnsafeBitSet
     [TestInitialize]
     public void Initialize()
     {
-        _set1 = new UnsafeBitSet(16, Allocator.Persistent, AllocationOption.Clear);
-        _set2 = new UnsafeBitSet(16, Allocator.Persistent, AllocationOption.Clear);
+        _set1 = new UnsafeBitSet(16, AllocationHandle.Persistent, AllocationOption.Clear);
+        _set2 = new UnsafeBitSet(16, AllocationHandle.Persistent, AllocationOption.Clear);
     }
 
     [TestCleanup]

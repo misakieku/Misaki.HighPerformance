@@ -11,7 +11,7 @@ public class TestUnsafeStack
     [TestInitialize]
     public void Initialize()
     {
-        _stack = new UnsafeStack<int>(16, Allocator.Persistent);
+        _stack = new UnsafeStack<int>(16, AllocationHandle.Persistent);
     }
 
     [TestCleanup]

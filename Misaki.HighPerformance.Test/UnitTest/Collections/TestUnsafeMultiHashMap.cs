@@ -11,7 +11,7 @@ public class TestUnsafeMultiHashMap
     [TestInitialize]
     public void Initialize()
     {
-        _multiHashMap = new UnsafeMultiHashMap<int, int>(4, Allocator.Persistent);
+        _multiHashMap = new UnsafeMultiHashMap<int, int>(4, AllocationHandle.Persistent);
     }
 
     [TestCleanup]

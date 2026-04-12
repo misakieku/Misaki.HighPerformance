@@ -112,8 +112,11 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     public readonly int Capacity => _helper.Capacity;
     public readonly bool IsCreated => _helper.IsCreated;
 
+    /// <summary>
+    /// Initializes a new instance of UnsafeMultiHashMap with a default size of 1 and a persistent allocation handle.
+    /// </summary>
     public UnsafeMultiHashMap()
-        : this(0, Allocator.Invalid)
+        : this(1, AllocationHandle.Persistent)
     {
     }
 
@@ -122,6 +125,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         _helper = new HashMapHelper<TKey>(capacity, sizeof(TValue), (int)AlignOf<TValue>(), HashMapHelper<TKey>.MINIMAL_CAPACITY, handle, allocationOption);
     }
 
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeMultiHashMap(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
@@ -239,21 +243,21 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public UnsafeArray<TKey> GetKeyArray(Allocator allocator)
+    public UnsafeArray<TKey> GetKeyArray(AllocationHandle allocationHandle)
     {
-        return _helper.GetKeyArray(allocator);
+        return _helper.GetKeyArray(allocationHandle);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public UnsafeArray<TValue> GetValueArray(Allocator allocator)
+    public UnsafeArray<TValue> GetValueArray(AllocationHandle allocationHandle)
     {
-        return _helper.GetValueArray<TValue>(allocator);
+        return _helper.GetValueArray<TValue>(allocationHandle);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(Allocator allocator)
+    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(AllocationHandle allocationHandle)
     {
-        return _helper.GetKeyValueArrays<TValue>(allocator);
+        return _helper.GetKeyValueArrays<TValue>(allocationHandle);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

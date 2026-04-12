@@ -4,3 +4,8 @@ namespace Misaki.HighPerformance.LowLevel;
 public class NonCopyableAttribute : Attribute
 {
 }
+
+[AttributeUsage(AttributeTargets.Parameter)]
+public class OwnershipTransferAttribute : Attribute
+{
+}

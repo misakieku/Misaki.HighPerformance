@@ -15,7 +15,7 @@ public class CollectionBenchmark
     [GlobalSetup]
     public void Setup()
     {
-        _array = new UnsafeArray<Vector256<int>>(count, Allocator.Persistent);
+        _array = new UnsafeArray<Vector256<int>>(count, AllocationHandle.Persistent);
     }
 
     [GlobalCleanup]

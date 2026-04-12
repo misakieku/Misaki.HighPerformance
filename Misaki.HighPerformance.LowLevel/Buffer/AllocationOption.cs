@@ -1,3 +1,5 @@
+using System.Runtime.Versioning;
+
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
 [Flags]
@@ -13,6 +15,7 @@ public enum AllocationOption : byte
     Clear = 1 << 0
 }
 
+[Obsolete("Use AllocationHandle instead.")]
 public enum Allocator : byte
 {
     // Make the first allocator as invalid because we don't want to user create a default collection without passing any parameters

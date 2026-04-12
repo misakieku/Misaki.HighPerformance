@@ -11,7 +11,7 @@ public class TestUnsafeHashMap
     [TestInitialize]
     public void Initialize()
     {
-        _map = new UnsafeHashMap<int, int>(4, Allocator.Persistent);
+        _map = new UnsafeHashMap<int, int>(4, AllocationHandle.Persistent);
     }
 
     [TestCleanup]

@@ -36,7 +36,7 @@ public unsafe struct MemoryBlock : IDisposable
     }
 
     public MemoryBlock()
-        : this(0, 0, Allocator.Invalid)
+        : this(1, 8, AllocationHandle.Invalid)
     {
     }
 
@@ -66,6 +66,7 @@ public unsafe struct MemoryBlock : IDisposable
     /// <param name="allocator">Specifies the allocator to use for memory allocation, which determines the memory management strategy.</param>
     /// <param name="allocationOption">Determines how the memory should be allocated.</param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
+    [Obsolete("Use AllocationHandle instead.")]
     public MemoryBlock(nuint size, nuint alignment, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(size, alignment, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {

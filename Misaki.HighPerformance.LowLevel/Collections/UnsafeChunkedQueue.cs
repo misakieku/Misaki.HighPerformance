@@ -97,6 +97,7 @@ public unsafe struct UnsafeChunkedQueue<T> : IDisposable
 #endif
     }
 
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeChunkedQueue(int capacityPerChunk, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacityPerChunk, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {

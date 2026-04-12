@@ -77,10 +77,10 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     public readonly bool IsCreated => _array.IsCreated;
 
     /// <summary>
-    /// Invalid constructor, use <see cref="UnsafeStack(int, Allocator, AllocationOption)"/> or <see cref="UnsafeStack(int, AllocationHandle, AllocationOption)"/> instead.
+    /// Initializes a new instance of UnsafeStack with a default size of 1 and a persistent allocation handle.
     /// </summary>
     public UnsafeStack()
-        : this(0, Allocator.Invalid)
+        : this(1, AllocationHandle.Persistent)
     {
     }
 
@@ -102,6 +102,7 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     /// <param name="capacity">The initial number of elements that the stack can hold. Must be greater than zero.</param>
     /// <param name="allocator">The allocator to use for memory management of the stack's storage.</param>
     /// <param name="allocationOption">The allocation option that determines how memory is allocated for the stack. The default is AllocationOption.None.</param>
+    [Obsolete("Use AllocationHandle instead.")]
     public UnsafeStack(int capacity, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacity, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {

@@ -620,7 +620,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return MoveNextSearch(ref bucketIndex, ref nextIndex, out index);
     }
 
-    internal UnsafeArray<TKey> GetKeyArray(Allocator allocator)
+    internal UnsafeArray<TKey> GetKeyArray(AllocationHandle allocator)
     {
         ThrowIfNotCreated();
 
@@ -640,7 +640,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return result;
     }
 
-    internal UnsafeArray<TValue> GetValueArray<TValue>(Allocator allocator)
+    internal UnsafeArray<TValue> GetValueArray<TValue>(AllocationHandle allocator)
         where TValue : unmanaged
     {
         ThrowIfNotCreated();
@@ -661,7 +661,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return result;
     }
 
-    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays<TValue>(Allocator allocator)
+    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays<TValue>(AllocationHandle allocator)
         where TValue : unmanaged
     {
         ThrowIfNotCreated();

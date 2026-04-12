@@ -11,7 +11,7 @@ public class TestUnsafeList
     [TestInitialize]
     public void Initialize()
     {
-        _list = new UnsafeList<int>(4, Allocator.Persistent);
+        _list = new UnsafeList<int>(4, AllocationHandle.Persistent);
     }
 
     [TestCleanup]

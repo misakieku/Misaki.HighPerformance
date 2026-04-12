@@ -11,7 +11,7 @@ public class TestUnsafeSparseSet
     [TestInitialize]
     public void Initialize()
     {
-        _sparseSet = new UnsafeSparseSet<int>(16, Allocator.Persistent);
+        _sparseSet = new UnsafeSparseSet<int>(16, AllocationHandle.Persistent);
     }
 
     [TestCleanup]

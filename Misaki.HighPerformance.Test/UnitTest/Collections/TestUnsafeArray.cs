@@ -11,7 +11,7 @@ public class TestUnsafeArray
     [TestInitialize]
     public void Initialize()
     {
-        _arr = new UnsafeArray<int>(16, Allocator.Persistent);
+        _arr = new UnsafeArray<int>(16, AllocationHandle.Persistent);
     }
 
     [TestCleanup]

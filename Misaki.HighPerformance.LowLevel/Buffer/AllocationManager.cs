@@ -3,6 +3,7 @@ using Misaki.HighPerformance.Collections;
 #endif
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -81,7 +82,7 @@ public readonly struct AllocationManagerInitOpts
 /// </summary>
 public static unsafe class AllocationManager
 {
-    private struct HeapAllocator : IAllocator
+    internal struct HeapAllocator : IAllocator
     {
         private AllocationHandle _handle;
 
@@ -145,13 +146,13 @@ public static unsafe class AllocationManager
 #endif
     }
 
-    private static MemoryPool<VirtualArena, VirtualArena.CreationOptions> s_arenaAllocator;
-    private static MemoryPool<FreeList, FreeList.CreationOptions> s_freeListAllocator;
+    internal static MemoryPool<VirtualArena, VirtualArena.CreationOptions> s_arenaAllocator;
+    internal static MemoryPool<FreeList, FreeList.CreationOptions> s_freeListAllocator;
+    internal static HeapAllocator* s_pHeapAllocator;
 
     [ThreadStatic]
     private static MemoryPool<VirtualStack, VirtualStack.CreationOptions> t_stackAllocator;
 
-    private static HeapAllocator* s_pHeapAllocator;
 
 #if MHP_ENABLE_SAFETY_CHECKS
     private static ConcurrentSlotMap<AllocationInfo> s_allocations = null!;
@@ -256,6 +257,7 @@ public static unsafe class AllocationManager
     /// <returns>A reference to the allocation pHandle associated with the specified allocator type.</returns>
     /// <exception cref="ArgumentException"></exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [Obsolete("Use AllocationHandle instead.")]
     public static AllocationHandle GetAllocationHandle(Allocator allocator)
     {
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");

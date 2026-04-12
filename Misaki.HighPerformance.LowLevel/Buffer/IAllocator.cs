@@ -77,6 +77,26 @@ public readonly struct MemoryHandle : IDisposable, IEquatable<MemoryHandle>
 public readonly unsafe struct AllocationHandle
 {
     /// <summary>
+    /// The invalid allocator. This value is reserved and should not be used for actual memory allocations. It can be used to indicate an uninitialized or invalid state in allocation scenarios.
+    /// </summary>
+    public static readonly AllocationHandle Invalid = default;
+
+    /// <summary>
+    /// Allocator for temporary allocations. Allocations are automatically released after use automatically.
+    /// </summary>
+    public static readonly AllocationHandle Temp = AllocationManager.s_arenaAllocator.AllocationHandle;
+
+    /// <summary>
+    /// Allocator for persistent allocations. Allocations are not automatically released after use.
+    /// </summary>
+    public static readonly AllocationHandle FreeList = AllocationManager.s_freeListAllocator.AllocationHandle;
+
+    /// <summary>
+    /// Allocator for persistent allocations using a free list. Allocations are not automatically released after use, but can be reused to reduce fragmentation, system call and improve performance.
+    /// </summary>
+    public static readonly AllocationHandle Persistent = AllocationManager.s_pHeapAllocator->Handle;
+
+    /// <summary>
     /// Gets a pointer to the state instance associated with this allocation handle.
     /// </summary>
     public required void* State

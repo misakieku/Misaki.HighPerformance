@@ -11,7 +11,7 @@ public class TestUnsafeHashSet
     [TestInitialize]
     public void Initialize()
     {
-        _set = new UnsafeHashSet<int>(4, Allocator.Persistent);
+        _set = new UnsafeHashSet<int>(4, AllocationHandle.Persistent);
     }
 
     [TestCleanup]
