@@ -228,8 +228,6 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
     private bool _disposed = false;
 
-    internal volatile int _totalJobCount;
-
     internal bool IsCancellationRequested => _cts.IsCancellationRequested;
 
     public int WorkerCount => _workerThreads.Length;
@@ -242,11 +240,11 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     {
         var workerCount = Math.Max(1, threadCount);
 
-        _jobInfoPool = new();
-        _jobQueue = new();
+        _jobInfoPool = new ConcurrentSlotMap<JobInfo>();
+        _jobQueue = new ConcurrentQueue<JobHandle>();
 
-        _workSignal = new(0);
-        _cts = new();
+        _workSignal = new SemaphoreSlim(0);
+        _cts = new CancellationTokenSource();
 
         _workerThreads = new WorkerThread[workerCount];
 
@@ -297,13 +295,24 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
                 jobQueue.Enqueue(handle);
             }
 
-            Interlocked.Increment(ref _totalJobCount);
             _workSignal.Release(handleCount);
         }
     }
 
     private JobHandle CreateJobHandle(ref JobInfo jobInfo, params ReadOnlySpan<JobHandle> dependencies)
     {
+        var validDepCount = 0;
+        for (var i = 0; i < dependencies.Length; i++)
+        {
+            if (dependencies[i].IsValid)
+            {
+                validDepCount++;
+            }
+        }
+
+        // Advance count to account for all dependencies upfront + 1 guard lock
+        jobInfo.dependencyCount = validDepCount + 1;
+
         var id = _jobInfoPool.Add(jobInfo, out var generation);
         ref var infoInPool = ref _jobInfoPool.GetElementReferenceAt(id, generation, out _);
 
@@ -321,13 +330,13 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             if (!exist)
             {
                 // Dependency does not exist (likely completed already)
+                Interlocked.Decrement(ref infoInPool.dependencyCount);
                 continue;
             }
 
             // Lock-free registration: Try to acquire "Reader Lock" by incrementing RC in high bits.
             // If state is already Completed, we skip (dependency met).
             var registered = false;
-            var completed = false;
             var spin = new SpinWait();
 
             while (true)
@@ -337,7 +346,6 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
                 if (state == JobState.Completed)
                 {
-                    completed = true;
                     break;
                 }
 
@@ -374,20 +382,18 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
                 spin.SpinOnce(-1);
             }
 
-            if (!registered && !completed)
+            // If we didn't successfully register (completed fast), drop it from the advanced counter
+            if (!registered)
             {
-                // Should not happen if logic is correct, unless loop logic changed
-                Interlocked.Increment(ref infoInPool.dependencyCount);
+                Interlocked.Decrement(ref infoInPool.dependencyCount);
             }
-            else if (registered)
-            {
-                // Successfully added dependency
-                Interlocked.Increment(ref infoInPool.dependencyCount);
-            }
-            // else: completed is true, registered is false -> Dependency is already done, so we don't increment our dependencyCount.
         }
 
-        EnqueueJobIfReady(handle);
+        // Lower the initial 1 guard lock; Enqueue if met
+        if (Interlocked.Decrement(ref infoInPool.dependencyCount) == 0)
+        {
+            EnqueueJobIfReady(handle);
+        }
 
         return handle;
     }
@@ -509,7 +515,6 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
         NativeMemory.Free(info.pJobData);
         _jobInfoPool.Remove(handle.ID, handle.Generation);
-        Interlocked.Decrement(ref _totalJobCount);
 
         for (var i = 0; i < dependentCount; i++)
         {

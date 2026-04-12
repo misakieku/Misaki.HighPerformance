@@ -216,12 +216,13 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
         }
 
         var ptr = _baseAddress;
+        var size = _reserveCapacity;
 
         _baseAddress = null;
         _allocatedOffset = 0;
         _committedSize = 0;
         _reserveCapacity = 0;
 
-        Munmap(ptr, _reserveCapacity);
+        Munmap(ptr, size);
     }
 }

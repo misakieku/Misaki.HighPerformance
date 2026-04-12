@@ -199,7 +199,7 @@ public unsafe class TestJobSystem
         };
 
         var handle1 = s_jobScheduler.ScheduleParallel(ref addJob, arraySize, 64);
-        var handle2 = s_jobScheduler.ScheduleParallel(ref multiplyJob, arraySize, 64);
+        var handle2 = s_jobScheduler.ScheduleParallel(ref multiplyJob, arraySize, 64, handle1);
         var handle3 = s_jobScheduler.Schedule(ref sumJob, handle2);
 
         s_jobScheduler.Wait(handle3);

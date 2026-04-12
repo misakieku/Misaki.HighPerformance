@@ -33,12 +33,6 @@ internal class WorkerThread : IDisposable
 
     private bool TryFindJob(out JobHandle handle)
     {
-        if (Interlocked.CompareExchange(ref _scheduler._totalJobCount, 0, 0) == 0)
-        {
-            handle = JobHandle.Invalid;
-            return false;
-        }
-
         if (_localQueue.TryDequeue(out handle))
         {
             return true;
@@ -112,14 +106,12 @@ internal class WorkerThread : IDisposable
                 if (jobInfo.pExecutionFunc != null)
                 {
                     var ctx = new JobExecutionContext(_index, _scheduler);
-                    if (!jobInfo.pExecutionFunc(jobInfo.pJobData, ref jobInfo.jobRanges, ref jobInfo.remainingBatches, in ctx))
+                    if (jobInfo.pExecutionFunc(jobInfo.pJobData, ref jobInfo.jobRanges, ref jobInfo.remainingBatches, in ctx))
                     {
-                        // If the job returns false, it means it we are not the last worker to process this job, so we should not mark it as complete yet.
-                        continue;
+                        // If the job returns true, it means we are the last worker to process this job.
+                        _scheduler.MarkJobComplete(handle);
                     }
                 }
-
-                _scheduler.MarkJobComplete(handle);
             }
         }
     }
