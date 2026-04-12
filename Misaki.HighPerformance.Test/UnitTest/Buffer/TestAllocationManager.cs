@@ -36,6 +36,8 @@ public class TestAllocationManager
 
         Assert.IsFalse(ptr1.IsCreated);
         Assert.IsFalse(ptr2.IsCreated);
+
+        AllocationManager.ResetTempAllocator();
     }
 
     [TestMethod]

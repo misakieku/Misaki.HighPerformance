@@ -171,7 +171,7 @@ public static unsafe class AllocationManager
     private static volatile bool s_initialized;
 
     private static nuint s_threadLocalStackSize;
-    private static readonly SpinLock s_stackLocker = new SpinLock(false);
+    private static SpinLock s_stackLocker = new SpinLock(false);
     private static VirtualStack** s_ppStack;
     private static int s_ppStackCount;
     private static int s_ppStackCapacity;
