@@ -5,7 +5,6 @@ using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
@@ -26,9 +25,12 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     private readonly SemaphoreSlim _workSignal;
     private readonly CancellationTokenSource _cts;
 
+    private readonly object? _state;
+
     private bool _disposed = false;
 
     internal bool IsCancellationRequested => _cts.IsCancellationRequested;
+    internal object? State => _state;
 
     public int WorkerCount => _workerThreads.Length;
 
@@ -37,7 +39,8 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     /// </summary>
     /// <param name="threadCount">The number of worker threads to create. If less than 1, at least one thread will be created.</param>
     /// <param name="priority">The priority of the worker threads.</param>
-    public JobScheduler(int threadCount, ThreadPriority priority = ThreadPriority.Normal)
+    /// <param name="state">The state object for the job scheduler.</param>
+    public JobScheduler(int threadCount, ThreadPriority priority = ThreadPriority.Normal, object? state = null)
     {
         var workerCount = Math.Max(1, threadCount);
 
@@ -48,6 +51,8 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
         _workSignal = new SemaphoreSlim(0);
         _cts = new CancellationTokenSource();
+
+        _state = state;
 
         _workerThreads = new WorkerThread[workerCount];
 
@@ -308,6 +313,8 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             }
         }
 
+        info.additionalDependents.Dispose();
+
         _freeList.Free(info.pJobData);
         _jobInfoPool.Remove(handle.ID, handle.Generation);
     }
@@ -320,7 +327,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         {
             return JobHandle.Invalid;
         }
-        
+
         *(T*)pJobData = job;
 
         var jobInfo = new JobInfo
@@ -573,10 +580,11 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         {
             if (info.pJobData != null)
             {
-                NativeMemory.Free(info.pJobData);
+                _freeList.Free(info.pJobData);
             }
         }
 
+        _freeList.Dispose();
         _workSignal.Dispose();
         _cts.Dispose();
 

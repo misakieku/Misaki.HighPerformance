@@ -4,17 +4,21 @@ public readonly ref struct JobExecutionContext
 {
     public int ThreadIndex
     {
-        get;
+        get; init;
     }
 
     public IJobScheduler JobScheduler
     {
-        get;
+        get; init;
     }
 
-    public JobExecutionContext(int threadIndex, IJobScheduler jobScheduler)
+    public object? State
     {
-        ThreadIndex = threadIndex;
-        JobScheduler = jobScheduler;
+        get; init;
+    }
+
+    public JobHandle SelfHandle
+    {
+        get; init;
     }
 }

@@ -94,7 +94,6 @@ public unsafe class SPMDBenchmark
             height = _SIZE,
         };
 
-        var ctx = new JobExecutionContext(-1, _scheduler);
-        job.Run(_SIZE * _SIZE, in ctx);
+        job.Run(_SIZE * _SIZE, default);
     }
 }

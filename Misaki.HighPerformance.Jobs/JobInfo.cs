@@ -84,6 +84,9 @@ internal unsafe struct JobInfo
 
     public const int MAX_DEPENDENTS = 8;
 
+    public void* pJobData;
+    public JobExecutionFunc pExecutionFunc;
+
     // The list of jobs that are waiting for THIS job to complete.
     public fixed int dependentsID[MAX_DEPENDENTS]; // The actual list of IDs
     public fixed int dependentsGeneration[MAX_DEPENDENTS]; // The actual list of generations
@@ -92,9 +95,6 @@ internal unsafe struct JobInfo
     public int dependentCount;
 
     public JobRanges jobRanges;
-
-    public void* pJobData;
-    public JobExecutionFunc pExecutionFunc;
 
     public int state;
     public int remainingBatches;

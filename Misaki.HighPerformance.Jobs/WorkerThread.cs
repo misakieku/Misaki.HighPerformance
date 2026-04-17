@@ -106,7 +106,14 @@ internal class WorkerThread : IDisposable
 
                 if (jobInfo.pExecutionFunc != null)
                 {
-                    var ctx = new JobExecutionContext(_index, _scheduler);
+                    var ctx = new JobExecutionContext
+                    {
+                        ThreadIndex = _index,
+                        JobScheduler = _scheduler,
+                        State = _scheduler.State,
+                        SelfHandle = handle,
+                    };
+
                     if (!jobInfo.pExecutionFunc(jobInfo.pJobData, ref jobInfo.jobRanges, ref jobInfo.remainingBatches, in ctx))
                     {
                         // If the job returns false, it means it we are not the last worker to process this job, so we should not mark it as complete yet.

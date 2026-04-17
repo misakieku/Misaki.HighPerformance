@@ -275,8 +275,7 @@ public unsafe class TestJobSystem
             height = size,
         };
 
-        var ctx = new JobExecutionContext(-1, s_jobScheduler);
-        vectorJob.Run(size * size, in ctx);
+        vectorJob.Run(size * size, default);
 
         var spmdBuf = stackalloc float[size * size];
         var ss = new Span<float>(spmdBuf, size * size);
