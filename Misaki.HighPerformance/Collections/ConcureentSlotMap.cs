@@ -88,7 +88,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public ConcurrentSlotMap(int initialCapacity = 256)
+    public ConcurrentSlotMap(int initialCapacity)
     {
         _count = 0;
         _nextSlotIndex = 0;

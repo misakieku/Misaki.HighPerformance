@@ -15,7 +15,7 @@ internal class WorkerThread : IDisposable
 
     internal ConcurrentQueue<JobHandle> LocalQueue => _localQueue;
 
-    public WorkerThread(int index, JobScheduler scheduler)
+    public WorkerThread(int index, JobScheduler scheduler, ThreadPriority priority)
     {
         _index = index;
         _localQueue = new();
@@ -25,7 +25,8 @@ internal class WorkerThread : IDisposable
         _thread = new Thread(WorkLoop)
         {
             IsBackground = true,
-            Name = $"WorkerThread-{index}"
+            Name = $"WorkerThread-{index}",
+            Priority = priority
         };
     }
 
@@ -97,8 +98,8 @@ internal class WorkerThread : IDisposable
             ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
             if (exist)
             {
-                var priorState = Interlocked.CompareExchange(ref jobInfo.state, JobState.Running, JobState.Scheduled);
-                if (priorState != JobState.Scheduled && priorState != JobState.Running)
+                var priorState = Interlocked.CompareExchange(ref jobInfo.state, JobUtility.JOBSTATE_RUNNING, JobUtility.JOBSTATE_SCHEDULED);
+                if (priorState != JobUtility.JOBSTATE_SCHEDULED && priorState != JobUtility.JOBSTATE_RUNNING)
                 {
                     continue;
                 }

@@ -3,10 +3,19 @@ using Misaki.HighPerformance.LowLevel.Collections;
 
 //BenchmarkRunner.Run<SPMDBenchmark>();
 
-AllocationManager.Initialize(AllocationManagerInitOpts.Default);
-var set = new UnsafeBitSet(100, AllocationHandle.Persistent, AllocationOption.Clear);
-set.SetBit(0);
-Console.WriteLine(set.NextSetBit(0));
+//AllocationManager.Initialize(AllocationManagerInitOpts.Default);
+//var set = new UnsafeBitSet(100, AllocationHandle.Persistent, AllocationOption.Clear);
+//set.SetBit(0);
+//Console.WriteLine(set.NextSetBit(0));
 
-set.Dispose();
-AllocationManager.Dispose();
+//set.Dispose();
+//AllocationManager.Dispose();
+
+var span = Span<int>.Empty;
+unsafe
+{
+    fixed (int* ptr = span)
+    {
+        Console.WriteLine((IntPtr)ptr);
+    }
+}

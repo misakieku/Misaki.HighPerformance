@@ -68,18 +68,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             {INLINE_METHOD_ATTRIBUTE}
             get 
             {{
-                RangeCheck(index);
                 return ref (({typeInfo.ComponentTypeFullName}*)global::System.Runtime.CompilerServices.Unsafe.AsPointer(ref this))[index];
-            }}
-        }}");
-
-            sourceBuilder.AppendLine(@$"
-        [global::System.Diagnostics.Conditional(""ENABLE_COLLECTION_CHECKS"")]
-        private void RangeCheck(int index)
-        {{
-            if (index < 0 || index >= {typeInfo.Column})
-            {{
-                throw new global::System.ArgumentOutOfRangeException(nameof(index), $""Index {{index}} is out of range of '{typeInfo.TypeName}'"");
             }}
         }}");
         }

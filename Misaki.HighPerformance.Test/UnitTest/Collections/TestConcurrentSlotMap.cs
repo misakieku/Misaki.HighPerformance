@@ -18,7 +18,7 @@ public class TestConcurrentSlotMap
     [TestInitialize]
     public void Initialize()
     {
-        _slotMap = new ConcurrentSlotMap<int>();
+        _slotMap = new ConcurrentSlotMap<int>(16);
     }
 
     [TestMethod]
