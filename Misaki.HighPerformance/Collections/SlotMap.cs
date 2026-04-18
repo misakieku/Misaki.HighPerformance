@@ -65,6 +65,7 @@ public class SlotMap<T> : IEnumerable<T>
         _freeSlots = new(initialCapacity);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void Resize()
     {
         var newCapacity = _capacity * 2;
@@ -78,6 +79,7 @@ public class SlotMap<T> : IEnumerable<T>
         _capacity = newCapacity;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int Add(T item, out int generation)
     {
         if (_count >= _capacity)
@@ -104,6 +106,7 @@ public class SlotMap<T> : IEnumerable<T>
         return slotIndex;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Contains(int slotIndex, int generation)
     {
         if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
@@ -119,6 +122,7 @@ public class SlotMap<T> : IEnumerable<T>
         return false;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Remove(int slotIndex, int generation)
     {
         if (!Contains(slotIndex, generation))
@@ -135,6 +139,7 @@ public class SlotMap<T> : IEnumerable<T>
         return true;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetElement(int slotIndex, int generation, [MaybeNullWhen(false)] out T value)
     {
         if (!Contains(slotIndex, generation))
@@ -147,6 +152,7 @@ public class SlotMap<T> : IEnumerable<T>
         return true;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public T GetElementAt(int slotIndex, int generation)
     {
         if (!Contains(slotIndex, generation))
@@ -157,6 +163,7 @@ public class SlotMap<T> : IEnumerable<T>
         return _data[slotIndex];
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ref T GetElementReferenceAt(int slotIndex, int generation, out bool exist)
     {
         if (!Contains(slotIndex, generation))
@@ -169,6 +176,7 @@ public class SlotMap<T> : IEnumerable<T>
         return ref _data[slotIndex];
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool UpdateElement(int slotIndex, int generation, T newValue)
     {
         if (!Contains(slotIndex, generation))
@@ -180,6 +188,7 @@ public class SlotMap<T> : IEnumerable<T>
         return true;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear()
     {
         _count = 0;
@@ -190,9 +199,9 @@ public class SlotMap<T> : IEnumerable<T>
         Add(default!, out _);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Span<T> AsSpan()
     {
-        // Skip the first element at index 0
-        return _data.AsSpan(1, _count);
+        return _data.AsSpan(0, _count);
     }
 }

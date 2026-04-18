@@ -392,5 +392,16 @@ public static unsafe partial class MemoryUtility
     {
         return Marshal.SizeOf<AlignOfHelper<T>>() - Marshal.SizeOf<T>();
     }
+
+    public static nuint AlignUp(nuint value, nuint alignment)
+    {
+        if (alignment == 0)
+        {
+            throw new ArgumentException("Alignment must be greater than zero.", nameof(alignment));
+        }
+
+        var mask = alignment - 1;
+        return (value + mask) & ~mask;
+    }
 }
 

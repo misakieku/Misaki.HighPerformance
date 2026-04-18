@@ -4,23 +4,33 @@ namespace Misaki.HighPerformance.Jobs;
 
 internal class WorkerThread : IDisposable
 {
-    private const int _MAX_STEAL_ATTEMPTS = 8;
-
     private readonly int _index;
     private readonly Thread _thread;
-    private readonly ConcurrentQueue<JobHandle> _localQueue;
+    private readonly ConcurrentQueue<JobHandle>[] _localQueues;
 
     private readonly JobScheduler _scheduler;
-    private readonly Random _random;
+    private readonly Random _stealRandom;
 
-    internal ConcurrentQueue<JobHandle> LocalQueue => _localQueue;
+    private readonly int _maxStealAttems;
+
+    private uint _priorityTick;
+
+    internal ReadOnlySpan<ConcurrentQueue<JobHandle>> LocalQueues => _localQueues;
 
     public WorkerThread(int index, JobScheduler scheduler, ThreadPriority priority)
     {
         _index = index;
-        _localQueue = new();
+        _localQueues = new ConcurrentQueue<JobHandle>[3];
+
+        for (var i = 0; i < _localQueues.Length; i++)
+        {
+            _localQueues[i] = new ConcurrentQueue<JobHandle>();
+        }
+
         _scheduler = scheduler;
-        _random = new Random(index * 9973 + Environment.TickCount);
+        _stealRandom = new Random(index * 9973 + Environment.TickCount);
+
+        _maxStealAttems = Math.Max((int)(_scheduler.WorkerCount * 0.5f), 3);
 
         _thread = new Thread(WorkLoop)
         {
@@ -30,26 +40,52 @@ internal class WorkerThread : IDisposable
         };
     }
 
-    public void Start() => _thread.Start();
-
-    private bool TryFindJob(out JobHandle handle)
+    public void Start()
     {
-        if (_localQueue.TryDequeue(out handle))
-        {
-            return true;
-        }
+        _thread.Start();
+    }
 
-        if (_scheduler.TryStealFromMain(-1, out handle))
-        {
-            return true;
-        }
+    private unsafe bool TryFindJob(out JobHandle handle)
+    {
+        _priorityTick++;
 
-        for (var i = 0; i < _MAX_STEAL_ATTEMPTS; i++)
+        var tick = (int)(_priorityTick & 7);
+        // Ratio: 4 High (50%), 3 Normal (37.5%), 1 Low (12.5%)
+        var cascade = stackalloc int[24] {
+            0, 1, 2, // Tick 0 (High)
+            0, 1, 2, // Tick 1 (High)
+            0, 1, 2, // Tick 2 (High)
+            0, 1, 2, // Tick 3 (High)
+            1, 2, 0, // Tick 4 (Normal)
+            1, 2, 0, // Tick 5 (Normal)
+            1, 2, 0, // Tick 6 (Normal)
+            2, 0, 1  // Tick 7 (Low)
+        };
+
+        var index = tick * 3;
+        for (var offset = 0; offset < 3; offset++)
         {
-            var randomIndex = _random.Next(0, _scheduler.WorkerCount);
-            if (randomIndex != _index && _scheduler.TryStealFromWorker(randomIndex, out handle))
+            var p = cascade[index + offset];
+
+            if (_localQueues[p].TryDequeue(out handle))
             {
                 return true;
+            }
+
+            if (_scheduler.TryStealFromMain(p, out handle))
+            {
+                return true;
+            }
+
+            for (var i = 1; i < _scheduler.WorkerCount; i++)
+            {
+                // Calculate the target deterministically using modulo arithmetic 
+                var targetIndex = (_index + i) % _scheduler.WorkerCount;
+
+                if (_scheduler.TryStealFromWorker(targetIndex, p, out handle))
+                {
+                    return true;
+                }
             }
         }
 
@@ -121,7 +157,7 @@ internal class WorkerThread : IDisposable
                     }
                 }
 
-                _scheduler.MarkJobComplete(handle);
+                _scheduler.MarkJobComplete(handle, _index);
             }
         }
     }

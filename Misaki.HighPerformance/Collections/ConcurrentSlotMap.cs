@@ -14,9 +14,9 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         public int isValid;
     }
 
-    private const int CHUNK_SHIFT = 8;
-    private const int CHUNK_SIZE = 1 << CHUNK_SHIFT;
-    private const int CHUNK_MASK = CHUNK_SIZE - 1;
+    private const int _CHUNK_SHIFT = 8;
+    private const int _CHUNK_SIZE = 1 << _CHUNK_SHIFT;
+    private const int _CHUNK_MASK = _CHUNK_SIZE - 1;
 
     public struct Enumerator : IEnumerator<T>
     {
@@ -34,8 +34,8 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
             get
             {
                 var chunks = _slotMap._chunks;
-                int chunkIdx = _currentIndex >> CHUNK_SHIFT;
-                int localIdx = _currentIndex & CHUNK_MASK;
+                int chunkIdx = _currentIndex >> _CHUNK_SHIFT;
+                int localIdx = _currentIndex & _CHUNK_MASK;
                 return chunks[chunkIdx][localIdx].value!;
             }
         }
@@ -49,8 +49,8 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
             
             while (++_currentIndex < maxIndex)
             {
-                int chunkIdx = _currentIndex >> CHUNK_SHIFT;
-                int localIdx = _currentIndex & CHUNK_MASK;
+                int chunkIdx = _currentIndex >> _CHUNK_SHIFT;
+                int localIdx = _currentIndex & _CHUNK_MASK;
                 
                 if (chunkIdx < chunks.Length && Volatile.Read(ref chunks[chunkIdx][localIdx].isValid) == 1)
                 {
@@ -94,14 +94,14 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         _nextSlotIndex = 0;
         _isResizing = 0;
 
-        int initialChunks = (initialCapacity + CHUNK_MASK) / CHUNK_SIZE;
+        int initialChunks = (initialCapacity + _CHUNK_MASK) / _CHUNK_SIZE;
         if (initialChunks == 0) initialChunks = 1;
 
-        _capacity = initialChunks * CHUNK_SIZE;
+        _capacity = initialChunks * _CHUNK_SIZE;
         _chunks = new SlotEntry[initialChunks][];
         for (int i = 0; i < initialChunks; i++)
         {
-            _chunks[i] = new SlotEntry[CHUNK_SIZE];
+            _chunks[i] = new SlotEntry[_CHUNK_SIZE];
         }
 
         _freeSlots = new();
@@ -144,12 +144,12 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
             // Initialize new chunks
             for (var i = oldChunks.Length; i < newChunkCount; i++)
             {
-                newChunks[i] = new SlotEntry[CHUNK_SIZE];
+                newChunks[i] = new SlotEntry[_CHUNK_SIZE];
             }
 
             // Atomically update the array reference and capacity
             _chunks = newChunks;
-            Volatile.Write(ref _capacity, newChunkCount * CHUNK_SIZE);
+            Volatile.Write(ref _capacity, newChunkCount * _CHUNK_SIZE);
         }
         finally
         {
@@ -166,8 +166,8 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
             if (_freeSlots.TryDequeue(out var slotIndex))
             {
                 var chunks = _chunks;
-                int chunkIdx = slotIndex >> CHUNK_SHIFT;
-                int localIdx = slotIndex & CHUNK_MASK;
+                int chunkIdx = slotIndex >> _CHUNK_SHIFT;
+                int localIdx = slotIndex & _CHUNK_MASK;
 
                 if (chunkIdx < chunks.Length)
                 {
@@ -199,8 +199,8 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
 
             // Need a new slot
             int newSlotIndex = Interlocked.Increment(ref _nextSlotIndex) - 1;
-            int newChunkIdx = newSlotIndex >> CHUNK_SHIFT;
-            int newLocalIdx = newSlotIndex & CHUNK_MASK;
+            int newChunkIdx = newSlotIndex >> _CHUNK_SHIFT;
+            int newLocalIdx = newSlotIndex & _CHUNK_MASK;
 
             var currentChunks = _chunks;
             if (newChunkIdx >= currentChunks.Length)
@@ -221,6 +221,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Remove(int slotIndex, int generation)
     {
         return Remove(slotIndex, generation, out _);
@@ -235,8 +236,8 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         }
 
         var chunks = _chunks;
-        int chunkIdx = slotIndex >> CHUNK_SHIFT;
-        int localIdx = slotIndex & CHUNK_MASK;
+        int chunkIdx = slotIndex >> _CHUNK_SHIFT;
+        int localIdx = slotIndex & _CHUNK_MASK;
 
         if (chunkIdx >= chunks.Length)
         {
@@ -269,20 +270,48 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         return false; // Another thread already removed it
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Contains(int slotIndex, int generation)
+    {
+        GetElementReferenceAt(slotIndex, generation, out var exist);
+        return exist;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool TryGetElement(int slotIndex, int generation, [MaybeNullWhen(false)] out T value)
+    {
+        value = GetElementReferenceAt(slotIndex, generation, out var exist);
+        return exist;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public T GetElementAt(int slotIndex, int generation)
+    {
+        if (!TryGetElement(slotIndex, generation, out var value))
+        {
+            throw new InvalidOperationException($"Slot {slotIndex} is not occupied or generation mismatch.");
+        }
+
+        return value;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ref T GetElementReferenceAt(int slotIndex, int generation, out bool exist)
     {
         if (slotIndex < 0)
         {
-            return false;
+            exist = false;
+            return ref Unsafe.NullRef<T>();
         }
 
         var chunks = _chunks;
-        int chunkIdx = slotIndex >> CHUNK_SHIFT;
-        int localIdx = slotIndex & CHUNK_MASK;
+        int chunkIdx = slotIndex >> _CHUNK_SHIFT;
+        int localIdx = slotIndex & _CHUNK_MASK;
 
         if (chunkIdx >= chunks.Length)
         {
-            return false;
+            exist = false;
+            return ref Unsafe.NullRef<T>();
         }
 
         ref var slot = ref chunks[chunkIdx][localIdx];
@@ -294,70 +323,29 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         {
             if (Volatile.Read(ref slot.isValid) == 1 && Volatile.Read(ref slot.generation) == generation)
             {
-                return true;
+                exist = true;
+                return ref chunks[chunkIdx][localIdx].value!;
             }
         }
 
-        return false;
+        exist = false;
+        return ref Unsafe.NullRef<T>();
     }
 
-    public bool TryGetElement(int slotIndex, int generation, [MaybeNullWhen(false)] out T value)
-    {
-        if (!Contains(slotIndex, generation))
-        {
-            value = default;
-            return false;
-        }
-
-        var chunks = _chunks;
-        int chunkIdx = slotIndex >> CHUNK_SHIFT;
-        int localIdx = slotIndex & CHUNK_MASK;
-
-        value = chunks[chunkIdx][localIdx].value!;
-        return true;
-    }
-
-    public T GetElementAt(int slotIndex, int generation)
-    {
-        if (!TryGetElement(slotIndex, generation, out var value))
-        {
-            throw new InvalidOperationException($"Slot {slotIndex} is not occupied or generation mismatch.");
-        }
-
-        return value;
-    }
-
-    public ref T GetElementReferenceAt(int slotIndex, int generation, out bool exist)
-    {
-        if (!Contains(slotIndex, generation))
-        {
-            exist = false;
-            return ref Unsafe.NullRef<T>();
-        }
-
-        var chunks = _chunks;
-        int chunkIdx = slotIndex >> CHUNK_SHIFT;
-        int localIdx = slotIndex & CHUNK_MASK;
-
-        exist = true;
-        return ref chunks[chunkIdx][localIdx].value!;
-    }
-
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool UpdateElement(int slotIndex, int generation, T newValue)
     {
-        if (!Contains(slotIndex, generation))
+        ref var slotRef = ref GetElementReferenceAt(slotIndex, generation, out var exist);
+        if (!exist)
         {
             return false;
         }
 
-        var chunks = _chunks;
-        int chunkIdx = slotIndex >> CHUNK_SHIFT;
-        int localIdx = slotIndex & CHUNK_MASK;
-
-        chunks[chunkIdx][localIdx].value = newValue;
+        slotRef = newValue;
         return true;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear()
     {
         // Reset counters
@@ -369,7 +357,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         for (var c = 0; c < chunks.Length; c++)
         {
             var chunk = chunks[c];
-            for (var i = 0; i < CHUNK_SIZE; i++)
+            for (var i = 0; i < _CHUNK_SIZE; i++)
             {
                 ref var slot = ref chunk[i];
                 Volatile.Write(ref slot.isValid, 0);

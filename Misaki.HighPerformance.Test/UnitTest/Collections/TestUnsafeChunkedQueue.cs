@@ -15,7 +15,7 @@ public class TestUnsafeChunkedQueue
     [TestMethod]
     public void BasicEnqueueDequeueTest()
     {
-        using var queue = new UnsafeChunkedQueue<int>(32, AllocationHandle.Persistent);
+        using var queue = new UnsafeParallelQueue<int>(32, AllocationHandle.Persistent);
 
         Assert.IsTrue(queue.IsCreated);
 
@@ -35,7 +35,7 @@ public class TestUnsafeChunkedQueue
     public void ChunkExpansionTest()
     {
         // Force chunk expansions by enqueuing more than the chunk capacity
-        using var queue = new UnsafeChunkedQueue<int>(16, AllocationHandle.Persistent);
+        using var queue = new UnsafeParallelQueue<int>(16, AllocationHandle.Persistent);
 
         var totalItems = 100;
 
@@ -57,7 +57,7 @@ public class TestUnsafeChunkedQueue
     public void ConcurrentEnqueueDequeueTest()
     {
         // Multi-threaded stress test to verify lock-free safety and chunk caching
-        using var queue = new UnsafeChunkedQueue<int>(64, AllocationHandle.Persistent);
+        using var queue = new UnsafeParallelQueue<int>(64, AllocationHandle.Persistent);
         var totalElements = 100_000;
 
         var enqueueTask = Task.Run(() =>

@@ -166,7 +166,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static int CeilPow2(int x)
+    internal static int CeilPow2(int x)
     {
         x -= 1;
         x |= x >> 1;

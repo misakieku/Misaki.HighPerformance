@@ -72,6 +72,23 @@ public class TestUnsafeSlotMap
     }
 
     [TestMethod]
+    public void ReferenceValidAfterResize()
+    {
+        var id = _slotMap.Add(10, out var gen);
+        ref var value = ref _slotMap.GetElementReferenceAt(id, gen, out _);
+
+        Assert.AreEqual(10, value);
+
+        // Force resize
+        for (var i = 0; i < 20; i++)
+        {
+            _slotMap.Add(i, out _);
+        }
+
+        Assert.AreEqual(10, value);
+    }
+
+    [TestMethod]
     public void Clear()
     {
         var id1 = _slotMap.Add(10, out var gen1);

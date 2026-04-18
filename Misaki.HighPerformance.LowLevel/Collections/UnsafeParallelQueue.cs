@@ -8,7 +8,7 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 /// A dynamically resizing, parallel, lock-free queue using unmanaged chunks.
 /// Uses a very brief spin lock only during chunk allocation, alongside a lock-free segment cache.
 /// </summary>
-public unsafe struct UnsafeChunkedQueue<T> : IDisposable
+public unsafe struct UnsafeParallelQueue<T> : IDisposable
     where T : unmanaged
 {
     [StructLayout(LayoutKind.Sequential)]
@@ -39,28 +39,34 @@ public unsafe struct UnsafeChunkedQueue<T> : IDisposable
 
     public readonly unsafe struct ParallelProducer
     {
-        private readonly UnsafeChunkedQueue<T>* _queue;
+        private readonly UnsafeParallelQueue<T>* _queue;
 
-        internal ParallelProducer(UnsafeChunkedQueue<T>* queue)
+        internal ParallelProducer(UnsafeParallelQueue<T>* queue)
         {
             _queue = queue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Enqueue(T item) => _queue->Enqueue(item);
+        public void Enqueue(T item)
+        {
+            _queue->Enqueue(item);
+        }
     }
 
     public readonly unsafe struct ParallelConsumer
     {
-        private readonly UnsafeChunkedQueue<T>* _queue;
+        private readonly UnsafeParallelQueue<T>* _queue;
 
-        internal ParallelConsumer(UnsafeChunkedQueue<T>* queue)
+        internal ParallelConsumer(UnsafeParallelQueue<T>* queue)
         {
             _queue = queue;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryDequeue(out T item) => _queue->TryDequeue(out item);
+        public bool TryDequeue(out T item)
+        {
+            return _queue->TryDequeue(out item);
+        }
     }
 
     // Pointer representations (nint utilized for straightforward Interlocked compatibility)
@@ -79,7 +85,15 @@ public unsafe struct UnsafeChunkedQueue<T> : IDisposable
 
     public readonly bool IsCreated => _head != 0;
 
-    public UnsafeChunkedQueue(int capacityPerChunk, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static DisposablePtr<UnsafeParallelQueue<T>> Allocate(int capacityPerChunk, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    {
+        var pQueue = (UnsafeParallelQueue<T>*)handle.Alloc(handle.State, SizeOf<DisposablePtr<UnsafeParallelQueue<T>>>(), AlignOf<DisposablePtr<UnsafeParallelQueue<T>>>(), AllocationOption.None);
+        *pQueue = new UnsafeParallelQueue<T>(capacityPerChunk, handle, allocationOption);
+        return new DisposablePtr<UnsafeParallelQueue<T>>(pQueue);
+    }
+
+    public UnsafeParallelQueue(int capacityPerChunk, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
         _chunkCapacity = Math.Max(32, capacityPerChunk);
         _allocHandle = handle;
@@ -98,7 +112,7 @@ public unsafe struct UnsafeChunkedQueue<T> : IDisposable
     }
 
     [Obsolete("Use AllocationHandle instead.")]
-    public UnsafeChunkedQueue(int capacityPerChunk, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
+    public UnsafeParallelQueue(int capacityPerChunk, Allocator allocator, AllocationOption allocationOption = AllocationOption.None)
         : this(capacityPerChunk, AllocationManager.GetAllocationHandle(allocator), allocationOption)
     {
     }
@@ -312,7 +326,7 @@ public unsafe struct UnsafeChunkedQueue<T> : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ParallelProducer AsParallelProducer()
     {
-        return new ParallelProducer((UnsafeChunkedQueue<T>*)Unsafe.AsPointer(ref this));
+        return new ParallelProducer((UnsafeParallelQueue<T>*)Unsafe.AsPointer(ref this));
     }
 
     /// <summary>
@@ -323,7 +337,7 @@ public unsafe struct UnsafeChunkedQueue<T> : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ParallelConsumer AsParallelConsumer()
     {
-        return new ParallelConsumer((UnsafeChunkedQueue<T>*)Unsafe.AsPointer(ref this));
+        return new ParallelConsumer((UnsafeParallelQueue<T>*)Unsafe.AsPointer(ref this));
     }
 
     public void Dispose()

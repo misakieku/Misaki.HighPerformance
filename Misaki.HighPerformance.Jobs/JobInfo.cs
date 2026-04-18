@@ -1,8 +1,6 @@
-using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
@@ -33,10 +31,11 @@ public enum JobState
     Completed = 3
 }
 
-internal enum HeapType
+public enum JobPriority
 {
-    Native,
-    Managed,
+    High = 0,
+    Normal = 1,
+    Low = 2
 }
 
 internal unsafe struct JobInfo
@@ -58,7 +57,7 @@ internal unsafe struct JobInfo
             _index++;
             return _index < _jobInfo.dependentCount;
         }
-        
+
         public JobHandle Current
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -95,6 +94,7 @@ internal unsafe struct JobInfo
     public int dependentCount;
 
     public JobRanges jobRanges;
+    public JobPriority priority;
 
     public int state;
     public int remainingBatches;

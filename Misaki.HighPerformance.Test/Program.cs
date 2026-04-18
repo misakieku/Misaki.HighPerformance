@@ -1,17 +1,20 @@
+using BenchmarkDotNet.Running;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
+using Misaki.HighPerformance.LowLevel.Utilities;
+using Misaki.HighPerformance.Test.Benchmark;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-//BenchmarkRunner.Run<SPMDBenchmark>();
+BenchmarkRunner.Run<ConcurrentSlotMapBenchmark>();
 
-AllocationManager.Initialize(AllocationManagerInitOpts.Default);
-var set = new UnsafeBitSet(100, AllocationHandle.Persistent, AllocationOption.Clear);
-set.SetBit(0);
-Console.WriteLine(set.NextSetBit(0));
+//AllocationManager.Initialize(AllocationManagerInitOpts.Default);
+//var set = new UnsafeBitSet(100, AllocationHandle.Persistent, AllocationOption.Clear);
+//set.SetBit(0);
+//Console.WriteLine(set.NextSetBit(0));
 
-set.Dispose();
-AllocationManager.Dispose();
+//set.Dispose();
+//AllocationManager.Dispose();
 
 //unsafe
 //{

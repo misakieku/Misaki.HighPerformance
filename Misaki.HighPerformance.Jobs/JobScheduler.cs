@@ -8,6 +8,24 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
+public struct JobSchedulerDesc
+{
+    public int ThreadCount
+    {
+        get; set;
+    }
+
+    public ThreadPriority ThreadPriority
+    {
+        get; set;
+    }
+
+    public object? State
+    {
+        get; set;
+    }
+}
+
 /// <summary>
 /// Provides a mechanism for scheduling and executing jobs across multiple worker threads.
 /// </summary>
@@ -19,7 +37,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     private FreeList _freeList;
 
     private readonly ConcurrentSlotMap<JobInfo> _jobInfoPool;
-    private readonly ConcurrentQueue<JobHandle> _jobQueue;
+    private readonly ConcurrentQueue<JobHandle>[] _jobQueues;
     private readonly WorkerThread[] _workerThreads;
 
     private readonly SemaphoreSlim _workSignal;
@@ -29,10 +47,46 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
     private bool _disposed = false;
 
-    internal bool IsCancellationRequested => _cts.IsCancellationRequested;
     internal object? State => _state;
+    internal bool IsCancellationRequested => _cts.IsCancellationRequested;
 
     public int WorkerCount => _workerThreads.Length;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="JobScheduler"/> class with the specified description.
+    /// </summary>
+    /// <param name="desc">The description for the job scheduler.</param>
+    public JobScheduler(ref readonly JobSchedulerDesc desc)
+    {
+        var workerCount = Math.Max(1, desc.ThreadCount);
+
+        _freeList = new FreeList(MemoryUtility.AlignOf<IntPtr>(), maxConcurrencyLevel: workerCount);
+
+        _jobInfoPool = new ConcurrentSlotMap<JobInfo>(128);
+        _jobQueues = new ConcurrentQueue<JobHandle>[3];
+
+        for (var i = 0; i < 3; i++)
+        {
+            _jobQueues[i] = new ConcurrentQueue<JobHandle>();
+        }
+
+        _workSignal = new SemaphoreSlim(0);
+        _cts = new CancellationTokenSource();
+
+        _state = desc.State;
+
+        _workerThreads = new WorkerThread[workerCount];
+
+        for (var i = 0; i < workerCount; i++)
+        {
+            _workerThreads[i] = new WorkerThread(i, this, desc.ThreadPriority);
+        }
+
+        foreach (var worker in _workerThreads)
+        {
+            worker.Start();
+        }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JobScheduler"/> class with the specified number of worker threads.
@@ -40,14 +94,21 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     /// <param name="threadCount">The number of worker threads to create. If less than 1, at least one thread will be created.</param>
     /// <param name="priority">The priority of the worker threads.</param>
     /// <param name="state">The state object for the job scheduler.</param>
-    public JobScheduler(int threadCount, ThreadPriority priority = ThreadPriority.Normal, object? state = null)
+    /// <param name="allowManagedJobs">A value indicating whether managed jobs are allowed.</param>
+    [Obsolete("Use JobScheduler(JobSchedulerDesc) instead.")]
+    public JobScheduler(int threadCount, ThreadPriority priority = ThreadPriority.Normal, object? state = null, bool allowManagedJobs = false)
     {
         var workerCount = Math.Max(1, threadCount);
 
-        _freeList = new FreeList(MemoryUtility.AlignOf<IntPtr>(), maxConcurrencyLevel: threadCount);
+        _freeList = new FreeList(MemoryUtility.AlignOf<IntPtr>(), maxConcurrencyLevel: workerCount);
 
         _jobInfoPool = new ConcurrentSlotMap<JobInfo>(128);
-        _jobQueue = new ConcurrentQueue<JobHandle>();
+        _jobQueues = new ConcurrentQueue<JobHandle>[3];
+
+        for (var i = 0; i < 3; i++)
+        {
+            _jobQueues[i] = new ConcurrentQueue<JobHandle>();
+        }
 
         _workSignal = new SemaphoreSlim(0);
         _cts = new CancellationTokenSource();
@@ -72,7 +133,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         Dispose();
     }
 
-    private void EnqueueJobIfReady(JobHandle handle)
+    private void EnqueueJobIfReady(JobHandle handle, int threadIndex)
     {
         ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out var exist);
 
@@ -84,14 +145,20 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
                 return;
             }
 
+            var tier = (int)jobInfo.priority;
             ConcurrentQueue<JobHandle> jobQueue;
             if (jobInfo.threadIndex >= 0 && jobInfo.threadIndex < _workerThreads.Length)
             {
-                jobQueue = _workerThreads[jobInfo.threadIndex].LocalQueue;
+                jobQueue = _workerThreads[jobInfo.threadIndex].LocalQueues[tier];
+            }
+            else if (threadIndex >= 0 && threadIndex < _workerThreads.Length)
+            {
+                // Put into the local thread queue if the scheduling thread is a worker thread. This can improve cache locality and reduce contention on the main queue.
+                jobQueue = _workerThreads[threadIndex].LocalQueues[tier];
             }
             else
             {
-                jobQueue = _jobQueue;
+                jobQueue = _jobQueues[tier];
             }
 
             // Ensure the count of this job handle won't exceed the number of worker threads.
@@ -107,7 +174,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         }
     }
 
-    private JobHandle CreateJobHandle(ref JobInfo jobInfo, params ReadOnlySpan<JobHandle> dependencies)
+    private JobHandle CreateJobHandle(ref JobInfo jobInfo, int threadIndex, params ReadOnlySpan<JobHandle> dependencies)
     {
         var validDepCount = 0;
         for (var i = 0; i < dependencies.Length; i++)
@@ -199,7 +266,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         // Lower the initial 1 guard lock; Enqueue if met
         if (Interlocked.Decrement(ref infoInPool.dependencyCount) == 0)
         {
-            EnqueueJobIfReady(handle);
+            EnqueueJobIfReady(handle, threadIndex);
         }
 
         return handle;
@@ -208,16 +275,22 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal bool HasWork()
     {
-        if (!_jobQueue.IsEmpty)
+        for (var i = 0; i < _jobQueues.Length; i++)
         {
-            return true;
+            if (!_jobQueues[i].IsEmpty)
+            {
+                return true;
+            }
         }
 
         for (var i = 0; i < _workerThreads.Length; i++)
         {
-            if (!_workerThreads[i].LocalQueue.IsEmpty)
+            for (var j = 0; j < _workerThreads[i].LocalQueues.Length; j++)
             {
-                return true;
+                if (!_workerThreads[i].LocalQueues[j].IsEmpty)
+                {
+                    return true;
+                }
             }
         }
 
@@ -231,15 +304,15 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal bool TryStealFromMain(int threadIndex, out JobHandle outHandle)
+    internal bool TryStealFromMain(int tier, out JobHandle outHandle)
     {
-        return _jobQueue.TryDequeue(out outHandle);
+        return _jobQueues[tier].TryDequeue(out outHandle);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal bool TryStealFromWorker(int threadIndex, out JobHandle outHandle)
+    internal bool TryStealFromWorker(int threadIndex, int tier, out JobHandle outHandle)
     {
-        return _workerThreads[threadIndex].LocalQueue.TryDequeue(out outHandle);
+        return _workerThreads[threadIndex].LocalQueues[tier].TryDequeue(out outHandle);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -254,7 +327,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         return ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out exist);
     }
 
-    internal void MarkJobComplete(JobHandle handle)
+    internal void MarkJobComplete(JobHandle handle, int threadIndex)
     {
         Debug.Assert(handle.IsValid);
 
@@ -309,7 +382,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(depHandle.ID, depHandle.Generation, out var depExist);
             if (depExist && Interlocked.Decrement(ref depJobInfo.dependencyCount) == 0)
             {
-                EnqueueJobIfReady(depHandle);
+                EnqueueJobIfReady(depHandle, threadIndex);
             }
         }
 
@@ -319,7 +392,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
         _jobInfoPool.Remove(handle.ID, handle.Generation);
     }
 
-    public JobHandle Schedule<T>(ref readonly T job, int threadIndex, JobHandle dependency)
+    public JobHandle Schedule<T>(ref readonly T job, int threadIndex, JobHandle dependency, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJob
     {
         var pJobData = _freeList.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
@@ -341,22 +414,22 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             jobRanges = JobRanges.Single,
         };
 
-        return CreateJobHandle(ref jobInfo, dependency);
+        return CreateJobHandle(ref jobInfo, threadIndex, dependency);
     }
 
-    public JobHandle Schedule<T>(ref readonly T job, int threadIndex)
+    public JobHandle Schedule<T>(ref readonly T job, int threadIndex, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJob
-        => Schedule(in job, threadIndex, JobHandle.Invalid);
+        => Schedule(in job, threadIndex, JobHandle.Invalid, priority);
 
-    public JobHandle Schedule<T>(ref readonly T job, JobHandle dependency)
+    public JobHandle Schedule<T>(ref readonly T job, JobHandle dependency, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJob
-        => Schedule(in job, -1, dependency);
+        => Schedule(in job, -1, dependency, priority);
 
-    public JobHandle Schedule<T>(ref readonly T job)
+    public JobHandle Schedule<T>(ref readonly T job, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJob
-        => Schedule(in job, -1, JobHandle.Invalid);
+        => Schedule(in job, -1, JobHandle.Invalid, priority);
 
-    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, JobHandle dependency)
+    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, JobHandle dependency, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJobParallelFor
     {
         var pJobData = _freeList.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
@@ -386,22 +459,22 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             },
         };
 
-        return CreateJobHandle(ref jobInfo, dependency);
+        return CreateJobHandle(ref jobInfo, threadIndex, dependency);
     }
 
-    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex)
+    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJobParallelFor
-        => ScheduleParallelFor(in job, totalIteration, batchSize, threadIndex, JobHandle.Invalid);
+        => ScheduleParallelFor(in job, totalIteration, batchSize, threadIndex, JobHandle.Invalid, priority);
 
-    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, JobHandle dependency)
+    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, JobHandle dependency, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJobParallelFor
-        => ScheduleParallelFor(in job, totalIteration, batchSize, -1, dependency);
+        => ScheduleParallelFor(in job, totalIteration, batchSize, -1, dependency, priority);
 
-    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize)
+    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJobParallelFor
-        => ScheduleParallelFor(in job, totalIteration, batchSize, -1, JobHandle.Invalid);
+        => ScheduleParallelFor(in job, totalIteration, batchSize, -1, JobHandle.Invalid, priority);
 
-    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, JobHandle dependency)
+    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, JobHandle dependency, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJobParallel
     {
         var pJobData = _freeList.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
@@ -431,20 +504,20 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             },
         };
 
-        return CreateJobHandle(ref jobInfo, dependency);
+        return CreateJobHandle(ref jobInfo, threadIndex, dependency);
     }
 
-    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex)
+    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJobParallel
-        => ScheduleParallel(in job, totalIteration, batchSize, threadIndex, JobHandle.Invalid);
+        => ScheduleParallel(in job, totalIteration, batchSize, threadIndex, JobHandle.Invalid, priority);
 
-    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, JobHandle dependency)
+    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, JobHandle dependency, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJobParallel
-        => ScheduleParallel(in job, totalIteration, batchSize, -1, dependency);
+        => ScheduleParallel(in job, totalIteration, batchSize, -1, dependency, priority);
 
-    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize)
+    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, JobPriority priority = JobPriority.Normal)
         where T : unmanaged, IJobParallel
-        => ScheduleParallel(in job, totalIteration, batchSize, -1, JobHandle.Invalid);
+        => ScheduleParallel(in job, totalIteration, batchSize, -1, JobHandle.Invalid, priority);
 
     public JobHandle CombineDependencies(params ReadOnlySpan<JobHandle> dependencies)
     {
@@ -459,7 +532,7 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
             jobRanges = JobRanges.Single,
         };
 
-        return CreateJobHandle(ref jobInfo, dependencies);
+        return CreateJobHandle(ref jobInfo, -1, dependencies);
     }
 
     public JobState GetJobStatus(JobHandle handle)
@@ -560,6 +633,45 @@ public sealed unsafe partial class JobScheduler : IJobScheduler, IDisposable
 
             spin.SpinOnce(_SLEEP_THRESHOLD);
         }
+    }
+
+    public Task WaitAsync(JobHandle handle, CancellationToken cancellationToken = default)
+    {
+        if (!handle.IsValid)
+        {
+            return Task.CompletedTask;
+        }
+
+        var workItem = new WaitItem(this, handle, cancellationToken);
+        ThreadPool.UnsafeQueueUserWorkItem(workItem, preferLocal: true);
+
+        return workItem.Task;
+    }
+
+    public Task WaitAllAsync(Memory<JobHandle> handles, CancellationToken cancellationToken = default)
+    {
+        if (handles.Length == 0)
+        {
+            return Task.CompletedTask;
+        }
+
+        var workItem = new WaitAllItem(this, handles, cancellationToken);
+        ThreadPool.UnsafeQueueUserWorkItem(workItem, preferLocal: true);
+
+        return workItem.Task;
+    }
+
+    public Task<JobHandle> WaitAnyAsync(ReadOnlyMemory<JobHandle> handles, CancellationToken cancellationToken = default)
+    {
+        if (handles.Length == 0)
+        {
+            return Task.FromResult(JobHandle.Invalid);
+        }
+
+        var workItem = new WaitAnyItem(this, handles, cancellationToken);
+        ThreadPool.UnsafeQueueUserWorkItem(workItem, preferLocal: true);
+
+        return workItem.Task;
     }
 
     public void Dispose()

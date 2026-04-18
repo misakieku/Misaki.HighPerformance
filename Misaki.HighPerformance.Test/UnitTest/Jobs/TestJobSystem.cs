@@ -9,7 +9,7 @@ namespace Misaki.HighPerformance.Test.UnitTest.Jobs;
 
 [TestClass]
 [DoNotParallelize]
-public unsafe class TestJobSystem
+public class TestJobSystem
 {
     private static JobScheduler s_jobScheduler = null!;
 
@@ -32,7 +32,7 @@ public unsafe class TestJobSystem
     }
 
     [TestMethod]
-    public void SingleJob()
+    public unsafe void SingleJob()
     {
         var result = stackalloc float[1];
         var job = new TwoSumJob
@@ -49,7 +49,7 @@ public unsafe class TestJobSystem
     }
 
     [TestMethod]
-    public void JobDependency()
+    public unsafe void JobDependency()
     {
         var result = stackalloc float[1];
         var job1 = new TwoSumJob
@@ -74,7 +74,7 @@ public unsafe class TestJobSystem
     }
 
     [TestMethod]
-    public void CompletedDependency()
+    public unsafe void CompletedDependency()
     {
         var result = stackalloc float[1];
         var job1 = new TwoSumJob
@@ -100,7 +100,7 @@ public unsafe class TestJobSystem
     }
 
     [TestMethod]
-    public void CombineDependencies()
+    public unsafe void CombineDependencies()
     {
         var result = stackalloc float[1];
         var job1 = new TwoSumJob
@@ -135,7 +135,7 @@ public unsafe class TestJobSystem
     }
 
     [TestMethod]
-    public void SingleParallelJob()
+    public unsafe void SingleParallelJob()
     {
         const int size = 1000;
         var result = stackalloc float[size];
@@ -167,7 +167,7 @@ public unsafe class TestJobSystem
     }
 
     [TestMethod]
-    public void ChainJob()
+    public unsafe void ChainJob()
     {
         const int arraySize = 10000;
 
@@ -209,7 +209,7 @@ public unsafe class TestJobSystem
     }
 
     [TestMethod]
-    public void WaitAll()
+    public unsafe void WaitAll()
     {
         var result1 = stackalloc float[1];
         var result2 = stackalloc float[1];
@@ -235,8 +235,42 @@ public unsafe class TestJobSystem
         Assert.AreEqual(JobState.Completed, s_jobScheduler.GetJobStatus(handle2));
     }
 
+
     [TestMethod]
-    public void WaitAny()
+    public async Task WaitAllAsync()
+    {
+        AddJob job1;
+        AddJob job2;
+
+        unsafe
+        {
+            var result1 = stackalloc float[1];
+            var result2 = stackalloc float[1];
+
+            job1 = new AddJob
+            {
+                value = 1.0f,
+                result = result1
+            };
+
+            job2 = new AddJob
+            {
+                value = 1.0f,
+                result = result2
+            };
+        }
+
+        var handle1 = s_jobScheduler.Schedule(ref job1);
+        var handle2 = s_jobScheduler.Schedule(ref job2);
+
+        await s_jobScheduler.WaitAllAsync(new Memory<JobHandle>(new[] { handle1, handle2 }));
+
+        Assert.AreEqual(JobState.Completed, s_jobScheduler.GetJobStatus(handle1));
+        Assert.AreEqual(JobState.Completed, s_jobScheduler.GetJobStatus(handle2));
+    }
+
+    [TestMethod]
+    public unsafe void WaitAny()
     {
         var result1 = stackalloc float[1];
         var result2 = stackalloc float[1];
@@ -262,7 +296,7 @@ public unsafe class TestJobSystem
     }
 
     [TestMethod]
-    public void SPMDCorrectness()
+    public unsafe void SPMDCorrectness()
     {
         const int size = 8;
 
