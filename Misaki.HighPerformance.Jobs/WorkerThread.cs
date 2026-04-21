@@ -9,8 +9,6 @@ internal class WorkerThread : IDisposable
     private readonly ConcurrentQueue<JobHandle>[] _localQueues;
 
     private readonly JobScheduler _scheduler;
-    private readonly Random _stealRandom;
-
     private readonly int _maxStealAttems;
 
     private uint _priorityTick;
@@ -28,8 +26,6 @@ internal class WorkerThread : IDisposable
         }
 
         _scheduler = scheduler;
-        _stealRandom = new Random(index * 9973 + Environment.TickCount);
-
         _maxStealAttems = Math.Max((int)(_scheduler.WorkerCount * 0.5f), 3);
 
         _thread = new Thread(WorkLoop)

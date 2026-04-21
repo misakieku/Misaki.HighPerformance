@@ -10,9 +10,41 @@ public struct BigStruct
     public long k, l, m, n, o, p, q, r, s, t;
 }
 
-public class Integer
+public class Data
 {
-    public BigStruct value;
+    public class Inner
+    {
+        public BigStruct value;
+    }
+
+    private readonly WeakReference<Inner> _inner;
+
+    public Data(Inner inner)
+    {
+        _inner = new WeakReference<Inner>(inner);
+    }
+
+    public int A
+    {
+        get
+        {
+            if (!_inner.TryGetTarget(out var inner))
+            {
+                throw new InvalidOperationException("Inner class instance is null.");
+            }
+
+            return inner.value.a;
+        }
+        set
+        {
+            if (!_inner.TryGetTarget(out var inner))
+            {
+                throw new InvalidOperationException("Inner class instance is null.");
+            }
+
+            inner.value.a = value;
+        }
+    }
 }
 
 public class ConcurrentSlotMapBenchmark
@@ -20,7 +52,8 @@ public class ConcurrentSlotMapBenchmark
     private readonly ConcurrentSlotMap<BigStruct> _concurrentMap = new ConcurrentSlotMap<BigStruct>(1000);
     private readonly SlotMap<BigStruct> _slotMap = new SlotMap<BigStruct>(1000);
     private readonly BigStruct[] _slots = new BigStruct[1000];
-    private readonly Integer[] _objects = new Integer[1000];
+    private readonly Data[] _objects = new Data[1000];
+    private readonly Data.Inner[] _inners = new Data.Inner[1000];
 
     private readonly int2[] _randomIndices1 = new int2[1000];
     private readonly int2[] _randomIndices2 = new int2[1000];
@@ -43,7 +76,8 @@ public class ConcurrentSlotMapBenchmark
             _randomIndices2[i] = new int2(id, generation);
 
             _slots[i] = element;
-            _objects[i] = new Integer { value = element };
+            _inners[i] = new Data.Inner { value = element };
+            _objects[i] = new Data(_inners[i]);
 
             _randomSlots[i] = i;
         }
@@ -89,7 +123,7 @@ public class ConcurrentSlotMapBenchmark
     {
         for (var i = 0; i < 1000; i++)
         {
-            _objects[_randomSlots[i]].value.a += 1;
+            _objects[_randomSlots[i]].A += 1;
         }
     }
 }

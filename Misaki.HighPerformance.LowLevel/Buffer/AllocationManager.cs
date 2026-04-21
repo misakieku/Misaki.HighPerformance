@@ -3,7 +3,6 @@ using Misaki.HighPerformance.Collections;
 #endif
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.Versioning;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -39,34 +38,34 @@ public readonly struct AllocationInfo
 #endif
 }
 
-public readonly struct AllocationManagerInitOpts
+public readonly struct AllocationManagerDesc
 {
-    public nuint ArenaCapacity
+    public required nuint ArenaCapacity
     {
         get; init;
     }
 
-    public nuint StackCapacity
+    public required nuint StackCapacity
     {
         get; init;
     }
 
-    public nuint FreeListChunkSize
+    public required nuint FreeListChunkSize
     {
         get; init;
     }
 
-    public nuint FreeListDefaultAlignment
+    public required nuint FreeListDefaultAlignment
     {
         get; init;
     }
 
-    public int FreeListConcurrencyLevel
+    public required int FreeListConcurrencyLevel
     {
         get; init;
     }
 
-    public static AllocationManagerInitOpts Default => new AllocationManagerInitOpts
+    public static AllocationManagerDesc Default => new AllocationManagerDesc
     {
         ArenaCapacity = 1024 * 1024 * 1024, // 1 GB
         StackCapacity = 16 * 1024 * 1024, // 16 MB per thread
@@ -137,13 +136,6 @@ public static unsafe class AllocationManager
         {
             AlignedFree(ptr);
         }
-
-#if MHP_ENABLE_SAFETY_CHECKS
-        private static bool IsValid(void* _, MemoryHandle handle)
-        {
-            return ContainsAllocation(handle);
-        }
-#endif
     }
 
     internal static MemoryPool<VirtualArena, VirtualArena.CreationOptions> s_arenaAllocator;
@@ -156,6 +148,7 @@ public static unsafe class AllocationManager
 
 #if MHP_ENABLE_SAFETY_CHECKS
     private static ConcurrentSlotMap<AllocationInfo> s_allocations = null!;
+    private static long s_totalAllocatedMemory;
 #endif
 
     /// <summary>
@@ -164,6 +157,13 @@ public static unsafe class AllocationManager
     public static int LiveAllocationCount =>
 #if MHP_ENABLE_SAFETY_CHECKS
         s_allocations.Count;
+#else
+        0;
+#endif
+
+    public static nuint TotalAllocatedMemory =>
+#if MHP_ENABLE_SAFETY_CHECKS
+        (nuint)s_totalAllocatedMemory;
 #else
         0;
 #endif
@@ -219,7 +219,7 @@ public static unsafe class AllocationManager
         }
     }
 
-    public static void Initialize(AllocationManagerInitOpts opts)
+    public static void Initialize(AllocationManagerDesc opts)
     {
         if (s_initialized)
         {
@@ -318,6 +318,8 @@ public static unsafe class AllocationManager
 #endif
         };
 
+        Interlocked.Add(ref s_totalAllocatedMemory, (long)size);
+
         var id = s_allocations.Add(info, out var generation);
         return new MemoryHandle(id, generation);
 #else
@@ -332,13 +334,17 @@ public static unsafe class AllocationManager
 
         if (newPtr == null)
         {
-            s_allocations.Remove(handle.ID, handle.Generation);
+            s_allocations.Remove(handle.ID, handle.Generation, out var info);
+            Interlocked.Add(ref s_totalAllocatedMemory, -(long)info.Size);
         }
         else
         {
 
             if (s_allocations.TryGetElement(handle.ID, handle.Generation, out var oldInfo))
             {
+                var diff = newSize - oldInfo.Size;
+                Interlocked.Add(ref s_totalAllocatedMemory, (long)diff);
+
                 var newInfo = oldInfo with
                 {
                     Address = (IntPtr)newPtr,
@@ -364,7 +370,14 @@ public static unsafe class AllocationManager
     {
 #if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-        return s_allocations.Remove(handle.ID, handle.Generation, out var info);
+
+        if (s_allocations.Remove(handle.ID, handle.Generation, out var info))
+        {
+            Interlocked.Add(ref s_totalAllocatedMemory, -(long)info.Size);
+            return true;
+        }
+
+        return false;
 #else
         return false;
 #endif
@@ -409,30 +422,6 @@ public static unsafe class AllocationManager
         return s_allocations.Contains(handle.ID, handle.Generation);
 #else
         return false;
-#endif
-    }
-
-    /// <summary>
-    /// Gets the total newSize of all currently tracked allocations.
-    /// </summary>
-    /// <remarks>
-    /// Always returns 0 if MHP_ENABLE_SAFETY_CHECKS is disabled.
-    /// </remarks>
-    /// <returns>The total newSize of all currently tracked allocations.</returns>
-    public static nuint GetTotalAllocatedMemory()
-    {
-#if MHP_ENABLE_SAFETY_CHECKS
-        Debug.Assert(s_initialized, "AllocationManager is not initialized.");
-
-        nuint total = 0;
-        foreach (var allocation in s_allocations)
-        {
-            total += allocation.Size;
-        }
-
-        return total;
-#else
-        return 0;
 #endif
     }
 

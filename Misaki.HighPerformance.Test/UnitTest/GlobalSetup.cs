@@ -8,7 +8,7 @@ public static class GlobalSetup
     [GlobalTestInitialize]
     public static void GlobalInitialize(TestContext ctx)
     {
-        AllocationManager.Initialize(AllocationManagerInitOpts.Default);
+        AllocationManager.Initialize(AllocationManagerDesc.Default);
     }
 
     [GlobalTestCleanup]
