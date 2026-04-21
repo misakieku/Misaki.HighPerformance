@@ -110,6 +110,7 @@ internal class WorkerThread : IDisposable
                 spin.SpinOnce(-1);
             }
 
+            // If we didn't find a job after spinning, wait for a signal
             if (!found)
             {
                 try
@@ -130,12 +131,58 @@ internal class WorkerThread : IDisposable
             ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
             if (exist)
             {
-                var priorState = Interlocked.CompareExchange(ref jobInfo.state, JobUtility.JOBSTATE_RUNNING, JobUtility.JOBSTATE_SCHEDULED);
-                if (priorState != JobUtility.JOBSTATE_SCHEDULED && priorState != JobUtility.JOBSTATE_RUNNING)
+                // Try to acquire a reference count for the job. This ensures that the job won't be removed while we're processing it.
+                // This is critical that if thread A reads the job, but suddenly os scheduler delay the thread for just a moment, and thread B completes the job and removes it from the system, when thread A resumes, it might be accessing invalid memory.
+                // By acquiring a reference count, we ensure that even if the job is completed while we're processing it, it won't be removed until we're done.
+
+                var rcSpin = new SpinWait();
+                var rcAcquired = false;
+
+                while (true)
+                {
+                    _scheduler.GetJobInfoReference(handle, out var currentExist);
+                    if (!currentExist)
+                    {
+                        break;
+                    }
+
+                    var stateVal = Volatile.Read(ref jobInfo.state);
+                    var state = JobUtility.GetState(stateVal);
+
+                    if (state == JobState.Completed || state == JobState.Invalid)
+                    {
+                        break;
+                    }
+
+                    var newState = stateVal + JobUtility.RC_ONE;
+                    if (state == JobState.Scheduled)
+                    {
+                        newState = (newState & ~JobUtility.STATE_MASK) | JobUtility.JOBSTATE_RUNNING;
+                    }
+
+                    // Attempt to acquire a reference count by incrementing the state value. If the state has changed since we read it, we need to retry.
+                    if (Interlocked.CompareExchange(ref jobInfo.state, newState, stateVal) == stateVal)
+                    {
+                        _scheduler.GetJobInfoReference(handle, out currentExist);
+                        if (!currentExist)
+                        {
+                            JobUtility.ReleaseRC(ref jobInfo.state);
+                            break;
+                        }
+
+                        rcAcquired = true;
+                        break;
+                    }
+
+                    rcSpin.SpinOnce(-1);
+                }
+
+                if (!rcAcquired)
                 {
                     continue;
                 }
 
+                var isLastBatch = true;
                 if (jobInfo.pExecutionFunc != null)
                 {
                     var ctx = new JobExecutionContext
@@ -146,14 +193,15 @@ internal class WorkerThread : IDisposable
                         SelfHandle = handle,
                     };
 
-                    if (!jobInfo.pExecutionFunc(jobInfo.pJobData, ref jobInfo.jobRanges, ref jobInfo.remainingBatches, in ctx))
-                    {
-                        // If the job returns false, it means it we are not the last worker to process this job, so we should not mark it as complete yet.
-                        continue;
-                    }
+                    isLastBatch = jobInfo.pExecutionFunc(jobInfo.dataID, jobInfo.dataGeneration, ref jobInfo.jobRanges, ref jobInfo.remainingBatches, in ctx);
                 }
 
-                _scheduler.MarkJobComplete(handle, _index);
+                JobUtility.ReleaseRC(ref jobInfo.state);
+
+                if (isLastBatch)
+                {
+                    _scheduler.MarkJobComplete(handle, _index);
+                }
             }
         }
     }

@@ -249,6 +249,11 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private readonly void DrainRemoteFrees(ThreadCache* cache)
     {
+        if (Volatile.Read(ref cache->remoteFreeHead) == 0)
+        {
+            return;
+        }
+
         var head = (FreeNode*)Interlocked.Exchange(ref cache->remoteFreeHead, 0);
         while (head != null)
         {

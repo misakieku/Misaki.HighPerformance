@@ -126,8 +126,8 @@ public class TestJobSystem
             result = result
         };
 
-        var combinedHandle = s_jobScheduler.CombineDependencies(handle1, handle2);
-        var handle3 = s_jobScheduler.Schedule(ref job3, combinedHandle);
+        //var combinedHandle = s_jobScheduler.CombineDependencies(handle1, handle2);
+        var handle3 = s_jobScheduler.Schedule(ref job3, handle1, handle2);
 
         s_jobScheduler.Wait(handle3);
 

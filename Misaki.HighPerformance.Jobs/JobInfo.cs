@@ -38,7 +38,7 @@ public enum JobPriority
     Low = 2
 }
 
-internal unsafe struct JobInfo
+public unsafe struct JobInfo
 {
     public ref struct DependentIterator
     {
@@ -63,13 +63,13 @@ internal unsafe struct JobInfo
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (_index < MAX_DEPENDENTS)
+                if (_index < MAX_LOCAL_DEPENDENTS)
                 {
                     return new JobHandle(_jobInfo.dependentsID[_index], _jobInfo.dependentsGeneration[_index]);
                 }
                 else
                 {
-                    return _jobInfo.additionalDependents[_index - MAX_DEPENDENTS];
+                    return _jobInfo.additionalDependents[_index - MAX_LOCAL_DEPENDENTS];
                 }
             }
         }
@@ -81,14 +81,17 @@ internal unsafe struct JobInfo
         }
     }
 
-    public const int MAX_DEPENDENTS = 8;
+    public const int MAX_LOCAL_DEPENDENTS = 8;
 
-    public void* pJobData;
-    public JobExecutionFunc pExecutionFunc;
+    public delegate*<int, int, ref JobRanges, ref int, ref readonly JobExecutionContext, bool> pExecutionFunc;
+    public delegate*<int, int, void> pFreeFunc;
+
+    public int dataID;
+    public int dataGeneration;
 
     // The list of jobs that are waiting for THIS job to complete.
-    public fixed int dependentsID[MAX_DEPENDENTS]; // The actual list of IDs
-    public fixed int dependentsGeneration[MAX_DEPENDENTS]; // The actual list of generations
+    public fixed int dependentsID[MAX_LOCAL_DEPENDENTS]; // The actual list of IDs
+    public fixed int dependentsGeneration[MAX_LOCAL_DEPENDENTS]; // The actual list of generations
 
     public UnsafeList<JobHandle> additionalDependents;
     public int dependentCount;
@@ -110,7 +113,7 @@ internal unsafe struct JobInfo
     }
 }
 
-internal struct JobRanges
+public struct JobRanges
 {
     public int batchSize;
     public int totalIteration;

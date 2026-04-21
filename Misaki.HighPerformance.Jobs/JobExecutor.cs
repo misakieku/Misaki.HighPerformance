@@ -1,16 +1,22 @@
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+
 namespace Misaki.HighPerformance.Jobs;
 
-internal static unsafe class JobExecutor
+internal static class JobExecutor
 {
-    public static bool Execute<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, ref readonly JobExecutionContext ctx)
-        where T : unmanaged, IJob
+    public static bool Execute<T>(int dataID, int dataGeneration, ref JobRanges jobRanges, ref int remainingBatches, ref readonly JobExecutionContext ctx)
+        where T : struct, IJob
     {
-        var pJob = (T*)pJobData;
-        pJob->Execute(in ctx);
+        ref var job = ref JobDataPool<T>.GetReference(dataID, dataGeneration, out var exists);
+        Debug.Assert(exists, "Job data not found in the pool.");
+
+        job.Execute(in ctx);
 
         return Interlocked.Decrement(ref remainingBatches) == 0;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool GetWorkerStealingRange(ref JobRanges jobRanges, out int start, out int end)
     {
         start = Interlocked.Add(ref jobRanges.currentIndex, jobRanges.batchSize) - jobRanges.batchSize;
@@ -25,10 +31,12 @@ internal static unsafe class JobExecutor
         return true;
     }
 
-    public static bool ExecuteParallelFor<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, ref readonly JobExecutionContext ctx)
-        where T : unmanaged, IJobParallelFor
+    public static bool ExecuteParallelFor<T>(int dataID, int dataGeneration, ref JobRanges jobRanges, ref int remainingBatches, ref readonly JobExecutionContext ctx)
+        where T : struct, IJobParallelFor
     {
-        var pJob = (T*)pJobData;
+        ref var job = ref JobDataPool<T>.GetReference(dataID, dataGeneration, out var exists);
+        Debug.Assert(exists, "Job data not found in the pool.");
+
         var wasTheLastBatch = false;
 
         while (true)
@@ -40,7 +48,7 @@ internal static unsafe class JobExecutor
 
             for (var i = start; i < end; i++)
             {
-                pJob->Execute(i, in ctx);
+                job.Execute(i, in ctx);
             }
 
             if (Interlocked.Decrement(ref remainingBatches) == 0)
@@ -52,12 +60,13 @@ internal static unsafe class JobExecutor
         return wasTheLastBatch;
     }
 
-    public static bool ExecuteParallel<T>(void* pJobData, ref JobRanges jobRanges, ref int remainingBatches, ref readonly JobExecutionContext ctx)
-        where T : unmanaged, IJobParallel
+    public static bool ExecuteParallel<T>(int dataID, int dataGeneration, ref JobRanges jobRanges, ref int remainingBatches, ref readonly JobExecutionContext ctx)
+        where T : struct, IJobParallel
     {
-        var pJob = (T*)pJobData;
-        var wasTheLastBatch = false;
+        ref var job = ref JobDataPool<T>.GetReference(dataID, dataGeneration, out var exists);
+        Debug.Assert(exists, "Job data not found in the pool.");
 
+        var wasTheLastBatch = false;
         while (true)
         {
             if (!GetWorkerStealingRange(ref jobRanges, out var start, out var end))
@@ -65,7 +74,7 @@ internal static unsafe class JobExecutor
                 break;
             }
 
-            pJob->Execute(start, end, in ctx);
+            job.Execute(start, end, in ctx);
             if (Interlocked.Decrement(ref remainingBatches) == 0)
             {
                 wasTheLastBatch = true;

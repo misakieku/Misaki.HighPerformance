@@ -36,7 +36,7 @@ public unsafe class SPMDBenchmark
             height = _SIZE,
         };
 
-        var handle = _scheduler.ScheduleParallelSPDM<Jobs.NoiseJobMathSPMD, float>(ref job, _SIZE * _SIZE, 64, -1, JobHandle.Invalid);
+        var handle = _scheduler.ScheduleParallelSPDM<Jobs.NoiseJobMathSPMD, float>(ref job, _SIZE * _SIZE, 64, -1);
         _scheduler.Wait(handle);
     }
 
@@ -50,7 +50,7 @@ public unsafe class SPMDBenchmark
             height = _SIZE,
         };
 
-        var handle = _scheduler.ScheduleParallelFor(ref job, _SIZE * _SIZE, 64, -1, JobHandle.Invalid);
+        var handle = _scheduler.ScheduleParallelFor(ref job, _SIZE * _SIZE, 64, -1);
         _scheduler.Wait(handle);
     }
 
@@ -64,7 +64,7 @@ public unsafe class SPMDBenchmark
             height = _SIZE,
         };
 
-        var handle = _scheduler.ScheduleParallel(ref job, _SIZE * _SIZE, 64, -1, JobHandle.Invalid);
+        var handle = _scheduler.ScheduleParallel(ref job, _SIZE * _SIZE, 64, -1);
         _scheduler.Wait(handle);
     }
 

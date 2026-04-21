@@ -6,7 +6,35 @@ using Misaki.HighPerformance.Test.Benchmark;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-BenchmarkRunner.Run<ConcurrentSlotMapBenchmark>();
+BenchmarkRunner.Run<ParallelNoiseBenchmark>();
+
+//var bench = new ParallelNoiseBenchmark();
+//bench.Setup();
+
+//for (int i = 0; i < 4096 * 5; i++)
+//{
+//    bench.JobSystem();
+//}
+
+//bench.Cleanup();
+
+//bench.Setup();
+
+//for (int i = 0; i < 4096 * 5; i++)
+//{
+//    bench.JobSystem();
+//}
+
+//bench.Cleanup();
+
+//bench.Setup();
+
+//for (int i = 0; i < 4096 * 5; i++)
+//{
+//    bench.JobSystem();
+//}
+
+//bench.Cleanup();
 
 //AllocationManager.Initialize(AllocationManagerInitOpts.Default);
 //var set = new UnsafeBitSet(100, AllocationHandle.Persistent, AllocationOption.Clear);

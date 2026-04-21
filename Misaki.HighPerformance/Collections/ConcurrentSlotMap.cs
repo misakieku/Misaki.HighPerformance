@@ -158,7 +158,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         }
     }
 
-    public int Add(T item, out int generation)
+    public int Add(scoped in T item, out int generation)
     {
         while (true)
         {

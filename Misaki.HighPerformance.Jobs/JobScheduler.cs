@@ -1,14 +1,13 @@
 using Misaki.HighPerformance.Collections;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
-using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
-public struct JobSchedulerDesc()
+public struct JobSchedulerDesc
 {
     /// <summary>
     /// Gets or sets the number of worker threads to be created and managed by the job scheduler. If set to less than 1, at least one worker thread will be created.
@@ -21,10 +20,10 @@ public struct JobSchedulerDesc()
     /// <summary>
     /// Gets or sets the priority of the worker threads. This can be used to influence the scheduling of the threads by the operating system. The default value is <see cref="ThreadPriority.Normal"/>.
     /// </summary>
-    public ThreadPriority ThreadPriority
+    public required ThreadPriority ThreadPriority
     {
         get; set;
-    } = ThreadPriority.Normal;
+    }
 
     /// <summary>
     /// Gets or sets the state object for the job scheduler. This can be used to store any user-defined data or context that may be needed by the jobs or worker threads. The job scheduler does not interpret or manage this state in any way; it is simply provided as a convenience for users of the job scheduler. The default value is null.
@@ -118,8 +117,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
     // Don't sleep indefinitely because that causes our 1ms job to become 15ms.
     private const int _SLEEP_THRESHOLD = -1;
 
-    private FreeList _freeList;
-
     private readonly ConcurrentSlotMap<JobInfo> _jobInfoPool;
     private readonly ConcurrentQueue<JobHandle>[] _jobQueues;
     private readonly WorkerThread[] _workerThreads;
@@ -146,8 +143,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
     public JobScheduler(ref readonly JobSchedulerDesc desc)
     {
         var workerCount = Math.Max(1, desc.ThreadCount);
-
-        _freeList = new FreeList(MemoryUtility.AlignOf<IntPtr>(), maxConcurrencyLevel: workerCount);
 
         _jobInfoPool = new ConcurrentSlotMap<JobInfo>(128);
         _jobQueues = new ConcurrentQueue<JobHandle>[3];
@@ -181,13 +176,10 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <param name="threadCount">The number of worker threads to create. If less than 1, at least one thread will be created.</param>
     /// <param name="priority">The priority of the worker threads.</param>
     /// <param name="state">The state object for the job scheduler.</param>
-    /// <param name="allowManagedJobs">A value indicating whether managed jobs are allowed.</param>
     [Obsolete("Use JobScheduler(JobSchedulerDesc) instead.")]
-    public JobScheduler(int threadCount, ThreadPriority priority = ThreadPriority.Normal, object? state = null, bool allowManagedJobs = false)
+    public JobScheduler(int threadCount, ThreadPriority priority = ThreadPriority.Normal, object? state = null)
     {
         var workerCount = Math.Max(1, threadCount);
-
-        _freeList = new FreeList(MemoryUtility.AlignOf<IntPtr>(), maxConcurrencyLevel: workerCount);
 
         _jobInfoPool = new ConcurrentSlotMap<JobInfo>(128);
         _jobQueues = new ConcurrentQueue<JobHandle>[3];
@@ -263,17 +255,8 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
     private JobHandle CreateJobHandle(ref JobInfo jobInfo, int threadIndex, params ReadOnlySpan<JobHandle> dependencies)
     {
-        var validDepCount = 0;
-        for (var i = 0; i < dependencies.Length; i++)
-        {
-            if (dependencies[i].IsValid)
-            {
-                validDepCount++;
-            }
-        }
-
         // Advance count to account for all dependencies upfront + 1 guard lock
-        Interlocked.Increment(ref jobInfo.dependencyCount);
+        Interlocked.Add(ref jobInfo.dependencyCount, dependencies.Length + 1);
 
         var id = _jobInfoPool.Add(jobInfo, out var generation);
         ref var infoInPool = ref _jobInfoPool.GetElementReferenceAt(id, generation, out _);
@@ -316,7 +299,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 {
                     // RC acquired. We are safe from "Remove" and state change.
                     var count = Interlocked.Increment(ref depJobInfo.dependentCount);
-                    if (count <= JobInfo.MAX_DEPENDENTS)
+                    if (count <= JobInfo.MAX_LOCAL_DEPENDENTS)
                     {
                         // Safely write to the fixed buffer
                         depJobInfo.dependentsID[count - 1] = id;
@@ -475,39 +458,41 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         info.additionalDependents.Dispose();
 
-        _freeList.Free(info.pJobData);
+        if (info.pFreeFunc != null)
+        {
+            info.pFreeFunc(info.dataID, info.dataGeneration);
+        }
+
         _jobInfoPool.Remove(handle.ID, handle.Generation);
     }
 
     /// <summary>
     /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
     /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be struct.</typeparam>
     /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
     /// <param name="threadIndex">The index of the thread that is preferred to execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <param name="priority">The priority of the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle Schedule<T>(ref readonly T job, int threadIndex, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJob
+        where T : struct, IJob
     {
-        var pJobData = _freeList.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
-        if (pJobData == null)
-        {
-            return JobHandle.Invalid;
-        }
-
-        *(T*)pJobData = job;
+        var id = JobDataPool<T>.Allocate(in job, out var generation);
 
         var jobInfo = new JobInfo
         {
-            pJobData = pJobData,
+            dataID = id,
+            dataGeneration = generation,
+
             pExecutionFunc = &JobExecutor.Execute<T>,
+            pFreeFunc = &JobDataPool<T>.Free,
 
             remainingBatches = 1,
             threadIndex = threadIndex,
 
+            priority = priority,
             jobRanges = JobRanges.Single,
         };
 
@@ -517,65 +502,75 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <summary>
     /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
     /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be struct.</typeparam>
     /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <param name="priority">The priority of the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle Schedule<T>(ref readonly T job, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJob
+        where T : struct, IJob
         => Schedule(in job, -1, priority, dependencies);
 
     /// <summary>
     /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
     /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be unmanaged.</typeparam>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be struct.</typeparam>
     /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle Schedule<T>(ref readonly T job, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJob
+        where T : struct, IJob
         => Schedule(in job, -1, JobPriority.Normal, dependencies);
+
+    /// <summary>
+    /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="threadIndex">The index of the thread that is preferred to execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public JobHandle Schedule<T>(ref readonly T job, int threadIndex, params ReadOnlySpan<JobHandle> dependencies)
+        where T : struct, IJob
+        => Schedule(in job, threadIndex, JobPriority.Normal, dependencies);
 
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
     /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
     /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
     /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
     /// <param name="batchSize">The number of iterations to include in each batch.</param>
     /// <param name="threadIndex">The index of the thread that is preferred to execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <param name="priority">The priority of the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.  <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobParallelFor
+        where T : struct, IJobParallelFor
     {
-        var pJobData = _freeList.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
-        if (pJobData == null)
-        {
-            return JobHandle.Invalid;
-        }
-
-        *(T*)pJobData = job;
+        var id = JobDataPool<T>.Allocate(in job, out var generation);
 
         var optimalBatchSize = Math.Max(1, batchSize);
         var totalBatches = (totalIteration + optimalBatchSize - 1) / optimalBatchSize;
 
         var jobInfo = new JobInfo
         {
-            pJobData = pJobData,
+            dataID = id,
+            dataGeneration = generation,
+
             pExecutionFunc = &JobExecutor.ExecuteParallelFor<T>,
+            pFreeFunc = &JobDataPool<T>.Free,
 
             remainingBatches = totalBatches,
             threadIndex = threadIndex,
 
-            jobRanges = new JobRanges()
+            priority = priority,
+            jobRanges = new JobRanges
             {
-                currentIndex = 0,
                 batchSize = optimalBatchSize,
                 totalIteration = totalIteration,
             },
@@ -587,69 +582,81 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
     /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
     /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
     /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
     /// <param name="batchSize">The number of iterations to include in each batch.</param>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <param name="priority">The priority of the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobParallelFor
+        where T : struct, IJobParallelFor
         => ScheduleParallelFor(in job, totalIteration, batchSize, -1, priority, dependencies);
 
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
     /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
     /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
     /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
     /// <param name="batchSize">The number of iterations to include in each batch.</param>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobParallelFor
+        where T : struct, IJobParallelFor
         => ScheduleParallelFor(in job, totalIteration, batchSize, -1, JobPriority.Normal, dependencies);
 
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
     /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
+    /// <param name="batchSize">The number of iterations to include in each batch.</param>
+    /// <param name="threadIndex">The index of the thread that is preferred to execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, params ReadOnlySpan<JobHandle> dependencies)
+        where T : struct, IJobParallelFor
+        => ScheduleParallelFor(in job, totalIteration, batchSize, threadIndex, JobPriority.Normal, dependencies);
+
+    /// <summary>
+    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
     /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
     /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
     /// <param name="batchSize">The number of iterations to include in each batch.</param>
     /// <param name="threadIndex">The index of the thread that is preferred to execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <param name="priority">The priority of the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobParallel
+        where T : struct, IJobParallel
     {
-        var pJobData = _freeList.Allocate(MemoryUtility.SizeOf<T>(), MemoryUtility.AlignOf<T>());
-        if (pJobData == null)
-        {
-            return JobHandle.Invalid;
-        }
-
-        *(T*)pJobData = job;
+        var id = JobDataPool<T>.Allocate(in job, out var generation);
 
         var optimalBatchSize = Math.Max(1, batchSize);
         var totalBatches = (totalIteration + optimalBatchSize - 1) / optimalBatchSize;
 
         var jobInfo = new JobInfo
         {
-            pJobData = pJobData,
+            dataID = id,
+            dataGeneration = generation,
+
             pExecutionFunc = &JobExecutor.ExecuteParallel<T>,
+            pFreeFunc = &JobDataPool<T>.Free,
 
             remainingBatches = totalBatches,
             threadIndex = threadIndex,
 
-            jobRanges = new JobRanges()
+            priority = priority,
+            jobRanges = new JobRanges
             {
-                currentIndex = 0,
                 batchSize = optimalBatchSize,
                 totalIteration = totalIteration,
             },
@@ -661,44 +668,72 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
     /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
     /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
     /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
     /// <param name="batchSize">The number of iterations to include in each batch.</param>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <param name="priority">The priority of the job.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobParallel
+        where T : struct, IJobParallel
         => ScheduleParallel(in job, totalIteration, batchSize, -1, priority, dependencies);
 
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
     /// </summary>
-    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be unmanaged.</typeparam>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
     /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
     /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
     /// <param name="batchSize">The number of iterations to include in each batch.</param>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
-    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.
-    ///     Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobParallel
+        where T : struct, IJobParallel
         => ScheduleParallel(in job, totalIteration, batchSize, -1, JobPriority.Normal, dependencies);
+
+    /// <summary>
+    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
+    /// <param name="batchSize">The number of iterations to include in each batch.</param>
+    /// <param name="threadIndex">The index of the thread that is preferred to execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, int threadIndex, params ReadOnlySpan<JobHandle> dependencies)
+        where T : struct, IJobParallel
+        => ScheduleParallel(in job, totalIteration, batchSize, threadIndex, JobPriority.Normal, dependencies);
+
+    /// <summary>
+    /// Schedules a custom job for execution with user-defined <see cref="JobInfo"/>.
+    /// </summary>
+    /// <param name="jobInfo">The information about the job to be scheduled.</param>
+    /// <param name="threadIndex">The index of the thread that is preferred to execute the job. This is used to assign thread-specific data. Use -1 to allow any thread to execute the job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public JobHandle ScheduleCustom(ref JobInfo jobInfo, int threadIndex, params ReadOnlySpan<JobHandle> dependencies)
+    {
+        return CreateJobHandle(ref jobInfo, threadIndex, dependencies);
+    }
 
     /// <summary>
     /// Combines multiple job dependencies into a single <see cref="JobHandle"/>.
     /// </summary>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> instances representing the dependencies to combine.</param>
-    /// <returns>A <see cref="JobHandle"/> that represents the combined dependencies. The returned handle can be used to ensure
-    ///     that all specified dependencies are completed before proceeding.</returns>
+    /// <returns>A <see cref="JobHandle"/> that represents the combined dependencies. The returned handle can be used to ensure that all specified dependencies are completed before proceeding.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle CombineDependencies(params ReadOnlySpan<JobHandle> dependencies)
     {
         var jobInfo = new JobInfo
         {
-            pJobData = null,
             pExecutionFunc = null,
+            pFreeFunc = null,
 
             remainingBatches = 1,
             threadIndex = -1,
@@ -713,8 +748,8 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// Retrieves the current status of a job identified by the specified handle.
     /// </summary>
     /// <param name="handle">The handle representing the job whose status is to be retrieved. The handle must be valid.</param>
-    /// <returns>The current status of the job as a <see cref="JobState"/> value.
-    ///     Returns <see cref="JobState.Invalid"/> if the handle is invalid or the job does not exist.</returns>
+    /// <returns>The current status of the job as a <see cref="JobState"/> value. Returns <see cref="JobState.Invalid"/> if the handle is invalid or the job does not exist.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobState GetJobStatus(JobHandle handle)
     {
         if (!handle.IsValid)
@@ -905,15 +940,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
             worker.Dispose();
         }
 
-        foreach (var info in _jobInfoPool)
-        {
-            if (info.pJobData != null)
-            {
-                _freeList.Free(info.pJobData);
-            }
-        }
-
-        _freeList.Dispose();
         _workSignal.Dispose();
         _cts.Dispose();
 
