@@ -3,7 +3,7 @@ namespace Misaki.HighPerformance.Jobs;
 public readonly ref struct JobExecutionContext
 {
     /// <summary>
-    /// Gets the index of the current thread executing the job.
+    /// Gets the 0-based index of the current thread executing the job.
     /// </summary>
     public int ThreadIndex
     {

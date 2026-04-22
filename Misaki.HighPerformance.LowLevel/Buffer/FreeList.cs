@@ -27,8 +27,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     {
         public FreeNode* next;
         public MemoryChunk* ownerChunk;
-        public nuint blockSize;
-        public int bucketIndex;
+        public byte bucketIndex;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -53,37 +52,43 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         public int creationLock;
     }
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, Size = 640)]
     private struct ThreadCache
     {
+        [FieldOffset(0)]
         public fixed byte buckets[_MAX_BUCKETS * 32];
-        public nint remoteFreeHead;
+        [FieldOffset(512)]
         public int threadId;
+        [FieldOffset(516)]
         public int active;
+
+        // Padding to prevent false sharing on remoteFreeHead
+        [FieldOffset(576)]
+        public nint remoteFreeHead;
     }
 
-    [StructLayout(LayoutKind.Explicit, Size = 32)]
+    [StructLayout(LayoutKind.Explicit, Size = 16)]
     private struct BlockHeader
     {
         [FieldOffset(0)]
         public MemoryChunk* ownerChunk;
         [FieldOffset(8)]
-        public nuint blockSize;
-        [FieldOffset(16)]
-        public ulong magicNumber;
-        [FieldOffset(24)]
-        public int ownerCacheIndex;
+        public uint magicNumber;
+        [FieldOffset(12)]
+        public ushort ownerCacheIndex;
+        [FieldOffset(14)]
+        public byte bucketIndex;
     }
 
-    private const int _MAX_BUCKETS = 16;
+    private const byte _MAX_BUCKETS = 16;
     private const int _DEFAULT_MAX_CONCURRENCY_LEVEL = 1;
     private const int _OVERFLOW_CACHE_INDEX = 0;
     private const nuint _MIN_BLOCK_SIZE = 16;
     private const nuint _DEFAULT_CHUNK_SIZE = 64 * 1024;
-    private const ulong _MAGIC_NUMBER = 0xDEADBEEFDEADBEEF;
+    private const uint _MAGIC_NUMBER = 0xDEADBEEF;
 
     [ThreadStatic]
-    private static int t_cacheIndex;
+    private static ushort t_cacheIndex;
 
     [ThreadStatic]
     private static void* t_ownerId;
@@ -95,7 +100,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     private readonly nuint _chunkSize;
     private readonly nuint _alignment;
     private readonly int _maxConcurrencyLevel;
-    private int _cacheCount;
+    private ushort _cacheCount;
     private volatile int _disposed;
     private volatile int _chunkCreationLock;
     private volatile int _cacheRegistrationLock;
@@ -215,10 +220,10 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static int FindBucket(nuint size)
+    private static byte FindBucket(nuint size)
     {
         var blockSize = _MIN_BLOCK_SIZE;
-        for (var i = 0; i < _MAX_BUCKETS; i++)
+        for (byte i = 0; i < _MAX_BUCKETS; i++)
         {
             if (size <= blockSize)
             {
@@ -228,7 +233,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             blockSize <<= 1;
         }
 
-        return -1;
+        return byte.MaxValue;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -258,7 +263,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         while (head != null)
         {
             var next = head->next;
-            PushToBucket(cache, head->bucketIndex, head, head->ownerChunk, head->blockSize);
+            PushToBucket(cache, head->bucketIndex, head, head->ownerChunk);
             head = next;
         }
     }
@@ -318,7 +323,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         if (t_ownerId == _instanceId)
         {
             var index = t_cacheIndex;
-            if ((uint)index <= (uint)_cacheCount)
+            if (index <= _cacheCount)
             {
                 var cache = _caches[index];
                 if (cache != null)
@@ -332,7 +337,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private readonly void* TryPopFromBucket(ThreadCache* cache, int cacheIndex, int bucketIndex)
+    private readonly void* TryPopFromBucket(ThreadCache* cache, ushort cacheIndex, byte bucketIndex)
     {
         var buckets = GetBuckets(cache);
         var bucket = &buckets[bucketIndex];
@@ -345,18 +350,17 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         bucket->freeHead = (nint)head->next;
         bucket->freeCount--;
 
-        AssignBlockHeader((BlockHeader*)head, head->ownerChunk, head->blockSize, cacheIndex);
+        AssignBlockHeader((BlockHeader*)head, head->ownerChunk, head->bucketIndex, cacheIndex);
         return head;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private readonly void PushToBucket(ThreadCache* cache, int bucketIndex, void* ptr, MemoryChunk* ownerChunk, nuint blockSize)
+    private readonly void PushToBucket(ThreadCache* cache, byte bucketIndex, void* ptr, MemoryChunk* ownerChunk)
     {
         var buckets = GetBuckets(cache);
         var bucket = &buckets[bucketIndex];
         var node = (FreeNode*)ptr;
         node->ownerChunk = ownerChunk;
-        node->blockSize = blockSize;
         node->bucketIndex = bucketIndex;
         node->next = (FreeNode*)bucket->freeHead;
         bucket->freeHead = (nint)node;
@@ -364,15 +368,15 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void AssignBlockHeader(BlockHeader* header, MemoryChunk* ownerChunk, nuint blockSize, int ownerCacheIndex)
+    private static void AssignBlockHeader(BlockHeader* header, MemoryChunk* ownerChunk, byte bucketIndex, ushort ownerCacheIndex)
     {
         header->ownerChunk = ownerChunk;
-        header->blockSize = blockSize;
+        header->bucketIndex = bucketIndex;
         header->magicNumber = _MAGIC_NUMBER;
         header->ownerCacheIndex = ownerCacheIndex;
     }
 
-    private bool TryCreateBlocksForBucket(ThreadCache* cache, int cacheIndex, int bucketIndex)
+    private bool TryCreateBlocksForBucket(ThreadCache* cache, ushort cacheIndex, byte bucketIndex)
     {
         var buckets = GetBuckets(cache);
         var bucket = &buckets[bucketIndex];
@@ -400,41 +404,16 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             }
 
             var totalSize = blocksToCreate * blockSize;
-            var memory = (byte*)AlignedAlloc(totalSize, _alignment);
+            var memory = AllocateFromChunk(totalSize, _alignment, out var chunk);
             if (memory == null)
             {
                 return false;
             }
 
-            var chunk = (MemoryChunk*)_chunkArena.Allocate(SizeOf<MemoryChunk>(), AlignOf<MemoryChunk>(), AllocationOption.None);
-            if (chunk == null)
-            {
-                AlignedFree(memory);
-                return false;
-            }
-
-            while (Interlocked.CompareExchange(ref _chunkCreationLock, 1, 0) != 0)
-            {
-                Thread.SpinWait(1);
-            }
-
-            try
-            {
-                chunk->memory = memory;
-                chunk->size = totalSize;
-                chunk->used = totalSize;
-                chunk->next = _chunks;
-                _chunks = chunk;
-            }
-            finally
-            {
-                Interlocked.Exchange(ref _chunkCreationLock, 0);
-            }
-
             for (nuint i = 0; i < blocksToCreate; i++)
             {
                 var blockStartPtr = memory + (i * blockSize);
-                PushToBucket(cache, bucketIndex, blockStartPtr, chunk, blockSize);
+                PushToBucket(cache, bucketIndex, blockStartPtr, chunk);
             }
 
             return true;
@@ -445,7 +424,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         }
     }
 
-    private void* AllocateFromChunk(int cacheIndex, nuint size, nuint alignment)
+    private byte* AllocateFromChunk(nuint size, nuint alignment, out MemoryChunk* ownerChunk)
     {
         while (Interlocked.CompareExchange(ref _chunkCreationLock, 1, 0) != 0)
         {
@@ -463,36 +442,30 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
 
                 if (totalNeeded <= available)
                 {
-                    var blockStartPtr = chunk->memory + alignedOffset;
+                    var memory = chunk->memory + alignedOffset;
                     chunk->used = alignedOffset + size;
-                    AssignBlockHeader((BlockHeader*)blockStartPtr, chunk, size, cacheIndex);
-                    return blockStartPtr;
+                    ownerChunk = chunk;
+                    return memory;
                 }
-
                 chunk = chunk->next;
             }
 
-            var newChunkSize = Math.Max(_chunkSize, size + alignment);
+            var newChunkSize = Math.Max(_chunkSize, size); // 默认保底 64KB
             var newMemory = (byte*)AlignedAlloc(newChunkSize, alignment);
             if (newMemory == null)
             {
+                ownerChunk = null;
                 return null;
             }
 
             var newChunk = (MemoryChunk*)_chunkArena.Allocate(SizeOf<MemoryChunk>(), AlignOf<MemoryChunk>(), AllocationOption.None);
-            if (newChunk == null)
-            {
-                AlignedFree(newMemory);
-                return null;
-            }
-
             newChunk->memory = newMemory;
             newChunk->size = newChunkSize;
             newChunk->used = size;
             newChunk->next = _chunks;
             _chunks = newChunk;
 
-            AssignBlockHeader((BlockHeader*)newMemory, newChunk, size, cacheIndex);
+            ownerChunk = newChunk;
             return newMemory;
         }
         finally
@@ -549,15 +522,19 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
 
         try
         {
-            DrainRemoteFrees(cache);
-
             void* ptr = null;
-            if (bucketIndex >= 0)
+            if (bucketIndex != byte.MaxValue)
             {
                 ptr = TryPopFromBucket(cache, cacheIndex, bucketIndex);
-                if (ptr == null && TryCreateBlocksForBucket(cache, cacheIndex, bucketIndex))
+                if (ptr == null)
                 {
+                    DrainRemoteFrees(cache);
+
                     ptr = TryPopFromBucket(cache, cacheIndex, bucketIndex);
+                    if (ptr == null && TryCreateBlocksForBucket(cache, cacheIndex, bucketIndex))
+                    {
+                        ptr = TryPopFromBucket(cache, cacheIndex, bucketIndex);
+                    }
                 }
             }
             else
@@ -567,7 +544,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
                 if (ptr != null)
                 {
                     // Pass null for ownerChunk so 'Free' knows this is a standalone allocation
-                    AssignBlockHeader((BlockHeader*)ptr, null, totalSize, cacheIndex);
+                    AssignBlockHeader((BlockHeader*)ptr, null, bucketIndex, cacheIndex);
                 }
             }
 
@@ -641,11 +618,10 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             return;
         }
 
-        var blockSize = header->blockSize;
         var ownerCacheIndex = header->ownerCacheIndex;
-        var bucketIndex = FindBucket(blockSize);
+        var bucketIndex = header->bucketIndex;
 
-        if (bucketIndex < 0)
+        if (bucketIndex == byte.MaxValue)
         {
             // This is an oversized allocation. It doesn't belong to a bucket or a chunk.
             // Erase the magic number for safety and instantly yield it back to the OS.
@@ -674,7 +650,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
 
                 try
                 {
-                    PushToBucket(targetCache, bucketIndex, blockStartPtr, chunk, blockSize);
+                    PushToBucket(targetCache, bucketIndex, blockStartPtr, chunk);
                 }
                 finally
                 {
@@ -683,7 +659,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             }
             else
             {
-                PushToBucket(targetCache, bucketIndex, blockStartPtr, chunk, blockSize);
+                PushToBucket(targetCache, bucketIndex, blockStartPtr, chunk);
             }
 
             return;
@@ -691,7 +667,6 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
 
         var remoteNode = (FreeNode*)blockStartPtr;
         remoteNode->ownerChunk = chunk;
-        remoteNode->blockSize = blockSize;
         remoteNode->bucketIndex = bucketIndex;
 
         nint head;

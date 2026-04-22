@@ -27,8 +27,8 @@ internal struct JobDispatchingJob : IJobParallelFor
             {
                 data = data[loopIndex]
             };
-
-            var handle = ctx.JobScheduler.ScheduleParallelFor(in innerJob, data[loopIndex].Length, 64, ctx.ThreadIndex);
+            
+            var handle = ctx.JobScheduler.ScheduleParallelFor(in innerJob, data[loopIndex].Length, 64, true);
             handles.AddNoResize(handle);
         }
     }

@@ -38,93 +38,98 @@ public enum JobPriority
     Low = 2
 }
 
-public unsafe struct JobInfo
-{
-    public ref struct DependentIterator
-    {
-        private readonly ref JobInfo _jobInfo;
-        private int _index;
-
-        public DependentIterator(ref JobInfo jobInfo)
-        {
-            _jobInfo = ref jobInfo;
-            _index = -1;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext()
-        {
-            _index++;
-            return _index < _jobInfo.dependentCount;
-        }
-
-        public JobHandle Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get
-            {
-                if (_index < MAX_LOCAL_DEPENDENTS)
-                {
-                    return new JobHandle(_jobInfo.dependentsID[_index], _jobInfo.dependentsGeneration[_index]);
-                }
-                else
-                {
-                    return _jobInfo.additionalDependents[_index - MAX_LOCAL_DEPENDENTS];
-                }
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Reset()
-        {
-            _index = -1;
-        }
-    }
-
-    public const int MAX_LOCAL_DEPENDENTS = 8;
-
-    public delegate*<int, int, ref JobRanges, ref int, ref readonly JobExecutionContext, bool> pExecutionFunc;
-    public delegate*<int, int, void> pFreeFunc;
-
-    public int dataID;
-    public int dataGeneration;
-
-    // The list of jobs that are waiting for THIS job to complete.
-    public fixed int dependentsID[MAX_LOCAL_DEPENDENTS]; // The actual list of IDs
-    public fixed int dependentsGeneration[MAX_LOCAL_DEPENDENTS]; // The actual list of generations
-
-    public UnsafeList<JobHandle> additionalDependents;
-    public int dependentCount;
-
-    public JobRanges jobRanges;
-    public JobPriority priority;
-
-    public int state;
-    public int remainingBatches;
-
-    public int threadIndex; // The preferred thread index to run this job on, -1 means any thread
-    public int dependencyCount; // Numbers of jobs that this job depends on, when it reaches 0, the job can be executed
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [UnscopedRef]
-    public DependentIterator GetDependentIterator()
-    {
-        return new DependentIterator(ref this);
-    }
-}
-
 public struct JobRanges
 {
     public int batchSize;
     public int totalIteration;
     public int currentIndex;
 
-    public static JobRanges Single => new()
+    public static JobRanges Single => new JobRanges()
     {
         batchSize = 1,
         totalIteration = 1,
         currentIndex = 0,
     };
+
+    public readonly int TotalBatches => (totalIteration + batchSize - 1) / batchSize;
+}
+
+public unsafe ref struct CustomJobDesc<T>
+{
+    public required ref readonly T data;
+    public required delegate*<int, int, ref JobRanges, ref readonly JobExecutionContext, void> pExecutionFunc;
+    public required delegate*<int, int, void> pFreeFunc;
+    public JobRanges jobRanges;
+    public JobPriority priority;
+}
+
+internal unsafe struct JobInfo
+{
+    public ref struct DependentIterator
+    {
+        private readonly ReadOnlySpan<JobEdge> _edgePool;
+        private int _currentEdgeIndex;
+        private int _nextEdgeIndex;
+
+        public DependentIterator(int firstDependentEdgeIndex, ReadOnlySpan<JobEdge> edgePool)
+        {
+            _edgePool = edgePool;
+            _nextEdgeIndex = firstDependentEdgeIndex;
+            _currentEdgeIndex = -1;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool MoveNext()
+        {
+            if (_nextEdgeIndex == -1)
+            {
+                return false;
+            }
+
+            _currentEdgeIndex = _nextEdgeIndex;
+            _nextEdgeIndex = _edgePool[_currentEdgeIndex].nextEdgeIndex;
+            return true;
+        }
+
+        public readonly JobHandle Current
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _edgePool[_currentEdgeIndex].dependentJob;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Reset(ref JobInfo jobInfo)
+        {
+            _nextEdgeIndex = jobInfo.firstDependentEdgeIndex;
+            _currentEdgeIndex = -1;
+        }
+    }
+
+    public delegate*<int, int, ref JobRanges, ref readonly JobExecutionContext, void> pExecutionFunc;
+    public delegate*<int, int, void> pFreeFunc;
+
+    public int dataID;
+    public int dataGeneration;
+
+    public JobRanges jobRanges;
+    public JobPriority priority;
+
+    public int firstDependentEdgeIndex; // Index of the first dependent edge in the global edge list, -1 if no dependents
+    public int state;
+
+    public int dependencyCount; // Numbers of jobs that this job depends on, when it reaches 0, the job can be executed
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public DependentIterator GetDependentIterator(ReadOnlySpan<JobEdge> edgePool)
+    {
+        return new DependentIterator(firstDependentEdgeIndex, edgePool);
+    }
+}
+
+internal struct JobEdge
+{
+    public JobHandle dependentJob;
+    public int nextEdgeIndex;
 }
 
 internal static class JobUtility
@@ -166,8 +171,21 @@ internal static class JobUtility
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void ReleaseRC(ref int jobState)
+    public static int ReadRefCount(ref JobInfo jobInfo)
     {
-        Interlocked.Add(ref jobState, -RC_ONE);
+        var stateVal = Volatile.Read(ref jobInfo.state);
+        return stateVal >> 16; // RC is stored in the high 16 bits
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int GetRefCount(int stateValue)
+    {
+        return stateValue >> 16;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int ReleaseRC(ref int jobState)
+    {
+        return GetRefCount(Interlocked.Add(ref jobState, -RC_ONE));
     }
 }

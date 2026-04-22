@@ -1,3 +1,7 @@
+//Temprorarily disable this analyzer until we have a more robust implementation that can handle more complex scenarios without false positives.
+//The current implementation is too naive and may not cover all edge cases effectively.
+
+#if false
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -115,3 +119,4 @@ namespace Misaki.HighPerformance.Analyzer
         }
     }
 }
+#endif

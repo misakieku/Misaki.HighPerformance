@@ -42,7 +42,7 @@ public class TestJobSystem
             result = result
         };
 
-        var handle = s_jobScheduler.Schedule(ref job, -1);
+        var handle = s_jobScheduler.Schedule(ref job);
         s_jobScheduler.Wait(handle);
 
         Assert.AreEqual(4.0f, *result);
@@ -59,7 +59,7 @@ public class TestJobSystem
             result = result
         };
 
-        var handle1 = s_jobScheduler.Schedule(ref job1, -1);
+        var handle1 = s_jobScheduler.Schedule(ref job1);
 
         var job2 = new AddJob
         {
@@ -67,7 +67,7 @@ public class TestJobSystem
             result = result
         };
 
-        var handle2 = s_jobScheduler.Schedule(ref job2, -1, handle1);
+        var handle2 = s_jobScheduler.Schedule(ref job2, handle1);
         s_jobScheduler.Wait(handle2);
 
         Assert.AreEqual(8.0f, *result);

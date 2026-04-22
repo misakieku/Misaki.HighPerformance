@@ -6,7 +6,7 @@ using Misaki.HighPerformance.Test.Benchmark;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-BenchmarkRunner.Run<ParallelNoiseBenchmark>();
+BenchmarkRunner.Run<AllocationBenchmark>();
 
 //var bench = new ParallelNoiseBenchmark();
 //bench.Setup();

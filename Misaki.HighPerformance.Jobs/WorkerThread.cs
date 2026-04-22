@@ -1,48 +1,54 @@
-using System.Collections.Concurrent;
+using System.Diagnostics;
 
 namespace Misaki.HighPerformance.Jobs;
 
 internal class WorkerThread : IDisposable
 {
-    private readonly int _index;
+    [ThreadStatic]
+    private static int t_threadIndex;
+
+    private readonly SPMCQueue<JobHandle>[] _localQueue;
     private readonly Thread _thread;
-    private readonly ConcurrentQueue<JobHandle>[] _localQueues;
+    private readonly int _threadIndex;
 
     private readonly JobScheduler _scheduler;
     private readonly int _maxStealAttems;
 
     private uint _priorityTick;
 
-    internal ReadOnlySpan<ConcurrentQueue<JobHandle>> LocalQueues => _localQueues;
+    public static int ThreadIndex => t_threadIndex;
+
+    public ReadOnlySpan<SPMCQueue<JobHandle>> LocalQueues => _localQueue;
 
     public WorkerThread(int index, JobScheduler scheduler, ThreadPriority priority)
     {
-        _index = index;
-        _localQueues = new ConcurrentQueue<JobHandle>[3];
-
-        for (var i = 0; i < _localQueues.Length; i++)
-        {
-            _localQueues[i] = new ConcurrentQueue<JobHandle>();
-        }
-
         _scheduler = scheduler;
         _maxStealAttems = Math.Max((int)(_scheduler.WorkerCount * 0.5f), 3);
 
+        _localQueue = new SPMCQueue<JobHandle>[3];
+        for (var i = 0; i < 3; i++)
+        {
+            _localQueue[i] = new SPMCQueue<JobHandle>(1024);
+        }
+
+        _threadIndex = index;
         _thread = new Thread(WorkLoop)
         {
             IsBackground = true,
             Name = $"WorkerThread-{index}",
-            Priority = priority
+            Priority = priority,
         };
     }
 
     public void Start()
     {
-        _thread.Start();
+        _thread.Start(_threadIndex);
     }
 
     private unsafe bool TryFindJob(out JobHandle handle)
     {
+        Debug.Assert(_localQueue != null);
+
         _priorityTick++;
 
         var tick = (int)(_priorityTick & 7);
@@ -63,7 +69,7 @@ internal class WorkerThread : IDisposable
         {
             var p = cascade[index + offset];
 
-            if (_localQueues[p].TryDequeue(out handle))
+            if (_localQueue[p].TryPop(out handle))
             {
                 return true;
             }
@@ -76,7 +82,7 @@ internal class WorkerThread : IDisposable
             for (var i = 1; i < _scheduler.WorkerCount; i++)
             {
                 // Calculate the target deterministically using modulo arithmetic 
-                var targetIndex = (_index + i) % _scheduler.WorkerCount;
+                var targetIndex = (t_threadIndex + i) % _scheduler.WorkerCount;
 
                 if (_scheduler.TryStealFromWorker(targetIndex, p, out handle))
                 {
@@ -89,8 +95,12 @@ internal class WorkerThread : IDisposable
         return false;
     }
 
-    private unsafe void WorkLoop()
+    private unsafe void WorkLoop(object? index)
     {
+        Debug.Assert(index != null);
+
+        t_threadIndex = (int)index;
+
         while (!_scheduler.IsCancellationRequested)
         {
             var handle = JobHandle.Invalid;
@@ -129,79 +139,85 @@ internal class WorkerThread : IDisposable
             }
 
             ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
-            if (exist)
+            if (!exist)
             {
-                // Try to acquire a reference count for the job. This ensures that the job won't be removed while we're processing it.
-                // This is critical that if thread A reads the job, but suddenly os scheduler delay the thread for just a moment, and thread B completes the job and removes it from the system, when thread A resumes, it might be accessing invalid memory.
-                // By acquiring a reference count, we ensure that even if the job is completed while we're processing it, it won't be removed until we're done.
+                continue;
+            }
 
-                var rcSpin = new SpinWait();
-                var rcAcquired = false;
+            // Try to acquire a reference count for the job. This ensures that the job won't be removed while we're processing it.
+            // This is critical that if thread A reads the job, but suddenly os scheduler delay the thread for just a moment, and thread B completes the job and removes it from the system, when thread A resumes, it might be accessing invalid memory.
+            // By acquiring a reference count, we ensure that even if the job is completed while we're processing it, it won't be removed until we're done.
 
-                while (true)
+            var rcSpin = new SpinWait();
+            var rcAcquired = false;
+            int rc;
+
+            while (true)
+            {
+                _scheduler.GetJobInfoReference(handle, out var currentExist);
+                if (!currentExist)
                 {
-                    _scheduler.GetJobInfoReference(handle, out var currentExist);
+                    break;
+                }
+
+                var stateVal = Volatile.Read(ref jobInfo.state);
+                var state = JobUtility.GetState(stateVal);
+
+                if (state == JobState.Completed || state == JobState.Invalid)
+                {
+                    break;
+                }
+
+                var newState = stateVal + JobUtility.RC_ONE;
+                if (state == JobState.Scheduled)
+                {
+                    newState = (newState & ~JobUtility.STATE_MASK) | JobUtility.JOBSTATE_RUNNING;
+                }
+
+                // Attempt to acquire a reference count by incrementing the state value. If the state has changed since we read it, we need to retry.
+                if (Interlocked.CompareExchange(ref jobInfo.state, newState, stateVal) == stateVal)
+                {
+                    _scheduler.GetJobInfoReference(handle, out currentExist);
                     if (!currentExist)
                     {
-                        break;
-                    }
-
-                    var stateVal = Volatile.Read(ref jobInfo.state);
-                    var state = JobUtility.GetState(stateVal);
-
-                    if (state == JobState.Completed || state == JobState.Invalid)
-                    {
-                        break;
-                    }
-
-                    var newState = stateVal + JobUtility.RC_ONE;
-                    if (state == JobState.Scheduled)
-                    {
-                        newState = (newState & ~JobUtility.STATE_MASK) | JobUtility.JOBSTATE_RUNNING;
-                    }
-
-                    // Attempt to acquire a reference count by incrementing the state value. If the state has changed since we read it, we need to retry.
-                    if (Interlocked.CompareExchange(ref jobInfo.state, newState, stateVal) == stateVal)
-                    {
-                        _scheduler.GetJobInfoReference(handle, out currentExist);
-                        if (!currentExist)
+                        rc = JobUtility.ReleaseRC(ref jobInfo.state);
+                        if (rc == 0)
                         {
-                            JobUtility.ReleaseRC(ref jobInfo.state);
-                            break;
+                            _scheduler.MarkJobComplete(handle);
                         }
 
-                        rcAcquired = true;
                         break;
                     }
 
-                    rcSpin.SpinOnce(-1);
+                    rcAcquired = true;
+                    break;
                 }
 
-                if (!rcAcquired)
+                rcSpin.SpinOnce(-1);
+            }
+
+            if (!rcAcquired)
+            {
+                continue;
+            }
+
+            if (jobInfo.pExecutionFunc != null)
+            {
+                var ctx = new JobExecutionContext
                 {
-                    continue;
-                }
+                    ThreadIndex = t_threadIndex,
+                    JobScheduler = _scheduler,
+                    State = _scheduler.State,
+                    SelfHandle = handle,
+                };
 
-                var isLastBatch = true;
-                if (jobInfo.pExecutionFunc != null)
-                {
-                    var ctx = new JobExecutionContext
-                    {
-                        ThreadIndex = _index,
-                        JobScheduler = _scheduler,
-                        State = _scheduler.State,
-                        SelfHandle = handle,
-                    };
+                jobInfo.pExecutionFunc(jobInfo.dataID, jobInfo.dataGeneration, ref jobInfo.jobRanges, in ctx);
+            }
 
-                    isLastBatch = jobInfo.pExecutionFunc(jobInfo.dataID, jobInfo.dataGeneration, ref jobInfo.jobRanges, ref jobInfo.remainingBatches, in ctx);
-                }
-
-                JobUtility.ReleaseRC(ref jobInfo.state);
-
-                if (isLastBatch)
-                {
-                    _scheduler.MarkJobComplete(handle, _index);
-                }
+            rc = JobUtility.ReleaseRC(ref jobInfo.state);
+            if (rc == 0)
+            {
+                _scheduler.MarkJobComplete(handle);
             }
         }
     }

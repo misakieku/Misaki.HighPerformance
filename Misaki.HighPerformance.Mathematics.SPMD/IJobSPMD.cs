@@ -85,7 +85,7 @@ public static class IJobParallelForSPMDExtensions
         }
     }
 
-    public static JobHandle ScheduleParallelSPDM<T, TNumber>(this JobScheduler jobScheduler, ref T job, int totalCount, int batchSize, int threadIndex, params ReadOnlySpan<JobHandle> dependencies)
+    public static JobHandle ScheduleParallelSPDM<T, TNumber>(this JobScheduler jobScheduler, ref T job, int totalCount, int batchSize, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
         where T : unmanaged, IJobSPMD<TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
@@ -98,7 +98,7 @@ public static class IJobParallelForSPMDExtensions
             };
 
             var iterations = (totalCount + WideLane<TNumber>.LaneWidth - 1) / WideLane<TNumber>.LaneWidth;
-            return jobScheduler.ScheduleParallelFor(ref warper, iterations, batchSize, threadIndex, dependencies);
+            return jobScheduler.ScheduleParallelFor(ref warper, iterations, batchSize, preferLocal, dependencies);
         }
         else
         {
@@ -108,7 +108,7 @@ public static class IJobParallelForSPMDExtensions
                 totalCount = totalCount,
             };
 
-            return jobScheduler.ScheduleParallelFor(ref warper, totalCount, batchSize, threadIndex, dependencies);
+            return jobScheduler.ScheduleParallelFor(ref warper, totalCount, batchSize, preferLocal, dependencies);
         }
     }
 }
