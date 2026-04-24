@@ -11,7 +11,7 @@ namespace Misaki.HighPerformance.Mathematics.SPMD;
 
 public static unsafe partial class MathV
 {
-# region Vector2
+    #region Vector2
 
     // Creation Functions
 
@@ -212,7 +212,7 @@ public static unsafe partial class MathV
     {
         return TLane.Sqrt(Dot(vector, vector));
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane LengthSquared<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
         where TLane : ISPMD<TLane, TNumber>
@@ -283,9 +283,9 @@ public static unsafe partial class MathV
         };
     }
 
-# endregion
+    #endregion
 
-# region Vector3
+    #region Vector3
 
     // Creation Functions
 
@@ -498,7 +498,7 @@ public static unsafe partial class MathV
     {
         return TLane.Sqrt(Dot(vector, vector));
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane LengthSquared<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
         where TLane : ISPMD<TLane, TNumber>
@@ -554,6 +554,7 @@ public static unsafe partial class MathV
         {
             x = TLane.Select(condition, b.x, a.x),
             y = TLane.Select(condition, b.y, a.y),
+            z = TLane.Select(condition, b.z, a.z),
         };
     }
 
@@ -566,12 +567,13 @@ public static unsafe partial class MathV
         {
             x = TLane.Select(condition.x, b.x, a.x),
             y = TLane.Select(condition.y, b.y, a.y),
+            z = TLane.Select(condition.z, b.z, a.z),
         };
     }
 
-# endregion
+    #endregion
 
-# region Vector4
+    #region Vector4
 
     // Creation Functions
 
@@ -796,7 +798,7 @@ public static unsafe partial class MathV
     {
         return TLane.Sqrt(Dot(vector, vector));
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane LengthSquared<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
         where TLane : ISPMD<TLane, TNumber>
@@ -852,6 +854,8 @@ public static unsafe partial class MathV
         {
             x = TLane.Select(condition, b.x, a.x),
             y = TLane.Select(condition, b.y, a.y),
+            z = TLane.Select(condition, b.z, a.z),
+            w = TLane.Select(condition, b.w, a.w),
         };
     }
 
@@ -864,13 +868,15 @@ public static unsafe partial class MathV
         {
             x = TLane.Select(condition.x, b.x, a.x),
             y = TLane.Select(condition.y, b.y, a.y),
+            z = TLane.Select(condition.z, b.z, a.z),
+            w = TLane.Select(condition.w, b.w, a.w),
         };
     }
 
-# endregion
+    #endregion
 
 
-# region Vector3 Specific
+    #region Vector3 Specific
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Cross<TLane, TNumber>(in Vector3<TLane, TNumber> a, in Vector3<TLane, TNumber> b)
@@ -885,6 +891,6 @@ public static unsafe partial class MathV
         };
     }
 
-# endregion
+    #endregion
 }
 

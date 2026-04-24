@@ -32,7 +32,7 @@ public static unsafe class WideLane
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumber>
+public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumber>
     where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
 {
     private static readonly Vector<TNumber> s_indices;
@@ -300,6 +300,15 @@ public readonly unsafe struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumb
     {
         return value;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public TOther BitCast<TOther, TOtherNumber>()
+        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>
+    {
+        return Unsafe.BitCast<WideLane<TNumber>, TOther>(this);
+    }
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> operator +(WideLane<TNumber> a, WideLane<TNumber> b)

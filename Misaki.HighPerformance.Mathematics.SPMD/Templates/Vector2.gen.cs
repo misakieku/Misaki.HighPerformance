@@ -83,17 +83,27 @@ public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Store(TNumber* px, TNumber* py)
+    public void Store(TNumber* px,  TNumber* py)
     {
         x.Store(px);
         y.Store(py);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Store(ref TNumber x, ref TNumber y)
+    public void Store(ref TNumber x,  ref TNumber y)
     {
         this.x.Store(ref x);
         this.y.Store(ref y);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> operator -(in Vector2<TLane, TNumber> vector)
+    {
+        return new Vector2<TLane, TNumber>
+        {
+            x = -vector.x,
+            y = -vector.y,
+        };
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -145,7 +155,7 @@ public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber
             y = vector.y - lane,
         };
     }
-
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> operator -(TLane lane, in Vector2<TLane, TNumber> vector)
     {
@@ -175,7 +185,7 @@ public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber
             y = vector.y * lane,
         };
     }
-
+        
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> operator *(TLane lane, in Vector2<TLane, TNumber> vector)
     {
@@ -195,7 +205,7 @@ public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber
             y = left.y / right.y,
         };
     }
-
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> operator /(in Vector2<TLane, TNumber> vector, TLane lane)
     {
@@ -205,7 +215,7 @@ public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber
             y = vector.y / lane,
         };
     }
-
+        
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> operator /(TLane lane, in Vector2<TLane, TNumber> vector)
     {
@@ -226,7 +236,7 @@ public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber
         };
     }
 
-
+        
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> operator ==(in Vector2<TLane, TNumber> vector, TLane lane)
     {
@@ -236,7 +246,7 @@ public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber
             y = vector.y == lane,
         };
     }
-
+        
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> operator ==(TLane lane, in Vector2<TLane, TNumber> vector)
     {
@@ -276,7 +286,7 @@ public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber
             y = lane != vector.y,
         };
     }
-
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> operator >(in Vector2<TLane, TNumber> left, in Vector2<TLane, TNumber> right)
     {

@@ -126,6 +126,15 @@ public unsafe struct {typeName} : IEquatable<{typeName}>
     }}
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static {typeName} operator -(in {typeName} vector)
+    {{
+        return new {typeName}
+        {{
+{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]} = -vector.{components[dim]},"))}
+        }};
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static {typeName} operator +(in {typeName} left, in {typeName} right)
     {{
         return new {typeName}

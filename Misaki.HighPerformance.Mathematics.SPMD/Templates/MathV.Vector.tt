@@ -297,8 +297,9 @@ public static unsafe partial class MathV
     {
         return new <#= vectorType #>
         {
-            x = <#= TLane #>.Select(condition, b.x, a.x),
-            y = <#= TLane #>.Select(condition, b.y, a.y),
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = <#= TLane #>.Select(condition, b.<#= components[i] #>, a.<#= components[i] #>),
+<# } #>
         };
     }
 
@@ -309,8 +310,9 @@ public static unsafe partial class MathV
     {
         return new <#= vectorType #>
         {
-            x = <#= TLane #>.Select(condition.x, b.x, a.x),
-            y = <#= TLane #>.Select(condition.y, b.y, a.y),
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = <#= TLane #>.Select(condition.<#= components[i] #>, b.<#= components[i] #>, a.<#= components[i] #>),
+<# } #>
         };
     }
 

@@ -47,7 +47,7 @@ public readonly unsafe struct ImageResultFloat : IDisposable
                 return 0;
             }
 
-            return (ulong)(Width * Height * (int)Comp);
+            return (ulong)(Width * Height * (int)Comp * sizeof(float));
         }
     }
 

@@ -158,6 +158,26 @@ public interface ISPMD<TSelf, TNumber> : ISPMD, IEquatable<TSelf>
     Vector<TNumber> AsVector();
 
     /// <summary>
+    /// Casts the lane value to another SPMD lane type with a different underlying numeric type.
+    /// </summary>
+    /// <typeparam name="TOther">The type of the other SPMD lane.</typeparam>
+    /// <typeparam name="TOtherNumber">The underlying numeric type of the other SPMD lane.</typeparam>
+    /// <returns>The casted lane value.</returns>
+    TOther Cast<TOther, TOtherNumber>()
+        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>;
+
+    /// <summary>
+    /// Bitwise reinterprets the lane value as another SPMD lane type with a different underlying numeric type.
+    /// </summary>
+    /// <typeparam name="TOther">The type of the other SPMD lane.</typeparam>
+    /// <typeparam name="TOtherNumber">The underlying numeric type of the other SPMD lane.</typeparam>
+    /// <returns>The bit-cast lane value.</returns>
+    TOther BitCast<TOther, TOtherNumber>()
+        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>;
+
+    /// <summary>
     /// Adds two lane values element-wise.
     /// </summary>
     /// <param name="a">The first lane value.</param>

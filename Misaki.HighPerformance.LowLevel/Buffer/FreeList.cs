@@ -143,7 +143,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         {
             throw new ArgumentOutOfRangeException(nameof(maxConcurrencyLevel), "Max concurrency level must be greater than zero.");
         }
-
+        
         _alignment = alignment;
         _chunkSize = chunkSize;
         _maxConcurrencyLevel = maxConcurrencyLevel;

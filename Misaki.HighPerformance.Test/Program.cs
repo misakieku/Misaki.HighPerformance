@@ -6,35 +6,18 @@ using Misaki.HighPerformance.Test.Benchmark;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-BenchmarkRunner.Run<AllocationBenchmark>();
+//BenchmarkRunner.Run<GGXMipGenerationBenchmark>();
 
-//var bench = new ParallelNoiseBenchmark();
-//bench.Setup();
+var bench = new GGXMipGenerationBenchmark();
+bench.Setup();
 
-//for (int i = 0; i < 4096 * 5; i++)
-//{
-//    bench.JobSystem();
-//}
+var sw = System.Diagnostics.Stopwatch.StartNew();
+bench.JobGGX();
+sw.Stop();
+Console.WriteLine($"GGX Mip Generation: {sw.Elapsed.TotalMilliseconds} ms");
+bench.Cleanup();
 
-//bench.Cleanup();
-
-//bench.Setup();
-
-//for (int i = 0; i < 4096 * 5; i++)
-//{
-//    bench.JobSystem();
-//}
-
-//bench.Cleanup();
-
-//bench.Setup();
-
-//for (int i = 0; i < 4096 * 5; i++)
-//{
-//    bench.JobSystem();
-//}
-
-//bench.Cleanup();
+//Console.WriteLine(sw.Elapsed.TotalMilliseconds);
 
 //AllocationManager.Initialize(AllocationManagerInitOpts.Default);
 //var set = new UnsafeBitSet(100, AllocationHandle.Persistent, AllocationOption.Clear);

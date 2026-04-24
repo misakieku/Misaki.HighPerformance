@@ -239,7 +239,7 @@ internal unsafe struct NoiseJobMathSPMD : IJobSPMD<float>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static T GradDot<T>(T ix, T iy, T fx, T fy)
-        where T : ISPMD<T, float>
+        where T : unmanaged, ISPMD<T, float>
     {
         var c289 = T.Create(289f);
         var c34 = T.Create(34f);
@@ -267,7 +267,7 @@ internal unsafe struct NoiseJobMathSPMD : IJobSPMD<float>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T Noise<T>(T uvX, T uvY)
-        where T : ISPMD<T, float>
+        where T : unmanaged, ISPMD<T, float>
     {
         var c1 = T.Create(1f);
         var c6 = T.Create(6f);
@@ -292,7 +292,7 @@ internal unsafe struct NoiseJobMathSPMD : IJobSPMD<float>
     }
 
     public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : ISPMD<TLane, float>
+        where TLane : unmanaged, ISPMD<TLane, float>
     {
         var indices = TLane.Sequence(baseIndex, 1f);
         var w = TLane.Create(width);

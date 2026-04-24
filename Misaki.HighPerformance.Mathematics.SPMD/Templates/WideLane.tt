@@ -1,0 +1,59 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".gen.cs" #>
+using System.Numerics;
+using System.Runtime.CompilerServices;
+
+namespace Misaki.HighPerformance.Mathematics.SPMD;
+<#
+var conversions = new CastRoute[]
+{
+    new CastRoute { From = "float", To = "int", Method = "Vector.ConvertToInt32" },
+    new CastRoute { From = "float", To = "uint", Method = "Vector.ConvertToUInt32" },
+    new CastRoute { From = "double", To = "long", Method = "Vector.ConvertToInt64" },
+    new CastRoute { From = "double", To = "ulong", Method = "Vector.ConvertToUInt64" },
+    new CastRoute { From = "int", To = "float", Method = "Vector.ConvertToSingle" },
+    new CastRoute { From = "uint", To = "float", Method = "Vector.ConvertToSingle" },
+    new CastRoute { From = "long", To = "double", Method = "Vector.ConvertToDouble" },
+    new CastRoute { From = "ulong", To = "double", Method = "Vector.ConvertToDouble" },
+};
+#>
+
+public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumber>
+    where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public TOther Cast<TOther, TOtherNumber>()
+        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>
+    {
+<# foreach (var c in conversions) { #>
+        if (typeof(TNumber) == typeof(<#= c.From #>) && typeof(TOtherNumber) == typeof(<#= c.To #>))
+        {
+            ref var vFrom = ref Unsafe.As<Vector<TNumber>, Vector<<#= c.From #>>>(ref Unsafe.AsRef(in value));
+            var vTo = <#= c.Method #>(vFrom);
+            return Unsafe.As<Vector<<#= c.To #>>, TOther>(ref vTo);
+        }
+
+<# } #>
+        var casted = stackalloc TOtherNumber[LaneWidth];
+        for (var i = 0; (i < LaneWidth) && (i < TOther.LaneWidth); i++)
+        {
+            casted[i] = TOtherNumber.CreateTruncating(value[i]);
+        }
+
+        return TOther.Load(casted);
+    }
+}
+
+<#+
+    public struct CastRoute
+    {
+        public string From;
+        public string To;
+        public string Method;
+    }
+#>

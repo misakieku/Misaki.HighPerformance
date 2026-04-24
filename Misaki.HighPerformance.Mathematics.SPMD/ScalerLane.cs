@@ -124,6 +124,22 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public TOther Cast<TOther, TOtherNumber>()
+        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>
+    {
+        return TOther.Create(TOtherNumber.CreateChecked(value));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public TOther BitCast<TOther, TOtherNumber>()
+        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>
+    {
+        return Unsafe.BitCast<ScalarLane<TNumber>, TOther>(this);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator +(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
         return new(a.value + b.value);
