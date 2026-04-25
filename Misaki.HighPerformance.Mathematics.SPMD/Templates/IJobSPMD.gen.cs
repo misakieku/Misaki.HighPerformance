@@ -14,7 +14,7 @@ public interface IJobSPMD<TNumber0>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
 {
     void Execute<TLane0>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane0 : unmanaged, ISPMD<TLane0, TNumber0>;
+        where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>;
 }
 
 internal struct SPMDJobWrapper<T, TNumber0> : IJobParallelFor
@@ -69,8 +69,8 @@ public interface IJobSPMD<TNumber0, TNumber1>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
 {
     void Execute<TLane0, TLane1>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane0 : unmanaged, ISPMD<TLane0, TNumber0>
-        where TLane1 : unmanaged, ISPMD<TLane1, TNumber1>;
+        where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
+        where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>;
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1> : IJobParallelFor
@@ -129,9 +129,9 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
 {
     void Execute<TLane0, TLane1, TLane2>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane0 : unmanaged, ISPMD<TLane0, TNumber0>
-        where TLane1 : unmanaged, ISPMD<TLane1, TNumber1>
-        where TLane2 : unmanaged, ISPMD<TLane2, TNumber2>;
+        where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
+        where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
+        where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>;
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2> : IJobParallelFor
@@ -194,10 +194,10 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
     where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
 {
     void Execute<TLane0, TLane1, TLane2, TLane3>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane0 : unmanaged, ISPMD<TLane0, TNumber0>
-        where TLane1 : unmanaged, ISPMD<TLane1, TNumber1>
-        where TLane2 : unmanaged, ISPMD<TLane2, TNumber2>
-        where TLane3 : unmanaged, ISPMD<TLane3, TNumber3>;
+        where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
+        where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
+        where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>
+        where TLane3 : unmanaged, ISPMDLane<TLane3, TNumber3>;
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3> : IJobParallelFor
@@ -264,11 +264,11 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
     where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
 {
     void Execute<TLane0, TLane1, TLane2, TLane3, TLane4>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane0 : unmanaged, ISPMD<TLane0, TNumber0>
-        where TLane1 : unmanaged, ISPMD<TLane1, TNumber1>
-        where TLane2 : unmanaged, ISPMD<TLane2, TNumber2>
-        where TLane3 : unmanaged, ISPMD<TLane3, TNumber3>
-        where TLane4 : unmanaged, ISPMD<TLane4, TNumber4>;
+        where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
+        where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
+        where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>
+        where TLane3 : unmanaged, ISPMDLane<TLane3, TNumber3>
+        where TLane4 : unmanaged, ISPMDLane<TLane4, TNumber4>;
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4> : IJobParallelFor
@@ -339,12 +339,12 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNum
     where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
 {
     void Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane0 : unmanaged, ISPMD<TLane0, TNumber0>
-        where TLane1 : unmanaged, ISPMD<TLane1, TNumber1>
-        where TLane2 : unmanaged, ISPMD<TLane2, TNumber2>
-        where TLane3 : unmanaged, ISPMD<TLane3, TNumber3>
-        where TLane4 : unmanaged, ISPMD<TLane4, TNumber4>
-        where TLane5 : unmanaged, ISPMD<TLane5, TNumber5>;
+        where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
+        where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
+        where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>
+        where TLane3 : unmanaged, ISPMDLane<TLane3, TNumber3>
+        where TLane4 : unmanaged, ISPMDLane<TLane4, TNumber4>
+        where TLane5 : unmanaged, ISPMDLane<TLane5, TNumber5>;
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5> : IJobParallelFor
@@ -419,13 +419,13 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNum
     where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>
 {
     void Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane0 : unmanaged, ISPMD<TLane0, TNumber0>
-        where TLane1 : unmanaged, ISPMD<TLane1, TNumber1>
-        where TLane2 : unmanaged, ISPMD<TLane2, TNumber2>
-        where TLane3 : unmanaged, ISPMD<TLane3, TNumber3>
-        where TLane4 : unmanaged, ISPMD<TLane4, TNumber4>
-        where TLane5 : unmanaged, ISPMD<TLane5, TNumber5>
-        where TLane6 : unmanaged, ISPMD<TLane6, TNumber6>;
+        where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
+        where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
+        where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>
+        where TLane3 : unmanaged, ISPMDLane<TLane3, TNumber3>
+        where TLane4 : unmanaged, ISPMDLane<TLane4, TNumber4>
+        where TLane5 : unmanaged, ISPMDLane<TLane5, TNumber5>
+        where TLane6 : unmanaged, ISPMDLane<TLane6, TNumber6>;
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6> : IJobParallelFor
@@ -504,14 +504,14 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNum
     where TNumber7 : unmanaged, INumber<TNumber7>, IBinaryNumber<TNumber7>, IMinMaxValue<TNumber7>, IBitwiseOperators<TNumber7, TNumber7, TNumber7>
 {
     void Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6, TLane7>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane0 : unmanaged, ISPMD<TLane0, TNumber0>
-        where TLane1 : unmanaged, ISPMD<TLane1, TNumber1>
-        where TLane2 : unmanaged, ISPMD<TLane2, TNumber2>
-        where TLane3 : unmanaged, ISPMD<TLane3, TNumber3>
-        where TLane4 : unmanaged, ISPMD<TLane4, TNumber4>
-        where TLane5 : unmanaged, ISPMD<TLane5, TNumber5>
-        where TLane6 : unmanaged, ISPMD<TLane6, TNumber6>
-        where TLane7 : unmanaged, ISPMD<TLane7, TNumber7>;
+        where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
+        where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
+        where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>
+        where TLane3 : unmanaged, ISPMDLane<TLane3, TNumber3>
+        where TLane4 : unmanaged, ISPMDLane<TLane4, TNumber4>
+        where TLane5 : unmanaged, ISPMDLane<TLane5, TNumber5>
+        where TLane6 : unmanaged, ISPMDLane<TLane6, TNumber6>
+        where TLane7 : unmanaged, ISPMDLane<TLane7, TNumber7>;
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7> : IJobParallelFor

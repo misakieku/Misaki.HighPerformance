@@ -11,13 +11,13 @@ namespace Misaki.HighPerformance.Mathematics.SPMD;
 
 public static unsafe partial class MathV
 {
-    #region Vector2
+# region Vector2
 
     // Creation Functions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Create<TLane, TNumber>(in TLane x, in TLane y)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector2<TLane, TNumber>
@@ -29,7 +29,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> CreateVector2<TLane, TNumber>(in TLane value)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector2<TLane, TNumber>
@@ -41,7 +41,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> LoadVector2<TLane, TNumber>(TNumber* pSrc)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var width = TLane.LaneWidth;
@@ -64,7 +64,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> LoadVector2<TLane, TNumber>(ref TNumber src)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return LoadVector2<TLane, TNumber>((TNumber*)Unsafe.AsPointer(ref src));
@@ -72,7 +72,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Load<TLane, TNumber>(TNumber* px, TNumber* py)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector2<TLane, TNumber>
@@ -84,7 +84,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Load<TLane, TNumber>(ref TNumber x, ref TNumber y)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector2<TLane, TNumber>
@@ -94,11 +94,93 @@ public static unsafe partial class MathV
         };
     }
 
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> GatherVector2<TLane, TNumber>(TNumber* pData, TLane indices, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 2];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = int.CreateTruncating(indices[i]);
+            buffer[0 * TLane.LaneWidth + i] = pData[scalarIdx + 0 * scale];
+            buffer[1 * TLane.LaneWidth + i] = pData[scalarIdx + 1 * scale];
+        }
+
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> GatherVector2<TLane, TNumber>(TNumber* pData, int* pIndices, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 2];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = pIndices[i];
+            buffer[0 * TLane.LaneWidth + i] = pData[scalarIdx + 0 * scale];
+            buffer[1 * TLane.LaneWidth + i] = pData[scalarIdx + 1 * scale];
+        }
+
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> GatherVector2<TLane, TNumber>(ref TNumber baseAddress, TLane indices, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 2];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = int.CreateTruncating(indices[i]);
+            buffer[0 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 0 * scale);
+            buffer[1 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 1 * scale);
+        }
+
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> GatherVector2<TLane, TNumber>(ref TNumber baseAddress, ref int baseIndex, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 2];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = Unsafe.Add(ref baseIndex, i);
+            buffer[0 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 0 * scale);
+            buffer[1 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 1 * scale);
+        }
+
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+        };
+    }
+
+
     // Math Functions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Abs<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector2<TLane, TNumber>
@@ -110,7 +192,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane Dot<TLane, TNumber>(in Vector2<TLane, TNumber> a, in Vector2<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return a.x * b.x + a.y * b.y;
@@ -118,7 +200,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Sqrt<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector2<TLane, TNumber>
@@ -130,7 +212,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Rsqrt<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector2<TLane, TNumber>
@@ -142,7 +224,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Normalize<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return vector * TLane.Rsqrt(Dot(vector, vector));
@@ -150,7 +232,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Reflect<TLane, TNumber>(in Vector2<TLane, TNumber> incident, in Vector2<TLane, TNumber> normal)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var dot = Dot(incident, normal);
@@ -159,7 +241,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Min<TLane, TNumber>(in Vector2<TLane, TNumber> a, in Vector2<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector2<TLane, TNumber>
@@ -171,7 +253,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Max<TLane, TNumber>(in Vector2<TLane, TNumber> a, in Vector2<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector2<TLane, TNumber>
@@ -183,7 +265,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Clamp<TLane, TNumber>(in Vector2<TLane, TNumber> value, in Vector2<TLane, TNumber> min, in Vector2<TLane, TNumber> max)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Min(Max(value, min), max);
@@ -191,7 +273,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Saturate<TLane, TNumber>(in Vector2<TLane, TNumber> value)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Clamp(value, CreateVector2<TLane, TNumber>(TLane.Zero), CreateVector2<TLane, TNumber>(TLane.One));
@@ -199,7 +281,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Lerp<TLane, TNumber>(in Vector2<TLane, TNumber> a, in Vector2<TLane, TNumber> b, TLane t)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return a + (b - a) * t;
@@ -207,15 +289,15 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane Length<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return TLane.Sqrt(Dot(vector, vector));
     }
-
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane LengthSquared<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Dot(vector, vector);
@@ -223,7 +305,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane Distance<TLane, TNumber>(in Vector2<TLane, TNumber> a, in Vector2<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var diff = b - a;
@@ -232,7 +314,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane DistanceSquared<TLane, TNumber>(in Vector2<TLane, TNumber> a, in Vector2<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var diff = b - a;
@@ -241,7 +323,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Step<TLane, TNumber>(in Vector2<TLane, TNumber> edge, in Vector2<TLane, TNumber> value)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Select(value >= edge, Vector2<TLane, TNumber>.One, Vector2<TLane, TNumber>.Zero);
@@ -249,7 +331,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Smoothstep<TLane, TNumber>(Vector2<TLane, TNumber> xMin, Vector2<TLane, TNumber> xMax, Vector2<TLane, TNumber> x)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var t = Saturate((x - xMin) / (xMax - xMin));
@@ -261,7 +343,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Select<TLane, TNumber>(TLane condition, in Vector2<TLane, TNumber> a, in Vector2<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector2<TLane, TNumber>
@@ -273,7 +355,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Select<TLane, TNumber>(Vector2<TLane, TNumber> condition, in Vector2<TLane, TNumber> a, in Vector2<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector2<TLane, TNumber>
@@ -283,15 +365,15 @@ public static unsafe partial class MathV
         };
     }
 
-    #endregion
+# endregion
 
-    #region Vector3
+# region Vector3
 
     // Creation Functions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Create<TLane, TNumber>(in TLane x, in TLane y, in TLane z)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -304,7 +386,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> CreateVector3<TLane, TNumber>(in TLane value)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -317,7 +399,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> LoadVector3<TLane, TNumber>(TNumber* pSrc)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var width = TLane.LaneWidth;
@@ -343,7 +425,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> LoadVector3<TLane, TNumber>(ref TNumber src)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return LoadVector3<TLane, TNumber>((TNumber*)Unsafe.AsPointer(ref src));
@@ -351,7 +433,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Load<TLane, TNumber>(TNumber* px, TNumber* py, TNumber* pz)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -364,7 +446,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Load<TLane, TNumber>(ref TNumber x, ref TNumber y, ref TNumber z)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -375,11 +457,101 @@ public static unsafe partial class MathV
         };
     }
 
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> GatherVector3<TLane, TNumber>(TNumber* pData, TLane indices, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 3];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = int.CreateTruncating(indices[i]);
+            buffer[0 * TLane.LaneWidth + i] = pData[scalarIdx + 0 * scale];
+            buffer[1 * TLane.LaneWidth + i] = pData[scalarIdx + 1 * scale];
+            buffer[2 * TLane.LaneWidth + i] = pData[scalarIdx + 2 * scale];
+        }
+
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+            z = TLane.Load(buffer + 2 * TLane.LaneWidth),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> GatherVector3<TLane, TNumber>(TNumber* pData, int* pIndices, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 3];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = pIndices[i];
+            buffer[0 * TLane.LaneWidth + i] = pData[scalarIdx + 0 * scale];
+            buffer[1 * TLane.LaneWidth + i] = pData[scalarIdx + 1 * scale];
+            buffer[2 * TLane.LaneWidth + i] = pData[scalarIdx + 2 * scale];
+        }
+
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+            z = TLane.Load(buffer + 2 * TLane.LaneWidth),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> GatherVector3<TLane, TNumber>(ref TNumber baseAddress, TLane indices, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 3];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = int.CreateTruncating(indices[i]);
+            buffer[0 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 0 * scale);
+            buffer[1 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 1 * scale);
+            buffer[2 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 2 * scale);
+        }
+
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+            z = TLane.Load(buffer + 2 * TLane.LaneWidth),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> GatherVector3<TLane, TNumber>(ref TNumber baseAddress, ref int baseIndex, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 3];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = Unsafe.Add(ref baseIndex, i);
+            buffer[0 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 0 * scale);
+            buffer[1 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 1 * scale);
+            buffer[2 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 2 * scale);
+        }
+
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+            z = TLane.Load(buffer + 2 * TLane.LaneWidth),
+        };
+    }
+
+
     // Math Functions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Abs<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -392,7 +564,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane Dot<TLane, TNumber>(in Vector3<TLane, TNumber> a, in Vector3<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return a.x * b.x + a.y * b.y + a.z * b.z;
@@ -400,7 +572,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Sqrt<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -413,7 +585,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Rsqrt<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -426,7 +598,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Normalize<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return vector * TLane.Rsqrt(Dot(vector, vector));
@@ -434,7 +606,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Reflect<TLane, TNumber>(in Vector3<TLane, TNumber> incident, in Vector3<TLane, TNumber> normal)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var dot = Dot(incident, normal);
@@ -443,7 +615,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Min<TLane, TNumber>(in Vector3<TLane, TNumber> a, in Vector3<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -456,7 +628,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Max<TLane, TNumber>(in Vector3<TLane, TNumber> a, in Vector3<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -469,7 +641,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Clamp<TLane, TNumber>(in Vector3<TLane, TNumber> value, in Vector3<TLane, TNumber> min, in Vector3<TLane, TNumber> max)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Min(Max(value, min), max);
@@ -477,7 +649,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Saturate<TLane, TNumber>(in Vector3<TLane, TNumber> value)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Clamp(value, CreateVector3<TLane, TNumber>(TLane.Zero), CreateVector3<TLane, TNumber>(TLane.One));
@@ -485,7 +657,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Lerp<TLane, TNumber>(in Vector3<TLane, TNumber> a, in Vector3<TLane, TNumber> b, TLane t)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return a + (b - a) * t;
@@ -493,15 +665,15 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane Length<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return TLane.Sqrt(Dot(vector, vector));
     }
-
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane LengthSquared<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Dot(vector, vector);
@@ -509,7 +681,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane Distance<TLane, TNumber>(in Vector3<TLane, TNumber> a, in Vector3<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var diff = b - a;
@@ -518,7 +690,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane DistanceSquared<TLane, TNumber>(in Vector3<TLane, TNumber> a, in Vector3<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var diff = b - a;
@@ -527,7 +699,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Step<TLane, TNumber>(in Vector3<TLane, TNumber> edge, in Vector3<TLane, TNumber> value)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Select(value >= edge, Vector3<TLane, TNumber>.One, Vector3<TLane, TNumber>.Zero);
@@ -535,7 +707,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Smoothstep<TLane, TNumber>(Vector3<TLane, TNumber> xMin, Vector3<TLane, TNumber> xMax, Vector3<TLane, TNumber> x)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var t = Saturate((x - xMin) / (xMax - xMin));
@@ -547,7 +719,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Select<TLane, TNumber>(TLane condition, in Vector3<TLane, TNumber> a, in Vector3<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -560,7 +732,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Select<TLane, TNumber>(Vector3<TLane, TNumber> condition, in Vector3<TLane, TNumber> a, in Vector3<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -571,15 +743,15 @@ public static unsafe partial class MathV
         };
     }
 
-    #endregion
+# endregion
 
-    #region Vector4
+# region Vector4
 
     // Creation Functions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Create<TLane, TNumber>(in TLane x, in TLane y, in TLane z, in TLane w)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector4<TLane, TNumber>
@@ -593,7 +765,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> CreateVector4<TLane, TNumber>(in TLane value)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector4<TLane, TNumber>
@@ -607,7 +779,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> LoadVector4<TLane, TNumber>(TNumber* pSrc)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var width = TLane.LaneWidth;
@@ -636,7 +808,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> LoadVector4<TLane, TNumber>(ref TNumber src)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return LoadVector4<TLane, TNumber>((TNumber*)Unsafe.AsPointer(ref src));
@@ -644,7 +816,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Load<TLane, TNumber>(TNumber* px, TNumber* py, TNumber* pz, TNumber* pw)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector4<TLane, TNumber>
@@ -658,7 +830,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Load<TLane, TNumber>(ref TNumber x, ref TNumber y, ref TNumber z, ref TNumber w)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector4<TLane, TNumber>
@@ -670,11 +842,109 @@ public static unsafe partial class MathV
         };
     }
 
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> GatherVector4<TLane, TNumber>(TNumber* pData, TLane indices, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 4];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = int.CreateTruncating(indices[i]);
+            buffer[0 * TLane.LaneWidth + i] = pData[scalarIdx + 0 * scale];
+            buffer[1 * TLane.LaneWidth + i] = pData[scalarIdx + 1 * scale];
+            buffer[2 * TLane.LaneWidth + i] = pData[scalarIdx + 2 * scale];
+            buffer[3 * TLane.LaneWidth + i] = pData[scalarIdx + 3 * scale];
+        }
+
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+            z = TLane.Load(buffer + 2 * TLane.LaneWidth),
+            w = TLane.Load(buffer + 3 * TLane.LaneWidth),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> GatherVector4<TLane, TNumber>(TNumber* pData, int* pIndices, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 4];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = pIndices[i];
+            buffer[0 * TLane.LaneWidth + i] = pData[scalarIdx + 0 * scale];
+            buffer[1 * TLane.LaneWidth + i] = pData[scalarIdx + 1 * scale];
+            buffer[2 * TLane.LaneWidth + i] = pData[scalarIdx + 2 * scale];
+            buffer[3 * TLane.LaneWidth + i] = pData[scalarIdx + 3 * scale];
+        }
+
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+            z = TLane.Load(buffer + 2 * TLane.LaneWidth),
+            w = TLane.Load(buffer + 3 * TLane.LaneWidth),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> GatherVector4<TLane, TNumber>(ref TNumber baseAddress, TLane indices, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 4];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = int.CreateTruncating(indices[i]);
+            buffer[0 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 0 * scale);
+            buffer[1 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 1 * scale);
+            buffer[2 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 2 * scale);
+            buffer[3 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 3 * scale);
+        }
+
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+            z = TLane.Load(buffer + 2 * TLane.LaneWidth),
+            w = TLane.Load(buffer + 3 * TLane.LaneWidth),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> GatherVector4<TLane, TNumber>(ref TNumber baseAddress, ref int baseIndex, int scale)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        var buffer = stackalloc TNumber[TLane.LaneWidth * 4];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = Unsafe.Add(ref baseIndex, i);
+            buffer[0 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 0 * scale);
+            buffer[1 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 1 * scale);
+            buffer[2 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 2 * scale);
+            buffer[3 * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + 3 * scale);
+        }
+
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.Load(buffer + 0 * TLane.LaneWidth),
+            y = TLane.Load(buffer + 1 * TLane.LaneWidth),
+            z = TLane.Load(buffer + 2 * TLane.LaneWidth),
+            w = TLane.Load(buffer + 3 * TLane.LaneWidth),
+        };
+    }
+
+
     // Math Functions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Abs<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector4<TLane, TNumber>
@@ -688,7 +958,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane Dot<TLane, TNumber>(in Vector4<TLane, TNumber> a, in Vector4<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
@@ -696,7 +966,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Sqrt<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector4<TLane, TNumber>
@@ -710,7 +980,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Rsqrt<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector4<TLane, TNumber>
@@ -724,7 +994,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Normalize<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return vector * TLane.Rsqrt(Dot(vector, vector));
@@ -732,7 +1002,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Reflect<TLane, TNumber>(in Vector4<TLane, TNumber> incident, in Vector4<TLane, TNumber> normal)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var dot = Dot(incident, normal);
@@ -741,7 +1011,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Min<TLane, TNumber>(in Vector4<TLane, TNumber> a, in Vector4<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector4<TLane, TNumber>
@@ -755,7 +1025,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Max<TLane, TNumber>(in Vector4<TLane, TNumber> a, in Vector4<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector4<TLane, TNumber>
@@ -769,7 +1039,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Clamp<TLane, TNumber>(in Vector4<TLane, TNumber> value, in Vector4<TLane, TNumber> min, in Vector4<TLane, TNumber> max)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Min(Max(value, min), max);
@@ -777,7 +1047,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Saturate<TLane, TNumber>(in Vector4<TLane, TNumber> value)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Clamp(value, CreateVector4<TLane, TNumber>(TLane.Zero), CreateVector4<TLane, TNumber>(TLane.One));
@@ -785,7 +1055,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Lerp<TLane, TNumber>(in Vector4<TLane, TNumber> a, in Vector4<TLane, TNumber> b, TLane t)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return a + (b - a) * t;
@@ -793,15 +1063,15 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane Length<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return TLane.Sqrt(Dot(vector, vector));
     }
-
+    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane LengthSquared<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Dot(vector, vector);
@@ -809,7 +1079,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane Distance<TLane, TNumber>(in Vector4<TLane, TNumber> a, in Vector4<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var diff = b - a;
@@ -818,7 +1088,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLane DistanceSquared<TLane, TNumber>(in Vector4<TLane, TNumber> a, in Vector4<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var diff = b - a;
@@ -827,7 +1097,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Step<TLane, TNumber>(in Vector4<TLane, TNumber> edge, in Vector4<TLane, TNumber> value)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return Select(value >= edge, Vector4<TLane, TNumber>.One, Vector4<TLane, TNumber>.Zero);
@@ -835,7 +1105,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Smoothstep<TLane, TNumber>(Vector4<TLane, TNumber> xMin, Vector4<TLane, TNumber> xMax, Vector4<TLane, TNumber> x)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         var t = Saturate((x - xMin) / (xMax - xMin));
@@ -847,7 +1117,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Select<TLane, TNumber>(TLane condition, in Vector4<TLane, TNumber> a, in Vector4<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector4<TLane, TNumber>
@@ -861,7 +1131,7 @@ public static unsafe partial class MathV
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Select<TLane, TNumber>(Vector4<TLane, TNumber> condition, in Vector4<TLane, TNumber> a, in Vector4<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector4<TLane, TNumber>
@@ -873,14 +1143,14 @@ public static unsafe partial class MathV
         };
     }
 
-    #endregion
+# endregion
 
 
-    #region Vector3 Specific
+# region Vector3 Specific
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Cross<TLane, TNumber>(in Vector3<TLane, TNumber> a, in Vector3<TLane, TNumber> b)
-        where TLane : ISPMD<TLane, TNumber>
+        where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return new Vector3<TLane, TNumber>
@@ -891,6 +1161,6 @@ public static unsafe partial class MathV
         };
     }
 
-    #endregion
+# endregion
 }
 

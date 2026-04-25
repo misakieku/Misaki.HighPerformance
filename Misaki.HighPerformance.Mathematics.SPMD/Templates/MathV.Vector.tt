@@ -21,7 +21,7 @@ const string GenericParameters = $"{TLane}, {TNumber}";
 
 var dimensions = new int[] { 2, 3, 4 };
 var components = new char[] { 'x', 'y', 'z', 'w' };
-var TLaneRestrictions = $@"where {TLane} : ISPMD<{TLane}, {TNumber}>";
+var TLaneRestrictions = $@"where {TLane} : ISPMDLane<{TLane}, {TNumber}>";
 var TNumberRestrictions = $@"where {TNumber} : unmanaged, INumber<{TNumber}>, IBinaryNumber<{TNumber}>, IMinMaxValue<{TNumber}>, IBitwiseOperators<{TNumber}, {TNumber}, {TNumber}>";
 #>
 
@@ -35,7 +35,7 @@ public static unsafe partial class MathV
     // Creation Functions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static <#= vectorType #> Create<<#= GenericParameters #>>(<#= ForEachDimension(dimension, i => $"in TLane {components[i]}") #>)
+    public static <#= vectorType #> Create<<#= GenericParameters #>>(<#= ForEachDimension(dimension, i => $"in {TLane} {components[i]}") #>)
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
@@ -48,7 +48,7 @@ public static unsafe partial class MathV
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static <#= vectorType #> CreateVector<#= dimension #><<#= GenericParameters #>>(in TLane value)
+    public static <#= vectorType #> CreateVector<#= dimension #><<#= GenericParameters #>>(in <#= TLane #> value)
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
@@ -61,14 +61,14 @@ public static unsafe partial class MathV
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static <#= vectorType #> LoadVector<#= dimension #><<#= GenericParameters #>>(TNumber* pSrc)
+    public static <#= vectorType #> LoadVector<#= dimension #><<#= GenericParameters #>>(<#= TNumber #>* pSrc)
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
         var width = TLane.LaneWidth;
 
 <# for (int i = 0; i < dimension; i++) { #>
-        var <#= components[i] #> = stackalloc TNumber[width];
+        var <#= components[i] #> = stackalloc <#= TNumber #>[width];
 <# } #>
 
         for (var i = 0; i < width; i++)
@@ -87,11 +87,11 @@ public static unsafe partial class MathV
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static <#= vectorType #> LoadVector<#= dimension #><<#= GenericParameters #>>(ref TNumber src)
+    public static <#= vectorType #> LoadVector<#= dimension #><<#= GenericParameters #>>(ref <#= TNumber #> src)
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
-        return LoadVector<#= dimension #><<#= GenericParameters #>>((TNumber*)Unsafe.AsPointer(ref src));
+        return LoadVector<#= dimension #><<#= GenericParameters #>>((<#= TNumber #>*)Unsafe.AsPointer(ref src));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -120,10 +120,100 @@ public static unsafe partial class MathV
         };
     }
 
+    
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(<#= TNumber #>* pData, <#= TLane #> indices, int scale)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        var buffer = stackalloc <#= TNumber #>[TLane.LaneWidth * <#= dimension #>];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = int.CreateTruncating(indices[i]);
+<# for (int i = 0; i < dimension; i++) { #>
+            buffer[<#= i #> * TLane.LaneWidth + i] = pData[scalarIdx + <#= i #> * scale];
+<# } #>
+        }
+
+        return new <#= vectorType #>
+        {
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = TLane.Load(buffer + <#= i #> * TLane.LaneWidth),
+<# } #>
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(<#= TNumber #>* pData, int* pIndices, int scale)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        var buffer = stackalloc <#= TNumber #>[TLane.LaneWidth * <#= dimension #>];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = pIndices[i];
+<# for (int i = 0; i < dimension; i++) { #>
+            buffer[<#= i #> * TLane.LaneWidth + i] = pData[scalarIdx + <#= i #> * scale];
+<# } #>
+        }
+
+        return new <#= vectorType #>
+        {
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = TLane.Load(buffer + <#= i #> * TLane.LaneWidth),
+<# } #>
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(ref <#= TNumber #> baseAddress, <#= TLane #> indices, int scale)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        var buffer = stackalloc <#= TNumber #>[TLane.LaneWidth * <#= dimension #>];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = int.CreateTruncating(indices[i]);
+<# for (int i = 0; i < dimension; i++) { #>
+            buffer[<#= i #> * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + <#= i #> * scale);
+<# } #>
+        }
+
+        return new <#= vectorType #>
+        {
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = TLane.Load(buffer + <#= i #> * TLane.LaneWidth),
+<# } #>
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(ref <#= TNumber #> baseAddress, ref int baseIndex, int scale)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        var buffer = stackalloc <#= TNumber #>[TLane.LaneWidth * <#= dimension #>];
+        for (var i = 0; i < TLane.LaneWidth; i++)
+        {
+            var scalarIdx = Unsafe.Add(ref baseIndex, i);
+<# for (int i = 0; i < dimension; i++) { #>
+            buffer[<#= i #> * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + <#= i #> * scale);
+<# } #>
+        }
+
+        return new <#= vectorType #>
+        {
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = TLane.Load(buffer + <#= i #> * TLane.LaneWidth),
+<# } #>
+        };
+    }
+
+
     // Math Functions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static <#= vectorType #> Abs<<#= GenericParameters #>>(in Vector<#= dimension #><TLane, TNumber> vector)
+    public static <#= vectorType #> Abs<<#= GenericParameters #>>(in Vector<#= dimension #><TLane, <#= TNumber #>> vector)
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {

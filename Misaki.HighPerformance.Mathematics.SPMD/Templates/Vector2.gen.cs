@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace Misaki.HighPerformance.Mathematics.SPMD;
 
 public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber>>
-    where TLane : ISPMD<TLane, TNumber>
+    where TLane : ISPMDLane<TLane, TNumber>
     where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
 {
     public TLane x;
@@ -49,7 +49,7 @@ public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
     private static void RangeCheck(int index)
     {
         if (index < 0 || index >= 2)
@@ -420,8 +420,11 @@ public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override int GetHashCode()
+    public override readonly int GetHashCode()
     {
-        throw new NotImplementedException();
+        var hash = new HashCode();
+        hash.Add(x);
+        hash.Add(y);
+        return hash.ToHashCode();
     }
 }

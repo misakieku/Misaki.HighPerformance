@@ -13,7 +13,7 @@ internal unsafe struct DotProductJob : IJobSPMD<float>
     public float* results;    // output array (dot products)
 
     public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMD<TLane, float>
+        where TLane : unmanaged, ISPMDLane<TLane, float>
     {
         var vecA = MathV.LoadVector3<TLane, float>((float*)(arrayA + baseIndex));
         var vecB = MathV.LoadVector3<TLane, float>((float*)(arrayB + baseIndex));
@@ -30,7 +30,7 @@ internal unsafe struct Vector2LerpJob : IJobSPMD<float>
     public float[] results;
 
     public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMD<TLane, float>
+        where TLane : unmanaged, ISPMDLane<TLane, float>
     {
         var a = MathV.LoadVector2<TLane, float>(ref arrayA[baseIndex].x);
         var b = MathV.LoadVector2<TLane, float>(ref arrayB[baseIndex].x);
@@ -49,7 +49,7 @@ internal unsafe struct Vector4NormalizeJob : IJobSPMD<float>
     public float4[] output;
 
     public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMD<TLane, float>
+        where TLane : unmanaged, ISPMDLane<TLane, float>
     {
         var vec = MathV.LoadVector4<TLane, float>(ref input[baseIndex].x);
         var normalized = MathV.Normalize(vec);
@@ -64,7 +64,7 @@ internal unsafe struct Vector3CrossJob : IJobSPMD<float>
     public float3[] results;
 
     public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMD<TLane, float>
+        where TLane : unmanaged, ISPMDLane<TLane, float>
     {
         var a = MathV.LoadVector3<TLane, float>(ref arrayA[baseIndex].x);
         var b = MathV.LoadVector3<TLane, float>(ref arrayB[baseIndex].x);
@@ -82,7 +82,7 @@ internal unsafe struct MinMaxClampJob : IJobSPMD<float>
     public float3[] results;
 
     public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMD<TLane, float>
+        where TLane : unmanaged, ISPMDLane<TLane, float>
     {
         var val = MathV.LoadVector3<TLane, float>(ref values[baseIndex].x);
         var min = MathV.LoadVector3<TLane, float>(ref mins[baseIndex].x);
@@ -100,7 +100,7 @@ internal unsafe struct DistanceJob : IJobSPMD<float>
     public float[] results;
 
     public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMD<TLane, float>
+        where TLane : unmanaged, ISPMDLane<TLane, float>
     {
         var a = MathV.LoadVector3<TLane, float>(ref arrayA[baseIndex].x);
         var b = MathV.LoadVector3<TLane, float>(ref arrayB[baseIndex].x);

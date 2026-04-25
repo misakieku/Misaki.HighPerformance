@@ -21,8 +21,8 @@ This package is intended for code that wants to express vectorized work in a way
 
 ## Main types
 
-- `ISPMD`
-- `ISPMD<TSelf, TNumber>`
+- `ISPMDLane`
+- `ISPMDLane<TSelf, TNumber>`
 - `ScalerLane`
 - `WideLane`
 - `IJobSPMD`

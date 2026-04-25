@@ -20,8 +20,8 @@ internal unsafe struct MipLevel
 }
 
 internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
-    where TFloat : unmanaged, ISPMD<TFloat, float>
-    where TInt : unmanaged, ISPMD<TInt, int>
+    where TFloat : unmanaged, ISPMDLane<TFloat, float>
+    where TInt : unmanaged, ISPMDLane<TInt, int>
 {
     public const uint SAMPLE_COUNT = 1024u;
 
@@ -104,34 +104,12 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
         var py = (uv.y * (h - 1.0f)).Cast<TInt, int>();
 
         // Clamp
-        px = TInt.Clamp(px, TInt.Zero, TInt.Create(w - 1));
-        py = TInt.Clamp(py, TInt.Zero, TInt.Create(h - 1));
+        px = TInt.Clamp(px, TInt.Zero, w - 1);
+        py = TInt.Clamp(py, TInt.Zero, h - 1);
 
         // Assuming float RGB array format
         var idx = (py * w + px) * 3;
-
-        var laneWidth = TFloat.LaneWidth;
-
-        var rBuffer = stackalloc float[laneWidth];
-        var gBuffer = stackalloc float[laneWidth];
-        var bBuffer = stackalloc float[laneWidth];
-
-        // Gather operation: extract scalar indices, perform random memory reads, and construct SoA buffers
-        for (var i = 0; i < laneWidth; i++)
-        {
-            var scalarIdx = idx[i];
-
-            rBuffer[i] = img[scalarIdx];
-            gBuffer[i] = img[scalarIdx + 1];
-            bBuffer[i] = img[scalarIdx + 2];
-        }
-
-        // Load the gathered contiguous arrays back into TLane types
-        var rLane = TFloat.Load(rBuffer);
-        var gLane = TFloat.Load(gBuffer);
-        var bLane = TFloat.Load(bBuffer);
-
-        return MathV.Create<TFloat, float>(rLane, gLane, bLane);
+        return MathV.GatherVector3<TFloat, float>(img, idx.GetUnsafePtr(), 1);
     }
 
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
@@ -179,9 +157,10 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
             TFloat.Create(V.z)
         );
 
-        var vPrefilteredColorX = TFloat.Zero;
-        var vPrefilteredColorY = TFloat.Zero;
-        var vPrefilteredColorZ = TFloat.Zero;
+        //var vPrefilteredColorX = TFloat.Zero;
+        //var vPrefilteredColorY = TFloat.Zero;
+        //var vPrefilteredColorZ = TFloat.Zero;
+        var vPrefilteredColor = Vector3<TFloat, float>.Zero;
         var vTotalWeight = TFloat.Zero;
 
         // 3. Monte Carlo Integration Loop
@@ -219,10 +198,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
             var fireflyWeight = TFloat.One / (TFloat.One + luma);
             var finalWeight = NdotL * fireflyWeight;
 
-            vPrefilteredColorX += sampleColor.x * finalWeight;
-            vPrefilteredColorY += sampleColor.y * finalWeight;
-            vPrefilteredColorZ += sampleColor.z * finalWeight;
-
+            vPrefilteredColor += sampleColor * finalWeight;
             vTotalWeight += finalWeight;
         }
 
@@ -231,9 +207,9 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
 
         for (var i = 0; i < TFloat.LaneWidth; i++)
         {
-            prefilteredColor.x += vPrefilteredColorX[i];
-            prefilteredColor.y += vPrefilteredColorY[i];
-            prefilteredColor.z += vPrefilteredColorZ[i];
+            prefilteredColor.x += vPrefilteredColor.x[i];
+            prefilteredColor.y += vPrefilteredColor.y[i];
+            prefilteredColor.z += vPrefilteredColor.z[i];
             totalWeight += vTotalWeight[i];
         }
 

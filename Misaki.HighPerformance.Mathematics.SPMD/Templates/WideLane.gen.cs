@@ -3,12 +3,12 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.Mathematics.SPMD;
 
-public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumber>
+public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNumber>, TNumber>
     where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public TOther Cast<TOther, TOtherNumber>()
-        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOther : ISPMDLane<TOther, TOtherNumber>
         where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>
     {
         if (typeof(TNumber) == typeof(float) && typeof(TOtherNumber) == typeof(int))

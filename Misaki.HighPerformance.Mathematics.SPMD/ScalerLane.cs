@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace Misaki.HighPerformance.Mathematics.SPMD;
 
 [StructLayout(LayoutKind.Sequential)]
-public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, TNumber>
+public readonly unsafe struct ScalarLane<TNumber> : ISPMDLane<ScalarLane<TNumber>, TNumber>
     where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
 {
     public readonly TNumber value;
@@ -19,25 +19,25 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     public static ScalarLane<TNumber> Zero
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => new(TNumber.Zero);
+        get => new ScalarLane<TNumber>(TNumber.Zero);
     }
 
     public static ScalarLane<TNumber> One
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => new(TNumber.One);
+        get => new ScalarLane<TNumber>(TNumber.One);
     }
 
     public static ScalarLane<TNumber> MinValue
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => new(TNumber.MinValue);
+        get => new ScalarLane<TNumber>(TNumber.MinValue);
     }
 
     public static ScalarLane<TNumber> MaxValue
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => new(TNumber.MaxValue);
+        get => new ScalarLane<TNumber>(TNumber.MaxValue);
     }
 
     public readonly TNumber this[int index]
@@ -54,38 +54,75 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Create(TNumber value)
     {
-        return new(value);
+        return new ScalarLane<TNumber>(value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Create(params ReadOnlySpan<TNumber> values)
     {
-        return new(values[0]);
+        return new ScalarLane<TNumber>(values[0]);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Create(Vector<TNumber> value)
     {
-        return new(value[0]);
+        return new ScalarLane<TNumber>(value[0]);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Sequence(TNumber start, TNumber step)
     {
-        return new(start);
+        return new ScalarLane<TNumber>(start);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Load(ref TNumber value)
     {
-        return new(value);
+        return new ScalarLane<TNumber>(value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Load(TNumber* pValue)
     {
-        return new(*pValue);
+        return new ScalarLane<TNumber>(*pValue);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> MaskLoad(ScalarLane<TNumber> mask, ref TNumber value)
+    {
+        return new ScalarLane<TNumber>(mask.value != TNumber.Zero ? value : TNumber.Zero);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> MaskLoad(ScalarLane<TNumber> mask, TNumber* pValue)
+    {
+        return new ScalarLane<TNumber>(mask.value != TNumber.Zero ? *pValue : TNumber.Zero);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> Gather(TNumber* pData, ScalarLane<TNumber> indices, int scale)
+    {
+        return new ScalarLane<TNumber>(pData[int.CreateTruncating(indices.value) * scale / sizeof(TNumber)]);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> Gather(TNumber* pData, int* pIndices, int scale)
+    {
+        return new ScalarLane<TNumber>(pData[pIndices[0] * scale / sizeof(TNumber)]);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> Gather(ref TNumber baseAddress, ScalarLane<TNumber> indices, int scale)
+    {
+        return new ScalarLane<TNumber>(Unsafe.Add(ref baseAddress, int.CreateTruncating(indices.value) * scale / sizeof(TNumber)));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> Gather(ref TNumber baseAddress, ref int baseIndex, int scale)
+    {
+        return new ScalarLane<TNumber>(Unsafe.Add(ref baseAddress, int.CreateTruncating(baseIndex) * scale / sizeof(TNumber)));
+    }
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void Store(ref TNumber destination)
@@ -124,8 +161,14 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly TNumber* GetUnsafePtr()
+    {
+        return (TNumber*)Unsafe.AsPointer(ref Unsafe.AsRef(in value));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public TOther Cast<TOther, TOtherNumber>()
-        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOther : ISPMDLane<TOther, TOtherNumber>
         where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>
     {
         return TOther.Create(TOtherNumber.CreateChecked(value));
@@ -133,7 +176,7 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public TOther BitCast<TOther, TOtherNumber>()
-        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOther : ISPMDLane<TOther, TOtherNumber>
         where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>
     {
         return Unsafe.BitCast<ScalarLane<TNumber>, TOther>(this);
@@ -142,61 +185,61 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator +(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value + b.value);
+        return new ScalarLane<TNumber>(a.value + b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator -(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value - b.value);
+        return new ScalarLane<TNumber>(a.value - b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator *(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value * b.value);
+        return new ScalarLane<TNumber>(a.value * b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator /(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value / b.value);
+        return new ScalarLane<TNumber>(a.value / b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator %(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value % b.value);
+        return new ScalarLane<TNumber>(a.value % b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator -(ScalarLane<TNumber> a)
     {
-        return new(-a.value);
+        return new ScalarLane<TNumber>(-a.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator &(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value & b.value);
+        return new ScalarLane<TNumber>(a.value & b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator |(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value | b.value);
+        return new ScalarLane<TNumber>(a.value | b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator ^(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value ^ b.value);
+        return new ScalarLane<TNumber>(a.value ^ b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> operator ~(ScalarLane<TNumber> a)
     {
-        return new(~a.value);
+        return new ScalarLane<TNumber>(~a.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -240,7 +283,7 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator ScalarLane<TNumber>(TNumber value)
     {
-        return new(value);
+        return new ScalarLane<TNumber>(value);
     }
 
 
@@ -248,7 +291,7 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Abs(ScalarLane<TNumber> value)
     {
-        return new(TNumber.Abs(value.value));
+        return new ScalarLane<TNumber>(TNumber.Abs(value.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -276,7 +319,7 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Frac(ScalarLane<TNumber> value)
     {
-        return new(value.value - TNumber.CreateTruncating(value.value));
+        return new ScalarLane<TNumber>(value.value - TNumber.CreateTruncating(value.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -301,37 +344,37 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Lerp(ScalarLane<TNumber> a, ScalarLane<TNumber> b, ScalarLane<TNumber> t)
     {
-        return new(a.value + (b.value - a.value) * t.value);
+        return new ScalarLane<TNumber>(a.value + (b.value - a.value) * t.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> MultipleAdd(ScalarLane<TNumber> a, ScalarLane<TNumber> b, ScalarLane<TNumber> c)
     {
-        return new(TNumber.MultiplyAddEstimate(a.value, b.value, c.value));
+        return new ScalarLane<TNumber>(TNumber.MultiplyAddEstimate(a.value, b.value, c.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Min(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(TNumber.Min(a.value, b.value));
+        return new ScalarLane<TNumber>(TNumber.Min(a.value, b.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Max(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(TNumber.Max(a.value, b.value));
+        return new ScalarLane<TNumber>(TNumber.Max(a.value, b.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Clamp(ScalarLane<TNumber> value, ScalarLane<TNumber> min, ScalarLane<TNumber> max)
     {
-        return new(TNumber.Clamp(value.value, min.value, max.value));
+        return new ScalarLane<TNumber>(TNumber.Clamp(value.value, min.value, max.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Saturate(ScalarLane<TNumber> value)
     {
-        return Clamp(value, new(TNumber.Zero), new(TNumber.One));
+        return Clamp(value, new ScalarLane<TNumber>(TNumber.Zero), new ScalarLane<TNumber>(TNumber.One));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -638,19 +681,19 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Sign(ScalarLane<TNumber> value)
     {
-        return new((value.value > TNumber.Zero) ? TNumber.One : (value.value < TNumber.Zero) ? ~TNumber.Zero : TNumber.Zero);
+        return new ScalarLane<TNumber>((value.value > TNumber.Zero) ? TNumber.One : (value.value < TNumber.Zero) ? ~TNumber.Zero : TNumber.Zero);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> CopySign(ScalarLane<TNumber> magnitude, ScalarLane<TNumber> sign)
     {
-        return new(TNumber.CopySign(magnitude.value, sign.value));
+        return new ScalarLane<TNumber>(TNumber.CopySign(magnitude.value, sign.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Rcp(ScalarLane<TNumber> value)
     {
-        return new(TNumber.One / value.value);
+        return new ScalarLane<TNumber>(TNumber.One / value.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -662,37 +705,37 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMD<ScalarLane<TNumber>, T
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Select(ScalarLane<TNumber> conditionMask, ScalarLane<TNumber> ifTrue, ScalarLane<TNumber> ifFalse)
     {
-        return new(conditionMask.value != TNumber.Zero ? ifTrue.value : ifFalse.value);
+        return new ScalarLane<TNumber>(conditionMask.value != TNumber.Zero ? ifTrue.value : ifFalse.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> GreaterThan(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value > b.value ? ~TNumber.Zero : TNumber.Zero);
+        return new ScalarLane<TNumber>(a.value > b.value ? ~TNumber.Zero : TNumber.Zero);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> GreaterThanOrEqual(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value >= b.value ? ~TNumber.Zero : TNumber.Zero);
+        return new ScalarLane<TNumber>(a.value >= b.value ? ~TNumber.Zero : TNumber.Zero);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> LessThan(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value < b.value ? ~TNumber.Zero : TNumber.Zero);
+        return new ScalarLane<TNumber>(a.value < b.value ? ~TNumber.Zero : TNumber.Zero);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> LessThanOrEqual(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value <= b.value ? ~TNumber.Zero : TNumber.Zero);
+        return new ScalarLane<TNumber>(a.value <= b.value ? ~TNumber.Zero : TNumber.Zero);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Equal(ScalarLane<TNumber> a, ScalarLane<TNumber> b)
     {
-        return new(a.value == b.value ? ~TNumber.Zero : TNumber.Zero);
+        return new ScalarLane<TNumber>(a.value == b.value ? ~TNumber.Zero : TNumber.Zero);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

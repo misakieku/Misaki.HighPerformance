@@ -3,7 +3,7 @@
 private const string TLane = "TLane";
 private const string TNumber = "TNumber";
 
-private string TLaneRestrictions = $@"where {TLane} : ISPMD<{TLane}, {TNumber}>";
+private string TLaneRestrictions = $@"where {TLane} : ISPMDLane<{TLane}, {TNumber}>";
 private string TNumberRestrictions = $@"where {TNumber} : unmanaged, INumber<{TNumber}>, IBinaryNumber<{TNumber}>, IMinMaxValue<{TNumber}>, IBitwiseOperators<{TNumber}, {TNumber}, {TNumber}>";
 
 private int[] dimensions = new int[] { 2, 3, 4 };
@@ -83,12 +83,12 @@ public unsafe struct {typeName} : IEquatable<{typeName}>
     }}
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [Conditional(""ENABLE_COLLECTION_CHECKS"")]
+    [Conditional(""MHP_ENABLE_SAFETY_CHECKS"")]
     private static void RangeCheck(int index)
     {{
         if (index < 0 || index >= {dimension})
         {{
-            throw new IndexOutOfRangeException($""Index {{index}} is out of range for Vector2."");
+            throw new IndexOutOfRangeException($""Index {{index}} is out of range for Vector{dimension}."");
         }}
     }}
 
@@ -418,9 +418,11 @@ public unsafe struct {typeName} : IEquatable<{typeName}>
     }}
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override int GetHashCode()
+    public override readonly int GetHashCode()
     {{
-        throw new NotImplementedException();
+        var hash = new HashCode();
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"hash.Add({components[dim]});"))}
+        return hash.ToHashCode();
     }}
 }}");
 

@@ -15,7 +15,7 @@ const string TLane = "TLane";
 const string TNumber = "TNumber";
 const string GenericParameters = $"{TLane}, {TNumber}";
 
-var TLaneRestrictions = $@"where {TLane} : ISPMD<{TLane}, {TNumber}>";
+var TLaneRestrictions = $@"where {TLane} : ISPMDLane<{TLane}, {TNumber}>";
 var TNumberRestrictions = $@"where {TNumber} : unmanaged, INumber<{TNumber}>, IBinaryNumber<{TNumber}>, IMinMaxValue<{TNumber}>, IBitwiseOperators<{TNumber}, {TNumber}, {TNumber}>";
 
 for (var i = 0; i < 8; i++) { #>
@@ -192,7 +192,7 @@ public string GetTLaneRestrictions(int dimension, string space = "    ")
     var sb = new StringBuilder();
     for (var i = 0; i < dimension; i++)
     {
-        sb.Append(space + $@"where TLane{i} : unmanaged, ISPMD<TLane{i}, TNumber{i}>");
+        sb.Append(space + $@"where TLane{i} : unmanaged, ISPMDLane<TLane{i}, TNumber{i}>");
         if (i < dimension - 1)
         {
             sb.AppendLine();

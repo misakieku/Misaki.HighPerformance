@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using static Misaki.HighPerformance.Mathematics.math;
 
@@ -711,53 +711,53 @@ public struct random
         return t;
     }
 
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
     private void CheckInitState()
     {
-#if ENABLE_COLLECTION_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             if (state == 0)
                 throw new System.ArgumentException("Seed must be non-zero");
 #endif
     }
 
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
     private static void CheckIndexForHash(uint index)
     {
         if (index == uint.MaxValue)
             throw new System.ArgumentException("Index must not be uint.MaxValue");
     }
 
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
     private void CheckState()
     {
-#if ENABLE_COLLECTION_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             if(state == 0)
                 throw new System.ArgumentException("Invalid state 0. Random object has not been properly initialized");
 #endif
     }
 
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
     private void CheckNextIntMax(int max)
     {
-#if ENABLE_COLLECTION_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             if (max < 0)
                 throw new System.ArgumentException("max must be positive");
 #endif
     }
 
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
     private void CheckNextIntMinMax(int min, int max)
     {
-#if ENABLE_COLLECTION_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             if (min > max)
                 throw new System.ArgumentException("min must be less than or equal to max");
 #endif
     }
 
-    [Conditional("ENABLE_COLLECTION_CHECKS")]
+    [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
     private void CheckNextUIntMinMax(uint min, uint max)
     {
-#if ENABLE_COLLECTION_CHECKS
+#if MHP_ENABLE_SAFETY_CHECKS
             if (min > max)
                 throw new System.ArgumentException("min must be less than or equal to max");
 #endif

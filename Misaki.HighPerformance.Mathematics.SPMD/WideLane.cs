@@ -32,7 +32,7 @@ public static unsafe class WideLane
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber>, TNumber>
+public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNumber>, TNumber>
     where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
 {
     private static readonly Vector<TNumber> s_indices;
@@ -48,13 +48,13 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber
     public static WideLane<TNumber> Zero
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => new(Vector<TNumber>.Zero);
+        get => new WideLane<TNumber>(Vector<TNumber>.Zero);
     }
 
     public static WideLane<TNumber> One
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => new(Vector<TNumber>.One);
+        get => new WideLane<TNumber>(Vector<TNumber>.One);
     }
 
     public static WideLane<TNumber> MinValue
@@ -134,38 +134,101 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Create(TNumber value)
     {
-        return new(Vector.Create(value));
+        return new WideLane<TNumber>(Vector.Create(value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Create(params ReadOnlySpan<TNumber> values)
     {
-        return new(Vector.Create(values));
+        return new WideLane<TNumber>(Vector.Create(values));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Create(Vector<TNumber> value)
     {
-        return new(value);
+        return new WideLane<TNumber>(value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Sequence(TNumber start, TNumber step)
     {
-        return new(Vector.Create(start) + (Vector.Create(step) * s_indices));
+        return new WideLane<TNumber>(Vector.Create(start) + (Vector.Create(step) * s_indices));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Load(ref TNumber value)
     {
-        return new(Vector.LoadUnsafe(ref value));
+        return new WideLane<TNumber>(Vector.LoadUnsafe(ref value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Load(TNumber* pValue)
     {
-        return new(Vector.Load(pValue));
+        return new WideLane<TNumber>(Vector.Load(pValue));
     }
+
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> MaskLoad(WideLane<TNumber> mask, ref TNumber value)
+    {
+        return MaskLoad(mask, (TNumber*)Unsafe.AsPointer(ref value));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> MaskLoad(WideLane<TNumber> mask, TNumber* pValue)
+    {
+        var vector = Vector.Load(pValue);
+        return new WideLane<TNumber>(Vector.ConditionalSelect(mask.value, vector, Vector<TNumber>.Zero));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> Gather(TNumber* pData, WideLane<TNumber> indices, int scale)
+    {
+        var buffer = stackalloc TNumber[LaneWidth];
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            buffer[i] = pData[int.CreateTruncating(indices[i]) * scale / sizeof(TNumber)];
+        }
+
+        return new WideLane<TNumber>(Vector.Load(buffer));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> Gather(TNumber* pData, int* pIndices, int scale)
+    {
+        var buffer = stackalloc TNumber[LaneWidth];
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            buffer[i] = pData[pIndices[i] * scale / sizeof(TNumber)];
+        }
+
+        return new WideLane<TNumber>(Vector.Load(buffer));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> Gather(ref TNumber baseAddress, WideLane<TNumber> indices, int scale)
+    {
+        var buffer = stackalloc TNumber[LaneWidth];
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            buffer[i] = Unsafe.Add(ref baseAddress, int.CreateTruncating(indices[i]) * scale / sizeof(TNumber));
+        }
+
+        return new WideLane<TNumber>(Vector.Load(buffer));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> Gather(ref TNumber baseAddress, ref int baseIndex, int scale)
+    {
+        var buffer = stackalloc TNumber[LaneWidth];
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            buffer[i] = Unsafe.Add(ref baseAddress, Unsafe.Add(ref baseIndex, i) * scale / sizeof(TNumber));
+        }
+
+        return new WideLane<TNumber>(Vector.Load(buffer));
+    }
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void Store(ref TNumber destination)
@@ -302,8 +365,14 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly TNumber* GetUnsafePtr()
+    {
+        return (TNumber*)Unsafe.AsPointer(ref Unsafe.AsRef(in value));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public TOther BitCast<TOther, TOtherNumber>()
-        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOther : ISPMDLane<TOther, TOtherNumber>
         where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>
     {
         return Unsafe.BitCast<WideLane<TNumber>, TOther>(this);
@@ -313,61 +382,61 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> operator +(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(a.value + b.value);
+        return new WideLane<TNumber>(a.value + b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> operator -(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(a.value - b.value);
+        return new WideLane<TNumber>(a.value - b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> operator *(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(a.value * b.value);
+        return new WideLane<TNumber>(a.value * b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> operator /(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(a.value / b.value);
+        return new WideLane<TNumber>(a.value / b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> operator %(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(a.value - VectorFloor(a.value / b.value) * b.value);
+        return new WideLane<TNumber>(a.value - VectorFloor(a.value / b.value) * b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> operator -(WideLane<TNumber> a)
     {
-        return new(-a.value);
+        return new WideLane<TNumber>(-a.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> operator &(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(a.value & b.value);
+        return new WideLane<TNumber>(a.value & b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> operator |(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(a.value | b.value);
+        return new WideLane<TNumber>(a.value | b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> operator ^(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(a.value ^ b.value);
+        return new WideLane<TNumber>(a.value ^ b.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> operator ~(WideLane<TNumber> a)
     {
-        return new(~a.value);
+        return new WideLane<TNumber>(~a.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -417,7 +486,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Abs(WideLane<TNumber> value)
     {
-        return new(Vector.Abs(value.value));
+        return new WideLane<TNumber>(Vector.Abs(value.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -442,19 +511,19 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Frac(WideLane<TNumber> value)
     {
-        return new(value.value - VectorFloor(value.value));
+        return new WideLane<TNumber>(value.value - VectorFloor(value.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Sqrt(WideLane<TNumber> value)
     {
-        return new(Vector.SquareRoot(value.value));
+        return new WideLane<TNumber>(Vector.SquareRoot(value.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Lerp(WideLane<TNumber> a, WideLane<TNumber> b, WideLane<TNumber> t)
     {
-        return new(a.value + (b.value - a.value) * t.value);
+        return new WideLane<TNumber>(a.value + (b.value - a.value) * t.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -478,26 +547,26 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber
         }
         else
         {
-            return new((a.value * b.value) + c.value);
+            return new WideLane<TNumber>((a.value * b.value) + c.value);
         }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Min(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(Vector.Min(a.value, b.value));
+        return new WideLane<TNumber>(Vector.Min(a.value, b.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Max(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(Vector.Max(a.value, b.value));
+        return new WideLane<TNumber>(Vector.Max(a.value, b.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Clamp(WideLane<TNumber> value, WideLane<TNumber> min, WideLane<TNumber> max)
     {
-        return new(Vector.Clamp(value.value, min.value, max.value));
+        return new WideLane<TNumber>(Vector.Clamp(value.value, min.value, max.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -826,7 +895,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> CopySign(WideLane<TNumber> magnitude, WideLane<TNumber> sign)
     {
-        return new(Vector.CopySign(magnitude.value, sign.value));
+        return new WideLane<TNumber>(Vector.CopySign(magnitude.value, sign.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -878,7 +947,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Select(WideLane<TNumber> conditionMask, WideLane<TNumber> ifTrue, WideLane<TNumber> ifFalse)
     {
-        return new(Vector.ConditionalSelect(
+        return new WideLane<TNumber>(Vector.ConditionalSelect(
                 conditionMask.value,
                 ifTrue.value,
                 ifFalse.value));
@@ -887,31 +956,31 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMD<WideLane<TNumber
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> GreaterThan(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(Vector.GreaterThan(a.value, b.value));
+        return new WideLane<TNumber>(Vector.GreaterThan(a.value, b.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> GreaterThanOrEqual(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(Vector.GreaterThanOrEqual(a.value, b.value));
+        return new WideLane<TNumber>(Vector.GreaterThanOrEqual(a.value, b.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> LessThan(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(Vector.LessThan(a.value, b.value));
+        return new WideLane<TNumber>(Vector.LessThan(a.value, b.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> LessThanOrEqual(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(Vector.LessThanOrEqual(a.value, b.value));
+        return new WideLane<TNumber>(Vector.LessThanOrEqual(a.value, b.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Equal(WideLane<TNumber> a, WideLane<TNumber> b)
     {
-        return new(Vector.Equals(a.value, b.value));
+        return new WideLane<TNumber>(Vector.Equals(a.value, b.value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

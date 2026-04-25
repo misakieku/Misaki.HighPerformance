@@ -5,7 +5,7 @@ namespace Misaki.HighPerformance.Mathematics.SPMD;
 /// <summary>
 /// Common marker interface for SPMD lane types.
 /// </summary>
-public interface ISPMD
+public interface ISPMDLane
 {
     /// <summary>
     /// Gets the number of lanes (vector width) for the SPMD implementation.
@@ -29,8 +29,8 @@ public interface ISPMD
 /// </summary>
 /// <typeparam name="TSelf">The concrete SPMD lane type implementing this interface.</typeparam>
 /// <typeparam name="TNumber">The underlying numeric element type.</typeparam>
-public interface ISPMD<TSelf, TNumber> : ISPMD, IEquatable<TSelf>
-    where TSelf : ISPMD<TSelf, TNumber>
+public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
+    where TSelf : ISPMDLane<TSelf, TNumber>
     where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
 {
     /// <summary>
@@ -116,7 +116,15 @@ public interface ISPMD<TSelf, TNumber> : ISPMD, IEquatable<TSelf>
     /// <remarks>
     /// Unsafe pointer overloads are provided for scenarios where sequential lane data is already contiguous in memory.
     /// </remarks>
-    static abstract unsafe TSelf Load(TNumber* pValue);
+    static abstract TSelf Load(TNumber* pValue);
+
+    static abstract TSelf MaskLoad(TSelf mask, ref TNumber value);
+    static abstract TSelf MaskLoad(TSelf mask, TNumber* pValue);
+
+    static abstract TSelf Gather(TNumber* pData, TSelf indices, int scale);
+    static abstract TSelf Gather(TNumber* pData, int* pIndices, int scale);
+    static abstract TSelf Gather(ref TNumber baseAddress, TSelf indices, int scale);
+    static abstract TSelf Gather(ref TNumber baseAddress, ref int baseIndex, int scale);
 
     /// <summary>
     /// Stores the lane value to the specified reference.
@@ -127,7 +135,7 @@ public interface ISPMD<TSelf, TNumber> : ISPMD, IEquatable<TSelf>
     /// Stores the lane value to the specified pointer.
     /// </summary>
     /// <param name="pDestination">The pointer to store to.</param>
-    unsafe void Store(TNumber* pDestination);
+    void Store(TNumber* pDestination);
     /// <summary>
     /// Compresses the data specified by the given mask and stores the compressed result in the provided destination
     /// variable.
@@ -149,13 +157,15 @@ public interface ISPMD<TSelf, TNumber> : ISPMD, IEquatable<TSelf>
     /// <remarks>
     /// Implementations may use hardware-specific shuffle tables to reorder the selected lanes before storing, falling back to a scalar loop otherwise.
     /// </remarks>
-    unsafe int CompressStore(TSelf mask, TNumber* pDestination);
+    int CompressStore(TSelf mask, TNumber* pDestination);
 
     /// <summary>
     /// Converts the lane value to a vector.
     /// </summary>
     /// <returns>The backing vector representation.</returns>
     Vector<TNumber> AsVector();
+
+    TNumber* GetUnsafePtr();
 
     /// <summary>
     /// Casts the lane value to another SPMD lane type with a different underlying numeric type.
@@ -164,7 +174,7 @@ public interface ISPMD<TSelf, TNumber> : ISPMD, IEquatable<TSelf>
     /// <typeparam name="TOtherNumber">The underlying numeric type of the other SPMD lane.</typeparam>
     /// <returns>The casted lane value.</returns>
     TOther Cast<TOther, TOtherNumber>()
-        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOther : ISPMDLane<TOther, TOtherNumber>
         where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>;
 
     /// <summary>
@@ -174,7 +184,7 @@ public interface ISPMD<TSelf, TNumber> : ISPMD, IEquatable<TSelf>
     /// <typeparam name="TOtherNumber">The underlying numeric type of the other SPMD lane.</typeparam>
     /// <returns>The bit-cast lane value.</returns>
     TOther BitCast<TOther, TOtherNumber>()
-        where TOther : ISPMD<TOther, TOtherNumber>
+        where TOther : ISPMDLane<TOther, TOtherNumber>
         where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>;
 
     /// <summary>
