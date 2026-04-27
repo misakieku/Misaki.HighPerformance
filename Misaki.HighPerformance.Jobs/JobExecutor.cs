@@ -6,7 +6,7 @@ namespace Misaki.HighPerformance.Jobs;
 internal static class JobExecutor
 {
     public static void Execute<T>(int dataID, int dataGeneration, ref JobRanges jobRanges, ref readonly JobExecutionContext ctx)
-        where T : struct, IJob
+        where T : IJob
     {
         ref var job = ref JobDataPool<T>.GetReference(dataID, dataGeneration, out var exists);
         Debug.Assert(exists, "Job data not found in the pool.");
@@ -30,7 +30,7 @@ internal static class JobExecutor
     }
 
     public static void ExecuteParallelFor<T>(int dataID, int dataGeneration, ref JobRanges jobRanges, ref readonly JobExecutionContext ctx)
-        where T : struct, IJobParallelFor
+        where T : IJobParallelFor
     {
         ref var job = ref JobDataPool<T>.GetReference(dataID, dataGeneration, out var exists);
         Debug.Assert(exists, "Job data not found in the pool.");
@@ -50,7 +50,7 @@ internal static class JobExecutor
     }
 
     public static void ExecuteParallel<T>(int dataID, int dataGeneration, ref JobRanges jobRanges, ref readonly JobExecutionContext ctx)
-        where T : struct, IJobParallel
+        where T : IJobParallel
     {
         ref var job = ref JobDataPool<T>.GetReference(dataID, dataGeneration, out var exists);
         Debug.Assert(exists, "Job data not found in the pool.");

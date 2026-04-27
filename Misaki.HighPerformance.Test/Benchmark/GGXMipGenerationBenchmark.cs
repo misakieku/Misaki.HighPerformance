@@ -342,7 +342,7 @@ internal unsafe struct GGXMipGenerationJob : IJobParallelFor
         var totalWeight = 0.0f;
 
         // 3. Monte Carlo Integration Loop
-        var dynamicSampleCount = (uint)max(1.0f, SAMPLE_COUNT * sqrt(pLevel->roughness));
+        var dynamicSampleCount = (uint)max(1.0f, SAMPLE_COUNT * pLevel->roughness);
         for (var i = 0u; i < dynamicSampleCount; i++)
         {
             // Generate a Hammersley random sequence point

@@ -272,6 +272,8 @@ public class Wrapper<T> : IDisposable
 
     private bool _disposed;
 
+    public ref T Value => ref Get();
+
     public Wrapper(T value)
     {
         _value = value;
@@ -282,6 +284,7 @@ public class Wrapper<T> : IDisposable
         Dispose();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ref T Get()
     {
         ObjectDisposedException.ThrowIf(_disposed, this);

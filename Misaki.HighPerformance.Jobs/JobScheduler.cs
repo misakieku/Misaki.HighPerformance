@@ -529,7 +529,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle Schedule<T>(ref readonly T job, bool preferLocal, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJob
+        where T : IJob
     {
         var id = JobDataPool<T>.Allocate(in job, out var generation);
         var jobInfo = new JobInfo
@@ -557,7 +557,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle Schedule<T>(ref readonly T job, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJob
+        where T : IJob
         => Schedule(in job, false, priority, dependencies);
 
     /// <summary>
@@ -569,7 +569,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle Schedule<T>(ref readonly T job, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJob
+        where T : IJob
         => Schedule(in job, false, JobPriority.Normal, dependencies);
 
     /// <summary>
@@ -582,7 +582,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle Schedule<T>(ref readonly T job, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJob
+        where T : IJob
         => Schedule(in job, preferLocal, JobPriority.Normal, dependencies);
 
     /// <summary>
@@ -598,7 +598,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.  <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJobParallelFor
+        where T : IJobParallelFor
     {
         if (totalIteration <= 0)
         {
@@ -638,7 +638,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJobParallelFor
+        where T : IJobParallelFor
         => ScheduleParallelFor(in job, totalIteration, batchSize, false, priority, dependencies);
 
     /// <summary>
@@ -652,7 +652,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJobParallelFor
+        where T : IJobParallelFor
         => ScheduleParallelFor(in job, totalIteration, batchSize, false, JobPriority.Normal, dependencies);
 
     /// <summary>
@@ -667,7 +667,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJobParallelFor
+        where T : IJobParallelFor
         => ScheduleParallelFor(in job, totalIteration, batchSize, preferLocal, JobPriority.Normal, dependencies);
 
     /// <summary>
@@ -683,7 +683,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJobParallel
+        where T : IJobParallel
     {
         if (totalIteration <= 0)
         {
@@ -723,7 +723,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJobParallel
+        where T : IJobParallel
         => ScheduleParallel(in job, totalIteration, batchSize, false, priority, dependencies);
 
     /// <summary>
@@ -737,7 +737,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJobParallel
+        where T : IJobParallel
         => ScheduleParallel(in job, totalIteration, batchSize, false, JobPriority.Normal, dependencies);
 
     /// <summary>
@@ -752,7 +752,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct, IJobParallel
+        where T : IJobParallel
         => ScheduleParallel(in job, totalIteration, batchSize, preferLocal, JobPriority.Normal, dependencies);
 
     /// <summary>

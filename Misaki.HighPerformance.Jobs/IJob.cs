@@ -41,7 +41,13 @@ public interface IJobParallel
 
 public static class IJobExtensions
 {
-    public static void Run<T>(this ref T job, ref readonly JobExecutionContext ctx)
+    public static void Run<T>(this T job, ref readonly JobExecutionContext ctx)
+        where T : IJob
+    {
+        job.Execute(in ctx);
+    }
+
+    public static void RunRef<T>(this ref T job, ref readonly JobExecutionContext ctx)
         where T : struct, IJob
     {
         job.Execute(in ctx);
@@ -50,7 +56,16 @@ public static class IJobExtensions
 
 public static class IJobParallelForExtensions
 {
-    public static void Run<T>(this ref T job, int totalIterations, ref readonly JobExecutionContext ctx)
+    public static void Run<T>(this T job, int totalIterations, ref readonly JobExecutionContext ctx)
+        where T : IJobParallelFor
+    {
+        for (var i = 0; i < totalIterations; i++)
+        {
+            job.Execute(i, in ctx);
+        }
+    }
+
+    public static void RunRef<T>(this ref T job, int totalIterations, ref readonly JobExecutionContext ctx)
         where T : struct, IJobParallelFor
     {
         for (var i = 0; i < totalIterations; i++)
@@ -62,7 +77,13 @@ public static class IJobParallelForExtensions
 
 public static class IJobParallelExtensions
 {
-    public static void Run<T>(this ref T job, int totalIterations, ref readonly JobExecutionContext ctx)
+    public static void Run<T>(this T job, int totalIterations, ref readonly JobExecutionContext ctx)
+        where T : IJobParallel
+    {
+        job.Execute(0, totalIterations, in ctx);
+    }
+
+    public static void RunRef<T>(this ref T job, int totalIterations, ref readonly JobExecutionContext ctx)
         where T : struct, IJobParallel
     {
         job.Execute(0, totalIterations, in ctx);

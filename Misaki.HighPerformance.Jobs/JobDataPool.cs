@@ -7,7 +7,6 @@ namespace Misaki.HighPerformance.Jobs;
 /// This class manages pools of job data for different types. It allows allocating, retrieving, and freeing job data instances using unique IDs and generations to ensure safe access and reuse of resources.
 /// </summary>
 public static class JobDataPool<T>
-    where T : struct
 {
     private static readonly ConcurrentSlotMap<T> s_slots = new ConcurrentSlotMap<T>(8);
 
