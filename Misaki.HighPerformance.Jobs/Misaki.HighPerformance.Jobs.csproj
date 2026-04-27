@@ -6,13 +6,11 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <AssemblyVersion>3.1.1</AssemblyVersion>
+    <AssemblyVersion>3.1.2</AssemblyVersion>
     <Version>$(AssemblyVersion)</Version>
     <Authors>Misaki</Authors>
     <PackageProjectUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</PackageProjectUrl>
     <RepositoryUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</RepositoryUrl>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
-    <ContentTargetFolders>contentFiles</ContentTargetFolders>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,16 +22,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Misaki.HighPerformance.LowLevel/Misaki.HighPerformance.LowLevel.csproj" />
     <ProjectReference Include="../Misaki.HighPerformance/Misaki.HighPerformance.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="**/*.cs" Exclude="obj/**;bin/**">
-      <Pack>true</Pack>
-      <PackagePath>contentFiles/cs/any/Misaki.HighPerformance.Jobs/</PackagePath>
-      <PackageCopyToOutput>false</PackageCopyToOutput>
-      <BuildAction>Compile</BuildAction>
-    </Content>
   </ItemGroup>
 </Project>
