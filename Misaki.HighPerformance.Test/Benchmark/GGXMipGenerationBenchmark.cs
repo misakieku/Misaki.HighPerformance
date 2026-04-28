@@ -10,6 +10,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using static Misaki.HighPerformance.Mathematics.math;
 
+//using TFloat = Misaki.HighPerformance.Mathematics.SPMD.WideLane<float>;
+//using TInt = Misaki.HighPerformance.Mathematics.SPMD.WideLane<int>;
+
 namespace Misaki.HighPerformance.Test.Benchmark;
 
 internal unsafe struct MipLevel
@@ -21,6 +24,7 @@ internal unsafe struct MipLevel
     public float roughness;
 }
 
+//internal unsafe struct GGXMipGenerationJobSPMD : IJobParallelFor
 internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
     where TFloat : unmanaged, ISPMDLane<TFloat, float>
     where TInt : unmanaged, ISPMDLane<TInt, int>
@@ -32,7 +36,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
     public float* radicalInverse_VdCLut;
     public int numMipLevels;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public static float RadicalInverse_VdC(uint bits)
     {
         bits = (bits << 16) | (bits >> 16);
@@ -96,6 +100,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
     }
 
     // Samples the source HDR image using bilinear interpolation (simplified to nearest neighbor for brevity here)
+    // Do not inline this function to avoid register pressure and code bloat in the main sampling loop, as this is a relatively heavy operation and we want to keep it separate for better instruction cache usage.
     [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.AggressiveOptimization)]
     private static Vector3<TFloat, float> SampleEquirectangularMap(float* img, int w, int h, Vector3<TFloat, float> dir)
     {
