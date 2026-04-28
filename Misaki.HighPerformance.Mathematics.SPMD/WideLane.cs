@@ -578,58 +578,129 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Sin(WideLane<TNumber> value)
     {
-        if (typeof(TNumber) == typeof(float))
-        {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
-            var result = Vector.Sin(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref result));
-        }
-        else if (typeof(TNumber) == typeof(double))
-        {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
-            var result = Vector.Sin(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
-        }
+        var invPi = Create(TNumber.CreateTruncating(0.318309886f)); // 1 / PI
 
-        return value;
+        var x_sin = value;
+        var y_sin = x_sin * invPi;
+        var k_sin = Round(y_sin);
+        var z_sin = y_sin - k_sin;
+
+        var half = Create(TNumber.CreateTruncating(0.5f));
+        var two = Create(TNumber.CreateTruncating(2.0f));
+
+        var k_even_sin = Round(k_sin * half) * two;
+        var sign_sin = One - two * Abs(k_sin - k_even_sin);
+
+        var c1 = Create(TNumber.CreateTruncating(3.14159265f));   // PI
+        var c3 = Create(TNumber.CreateTruncating(-5.16771278f));  // -PI^3 / 6
+        var c5 = Create(TNumber.CreateTruncating(2.55016404f));   // PI^5 / 120
+        var c7 = Create(TNumber.CreateTruncating(-0.59926453f));  // -PI^7 / 5040
+        var c9 = Create(TNumber.CreateTruncating(0.08214589f));   // PI^9 / 362880
+
+        var z2_sin = z_sin * z_sin;
+        var poly_sin = MultipleAdd(z2_sin, c9, c7);       // c7 + c9*z^2
+        poly_sin = MultipleAdd(z2_sin, poly_sin, c5);                   // c5 + z^2*(...)
+        poly_sin = MultipleAdd(z2_sin, poly_sin, c3);                   // c3 + z^2*(...)
+        poly_sin = MultipleAdd(z2_sin, poly_sin, c1);                   // c1 + z^2*(...)
+        poly_sin = z_sin * poly_sin;                                            // z * (...)
+
+        return poly_sin * sign_sin;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Cos(WideLane<TNumber> value)
     {
-        if (typeof(TNumber) == typeof(float))
-        {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
-            var result = Vector.Cos(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref result));
-        }
-        else if (typeof(TNumber) == typeof(double))
-        {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
-            var result = Vector.Cos(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
-        }
+        var halfPi = Create(TNumber.CreateTruncating(1.570796327f));
+        var invPi = Create(TNumber.CreateTruncating(0.318309886f)); // 1 / PI
 
-        return value;
+        var x_cos = value + halfPi;
+        var y_cos = x_cos * invPi;
+        var k_cos = Round(y_cos);
+        var z_cos = y_cos - k_cos;
+
+        var half = Create(TNumber.CreateTruncating(0.5f));
+        var two = Create(TNumber.CreateTruncating(2.0f));
+
+        var k_even_cos = Round(k_cos * half) * two;
+        var sign_cos = One - two * Abs(k_cos - k_even_cos);
+
+        var c1 = Create(TNumber.CreateTruncating(3.14159265f));   // PI
+        var c3 = Create(TNumber.CreateTruncating(-5.16771278f));  // -PI^3 / 6
+        var c5 = Create(TNumber.CreateTruncating(2.55016404f));   // PI^5 / 120
+        var c7 = Create(TNumber.CreateTruncating(-0.59926453f));  // -PI^7 / 5040
+        var c9 = Create(TNumber.CreateTruncating(0.08214589f));   // PI^9 / 362880
+
+        var z2_cos = z_cos * z_cos;
+        var poly_cos = MultipleAdd(z2_cos, c9, c7);
+        poly_cos = MultipleAdd(z2_cos, poly_cos, c5);
+        poly_cos = MultipleAdd(z2_cos, poly_cos, c3);
+        poly_cos = MultipleAdd(z2_cos, poly_cos, c1);
+        poly_cos = z_cos * poly_cos;
+
+        return poly_cos * sign_cos;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static (WideLane<TNumber> sin, WideLane<TNumber> cos) SinCos(WideLane<TNumber> value)
     {
-        if (typeof(TNumber) == typeof(float))
-        {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
-            var (sin, cos) = Vector.SinCos(v);
-            return (new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref sin)), new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref cos)));
-        }
-        else if (typeof(TNumber) == typeof(double))
-        {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
-            var (sin, cos) = Vector.SinCos(v);
-            return (new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref sin)), new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref cos)));
-        }
+        var halfPi = Create(TNumber.CreateTruncating(1.570796327f));
+        var invPi = Create(TNumber.CreateTruncating(0.318309886f)); // 1 / PI
 
-        return (value, value);
+        var x_sin = value;
+        var x_cos = value + halfPi;
+
+        // Range Reduction
+        // We map any angle to the interval [-0.5, 0.5] (corresponding to the actual angle range [-PI/2, PI/2])
+        // y = x * (1 / PI)
+        var y_sin = x_sin * invPi;
+        var y_cos = x_cos * invPi;
+
+        // k = Round(y)
+        var k_sin = Round(y_sin);
+        var k_cos = Round(y_cos);
+
+        // z = y - k (Now, the range of z is perfectly reduced to [-0.5, 0.5])
+        var z_sin = y_sin - k_sin;
+        var z_cos = y_cos - k_cos;
+
+        // 2. Branchless Sign Flip
+        // Mathematical principle: Sin(x + k*PI) = Sin(x) * (-1)^k
+        // We need to compute (-1)^k. To avoid inefficient bit operations or branches, we compute it with floating-point math:
+        // sign = 1.0 - 2.0 * Abs(k - 2.0 * Round(k * 0.5))
+        var half = Create(TNumber.CreateTruncating(0.5f));
+        var two = Create(TNumber.CreateTruncating(2.0f));
+        var one = One;
+
+        var k_even_sin = Round(k_sin * half) * two;
+        var sign_sin = one - two * Abs(k_sin - k_even_sin);
+
+        var k_even_cos = Round(k_cos * half) * two;
+        var sign_cos = one - two * Abs(k_cos - k_even_cos);
+
+        // 3. Taylor/Remez Polynomial for Sin(PI * z)
+        // For z in [-0.5, 0.5]，Calculate sin(PI * z)
+        // z * (C1 + z^2 * (C3 + z^2 * (C5 + z^2 * (C7 + z^2 * C9))))
+        var c1 = Create(TNumber.CreateTruncating(3.14159265f));   // PI
+        var c3 = Create(TNumber.CreateTruncating(-5.16771278f));  // -PI^3 / 6
+        var c5 = Create(TNumber.CreateTruncating(2.55016404f));   // PI^5 / 120
+        var c7 = Create(TNumber.CreateTruncating(-0.59926453f));  // -PI^7 / 5040
+        var c9 = Create(TNumber.CreateTruncating(0.08214589f));   // PI^9 / 362880
+
+        var z2_sin = z_sin * z_sin;
+        var poly_sin = MultipleAdd(z2_sin, c9, c7);       // c7 + c9*z^2
+        poly_sin = MultipleAdd(z2_sin, poly_sin, c5);                   // c5 + z^2*(...)
+        poly_sin = MultipleAdd(z2_sin, poly_sin, c3);                   // c3 + z^2*(...)
+        poly_sin = MultipleAdd(z2_sin, poly_sin, c1);                   // c1 + z^2*(...)
+        poly_sin = z_sin * poly_sin;                                            // z * (...)
+
+        var z2_cos = z_cos * z_cos;
+        var poly_cos = MultipleAdd(z2_cos, c9, c7);
+        poly_cos = MultipleAdd(z2_cos, poly_cos, c5);
+        poly_cos = MultipleAdd(z2_cos, poly_cos, c3);
+        poly_cos = MultipleAdd(z2_cos, poly_cos, c1);
+        poly_cos = z_cos * poly_cos;
+
+        return (poly_sin * sign_sin, poly_cos * sign_cos);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

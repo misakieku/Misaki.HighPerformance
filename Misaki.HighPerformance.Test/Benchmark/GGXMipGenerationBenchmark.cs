@@ -1,4 +1,6 @@
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Diagnosers;
+using BenchmarkDotNet.Engines;
 using Misaki.HighPerformance.Image;
 using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.Mathematics;
@@ -41,7 +43,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
         return bits * 2.3283064365386963e-10f; // bits / 0x100000000
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private static Vector2<TFloat, float> Hammersley(TFloat i, uint N, float* lut)
     {
         var x = i / N;
@@ -50,7 +52,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
     }
 
     // --- GGX Importance Sampling ---
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private static Vector3<TFloat, float> ImportanceSampleGGX(Vector2<TFloat, float> Xi, Vector3<TFloat, float> N, float roughness)
     {
         var a = roughness * roughness; // Disney/Epic remap roughness for better visual linearity
@@ -82,7 +84,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
 
     // --- Image Sampling Helpers ---
     // Maps a 3D direction vector to 2D equirectangular UVs
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     private static Vector2<TFloat, float> DirToEquirectangularUV(Vector3<TFloat, float> dir)
     {
         var u = TFloat.Atan2(dir.z, dir.x);
@@ -94,7 +96,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
     }
 
     // Samples the source HDR image using bilinear interpolation (simplified to nearest neighbor for brevity here)
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.AggressiveOptimization)]
     private static Vector3<TFloat, float> SampleEquirectangularMap(float* img, int w, int h, Vector3<TFloat, float> dir)
     {
         var uv = DirToEquirectangularUV(dir);
@@ -112,6 +114,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
         return MathV.GatherVector3<TFloat, float>(img, idx.GetUnsafePtr(), 1);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
         var m = 0;
@@ -157,17 +160,14 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
             TFloat.Create(V.z)
         );
 
-        //var vPrefilteredColorX = TFloat.Zero;
-        //var vPrefilteredColorY = TFloat.Zero;
-        //var vPrefilteredColorZ = TFloat.Zero;
         var vPrefilteredColor = Vector3<TFloat, float>.Zero;
         var vTotalWeight = TFloat.Zero;
 
         // 3. Monte Carlo Integration Loop
-        // We assume WideLane is supported in the test.
 
         var dynamicSampleCount = (uint)max(1.0f, SAMPLE_COUNT * pLevel->roughness);
         var vDynamicSampleCount = TFloat.Create(dynamicSampleCount);
+        var vLumaVector = MathV.Create<TFloat, float>(0.2126f, 0.7152f, 0.0722f);
 
         for (var i = 0u; i < dynamicSampleCount; i += (uint)TFloat.LaneWidth)
         {
@@ -194,7 +194,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
             // A sun pixel (luma 1000.0) gets a tiny weight of ~0.001, naturally suppressing it.
             // This introduce bias, but significantly reduces fireflies without needing solid angle sampling or cdf inversion.
             // And since this is a mip generation step, a little bias is acceptable for much better performance and stability.
-            var luma = MathV.Dot(sampleColor, MathV.Create<TFloat, float>(0.2126f, 0.7152f, 0.0722f));
+            var luma = MathV.Dot(sampleColor, vLumaVector);
             var fireflyWeight = TFloat.One / (TFloat.One + luma);
             var finalWeight = NdotL * fireflyWeight;
 
@@ -381,6 +381,7 @@ internal unsafe struct GGXMipGenerationJob : IJobParallelFor
     }
 }
 
+[SimpleJob(RunStrategy.ColdStart, launchCount: 1, warmupCount: 0, iterationCount: 1, invocationCount: 1, id: "QuickRun")]
 public unsafe class GGXMipGenerationBenchmark
 {
     private ImageResultFloat _image;
@@ -388,7 +389,7 @@ public unsafe class GGXMipGenerationBenchmark
     private int _totalPixel;
     private float** _pResult;
     private MipLevel* _pMipLevels;
-    private float* radicalInverse_VdCLut;
+    private float* _radicalInverse_VdCLut;
 
     private JobScheduler _jobScheduler = null!;
 
@@ -434,10 +435,10 @@ public unsafe class GGXMipGenerationBenchmark
             ThreadPriority = ThreadPriority.Normal,
         };
 
-        radicalInverse_VdCLut = (float*)NativeMemory.Alloc(GGXMipGenerationJob.SAMPLE_COUNT * sizeof(float));
+        _radicalInverse_VdCLut = (float*)NativeMemory.Alloc(GGXMipGenerationJob.SAMPLE_COUNT * sizeof(float));
         for (var i = 0u; i < GGXMipGenerationJob.SAMPLE_COUNT; i++)
         {
-            radicalInverse_VdCLut[i] = GGXMipGenerationJob.RadicalInverse_VdC(i);
+            _radicalInverse_VdCLut[i] = GGXMipGenerationJob.RadicalInverse_VdC(i);
         }
 
         _jobScheduler = new JobScheduler(in desc);
@@ -490,10 +491,12 @@ public unsafe class GGXMipGenerationBenchmark
     [GlobalCleanup]
     public void Cleanup()
     {
+#if false
         for (var i = 0; i < _mipLevels; i++)
         {
             DumpMipLevelToPng(_pResult[i], (int)_pMipLevels[i].width, (int)_pMipLevels[i].height, $"C:\\Users\\Misaki\\Downloads\\Im\\mip_level_{i}.png");
         }
+#endif
 
         _image.Dispose();
         for (var i = 0; i < _mipLevels; i++)
@@ -503,12 +506,12 @@ public unsafe class GGXMipGenerationBenchmark
 
         NativeMemory.Free(_pResult);
         NativeMemory.Free(_pMipLevels);
-        NativeMemory.Free(radicalInverse_VdCLut);
+        NativeMemory.Free(_radicalInverse_VdCLut);
 
         _jobScheduler.Dispose();
     }
 
-    [Benchmark]
+    [Benchmark(Baseline = true)]
     public void JobGGX()
     {
         JobHandle handle;
@@ -519,7 +522,7 @@ public unsafe class GGXMipGenerationBenchmark
                 image = _image,
                 pMipLevels = _pMipLevels,
                 numMipLevels = _mipLevels,
-                radicalInverse_VdCLut = radicalInverse_VdCLut
+                radicalInverse_VdCLut = _radicalInverse_VdCLut
             };
 
             handle = _jobScheduler.ScheduleParallelFor(in job, _totalPixel, 64);
@@ -531,7 +534,7 @@ public unsafe class GGXMipGenerationBenchmark
                 image = _image,
                 pMipLevels = _pMipLevels,
                 numMipLevels = _mipLevels,
-                radicalInverse_VdCLut = radicalInverse_VdCLut
+                radicalInverse_VdCLut = _radicalInverse_VdCLut
             };
 
             handle = _jobScheduler.ScheduleParallelFor(in job, _totalPixel, 64);
@@ -548,7 +551,7 @@ public unsafe class GGXMipGenerationBenchmark
             image = _image,
             pMipLevels = _pMipLevels,
             numMipLevels = _mipLevels,
-            radicalInverse_VdCLut = radicalInverse_VdCLut
+            radicalInverse_VdCLut = _radicalInverse_VdCLut
         };
 
         Parallel.For(0, _totalPixel, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount - 1 }, i =>
@@ -567,11 +570,9 @@ public unsafe class GGXMipGenerationBenchmark
             image = _image,
             pMipLevels = _pMipLevels,
             numMipLevels = _mipLevels,
-            radicalInverse_VdCLut = radicalInverse_VdCLut
+            radicalInverse_VdCLut = _radicalInverse_VdCLut
         };
 
-        //var handle = _jobScheduler.ScheduleParallelFor(in job, _totalPixel, 64);
-        //_jobScheduler.Wait(handle);
         var ctx = new JobExecutionContext();
         job.Run(_totalPixel, in ctx);
     }

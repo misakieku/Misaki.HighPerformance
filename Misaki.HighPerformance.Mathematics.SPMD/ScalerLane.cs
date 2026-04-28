@@ -171,7 +171,7 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMDLane<ScalarLane<TNumber
         where TOther : ISPMDLane<TOther, TOtherNumber>
         where TOtherNumber : unmanaged, INumber<TOtherNumber>, IBinaryNumber<TOtherNumber>, IMinMaxValue<TOtherNumber>, IBitwiseOperators<TOtherNumber, TOtherNumber, TOtherNumber>
     {
-        return TOther.Create(TOtherNumber.CreateChecked(value));
+        return TOther.Create(TOtherNumber.CreateTruncating(value));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

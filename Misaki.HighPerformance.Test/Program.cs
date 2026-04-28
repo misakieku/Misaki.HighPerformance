@@ -8,16 +8,22 @@ using System.Runtime.InteropServices;
 
 //BenchmarkRunner.Run<GGXMipGenerationBenchmark>();
 
+const int count = 1;
+
 var bench = new GGXMipGenerationBenchmark();
 bench.Setup();
 
 var sw = System.Diagnostics.Stopwatch.StartNew();
-bench.JobGGX();
-sw.Stop();
-Console.WriteLine($"GGX Mip Generation: {sw.Elapsed.TotalMilliseconds} ms");
-bench.Cleanup();
 
-//Console.WriteLine(sw.Elapsed.TotalMilliseconds);
+for (int i = 0; i < count; i++)
+{
+    bench.JobGGX();
+}
+
+sw.Stop();
+var avgTime = sw.Elapsed.TotalMilliseconds / count;
+Console.WriteLine($"GGX Mip Generation: {avgTime} ms");
+bench.Cleanup();
 
 //AllocationManager.Initialize(AllocationManagerInitOpts.Default);
 //var set = new UnsafeBitSet(100, AllocationHandle.Persistent, AllocationOption.Clear);
