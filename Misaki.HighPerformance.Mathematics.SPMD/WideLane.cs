@@ -152,7 +152,30 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Sequence(TNumber start, TNumber step)
     {
-        return new WideLane<TNumber>(Vector.Create(start) + (Vector.Create(step) * s_indices));
+        if (LaneWidth == Vector512<TNumber>.Count)
+        {
+            var v = Vector512.CreateSequence(start, step);
+            return Unsafe.As<Vector512<TNumber>, WideLane<TNumber>>(ref v);
+        }
+        else if (LaneWidth == Vector256<TNumber>.Count)
+        {
+            var v = Vector256.CreateSequence(start, step);
+            return Unsafe.As<Vector256<TNumber>, WideLane<TNumber>>(ref v);
+        }
+        else if (LaneWidth == Vector128<TNumber>.Count)
+        {
+            var v = Vector128.CreateSequence(start, step);
+            return Unsafe.As<Vector128<TNumber>, WideLane<TNumber>>(ref v);
+        }
+        else if (LaneWidth == Vector64<TNumber>.Count)
+        {
+            var v = Vector64.CreateSequence(start, step);
+            return Unsafe.As<Vector64<TNumber>, WideLane<TNumber>>(ref v);
+        }
+        else
+        {
+            return new WideLane<TNumber>(Vector.Create(start) + (Vector.Create(step) * s_indices));
+        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -641,7 +664,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static (WideLane<TNumber> sin, WideLane<TNumber> cos) SinCos(WideLane<TNumber> value)
+    public static void SinCos(WideLane<TNumber> value, out WideLane<TNumber> sin, out WideLane<TNumber> cos)
     {
         var halfPi = Create(TNumber.CreateTruncating(1.570796327f));
         var invPi = Create(TNumber.CreateTruncating(0.318309886f)); // 1 / PI
@@ -700,7 +723,8 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         poly_cos = MultipleAdd(z2_cos, poly_cos, c1);
         poly_cos = z_cos * poly_cos;
 
-        return (poly_sin * sign_sin, poly_cos * sign_cos);
+        sin = poly_sin * sign_sin;
+        cos = poly_cos * sign_cos;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -976,13 +1000,13 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             if (Sse.IsSupported && LaneWidth == Vector128<float>.Count)
             {
-                var vf = Unsafe.As<WideLane<TNumber>, Vector128<float>>(ref value);
+                ref var vf = ref Unsafe.As<WideLane<TNumber>, Vector128<float>>(ref value);
                 var result = Sse.Reciprocal(vf);
                 return Unsafe.As<Vector128<float>, WideLane<TNumber>>(ref result);
             }
             else if (Avx.IsSupported && LaneWidth == Vector256<float>.Count)
             {
-                var vf = Unsafe.As<WideLane<TNumber>, Vector256<float>>(ref value);
+                ref var vf = ref Unsafe.As<WideLane<TNumber>, Vector256<float>>(ref value);
                 var result = Avx.Reciprocal(vf);
                 return Unsafe.As<Vector256<float>, WideLane<TNumber>>(ref result);
             }
@@ -998,13 +1022,13 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             if (Sse.IsSupported && LaneWidth == Vector128<float>.Count)
             {
-                var vf = Unsafe.As<WideLane<TNumber>, Vector128<float>>(ref value);
+                ref var vf = ref Unsafe.As<WideLane<TNumber>, Vector128<float>>(ref value);
                 var result = Sse.ReciprocalSqrt(vf);
                 return Unsafe.As<Vector128<float>, WideLane<TNumber>>(ref result);
             }
             else if (Avx.IsSupported && LaneWidth == Vector256<float>.Count)
             {
-                var vf = Unsafe.As<WideLane<TNumber>, Vector256<float>>(ref value);
+                ref var vf = ref Unsafe.As<WideLane<TNumber>, Vector256<float>>(ref value);
                 var result = Avx.ReciprocalSqrt(vf);
                 return Unsafe.As<Vector256<float>, WideLane<TNumber>>(ref result);
             }
@@ -1013,6 +1037,54 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         return Create(TNumber.One) / Sqrt(value);
     }
 
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TNumber ReduceAdd(WideLane<TNumber> value)
+    {
+        // TODO: Use shuffle and add.
+
+        var result = TNumber.Zero;
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            result += value[i];
+        }
+
+        return result;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TNumber ReduceMax(WideLane<TNumber> value)
+    {
+        // TODO: Use shuffle and max.
+
+        var max = TNumber.Zero;
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            if (value[i] > max)
+            {
+                max = value[i];
+            }
+        }
+
+        return max;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TNumber ReduceMin(WideLane<TNumber> value)
+    {
+        // TODO: Use shuffle and min.
+
+        var min = TNumber.Zero;
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            if (value[i] < min)
+            {
+                min = value[i];
+            }
+        }
+
+        return min;
+    }
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

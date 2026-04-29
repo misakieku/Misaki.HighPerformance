@@ -234,6 +234,42 @@ public static unsafe partial class MathV
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> Sin<<#= GenericParameters #>>(in <#= vectorType #> vector)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        return new <#= vectorType #>
+        {
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = <#= TLane #>.Sin(vector.<#= components[i] #>),
+<# } #>
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> Cos<<#= GenericParameters #>>(in <#= vectorType #> vector)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        return new <#= vectorType #>
+        {
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = <#= TLane #>.Cos(vector.<#= components[i] #>),
+<# } #>
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void SinCos<<#= GenericParameters #>>(in <#= vectorType #> vector, out <#= vectorType #> sin, out <#= vectorType #> cos)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+<# for (int i = 0; i < dimension; i++) { #>
+        <#= TLane #>.SinCos(vector.<#= components[i] #>, out sin.<#= components[i] #>, out cos.<#= components[i] #>);
+<# } #>
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static <#= vectorType #> Sqrt<<#= GenericParameters #>>(in <#= vectorType #> vector)
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
@@ -242,6 +278,71 @@ public static unsafe partial class MathV
         {
 <# for (int i = 0; i < dimension; i++) { #>
             <#= components[i] #> = <#= TLane #>.Sqrt(vector.<#= components[i] #>),
+<# } #>
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> Tan<<#= GenericParameters #>>(in <#= vectorType #> vector)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        return new <#= vectorType #>
+        {
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = <#= TLane #>.Tan(vector.<#= components[i] #>),
+<# } #>
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> Asin<<#= GenericParameters #>>(in <#= vectorType #> vector)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        return new <#= vectorType #>
+        {
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = <#= TLane #>.Asin(vector.<#= components[i] #>),
+<# } #>
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> Acos<<#= GenericParameters #>>(in <#= vectorType #> vector)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        return new <#= vectorType #>
+        {
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = <#= TLane #>.Acos(vector.<#= components[i] #>),
+<# } #>
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> Atan<<#= GenericParameters #>>(in <#= vectorType #> vector)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        return new <#= vectorType #>
+        {
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = <#= TLane #>.Atan(vector.<#= components[i] #>),
+<# } #>
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> Atan2<<#= GenericParameters #>>(in <#= vectorType #> x, in <#= vectorType #> y)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        return new <#= vectorType #>
+        {
+<# for (int i = 0; i < dimension; i++) { #>
+            <#= components[i] #> = <#= TLane #>.Atan2(x.<#= components[i] #>, y.<#= components[i] #>),
 <# } #>
         };
     }

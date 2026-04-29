@@ -63,16 +63,11 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
 
         var phi = 2.0f * PI * Xi.x;
 
-        // Clamp the inside of the cosTheta Sqrt to prevent NaN on division precision edges
-        var cosThetaInner = TFloat.Max((1.0f - Xi.y) / (1.0f + (a * a - 1.0f) * Xi.y), TFloat.Zero);
-        var cosTheta = TFloat.Sqrt(cosThetaInner);
-
-        // Clamp the inside of sinTheta to prevent sqrt of negative floating-point errors
-        var sinThetaInner = TFloat.Max(1.0f - cosTheta * cosTheta, TFloat.Zero);
-        var sinTheta = TFloat.Sqrt(sinThetaInner);
+        var cosTheta = TFloat.Sqrt((1.0f - Xi.y) / (1.0f + (a * a - 1.0f) * Xi.y));
+        var sinTheta = TFloat.Sqrt(1.0f - cosTheta * cosTheta);
 
         // Spherical to Cartesian coordinates (Halfway vector)
-        var (sinPhi, cosPhi) = TFloat.SinCos(phi);
+        TFloat.SinCos(phi, out var sinPhi, out var cosPhi);
         var H = MathV.Create<TFloat, float>(cosPhi * sinTheta, sinPhi * sinTheta, cosTheta);
 
         // Tangent space to World space
@@ -496,7 +491,7 @@ public unsafe class GGXMipGenerationBenchmark
     [GlobalCleanup]
     public void Cleanup()
     {
-#if false
+#if true
         for (var i = 0; i < _mipLevels; i++)
         {
             DumpMipLevelToPng(_pResult[i], (int)_pMipLevels[i].width, (int)_pMipLevels[i].height, $"C:\\Users\\Misaki\\Downloads\\Im\\mip_level_{i}.png");

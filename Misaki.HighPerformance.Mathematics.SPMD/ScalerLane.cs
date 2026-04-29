@@ -416,9 +416,27 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMDLane<ScalarLane<TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static (ScalarLane<TNumber> sin, ScalarLane<TNumber> cos) SinCos(ScalarLane<TNumber> value)
+    public static void SinCos(ScalarLane<TNumber> value, out ScalarLane<TNumber> sin, out ScalarLane<TNumber> cos)
     {
-        return (Sin(value), Cos(value));
+        if (typeof(TNumber) == typeof(float))
+        {
+            var f = Unsafe.As<ScalarLane<TNumber>, float>(ref value);
+            var (s, c) = MathF.SinCos(f);
+            sin = Unsafe.As<float, ScalarLane<TNumber>>(ref s);
+            cos = Unsafe.As<float, ScalarLane<TNumber>>(ref c);
+        }
+        else if (typeof(TNumber) == typeof(double))
+        {
+            var d = Unsafe.As<ScalarLane<TNumber>, double>(ref value);
+            var (s, c) = Math.SinCos(d);
+            sin = Unsafe.As<double, ScalarLane<TNumber>>(ref s);
+            cos = Unsafe.As<double, ScalarLane<TNumber>>(ref c);
+        }
+        else
+        {
+            sin = value;
+            cos = value;
+        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -701,6 +719,26 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMDLane<ScalarLane<TNumber
     {
         return Sqrt(Rcp(value));
     }
+
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TNumber ReduceAdd(ScalarLane<TNumber> value)
+    {
+        return value.value;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TNumber ReduceMax(ScalarLane<TNumber> value)
+    {
+        return value.value;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TNumber ReduceMin(ScalarLane<TNumber> value)
+    {
+        return value.value;
+    }
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ScalarLane<TNumber> Select(ScalarLane<TNumber> conditionMask, ScalarLane<TNumber> ifTrue, ScalarLane<TNumber> ifFalse)

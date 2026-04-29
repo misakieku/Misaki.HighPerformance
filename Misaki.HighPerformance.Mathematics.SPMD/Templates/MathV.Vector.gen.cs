@@ -199,6 +199,39 @@ public static unsafe partial class MathV
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> Sin<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.Sin(vector.x),
+            y = TLane.Sin(vector.y),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> Cos<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.Cos(vector.x),
+            y = TLane.Cos(vector.y),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void SinCos<TLane, TNumber>(in Vector2<TLane, TNumber> vector, out Vector2<TLane, TNumber> sin, out Vector2<TLane, TNumber> cos)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        TLane.SinCos(vector.x, out sin.x, out cos.x);
+        TLane.SinCos(vector.y, out sin.y, out cos.y);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector2<TLane, TNumber> Sqrt<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
         where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
@@ -207,6 +240,66 @@ public static unsafe partial class MathV
         {
             x = TLane.Sqrt(vector.x),
             y = TLane.Sqrt(vector.y),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> Tan<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.Tan(vector.x),
+            y = TLane.Tan(vector.y),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> Asin<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.Asin(vector.x),
+            y = TLane.Asin(vector.y),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> Acos<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.Acos(vector.x),
+            y = TLane.Acos(vector.y),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> Atan<TLane, TNumber>(in Vector2<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.Atan(vector.x),
+            y = TLane.Atan(vector.y),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> Atan2<TLane, TNumber>(in Vector2<TLane, TNumber> x, in Vector2<TLane, TNumber> y)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.Atan2(x.x, y.x),
+            y = TLane.Atan2(x.y, y.y),
         };
     }
 
@@ -571,6 +664,42 @@ public static unsafe partial class MathV
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> Sin<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.Sin(vector.x),
+            y = TLane.Sin(vector.y),
+            z = TLane.Sin(vector.z),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> Cos<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.Cos(vector.x),
+            y = TLane.Cos(vector.y),
+            z = TLane.Cos(vector.z),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void SinCos<TLane, TNumber>(in Vector3<TLane, TNumber> vector, out Vector3<TLane, TNumber> sin, out Vector3<TLane, TNumber> cos)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        TLane.SinCos(vector.x, out sin.x, out cos.x);
+        TLane.SinCos(vector.y, out sin.y, out cos.y);
+        TLane.SinCos(vector.z, out sin.z, out cos.z);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3<TLane, TNumber> Sqrt<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
         where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
@@ -580,6 +709,71 @@ public static unsafe partial class MathV
             x = TLane.Sqrt(vector.x),
             y = TLane.Sqrt(vector.y),
             z = TLane.Sqrt(vector.z),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> Tan<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.Tan(vector.x),
+            y = TLane.Tan(vector.y),
+            z = TLane.Tan(vector.z),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> Asin<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.Asin(vector.x),
+            y = TLane.Asin(vector.y),
+            z = TLane.Asin(vector.z),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> Acos<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.Acos(vector.x),
+            y = TLane.Acos(vector.y),
+            z = TLane.Acos(vector.z),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> Atan<TLane, TNumber>(in Vector3<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.Atan(vector.x),
+            y = TLane.Atan(vector.y),
+            z = TLane.Atan(vector.z),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> Atan2<TLane, TNumber>(in Vector3<TLane, TNumber> x, in Vector3<TLane, TNumber> y)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.Atan2(x.x, y.x),
+            y = TLane.Atan2(x.y, y.y),
+            z = TLane.Atan2(x.z, y.z),
         };
     }
 
@@ -965,6 +1159,45 @@ public static unsafe partial class MathV
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> Sin<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.Sin(vector.x),
+            y = TLane.Sin(vector.y),
+            z = TLane.Sin(vector.z),
+            w = TLane.Sin(vector.w),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> Cos<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.Cos(vector.x),
+            y = TLane.Cos(vector.y),
+            z = TLane.Cos(vector.z),
+            w = TLane.Cos(vector.w),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void SinCos<TLane, TNumber>(in Vector4<TLane, TNumber> vector, out Vector4<TLane, TNumber> sin, out Vector4<TLane, TNumber> cos)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        TLane.SinCos(vector.x, out sin.x, out cos.x);
+        TLane.SinCos(vector.y, out sin.y, out cos.y);
+        TLane.SinCos(vector.z, out sin.z, out cos.z);
+        TLane.SinCos(vector.w, out sin.w, out cos.w);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector4<TLane, TNumber> Sqrt<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
         where TLane : ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
@@ -975,6 +1208,76 @@ public static unsafe partial class MathV
             y = TLane.Sqrt(vector.y),
             z = TLane.Sqrt(vector.z),
             w = TLane.Sqrt(vector.w),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> Tan<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.Tan(vector.x),
+            y = TLane.Tan(vector.y),
+            z = TLane.Tan(vector.z),
+            w = TLane.Tan(vector.w),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> Asin<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.Asin(vector.x),
+            y = TLane.Asin(vector.y),
+            z = TLane.Asin(vector.z),
+            w = TLane.Asin(vector.w),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> Acos<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.Acos(vector.x),
+            y = TLane.Acos(vector.y),
+            z = TLane.Acos(vector.z),
+            w = TLane.Acos(vector.w),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> Atan<TLane, TNumber>(in Vector4<TLane, TNumber> vector)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.Atan(vector.x),
+            y = TLane.Atan(vector.y),
+            z = TLane.Atan(vector.z),
+            w = TLane.Atan(vector.w),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> Atan2<TLane, TNumber>(in Vector4<TLane, TNumber> x, in Vector4<TLane, TNumber> y)
+        where TLane : ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.Atan2(x.x, y.x),
+            y = TLane.Atan2(x.y, y.y),
+            z = TLane.Atan2(x.z, y.z),
+            w = TLane.Atan2(x.w, y.w),
         };
     }
 

@@ -118,12 +118,52 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// </remarks>
     static abstract TSelf Load(TNumber* pValue);
 
+    /// <summary>
+    /// Uses the specified mask to conditionally load lane values from the given reference, returning a lane value where masked lanes are loaded and unmasked lanes are set to zero.
+    /// </summary>
+    /// <param name="mask">The mask to use for conditional loading.</param>
+    /// <param name="value">The reference to load from.</param>
+    /// <returns>The loaded lane value.</returns>
     static abstract TSelf MaskLoad(TSelf mask, ref TNumber value);
+    /// <summary>
+    /// Uses the specified mask to conditionally load lane values from the given pointer, returning a lane value where masked lanes are loaded and unmasked lanes are set to zero.
+    /// </summary>
+    /// <param name="mask">The mask to use for conditional loading.</param>
+    /// <param name="pValue">The pointer to load from.</param>
+    /// <returns>The loaded lane value.</returns>
     static abstract TSelf MaskLoad(TSelf mask, TNumber* pValue);
 
+    /// <summary>
+    /// Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.
+    /// </summary>
+    /// <param name="pData">The base address from which to gather values.</param>
+    /// <param name="indices">The indices of the values to gather.</param>
+    /// <param name="scale">The scale factor for the indices.</param>
+    /// <returns>The gathered lane value.</returns>
     static abstract TSelf Gather(TNumber* pData, TSelf indices, int scale);
+    /// <summary>
+    /// Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.
+    /// </summary>
+    /// <param name="pData">The base address from which to gather values.</param>
+    /// <param name="pIndices">The pointer to the indices of the values to gather.</param>
+    /// <param name="scale">The scale factor for the indices.</param>
+    /// <returns>The gathered lane value.</returns>
     static abstract TSelf Gather(TNumber* pData, int* pIndices, int scale);
+    /// <summary>
+    /// Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.
+    /// </summary>
+    /// <param name="baseAddress">The base address from which to gather values.</param>
+    /// <param name="indices">The indices of the values to gather.</param>
+    /// <param name="scale">The scale factor for the indices.</param>
+    /// <returns>The gathered lane value.</returns>
     static abstract TSelf Gather(ref TNumber baseAddress, TSelf indices, int scale);
+    /// <summary>
+    /// Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.
+    /// </summary>
+    /// <param name="baseAddress">The base address from which to gather values.</param>
+    /// <param name="baseIndex">The reference to the base index.</param>
+    /// <param name="scale">The scale factor for the indices.</param>
+    /// <returns>The gathered lane value.</returns>
     static abstract TSelf Gather(ref TNumber baseAddress, ref int baseIndex, int scale);
 
     /// <summary>
@@ -165,6 +205,10 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// <returns>The backing vector representation.</returns>
     Vector<TNumber> AsVector();
 
+    /// <summary>
+    /// Gets an pointer to the lane's underlying data.
+    /// </summary>
+    /// <returns>An pointer to the lane's underlying data.</returns>
     TNumber* GetUnsafePtr();
 
     /// <summary>
@@ -403,7 +447,7 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// <remarks>
     /// Implementations returning both sin and cos simultaneously can reuse intermediate values for better performance.
     /// </remarks>
-    static abstract (TSelf sin, TSelf cos) SinCos(TSelf value);
+    static abstract void SinCos(TSelf value, out TSelf sin, out TSelf cos);
     /// <summary>
     /// Computes the tangent of each lane element.
     /// </summary>
@@ -551,6 +595,16 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// Float implementations may prefer hardware reciprocal-sqrt intrinsics and fallback to <c>Create(TNumber.One)/Sqrt(x)</c> otherwise.
     /// </remarks>
     static abstract TSelf Rsqrt(TSelf value);
+
+    /// <summary>
+    /// Horizontally reduces the lane value by adding all lanes together, returning a single-lane result.
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
+    static abstract TNumber ReduceAdd(TSelf value);
+    static abstract TNumber ReduceMax(TSelf value);
+    static abstract TNumber ReduceMin(TSelf value);
 
     /// <summary>
     /// Selects values from two lane values based on a condition mask.
