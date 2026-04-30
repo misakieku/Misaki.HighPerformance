@@ -597,13 +597,22 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     static abstract TSelf Rsqrt(TSelf value);
 
     /// <summary>
-    /// Horizontally reduces the lane value by adding all lanes together, returning a single-lane result.
+    /// Reduces the lane value to a single scalar by adding all lanes together.
     /// </summary>
-    /// <param name="a"></param>
-    /// <param name="b"></param>
-    /// <returns></returns>
+    /// <param name="value">The lane value to reduce.</param>
+    /// <returns>The reduced scalar value.</returns>
     static abstract TNumber ReduceAdd(TSelf value);
+    /// <summary>
+    /// Reduces the lane value to a single scalar by finding the maximum element.
+    /// </summary>
+    /// <param name="value">The lane value to reduce.</param>
+    /// <returns>The reduced scalar value.</returns>
     static abstract TNumber ReduceMax(TSelf value);
+    /// <summary>
+    /// Reduces the lane value to a single scalar by finding the minimum element.
+    /// </summary>
+    /// <param name="value">The lane value to reduce.</param>
+    /// <returns>The reduced scalar value.</returns>
     static abstract TNumber ReduceMin(TSelf value);
 
     /// <summary>

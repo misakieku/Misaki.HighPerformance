@@ -21,7 +21,7 @@ const string GenericParameters = $"{TLane}, {TNumber}";
 
 var dimensions = new int[] { 2, 3, 4 };
 var components = new char[] { 'x', 'y', 'z', 'w' };
-var TLaneRestrictions = $@"where {TLane} : ISPMDLane<{TLane}, {TNumber}>";
+var TLaneRestrictions = $@"where {TLane} : unmanaged, ISPMDLane<{TLane}, {TNumber}>";
 var TNumberRestrictions = $@"where {TNumber} : unmanaged, INumber<{TNumber}>, IBinaryNumber<{TNumber}>, IMinMaxValue<{TNumber}>, IBitwiseOperators<{TNumber}, {TNumber}, {TNumber}>";
 #>
 
@@ -126,19 +126,24 @@ public static unsafe partial class MathV
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
-        var buffer = stackalloc <#= TNumber #>[TLane.LaneWidth * <#= dimension #>];
+<# for (int i = 0; i < dimension; i++) { #>
+        Unsafe.SkipInit(out TLane <#= components[i] #>);
+        var p<#= components[i] #> = (<#= TNumber #>*)&<#= components[i] #>;
+<# } #>
+
         for (var i = 0; i < TLane.LaneWidth; i++)
         {
             var scalarIdx = int.CreateTruncating(indices[i]);
+
 <# for (int i = 0; i < dimension; i++) { #>
-            buffer[<#= i #> * TLane.LaneWidth + i] = pData[scalarIdx + <#= i #> * scale];
+            p<#= components[i] #>[i] = pData[scalarIdx + <#= i #> * scale];
 <# } #>
         }
 
-        return new <#= vectorType #>
+        return new Vector<#= dimension #><TLane, TNumber>
         {
 <# for (int i = 0; i < dimension; i++) { #>
-            <#= components[i] #> = TLane.Load(buffer + <#= i #> * TLane.LaneWidth),
+            <#= components[i] #> = <#= components[i] #>,
 <# } #>
         };
     }
@@ -148,19 +153,24 @@ public static unsafe partial class MathV
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
-        var buffer = stackalloc <#= TNumber #>[TLane.LaneWidth * <#= dimension #>];
+<# for (int i = 0; i < dimension; i++) { #>
+        Unsafe.SkipInit(out TLane <#= components[i] #>);
+        var p<#= components[i] #> = (<#= TNumber #>*)&<#= components[i] #>;
+<# } #>
+
         for (var i = 0; i < TLane.LaneWidth; i++)
         {
-            var scalarIdx = pIndices[i];
+            var scalerIdx = pIndices[i];
+
 <# for (int i = 0; i < dimension; i++) { #>
-            buffer[<#= i #> * TLane.LaneWidth + i] = pData[scalarIdx + <#= i #> * scale];
+            p<#= components[i] #>[i] = pData[scalerIdx + <#= i #> * scale];
 <# } #>
         }
 
-        return new <#= vectorType #>
+        return new Vector<#= dimension #><TLane, TNumber>
         {
 <# for (int i = 0; i < dimension; i++) { #>
-            <#= components[i] #> = TLane.Load(buffer + <#= i #> * TLane.LaneWidth),
+            <#= components[i] #> = <#= components[i] #>,
 <# } #>
         };
     }
@@ -170,19 +180,24 @@ public static unsafe partial class MathV
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
-        var buffer = stackalloc <#= TNumber #>[TLane.LaneWidth * <#= dimension #>];
+<# for (int i = 0; i < dimension; i++) { #>
+        Unsafe.SkipInit(out TLane <#= components[i] #>);
+        var p<#= components[i] #> = (<#= TNumber #>*)&<#= components[i] #>;
+<# } #>
+
         for (var i = 0; i < TLane.LaneWidth; i++)
         {
             var scalarIdx = int.CreateTruncating(indices[i]);
+
 <# for (int i = 0; i < dimension; i++) { #>
-            buffer[<#= i #> * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + <#= i #> * scale);
+            p<#= components[i] #>[i] = Unsafe.Add(ref baseAddress, scalarIdx + <#= i #> * scale);
 <# } #>
         }
 
-        return new <#= vectorType #>
+        return new Vector<#= dimension #><TLane, TNumber>
         {
 <# for (int i = 0; i < dimension; i++) { #>
-            <#= components[i] #> = TLane.Load(buffer + <#= i #> * TLane.LaneWidth),
+            <#= components[i] #> = <#= components[i] #>,
 <# } #>
         };
     }
@@ -192,19 +207,24 @@ public static unsafe partial class MathV
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
-        var buffer = stackalloc <#= TNumber #>[TLane.LaneWidth * <#= dimension #>];
+<# for (int i = 0; i < dimension; i++) { #>
+        Unsafe.SkipInit(out TLane <#= components[i] #>);
+        var p<#= components[i] #> = (<#= TNumber #>*)&<#= components[i] #>;
+<# } #>
+
         for (var i = 0; i < TLane.LaneWidth; i++)
         {
             var scalarIdx = Unsafe.Add(ref baseIndex, i);
+
 <# for (int i = 0; i < dimension; i++) { #>
-            buffer[<#= i #> * TLane.LaneWidth + i] = Unsafe.Add(ref baseAddress, scalarIdx + <#= i #> * scale);
+            p<#= components[i] #>[i] = Unsafe.Add(ref baseAddress, scalarIdx + <#= i #> * scale);
 <# } #>
         }
 
-        return new <#= vectorType #>
+        return new Vector<#= dimension #><TLane, TNumber>
         {
 <# for (int i = 0; i < dimension; i++) { #>
-            <#= components[i] #> = TLane.Load(buffer + <#= i #> * TLane.LaneWidth),
+            <#= components[i] #> = <#= components[i] #>,
 <# } #>
         };
     }

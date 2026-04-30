@@ -8,10 +8,15 @@ using System.Runtime.InteropServices;
 
 //BenchmarkRunner.Run<GGXMipGenerationBenchmark>();
 
-const int count = 1;
+const int count = 16;
 
 var bench = new GGXMipGenerationBenchmark();
 bench.Setup();
+
+for (int i = 0; i < count; i++)
+{
+    bench.JobGGX();
+}
 
 var sw = System.Diagnostics.Stopwatch.StartNew();
 
@@ -22,7 +27,7 @@ for (int i = 0; i < count; i++)
 
 sw.Stop();
 var avgTime = sw.Elapsed.TotalMilliseconds / count;
-Console.WriteLine($"GGX Mip Generation: {avgTime} ms");
+Console.WriteLine($"GGX Mip Generation (Inline): {avgTime} ms");
 bench.Cleanup();
 
 //AllocationManager.Initialize(AllocationManagerInitOpts.Default);

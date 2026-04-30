@@ -1,5 +1,4 @@
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Diagnosers;
 using BenchmarkDotNet.Engines;
 using Misaki.HighPerformance.Image;
 using Misaki.HighPerformance.Jobs;
@@ -396,8 +395,8 @@ public unsafe class GGXMipGenerationBenchmark
     [GlobalSetup]
     public void Setup()
     {
-        //const string imagePath = "F:\\c\\SimpleRayTracer\\native\\assets\\hdri\\golden_gate_hills_1k.hdr";
-        const string imagePath = "C:\\Users\\Misaki\\Downloads\\grasslands_sunset_4k.hdr";
+        const string imagePath = "F:\\c\\SimpleRayTracer\\native\\assets\\hdri\\golden_gate_hills_1k.hdr";
+        //const string imagePath = "C:\\Users\\Misaki\\Downloads\\grasslands_sunset_4k.hdr";
         using var stream = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
         _image = ImageResultFloat.FromStream(stream, ColorComponents.RGB);
 

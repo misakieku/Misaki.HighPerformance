@@ -207,49 +207,69 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Gather(TNumber* pData, WideLane<TNumber> indices, int scale)
     {
-        var buffer = stackalloc TNumber[LaneWidth];
-        for (var i = 0; i < LaneWidth; i++)
+        Unsafe.SkipInit(out Vector<TNumber> result);
+
+        var pResult = (TNumber*)&result;
+        var pIndices = (TNumber*)&indices;
+
+        var count = Vector<TNumber>.Count;
+        for (var i = 0; i < count; i++)
         {
-            buffer[i] = pData[int.CreateTruncating(indices[i]) * scale / sizeof(TNumber)];
+            var idx = int.CreateTruncating(pIndices[i]);
+            pResult[i] = pData[idx * scale / sizeof(TNumber)];
         }
 
-        return new WideLane<TNumber>(Vector.Load(buffer));
+        return new WideLane<TNumber>(result);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Gather(TNumber* pData, int* pIndices, int scale)
     {
-        var buffer = stackalloc TNumber[LaneWidth];
-        for (var i = 0; i < LaneWidth; i++)
+        Unsafe.SkipInit(out Vector<TNumber> result);
+
+        var pResult = (TNumber*)&result;
+
+        var count = Vector<TNumber>.Count;
+        for (var i = 0; i < count; i++)
         {
-            buffer[i] = pData[pIndices[i] * scale / sizeof(TNumber)];
+            pResult[i] = pData[pIndices[i] * scale / sizeof(TNumber)];
         }
 
-        return new WideLane<TNumber>(Vector.Load(buffer));
+        return new WideLane<TNumber>(result);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Gather(ref TNumber baseAddress, WideLane<TNumber> indices, int scale)
     {
-        var buffer = stackalloc TNumber[LaneWidth];
-        for (var i = 0; i < LaneWidth; i++)
+        Unsafe.SkipInit(out Vector<TNumber> result);
+
+        var pResult = (TNumber*)&result;
+        var pIndices = (TNumber*)&indices;
+
+        var count = Vector<TNumber>.Count;
+        for (var i = 0; i < count; i++)
         {
-            buffer[i] = Unsafe.Add(ref baseAddress, int.CreateTruncating(indices[i]) * scale / sizeof(TNumber));
+            var idx = int.CreateTruncating(pIndices[i]);
+            pResult[i] = Unsafe.Add(ref baseAddress, idx * scale / sizeof(TNumber));
         }
 
-        return new WideLane<TNumber>(Vector.Load(buffer));
+        return new WideLane<TNumber>(result);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Gather(ref TNumber baseAddress, ref int baseIndex, int scale)
     {
-        var buffer = stackalloc TNumber[LaneWidth];
-        for (var i = 0; i < LaneWidth; i++)
+        Unsafe.SkipInit(out Vector<TNumber> result);
+
+        var pResult = (TNumber*)&result;
+
+        var count = Vector<TNumber>.Count;
+        for (var i = 0; i < count; i++)
         {
-            buffer[i] = Unsafe.Add(ref baseAddress, Unsafe.Add(ref baseIndex, i) * scale / sizeof(TNumber));
+            pResult[i] = Unsafe.Add(ref baseAddress, Unsafe.Add(ref baseIndex, i) * scale / sizeof(TNumber));
         }
 
-        return new WideLane<TNumber>(Vector.Load(buffer));
+        return new WideLane<TNumber>(result);
     }
 
 
@@ -274,11 +294,9 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int CompressStore(WideLane<TNumber> mask, TNumber* pDestination)
     {
-        var size = sizeof(TNumber);
-
         if (LaneWidth == Vector512<TNumber>.Count && Vector512.IsHardwareAccelerated)
         {
-            if (size == 4)
+            if (sizeof(TNumber) == 4)
             {
                 ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector512<uint>>(ref Unsafe.AsRef(in this));
                 var m = Unsafe.As<WideLane<TNumber>, Vector512<uint>>(ref mask);
@@ -292,7 +310,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
                 return BitOperations.PopCount(moveMask);
             }
 
-            if (size == 8)
+            if (sizeof(TNumber) == 8)
             {
                 ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector512<ulong>>(ref Unsafe.AsRef(in this));
                 var m = Unsafe.As<WideLane<TNumber>, Vector512<ulong>>(ref mask);
@@ -308,7 +326,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         }
         else if (LaneWidth == Vector256<TNumber>.Count && Vector256.IsHardwareAccelerated)
         {
-            if (size == 4)
+            if (sizeof(TNumber) == 4)
             {
                 ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector256<uint>>(ref Unsafe.AsRef(in this));
                 var m = Unsafe.As<WideLane<TNumber>, Vector256<uint>>(ref mask);
@@ -322,7 +340,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
                 return BitOperations.PopCount(moveMask);
             }
 
-            if (size == 8)
+            if (sizeof(TNumber) == 8)
             {
                 ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector256<ulong>>(ref Unsafe.AsRef(in this));
                 var m = Unsafe.As<WideLane<TNumber>, Vector256<ulong>>(ref mask);
@@ -340,7 +358,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         }
         else if (LaneWidth == Vector128<TNumber>.Count && Vector128.IsHardwareAccelerated)
         {
-            if (size == 4)
+            if (sizeof(TNumber) == 4)
             {
                 ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector128<uint>>(ref Unsafe.AsRef(in this));
                 var m = Unsafe.As<WideLane<TNumber>, Vector128<uint>>(ref mask);
@@ -354,7 +372,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
                 return BitOperations.PopCount(moveMask);
             }
 
-            if (size == 8)
+            if (sizeof(TNumber) == 8)
             {
                 ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector128<ulong>>(ref Unsafe.AsRef(in this));
                 var m = Unsafe.As<WideLane<TNumber>, Vector128<ulong>>(ref mask);
@@ -568,10 +586,8 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
             var result = Vector.FusedMultiplyAdd(va, vb, vc);
             return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
         }
-        else
-        {
-            return new WideLane<TNumber>((a.value * b.value) + c.value);
-        }
+
+        return new WideLane<TNumber>((a.value * b.value) + c.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -870,7 +886,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
             var result = Vector.Exp(v);
             return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
         }
-
+        
         return value;
     }
 
@@ -1041,15 +1057,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TNumber ReduceAdd(WideLane<TNumber> value)
     {
-        // TODO: Use shuffle and add.
-
-        var result = TNumber.Zero;
-        for (var i = 0; i < LaneWidth; i++)
-        {
-            result += value[i];
-        }
-
-        return result;
+        return Vector.Sum(value.value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
