@@ -65,23 +65,22 @@ public static unsafe partial class MathV
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
-        var width = TLane.LaneWidth;
-
 <# for (int i = 0; i < dimension; i++) { #>
-        var <#= components[i] #> = stackalloc <#= TNumber #>[width];
+        Unsafe.SkipInit(out TLane <#= components[i] #>);
+        var p<#= components[i] #> = (<#= TNumber #>*)&<#= components[i] #>;
 <# } #>
 
-        for (var i = 0; i < width; i++)
+        for (var i = 0; i < TLane.LaneWidth; i++)
         {
 <# for (int i = 0; i < dimension; i++) { #>
-            <#= components[i] #>[i] = pSrc[i * <#= dimension #> + <#= i #>];
+            p<#= components[i] #>[i] = pSrc[i * <#= dimension #> + <#= i #>];
 <# } #>
         }
 
         return new <#= vectorType #>
         {
 <# for (int i = 0; i < dimension; i++) { #>
-            <#= components[i] #> = <#= TLane #>.Load(<#= components[i] #>),
+            <#= components[i] #> = <#= components[i] #>,
 <# } #>
         };
     }

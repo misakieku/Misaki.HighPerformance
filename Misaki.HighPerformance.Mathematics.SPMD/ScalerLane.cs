@@ -40,6 +40,12 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMDLane<ScalarLane<TNumber
         get => new ScalarLane<TNumber>(TNumber.MaxValue);
     }
 
+    public static ScalarLane<TNumber> AllBitsSet
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => new ScalarLane<TNumber>(TNumber.AllBitsSet);
+    }
+
     public readonly TNumber this[int index]
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

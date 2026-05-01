@@ -44,21 +44,21 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        var width = TLane.LaneWidth;
+        Unsafe.SkipInit(out TLane x);
+        var px = (TNumber*)&x;
+        Unsafe.SkipInit(out TLane y);
+        var py = (TNumber*)&y;
 
-        var x = stackalloc TNumber[width];
-        var y = stackalloc TNumber[width];
-
-        for (var i = 0; i < width; i++)
+        for (var i = 0; i < TLane.LaneWidth; i++)
         {
-            x[i] = pSrc[i * 2 + 0];
-            y[i] = pSrc[i * 2 + 1];
+            px[i] = pSrc[i * 2 + 0];
+            py[i] = pSrc[i * 2 + 1];
         }
 
         return new Vector2<TLane, TNumber>
         {
-            x = TLane.Load(x),
-            y = TLane.Load(y),
+            x = x,
+            y = y,
         };
     }
 
@@ -515,24 +515,25 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        var width = TLane.LaneWidth;
+        Unsafe.SkipInit(out TLane x);
+        var px = (TNumber*)&x;
+        Unsafe.SkipInit(out TLane y);
+        var py = (TNumber*)&y;
+        Unsafe.SkipInit(out TLane z);
+        var pz = (TNumber*)&z;
 
-        var x = stackalloc TNumber[width];
-        var y = stackalloc TNumber[width];
-        var z = stackalloc TNumber[width];
-
-        for (var i = 0; i < width; i++)
+        for (var i = 0; i < TLane.LaneWidth; i++)
         {
-            x[i] = pSrc[i * 3 + 0];
-            y[i] = pSrc[i * 3 + 1];
-            z[i] = pSrc[i * 3 + 2];
+            px[i] = pSrc[i * 3 + 0];
+            py[i] = pSrc[i * 3 + 1];
+            pz[i] = pSrc[i * 3 + 2];
         }
 
         return new Vector3<TLane, TNumber>
         {
-            x = TLane.Load(x),
-            y = TLane.Load(y),
-            z = TLane.Load(z),
+            x = x,
+            y = y,
+            z = z,
         };
     }
 
@@ -1024,27 +1025,29 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        var width = TLane.LaneWidth;
+        Unsafe.SkipInit(out TLane x);
+        var px = (TNumber*)&x;
+        Unsafe.SkipInit(out TLane y);
+        var py = (TNumber*)&y;
+        Unsafe.SkipInit(out TLane z);
+        var pz = (TNumber*)&z;
+        Unsafe.SkipInit(out TLane w);
+        var pw = (TNumber*)&w;
 
-        var x = stackalloc TNumber[width];
-        var y = stackalloc TNumber[width];
-        var z = stackalloc TNumber[width];
-        var w = stackalloc TNumber[width];
-
-        for (var i = 0; i < width; i++)
+        for (var i = 0; i < TLane.LaneWidth; i++)
         {
-            x[i] = pSrc[i * 4 + 0];
-            y[i] = pSrc[i * 4 + 1];
-            z[i] = pSrc[i * 4 + 2];
-            w[i] = pSrc[i * 4 + 3];
+            px[i] = pSrc[i * 4 + 0];
+            py[i] = pSrc[i * 4 + 1];
+            pz[i] = pSrc[i * 4 + 2];
+            pw[i] = pSrc[i * 4 + 3];
         }
 
         return new Vector4<TLane, TNumber>
         {
-            x = TLane.Load(x),
-            y = TLane.Load(y),
-            z = TLane.Load(z),
-            w = TLane.Load(w),
+            x = x,
+            y = y,
+            z = z,
+            w = w,
         };
     }
 

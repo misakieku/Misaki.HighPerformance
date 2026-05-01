@@ -16,14 +16,6 @@ public interface ISPMDLane
     }
 }
 
-// TODO:
-// - ReduceAdd
-// - ReduceMin
-// - ReduceMax
-// - LeadingZeroCount
-// - TrailingZeroCount
-// - PopCount
-
 /// <summary>
 /// Represents a single-lane or multi-lane (vectorized) SPMD value and the operations supported on it.
 /// </summary>
@@ -61,6 +53,14 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// Gets a lane value where all lanes are set to the maximum representable value of the underlying numeric type.
     /// </summary>
     static abstract TSelf MaxValue
+    {
+        get;
+    }
+
+    /// <summary>
+    /// Gets a lane value where all bits are set to 1 for each lane.
+    /// </summary>
+    static abstract TSelf AllBitsSet
     {
         get;
     }

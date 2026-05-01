@@ -10,7 +10,6 @@ using System.Numerics;
 namespace Misaki.HighPerformance.Mathematics.SPMD;
 
 <#
-
 const string TLane = "TLane";
 const string TNumber = "TNumber";
 const string GenericParameters = $"{TLane}, {TNumber}";
