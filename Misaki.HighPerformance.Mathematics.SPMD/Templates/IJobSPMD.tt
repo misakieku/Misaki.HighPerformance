@@ -33,7 +33,7 @@ public interface IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
 }
 
 internal struct SPMDJobWrapper<T, <#= ForEachDimension(i + 1, j => $"TNumber{j}") #>> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
+    where T : IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
 <#= GetTNumberRestrictions(i + 1) #>
 {
     public T innerJob;
@@ -59,7 +59,7 @@ internal struct SPMDJobWrapper<T, <#= ForEachDimension(i + 1, j => $"TNumber{j}"
 }
 
 internal struct SPMDScalerJobWrapper<T, <#= ForEachDimension(i + 1, j => $"TNumber{j}") #>> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
+    where T : IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
 <#= GetTNumberRestrictions(i + 1) #>
 {
     public T innerJob;
@@ -76,7 +76,6 @@ internal struct SPMDScalerJobWrapper<T, <#= ForEachDimension(i + 1, j => $"TNumb
 public static class IJobParallelForSPMDExtensions
 {
 <# for (var i = 0; i < 8; i++) { #>
-
     /// <summary>
     /// Run the SPMD job with the specified total count and job execution context directly on the calling thread.
     /// </summary>
@@ -87,8 +86,8 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="job">The SPMD job to run.</param>
     /// <param name="totalIteration">The total number of iterations to execute across all lanes.</param>
     /// <param name="ctx">The job execution context providing information about the current execution environment.</param>
-    public static void Run<T, <#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>(this ref T job, int totalIteration, ref readonly JobExecutionContext ctx)
-        where T : struct, IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
+    public static void Run<T, <#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
+        where T : IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
     <#= GetTNumberRestrictions(i + 1) #>
     {
         if (WideLane.IsSupported)
@@ -136,7 +135,7 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="priority">The priority of the job.</param>
     /// <param name="dependencies">Any job handles that this job depends on, which must complete before this job can start.</param>
     public static JobHandle ScheduleParallelSPDM<T, <#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
+        where T : IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
     <#= GetTNumberRestrictions(i + 1) #>
     {
         if (WideLane.IsSupported)

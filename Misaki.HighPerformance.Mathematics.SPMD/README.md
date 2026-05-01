@@ -31,9 +31,28 @@ This package is intended for code that wants to express vectorized work in a way
 ## Example
 
 ```csharp
-// Define an SPMD-friendly numeric lane type and use it to express data-parallel work.
-// See the source templates for the current concrete lane implementations.
+public struct Vector2LerpJob : IJobSPMD<float>
+{
+    public float2[] arrayA;
+    public float2[] arrayB;
+    public float[] results;
+
+    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
+        where TLane : unmanaged, ISPMDLane<TLane, float>
+    {
+        var a = MathV.LoadVector2<TLane, float>(ref arrayA[baseIndex].x);
+        var b = MathV.LoadVector2<TLane, float>(ref arrayB[baseIndex].x);
+
+        var t = TLane.Create(0.5f);
+        var lerped = MathV.Lerp(a, b, t);
+        var len = TLane.Sqrt(MathV.LengthSquared(lerped));
+
+        len.Store(ref results[baseIndex]);
+    }
+}
 ```
+
+You can visit `GGXMipGenerationBenchmark.cs` for a more complete example of how to use the SPMD abstractions in a real algorithm.
 
 ## Package reference
 
@@ -44,3 +63,5 @@ dotnet add package Misaki.HighPerformance.Mathematics.SPMD
 ## Notes
 
 This project targets `net10.0` and depends on the mathematics project for shared numeric concepts.
+
+You can enable `MHP_FASTMATH` to allow the use of faster math intrinsics where appropriate, but be aware that this may lead to less precise results in some cases.

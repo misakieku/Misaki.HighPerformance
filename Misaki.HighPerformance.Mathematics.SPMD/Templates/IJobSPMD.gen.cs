@@ -18,7 +18,7 @@ public interface IJobSPMD<TNumber0>
 }
 
 internal struct SPMDJobWrapper<T, TNumber0> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0>
+    where T : IJobSPMD<TNumber0>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
 {
     public T innerJob;
@@ -44,7 +44,7 @@ internal struct SPMDJobWrapper<T, TNumber0> : IJobParallelFor
 }
 
 internal struct SPMDScalerJobWrapper<T, TNumber0> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0>
+    where T : IJobSPMD<TNumber0>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
 {
     public T innerJob;
@@ -74,7 +74,7 @@ public interface IJobSPMD<TNumber0, TNumber1>
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1>
+    where T : IJobSPMD<TNumber0, TNumber1>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
 {
@@ -101,7 +101,7 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1> : IJobParallelFor
 }
 
 internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1>
+    where T : IJobSPMD<TNumber0, TNumber1>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
 {
@@ -135,7 +135,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2>
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -163,7 +163,7 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2> : IJobParallelFo
 }
 
 internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -201,7 +201,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -230,7 +230,7 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3> : IJob
 }
 
 internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -272,7 +272,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -302,7 +302,7 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumbe
 }
 
 internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -348,7 +348,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNum
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -379,7 +379,7 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumbe
 }
 
 internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -429,7 +429,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNum
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -461,7 +461,7 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumbe
 }
 
 internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -515,7 +515,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNum
 }
 
 internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -548,7 +548,7 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumbe
 }
 
 internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7> : IJobParallelFor
-    where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
+    where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -570,7 +570,6 @@ internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, 
 
 public static class IJobParallelForSPMDExtensions
 {
-
     /// <summary>
     /// Run the SPMD job with the specified total count and job execution context directly on the calling thread.
     /// </summary>
@@ -581,8 +580,8 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="job">The SPMD job to run.</param>
     /// <param name="totalIteration">The total number of iterations to execute across all lanes.</param>
     /// <param name="ctx">The job execution context providing information about the current execution environment.</param>
-    public static void Run<T, TNumber0>(this ref T job, int totalIteration, ref readonly JobExecutionContext ctx)
-        where T : struct, IJobSPMD<TNumber0>
+    public static void Run<T, TNumber0>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
+        where T : IJobSPMD<TNumber0>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     {
         if (WideLane.IsSupported)
@@ -630,7 +629,7 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="priority">The priority of the job.</param>
     /// <param name="dependencies">Any job handles that this job depends on, which must complete before this job can start.</param>
     public static JobHandle ScheduleParallelSPDM<T, TNumber0>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobSPMD<TNumber0>
+        where T : IJobSPMD<TNumber0>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     {
         if (WideLane.IsSupported)
@@ -656,7 +655,6 @@ public static class IJobParallelForSPMDExtensions
         }
     }
 
-
     /// <summary>
     /// Run the SPMD job with the specified total count and job execution context directly on the calling thread.
     /// </summary>
@@ -668,8 +666,8 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="job">The SPMD job to run.</param>
     /// <param name="totalIteration">The total number of iterations to execute across all lanes.</param>
     /// <param name="ctx">The job execution context providing information about the current execution environment.</param>
-    public static void Run<T, TNumber0, TNumber1>(this ref T job, int totalIteration, ref readonly JobExecutionContext ctx)
-        where T : struct, IJobSPMD<TNumber0, TNumber1>
+    public static void Run<T, TNumber0, TNumber1>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
+        where T : IJobSPMD<TNumber0, TNumber1>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     {
@@ -719,7 +717,7 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="priority">The priority of the job.</param>
     /// <param name="dependencies">Any job handles that this job depends on, which must complete before this job can start.</param>
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobSPMD<TNumber0, TNumber1>
+        where T : IJobSPMD<TNumber0, TNumber1>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     {
@@ -746,7 +744,6 @@ public static class IJobParallelForSPMDExtensions
         }
     }
 
-
     /// <summary>
     /// Run the SPMD job with the specified total count and job execution context directly on the calling thread.
     /// </summary>
@@ -759,8 +756,8 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="job">The SPMD job to run.</param>
     /// <param name="totalIteration">The total number of iterations to execute across all lanes.</param>
     /// <param name="ctx">The job execution context providing information about the current execution environment.</param>
-    public static void Run<T, TNumber0, TNumber1, TNumber2>(this ref T job, int totalIteration, ref readonly JobExecutionContext ctx)
-        where T : struct, IJobSPMD<TNumber0, TNumber1, TNumber2>
+    public static void Run<T, TNumber0, TNumber1, TNumber2>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -812,7 +809,7 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="priority">The priority of the job.</param>
     /// <param name="dependencies">Any job handles that this job depends on, which must complete before this job can start.</param>
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2>
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -840,7 +837,6 @@ public static class IJobParallelForSPMDExtensions
         }
     }
 
-
     /// <summary>
     /// Run the SPMD job with the specified total count and job execution context directly on the calling thread.
     /// </summary>
@@ -854,8 +850,8 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="job">The SPMD job to run.</param>
     /// <param name="totalIteration">The total number of iterations to execute across all lanes.</param>
     /// <param name="ctx">The job execution context providing information about the current execution environment.</param>
-    public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3>(this ref T job, int totalIteration, ref readonly JobExecutionContext ctx)
-        where T : struct, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
+    public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -909,7 +905,7 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="priority">The priority of the job.</param>
     /// <param name="dependencies">Any job handles that this job depends on, which must complete before this job can start.</param>
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2, TNumber3>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -938,7 +934,6 @@ public static class IJobParallelForSPMDExtensions
         }
     }
 
-
     /// <summary>
     /// Run the SPMD job with the specified total count and job execution context directly on the calling thread.
     /// </summary>
@@ -953,8 +948,8 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="job">The SPMD job to run.</param>
     /// <param name="totalIteration">The total number of iterations to execute across all lanes.</param>
     /// <param name="ctx">The job execution context providing information about the current execution environment.</param>
-    public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>(this ref T job, int totalIteration, ref readonly JobExecutionContext ctx)
-        where T : struct, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
+    public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -1010,7 +1005,7 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="priority">The priority of the job.</param>
     /// <param name="dependencies">Any job handles that this job depends on, which must complete before this job can start.</param>
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -1040,7 +1035,6 @@ public static class IJobParallelForSPMDExtensions
         }
     }
 
-
     /// <summary>
     /// Run the SPMD job with the specified total count and job execution context directly on the calling thread.
     /// </summary>
@@ -1056,8 +1050,8 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="job">The SPMD job to run.</param>
     /// <param name="totalIteration">The total number of iterations to execute across all lanes.</param>
     /// <param name="ctx">The job execution context providing information about the current execution environment.</param>
-    public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>(this ref T job, int totalIteration, ref readonly JobExecutionContext ctx)
-        where T : struct, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
+    public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -1115,7 +1109,7 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="priority">The priority of the job.</param>
     /// <param name="dependencies">Any job handles that this job depends on, which must complete before this job can start.</param>
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -1146,7 +1140,6 @@ public static class IJobParallelForSPMDExtensions
         }
     }
 
-
     /// <summary>
     /// Run the SPMD job with the specified total count and job execution context directly on the calling thread.
     /// </summary>
@@ -1163,8 +1156,8 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="job">The SPMD job to run.</param>
     /// <param name="totalIteration">The total number of iterations to execute across all lanes.</param>
     /// <param name="ctx">The job execution context providing information about the current execution environment.</param>
-    public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>(this ref T job, int totalIteration, ref readonly JobExecutionContext ctx)
-        where T : struct, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
+    public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -1224,7 +1217,7 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="priority">The priority of the job.</param>
     /// <param name="dependencies">Any job handles that this job depends on, which must complete before this job can start.</param>
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -1256,7 +1249,6 @@ public static class IJobParallelForSPMDExtensions
         }
     }
 
-
     /// <summary>
     /// Run the SPMD job with the specified total count and job execution context directly on the calling thread.
     /// </summary>
@@ -1274,8 +1266,8 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="job">The SPMD job to run.</param>
     /// <param name="totalIteration">The total number of iterations to execute across all lanes.</param>
     /// <param name="ctx">The job execution context providing information about the current execution environment.</param>
-    public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>(this ref T job, int totalIteration, ref readonly JobExecutionContext ctx)
-        where T : struct, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
+    public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
@@ -1337,7 +1329,7 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="priority">The priority of the job.</param>
     /// <param name="dependencies">Any job handles that this job depends on, which must complete before this job can start.</param>
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
-        where T : unmanaged, IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
+        where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>

@@ -23,7 +23,7 @@ internal unsafe struct DotProductJob : IJobSPMD<float>
     }
 }
 
-internal unsafe struct Vector2LerpJob : IJobSPMD<float>
+internal struct Vector2LerpJob : IJobSPMD<float>
 {
     public float2[] arrayA;
     public float2[] arrayB;
@@ -39,11 +39,11 @@ internal unsafe struct Vector2LerpJob : IJobSPMD<float>
         var lerped = MathV.Lerp(a, b, t);
         var len = TLane.Sqrt(MathV.LengthSquared(lerped));
 
-        len.Store((float*)Unsafe.AsPointer(ref results[baseIndex]));
+        len.Store(ref results[baseIndex]);
     }
 }
 
-internal unsafe struct Vector4NormalizeJob : IJobSPMD<float>
+internal struct Vector4NormalizeJob : IJobSPMD<float>
 {
     public float4[] input;
     public float4[] output;
@@ -53,11 +53,11 @@ internal unsafe struct Vector4NormalizeJob : IJobSPMD<float>
     {
         var vec = MathV.LoadVector4<TLane, float>(ref input[baseIndex].x);
         var normalized = MathV.Normalize(vec);
-        normalized.Store((float*)Unsafe.AsPointer(ref output[baseIndex].x));
+        normalized.Store(ref output[baseIndex].x);
     }
 }
 
-internal unsafe struct Vector3CrossJob : IJobSPMD<float>
+internal struct Vector3CrossJob : IJobSPMD<float>
 {
     public float3[] arrayA;
     public float3[] arrayB;
@@ -70,11 +70,11 @@ internal unsafe struct Vector3CrossJob : IJobSPMD<float>
         var b = MathV.LoadVector3<TLane, float>(ref arrayB[baseIndex].x);
 
         var cross = MathV.Cross(a, b);
-        cross.Store((float*)Unsafe.AsPointer(ref results[baseIndex].x));
+        cross.Store(ref results[baseIndex].x);
     }
 }
 
-internal unsafe struct MinMaxClampJob : IJobSPMD<float>
+internal struct MinMaxClampJob : IJobSPMD<float>
 {
     public float3[] values;
     public float3[] mins;
@@ -89,11 +89,11 @@ internal unsafe struct MinMaxClampJob : IJobSPMD<float>
         var max = MathV.LoadVector3<TLane, float>(ref maxs[baseIndex].x);
 
         var clamped = MathV.Clamp(val, min, max);
-        clamped.Store((float*)Unsafe.AsPointer(ref results[baseIndex].x));
+        clamped.Store(ref results[baseIndex].x);
     }
 }
 
-internal unsafe struct DistanceJob : IJobSPMD<float>
+internal struct DistanceJob : IJobSPMD<float>
 {
     public float3[] arrayA;
     public float3[] arrayB;
@@ -106,7 +106,7 @@ internal unsafe struct DistanceJob : IJobSPMD<float>
         var b = MathV.LoadVector3<TLane, float>(ref arrayB[baseIndex].x);
 
         var dist = MathV.Distance(a, b);
-        dist.Store((float*)Unsafe.AsPointer(ref results[baseIndex]));
+        dist.Store(ref results[baseIndex]);
     }
 }
 
