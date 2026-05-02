@@ -126,7 +126,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         /// Adds a value to a collection without resizing it, ensuring capacity is checked before insertion.
         /// </summary>
         /// <param name="value">The value to be added to the collection.</param>
-        public void AddNoResize(T value)
+        public void AddNoResize(scoped in T value)
         {
             var idx = Interlocked.Increment(ref listData->_count) - 1;
             listData->CheckNoResizeCapacity(idx, 1);
@@ -305,7 +305,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// Adds a new element to the end of the list, resizing the internal array if necessary.
     /// </summary>
     /// <param name="value">The element to be added to the list.</param>
-    public void Add(T value)
+    public void Add(scoped in T value)
     {
         if (_count >= Capacity)
         {
@@ -320,7 +320,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// Adds the specified value to the collection without resizing the underlying storage.
     /// </summary>
     /// <param name="value">The value to add to the collection.</param>
-    public void AddNoResize(T value)
+    public void AddNoResize(scoped in T value)
     {
         CheckNoResizeCapacity(1);
 

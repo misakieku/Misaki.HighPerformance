@@ -158,7 +158,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     /// <param name="value">The value to add to the sparse set.</param>
     /// <param name="generation">Outputs the Generation number associated with the added value.</param>
     /// <returns>A unique sparse index that can be used to reference this value.</returns>
-    public int Add(T value, out int generation)
+    public int Add(scoped in T value, out int generation)
     {
         if (!_freeSparse.TryPop(out var sparseIndex))
         {

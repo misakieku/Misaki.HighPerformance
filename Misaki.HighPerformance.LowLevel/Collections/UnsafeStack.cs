@@ -119,7 +119,7 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
     /// Adds an element to the top of the stack.
     /// </summary>
     /// <param name="value">The element to add to the stack.</param>
-    public void Push(T value)
+    public void Push(scoped in T value)
     {
         if (_count >= Capacity)
         {

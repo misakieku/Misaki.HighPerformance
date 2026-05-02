@@ -206,7 +206,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <param name="item">The item to add to the collection.</param>
     /// <param name="generation">When this method returns, contains the Generation number associated with the slot where the item was stored.</param>
     /// <returns>The index of the slot in which the item was stored.</returns>
-    public int Add(T item, out int generation)
+    public int Add(scoped in T item, out int generation)
     {
         if (_freeSlots.Count > 0)
         {

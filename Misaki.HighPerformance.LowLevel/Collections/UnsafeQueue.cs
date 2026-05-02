@@ -122,7 +122,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     /// stored in a circular buffer.
     /// </summary>
     /// <param name="value">The item to be added to the collection.</param>
-    public void Enqueue(T value)
+    public void Enqueue(scoped in T value)
     {
         if (_count >= Capacity)
         {

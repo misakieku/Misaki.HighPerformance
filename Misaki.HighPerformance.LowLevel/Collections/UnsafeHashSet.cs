@@ -74,7 +74,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
     /// <param name="item">The value to add.</param>
     /// <returns>True if the value was not already present.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Add(T item)
+    public bool Add(scoped in T item)
     {
         return -1 != _helper.TryAdd(item);
     }
@@ -85,7 +85,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
     /// <param name="item">The value to remove.</param>
     /// <returns>True if the value was present.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Remove(T item)
+    public bool Remove(scoped in T item)
     {
         return -1 != _helper.TryRemove(item);
     }
@@ -96,7 +96,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
     /// <param name="item">The value to check for.</param>
     /// <returns>True if the value was present.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Contains(T item)
+    public bool Contains(scoped in T item)
     {
         return -1 != _helper.Find(item);
     }

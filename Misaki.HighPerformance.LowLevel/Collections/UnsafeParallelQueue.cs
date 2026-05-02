@@ -47,7 +47,7 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Enqueue(T item)
+        public void Enqueue(scoped in T item)
         {
             _queue->Enqueue(item);
         }
@@ -120,7 +120,7 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
     /// <summary>
     /// Try to enqueue an item. Expands automatically if the current chunk is full.
     /// </summary>
-    public void Enqueue(T item)
+    public void Enqueue(scoped in T item)
     {
         SpinWait spin = new SpinWait();
 
