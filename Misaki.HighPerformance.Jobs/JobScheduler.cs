@@ -388,6 +388,8 @@ public sealed unsafe partial class JobScheduler : IDisposable
                         MarkJobComplete(dependency);
                     }
 
+                    registered = true;
+
                     break;
                 }
 

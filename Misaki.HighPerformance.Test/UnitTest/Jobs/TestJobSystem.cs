@@ -104,7 +104,7 @@ public class TestJobSystem
 
     [TestMethod]
     [Timeout(1000, CooperativeCancellation = true)]
-    public unsafe void CombineDependencies()
+    public unsafe void MultipleDependencies()
     {
         var result = stackalloc float[1];
         var job1 = new TwoSumJob
