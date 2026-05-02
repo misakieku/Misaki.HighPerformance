@@ -401,8 +401,10 @@ public sealed unsafe partial class JobScheduler : IDisposable
                     while (Interlocked.CompareExchange(ref depJobInfo.firstDependentEdgeIndex, newEdgeIndex, currentFirst) != currentFirst);
 
                     // Release RC
-                    var newState = Interlocked.Add(ref depJobInfo.state, -JobUtility.RC_ONE);
-                    if (JobUtility.GetRefCount(newState) == 0 && JobUtility.GetState(newState) != JobState.Created)
+                    var stateAfterRelease = Interlocked.Add(ref depJobInfo.state, -JobUtility.RC_ONE);
+
+                    // Only complete if all workers have left (RC == 0) AND the job was actually executing (Running)
+                    if (JobUtility.GetRefCount(stateAfterRelease) == 0 && JobUtility.GetState(stateAfterRelease) == JobState.Running)
                     {
                         MarkJobComplete(dependency);
                     }
