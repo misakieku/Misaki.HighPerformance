@@ -249,7 +249,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
             var tier = (int)jobInfo.priority;
             var i = 0;
 
-            if (preferLocal)
+            if (preferLocal && WorkerThread.IsWorkerThread)
             {
                 var index = WorkerThread.ThreadIndex;
                 for (; i < handleCount; i++)
