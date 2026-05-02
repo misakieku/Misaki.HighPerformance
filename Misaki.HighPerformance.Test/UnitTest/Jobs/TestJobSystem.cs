@@ -32,6 +32,7 @@ public class TestJobSystem
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void SingleJob()
     {
         var result = stackalloc float[1];
@@ -49,6 +50,7 @@ public class TestJobSystem
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void JobDependency()
     {
         var result = stackalloc float[1];
@@ -74,6 +76,7 @@ public class TestJobSystem
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void CompletedDependency()
     {
         var result = stackalloc float[1];
@@ -100,6 +103,7 @@ public class TestJobSystem
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void CombineDependencies()
     {
         var result = stackalloc float[1];
@@ -135,6 +139,7 @@ public class TestJobSystem
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void SingleParallelJob()
     {
         const int size = 1000;
@@ -167,6 +172,7 @@ public class TestJobSystem
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void ChainJob()
     {
         const int arraySize = 10000;
@@ -209,6 +215,7 @@ public class TestJobSystem
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void WaitAll()
     {
         var result1 = stackalloc float[1];
@@ -237,6 +244,7 @@ public class TestJobSystem
 
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public async Task WaitAllAsync()
     {
         AddJob job1;
@@ -270,6 +278,7 @@ public class TestJobSystem
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void WaitAny()
     {
         var result1 = stackalloc float[1];
@@ -296,6 +305,7 @@ public class TestJobSystem
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void SPMDCorrectness()
     {
         const int size = 8;
@@ -327,6 +337,7 @@ public class TestJobSystem
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public void DynamicDispatch()
     {
         using var arr = new UnsafeArray<UnsafeArray<int>>(256, AllocationHandle.Persistent);
