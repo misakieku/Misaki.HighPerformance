@@ -236,34 +236,20 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         if (exist && Volatile.Read(ref jobInfo.dependencyCount) == 0)
         {
+            // Note: JobState.Created is 0, JobState.Scheduled is 1. We assume RC logic doesn't touch initial state (RC=0).
+            if (Interlocked.CompareExchange(ref jobInfo.state, JobUtility.JOBSTATE_SCHEDULED, JobUtility.JOBSTATE_CREATED) != JobUtility.JOBSTATE_CREATED)
+            {
+                return;
+            }
+
             // Ensure the count of this job handle won't exceed the number of worker threads.
             // Worker threads will steal parallel iteration ranges from each other.
             var handleCount = Math.Min(jobInfo.jobRanges.TotalBatches, _workerThreads.Length);
 
-            var spin = new SpinWait();
-            while (true)
-            {
-                var currentState = Volatile.Read(ref jobInfo.state);
-                if (JobUtility.GetState(currentState) != JobState.Created)
-                {
-                    return;
-                }
-
-                var newState = (currentState & ~JobUtility.STATE_MASK) | JobUtility.JOBSTATE_SCHEDULED;
-                newState += handleCount * JobUtility.RC_ONE;
-
-                if (Interlocked.CompareExchange(ref jobInfo.state, newState, currentState) == currentState)
-                {
-                    break;
-                }
-
-                spin.SpinOnce(-1);
-            }
-
             var tier = (int)jobInfo.priority;
             var i = 0;
 
-            if (preferLocal && WorkerThread.IsWorkerThread)
+            if (preferLocal)
             {
                 var index = WorkerThread.ThreadIndex;
                 for (; i < handleCount; i++)
@@ -349,7 +335,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
             var dependency = dependencies[i];
             if (!dependency.IsValid)
             {
-                Interlocked.Decrement(ref infoInPool.dependencyCount);
                 continue;
             }
 
@@ -376,11 +361,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
                     break;
                 }
 
-                if (state != JobState.Created && JobUtility.GetRefCount(stateVal) == 0)
-                {
-                    break;
-                }
-
                 // Attempt to increment RC (Reader Count)
                 if (Interlocked.CompareExchange(ref depJobInfo.state, stateVal + JobUtility.RC_ONE, stateVal) == stateVal)
                 {
@@ -402,14 +382,11 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
                     // Release RC
                     var stateAfterRelease = Interlocked.Add(ref depJobInfo.state, -JobUtility.RC_ONE);
-
-                    // Only complete if all workers have left (RC == 0) AND the job was actually executing (Running)
+                    // The Main Thread MUST clean up if it is the last thread holding the lock!
                     if (JobUtility.GetRefCount(stateAfterRelease) == 0 && JobUtility.GetState(stateAfterRelease) == JobState.Running)
                     {
                         MarkJobComplete(dependency);
                     }
-
-                    registered = true;
 
                     break;
                 }
@@ -473,25 +450,56 @@ public sealed unsafe partial class JobScheduler : IDisposable
             return;
         }
 
+#if false
+        // Lock-free Completion:
+        // 1. Transition State to Completed (preserving or setting upper bits?).
+        //    Actually, we want to block new Readers. Setting state to Completed blocks new Readers.
+        // 2. Wait for existing Readers (RC == 0).
         var spin = new SpinWait();
         while (true)
         {
-            var currentState = Volatile.Read(ref info.state);
-            if (JobUtility.GetState(currentState) == JobState.Completed)
+            var stateVal = Volatile.Read(ref info.state);
+            var state = JobUtility.GetState(stateVal);
+
+            if (state == JobState.Completed)
             {
-                break;
+                return;
             }
 
-            // Preserve the RC bits, only change the state mask to COMPLETED
-            var newState = (currentState & ~JobUtility.STATE_MASK) | JobUtility.JOBSTATE_COMPLETED;
-
-            if (Interlocked.CompareExchange(ref info.state, newState, currentState) == currentState)
+            // Preserve upper bits (RC) and set state to Completed. This blocks new Readers.
+            var newState = (stateVal & ~JobUtility.STATE_MASK) | (int)JobState.Completed;
+            if (Interlocked.CompareExchange(ref info.state, newState, stateVal) == stateVal)
             {
+                // Successfully set State to Completed. New readers will see Completed and back off.
+                // Now we must wait for existing readers to finish (RC to become 0).
+                while (true)
+                {
+                    var current = Volatile.Read(ref info.state);
+                    if (((uint)current >> 16) == 0)
+                    {
+                        break; // RC is 0. Safe to proceed.
+                    }
+
+                    spin.SpinOnce(-1);
+                }
                 break;
             }
 
             spin.SpinOnce(-1);
         }
+#else
+        // NOTE: We are the last one to complete. Because we call this on the thread that get rc = 0, not the last one to complete. So we can directly set state to Completed without caring about RC. This also means we don't need to preserve upper bits.
+        var spin = new SpinWait();
+        while (Interlocked.CompareExchange(ref info.state, JobUtility.JOBSTATE_COMPLETED, JobUtility.JOBSTATE_RUNNING) != JobUtility.JOBSTATE_RUNNING)
+        {
+            if (JobUtility.ReadState(ref info) == JobState.Completed)
+            {
+                return;
+            }
+
+            spin.SpinOnce(-1);
+        }
+#endif
 
         var it = info.GetDependentIterator(_jobEdges);
         while (it.MoveNext())
