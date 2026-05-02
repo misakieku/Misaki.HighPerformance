@@ -6,6 +6,8 @@ internal class WorkerThread : IDisposable
 {
     [ThreadStatic]
     private static int t_threadIndex;
+    [ThreadStatic]
+    private static bool t_isWorkerThread;
 
     private readonly SPMCQueue<JobHandle>[] _localQueue;
     private readonly Thread _thread;
@@ -17,6 +19,7 @@ internal class WorkerThread : IDisposable
     private uint _priorityTick;
 
     public static int ThreadIndex => t_threadIndex;
+    public static bool IsWorkerThread => t_isWorkerThread;
 
     public ReadOnlySpan<SPMCQueue<JobHandle>> LocalQueues => _localQueue;
 
@@ -100,6 +103,7 @@ internal class WorkerThread : IDisposable
         Debug.Assert(index != null);
 
         t_threadIndex = (int)index;
+        t_isWorkerThread = true;
 
         while (!_scheduler.IsCancellationRequested)
         {
