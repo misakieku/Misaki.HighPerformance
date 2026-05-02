@@ -7,6 +7,7 @@ namespace Misaki.HighPerformance.Test.UnitTest.Buffer;
 public class TestAllocationManager
 {
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public void PersistentAllocationTest()
     {
         var ptr1 = new MemoryBlock(1024, 8, AllocationHandle.Persistent);
@@ -23,6 +24,7 @@ public class TestAllocationManager
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public void TempAllocationTest()
     {
         var ptr1 = new MemoryBlock(1024, 8, AllocationHandle.Temp);
@@ -41,6 +43,7 @@ public class TestAllocationManager
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public void FreeListAllocationTest()
     {
         var ptr1 = new MemoryBlock(1024, 8, AllocationHandle.FreeList);
@@ -57,6 +60,7 @@ public class TestAllocationManager
     }
 
     [TestMethod]
+    [Timeout(1000, CooperativeCancellation = true)]
     public void StackAllocationTest()
     {
         var thread = new Thread(() =>
