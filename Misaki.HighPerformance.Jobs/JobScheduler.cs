@@ -471,50 +471,58 @@ public sealed unsafe partial class JobScheduler : IDisposable
             return;
         }
 
-        // NOTE: We are the last handle of the same job. Because we call this on the thread that get rc = 0, not the last one to complete.
-        // So we can directly set state to Completed without caring about RC. This also means we don't need to preserve upper bits.
+        //        // NOTE: We are the last handle of the same job. Because we call this on the thread that get rc = 0, not the last one to complete.
+        //        // So we can directly set state to Completed without caring about RC. This also means we don't need to preserve upper bits.
 
-        Debug.Assert(JobUtility.ReadRefCount(ref info) == 0);
+        //        Debug.Assert(JobUtility.ReadRefCount(ref info) == 0);
 
-        // Still worth it to use spin and Interlocked.CompareExchange here?
-        // Theoretically there shouldn't be much contention here because only one thread can get into this block for a specific job.
-#if false
-        var spin = new SpinWait();
-        while (Interlocked.CompareExchange(ref info.state, JobUtility.JOBSTATE_COMPLETED, JobUtility.JOBSTATE_RUNNING) != JobUtility.JOBSTATE_RUNNING)
+        //        // Still worth it to use spin and Interlocked.CompareExchange here?
+        //        // Theoretically there shouldn't be much contention here because only one thread can get into this block for a specific job.
+        //#if false
+        //        var spin = new SpinWait();
+        //        while (Interlocked.CompareExchange(ref info.state, JobUtility.JOBSTATE_COMPLETED, JobUtility.JOBSTATE_RUNNING) != JobUtility.JOBSTATE_RUNNING)
+        //        {
+        //            if (JobUtility.ReadState(ref info) == JobState.Completed)
+        //            {
+        //                return;
+        //            }
+
+        //            spin.SpinOnce(-1);
+        //        }
+        //#else
+        //        // We can skip the CAS loop and directly set to Completed, because we are guaranteed to be the only thread that can transition this state from Running to Completed.
+        //        // Other threads may see an intermediate state where it's still Running, but that's fine because they will just spin until it's Completed.
+        //        Volatile.Write(ref info.state, JobUtility.JOBSTATE_COMPLETED);
+        //#endif
+
+        var isFirstCaller = Interlocked.CompareExchange(ref info.state, JobUtility.JOBSTATE_COMPLETED, JobUtility.JOBSTATE_RUNNING) == JobUtility.JOBSTATE_RUNNING;
+
+        int edgeIndex;
+        while ((edgeIndex = Interlocked.Exchange(ref info.firstDependentEdgeIndex, -1)) != -1)
         {
-            if (JobUtility.ReadState(ref info) == JobState.Completed)
+            var it = new JobInfo.DependentIterator(edgeIndex, _jobEdges);
+            while (it.MoveNext())
             {
-                return;
+                var depHandle = it.Current;
+                ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(depHandle.ID, depHandle.Generation, out var depExist);
+                if (depExist && Interlocked.Decrement(ref depJobInfo.dependencyCount) == 0)
+                {
+                    EnqueueJobIfReady(depHandle, true);
+                }
+            }
+        }
+
+        if (isFirstCaller)
+        {
+            FreeEdgeChain(ref info.firstDependentEdgeIndex);
+
+            if (info.pFreeFunc != null)
+            {
+                info.pFreeFunc(info.dataID, info.dataGeneration);
             }
 
-            spin.SpinOnce(-1);
+            _jobInfoPool.Remove(handle.ID, handle.Generation);
         }
-#else
-        // We can skip the CAS loop and directly set to Completed, because we are guaranteed to be the only thread that can transition this state from Running to Completed.
-        // Other threads may see an intermediate state where it's still Running, but that's fine because they will just spin until it's Completed.
-        Volatile.Write(ref info.state, JobUtility.JOBSTATE_COMPLETED);
-#endif
-
-        var it = info.GetDependentIterator(_jobEdges);
-        while (it.MoveNext())
-        {
-            var depHandle = it.Current;
-
-            ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(depHandle.ID, depHandle.Generation, out var depExist);
-            if (depExist && Interlocked.Decrement(ref depJobInfo.dependencyCount) == 0)
-            {
-                EnqueueJobIfReady(depHandle, true);
-            }
-        }
-
-        FreeEdgeChain(ref info.firstDependentEdgeIndex);
-
-        if (info.pFreeFunc != null)
-        {
-            info.pFreeFunc(info.dataID, info.dataGeneration);
-        }
-
-        _jobInfoPool.Remove(handle.ID, handle.Generation);
     }
 
     /// <summary>
