@@ -27,7 +27,7 @@ jobs:
         # and subsequent packaging/publish steps will not run.
         run: |
           echo "Running all tests..."
-          dotnet test --configuration Release --no-restore
+          dotnet test --configuration Release --no-restore --blame-hang-timeout 60s --logger "console;verbosity=detailed"
 
       - name: Check, Build, and Pack Projects
         env:
