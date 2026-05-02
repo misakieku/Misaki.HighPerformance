@@ -40,7 +40,7 @@ public unsafe class TestFreeList
     {
         const int threadCount = 8;
         const int iterations = 1000;
-        using var freeList = new FreeList(8, 64 * 1024, threadCount);
+        using var freeList = new FreeList(8, 64 * 1024);
 
         var threads = new Thread[threadCount];
         for (var i = 0; i < threadCount; i++)
@@ -68,7 +68,7 @@ public unsafe class TestFreeList
         const int producerCount = 4;
         const int consumerCount = 4;
         const int iterations = 5000;
-        using var freeList = new FreeList(8, 64 * 1024, producerCount + consumerCount);
+        using var freeList = new FreeList(8, 64 * 1024);
 
         var queue = new System.Collections.Concurrent.ConcurrentQueue<IntPtr>();
         var producers = new Thread[producerCount];
@@ -124,7 +124,7 @@ public unsafe class TestFreeList
     {
         // Set maxConcurrencyLevel to 1, but use more threads
         const int threadCount = 5;
-        using var freeList = new FreeList(8, 1024, 1);
+        using var freeList = new FreeList(8, 1024);
 
         var threads = new Thread[threadCount];
         for (var i = 0; i < threadCount; i++)

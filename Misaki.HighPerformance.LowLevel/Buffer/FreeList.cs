@@ -19,7 +19,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
 
     public static FreeList Create(in CreationOptions opts)
     {
-        return new FreeList(opts.alignment, opts.chunkSize, opts.maxConcurrencyLevel);
+        return new FreeList(opts.alignment, opts.chunkSize);
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -52,7 +52,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         public int creationLock;
     }
 
-    [StructLayout(LayoutKind.Explicit, Size = 640)]
+    [StructLayout(LayoutKind.Explicit, Size = 648)]
     private struct ThreadCache
     {
         [FieldOffset(0)]
@@ -65,19 +65,58 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         // Padding to prevent false sharing on remoteFreeHead
         [FieldOffset(576)]
         public nint remoteFreeHead;
+        [FieldOffset(584)]
+        public ThreadCache* next;
+        [FieldOffset(592)]
+        public ThreadCache* inactiveNext;
     }
 
-    [StructLayout(LayoutKind.Explicit, Size = 16)]
+    [StructLayout(LayoutKind.Explicit, Size = 24)]
     private struct BlockHeader
     {
         [FieldOffset(0)]
         public MemoryChunk* ownerChunk;
         [FieldOffset(8)]
+        public ThreadCache* ownerCache;
+        [FieldOffset(16)]
         public uint magicNumber;
-        [FieldOffset(12)]
-        public ushort ownerCacheIndex;
-        [FieldOffset(14)]
+        [FieldOffset(20)]
         public byte bucketIndex;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct SharedState
+    {
+        public int isDisposed;
+        public ThreadCache* headCache;
+        public ThreadCache* inactiveCacheHead;
+    }
+
+    private class CacheReclaimer
+    {
+        private readonly ThreadCache* _cache;
+        private readonly SharedState* _state;
+
+        public CacheReclaimer(ThreadCache* cache, SharedState* state)
+        {
+            _cache = cache;
+            _state = state;
+        }
+
+        ~CacheReclaimer()
+        {
+            if (_cache != null && Volatile.Read(ref _state->isDisposed) == 0)
+            {
+                Volatile.Write(ref _cache->active, 0);
+                ThreadCache* current;
+                do
+                {
+                    current = (ThreadCache*)Volatile.Read(ref *(nint*)&_state->inactiveCacheHead);
+                    _cache->inactiveNext = current;
+                }
+                while (Interlocked.CompareExchange(ref *(nint*)&_state->inactiveCacheHead, (nint)_cache, (nint)current) != (nint)current);
+            }
+        }
     }
 
     private const byte _MAX_BUCKETS = 16;
@@ -88,23 +127,22 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     private const uint _MAGIC_NUMBER = 0xDEADBEEF;
 
     [ThreadStatic]
-    private static ushort t_cacheIndex;
+    private static ThreadCache* t_localCache;
 
     [ThreadStatic]
     private static void* t_ownerId;
 
+    [ThreadStatic]
+    private static CacheReclaimer? t_cacheReclaimer;
+
     private void* _instanceId;
-    private ThreadCache** _caches;
     private DynamicArena _chunkArena;
     private MemoryChunk* _chunks;
     private readonly nuint _chunkSize;
     private readonly nuint _alignment;
-    private readonly int _maxConcurrencyLevel;
-    private ushort _cacheCount;
     private volatile int _disposed;
     private volatile int _chunkCreationLock;
     private volatile int _cacheRegistrationLock;
-    private volatile int _overflowLock;
 
     /// <summary>
     /// Gets the alignment requirement for allocations.
@@ -117,17 +155,11 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     public readonly nuint ChunkSize => _chunkSize;
 
     /// <summary>
-    /// Gets the maximum number of dedicated thread caches.
-    /// </summary>
-    public readonly int MaxConcurrencyLevel => _maxConcurrencyLevel;
-
-    /// <summary>
     /// Initializes a new variable-size FreeList allocator with the specified parameters.
     /// </summary>
     /// <param name="alignment">Alignment requirement for blocks (must be power of 2).</param>
     /// <param name="chunkSize">Size of memory chunks to allocate (default: 64KB).</param>
-    /// <param name="maxConcurrencyLevel">Maximum number of dedicated thread caches.</param>
-    public FreeList(nuint alignment, nuint chunkSize = _DEFAULT_CHUNK_SIZE, int maxConcurrencyLevel = _DEFAULT_MAX_CONCURRENCY_LEVEL)
+    public FreeList(nuint alignment, nuint chunkSize = _DEFAULT_CHUNK_SIZE)
     {
         if (alignment == 0 || (alignment & (alignment - 1)) != 0)
         {
@@ -139,54 +171,30 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             throw new ArgumentException("Chunk size must be at least 1KB", nameof(chunkSize));
         }
 
-        if (maxConcurrencyLevel < 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(maxConcurrencyLevel), "Max concurrency level must be greater than zero.");
-        }
-        
         _alignment = alignment;
         _chunkSize = chunkSize;
-        _maxConcurrencyLevel = maxConcurrencyLevel;
 
         try
         {
-            _instanceId = Malloc((nuint)sizeof(nint));
+            var state = (SharedState*)Malloc((nuint)sizeof(SharedState));
+            state->isDisposed = 0;
+            state->headCache = null;
+            state->inactiveCacheHead = null;
+
+            _instanceId = state;
 
             _chunks = null;
-            _cacheCount = 0;
             _disposed = 0;
             _chunkCreationLock = 0;
             _cacheRegistrationLock = 0;
-            _overflowLock = 0;
             _chunkArena = new DynamicArena(1024);
-            _caches = (ThreadCache**)Malloc((nuint)sizeof(ThreadCache*) * (nuint)(maxConcurrencyLevel + 1));
-
-            for (var i = 0; i <= maxConcurrencyLevel; i++)
-            {
-                _caches[i] = null;
-            }
-
-            var overflowCache = CreateCacheForThread(0);
-            if (overflowCache == null)
-            {
-                throw new OutOfMemoryException("Failed to initialize free list overflow cache.");
-            }
-
-            _caches[_OVERFLOW_CACHE_INDEX] = overflowCache;
-
         }
         catch
         {
             if (_instanceId != null)
             {
-                Free(_instanceId);
+                MemoryUtility.Free(_instanceId);
                 _instanceId = null;
-            }
-
-            if (_caches != null)
-            {
-                Free(_caches);
-                _caches = null;
             }
 
             _chunkArena.Dispose();
@@ -268,76 +276,85 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private readonly ThreadCache* GetOverflowCache()
-    {
-        return _caches[_OVERFLOW_CACHE_INDEX];
-    }
-
     private ThreadCache* RegisterThreadCache()
     {
-        while (Interlocked.CompareExchange(ref _cacheRegistrationLock, 1, 0) != 0)
+        if (_instanceId == null || _disposed != 0)
         {
-            Thread.SpinWait(1);
+            return null;
         }
 
-        try
+        var state = (SharedState*)_instanceId;
+
+        if (Volatile.Read(ref state->isDisposed) != 0)
         {
-            if (t_ownerId == _instanceId && t_cacheIndex > 0 && t_cacheIndex <= _cacheCount)
+            return null;
+        }
+
+        var threadId = Environment.CurrentManagedThreadId;
+        ThreadCache* cacheToUse = null;
+
+        while (true)
+        {
+            cacheToUse = (ThreadCache*)Volatile.Read(ref *(nint*)&state->inactiveCacheHead);
+            if (cacheToUse == null)
             {
-                return _caches[t_cacheIndex];
+                break;
             }
 
-            if (_cacheCount >= _maxConcurrencyLevel)
+            var nextInactive = cacheToUse->inactiveNext;
+            if (Interlocked.CompareExchange(ref *(nint*)&state->inactiveCacheHead, (nint)nextInactive, (nint)cacheToUse) == (nint)cacheToUse)
             {
-                t_ownerId = _instanceId;
-                t_cacheIndex = _OVERFLOW_CACHE_INDEX;
-                return GetOverflowCache();
+                cacheToUse->threadId = threadId;
+                Volatile.Write(ref cacheToUse->active, 1);
+                break;
+            }
+        }
+
+        if (cacheToUse == null)
+        {
+            while (Interlocked.CompareExchange(ref _cacheRegistrationLock, 1, 0) != 0)
+            {
+                Thread.SpinWait(1);
             }
 
-            var threadId = Environment.CurrentManagedThreadId;
-            var cache = CreateCacheForThread(threadId);
-            if (cache == null)
+            try
             {
-                t_ownerId = _instanceId;
-                t_cacheIndex = _OVERFLOW_CACHE_INDEX;
-                return GetOverflowCache();
+                cacheToUse = CreateCacheForThread(threadId);
+                if (cacheToUse != null)
+                {
+                    cacheToUse->next = state->headCache;
+                    state->headCache = cacheToUse;
+                }
             }
+            finally
+            {
+                Interlocked.Exchange(ref _cacheRegistrationLock, 0);
+            }
+        }
 
-            _cacheCount++;
-            _caches[_cacheCount] = cache;
-
+        if (cacheToUse != null)
+        {
             t_ownerId = _instanceId;
-            t_cacheIndex = _cacheCount;
-            return cache;
+            t_localCache = cacheToUse;
+            t_cacheReclaimer = new CacheReclaimer(cacheToUse, state);
         }
-        finally
-        {
-            Interlocked.Exchange(ref _cacheRegistrationLock, 0);
-        }
+
+        return cacheToUse;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private ThreadCache* GetCurrentCache()
     {
-        if (t_ownerId == _instanceId)
+        if (t_ownerId == _instanceId && t_localCache != null)
         {
-            var index = t_cacheIndex;
-            if (index <= _cacheCount)
-            {
-                var cache = _caches[index];
-                if (cache != null)
-                {
-                    return cache;
-                }
-            }
+            return t_localCache;
         }
 
         return RegisterThreadCache();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private readonly void* TryPopFromBucket(ThreadCache* cache, ushort cacheIndex, byte bucketIndex)
+    private readonly void* TryPopFromBucket(ThreadCache* cache, byte bucketIndex)
     {
         var buckets = GetBuckets(cache);
         var bucket = &buckets[bucketIndex];
@@ -350,7 +367,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         bucket->freeHead = (nint)head->next;
         bucket->freeCount--;
 
-        AssignBlockHeader((BlockHeader*)head, head->ownerChunk, head->bucketIndex, cacheIndex);
+        AssignBlockHeader((BlockHeader*)head, head->ownerChunk, head->bucketIndex, cache);
         return head;
     }
 
@@ -368,15 +385,15 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void AssignBlockHeader(BlockHeader* header, MemoryChunk* ownerChunk, byte bucketIndex, ushort ownerCacheIndex)
+    private static void AssignBlockHeader(BlockHeader* header, MemoryChunk* ownerChunk, byte bucketIndex, ThreadCache* ownerCache)
     {
         header->ownerChunk = ownerChunk;
         header->bucketIndex = bucketIndex;
         header->magicNumber = _MAGIC_NUMBER;
-        header->ownerCacheIndex = ownerCacheIndex;
+        header->ownerCache = ownerCache;
     }
 
-    private bool TryCreateBlocksForBucket(ThreadCache* cache, ushort cacheIndex, byte bucketIndex)
+    private bool TryCreateBlocksForBucket(ThreadCache* cache, byte bucketIndex)
     {
         var buckets = GetBuckets(cache);
         var bucket = &buckets[bucketIndex];
@@ -509,31 +526,21 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         var totalSize = alignedSize + (nuint)sizeof(BlockHeader);
         var bucketIndex = FindBucket(totalSize);
         var cache = GetCurrentCache();
-        var cacheIndex = t_cacheIndex;
-        var requiresOverflowLock = cacheIndex == _OVERFLOW_CACHE_INDEX;
-
-        if (requiresOverflowLock)
-        {
-            while (Interlocked.CompareExchange(ref _overflowLock, 1, 0) != 0)
-            {
-                Thread.SpinWait(1);
-            }
-        }
 
         try
         {
             void* ptr = null;
             if (bucketIndex != byte.MaxValue)
             {
-                ptr = TryPopFromBucket(cache, cacheIndex, bucketIndex);
+                ptr = TryPopFromBucket(cache, bucketIndex);
                 if (ptr == null)
                 {
                     DrainRemoteFrees(cache);
 
-                    ptr = TryPopFromBucket(cache, cacheIndex, bucketIndex);
-                    if (ptr == null && TryCreateBlocksForBucket(cache, cacheIndex, bucketIndex))
+                    ptr = TryPopFromBucket(cache, bucketIndex);
+                    if (ptr == null && TryCreateBlocksForBucket(cache, bucketIndex))
                     {
-                        ptr = TryPopFromBucket(cache, cacheIndex, bucketIndex);
+                        ptr = TryPopFromBucket(cache, bucketIndex);
                     }
                 }
             }
@@ -544,7 +551,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
                 if (ptr != null)
                 {
                     // Pass null for ownerChunk so 'Free' knows this is a standalone allocation
-                    AssignBlockHeader((BlockHeader*)ptr, null, bucketIndex, cacheIndex);
+                    AssignBlockHeader((BlockHeader*)ptr, null, bucketIndex, cache);
                 }
             }
 
@@ -554,7 +561,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             }
 
             var header = (BlockHeader*)ptr;
-            header->ownerCacheIndex = cacheIndex;
+            header->ownerCache = cache;
 
             var userPtr = (byte*)ptr + sizeof(BlockHeader);
             if (allocationOption.HasFlag(AllocationOption.Clear))
@@ -566,10 +573,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         }
         finally
         {
-            if (requiresOverflowLock)
-            {
-                Interlocked.Exchange(ref _overflowLock, 0);
-            }
+
         }
     }
 
@@ -598,7 +602,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     /// This is thread safe.
     /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Free(void* ptr)
+    public readonly void Free(void* ptr)
     {
         if (_disposed != 0 || ptr == null)
         {
@@ -618,7 +622,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             return;
         }
 
-        var ownerCacheIndex = header->ownerCacheIndex;
+        var targetCache = header->ownerCache;
         var bucketIndex = header->bucketIndex;
 
         if (bucketIndex == byte.MaxValue)
@@ -630,38 +634,11 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             return;
         }
 
-        var sameThread = t_ownerId == _instanceId && t_cacheIndex == ownerCacheIndex;
-        var targetCache = ownerCacheIndex >= 0 && ownerCacheIndex <= _cacheCount ? _caches[ownerCacheIndex] : null;
-        if (targetCache == null)
-        {
-            targetCache = GetOverflowCache();
-            ownerCacheIndex = _OVERFLOW_CACHE_INDEX;
-            sameThread = t_ownerId == _instanceId && t_cacheIndex == ownerCacheIndex;
-        }
+        var sameThread = t_ownerId == _instanceId && t_localCache == targetCache;
 
         if (sameThread)
         {
-            if (ownerCacheIndex == _OVERFLOW_CACHE_INDEX)
-            {
-                while (Interlocked.CompareExchange(ref _overflowLock, 1, 0) != 0)
-                {
-                    Thread.SpinWait(1);
-                }
-
-                try
-                {
-                    PushToBucket(targetCache, bucketIndex, blockStartPtr, chunk);
-                }
-                finally
-                {
-                    Interlocked.Exchange(ref _overflowLock, 0);
-                }
-            }
-            else
-            {
-                PushToBucket(targetCache, bucketIndex, blockStartPtr, chunk);
-            }
-
+            PushToBucket(targetCache, bucketIndex, blockStartPtr, chunk);
             return;
         }
 
@@ -684,27 +661,19 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             return;
         }
 
-        if (_caches != null)
-        {
-            for (var i = 0; i <= _cacheCount; i++)
-            {
-                var cache = _caches[i];
-                if (cache != null)
-                {
-                    DrainRemoteFrees(cache);
-                    cache->active = 0;
-                }
-            }
-        }
-
-        if (_caches != null)
-        {
-            MemoryUtility.Free(_caches);
-            _caches = null;
-        }
-
         if (_instanceId != null)
         {
+            var state = (SharedState*)_instanceId;
+            Volatile.Write(ref state->isDisposed, 1);
+
+            var current = state->headCache;
+            while (current != null)
+            {
+                DrainRemoteFrees(current);
+                current->active = 0;
+                current = current->next;
+            }
+
             MemoryUtility.Free(_instanceId);
             _instanceId = null;
         }

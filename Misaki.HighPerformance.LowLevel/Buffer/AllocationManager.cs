@@ -138,12 +138,30 @@ public static unsafe class AllocationManager
         }
     }
 
+    private class ThreadLocalStackPool
+    {
+        public MemoryPool<VirtualStack, VirtualStack.CreationOptions> pool;
+
+        public ThreadLocalStackPool(nuint stackCapacity)
+        {
+            pool = new MemoryPool<VirtualStack, VirtualStack.CreationOptions>(new VirtualStack.CreationOptions
+            {
+                reserveCapacity = stackCapacity
+            });
+        }
+
+        ~ThreadLocalStackPool()
+        {
+            pool.Dispose();
+        }
+    }
+
     internal static MemoryPool<VirtualArena, VirtualArena.CreationOptions> s_arenaAllocator;
     internal static MemoryPool<FreeList, FreeList.CreationOptions> s_freeListAllocator;
     internal static HeapAllocator* s_pHeapAllocator;
 
     [ThreadStatic]
-    private static MemoryPool<VirtualStack, VirtualStack.CreationOptions> t_stackAllocator;
+    private static ThreadLocalStackPool? t_stackAllocator;
 
 
 #if MHP_ENABLE_SAFETY_CHECKS
@@ -172,52 +190,6 @@ public static unsafe class AllocationManager
 
     private static nuint s_threadLocalStackSize;
     private static SpinLock s_stackLocker = new SpinLock(false);
-    private static VirtualStack** s_ppStack;
-    private static int s_ppStackCount;
-    private static int s_ppStackCapacity;
-
-    private static void EnsureThreadLocalStackInitialize()
-    {
-        if (Unsafe.IsNullRef(ref t_stackAllocator.Allocator))
-        {
-            t_stackAllocator = new MemoryPool<VirtualStack, VirtualStack.CreationOptions>(new VirtualStack.CreationOptions
-            {
-                reserveCapacity = s_threadLocalStackSize
-            });
-
-            var token = false;
-            try
-            {
-                s_stackLocker.Enter(ref token);
-                if (s_ppStack == null)
-                {
-                    s_ppStack = (VirtualStack**)Malloc((nuint)(sizeof(VirtualStack*) * Environment.ProcessorCount));
-                    s_ppStackCapacity = Environment.ProcessorCount;
-                }
-
-                if (s_ppStackCount >= s_ppStackCapacity)
-                {
-                    var pOld = s_ppStack;
-                    var newCapacity = s_ppStackCapacity * 2;
-                    var pNew = (VirtualStack**)Realloc(pOld, (nuint)(sizeof(VirtualStack*) * newCapacity));
-
-                    s_ppStack = pNew;
-                    s_ppStackCapacity = newCapacity;
-                }
-
-                s_ppStack[s_ppStackCount] = (VirtualStack*)Unsafe.AsPointer(ref t_stackAllocator.Allocator);
-                var test = s_ppStack[s_ppStackCount];
-                s_ppStackCount++;
-            }
-            finally
-            {
-                if (token)
-                {
-                    s_stackLocker.Exit();
-                }
-            }
-        }
-    }
 
     public static void Initialize(AllocationManagerDesc opts)
     {
@@ -290,8 +262,8 @@ public static unsafe class AllocationManager
     {
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
-        EnsureThreadLocalStackInitialize();
-        return t_stackAllocator.Allocator.CreateScope(t_stackAllocator.AllocationHandle);
+        t_stackAllocator ??= new ThreadLocalStackPool(s_threadLocalStackSize);
+        return t_stackAllocator.pool.Allocator.CreateScope(t_stackAllocator.pool.AllocationHandle);
     }
 
     /// <summary>
@@ -446,22 +418,6 @@ public static unsafe class AllocationManager
 
         s_arenaAllocator.Dispose();
         s_freeListAllocator.Dispose();
-
-        if (s_ppStack != null)
-        {
-            for (var i = 0; i < s_ppStackCount; i++)
-            {
-                var pStack = s_ppStack[i];
-                if (pStack != null)
-                {
-                    pStack->Dispose();
-                    Free(pStack);
-                }
-            }
-
-            Free(s_ppStack);
-            s_ppStack = null;
-        }
 
         if (s_pHeapAllocator != null)
         {

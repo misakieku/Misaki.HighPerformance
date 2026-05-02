@@ -57,7 +57,7 @@ public class TestAllocationManager
     }
 
     [TestMethod]
-    public unsafe void StackAllocationTest()
+    public void StackAllocationTest()
     {
         var thread = new Thread(() =>
         {
@@ -66,6 +66,8 @@ public class TestAllocationManager
 
             Assert.IsTrue(ptr1.IsCreated);
 
+            Thread.Sleep(100); // Simulate some work
+
             ptr1.Dispose();
             scope.Dispose();
         });
@@ -73,6 +75,8 @@ public class TestAllocationManager
         thread.Start();
 
         var scope = AllocationManager.CreateStackScope();
+        Assert.AreEqual(0u, scope.OriginalOffset);
+
         var ptr2 = new MemoryBlock(1024, 8, scope.AllocationHandle);
 
         Assert.IsTrue(ptr2.IsCreated);

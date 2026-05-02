@@ -135,6 +135,7 @@ internal static class JobUtility
     // Lock-Free constants: State mask (low 16 bits) and RC unit (1 << 16)
     public const int STATE_MASK = 0xFFFF;
     public const int RC_ONE = 0x10000;
+    public const int RC_SHIFT = 16;
 
     public const int JOBSTATE_INVALID = (int)JobState.Invalid & STATE_MASK;
     public const int JOBSTATE_CREATED = (int)JobState.Created & STATE_MASK;
@@ -172,18 +173,18 @@ internal static class JobUtility
     public static int ReadRefCount(ref JobInfo jobInfo)
     {
         var stateVal = Volatile.Read(ref jobInfo.state);
-        return stateVal >> 16; // RC is stored in the high 16 bits
+        return stateVal >> RC_SHIFT;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int GetRefCount(int stateValue)
     {
-        return stateValue >> 16;
+        return stateValue >> RC_SHIFT;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int ReleaseRC(ref int jobState)
     {
-        return GetRefCount(Interlocked.Add(ref jobState, -RC_ONE));
+        return (Interlocked.Add(ref jobState, -RC_ONE) & ~STATE_MASK) >> RC_SHIFT;
     }
 }

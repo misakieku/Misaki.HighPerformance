@@ -383,6 +383,8 @@ public sealed unsafe partial class JobScheduler : IDisposable
                     // Release RC
                     Interlocked.Add(ref depJobInfo.state, -JobUtility.RC_ONE);
 
+                    registered = true;
+
                     break;
                 }
 

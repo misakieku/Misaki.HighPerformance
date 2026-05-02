@@ -24,6 +24,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
         private readonly nuint _originalOffset;
 
         public readonly AllocationHandle AllocationHandle => _handle;
+        public readonly nuint OriginalOffset => _originalOffset;
 
         internal Scope(VirtualStack* allocator, AllocationHandle handle)
         {
