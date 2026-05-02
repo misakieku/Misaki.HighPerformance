@@ -10,24 +10,36 @@ using System.Runtime.InteropServices;
 
 //BenchmarkRunner.Run<GGXMipGenerationBenchmark>();
 
-const int count = 16;
+//const int count = 16;
 
-var bench = new GGXMipGenerationBenchmark();
-bench.Setup();
+//var bench = new GGXMipGenerationBenchmark();
+//bench.Setup();
 
-for (int i = 0; i < count; i++)
+//for (int i = 0; i < count; i++)
+//{
+//    bench.JobGGX();
+//}
+
+//var sw = System.Diagnostics.Stopwatch.StartNew();
+
+//for (int i = 0; i < count; i++)
+//{
+//    bench.JobGGX();
+//}
+
+//sw.Stop();
+//var avgTime = sw.Elapsed.TotalMilliseconds / count;
+//Console.WriteLine($"GGX Mip Generation (Inline): {avgTime} ms");
+//bench.Cleanup();
+
+GlobalSetup.GlobalInitialize(null!);
+TestJobSystem.Initialize(null!);
+
+var test = new TestJobSystem();
+for (int i = 0; i < 10000; i++)
 {
-    bench.JobGGX();
+    test.ChainJob();
 }
 
-var sw = System.Diagnostics.Stopwatch.StartNew();
-
-for (int i = 0; i < count; i++)
-{
-    bench.JobGGX();
-}
-
-sw.Stop();
-var avgTime = sw.Elapsed.TotalMilliseconds / count;
-Console.WriteLine($"GGX Mip Generation (Inline): {avgTime} ms");
-bench.Cleanup();
+TestJobSystem.Cleanup();
+GlobalSetup.GlobalCleanup(null!);

@@ -239,11 +239,25 @@ public sealed unsafe partial class JobScheduler : IDisposable
             // Ensure the count of this job handle won't exceed the number of worker threads.
             // Worker threads will steal parallel iteration ranges from each other.
             var handleCount = Math.Min(jobInfo.jobRanges.TotalBatches, _workerThreads.Length);
-            var initialState = JobUtility.JOBSTATE_SCHEDULED | (handleCount * JobUtility.RC_ONE);
 
-            if (Interlocked.CompareExchange(ref jobInfo.state, initialState, JobUtility.JOBSTATE_CREATED) != JobUtility.JOBSTATE_CREATED)
+            var spin = new SpinWait();
+            while (true)
             {
-                return;
+                var currentState = Volatile.Read(ref jobInfo.state);
+                if (JobUtility.GetState(currentState) != JobState.Created)
+                {
+                    return;
+                }
+
+                var newState = (currentState & ~JobUtility.STATE_MASK) | JobUtility.JOBSTATE_SCHEDULED;
+                newState += handleCount * JobUtility.RC_ONE;
+
+                if (Interlocked.CompareExchange(ref jobInfo.state, newState, currentState) == currentState)
+                {
+                    break;
+                }
+
+                spin.SpinOnce(-1);
             }
 
             var tier = (int)jobInfo.priority;
@@ -361,6 +375,11 @@ public sealed unsafe partial class JobScheduler : IDisposable
                     break;
                 }
 
+                if (state != JobState.Created && JobUtility.GetRefCount(stateVal) == 0)
+                {
+                    break;
+                }
+
                 // Attempt to increment RC (Reader Count)
                 if (Interlocked.CompareExchange(ref depJobInfo.state, stateVal + JobUtility.RC_ONE, stateVal) == stateVal)
                 {
@@ -381,7 +400,11 @@ public sealed unsafe partial class JobScheduler : IDisposable
                     while (Interlocked.CompareExchange(ref depJobInfo.firstDependentEdgeIndex, newEdgeIndex, currentFirst) != currentFirst);
 
                     // Release RC
-                    Interlocked.Add(ref depJobInfo.state, -JobUtility.RC_ONE);
+                    var newState = Interlocked.Add(ref depJobInfo.state, -JobUtility.RC_ONE);
+                    if (JobUtility.GetRefCount(newState) == 0 && JobUtility.GetState(newState) != JobState.Created)
+                    {
+                        MarkJobComplete(dependency);
+                    }
 
                     registered = true;
 
