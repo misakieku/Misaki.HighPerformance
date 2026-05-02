@@ -236,15 +236,15 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         if (exist && Volatile.Read(ref jobInfo.dependencyCount) == 0)
         {
-            // Note: JobState.Created is 0, JobState.Scheduled is 1. We assume RC logic doesn't touch initial state (RC=0).
-            if (Interlocked.CompareExchange(ref jobInfo.state, JobUtility.JOBSTATE_SCHEDULED, JobUtility.JOBSTATE_CREATED) != JobUtility.JOBSTATE_CREATED)
-            {
-                return;
-            }
-
             // Ensure the count of this job handle won't exceed the number of worker threads.
             // Worker threads will steal parallel iteration ranges from each other.
             var handleCount = Math.Min(jobInfo.jobRanges.TotalBatches, _workerThreads.Length);
+            var initialState = JobUtility.JOBSTATE_SCHEDULED | (handleCount * JobUtility.RC_ONE);
+
+            if (Interlocked.CompareExchange(ref jobInfo.state, initialState, JobUtility.JOBSTATE_CREATED) != JobUtility.JOBSTATE_CREATED)
+            {
+                return;
+            }
 
             var tier = (int)jobInfo.priority;
             var i = 0;
@@ -447,45 +447,14 @@ public sealed unsafe partial class JobScheduler : IDisposable
             return;
         }
 
+        // NOTE: We are the last handle of the same job. Because we call this on the thread that get rc = 0, not the last one to complete.
+        // So we can directly set state to Completed without caring about RC. This also means we don't need to preserve upper bits.
+
+        Debug.Assert(JobUtility.ReadRefCount(ref info) == 0);
+
+        // Still worth it to use spin and Interlocked.CompareExchange here?
+        // Theoretically there shouldn't be much contention here because only one thread can get into this block for a specific job.
 #if false
-        // Lock-free Completion:
-        // 1. Transition State to Completed (preserving or setting upper bits?).
-        //    Actually, we want to block new Readers. Setting state to Completed blocks new Readers.
-        // 2. Wait for existing Readers (RC == 0).
-        var spin = new SpinWait();
-        while (true)
-        {
-            var stateVal = Volatile.Read(ref info.state);
-            var state = JobUtility.GetState(stateVal);
-
-            if (state == JobState.Completed)
-            {
-                return;
-            }
-
-            // Preserve upper bits (RC) and set state to Completed. This blocks new Readers.
-            var newState = (stateVal & ~JobUtility.STATE_MASK) | (int)JobState.Completed;
-            if (Interlocked.CompareExchange(ref info.state, newState, stateVal) == stateVal)
-            {
-                // Successfully set State to Completed. New readers will see Completed and back off.
-                // Now we must wait for existing readers to finish (RC to become 0).
-                while (true)
-                {
-                    var current = Volatile.Read(ref info.state);
-                    if (((uint)current >> 16) == 0)
-                    {
-                        break; // RC is 0. Safe to proceed.
-                    }
-
-                    spin.SpinOnce(-1);
-                }
-                break;
-            }
-
-            spin.SpinOnce(-1);
-        }
-#else
-        // NOTE: We are the last one to complete. Because we call this on the thread that get rc = 0, not the last one to complete. So we can directly set state to Completed without caring about RC. This also means we don't need to preserve upper bits.
         var spin = new SpinWait();
         while (Interlocked.CompareExchange(ref info.state, JobUtility.JOBSTATE_COMPLETED, JobUtility.JOBSTATE_RUNNING) != JobUtility.JOBSTATE_RUNNING)
         {
@@ -496,6 +465,10 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
             spin.SpinOnce(-1);
         }
+#else
+        // We can skip the CAS loop and directly set to Completed, because we are guaranteed to be the only thread that can transition this state from Running to Completed.
+        // Other threads may see an intermediate state where it's still Running, but that's fine because they will just spin until it's Completed.
+        Volatile.Write(ref info.state, JobUtility.JOBSTATE_COMPLETED);
 #endif
 
         var it = info.GetDependentIterator(_jobEdges);

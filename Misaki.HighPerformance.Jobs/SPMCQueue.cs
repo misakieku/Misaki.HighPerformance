@@ -61,6 +61,7 @@ public class SPMCQueue<T>
 
         if (Interlocked.CompareExchange(ref _head, head + 1, head) == head)
         {
+            Volatile.Write(ref _tail, head + 1);
             return true;
         }
 
