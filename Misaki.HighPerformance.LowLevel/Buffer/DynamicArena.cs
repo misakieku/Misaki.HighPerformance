@@ -54,9 +54,10 @@ public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.
 
     private bool TryCreateNewNode(nuint size)
     {
+        System.Threading.SpinWait spinner = default;
         while (Interlocked.CompareExchange(ref _nodeCreationLock, 1, 0) != 0)
         {
-            Thread.SpinWait(1);
+            spinner.SpinOnce();
         }
 
         try
