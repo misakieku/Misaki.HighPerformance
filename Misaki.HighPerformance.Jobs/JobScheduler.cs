@@ -349,6 +349,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
             var dependency = dependencies[i];
             if (!dependency.IsValid)
             {
+                Interlocked.Decrement(ref infoInPool.dependencyCount);
                 continue;
             }
 
