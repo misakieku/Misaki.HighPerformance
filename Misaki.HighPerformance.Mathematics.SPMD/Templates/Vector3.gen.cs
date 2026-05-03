@@ -89,7 +89,7 @@ public unsafe struct Vector3<TLane, TNumber> : IEquatable<Vector3<TLane, TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Store(TNumber* px,  TNumber* py,  TNumber* pz)
+    public void Store(TNumber* px, TNumber* py, TNumber* pz)
     {
         x.Store(px);
         y.Store(py);
@@ -97,7 +97,7 @@ public unsafe struct Vector3<TLane, TNumber> : IEquatable<Vector3<TLane, TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Store(ref TNumber x,  ref TNumber y,  ref TNumber z)
+    public void Store(ref TNumber x, ref TNumber y, ref TNumber z)
     {
         this.x.Store(ref x);
         this.y.Store(ref y);

@@ -1,7 +1,6 @@
 using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.Mathematics;
 using Misaki.HighPerformance.Mathematics.SPMD;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Jobs;
@@ -21,6 +20,16 @@ internal unsafe struct DotProductJob : IJobSPMD<float>
         var dotResult = MathV.Dot(vecA, vecB);
         dotResult.Store(results + baseIndex);
     }
+
+    public void Execute<TLane0>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
+        where TLane0 : unmanaged, ISPMDLane<TLane0, float>
+    {
+        var vecA = MathV.LoadVector3<TLane0, float>((float*)(arrayA + (int)indices[0]));
+        var vecB = MathV.LoadVector3<TLane0, float>((float*)(arrayB + (int)indices[0]));
+
+        var dotResult = MathV.Dot(vecA, vecB);
+        dotResult.Store(results + (int)indices[0]);
+    }
 }
 
 internal struct Vector2LerpJob : IJobSPMD<float>
@@ -29,17 +38,17 @@ internal struct Vector2LerpJob : IJobSPMD<float>
     public float2[] arrayB;
     public float[] results;
 
-    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMDLane<TLane, float>
+    public readonly void Execute<TLane0>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
+        where TLane0 : unmanaged, ISPMDLane<TLane0, float>
     {
-        var a = MathV.LoadVector2<TLane, float>(ref arrayA[baseIndex].x);
-        var b = MathV.LoadVector2<TLane, float>(ref arrayB[baseIndex].x);
+        var a = MathV.LoadVector2<TLane0, float>(ref arrayA[(int)indices[0]].x);
+        var b = MathV.LoadVector2<TLane0, float>(ref arrayB[(int)indices[0]].x);
 
-        var t = TLane.Create(0.5f);
+        var t = TLane0.Create(0.5f);
         var lerped = MathV.Lerp(a, b, t);
-        var len = TLane.Sqrt(MathV.LengthSquared(lerped));
+        var len = TLane0.Sqrt(MathV.LengthSquared(lerped));
 
-        len.Store(ref results[baseIndex]);
+        len.Store(ref results[(int)indices[0]]);
     }
 }
 
@@ -48,12 +57,12 @@ internal struct Vector4NormalizeJob : IJobSPMD<float>
     public float4[] input;
     public float4[] output;
 
-    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMDLane<TLane, float>
+    public readonly void Execute<TLane0>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
+        where TLane0 : unmanaged, ISPMDLane<TLane0, float>
     {
-        var vec = MathV.LoadVector4<TLane, float>(ref input[baseIndex].x);
+        var vec = MathV.LoadVector4<TLane0, float>(ref input[(int)indices[0]].x);
         var normalized = MathV.Normalize(vec);
-        normalized.Store(ref output[baseIndex].x);
+        normalized.Store(ref output[(int)indices[0]].x);
     }
 }
 
@@ -63,14 +72,14 @@ internal struct Vector3CrossJob : IJobSPMD<float>
     public float3[] arrayB;
     public float3[] results;
 
-    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMDLane<TLane, float>
+    public readonly void Execute<TLane0>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
+        where TLane0 : unmanaged, ISPMDLane<TLane0, float>
     {
-        var a = MathV.LoadVector3<TLane, float>(ref arrayA[baseIndex].x);
-        var b = MathV.LoadVector3<TLane, float>(ref arrayB[baseIndex].x);
+        var a = MathV.LoadVector3<TLane0, float>(ref arrayA[(int)indices[0]].x);
+        var b = MathV.LoadVector3<TLane0, float>(ref arrayB[(int)indices[0]].x);
 
         var cross = MathV.Cross(a, b);
-        cross.Store(ref results[baseIndex].x);
+        cross.Store(ref results[(int)indices[0]].x);
     }
 }
 
@@ -81,15 +90,15 @@ internal struct MinMaxClampJob : IJobSPMD<float>
     public float3[] maxs;
     public float3[] results;
 
-    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMDLane<TLane, float>
+    public readonly void Execute<TLane0>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
+        where TLane0 : unmanaged, ISPMDLane<TLane0, float>
     {
-        var val = MathV.LoadVector3<TLane, float>(ref values[baseIndex].x);
-        var min = MathV.LoadVector3<TLane, float>(ref mins[baseIndex].x);
-        var max = MathV.LoadVector3<TLane, float>(ref maxs[baseIndex].x);
+        var val = MathV.LoadVector3<TLane0, float>(ref values[(int)indices[0]].x);
+        var min = MathV.LoadVector3<TLane0, float>(ref mins[(int)indices[0]].x);
+        var max = MathV.LoadVector3<TLane0, float>(ref maxs[(int)indices[0]].x);
 
         var clamped = MathV.Clamp(val, min, max);
-        clamped.Store(ref results[baseIndex].x);
+        clamped.Store(ref results[(int)indices[0]].x);
     }
 }
 
@@ -99,14 +108,14 @@ internal struct DistanceJob : IJobSPMD<float>
     public float3[] arrayB;
     public float[] results;
 
-    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMDLane<TLane, float>
+    public readonly void Execute<TLane0>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
+        where TLane0 : unmanaged, ISPMDLane<TLane0, float>
     {
-        var a = MathV.LoadVector3<TLane, float>(ref arrayA[baseIndex].x);
-        var b = MathV.LoadVector3<TLane, float>(ref arrayB[baseIndex].x);
+        var a = MathV.LoadVector3<TLane0, float>(ref arrayA[(int)indices[0]].x);
+        var b = MathV.LoadVector3<TLane0, float>(ref arrayB[(int)indices[0]].x);
 
         var dist = MathV.Distance(a, b);
-        dist.Store(ref results[baseIndex]);
+        dist.Store(ref results[(int)indices[0]]);
     }
 }
 

@@ -9,11 +9,13 @@
 /// Changes to this file may cause incorrect behavior and will be lost if the code is regenerated.
 /// </auto-generated>
 
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics.X86;
 
 namespace Misaki.HighPerformance.Mathematics.SPMD;
-
 <#
 const string TLane = "TLane";
 const string TNumber = "TNumber";
@@ -121,10 +123,94 @@ public static unsafe partial class MathV
 
     
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(<#= TNumber #>* pData, <#= TLane #> indices, int scale)
+    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(<#= TNumber #>* pData, <#= TLane #> indices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
+        if (Avx2.IsSupported)
+        {
+            if (TLane.LaneWidth == Vector128<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    ref var v = ref Unsafe.As<TLane, Vector128<TNumber>>(ref indices);
+                    var vidx = v.AsInt32();
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherVector128((uint*)(pData + <#= i #>), vidx, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector128<uint>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+
+                if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    ref var v = ref Unsafe.As<TLane, Vector128<TNumber>>(ref indices);
+                    var vidx = v.AsInt64();
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherVector128((ulong*)(pData + <#= i #>), vidx, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector128<ulong>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+            }
+            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    ref var v = ref Unsafe.As<TLane, Vector256<TNumber>>(ref indices);
+                    var vidx = v.AsInt32();
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherVector256((uint*)(pData + <#= i #>), vidx, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector256<uint>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+
+                if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    ref var v = ref Unsafe.As<TLane, Vector256<TNumber>>(ref indices);
+                    var vidx = v.AsInt64();
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherVector256((ulong*)(pData + <#= i #>), vidx, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector256<ulong>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+            }
+        }
+
 <# for (int i = 0; i < dimension; i++) { #>
         Unsafe.SkipInit(out TLane <#= components[i] #>);
         var p<#= components[i] #> = (<#= TNumber #>*)&<#= components[i] #>;
@@ -135,7 +221,7 @@ public static unsafe partial class MathV
             var scalarIdx = int.CreateTruncating(indices[i]);
 
 <# for (int i = 0; i < dimension; i++) { #>
-            p<#= components[i] #>[i] = pData[scalarIdx + <#= i #> * scale];
+            p<#= components[i] #>[i] = *(TNumber*)((byte*)pData + ((scalarIdx + <#= i #>) * scale));
 <# } #>
         }
 
@@ -148,10 +234,90 @@ public static unsafe partial class MathV
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(<#= TNumber #>* pData, int* pIndices, int scale)
+    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(<#= TNumber #>* pData, int* pIndices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
+        if (Avx2.IsSupported)
+        {
+            if (TLane.LaneWidth == Vector128<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = Vector128.Load(pIndices);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherVector128((uint*)(pData + <#= i #>), vidx, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector128<uint>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+
+                if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = Vector128.Load(pIndices);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherVector128((ulong*)(pData + <#= i #>), vidx, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector128<ulong>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+            }
+            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = Vector256.Load(pIndices);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherVector256((uint*)(pData + <#= i #>), vidx, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector256<uint>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+
+                if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = Vector128.Load(pIndices);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherVector256((ulong*)(pData + <#= i #>), vidx, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector256<ulong>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+            }
+        }
+
 <# for (int i = 0; i < dimension; i++) { #>
         Unsafe.SkipInit(out TLane <#= components[i] #>);
         var p<#= components[i] #> = (<#= TNumber #>*)&<#= components[i] #>;
@@ -162,7 +328,7 @@ public static unsafe partial class MathV
             var scalerIdx = pIndices[i];
 
 <# for (int i = 0; i < dimension; i++) { #>
-            p<#= components[i] #>[i] = pData[scalerIdx + <#= i #> * scale];
+            p<#= components[i] #>[i] = *(TNumber*)((byte*)pData + ((scalerIdx + <#= i #>) * scale));
 <# } #>
         }
 
@@ -175,10 +341,110 @@ public static unsafe partial class MathV
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(ref <#= TNumber #> baseAddress, <#= TLane #> indices, int scale)
+    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(ref <#= TNumber #> baseAddress, <#= TLane #> indices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
+        return GatherVector<#= dimension #><<#= GenericParameters #>>((<#= TNumber #>*)Unsafe.AsPointer(ref baseAddress), indices, scale);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(ref <#= TNumber #> baseAddress, ref int baseIndex, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        return GatherVector<#= dimension #><<#= GenericParameters #>>((<#= TNumber #>*)Unsafe.AsPointer(ref baseAddress), (int*)Unsafe.AsPointer(ref baseIndex), scale);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> MaskGatherVector<#= dimension #><TLane, TNumber>(<#= TNumber #>* pData, <#= TLane #> indices, <#= TLane #> mask, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
+        where TLane : unmanaged, ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        if (Avx2.IsSupported)
+        {
+            if (TLane.LaneWidth == Vector128<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
+                    ref var vmask = ref Unsafe.As<TLane, Vector128<uint>>(ref mask);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + <#= i #>), vidx, vmask, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector128<uint>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+
+                if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
+                    var vmask = Unsafe.As<TLane, Vector128<ulong>>(ref mask);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + <#= i #>), vidx, vmask, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector128<ulong>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+            }
+            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    ref var vidx = ref Unsafe.As<TLane, Vector256<int>>(ref indices);
+                    var vmask = Unsafe.As<TLane, Vector256<uint>>(ref mask);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + <#= i #>), vidx, vmask, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector256<uint>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+
+                if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
+                    var vmask = Unsafe.As<TLane, Vector256<ulong>>(ref mask);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + <#= i #>), vidx, vmask, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector256<ulong>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+            }
+        }
+
 <# for (int i = 0; i < dimension; i++) { #>
         Unsafe.SkipInit(out TLane <#= components[i] #>);
         var p<#= components[i] #> = (<#= TNumber #>*)&<#= components[i] #>;
@@ -186,10 +452,15 @@ public static unsafe partial class MathV
 
         for (var i = 0; i < TLane.LaneWidth; i++)
         {
-            var scalarIdx = int.CreateTruncating(indices[i]);
+            if (mask[i] == TNumber.Zero)
+            {
+                continue;
+            }
+
+            var scalerIdx = int.CreateTruncating(indices[i]);
 
 <# for (int i = 0; i < dimension; i++) { #>
-            p<#= components[i] #>[i] = Unsafe.Add(ref baseAddress, scalarIdx + <#= i #> * scale);
+            p<#= components[i] #>[i] = *(TNumber*)((byte*)pData + ((scalerIdx + <#= i #>) * scale));
 <# } #>
         }
 
@@ -202,10 +473,94 @@ public static unsafe partial class MathV
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static <#= vectorType #> GatherVector<#= dimension #><<#= GenericParameters #>>(ref <#= TNumber #> baseAddress, ref int baseIndex, int scale)
-        <#= TLaneRestrictions #>
-        <#= TNumberRestrictions #>
+    public static <#= vectorType #> MaskGatherVector<#= dimension #><TLane, TNumber>(<#= TNumber #>* pData, int* pIndices, <#= TLane #> mask, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
+        where TLane : unmanaged, ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
+        if (Avx2.IsSupported)
+        {
+            if (TLane.LaneWidth == Vector128<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = Vector128.Load(pIndices);
+                    ref var vmask = ref Unsafe.As<TLane, Vector128<uint>>(ref mask);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + <#= i #>), vidx, vmask, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector128<uint>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+
+                if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = Vector128.Load(pIndices);
+                    var vmask = Unsafe.As<TLane, Vector128<ulong>>(ref mask);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + <#= i #>), vidx, vmask, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector128<ulong>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+            }
+            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = Vector256.Load(pIndices);
+                    var vmask = Unsafe.As<TLane, Vector256<uint>>(ref mask);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + <#= i #>), vidx, vmask, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector256<uint>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+
+                if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = Vector128.Load(pIndices);
+                    var vmask = Unsafe.As<TLane, Vector256<ulong>>(ref mask);
+
+#pragma warning disable CA1857 // A constant is expected for the parameter
+<# for (int i = 0; i < dimension; i++) { #>
+                    var v<#= components[i] #> = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + <#= i #>), vidx, vmask, scale);
+<# } #>
+#pragma warning restore CA1857 // A constant is expected for the parameter
+
+                    return new <#= vectorType #>
+                    {
+<# for (int i = 0; i < dimension; i++) { #>
+                        <#= components[i] #> = Unsafe.As<Vector256<ulong>, TLane>(ref v<#= components[i] #>),
+<# } #>
+                    };
+                }
+            }
+        }
+
 <# for (int i = 0; i < dimension; i++) { #>
         Unsafe.SkipInit(out TLane <#= components[i] #>);
         var p<#= components[i] #> = (<#= TNumber #>*)&<#= components[i] #>;
@@ -213,10 +568,15 @@ public static unsafe partial class MathV
 
         for (var i = 0; i < TLane.LaneWidth; i++)
         {
-            var scalarIdx = Unsafe.Add(ref baseIndex, i);
+            if (mask[i] == TNumber.Zero)
+            {
+                continue;
+            }
+
+            var scalerIdx = pIndices[i];
 
 <# for (int i = 0; i < dimension; i++) { #>
-            p<#= components[i] #>[i] = Unsafe.Add(ref baseAddress, scalarIdx + <#= i #> * scale);
+            p<#= components[i] #>[i] = *(TNumber*)((byte*)pData + ((scalerIdx + <#= i #>) * scale));
 <# } #>
         }
 
@@ -226,6 +586,22 @@ public static unsafe partial class MathV
             <#= components[i] #> = <#= components[i] #>,
 <# } #>
         };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> MaskGatherVector<#= dimension #><<#= GenericParameters #>>(ref <#= TNumber #> baseAddress, <#= TLane #> indices, <#= TLane #> mask, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        return MaskGatherVector<#= dimension #><<#= GenericParameters #>>((<#= TNumber #>*)Unsafe.AsPointer(ref baseAddress), indices, mask, scale);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static <#= vectorType #> MaskGatherVector<#= dimension #><<#= GenericParameters #>>(ref <#= TNumber #> baseAddress, ref int baseIndex, <#= TLane #> mask, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
+        <#= TLaneRestrictions #>
+        <#= TNumberRestrictions #>
+    {
+        return MaskGatherVector<#= dimension #><<#= GenericParameters #>>((<#= TNumber #>*)Unsafe.AsPointer(ref baseAddress), (int*)Unsafe.AsPointer(ref baseIndex), mask, scale);
     }
 
 
@@ -501,27 +877,27 @@ public static unsafe partial class MathV
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static <#= vectorType #> Select<<#= GenericParameters #>>(<#= TLane #> condition, in <#= vectorType #> a, in <#= vectorType #> b)
+    public static <#= vectorType #> Select<<#= GenericParameters #>>(<#= TLane #> condition, in <#= vectorType #> isTrue, in <#= vectorType #> isFalse)
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
         return new <#= vectorType #>
         {
 <# for (int i = 0; i < dimension; i++) { #>
-            <#= components[i] #> = <#= TLane #>.Select(condition, b.<#= components[i] #>, a.<#= components[i] #>),
+            <#= components[i] #> = <#= TLane #>.Select(condition, isTrue.<#= components[i] #>, isFalse.<#= components[i] #>),
 <# } #>
         };
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static <#= vectorType #> Select<<#= GenericParameters #>>(<#= vectorType #> condition, in <#= vectorType #> a, in <#= vectorType #> b)
+    public static <#= vectorType #> Select<<#= GenericParameters #>>(<#= vectorType #> condition, in <#= vectorType #> isTrue, in <#= vectorType #> isFalse)
         <#= TLaneRestrictions #>
         <#= TNumberRestrictions #>
     {
         return new <#= vectorType #>
         {
 <# for (int i = 0; i < dimension; i++) { #>
-            <#= components[i] #> = <#= TLane #>.Select(condition.<#= components[i] #>, b.<#= components[i] #>, a.<#= components[i] #>),
+            <#= components[i] #> = <#= TLane #>.Select(condition.<#= components[i] #>, isTrue.<#= components[i] #>, isFalse.<#= components[i] #>),
 <# } #>
         };
     }

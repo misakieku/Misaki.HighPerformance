@@ -28,7 +28,7 @@ for (var i = 0; i < 8; i++) { #>
 public interface IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
 <#= GetTNumberRestrictions(i + 1) #>
 {
-    void Execute<<#= ForEachDimension(i + 1, j => $"TLane{j}") #>>(int baseIndex, ref readonly JobExecutionContext ctx)
+    void Execute<<#= ForEachDimension(i + 1, j => $"TLane{j}") #>>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
 <#= GetTLaneRestrictions(i + 1, "        ") #>;
 }
 
@@ -42,19 +42,10 @@ internal struct SPMDJobWrapper<T, <#= ForEachDimension(i + 1, j => $"TNumber{j}"
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
         var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-        var remaining = totalIteration - baseIndex;
+        var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+        var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-        if (remaining >= WideLane<TNumber0>.LaneWidth)
-        {
-            innerJob.Execute<<#= ForEachDimension(i + 1, j => $"WideLane<TNumber{j}>") #>>(baseIndex, in ctx);
-        }
-        else
-        {
-            for (var j = 0; j < remaining; j++)
-            {
-                innerJob.Execute<<#= ForEachDimension(i + 1, j => $"ScalarLane<TNumber{j}>") #>>(baseIndex + j, in ctx);
-            }
-        }
+        innerJob.Execute<<#= ForEachDimension(i + 1, j => $"WideLane<TNumber{j}>") #>>(indices, mask, in ctx);
     }
 }
 
@@ -67,7 +58,7 @@ internal struct SPMDScalerJobWrapper<T, <#= ForEachDimension(i + 1, j => $"TNumb
 
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
-        innerJob.Execute<<#= ForEachDimension(i + 1, j => $"ScalarLane<TNumber{j}>") #>>(loopIndex, in ctx);
+        innerJob.Execute<<#= ForEachDimension(i + 1, j => $"ScalarLane<TNumber{j}>") #>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
     }
 }
 
@@ -96,26 +87,17 @@ public static class IJobParallelForSPMDExtensions
             for (var loopIndex = 0; loopIndex < iterations; loopIndex++)
             {
                 var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-                var remaining = totalIteration - baseIndex;
+                var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+                var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-                if (remaining >= WideLane<TNumber0>.LaneWidth)
-                {
-                    job.Execute<<#= ForEachDimension(i + 1, j => $"WideLane<TNumber{j}>") #>>(baseIndex, in ctx);
-                }
-                else
-                {
-                    for (var i = 0; i < remaining; i++)
-                    {
-                        job.Execute<<#= ForEachDimension(i + 1, j => $"ScalarLane<TNumber{j}>") #>>(baseIndex + i, in ctx);
-                    }
-                }
+                job.Execute<<#= ForEachDimension(i + 1, j => $"WideLane<TNumber{j}>") #>>(indices, mask, in ctx);
             }
         }
         else
         {
             for (var loopIndex = 0; loopIndex < totalIteration; loopIndex++)
             {
-                job.Execute<<#= ForEachDimension(i + 1, j => $"ScalarLane<TNumber{j}>") #>>(loopIndex, in ctx);
+                job.Execute<<#= ForEachDimension(i + 1, j => $"ScalarLane<TNumber{j}>") #>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
             }
         }
     }

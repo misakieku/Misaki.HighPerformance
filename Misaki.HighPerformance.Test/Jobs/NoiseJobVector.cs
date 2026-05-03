@@ -291,10 +291,9 @@ internal unsafe struct NoiseJobMathSPMD : IJobSPMD<float>
         return T.Lerp(T.Lerp(d00, d10, uY), T.Lerp(d01, d11, uY), uX);
     }
 
-    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
+    public readonly void Execute<TLane>(TLane indices, TLane mask, ref readonly JobExecutionContext ctx)
         where TLane : unmanaged, ISPMDLane<TLane, float>
     {
-        var indices = TLane.Sequence(baseIndex, 1f);
         var w = TLane.Create(width);
         var h = TLane.Create(height);
 
@@ -302,6 +301,6 @@ internal unsafe struct NoiseJobMathSPMD : IJobSPMD<float>
         var uvY = TLane.Floor(indices / w) / h;
 
         var result = Noise(uvX, uvY);
-        result.Store(buffers + baseIndex);
+        result.Store(buffers + (int)indices[0]);
     }
 }

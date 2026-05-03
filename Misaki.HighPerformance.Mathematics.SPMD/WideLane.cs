@@ -877,7 +877,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         var num = Select(yGtX, absX, absY);
         var den = Select(yGtX, absY, absX);
 
-        var t = num / den; // t is now in [0, 1]
+        var t = num * Rcp(den); // t is now in [0, 1]
         var t2 = t * t;
 
         // 2. Polynomial Approximation (Odd function: value * (c1 + c2*value^2))

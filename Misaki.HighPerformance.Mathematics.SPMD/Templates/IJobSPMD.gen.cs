@@ -13,7 +13,7 @@ namespace Misaki.HighPerformance.Mathematics.SPMD;
 public interface IJobSPMD<TNumber0>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
 {
-    void Execute<TLane0>(int baseIndex, ref readonly JobExecutionContext ctx)
+    void Execute<TLane0>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
         where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>;
 }
 
@@ -27,19 +27,10 @@ internal struct SPMDJobWrapper<T, TNumber0> : IJobParallelFor
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
         var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-        var remaining = totalIteration - baseIndex;
+        var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+        var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-        if (remaining >= WideLane<TNumber0>.LaneWidth)
-        {
-            innerJob.Execute<WideLane<TNumber0>>(baseIndex, in ctx);
-        }
-        else
-        {
-            for (var j = 0; j < remaining; j++)
-            {
-                innerJob.Execute<ScalarLane<TNumber0>>(baseIndex + j, in ctx);
-            }
-        }
+        innerJob.Execute<WideLane<TNumber0>>(indices, mask, in ctx);
     }
 }
 
@@ -52,7 +43,7 @@ internal struct SPMDScalerJobWrapper<T, TNumber0> : IJobParallelFor
 
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
-        innerJob.Execute<ScalarLane<TNumber0>>(loopIndex, in ctx);
+        innerJob.Execute<ScalarLane<TNumber0>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
     }
 }
 
@@ -68,7 +59,7 @@ public interface IJobSPMD<TNumber0, TNumber1>
     where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
 {
-    void Execute<TLane0, TLane1>(int baseIndex, ref readonly JobExecutionContext ctx)
+    void Execute<TLane0, TLane1>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
         where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
         where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>;
 }
@@ -84,19 +75,10 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1> : IJobParallelFor
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
         var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-        var remaining = totalIteration - baseIndex;
+        var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+        var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-        if (remaining >= WideLane<TNumber0>.LaneWidth)
-        {
-            innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>>(baseIndex, in ctx);
-        }
-        else
-        {
-            for (var j = 0; j < remaining; j++)
-            {
-                innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>>(baseIndex + j, in ctx);
-            }
-        }
+        innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>>(indices, mask, in ctx);
     }
 }
 
@@ -110,7 +92,7 @@ internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1> : IJobParallelFor
 
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
-        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>>(loopIndex, in ctx);
+        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
     }
 }
 
@@ -128,7 +110,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2>
     where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
 {
-    void Execute<TLane0, TLane1, TLane2>(int baseIndex, ref readonly JobExecutionContext ctx)
+    void Execute<TLane0, TLane1, TLane2>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
         where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
         where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
         where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>;
@@ -146,19 +128,10 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2> : IJobParallelFo
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
         var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-        var remaining = totalIteration - baseIndex;
+        var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+        var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-        if (remaining >= WideLane<TNumber0>.LaneWidth)
-        {
-            innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>>(baseIndex, in ctx);
-        }
-        else
-        {
-            for (var j = 0; j < remaining; j++)
-            {
-                innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>>(baseIndex + j, in ctx);
-            }
-        }
+        innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>>(indices, mask, in ctx);
     }
 }
 
@@ -173,7 +146,7 @@ internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2> : IJobPara
 
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
-        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>>(loopIndex, in ctx);
+        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
     }
 }
 
@@ -193,7 +166,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
     where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
     where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
 {
-    void Execute<TLane0, TLane1, TLane2, TLane3>(int baseIndex, ref readonly JobExecutionContext ctx)
+    void Execute<TLane0, TLane1, TLane2, TLane3>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
         where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
         where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
         where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>
@@ -213,19 +186,10 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3> : IJob
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
         var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-        var remaining = totalIteration - baseIndex;
+        var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+        var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-        if (remaining >= WideLane<TNumber0>.LaneWidth)
-        {
-            innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>>(baseIndex, in ctx);
-        }
-        else
-        {
-            for (var j = 0; j < remaining; j++)
-            {
-                innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>>(baseIndex + j, in ctx);
-            }
-        }
+        innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>>(indices, mask, in ctx);
     }
 }
 
@@ -241,7 +205,7 @@ internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3> 
 
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
-        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>>(loopIndex, in ctx);
+        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
     }
 }
 
@@ -263,7 +227,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
     where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
     where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
 {
-    void Execute<TLane0, TLane1, TLane2, TLane3, TLane4>(int baseIndex, ref readonly JobExecutionContext ctx)
+    void Execute<TLane0, TLane1, TLane2, TLane3, TLane4>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
         where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
         where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
         where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>
@@ -285,19 +249,10 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumbe
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
         var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-        var remaining = totalIteration - baseIndex;
+        var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+        var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-        if (remaining >= WideLane<TNumber0>.LaneWidth)
-        {
-            innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>>(baseIndex, in ctx);
-        }
-        else
-        {
-            for (var j = 0; j < remaining; j++)
-            {
-                innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>>(baseIndex + j, in ctx);
-            }
-        }
+        innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>>(indices, mask, in ctx);
     }
 }
 
@@ -314,7 +269,7 @@ internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, 
 
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
-        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>>(loopIndex, in ctx);
+        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
     }
 }
 
@@ -338,7 +293,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNum
     where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
     where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
 {
-    void Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5>(int baseIndex, ref readonly JobExecutionContext ctx)
+    void Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
         where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
         where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
         where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>
@@ -362,19 +317,10 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumbe
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
         var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-        var remaining = totalIteration - baseIndex;
+        var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+        var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-        if (remaining >= WideLane<TNumber0>.LaneWidth)
-        {
-            innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>>(baseIndex, in ctx);
-        }
-        else
-        {
-            for (var j = 0; j < remaining; j++)
-            {
-                innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>>(baseIndex + j, in ctx);
-            }
-        }
+        innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>>(indices, mask, in ctx);
     }
 }
 
@@ -392,7 +338,7 @@ internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, 
 
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
-        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>>(loopIndex, in ctx);
+        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
     }
 }
 
@@ -418,7 +364,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNum
     where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
     where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>
 {
-    void Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6>(int baseIndex, ref readonly JobExecutionContext ctx)
+    void Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
         where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
         where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
         where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>
@@ -444,19 +390,10 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumbe
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
         var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-        var remaining = totalIteration - baseIndex;
+        var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+        var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-        if (remaining >= WideLane<TNumber0>.LaneWidth)
-        {
-            innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>, WideLane<TNumber6>>(baseIndex, in ctx);
-        }
-        else
-        {
-            for (var j = 0; j < remaining; j++)
-            {
-                innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>>(baseIndex + j, in ctx);
-            }
-        }
+        innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>, WideLane<TNumber6>>(indices, mask, in ctx);
     }
 }
 
@@ -475,7 +412,7 @@ internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, 
 
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
-        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>>(loopIndex, in ctx);
+        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
     }
 }
 
@@ -503,7 +440,7 @@ public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNum
     where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>
     where TNumber7 : unmanaged, INumber<TNumber7>, IBinaryNumber<TNumber7>, IMinMaxValue<TNumber7>, IBitwiseOperators<TNumber7, TNumber7, TNumber7>
 {
-    void Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6, TLane7>(int baseIndex, ref readonly JobExecutionContext ctx)
+    void Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6, TLane7>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
         where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>
         where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1>
         where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2>
@@ -531,19 +468,10 @@ internal struct SPMDJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumbe
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
         var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-        var remaining = totalIteration - baseIndex;
+        var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+        var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-        if (remaining >= WideLane<TNumber0>.LaneWidth)
-        {
-            innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>, WideLane<TNumber6>, WideLane<TNumber7>>(baseIndex, in ctx);
-        }
-        else
-        {
-            for (var j = 0; j < remaining; j++)
-            {
-                innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>, ScalarLane<TNumber7>>(baseIndex + j, in ctx);
-            }
-        }
+        innerJob.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>, WideLane<TNumber6>, WideLane<TNumber7>>(indices, mask, in ctx);
     }
 }
 
@@ -563,7 +491,7 @@ internal struct SPMDScalerJobWrapper<T, TNumber0, TNumber1, TNumber2, TNumber3, 
 
     public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
     {
-        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>, ScalarLane<TNumber7>>(loopIndex, in ctx);
+        innerJob.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>, ScalarLane<TNumber7>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
     }
 }
 
@@ -590,26 +518,17 @@ public static class IJobParallelForSPMDExtensions
             for (var loopIndex = 0; loopIndex < iterations; loopIndex++)
             {
                 var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-                var remaining = totalIteration - baseIndex;
+                var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+                var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-                if (remaining >= WideLane<TNumber0>.LaneWidth)
-                {
-                    job.Execute<WideLane<TNumber0>>(baseIndex, in ctx);
-                }
-                else
-                {
-                    for (var i = 0; i < remaining; i++)
-                    {
-                        job.Execute<ScalarLane<TNumber0>>(baseIndex + i, in ctx);
-                    }
-                }
+                job.Execute<WideLane<TNumber0>>(indices, mask, in ctx);
             }
         }
         else
         {
             for (var loopIndex = 0; loopIndex < totalIteration; loopIndex++)
             {
-                job.Execute<ScalarLane<TNumber0>>(loopIndex, in ctx);
+                job.Execute<ScalarLane<TNumber0>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
             }
         }
     }
@@ -677,26 +596,17 @@ public static class IJobParallelForSPMDExtensions
             for (var loopIndex = 0; loopIndex < iterations; loopIndex++)
             {
                 var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-                var remaining = totalIteration - baseIndex;
+                var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+                var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-                if (remaining >= WideLane<TNumber0>.LaneWidth)
-                {
-                    job.Execute<WideLane<TNumber0>, WideLane<TNumber1>>(baseIndex, in ctx);
-                }
-                else
-                {
-                    for (var i = 0; i < remaining; i++)
-                    {
-                        job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>>(baseIndex + i, in ctx);
-                    }
-                }
+                job.Execute<WideLane<TNumber0>, WideLane<TNumber1>>(indices, mask, in ctx);
             }
         }
         else
         {
             for (var loopIndex = 0; loopIndex < totalIteration; loopIndex++)
             {
-                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>>(loopIndex, in ctx);
+                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
             }
         }
     }
@@ -768,26 +678,17 @@ public static class IJobParallelForSPMDExtensions
             for (var loopIndex = 0; loopIndex < iterations; loopIndex++)
             {
                 var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-                var remaining = totalIteration - baseIndex;
+                var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+                var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-                if (remaining >= WideLane<TNumber0>.LaneWidth)
-                {
-                    job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>>(baseIndex, in ctx);
-                }
-                else
-                {
-                    for (var i = 0; i < remaining; i++)
-                    {
-                        job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>>(baseIndex + i, in ctx);
-                    }
-                }
+                job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>>(indices, mask, in ctx);
             }
         }
         else
         {
             for (var loopIndex = 0; loopIndex < totalIteration; loopIndex++)
             {
-                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>>(loopIndex, in ctx);
+                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
             }
         }
     }
@@ -863,26 +764,17 @@ public static class IJobParallelForSPMDExtensions
             for (var loopIndex = 0; loopIndex < iterations; loopIndex++)
             {
                 var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-                var remaining = totalIteration - baseIndex;
+                var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+                var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-                if (remaining >= WideLane<TNumber0>.LaneWidth)
-                {
-                    job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>>(baseIndex, in ctx);
-                }
-                else
-                {
-                    for (var i = 0; i < remaining; i++)
-                    {
-                        job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>>(baseIndex + i, in ctx);
-                    }
-                }
+                job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>>(indices, mask, in ctx);
             }
         }
         else
         {
             for (var loopIndex = 0; loopIndex < totalIteration; loopIndex++)
             {
-                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>>(loopIndex, in ctx);
+                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
             }
         }
     }
@@ -962,26 +854,17 @@ public static class IJobParallelForSPMDExtensions
             for (var loopIndex = 0; loopIndex < iterations; loopIndex++)
             {
                 var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-                var remaining = totalIteration - baseIndex;
+                var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+                var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-                if (remaining >= WideLane<TNumber0>.LaneWidth)
-                {
-                    job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>>(baseIndex, in ctx);
-                }
-                else
-                {
-                    for (var i = 0; i < remaining; i++)
-                    {
-                        job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>>(baseIndex + i, in ctx);
-                    }
-                }
+                job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>>(indices, mask, in ctx);
             }
         }
         else
         {
             for (var loopIndex = 0; loopIndex < totalIteration; loopIndex++)
             {
-                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>>(loopIndex, in ctx);
+                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
             }
         }
     }
@@ -1065,26 +948,17 @@ public static class IJobParallelForSPMDExtensions
             for (var loopIndex = 0; loopIndex < iterations; loopIndex++)
             {
                 var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-                var remaining = totalIteration - baseIndex;
+                var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+                var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-                if (remaining >= WideLane<TNumber0>.LaneWidth)
-                {
-                    job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>>(baseIndex, in ctx);
-                }
-                else
-                {
-                    for (var i = 0; i < remaining; i++)
-                    {
-                        job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>>(baseIndex + i, in ctx);
-                    }
-                }
+                job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>>(indices, mask, in ctx);
             }
         }
         else
         {
             for (var loopIndex = 0; loopIndex < totalIteration; loopIndex++)
             {
-                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>>(loopIndex, in ctx);
+                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
             }
         }
     }
@@ -1172,26 +1046,17 @@ public static class IJobParallelForSPMDExtensions
             for (var loopIndex = 0; loopIndex < iterations; loopIndex++)
             {
                 var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-                var remaining = totalIteration - baseIndex;
+                var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+                var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-                if (remaining >= WideLane<TNumber0>.LaneWidth)
-                {
-                    job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>, WideLane<TNumber6>>(baseIndex, in ctx);
-                }
-                else
-                {
-                    for (var i = 0; i < remaining; i++)
-                    {
-                        job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>>(baseIndex + i, in ctx);
-                    }
-                }
+                job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>, WideLane<TNumber6>>(indices, mask, in ctx);
             }
         }
         else
         {
             for (var loopIndex = 0; loopIndex < totalIteration; loopIndex++)
             {
-                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>>(loopIndex, in ctx);
+                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
             }
         }
     }
@@ -1283,26 +1148,17 @@ public static class IJobParallelForSPMDExtensions
             for (var loopIndex = 0; loopIndex < iterations; loopIndex++)
             {
                 var baseIndex = loopIndex * WideLane<TNumber0>.LaneWidth;
-                var remaining = totalIteration - baseIndex;
+                var indices = WideLane<TNumber0>.Sequence(TNumber0.CreateTruncating(baseIndex), TNumber0.One);
+                var mask = indices < TNumber0.CreateTruncating(totalIteration);
 
-                if (remaining >= WideLane<TNumber0>.LaneWidth)
-                {
-                    job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>, WideLane<TNumber6>, WideLane<TNumber7>>(baseIndex, in ctx);
-                }
-                else
-                {
-                    for (var i = 0; i < remaining; i++)
-                    {
-                        job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>, ScalarLane<TNumber7>>(baseIndex + i, in ctx);
-                    }
-                }
+                job.Execute<WideLane<TNumber0>, WideLane<TNumber1>, WideLane<TNumber2>, WideLane<TNumber3>, WideLane<TNumber4>, WideLane<TNumber5>, WideLane<TNumber6>, WideLane<TNumber7>>(indices, mask, in ctx);
             }
         }
         else
         {
             for (var loopIndex = 0; loopIndex < totalIteration; loopIndex++)
             {
-                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>, ScalarLane<TNumber7>>(loopIndex, in ctx);
+                job.Execute<ScalarLane<TNumber0>, ScalarLane<TNumber1>, ScalarLane<TNumber2>, ScalarLane<TNumber3>, ScalarLane<TNumber4>, ScalarLane<TNumber5>, ScalarLane<TNumber6>, ScalarLane<TNumber7>>(TNumber0.CreateTruncating(loopIndex), ScalarLane<TNumber0>.AllBitsSet, in ctx);
             }
         }
     }

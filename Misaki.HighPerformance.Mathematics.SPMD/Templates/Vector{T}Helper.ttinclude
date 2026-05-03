@@ -114,13 +114,13 @@ public unsafe struct {typeName} : IEquatable<{typeName}>
     }}
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Store({ForEachDimension(dimension, 1, ", ", (dim, sb) => sb.Append($"{TNumber}* p{components[dim]}"), false)})
+    public void Store({ForEachDimension(dimension, 1, ",", (dim, sb) => sb.Append($"{TNumber}* p{components[dim]}"), false)})
     {{
 {ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.Store(p{components[dim]});"))}
     }}
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Store({ForEachDimension(dimension, 1, ", ", (dim, sb) => sb.Append($"ref {TNumber} {components[dim]}"), false)})
+    public void Store({ForEachDimension(dimension, 1, ",", (dim, sb) => sb.Append($"ref {TNumber} {components[dim]}"), false)})
     {{
 {ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"this.{components[dim]}.Store(ref {components[dim]});"))}
     }}

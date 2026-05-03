@@ -83,14 +83,14 @@ public unsafe struct Vector2<TLane, TNumber> : IEquatable<Vector2<TLane, TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Store(TNumber* px,  TNumber* py)
+    public void Store(TNumber* px, TNumber* py)
     {
         x.Store(px);
         y.Store(py);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Store(ref TNumber x,  ref TNumber y)
+    public void Store(ref TNumber x, ref TNumber y)
     {
         this.x.Store(ref x);
         this.y.Store(ref y);
