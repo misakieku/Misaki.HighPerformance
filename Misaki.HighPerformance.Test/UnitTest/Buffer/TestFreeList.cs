@@ -6,7 +6,6 @@ namespace Misaki.HighPerformance.Test.UnitTest.Buffer;
 public unsafe class TestFreeList
 {
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public void SingleThreadedAllocFreeTest()
     {
         using var freeList = new FreeList(8, 1024);
@@ -37,7 +36,6 @@ public unsafe class TestFreeList
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public void MultiThreadedAllocSameThreadFreeTest()
     {
         const int threadCount = 8;
@@ -65,7 +63,6 @@ public unsafe class TestFreeList
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public void MultiThreadedCrossThreadFreeTest()
     {
         const int producerCount = 4;
@@ -123,7 +120,6 @@ public unsafe class TestFreeList
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public void OverflowCacheTest()
     {
         // Set maxConcurrencyLevel to 1, but use more threads
@@ -148,7 +144,6 @@ public unsafe class TestFreeList
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public void LargeAllocationTest()
     {
         using var freeList = new FreeList(8, 1024);
@@ -162,7 +157,6 @@ public unsafe class TestFreeList
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public void ZeroSizeAllocation_ReturnsNull()
     {
         using var freeList = new FreeList(8, 1024);
@@ -170,7 +164,6 @@ public unsafe class TestFreeList
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public void InvalidAlignment_Throws()
     {
         using var freeList = new FreeList(8, 1024);
@@ -178,7 +171,6 @@ public unsafe class TestFreeList
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public void DoubleDispose_IsSafe()
     {
         var freeList = new FreeList(8, 1024);

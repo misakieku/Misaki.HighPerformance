@@ -669,7 +669,7 @@ public static class IJobParallelForSPMDExtensions
     public static void Run<T, TNumber0, TNumber1>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
         where T : IJobSPMD<TNumber0, TNumber1>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     {
         if (WideLane.IsSupported)
         {
@@ -719,7 +719,7 @@ public static class IJobParallelForSPMDExtensions
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobSPMD<TNumber0, TNumber1>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
     {
         if (WideLane.IsSupported)
         {
@@ -759,8 +759,8 @@ public static class IJobParallelForSPMDExtensions
     public static void Run<T, TNumber0, TNumber1, TNumber2>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
     {
         if (WideLane.IsSupported)
         {
@@ -811,8 +811,8 @@ public static class IJobParallelForSPMDExtensions
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
     {
         if (WideLane.IsSupported)
         {
@@ -853,9 +853,9 @@ public static class IJobParallelForSPMDExtensions
     public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
-    where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
     {
         if (WideLane.IsSupported)
         {
@@ -907,9 +907,9 @@ public static class IJobParallelForSPMDExtensions
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2, TNumber3>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
-    where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
     {
         if (WideLane.IsSupported)
         {
@@ -951,10 +951,10 @@ public static class IJobParallelForSPMDExtensions
     public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
-    where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
-    where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
+        where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
     {
         if (WideLane.IsSupported)
         {
@@ -1007,10 +1007,10 @@ public static class IJobParallelForSPMDExtensions
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
-    where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
-    where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
+        where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
     {
         if (WideLane.IsSupported)
         {
@@ -1053,11 +1053,11 @@ public static class IJobParallelForSPMDExtensions
     public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
-    where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
-    where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
-    where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
+        where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
+        where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
     {
         if (WideLane.IsSupported)
         {
@@ -1111,11 +1111,11 @@ public static class IJobParallelForSPMDExtensions
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
-    where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
-    where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
-    where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
+        where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
+        where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
     {
         if (WideLane.IsSupported)
         {
@@ -1159,12 +1159,12 @@ public static class IJobParallelForSPMDExtensions
     public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
-    where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
-    where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
-    where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
-    where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
+        where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
+        where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
+        where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>
     {
         if (WideLane.IsSupported)
         {
@@ -1219,12 +1219,12 @@ public static class IJobParallelForSPMDExtensions
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
-    where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
-    where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
-    where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
-    where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
+        where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
+        where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
+        where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>
     {
         if (WideLane.IsSupported)
         {
@@ -1269,13 +1269,13 @@ public static class IJobParallelForSPMDExtensions
     public static void Run<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
-    where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
-    where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
-    where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
-    where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>
-    where TNumber7 : unmanaged, INumber<TNumber7>, IBinaryNumber<TNumber7>, IMinMaxValue<TNumber7>, IBitwiseOperators<TNumber7, TNumber7, TNumber7>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
+        where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
+        where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
+        where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>
+        where TNumber7 : unmanaged, INumber<TNumber7>, IBinaryNumber<TNumber7>, IMinMaxValue<TNumber7>, IBitwiseOperators<TNumber7, TNumber7, TNumber7>
     {
         if (WideLane.IsSupported)
         {
@@ -1331,13 +1331,13 @@ public static class IJobParallelForSPMDExtensions
     public static JobHandle ScheduleParallelSPDM<T, TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
         where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>
-    where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
-    where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
-    where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
-    where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
-    where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
-    where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>
-    where TNumber7 : unmanaged, INumber<TNumber7>, IBinaryNumber<TNumber7>, IMinMaxValue<TNumber7>, IBitwiseOperators<TNumber7, TNumber7, TNumber7>
+        where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1>
+        where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2>
+        where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3>
+        where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4>
+        where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5>
+        where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>
+        where TNumber7 : unmanaged, INumber<TNumber7>, IBinaryNumber<TNumber7>, IMinMaxValue<TNumber7>, IBitwiseOperators<TNumber7, TNumber7, TNumber7>
     {
         if (WideLane.IsSupported)
         {

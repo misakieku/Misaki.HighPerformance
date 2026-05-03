@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace Misaki.HighPerformance.Jobs;
 
 /// <summary>
@@ -37,6 +39,20 @@ public interface IJobParallel
     /// <param name="endIndex">The zero-based index at which to end the operation.</param>
     /// <param name="ctx">The context of the job execution, providing access to thread-specific information and job scheduling capabilities.</param>
     void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx);
+}
+
+internal unsafe struct CombinedDependenciesJob : IJob
+{
+    public JobHandle* dependencies;
+    public int dependencyCount;
+
+    public readonly void Execute(ref readonly JobExecutionContext ctx)
+    {
+        var span = new Span<JobHandle>(dependencies, dependencyCount);
+        ctx.JobScheduler.WaitAll(span);
+
+        NativeMemory.Free(dependencies);
+    }
 }
 
 public static class IJobExtensions

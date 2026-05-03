@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <AssemblyVersion>3.1.3</AssemblyVersion>
+    <AssemblyVersion>3.1.4</AssemblyVersion>
     <Version>$(AssemblyVersion)</Version>
     <Authors>Misaki</Authors>
     <PackageProjectUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</PackageProjectUrl>

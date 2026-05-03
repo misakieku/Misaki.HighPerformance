@@ -31,6 +31,10 @@ public static unsafe class WideLane
     }
 }
 
+// TODO: We can use source generator to generate the optimized code for different hardware (e.g.,SSE, AVX, AVX2, etc.) and select the best version at runtime.
+// Right now, we rely on Vector API to auto vectorize the code.
+// This works fine in jit, but require user to build multiple binaries with different target architectures to get the best performance in NativeAOT via IlcInstructionSet.
+
 [StructLayout(LayoutKind.Sequential)]
 public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNumber>, TNumber>
     where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>

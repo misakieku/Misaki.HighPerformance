@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Analyzer/">
+    <Project Path="Misaki.HighPerformance.Analyzer/Misaki.HighPerformance.Analyzer.CodeFixes/Misaki.HighPerformance.Analyzer.CodeFixes.csproj" />
+    <Project Path="Misaki.HighPerformance.Analyzer/Misaki.HighPerformance.Analyzer.Package/Misaki.HighPerformance.Analyzer.Package.csproj" />
+    <Project Path="Misaki.HighPerformance.Analyzer/Misaki.HighPerformance.Analyzer/Misaki.HighPerformance.Analyzer.csproj" />
+  </Folder>
+  <Project Path="Misaki.HighPerformance.Image/Misaki.HighPerformance.Image.csproj" />
+  <Project Path="Misaki.HighPerformance.Jobs/Misaki.HighPerformance.Jobs.csproj" />
+  <Project Path="Misaki.HighPerformance.LowLevel/Misaki.HighPerformance.LowLevel.csproj" />
+  <Project Path="Misaki.HighPerformance.Mathematics.CodeGen/Misaki.HighPerformance.Mathematics.CodeGen.csproj" />
+  <Project Path="Misaki.HighPerformance.Mathematics.SPMD/Misaki.HighPerformance.Mathematics.SPMD.csproj" />
+  <Project Path="Misaki.HighPerformance.Mathematics/Misaki.HighPerformance.Mathematics.csproj" />
+  <Project Path="Misaki.HighPerformance.Test/Misaki.HighPerformance.Test.csproj" />
+  <Project Path="Misaki.HighPerformance/Misaki.HighPerformance.csproj" />
+</Solution>

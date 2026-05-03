@@ -88,7 +88,7 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="ctx">The job execution context providing information about the current execution environment.</param>
     public static void Run<T, <#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>(this T job, int totalIteration, ref readonly JobExecutionContext ctx)
         where T : IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
-    <#= GetTNumberRestrictions(i + 1) #>
+<#= GetTNumberRestrictions(i + 1, "        ") #>
     {
         if (WideLane.IsSupported)
         {
@@ -136,7 +136,7 @@ public static class IJobParallelForSPMDExtensions
     /// <param name="dependencies">Any job handles that this job depends on, which must complete before this job can start.</param>
     public static JobHandle ScheduleParallelSPDM<T, <#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>(this JobScheduler jobScheduler, ref T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobSPMD<<#= ForEachDimension(i + 1, j => $"TNumber{j}") #>>
-    <#= GetTNumberRestrictions(i + 1) #>
+<#= GetTNumberRestrictions(i + 1, "        ") #>
     {
         if (WideLane.IsSupported)
         {

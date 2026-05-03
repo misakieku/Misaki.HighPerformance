@@ -101,3 +101,13 @@ public unsafe struct IncrementJob : IJob
         Interlocked.Increment(ref *pCounter);
     }
 }
+
+public unsafe struct CustomJob
+{
+    public int* value;
+
+    public static void Execute(ref CustomJob job, ref JobRanges jobRanges, ref readonly JobExecutionContext ctx)
+    {
+        *job.value += 1;
+    }
+}

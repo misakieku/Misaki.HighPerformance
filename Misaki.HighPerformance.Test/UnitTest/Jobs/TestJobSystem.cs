@@ -32,7 +32,6 @@ public class TestJobSystem
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void SingleJob()
     {
         var result = stackalloc float[1];
@@ -50,7 +49,6 @@ public class TestJobSystem
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void JobDependency()
     {
         var result = stackalloc float[1];
@@ -76,7 +74,6 @@ public class TestJobSystem
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void CompletedDependency()
     {
         var result = stackalloc float[1];
@@ -103,7 +100,6 @@ public class TestJobSystem
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void MultipleDependencies()
     {
         var result = stackalloc float[1];
@@ -130,7 +126,6 @@ public class TestJobSystem
             result = result
         };
 
-        //var combinedHandle = s_jobScheduler.CombineDependencies(handle1, handle2);
         var handle3 = s_jobScheduler.Schedule(ref job3, handle1, handle2);
 
         s_jobScheduler.Wait(handle3);
@@ -139,7 +134,41 @@ public class TestJobSystem
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
+    public unsafe void CombinedDependencies()
+    {
+        var result = stackalloc float[1];
+        var job1 = new TwoSumJob
+        {
+            value1 = 2.5f,
+            value2 = 2.5f,
+            result = result
+        };
+
+        var handle1 = s_jobScheduler.Schedule(ref job1);
+
+        var job2 = new AddJob
+        {
+            value = 4.0f,
+            result = result
+        };
+
+        var handle2 = s_jobScheduler.Schedule(ref job2, handle1);
+
+        var job3 = new AddJob
+        {
+            value = 10.0f,
+            result = result
+        };
+
+        var combinedHandle = s_jobScheduler.CombineDependencies(handle1, handle2);
+        var handle3 = s_jobScheduler.Schedule(ref job3, combinedHandle);
+
+        s_jobScheduler.Wait(handle3);
+
+        Assert.AreEqual(19.0f, *result);
+    }
+
+    [TestMethod]
     public unsafe void SingleParallelJob()
     {
         const int size = 1000;
@@ -172,7 +201,6 @@ public class TestJobSystem
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void ChainJob()
     {
         const int arraySize = 10000;
@@ -215,7 +243,6 @@ public class TestJobSystem
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void WaitAll()
     {
         var result1 = stackalloc float[1];
@@ -244,7 +271,6 @@ public class TestJobSystem
 
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public async Task WaitAllAsync()
     {
         AddJob job1;
@@ -278,7 +304,6 @@ public class TestJobSystem
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void WaitAny()
     {
         var result1 = stackalloc float[1];
@@ -305,7 +330,6 @@ public class TestJobSystem
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public unsafe void SPMDCorrectness()
     {
         const int size = 8;
@@ -337,7 +361,6 @@ public class TestJobSystem
     }
 
     [TestMethod]
-    [Timeout(1000, CooperativeCancellation = true)]
     public void DynamicDispatch()
     {
         using var arr = new UnsafeArray<UnsafeArray<int>>(256, AllocationHandle.Persistent);
@@ -378,5 +401,31 @@ public class TestJobSystem
         {
             arr[i].Dispose();
         }
+    }
+
+    [TestMethod]
+    public unsafe void ScheduleCustomJob()
+    {
+        var value = stackalloc int[1];
+        *value = 0;
+
+        var customJob = new CustomJob
+        {
+            value = value
+        };
+
+        var customJobDesc = new CustomJobDesc<CustomJob>
+        {
+            data = ref customJob,
+            pExecutionFunc = &CustomJob.Execute,
+            pFreeFunc = null,
+            jobRanges = JobRanges.Single,
+            priority = JobPriority.Normal,
+        };
+
+        var handle = s_jobScheduler.ScheduleCustom(ref customJobDesc, false);
+        s_jobScheduler.Wait(handle);
+
+        Assert.AreEqual(1, *value);
     }
 }

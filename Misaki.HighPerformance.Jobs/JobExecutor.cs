@@ -65,4 +65,31 @@ internal static class JobExecutor
             job.Execute(start, end, in ctx);
         }
     }
+
+    public unsafe static void ExecuteCustom<T>(int dataID, int dataGeneration, ref JobRanges jobRanges, ref readonly JobExecutionContext ctx)
+    {
+        ref var job = ref JobDataPool<T>.GetReference(dataID, dataGeneration, out var exists);
+        Debug.Assert(exists, "Job data not found in the pool.");
+
+        ref var jobInfo = ref ctx.JobScheduler.GetJobInfoReference(ctx.SelfHandle, out var exist);
+        Debug.Assert(exist, "Job info not found for the executing job.");
+
+        if (jobInfo.pCustomExecutionFunc != null)
+        {
+            ((delegate*<ref T, ref JobRanges, ref readonly JobExecutionContext, void>)jobInfo.pCustomExecutionFunc)(ref job, ref jobRanges, in ctx);
+        }
+    }
+
+    public unsafe static void FreeCustom<T>(ref readonly JobInfo jobInfo)
+    {
+        ref var job = ref JobDataPool<T>.GetReference(jobInfo.dataID, jobInfo.dataGeneration, out var exists);
+        Debug.Assert(exists, "Job data not found in the pool.");
+
+        if (jobInfo.pCustomFreeFunc != null)
+        {
+            ((delegate*<ref T, void>)jobInfo.pCustomFreeFunc)(ref job);
+        }
+
+        JobDataPool<T>.Free(in jobInfo);
+    }
 }

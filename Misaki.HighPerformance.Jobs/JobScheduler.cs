@@ -2,6 +2,7 @@ using Misaki.HighPerformance.Collections;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
@@ -519,7 +520,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         if (info.pFreeFunc != null)
         {
-            info.pFreeFunc(info.dataID, info.dataGeneration);
+            info.pFreeFunc(in info);
         }
 
         _jobInfoPool.Remove(handle.ID, handle.Generation);
@@ -765,12 +766,12 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <summary>
     /// Schedules a custom job for execution with user-defined <see cref="JobInfo"/>.
     /// </summary>
-    /// <param name="jobInfo">The information about the job to be scheduled.</param>
+    /// <param name="jobDesc">The description of the custom job to be scheduled, containing all necessary information for execution.</param>
     /// <param name="preferLocal">A value indicating whether the job should be preferred to run on the local thread.</param>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public JobHandle ScheduleCustom<T>(CustomJobDesc<T> jobDesc, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
+    public JobHandle ScheduleCustom<T>(ref readonly CustomJobDesc<T> jobDesc, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
         where T : struct
     {
         if (jobDesc.jobRanges.totalIteration == 0 || jobDesc.jobRanges.batchSize == 0 || Unsafe.IsNullRef(in jobDesc.data))
@@ -784,8 +785,11 @@ public sealed unsafe partial class JobScheduler : IDisposable
             dataID = id,
             dataGeneration = generation,
 
-            pExecutionFunc = jobDesc.pExecutionFunc,
-            pFreeFunc = jobDesc.pFreeFunc,
+            pExecutionFunc = &JobExecutor.ExecuteCustom<T>,
+            pFreeFunc = &JobExecutor.FreeCustom<T>,
+
+            pCustomExecutionFunc = jobDesc.pExecutionFunc,
+            pCustomFreeFunc = jobDesc.pFreeFunc,
 
             priority = jobDesc.priority,
             jobRanges = jobDesc.jobRanges,
@@ -797,19 +801,30 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <summary>
     /// Combines multiple job dependencies into a single <see cref="JobHandle"/>.
     /// </summary>
+    /// <remarks>
+    /// Use this for large number of dependencies to avoid deep dependency chains, potential overflow of the dependency chain capacity, and reduce scheduling overhead.
+    /// </remarks>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> instances representing the dependencies to combine.</param>
     /// <returns>A <see cref="JobHandle"/> that represents the combined dependencies. The returned handle can be used to ensure that all specified dependencies are completed before proceeding.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle CombineDependencies(params ReadOnlySpan<JobHandle> dependencies)
     {
-        var jobInfo = new JobInfo
+        if (dependencies.Length == 0)
         {
-            pExecutionFunc = null,
-            pFreeFunc = null,
-            jobRanges = JobRanges.Single,
+            return JobHandle.Invalid;
+        }
+
+        var size = (uint)dependencies.Length * (uint)sizeof(JobHandle);
+        var pDependencies = (JobHandle*)NativeMemory.Alloc(size);
+        var job = new CombinedDependenciesJob
+        {
+            dependencies = pDependencies,
+            dependencyCount = dependencies.Length
         };
 
-        return CreateJobHandle(ref jobInfo, false, dependencies);
+        Unsafe.CopyBlock(ref *(byte*)pDependencies, ref MemoryMarshal.GetReference(MemoryMarshal.AsBytes(dependencies)), size);
+
+        return Schedule(in job);
     }
 
     /// <summary>

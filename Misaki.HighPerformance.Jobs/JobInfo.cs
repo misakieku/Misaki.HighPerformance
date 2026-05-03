@@ -54,9 +54,9 @@ public struct JobRanges
 
 public unsafe ref struct CustomJobDesc<T>
 {
-    public required ref readonly T data;
-    public required delegate*<int, int, ref JobRanges, ref readonly JobExecutionContext, void> pExecutionFunc;
-    public required delegate*<int, int, void> pFreeFunc;
+    public required ref T data;
+    public required delegate*<ref T, ref JobRanges, ref readonly JobExecutionContext, void> pExecutionFunc;
+    public required delegate*<ref T, void> pFreeFunc;
     public JobRanges jobRanges;
     public JobPriority priority;
 }
@@ -104,7 +104,10 @@ internal unsafe struct JobInfo
     }
 
     public delegate*<int, int, ref JobRanges, ref readonly JobExecutionContext, void> pExecutionFunc;
-    public delegate*<int, int, void> pFreeFunc;
+    public delegate*<ref readonly JobInfo, void> pFreeFunc;
+
+    public void* pCustomExecutionFunc;
+    public void* pCustomFreeFunc;
 
     public int dataID;
     public int dataGeneration;
@@ -118,7 +121,7 @@ internal unsafe struct JobInfo
     public int dependencyCount; // Numbers of jobs that this job depends on, when it reaches 0, the job can be executed
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public DependentIterator GetDependentIterator(ReadOnlySpan<JobEdge> edgePool)
+    public readonly DependentIterator GetDependentIterator(ReadOnlySpan<JobEdge> edgePool)
     {
         return new DependentIterator(firstDependentEdgeIndex, edgePool);
     }
