@@ -334,15 +334,10 @@ public sealed unsafe partial class JobScheduler : IDisposable
         for (var i = 0; i < dependencies.Length; i++)
         {
             var dependency = dependencies[i];
-            if (!dependency.IsValid)
-            {
-                continue;
-            }
 
             ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(dependency.ID, dependency.Generation, out var exist);
             if (!exist)
             {
-                // Dependency does not exist (likely completed already)
                 Interlocked.Decrement(ref infoInPool.dependencyCount);
                 continue;
             }
