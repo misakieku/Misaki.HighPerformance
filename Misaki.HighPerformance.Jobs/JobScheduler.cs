@@ -767,7 +767,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleCustom<T>(ref readonly CustomJobDesc<T> jobDesc, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
-        where T : struct
     {
         if (jobDesc.jobRanges.totalIteration == 0 || jobDesc.jobRanges.batchSize == 0 || Unsafe.IsNullRef(in jobDesc.data))
         {
@@ -792,6 +791,16 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         return CreateJobHandle(ref jobInfo, preferLocal, dependencies);
     }
+
+    /// <summary>
+    /// Schedules a custom job for execution with user-defined <see cref="JobInfo"/>.
+    /// </summary>
+    /// <param name="jobDesc">The description of the custom job to be scheduled, containing all necessary information for execution.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    /// <returns></returns>
+    public JobHandle ScheduleCustom<T>(ref readonly CustomJobDesc<T> jobDesc, params ReadOnlySpan<JobHandle> dependencies)
+        => ScheduleCustom(in jobDesc, false, dependencies);
 
     /// <summary>
     /// Combines multiple job dependencies into a single <see cref="JobHandle"/>.

@@ -41,6 +41,26 @@ public interface IJobParallel
     void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx);
 }
 
+/// <summary>
+/// Represents a custom job with user-defined execution and cleanup logic, allowing for more flexible job definitions beyond the standard interfaces.
+/// </summary>
+/// <typeparam name="TSelf"></typeparam>
+public interface ICustomJob<TSelf>
+{
+    /// <summary>
+    /// Executes the job logic, providing access to the job's own state, the job ranges for parallel execution, and the job execution context for thread-specific information and scheduling capabilities.
+    /// </summary>
+    /// <param name="job">The job instance to execute.</param>
+    /// <param name="jobRanges">The ranges of items to process.</param>
+    /// <param name="ctx">The context of the job execution.</param>
+    static abstract void Execute(ref TSelf job, ref JobRanges jobRanges, ref readonly JobExecutionContext ctx);
+    /// <summary>
+    /// Frees any resources associated with the job after execution, allowing for cleanup of unmanaged resources or other necessary finalization steps.
+    /// </summary>
+    /// <param name="job">The job instance to clean up.</param>
+    static abstract void Free(ref TSelf job);
+}
+
 internal unsafe struct CombinedDependenciesJob : IJob
 {
     public JobHandle* dependencies;
@@ -57,12 +77,24 @@ internal unsafe struct CombinedDependenciesJob : IJob
 
 public static class IJobExtensions
 {
+    /// <summary>
+    /// Runs the job in the calling thread, blocking until the job is complete.
+    /// </summary>
+    /// <typeparam name="T">The type of the job.</typeparam>
+    /// <param name="job">The job to run.</param>
+    /// <param name="ctx">The job execution context.</param>
     public static void Run<T>(this T job, ref readonly JobExecutionContext ctx)
         where T : IJob
     {
         job.Execute(in ctx);
     }
 
+    /// <summary>
+    /// Runs the job by reference in the calling thread, blocking until the job is complete.
+    /// </summary>
+    /// <typeparam name="T">The type of the job.</typeparam>
+    /// <param name="job">The job to run.</param>
+    /// <param name="ctx">The job execution context.</param>
     public static void RunRef<T>(this ref T job, ref readonly JobExecutionContext ctx)
         where T : struct, IJob
     {
@@ -72,6 +104,13 @@ public static class IJobExtensions
 
 public static class IJobParallelForExtensions
 {
+    /// <summary>
+    /// Runs the job in the calling thread, blocking until the job is complete.
+    /// </summary>
+    /// <typeparam name="T">The type of the job.</typeparam>
+    /// <param name="job">The job to run.</param>
+    /// <param name="totalIterations">The total number of iterations.</param>
+    /// <param name="ctx">The job execution context.</param>
     public static void Run<T>(this T job, int totalIterations, ref readonly JobExecutionContext ctx)
         where T : IJobParallelFor
     {
@@ -81,6 +120,13 @@ public static class IJobParallelForExtensions
         }
     }
 
+    /// <summary>
+    /// Runs the job by reference in the calling thread, blocking until the job is complete.
+    /// </summary>
+    /// <typeparam name="T">The type of the job.</typeparam>
+    /// <param name="job">The job to run.</param>
+    /// <param name="totalIterations">The total number of iterations.</param>
+    /// <param name="ctx">The job execution context.</param>
     public static void RunRef<T>(this ref T job, int totalIterations, ref readonly JobExecutionContext ctx)
         where T : struct, IJobParallelFor
     {
@@ -93,12 +139,26 @@ public static class IJobParallelForExtensions
 
 public static class IJobParallelExtensions
 {
+    /// <summary>
+    /// Runs the job in the calling thread, blocking until the job is complete.
+    /// </summary>
+    /// <typeparam name="T">The type of the job.</typeparam>
+    /// <param name="job">The job to run.</param>
+    /// <param name="totalIterations">The total number of iterations.</param>
+    /// <param name="ctx">The job execution context.</param>
     public static void Run<T>(this T job, int totalIterations, ref readonly JobExecutionContext ctx)
         where T : IJobParallel
     {
         job.Execute(0, totalIterations, in ctx);
     }
 
+    /// <summary>
+    /// Runs the job by reference in the calling thread, blocking until the job is complete.
+    /// </summary>
+    /// <typeparam name="T">The type of the job.</typeparam>
+    /// <param name="job">The job to run.</param>
+    /// <param name="totalIterations">The total number of iterations.</param>
+    /// <param name="ctx">The job execution context.</param>
     public static void RunRef<T>(this ref T job, int totalIterations, ref readonly JobExecutionContext ctx)
         where T : struct, IJobParallel
     {

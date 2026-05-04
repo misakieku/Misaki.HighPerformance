@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -106,15 +107,15 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     {
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<Vector<TNumber>, Vector<float>>(ref vector);
+            var v = Unsafe.BitCast<Vector<TNumber>, Vector<float>>(vector);
             var floored = Vector.Floor(v);
-            return Unsafe.As<Vector<float>, Vector<TNumber>>(ref floored);
+            return Unsafe.BitCast<Vector<float>, Vector<TNumber>>(floored);
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<Vector<TNumber>, Vector<double>>(ref vector);
+            var v = Unsafe.BitCast<Vector<TNumber>, Vector<double>>(vector);
             var floored = Vector.Floor(v);
-            return Unsafe.As<Vector<double>, Vector<TNumber>>(ref floored);
+            return Unsafe.BitCast<Vector<double>, Vector<TNumber>>(floored);
         }
 
         return vector;
@@ -125,15 +126,15 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     {
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<Vector<TNumber>, Vector<float>>(ref vector);
+            var v = Unsafe.BitCast<Vector<TNumber>, Vector<float>>(vector);
             var truncated = Vector.Truncate(v);
-            return Unsafe.As<Vector<float>, Vector<TNumber>>(ref truncated);
+            return Unsafe.BitCast<Vector<float>, Vector<TNumber>>(truncated);
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<Vector<TNumber>, Vector<double>>(ref vector);
+            var v = Unsafe.BitCast<Vector<TNumber>, Vector<double>>(vector);
             var truncated = Vector.Truncate(v);
-            return Unsafe.As<Vector<double>, Vector<TNumber>>(ref truncated);
+            return Unsafe.BitCast<Vector<double>, Vector<TNumber>>(truncated);
         }
 
         return vector;
@@ -165,22 +166,22 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         if (LaneWidth == Vector512<TNumber>.Count)
         {
             var v = Vector512.CreateSequence(start, step);
-            return Unsafe.As<Vector512<TNumber>, WideLane<TNumber>>(ref v);
+            return Unsafe.BitCast<Vector512<TNumber>, WideLane<TNumber>>(v);
         }
         else if (LaneWidth == Vector256<TNumber>.Count)
         {
             var v = Vector256.CreateSequence(start, step);
-            return Unsafe.As<Vector256<TNumber>, WideLane<TNumber>>(ref v);
+            return Unsafe.BitCast<Vector256<TNumber>, WideLane<TNumber>>(v);
         }
         else if (LaneWidth == Vector128<TNumber>.Count)
         {
             var v = Vector128.CreateSequence(start, step);
-            return Unsafe.As<Vector128<TNumber>, WideLane<TNumber>>(ref v);
+            return Unsafe.BitCast<Vector128<TNumber>, WideLane<TNumber>>(v);
         }
         else if (LaneWidth == Vector64<TNumber>.Count)
         {
             var v = Vector64.CreateSequence(start, step);
-            return Unsafe.As<Vector64<TNumber>, WideLane<TNumber>>(ref v);
+            return Unsafe.BitCast<Vector64<TNumber>, WideLane<TNumber>>(v);
         }
         else
         {
@@ -202,51 +203,145 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static WideLane<TNumber> MaskLoad(WideLane<TNumber> mask, ref TNumber value)
+    public static WideLane<TNumber> MaskLoad(TNumber* pValue, WideLane<TNumber> mask)
     {
-        var vector = Vector.LoadUnsafe(ref value);
-        return new WideLane<TNumber>(Vector.ConditionalSelect(mask.value, vector, Vector<TNumber>.Zero));
+        if (Avx.IsSupported)
+        {
+            if (LaneWidth == Vector128<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(float))
+                {
+                    var result = Avx.MaskLoad((float*)pValue, Unsafe.BitCast<WideLane<TNumber>, Vector128<float>>(mask));
+                    return Unsafe.BitCast<Vector128<float>, WideLane<TNumber>>(result);
+                }
+                else if (sizeof(TNumber) == sizeof(double))
+                {
+                    var result = Avx.MaskLoad((double*)pValue, Unsafe.BitCast<WideLane<TNumber>, Vector128<double>>(mask));
+                    return Unsafe.BitCast<Vector128<double>, WideLane<TNumber>>(result);
+                }
+            }
+            else if (LaneWidth == Vector256<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(float))
+                {
+                    var result = Avx.MaskLoad((float*)pValue, Unsafe.BitCast<WideLane<TNumber>, Vector256<float>>(mask));
+                    return Unsafe.BitCast<Vector256<float>, WideLane<TNumber>>(result);
+                }
+                else if (sizeof(TNumber) == sizeof(double))
+                {
+                    var result = Avx.MaskLoad((double*)pValue, Unsafe.BitCast<WideLane<TNumber>, Vector256<double>>(mask));
+                    return Unsafe.BitCast<Vector256<double>, WideLane<TNumber>>(result);
+                }
+            }
+        }
+
+        Unsafe.SkipInit(out WideLane<TNumber> v);
+        var pv = (TNumber*)&v;
+
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            // TODO: Can we assume pData is padded with TLane.LaneWidth?
+            // In that case we can use Load + Select instead of checking mask for each element, which should be faster.
+            pv[i] = (mask.value[i] != TNumber.Zero) ? pValue[i] : TNumber.Zero;
+        }
+
+        return v;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static WideLane<TNumber> MaskLoad(WideLane<TNumber> mask, TNumber* pValue)
+    public static WideLane<TNumber> MaskLoad(ref TNumber value, WideLane<TNumber> mask)
     {
-        return MaskLoad(mask, ref Unsafe.AsRef<TNumber>(pValue));
+        return MaskLoad((TNumber*)Unsafe.AsPointer(ref value), mask);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static WideLane<TNumber> Gather(TNumber* pData, WideLane<TNumber> indices, int scale)
+    public static WideLane<TNumber> Gather(TNumber* pData, WideLane<TNumber> indices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
     {
-        return Gather(ref Unsafe.AsRef<TNumber>(pData), indices, scale);
-    }
+        if (Avx2.IsSupported)
+        {
+            if (LaneWidth == Vector128<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = SPMDUtility.GetIndicesAs128Int32(indices.value);
+                    var vx = Avx2.GatherVector128((uint*)pData, vidx, scale);
+                    return Unsafe.BitCast<Vector128<uint>, WideLane<TNumber>>(vx);
+                }
+                else if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = SPMDUtility.GetIndicesAs128Int64(indices.value);
+                    var vx = Avx2.GatherVector128((ulong*)pData, vidx, scale);
+                    return Unsafe.BitCast<Vector128<ulong>, WideLane<TNumber>>(vx);
+                }
+            }
+            else if (LaneWidth == Vector256<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = SPMDUtility.GetIndicesAs256Int32(indices.value);
+                    var vx = Avx2.GatherVector256((uint*)pData, vidx, scale);
+                    return Unsafe.BitCast<Vector256<uint>, WideLane<TNumber>>(vx);
+                }
+                else if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = SPMDUtility.GetIndicesAs256Int64(indices.value);
+                    var vx = Avx2.GatherVector256((ulong*)pData, vidx, scale);
+                    return Unsafe.BitCast<Vector256<ulong>, WideLane<TNumber>>(vx);
+                }
+            }
+        }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static WideLane<TNumber> Gather(TNumber* pData, int* pIndices, int scale)
-    {
-        return Gather(ref Unsafe.AsRef<TNumber>(pData), ref Unsafe.AsRef<int>(pIndices), scale);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static WideLane<TNumber> Gather(ref TNumber baseAddress, WideLane<TNumber> indices, int scale)
-    {
         Unsafe.SkipInit(out Vector<TNumber> result);
 
         var pResult = (TNumber*)&result;
-        var pIndices = (TNumber*)&indices;
 
         var count = Vector<TNumber>.Count;
         for (var i = 0; i < count; i++)
         {
-            var idx = int.CreateTruncating(pIndices[i]);
-            pResult[i] = Unsafe.Add(ref baseAddress, idx * scale / sizeof(TNumber));
+            var idx = int.CreateTruncating(indices[i]);
+            pResult[i] = *(TNumber*)((byte*)pData + (idx * scale));
         }
 
         return new WideLane<TNumber>(result);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static WideLane<TNumber> Gather(ref TNumber baseAddress, ref int baseIndex, int scale)
+    public static WideLane<TNumber> Gather(TNumber* pData, int* pIndices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
     {
+        if (Avx2.IsSupported)
+        {
+            if (LaneWidth == Vector128<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = Vector128.Load(pIndices);
+                    var vx = Avx2.GatherVector128((uint*)pData, vidx, scale);
+                    return Unsafe.BitCast<Vector128<uint>, WideLane<TNumber>>(vx);
+                }
+                else if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = Vector128.Load(pIndices);
+                    var vx = Avx2.GatherVector128((ulong*)pData, vidx, scale);
+                    return Unsafe.BitCast<Vector128<ulong>, WideLane<TNumber>>(vx);
+                }
+            }
+            else if (LaneWidth == Vector256<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = Vector256.Load(pIndices);
+                    var vx = Avx2.GatherVector256((uint*)pData, vidx, scale);
+                    return Unsafe.BitCast<Vector256<uint>, WideLane<TNumber>>(vx);
+                }
+                else if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = Vector128.Load(pIndices);
+                    var vx = Avx2.GatherVector256((ulong*)pData, vidx, scale);
+                    return Unsafe.BitCast<Vector256<ulong>, WideLane<TNumber>>(vx);
+                }
+            }
+        }
+
         Unsafe.SkipInit(out Vector<TNumber> result);
 
         var pResult = (TNumber*)&result;
@@ -254,7 +349,128 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         var count = Vector<TNumber>.Count;
         for (var i = 0; i < count; i++)
         {
-            pResult[i] = Unsafe.Add(ref baseAddress, Unsafe.Add(ref baseIndex, i) * scale / sizeof(TNumber));
+            pResult[i] = *(TNumber*)((byte*)pData + (pIndices[i] * scale));
+        }
+
+        return new WideLane<TNumber>(result);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> Gather(ref TNumber baseAddress, WideLane<TNumber> indices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
+    {
+        return Gather((TNumber*)Unsafe.AsPointer(ref baseAddress), indices, scale);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> Gather(ref TNumber baseAddress, ref int baseIndex, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
+    {
+        return Gather((TNumber*)Unsafe.AsPointer(ref baseAddress), (int*)Unsafe.AsPointer(ref baseIndex), scale);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> MaskGather(TNumber* pData, WideLane<TNumber> indices, WideLane<TNumber> mask, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
+    {
+        if (Avx2.IsSupported)
+        {
+            if (LaneWidth == Vector128<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = SPMDUtility.GetIndicesAs128Int32(indices.value);
+                    var vmask = Unsafe.BitCast<WideLane<TNumber>, Vector128<uint>>(mask);
+                    var vx = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)pData, vidx, vmask, scale);
+                    return Unsafe.BitCast<Vector128<uint>, WideLane<TNumber>>(vx);
+                }
+                else if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = SPMDUtility.GetIndicesAs128Int64(indices.value);
+                    var vmask = Unsafe.BitCast<WideLane<TNumber>, Vector128<ulong>>(mask);
+                    var vx = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)pData, vidx, vmask, scale);
+                    return Unsafe.BitCast<Vector128<ulong>, WideLane<TNumber>>(vx);
+                }
+            }
+            else if (LaneWidth == Vector256<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = SPMDUtility.GetIndicesAs256Int32(indices.value);
+                    var vmask = Unsafe.BitCast<WideLane<TNumber>, Vector256<uint>>(mask);
+                    var vx = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)pData, vidx, vmask, scale);
+                    return Unsafe.BitCast<Vector256<uint>, WideLane<TNumber>>(vx);
+                }
+                else if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = SPMDUtility.GetIndicesAs256Int64(indices.value);
+                    var vmask = Unsafe.BitCast<WideLane<TNumber>, Vector256<ulong>>(mask);
+                    var vx = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)pData, vidx, vmask, scale);
+                    return Unsafe.BitCast<Vector256<ulong>, WideLane<TNumber>>(vx);
+                }
+            }
+        }
+
+        Unsafe.SkipInit(out Vector<TNumber> result);
+
+        var pResult = (TNumber*)&result;
+
+        var count = Vector<TNumber>.Count;
+        for (var i = 0; i < count; i++)
+        {
+            var idx = int.CreateTruncating(indices[i]);
+            pResult[i] = *(TNumber*)((byte*)pData + (idx * scale));
+        }
+
+        return new WideLane<TNumber>(result);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> MaskGather(TNumber* pData, int* pIndices, WideLane<TNumber> mask, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
+    {
+        if (Avx2.IsSupported)
+        {
+            if (LaneWidth == Vector128<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = Vector128.Load(pIndices);
+                    var vmask = Unsafe.BitCast<WideLane<TNumber>, Vector128<uint>>(mask);
+                    var vx = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)pData, vidx, vmask, scale);
+                    return Unsafe.BitCast<Vector128<uint>, WideLane<TNumber>>(vx);
+                }
+                else if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = Vector128.Load(pIndices);
+                    var vmask = Unsafe.BitCast<WideLane<TNumber>, Vector128<ulong>>(mask);
+                    var vx = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)pData, vidx, vmask, scale);
+                    return Unsafe.BitCast<Vector128<ulong>, WideLane<TNumber>>(vx);
+                }
+            }
+            else if (LaneWidth == Vector256<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(uint))
+                {
+                    var vidx = Vector256.Load(pIndices);
+                    var vmask = Unsafe.BitCast<WideLane<TNumber>, Vector256<uint>>(mask);
+                    var vx = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)pData, vidx, vmask, scale);
+                    return Unsafe.BitCast<Vector256<uint>, WideLane<TNumber>>(vx);
+                }
+                else if (sizeof(TNumber) == sizeof(ulong))
+                {
+                    var vidx = Vector128.Load(pIndices);
+                    var vmask = Unsafe.BitCast<WideLane<TNumber>, Vector256<ulong>>(mask);
+                    var vx = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)pData, vidx, vmask, scale);
+                    return Unsafe.BitCast<Vector256<ulong>, WideLane<TNumber>>(vx);
+                }
+            }
+        }
+
+        Unsafe.SkipInit(out Vector<TNumber> result);
+
+        var pResult = (TNumber*)&result;
+
+        var count = Vector<TNumber>.Count;
+        for (var i = 0; i < count; i++)
+        {
+            pResult[i] = *(TNumber*)((byte*)pData + (pIndices[i] * scale));
         }
 
         return new WideLane<TNumber>(result);
@@ -274,35 +490,40 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public int CompressStore(WideLane<TNumber> mask, ref TNumber destination)
+    public int CompressStore(ref TNumber destination, WideLane<TNumber> mask)
+    {
+        return CompressStore((TNumber*)Unsafe.AsPointer(ref destination), mask);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public int CompressStore(TNumber* pDestination, WideLane<TNumber> mask)
     {
         if (LaneWidth == Vector512<TNumber>.Count && Vector512.IsHardwareAccelerated)
         {
             if (sizeof(TNumber) == 4)
             {
-                ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector512<uint>>(ref Unsafe.AsRef(in this));
-                var m = Unsafe.As<WideLane<TNumber>, Vector512<uint>>(ref mask);
+                var vec = Unsafe.BitCast<WideLane<TNumber>, Vector512<uint>>(Unsafe.AsRef(in this));
+                var m = Unsafe.BitCast<WideLane<TNumber>, Vector512<uint>>(mask);
 
                 var moveMask = m.ExtractMostSignificantBits();
                 // Offset is (moveMask * 16) because each control vector has 16 elements
                 var shuffle = Vector512.Load(WideLane.s_pShuffleTable512_32bit + (moveMask * 16));
                 var compressed = Vector512.Shuffle(vec, shuffle);
 
-                compressed.StoreUnsafe(ref Unsafe.As<TNumber, uint>(ref destination));
+                compressed.Store((uint*)pDestination);
                 return BitOperations.PopCount(moveMask);
             }
-
-            if (sizeof(TNumber) == 8)
+            else if (sizeof(TNumber) == 8)
             {
-                ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector512<ulong>>(ref Unsafe.AsRef(in this));
-                var m = Unsafe.As<WideLane<TNumber>, Vector512<ulong>>(ref mask);
+                var vec = Unsafe.BitCast<WideLane<TNumber>, Vector512<ulong>>(Unsafe.AsRef(in this));
+                var m = Unsafe.BitCast<WideLane<TNumber>, Vector512<ulong>>(mask);
 
                 var moveMask = m.ExtractMostSignificantBits();
                 // Offset is (moveMask * 8) because each control vector has 8 elements
                 var shuffle = Vector512.Load(WideLane.s_pShuffleTable512_64bit + (moveMask * 8));
                 var compressed = Vector512.Shuffle(vec, shuffle);
 
-                compressed.StoreUnsafe(ref Unsafe.As<TNumber, ulong>(ref destination));
+                compressed.Store((ulong*)pDestination);
                 return BitOperations.PopCount(moveMask);
             }
         }
@@ -310,22 +531,21 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             if (sizeof(TNumber) == 4)
             {
-                ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector256<uint>>(ref Unsafe.AsRef(in this));
-                var m = Unsafe.As<WideLane<TNumber>, Vector256<uint>>(ref mask);
+                var vec = Unsafe.BitCast<WideLane<TNumber>, Vector256<uint>>(Unsafe.AsRef(in this));
+                var m = Unsafe.BitCast<WideLane<TNumber>, Vector256<uint>>(mask);
 
                 var moveMask = m.ExtractMostSignificantBits();
                 // Offset is (moveMask * 8) because each control vector has 8 elements
                 var shuffle = Vector256.Load(WideLane.s_pShuffleTable256_32bit + (moveMask * 8));
                 var compressed = Vector256.Shuffle(vec, shuffle);
 
-                compressed.StoreUnsafe(ref Unsafe.As<TNumber, uint>(ref destination));
+                compressed.Store((uint*)pDestination);
                 return BitOperations.PopCount(moveMask);
             }
-
-            if (sizeof(TNumber) == 8)
+            else if (sizeof(TNumber) == 8)
             {
-                ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector256<ulong>>(ref Unsafe.AsRef(in this));
-                var m = Unsafe.As<WideLane<TNumber>, Vector256<ulong>>(ref mask);
+                var vec = Unsafe.BitCast<WideLane<TNumber>, Vector256<ulong>>(Unsafe.AsRef(in this));
+                var m = Unsafe.BitCast<WideLane<TNumber>, Vector256<ulong>>(mask);
 
                 // For 64-bit, ExtractMostSignificantBits only populates 4 bits (0-15)
                 var moveMask = m.ExtractMostSignificantBits();
@@ -334,7 +554,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
                 var shuffle = Vector256.Load(WideLane.s_pShuffleTable256_64bit + (moveMask * 4));
                 var compressed = Vector256.Shuffle(vec, shuffle);
 
-                compressed.StoreUnsafe(ref Unsafe.As<TNumber, ulong>(ref destination));
+                compressed.Store((ulong*)pDestination);
                 return BitOperations.PopCount(moveMask);
             }
         }
@@ -342,27 +562,30 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             if (sizeof(TNumber) == 4)
             {
-                ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector128<uint>>(ref Unsafe.AsRef(in this));
-                var m = Unsafe.As<WideLane<TNumber>, Vector128<uint>>(ref mask);
+                var vec = Unsafe.BitCast<WideLane<TNumber>, Vector128<uint>>(Unsafe.AsRef(in this));
+                var m = Unsafe.BitCast<WideLane<TNumber>, Vector128<uint>>(mask);
 
                 var moveMask = m.ExtractMostSignificantBits();
+
                 // Offset is (moveMask * 4) because each control vector has 4 elements
                 var shuffle = Vector128.Load(WideLane.s_pShuffleTable128_32bit + (moveMask * 4));
                 var compressed = Vector128.Shuffle(vec, shuffle);
 
-                compressed.StoreUnsafe(ref Unsafe.As<TNumber, uint>(ref destination));
+                compressed.Store((uint*)pDestination);
                 return BitOperations.PopCount(moveMask);
             }
-
-            if (sizeof(TNumber) == 8)
+            else if (sizeof(TNumber) == 8)
             {
-                ref var vec = ref Unsafe.As<WideLane<TNumber>, Vector128<ulong>>(ref Unsafe.AsRef(in this));
-                var m = Unsafe.As<WideLane<TNumber>, Vector128<ulong>>(ref mask);
+                var vec = Unsafe.BitCast<WideLane<TNumber>, Vector128<ulong>>(Unsafe.AsRef(in this));
+                var m = Unsafe.BitCast<WideLane<TNumber>, Vector128<ulong>>(mask);
+
                 var moveMask = m.ExtractMostSignificantBits();
+
                 // Offset is (moveMask * 2) because each control vector has 2 elements
                 var shuffle = Vector128.Load(WideLane.s_pShuffleTable128_64bit + (moveMask * 2));
                 var compressed = Vector128.Shuffle(vec, shuffle);
-                compressed.StoreUnsafe(ref Unsafe.As<TNumber, ulong>(ref destination));
+
+                compressed.Store((ulong*)pDestination);
                 return BitOperations.PopCount(moveMask);
             }
         }
@@ -372,9 +595,11 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         var count = 0;
         for (var i = 0; i < LaneWidth; i++)
         {
-            if (mask.value[i] == TNumber.AllBitsSet)
+            // TODO: Can we assume pData is padded with TLane.LaneWidth?
+            // In that case we can use Load + Select instead of checking mask for each element, which should be faster.
+            if (mask.value[i] != TNumber.Zero)
             {
-                Unsafe.Add(ref destination, count++) = value[i];
+                pDestination[count++] = value[i];
             }
         }
 
@@ -382,9 +607,150 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public int CompressStore(WideLane<TNumber> mask, TNumber* pDestination)
+    public void MaskStore(TNumber* pDst, WideLane<TNumber> mask)
     {
-        return CompressStore(mask, ref Unsafe.AsRef<TNumber>(pDestination));
+        if (Avx.IsSupported)
+        {
+            if (LaneWidth == Vector128<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(float))
+                {
+                    var v = Unsafe.BitCast<WideLane<TNumber>, Vector128<float>>(this);
+                    var m = Unsafe.BitCast<WideLane<TNumber>, Vector128<float>>(mask);
+                    Avx.MaskStore((float*)pDst, m, v);
+                    return;
+                }
+                else if (sizeof(TNumber) == sizeof(double))
+                {
+                    var v = Unsafe.BitCast<WideLane<TNumber>, Vector128<double>>(this);
+                    var m = Unsafe.BitCast<WideLane<TNumber>, Vector128<double>>(mask);
+                    Avx.MaskStore((double*)pDst, m, v);
+                    return;
+                }
+            }
+            else if (LaneWidth == Vector256<TNumber>.Count)
+            {
+                if (sizeof(TNumber) == sizeof(float))
+                {
+                    var v = Unsafe.BitCast<WideLane<TNumber>, Vector256<float>>(this);
+                    var m = Unsafe.BitCast<WideLane<TNumber>, Vector256<float>>(mask);
+                    Avx.MaskStore((float*)pDst, m, v);
+                    return;
+                }
+                else if (sizeof(TNumber) == sizeof(double))
+                {
+                    var v = Unsafe.BitCast<WideLane<TNumber>, Vector256<double>>(this);
+                    var m = Unsafe.BitCast<WideLane<TNumber>, Vector256<double>>(mask);
+                    Avx.MaskStore((double*)pDst, m, v);
+                    return;
+                }
+            }
+        }
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            if (mask.value[i] != TNumber.Zero)
+            {
+                pDst[i] = value[i];
+            }
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskStore(ref TNumber destination, WideLane<TNumber> mask)
+    {
+        MaskStore((TNumber*)Unsafe.AsPointer(ref destination), mask);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter(TNumber* pDst, WideLane<TNumber> indices)
+    {
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            var idx = int.CreateTruncating(indices[i]);
+            pDst[idx] = value[i];
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter(ref TNumber destination, WideLane<TNumber> indices)
+    {
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            var idx = int.CreateTruncating(indices[i]);
+            Unsafe.Add(ref destination, idx) = value[i];
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter(TNumber* pDst, int* pIndices)
+    {
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            var idx = pIndices[i];
+            pDst[idx] = value[i];
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter(ref TNumber destination, int* pIndices)
+    {
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            var idx = pIndices[i];
+            Unsafe.Add(ref destination, idx) = value[i];
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter(TNumber* pDst, WideLane<TNumber> indices, WideLane<TNumber> mask)
+    {
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            if (mask.value[i] != TNumber.Zero)
+            {
+                var idx = int.CreateTruncating(indices[i]);
+                pDst[idx] = value[i];
+            }
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter(ref TNumber destination, WideLane<TNumber> indices, WideLane<TNumber> mask)
+    {
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            if (mask.value[i] != TNumber.Zero)
+            {
+                var idx = int.CreateTruncating(indices[i]);
+                Unsafe.Add(ref destination, idx) = value[i];
+            }
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter(TNumber* pDst, int* pIndices, WideLane<TNumber> mask)
+    {
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            if (mask.value[i] != TNumber.Zero)
+            {
+                var idx = pIndices[i];
+                pDst[idx] = value[i];
+            }
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter(ref TNumber destination, int* pIndices, WideLane<TNumber> mask)
+    {
+        for (var i = 0; i < LaneWidth; i++)
+        {
+            if (mask.value[i] != TNumber.Zero)
+            {
+                var idx = pIndices[i];
+                Unsafe.Add(ref destination, idx) = value[i];
+            }
+        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -523,15 +889,15 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     {
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var floored = Vector.Floor(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref floored));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(floored));
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var floored = Vector.Floor(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref floored));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(floored));
         }
 
         return value;
@@ -560,19 +926,19 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     {
         if (typeof(TNumber) == typeof(float))
         {
-            ref var va = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref a);
-            ref var vb = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref b);
-            ref var vc = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref c);
+            var va = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(a);
+            var vb = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(b);
+            var vc = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(c);
             var result = Vector.FusedMultiplyAdd(va, vb, vc);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var va = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref a);
-            ref var vb = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref b);
-            ref var vc = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref c);
+            var va = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(a);
+            var vb = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(b);
+            var vc = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(c);
             var result = Vector.FusedMultiplyAdd(va, vb, vc);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
         }
 
         return new WideLane<TNumber>((a.value * b.value) + c.value);
@@ -636,15 +1002,15 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
 #else
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Sin(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Sin(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
         }
 
         return value;
@@ -686,15 +1052,15 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
 #else
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Cos(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Cos(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
         }
 
         return value;
@@ -769,17 +1135,17 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
 #else
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var (sinResult, cosResult) = Vector.SinCos(v);
-            sin = new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref sinResult));
-            cos = new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref cosResult));
+            sin = new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(sinResult));
+            cos = new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(cosResult));
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var (sinResult, cosResult) = Vector.SinCos(v);
-            sin = new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref sinResult));
-            cos = new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref cosResult));
+            sin = new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(sinResult));
+            cos = new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(cosResult));
         }
         else
         {
@@ -845,7 +1211,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
 
         var pi = Create(TNumber.CreateTruncating(Math.PI));
         var isNegative = LessThan(value, Zero);
-        
+
         return Select(isNegative, pi - result, result);
     }
 
@@ -922,17 +1288,17 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     {
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Exp(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Exp(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
         }
-        
+
         return value;
     }
 
@@ -947,15 +1313,15 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     {
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Log(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Log(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
         }
 
         return value;
@@ -966,15 +1332,15 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     {
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Log2(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Log2(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
         }
 
         return value;
@@ -985,15 +1351,15 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     {
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Ceiling(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Ceiling(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
         }
 
         return value;
@@ -1004,15 +1370,15 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     {
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Round(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Round(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
         }
 
         return value;
@@ -1023,15 +1389,15 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     {
         if (typeof(TNumber) == typeof(float))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<float>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Truncate(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<float>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
         }
         else if (typeof(TNumber) == typeof(double))
         {
-            ref var v = ref Unsafe.As<WideLane<TNumber>, Vector<double>>(ref value);
+            var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Truncate(v);
-            return new WideLane<TNumber>(Unsafe.As<Vector<double>, Vector<TNumber>>(ref result));
+            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
         }
 
         return value;
@@ -1062,28 +1428,28 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             if (Sse.IsSupported && LaneWidth == Vector128<float>.Count)
             {
-                ref var vf = ref Unsafe.As<WideLane<TNumber>, Vector128<float>>(ref value);
+                var vf = Unsafe.BitCast<WideLane<TNumber>, Vector128<float>>(value);
                 var x0 = Sse.Reciprocal(vf);
 #if MHP_FASTMATH
-                return Unsafe.As<Vector128<float>, WideLane<TNumber>>(ref x0);
+                return Unsafe.BitCast<Vector128<float>, WideLane<TNumber>>(x0);
 #else
                 // SSE and AVX provide fast approximate reciprocal instructions but the precision is very low (11 bits).
                 // In non-MHP_FASTMATH path, we can do one step of Newton-Raphson iteration to improve the precision to about 22 bits, which is good enough for most game use cases.
                 var x1 = x0 * (Vector128.Create(2.0f) - x0 * vf);
-                return Unsafe.As<Vector128<float>, WideLane<TNumber>>(ref x1);
+                return Unsafe.BitCast<Vector128<float>, WideLane<TNumber>>(x1);
 #endif
             }
             else if (Avx.IsSupported && LaneWidth == Vector256<float>.Count)
             {
-                ref var vf = ref Unsafe.As<WideLane<TNumber>, Vector256<float>>(ref value);
+                var vf = Unsafe.BitCast<WideLane<TNumber>, Vector256<float>>(value);
                 var x0 = Avx.Reciprocal(vf);
 #if MHP_FASTMATH
-                return Unsafe.As<Vector256<float>, WideLane<TNumber>>(ref x0);
+                return Unsafe.BitCast<Vector256<float>, WideLane<TNumber>>(x0);
 #else
                 // SSE and AVX provide fast approximate reciprocal instructions but the precision is very low (11 bits).
                 // In non-MHP_FASTMATH path, we can do one step of Newton-Raphson iteration to improve the precision to about 22 bits, which is good enough for most game use cases.
                 var x1 = x0 * (Vector256.Create(2.0f) - x0 * vf);
-                return Unsafe.As<Vector256<float>, WideLane<TNumber>>(ref x1);
+                return Unsafe.BitCast<Vector256<float>, WideLane<TNumber>>(x1);
 #endif
             }
         }
@@ -1098,28 +1464,28 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             if (Sse.IsSupported && LaneWidth == Vector128<float>.Count)
             {
-                ref var vf = ref Unsafe.As<WideLane<TNumber>, Vector128<float>>(ref value);
+                var vf = Unsafe.BitCast<WideLane<TNumber>, Vector128<float>>(value);
                 var x0 = Sse.ReciprocalSqrt(vf);
 #if MHP_FASTMATH
-                return Unsafe.As<Vector128<float>, WideLane<TNumber>>(ref x0);
+                return Unsafe.BitCast<Vector128<float>, WideLane<TNumber>>(x0);
 #else
                 // SSE and AVX provide fast approximate reciprocal sqrt instructions but the precision is very low (11 bits).
                 // In non-MHP_FASTMATH path, we can do one step of Newton-Raphson iteration to improve the precision to about 22 bits, which is good enough for most game use cases.
                 var x1 = x0 * Vector128.Create(0.5f) * (Vector128.Create(3.0f) - (vf * x0 * x0));
-                return Unsafe.As<Vector128<float>, WideLane<TNumber>>(ref x1);
+                return Unsafe.BitCast<Vector128<float>, WideLane<TNumber>>(x1);
 #endif
             }
             else if (Avx.IsSupported && LaneWidth == Vector256<float>.Count)
             {
-                ref var vf = ref Unsafe.As<WideLane<TNumber>, Vector256<float>>(ref value);
+                var vf = Unsafe.BitCast<WideLane<TNumber>, Vector256<float>>(value);
                 var x0 = Avx.ReciprocalSqrt(vf);
 #if MHP_FASTMATH
-                return Unsafe.As<Vector256<float>, WideLane<TNumber>>(ref x0);
+                return Unsafe.BitCast<Vector256<float>, WideLane<TNumber>>(x0);
 #else
                 // SSE and AVX provide fast approximate reciprocal sqrt instructions but the precision is very low (11 bits).
                 // In non-MHP_FASTMATH path, we can do one step of Newton-Raphson iteration to improve the precision to about 22 bits, which is good enough for most game use cases.
                 var x1 = x0 * Vector256.Create(0.5f) * (Vector256.Create(3.0f) - (vf * x0 * x0));
-                return Unsafe.As<Vector256<float>, WideLane<TNumber>>(ref x1);
+                return Unsafe.BitCast<Vector256<float>, WideLane<TNumber>>(x1);
 #endif
             }
         }

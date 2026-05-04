@@ -95,22 +95,13 @@ public unsafe struct {typeName} : IEquatable<{typeName}>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Store({TNumber}* pDst)
     {{
-        var width = {TLane}.LaneWidth;
-
-{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"var {components[dim]} = stackalloc {TNumber}[width];"))}
-
-{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"this.{components[dim]}.Store({components[dim]});"))}
-
-        for (var i = 0; i < width; i++)
-        {{
-{ForEachDimension(dimension, 12, Environment.NewLine, (dim, sb) => sb.Append($"pDst[i * {dimension} + {dim}] = {components[dim]}[i];"))}
-        }}
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.Store(pDst + {dim} * TLane.LaneWidth);"))}
     }}
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Store(ref {TNumber} dst)
     {{
-        Store(({TNumber}*)Unsafe.AsPointer(ref dst));
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.Store(ref Unsafe.Add(ref dst, {dim} * TLane.LaneWidth));"))}
     }}
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -123,6 +114,66 @@ public unsafe struct {typeName} : IEquatable<{typeName}>
     public void Store({ForEachDimension(dimension, 1, ",", (dim, sb) => sb.Append($"ref {TNumber} {components[dim]}"), false)})
     {{
 {ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"this.{components[dim]}.Store(ref {components[dim]});"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void CompressStore({TNumber}* pDst, {typeName} mask)
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.CompressStore(pDst + {dim} * TLane.LaneWidth, mask.{components[dim]});"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void CompressStore(ref {TNumber} dst, {typeName} mask)
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.CompressStore(ref Unsafe.Add(ref dst, {dim} * TLane.LaneWidth), mask.{components[dim]});"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter({TNumber}* pDst, {TLane} indices)
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.Scatter(pDst + {dim}, indices);"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter({TNumber}* pDst, int* pIndices)
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.Scatter(pDst + {dim}, pIndices);"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter(ref {TNumber} dst, {TLane} indices)
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.Scatter(ref Unsafe.Add(ref dst, {dim}), indices);"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter(ref {TNumber} dst, int* pIndices)
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.Scatter(ref Unsafe.Add(ref dst, {dim}), pIndices);"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter({TNumber}* pDst, {TLane} indices, {TLane} mask)
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.MaskScatter(pDst + {dim}, indices, mask);"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter({TNumber}* pDst, int* pIndices, {TLane} mask)
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.MaskScatter(pDst + {dim}, pIndices, mask);"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter(ref {TNumber} dst, {TLane} indices, {TLane} mask)
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.MaskScatter(ref Unsafe.Add(ref dst, {dim}), indices, mask);"))}
+    }}
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter(ref {TNumber} dst, int* pIndices, {TLane} mask)
+    {{
+{ForEachDimension(dimension, 8, Environment.NewLine, (dim, sb) => sb.Append($"{components[dim]}.MaskScatter(ref Unsafe.Add(ref dst, {dim}), pIndices, mask);"))}
     }}
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

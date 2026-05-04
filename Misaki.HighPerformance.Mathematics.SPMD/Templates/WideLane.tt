@@ -33,9 +33,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
 <# foreach (var c in conversions) { #>
         if (typeof(TNumber) == typeof(<#= c.From #>) && typeof(TOtherNumber) == typeof(<#= c.To #>))
         {
-            ref var vFrom = ref Unsafe.As<Vector<TNumber>, Vector<<#= c.From #>>>(ref Unsafe.AsRef(in value));
-            var vTo = <#= c.Method #>(vFrom);
-            return Unsafe.As<Vector<<#= c.To #>>, TOther>(ref vTo);
+            return Unsafe.BitCast<Vector<<#= c.To #>>, TOther>(<#= c.Method #>(Unsafe.BitCast<Vector<TNumber>, Vector<<#= c.From #>>>(value)));
         }
 
 <# } #>

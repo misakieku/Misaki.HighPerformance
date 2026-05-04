@@ -217,6 +217,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             StartRegion("Constructors");
 
             sourceBuilder.AppendLine($@"
+        {INLINE_METHOD_ATTRIBUTE}
         public unsafe {typeName}(global::System.ReadOnlySpan<{componentType}> values)
         {{
             if (values.Length < {typeInfo.Row})
@@ -307,6 +308,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             foreach (var (signature, assignment) in _constructorSignatures)
             {
                 sourceBuilder.Append($@"
+        {INLINE_METHOD_ATTRIBUTE}
         public {typeName}({signature})
         {{");
                 for (var i = 0; i < typeInfo.Row; i++)

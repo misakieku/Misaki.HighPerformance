@@ -2,7 +2,7 @@
 
 A zero-allocation-oriented job system for C#.
 
-This package provides job contracts, scheduling, worker threads, dependency handling, and temporary allocation support for high-throughput work execution.
+This package provides job contracts, scheduling, worker threads, and dependency handling for high-throughput work execution.
 
 ## What it includes
 
@@ -11,7 +11,6 @@ This package provides job contracts, scheduling, worker threads, dependency hand
 - parallel range jobs
 - job handles and dependency tracking
 - worker thread management
-- temporary job allocation support
 
 ## Highlights
 
@@ -34,6 +33,8 @@ This package provides job contracts, scheduling, worker threads, dependency hand
 
 ## Example
 
+### IJob example
+
 ```csharp
 using Misaki.HighPerformance.Jobs;
 
@@ -53,7 +54,7 @@ int a = 5;
 int b = 10;
 int result = 0;
 
-var job = new AddJob
+AddJob job = new AddJob
 {
     pA = &a,
     pB = &b,
@@ -62,7 +63,77 @@ var job = new AddJob
 
 JobHandle handle = jobScheduler.Schedule(job);
 jobScheduler.Wait(handle);
+```
 
+### IJobParallelFor example
+
+```csharp
+using Misaki.HighPerformance.Jobs;
+
+public struct MultiplyJob : IJobParallelFor
+{
+    public int[] a;
+    public int[] b;
+    public int[] result;
+
+    public void Execute(int index, ref readonly JobExecutionContext ctx)
+    {
+        result[index] = a[index] * b[index];
+    }
+}
+
+int[] a = { 1, 2, 3, 4 };
+int[] b = { 5, 6, 7, 8 };
+int[] result = new int[4];
+
+MultiplyJob job = new MultiplyJob
+{
+    a = a,
+    b = b,
+    result = result
+};
+
+JobHandle handle = jobScheduler.ScheduleParallelFor(job, a.Length, 4);
+jobScheduler.Wait(handle);
+```
+
+### Custom job
+
+```csharp
+
+public unsafe struct CustomJob : ICustomJob<CustomJob>
+{
+    public int* value;
+
+    public static void Execute(ref CustomJob job, ref JobRanges jobRanges, ref readonly JobExecutionContext ctx)
+    {
+        *job.value += 1;
+    }
+
+    public static void Free(ref CustomJob job)
+    {
+        // No resources to free in this example.
+    }
+}
+
+int value = 0;
+
+CustomJob customJob = new CustomJob
+{
+    value = &value
+};
+
+CustomJobDesc<CustomJob> customJobDesc = new CustomJobDesc<CustomJob>
+{
+    data = ref customJob,
+    pExecutionFunc = &CustomJob.Execute,
+    pFreeFunc = &CustomJob.Free,
+    jobRanges = JobRanges.Single,
+    priority = JobPriority.Normal,
+};
+
+JobHandle customJobHandle = jobScheduler.ScheduleCustom(ref customJobDesc);
+jobScheduler.Wait(customJobHandle);
 ```
 
 ## Package reference

@@ -89,9 +89,15 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
     private nuint _alignment;
     private nuint _chunkSize;
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLSF Create(in CreationOptions opts)
     {
-        var alignment = opts.alignment == 0 ? 16 : opts.alignment;
+        return new TLSF(opts.alignment, opts.initialChunkSize);
+    }
+
+    public TLSF (nuint alignment, nuint chunkSize)
+    {
+        alignment = alignment == 0 ? 16 : alignment;
         if (alignment < 16)
         {
             alignment = 16;
@@ -102,20 +108,15 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             throw new ArgumentException("Alignment must be a power of 2");
         }
 
-        TLSF allocator = default;
-        allocator._alignment = alignment;
-        allocator._chunkSize = opts.initialChunkSize == 0 ? 64 * 1024 : opts.initialChunkSize;
+        _alignment = alignment;
+        _chunkSize = chunkSize == 0 ? 64 * 1024 : chunkSize;
 
         var slSize = 64 * (nuint)sizeof(uint);
         var blocksSize = 64 * 32 * (nuint)sizeof(BlockHeader*);
-        allocator._slBitmaps = (uint*)Malloc(slSize);
-        allocator._blocks = (BlockHeader**)Malloc(blocksSize);
-        MemClear(allocator._slBitmaps, slSize);
-        MemClear(allocator._blocks, blocksSize);
+        _slBitmaps = (uint*)Calloc(slSize);
+        _blocks = (BlockHeader**)Calloc(blocksSize);
 
-        allocator.AddChunk(allocator._chunkSize);
-
-        return allocator;
+        AddChunk(_chunkSize);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
 namespace Misaki.HighPerformance.Mathematics.SPMD;
@@ -121,17 +122,17 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// <summary>
     /// Uses the specified mask to conditionally load lane values from the given reference, returning a lane value where masked lanes are loaded and unmasked lanes are set to zero.
     /// </summary>
-    /// <param name="mask">The mask to use for conditional loading.</param>
     /// <param name="value">The reference to load from.</param>
+    /// <param name="mask">The mask to use for conditional loading.</param>
     /// <returns>The loaded lane value.</returns>
-    static abstract TSelf MaskLoad(TSelf mask, ref TNumber value);
+    static abstract TSelf MaskLoad(ref TNumber value, TSelf mask);
     /// <summary>
     /// Uses the specified mask to conditionally load lane values from the given pointer, returning a lane value where masked lanes are loaded and unmasked lanes are set to zero.
     /// </summary>
-    /// <param name="mask">The mask to use for conditional loading.</param>
     /// <param name="pValue">The pointer to load from.</param>
+    /// <param name="mask">The mask to use for conditional loading.</param>
     /// <returns>The loaded lane value.</returns>
-    static abstract TSelf MaskLoad(TSelf mask, TNumber* pValue);
+    static abstract TSelf MaskLoad(TNumber* pValue, TSelf mask);
 
     /// <summary>
     /// Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.
@@ -140,7 +141,7 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// <param name="indices">The indices of the values to gather.</param>
     /// <param name="scale">The scale factor for the indices.</param>
     /// <returns>The gathered lane value.</returns>
-    static abstract TSelf Gather(TNumber* pData, TSelf indices, int scale);
+    static abstract TSelf Gather(TNumber* pData, TSelf indices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale);
     /// <summary>
     /// Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.
     /// </summary>
@@ -148,7 +149,7 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// <param name="pIndices">The pointer to the indices of the values to gather.</param>
     /// <param name="scale">The scale factor for the indices.</param>
     /// <returns>The gathered lane value.</returns>
-    static abstract TSelf Gather(TNumber* pData, int* pIndices, int scale);
+    static abstract TSelf Gather(TNumber* pData, int* pIndices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale);
     /// <summary>
     /// Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.
     /// </summary>
@@ -156,7 +157,7 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// <param name="indices">The indices of the values to gather.</param>
     /// <param name="scale">The scale factor for the indices.</param>
     /// <returns>The gathered lane value.</returns>
-    static abstract TSelf Gather(ref TNumber baseAddress, TSelf indices, int scale);
+    static abstract TSelf Gather(ref TNumber baseAddress, TSelf indices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale);
     /// <summary>
     /// Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.
     /// </summary>
@@ -164,7 +165,25 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// <param name="baseIndex">The reference to the base index.</param>
     /// <param name="scale">The scale factor for the indices.</param>
     /// <returns>The gathered lane value.</returns>
-    static abstract TSelf Gather(ref TNumber baseAddress, ref int baseIndex, int scale);
+    static abstract TSelf Gather(ref TNumber baseAddress, ref int baseIndex, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale);
+    /// <summary>
+    /// Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address, but only for lanes where the corresponding mask bit is set; other lanes are set to zero.
+    /// </summary>
+    /// <param name="pData">The base address from which to gather values.</param>
+    /// <param name="indices">The indices of the values to gather.</param>
+    /// <param name="mask">The mask value that determines which elements are included in the gathering operation.</param>
+    /// <param name="scale">The scale factor for the indices.</param>
+    /// <returns>The gathered lane value.</returns>
+    static abstract TSelf MaskGather(TNumber* pData, TSelf indices, TSelf mask, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale);
+    /// <summary>
+    /// Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address, but only for lanes where the corresponding mask bit is set; other lanes are set to zero.
+    /// </summary>
+    /// <param name="pData">The base address from which to gather values.</param>
+    /// <param name="pIndices">The pointer to the indices of the values to gather.</param>
+    /// <param name="mask">The mask value that determines which elements are included in the gathering operation.</param>
+    /// <param name="scale">The scale factor for the indices.</param>
+    /// <returns>The gathered lane value.</returns>
+    static abstract TSelf MaskGather(TNumber* pData, int* pIndices, TSelf mask, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale);
 
     /// <summary>
     /// Stores the lane value to the specified reference.
@@ -180,24 +199,36 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// Compresses the data specified by the given mask and stores the compressed result in the provided destination
     /// variable.
     /// </summary>
-    /// <param name="mask">A mask value that determines which elements are included in the compression operation.</param>
     /// <param name="destination">A reference to the variable where the compressed data will be stored.</param>
+    /// <param name="mask">A mask value that determines which elements are included in the compression operation.</param>
     /// <returns>The number of elements written to the destination as a result of the compression. Returns 0 if no elements are compressed.</returns>
     /// <remarks>
     /// Implementations may use hardware-specific shuffle tables to reorder the selected lanes before storing, falling back to a scalar loop otherwise.
     /// </remarks>
-    int CompressStore(TSelf mask, ref TNumber destination);
+    int CompressStore(ref TNumber destination, TSelf mask);
     /// <summary>
     /// Compresses the data specified by the given mask and stores the compressed result in the provided destination
     /// variable.
     /// </summary>
-    /// <param name="mask">A mask value that determines which elements are included in the compression operation.</param>
     /// <param name="pDestination">A pointer to the variable where the compressed data will be stored.</param>
+    /// <param name="mask">A mask value that determines which elements are included in the compression operation.</param>
     /// <returns>The number of elements written to the destination as a result of the compression. Returns 0 if no elements are compressed.</returns>
     /// <remarks>
     /// Implementations may use hardware-specific shuffle tables to reorder the selected lanes before storing, falling back to a scalar loop otherwise.
     /// </remarks>
-    int CompressStore(TSelf mask, TNumber* pDestination);
+    int CompressStore(TNumber* pDestination, TSelf mask);
+
+    void MaskStore(TNumber* pDestination, TSelf mask);
+    void MaskStore(ref TNumber destination, TSelf mask);
+
+    void Scatter(TNumber* pDst, TSelf indices);
+    void Scatter(ref TNumber destination, TSelf indices);
+    void Scatter(TNumber* pDst, int* pIndices);
+    void Scatter(ref TNumber destination, int* pIndices);
+    void MaskScatter(TNumber* pDst, TSelf indices, TSelf mask);
+    void MaskScatter(ref TNumber destination, TSelf indices, TSelf mask);
+    void MaskScatter(TNumber* pDst, int* pIndices, TSelf mask);
+    void MaskScatter(ref TNumber destination, int* pIndices, TSelf mask);
 
     /// <summary>
     /// Converts the lane value to a vector.

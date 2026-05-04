@@ -13,58 +13,42 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     {
         if (typeof(TNumber) == typeof(float) && typeof(TOtherNumber) == typeof(int))
         {
-            ref var vFrom = ref Unsafe.As<Vector<TNumber>, Vector<float>>(ref Unsafe.AsRef(in value));
-            var vTo = Vector.ConvertToInt32(vFrom);
-            return Unsafe.As<Vector<int>, TOther>(ref vTo);
+            return Unsafe.BitCast<Vector<int>, TOther>(Vector.ConvertToInt32(Unsafe.BitCast<Vector<TNumber>, Vector<float>>(value)));
         }
 
         if (typeof(TNumber) == typeof(float) && typeof(TOtherNumber) == typeof(uint))
         {
-            ref var vFrom = ref Unsafe.As<Vector<TNumber>, Vector<float>>(ref Unsafe.AsRef(in value));
-            var vTo = Vector.ConvertToUInt32(vFrom);
-            return Unsafe.As<Vector<uint>, TOther>(ref vTo);
+            return Unsafe.BitCast<Vector<uint>, TOther>(Vector.ConvertToUInt32(Unsafe.BitCast<Vector<TNumber>, Vector<float>>(value)));
         }
 
         if (typeof(TNumber) == typeof(double) && typeof(TOtherNumber) == typeof(long))
         {
-            ref var vFrom = ref Unsafe.As<Vector<TNumber>, Vector<double>>(ref Unsafe.AsRef(in value));
-            var vTo = Vector.ConvertToInt64(vFrom);
-            return Unsafe.As<Vector<long>, TOther>(ref vTo);
+            return Unsafe.BitCast<Vector<long>, TOther>(Vector.ConvertToInt64(Unsafe.BitCast<Vector<TNumber>, Vector<double>>(value)));
         }
 
         if (typeof(TNumber) == typeof(double) && typeof(TOtherNumber) == typeof(ulong))
         {
-            ref var vFrom = ref Unsafe.As<Vector<TNumber>, Vector<double>>(ref Unsafe.AsRef(in value));
-            var vTo = Vector.ConvertToUInt64(vFrom);
-            return Unsafe.As<Vector<ulong>, TOther>(ref vTo);
+            return Unsafe.BitCast<Vector<ulong>, TOther>(Vector.ConvertToUInt64(Unsafe.BitCast<Vector<TNumber>, Vector<double>>(value)));
         }
 
         if (typeof(TNumber) == typeof(int) && typeof(TOtherNumber) == typeof(float))
         {
-            ref var vFrom = ref Unsafe.As<Vector<TNumber>, Vector<int>>(ref Unsafe.AsRef(in value));
-            var vTo = Vector.ConvertToSingle(vFrom);
-            return Unsafe.As<Vector<float>, TOther>(ref vTo);
+            return Unsafe.BitCast<Vector<float>, TOther>(Vector.ConvertToSingle(Unsafe.BitCast<Vector<TNumber>, Vector<int>>(value)));
         }
 
         if (typeof(TNumber) == typeof(uint) && typeof(TOtherNumber) == typeof(float))
         {
-            ref var vFrom = ref Unsafe.As<Vector<TNumber>, Vector<uint>>(ref Unsafe.AsRef(in value));
-            var vTo = Vector.ConvertToSingle(vFrom);
-            return Unsafe.As<Vector<float>, TOther>(ref vTo);
+            return Unsafe.BitCast<Vector<float>, TOther>(Vector.ConvertToSingle(Unsafe.BitCast<Vector<TNumber>, Vector<uint>>(value)));
         }
 
         if (typeof(TNumber) == typeof(long) && typeof(TOtherNumber) == typeof(double))
         {
-            ref var vFrom = ref Unsafe.As<Vector<TNumber>, Vector<long>>(ref Unsafe.AsRef(in value));
-            var vTo = Vector.ConvertToDouble(vFrom);
-            return Unsafe.As<Vector<double>, TOther>(ref vTo);
+            return Unsafe.BitCast<Vector<double>, TOther>(Vector.ConvertToDouble(Unsafe.BitCast<Vector<TNumber>, Vector<long>>(value)));
         }
 
         if (typeof(TNumber) == typeof(ulong) && typeof(TOtherNumber) == typeof(double))
         {
-            ref var vFrom = ref Unsafe.As<Vector<TNumber>, Vector<ulong>>(ref Unsafe.AsRef(in value));
-            var vTo = Vector.ConvertToDouble(vFrom);
-            return Unsafe.As<Vector<double>, TOther>(ref vTo);
+            return Unsafe.BitCast<Vector<double>, TOther>(Vector.ConvertToDouble(Unsafe.BitCast<Vector<TNumber>, Vector<ulong>>(value)));
         }
 
         var casted = stackalloc TOtherNumber[LaneWidth];

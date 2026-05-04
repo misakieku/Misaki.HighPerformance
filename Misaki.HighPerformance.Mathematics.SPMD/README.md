@@ -37,17 +37,18 @@ public struct Vector2LerpJob : IJobSPMD<float>
     public float2[] arrayB;
     public float[] results;
 
-    public readonly void Execute<TLane>(int baseIndex, ref readonly JobExecutionContext ctx)
-        where TLane : unmanaged, ISPMDLane<TLane, float>
+    public readonly void Execute<TFloat>(TFloat indices, TFloat mask, ref readonly JobExecutionContext ctx)
+        where TFloat : unmanaged, ISPMDLane<TFloat, float>
     {
-        var a = MathV.LoadVector2<TLane, float>(ref arrayA[baseIndex].x);
-        var b = MathV.LoadVector2<TLane, float>(ref arrayB[baseIndex].x);
+        TFloat gatherIndices = indices * 2;
+        Vector2<TFloat, float> a = MathV.MaskGatherVector2<TFloat, float>(ref arrayA[0].x, gatherIndices, mask, 4);
+        Vector2<TFloat, float> b = MathV.MaskGatherVector2<TFloat, float>(ref arrayB[0].x, gatherIndices, mask, 4);
 
-        var t = TLane.Create(0.5f);
-        var lerped = MathV.Lerp(a, b, t);
-        var len = TLane.Sqrt(MathV.LengthSquared(lerped));
+        TFloat t = TFloat.Create(0.5f);
+        Vector2<TFloat, float> lerped = MathV.Lerp(a, b, t);
+        TFloat len = TFloat.Sqrt(MathV.LengthSquared(lerped));
 
-        len.Store(ref results[baseIndex]);
+        len.MaskStore(ref results[(int)indices[0]], mask);
     }
 }
 ```

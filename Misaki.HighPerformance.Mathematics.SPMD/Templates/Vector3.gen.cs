@@ -64,28 +64,17 @@ public unsafe struct Vector3<TLane, TNumber> : IEquatable<Vector3<TLane, TNumber
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Store(TNumber* pDst)
     {
-        var width = TLane.LaneWidth;
-
-        var x = stackalloc TNumber[width];
-        var y = stackalloc TNumber[width];
-        var z = stackalloc TNumber[width];
-
-        this.x.Store(x);
-        this.y.Store(y);
-        this.z.Store(z);
-
-        for (var i = 0; i < width; i++)
-        {
-            pDst[i * 3 + 0] = x[i];
-            pDst[i * 3 + 1] = y[i];
-            pDst[i * 3 + 2] = z[i];
-        }
+        x.Store(pDst + 0 * TLane.LaneWidth);
+        y.Store(pDst + 1 * TLane.LaneWidth);
+        z.Store(pDst + 2 * TLane.LaneWidth);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Store(ref TNumber dst)
     {
-        Store((TNumber*)Unsafe.AsPointer(ref dst));
+        x.Store(ref Unsafe.Add(ref dst, 0 * TLane.LaneWidth));
+        y.Store(ref Unsafe.Add(ref dst, 1 * TLane.LaneWidth));
+        z.Store(ref Unsafe.Add(ref dst, 2 * TLane.LaneWidth));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -102,6 +91,86 @@ public unsafe struct Vector3<TLane, TNumber> : IEquatable<Vector3<TLane, TNumber
         this.x.Store(ref x);
         this.y.Store(ref y);
         this.z.Store(ref z);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void CompressStore(TNumber* pDst, Vector3<TLane, TNumber> mask)
+    {
+        x.CompressStore(pDst + 0 * TLane.LaneWidth, mask.x);
+        y.CompressStore(pDst + 1 * TLane.LaneWidth, mask.y);
+        z.CompressStore(pDst + 2 * TLane.LaneWidth, mask.z);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void CompressStore(ref TNumber dst, Vector3<TLane, TNumber> mask)
+    {
+        x.CompressStore(ref Unsafe.Add(ref dst, 0 * TLane.LaneWidth), mask.x);
+        y.CompressStore(ref Unsafe.Add(ref dst, 1 * TLane.LaneWidth), mask.y);
+        z.CompressStore(ref Unsafe.Add(ref dst, 2 * TLane.LaneWidth), mask.z);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter(TNumber* pDst, TLane indices)
+    {
+        x.Scatter(pDst + 0, indices);
+        y.Scatter(pDst + 1, indices);
+        z.Scatter(pDst + 2, indices);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter(TNumber* pDst, int* pIndices)
+    {
+        x.Scatter(pDst + 0, pIndices);
+        y.Scatter(pDst + 1, pIndices);
+        z.Scatter(pDst + 2, pIndices);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter(ref TNumber dst, TLane indices)
+    {
+        x.Scatter(ref Unsafe.Add(ref dst, 0), indices);
+        y.Scatter(ref Unsafe.Add(ref dst, 1), indices);
+        z.Scatter(ref Unsafe.Add(ref dst, 2), indices);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter(ref TNumber dst, int* pIndices)
+    {
+        x.Scatter(ref Unsafe.Add(ref dst, 0), pIndices);
+        y.Scatter(ref Unsafe.Add(ref dst, 1), pIndices);
+        z.Scatter(ref Unsafe.Add(ref dst, 2), pIndices);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter(TNumber* pDst, TLane indices, TLane mask)
+    {
+        x.MaskScatter(pDst + 0, indices, mask);
+        y.MaskScatter(pDst + 1, indices, mask);
+        z.MaskScatter(pDst + 2, indices, mask);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter(TNumber* pDst, int* pIndices, TLane mask)
+    {
+        x.MaskScatter(pDst + 0, pIndices, mask);
+        y.MaskScatter(pDst + 1, pIndices, mask);
+        z.MaskScatter(pDst + 2, pIndices, mask);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter(ref TNumber dst, TLane indices, TLane mask)
+    {
+        x.MaskScatter(ref Unsafe.Add(ref dst, 0), indices, mask);
+        y.MaskScatter(ref Unsafe.Add(ref dst, 1), indices, mask);
+        z.MaskScatter(ref Unsafe.Add(ref dst, 2), indices, mask);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter(ref TNumber dst, int* pIndices, TLane mask)
+    {
+        x.MaskScatter(ref Unsafe.Add(ref dst, 0), pIndices, mask);
+        y.MaskScatter(ref Unsafe.Add(ref dst, 1), pIndices, mask);
+        z.MaskScatter(ref Unsafe.Add(ref dst, 2), pIndices, mask);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

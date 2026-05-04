@@ -418,12 +418,12 @@ public class TestJobSystem
         {
             data = ref customJob,
             pExecutionFunc = &CustomJob.Execute,
-            pFreeFunc = null,
+            pFreeFunc = &CustomJob.Free,
             jobRanges = JobRanges.Single,
             priority = JobPriority.Normal,
         };
 
-        var handle = s_jobScheduler.ScheduleCustom(ref customJobDesc, false);
+        var handle = s_jobScheduler.ScheduleCustom(ref customJobDesc);
         s_jobScheduler.Wait(handle);
 
         Assert.AreEqual(1, *value);

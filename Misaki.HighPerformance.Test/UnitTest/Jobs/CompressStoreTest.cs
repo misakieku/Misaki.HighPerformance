@@ -76,7 +76,7 @@ public static class CompressStoreTest
 
         fixed (double* ptr = outputBuffer)
         {
-            actualCount = vInput.CompressStore(vMask, ptr);
+            actualCount = vInput.CompressStore(ptr, vMask);
         }
 
         // 4. Verify

@@ -83,7 +83,8 @@ jobs:
 
       - name: Publish new packages
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_TOKEN }}
+          GITEA_API_KEY: ${{ secrets.NUGET_TOKEN }}
+          NUGET_ORG_API_KEY: ${{ secrets.NUGET_ORG_TOKEN }}
         run: |
           if [ ! -d "./artifacts" ] || [ -z "$(ls -A ./artifacts/*.nupkg 2>/dev/null)" ]; then
             echo "No new packages to publish."
@@ -98,6 +99,12 @@ jobs:
             echo "Pushing $pkg..."
             dotnet nuget push "$pkg" \
               --source "https://git.personalnas.com/api/packages/Misaki/nuget/index.json" \
-              --api-key "$NUGET_API_KEY" \
+              --api-key "$GITEA_API_KEY" \
+              --skip-duplicate
+
+            echo "Pushing $pkg to NuGet.org..."
+            dotnet nuget push "$pkg" \
+              --source "https://api.nuget.org/v3/index.json" \
+              --api-key "$NUGET_ORG_API_KEY" \
               --skip-duplicate
           done

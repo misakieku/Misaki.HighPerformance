@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -94,39 +95,51 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMDLane<ScalarLane<TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ScalarLane<TNumber> MaskLoad(ScalarLane<TNumber> mask, ref TNumber value)
+    public static ScalarLane<TNumber> MaskLoad(ref TNumber value, ScalarLane<TNumber> mask)
     {
         return new ScalarLane<TNumber>(mask.value != TNumber.Zero ? value : TNumber.Zero);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ScalarLane<TNumber> MaskLoad(ScalarLane<TNumber> mask, TNumber* pValue)
+    public static ScalarLane<TNumber> MaskLoad(TNumber* pValue, ScalarLane<TNumber> mask)
     {
         return new ScalarLane<TNumber>(mask.value != TNumber.Zero ? *pValue : TNumber.Zero);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ScalarLane<TNumber> Gather(TNumber* pData, ScalarLane<TNumber> indices, int scale)
+    public static ScalarLane<TNumber> Gather(TNumber* pData, ScalarLane<TNumber> indices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
     {
         return new ScalarLane<TNumber>(pData[int.CreateTruncating(indices.value) * scale / sizeof(TNumber)]);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ScalarLane<TNumber> Gather(TNumber* pData, int* pIndices, int scale)
+    public static ScalarLane<TNumber> Gather(TNumber* pData, int* pIndices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
     {
         return new ScalarLane<TNumber>(pData[pIndices[0] * scale / sizeof(TNumber)]);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ScalarLane<TNumber> Gather(ref TNumber baseAddress, ScalarLane<TNumber> indices, int scale)
+    public static ScalarLane<TNumber> Gather(ref TNumber baseAddress, ScalarLane<TNumber> indices, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
     {
         return new ScalarLane<TNumber>(Unsafe.Add(ref baseAddress, int.CreateTruncating(indices.value) * scale / sizeof(TNumber)));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ScalarLane<TNumber> Gather(ref TNumber baseAddress, ref int baseIndex, int scale)
+    public static ScalarLane<TNumber> Gather(ref TNumber baseAddress, ref int baseIndex, [ConstantExpected(Min = (byte)(1), Max = (byte)(8))] byte scale)
     {
         return new ScalarLane<TNumber>(Unsafe.Add(ref baseAddress, int.CreateTruncating(baseIndex) * scale / sizeof(TNumber)));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> MaskGather(TNumber* pData, ScalarLane<TNumber> indices, ScalarLane<TNumber> mask, [ConstantExpected(Min = 1, Max = 8)] byte scale)
+    {
+        return new ScalarLane<TNumber>(mask.value != TNumber.Zero ? pData[int.CreateTruncating(indices.value) * scale / sizeof(TNumber)] : TNumber.Zero);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ScalarLane<TNumber> MaskGather(TNumber* pData, int* pIndices, ScalarLane<TNumber> mask, [ConstantExpected(Min = 1, Max = 8)] byte scale)
+    {
+        return new ScalarLane<TNumber>(mask.value != TNumber.Zero ? pData[pIndices[0] * scale / sizeof(TNumber)] : TNumber.Zero);
     }
 
 
@@ -143,13 +156,13 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMDLane<ScalarLane<TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public int CompressStore(ScalarLane<TNumber> mask, ref TNumber destination)
+    public int CompressStore(ref TNumber destination, ScalarLane<TNumber> mask)
     {
-        return CompressStore(mask, (TNumber*)Unsafe.AsPointer(in destination));
+        return CompressStore((TNumber*)Unsafe.AsPointer(in destination), mask);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public int CompressStore(ScalarLane<TNumber> mask, TNumber* pDestination)
+    public int CompressStore(TNumber* pDestination, ScalarLane<TNumber> mask)
     {
         if (mask.value != TNumber.Zero)
         {
@@ -159,6 +172,85 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMDLane<ScalarLane<TNumber
 
         return 0;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskStore(TNumber* pDestination, ScalarLane<TNumber> mask)
+    {
+        if (mask.value != TNumber.Zero)
+        {
+            *pDestination = value;
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskStore(ref TNumber destination, ScalarLane<TNumber> mask)
+    {
+        if (mask.value != TNumber.Zero)
+        {
+            destination = value;
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public unsafe void Scatter(TNumber* pDst, ScalarLane<TNumber> indices)
+    {
+        pDst[int.CreateTruncating(indices.value)] = value;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Scatter(ref TNumber destination, ScalarLane<TNumber> indices)
+    {
+        Unsafe.Add(ref destination, int.CreateTruncating(indices.value)) = value;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public unsafe void Scatter(TNumber* pDst, int* pIndices)
+    {
+        pDst[pIndices[0]] = value;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public unsafe void Scatter(ref TNumber destination, int* pIndices)
+    {
+        Unsafe.Add(ref destination, pIndices[0]) = value;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public unsafe void MaskScatter(TNumber* pDst, ScalarLane<TNumber> indices, ScalarLane<TNumber> mask)
+    {
+        if (mask.value != TNumber.Zero)
+        {
+            pDst[int.CreateTruncating(indices.value)] = value;
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void MaskScatter(ref TNumber destination, ScalarLane<TNumber> indices, ScalarLane<TNumber> mask)
+    {
+        if (mask.value != TNumber.Zero)
+        {
+            Unsafe.Add(ref destination, int.CreateTruncating(indices.value)) = value;
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public unsafe void MaskScatter(TNumber* pDst, int* pIndices, ScalarLane<TNumber> mask)
+    {
+        if (mask.value != TNumber.Zero)
+        {
+            pDst[pIndices[0]] = value;
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public unsafe void MaskScatter(ref TNumber destination, int* pIndices, ScalarLane<TNumber> mask)
+    {
+        if (mask.value != TNumber.Zero)
+        {
+            Unsafe.Add(ref destination, pIndices[0]) = value;
+        }
+    }
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly Vector<TNumber> AsVector()

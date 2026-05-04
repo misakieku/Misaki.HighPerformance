@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics.Arm;
 using System.Runtime.Intrinsics.X86;
 
 namespace Misaki.HighPerformance.Mathematics.SPMD;
@@ -46,21 +47,10 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            px[i] = pSrc[i * 2 + 0];
-            py[i] = pSrc[i * 2 + 1];
-        }
-
         return new Vector2<TLane, TNumber>
         {
-            x = x,
-            y = y,
+            x = TLane.Load(pSrc + 0),
+            y = TLane.Load(pSrc + 1),
         };
     }
 
@@ -70,6 +60,26 @@ public static unsafe partial class MathV
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return LoadVector2<TLane, TNumber>((TNumber*)Unsafe.AsPointer(ref src));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> MaskLoadVector2<TLane, TNumber>(TNumber* pSrc, TLane mask)
+        where TLane : unmanaged, ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector2<TLane, TNumber>
+        {
+            x = TLane.MaskLoad(pSrc + 0, mask),
+            y = TLane.MaskLoad(pSrc + 1, mask),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector2<TLane, TNumber> MaskLoadVector2<TLane, TNumber>(ref TNumber src, TLane mask)
+        where TLane : unmanaged, ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return MaskLoadVector2<TLane, TNumber>((TNumber*)Unsafe.AsPointer(ref src), mask);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -102,99 +112,10 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector128<TNumber>>(ref indices);
-                    var vidx = v.AsInt32();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((uint*)(pData + 1), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector128<TNumber>>(ref indices);
-                    var vidx = v.AsInt64();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((ulong*)(pData + 1), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector256<TNumber>>(ref indices);
-                    var vidx = v.AsInt32();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((uint*)(pData + 1), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector256<TNumber>>(ref indices);
-                    var vidx = v.AsInt64();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((ulong*)(pData + 1), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            var scalarIdx = int.CreateTruncating(indices[i]);
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalarIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalarIdx + 1) * scale));
-        }
-
         return new Vector2<TLane, TNumber>
         {
-            x = x,
-            y = y,
+            x = TLane.Gather(pData + 0, indices, scale),
+            y = TLane.Gather(pData + 1, indices, scale),
         };
     }
 
@@ -203,95 +124,10 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector128.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((uint*)(pData + 1), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((ulong*)(pData + 1), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector256.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((uint*)(pData + 1), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((ulong*)(pData + 1), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            var scalerIdx = pIndices[i];
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 1) * scale));
-        }
-
         return new Vector2<TLane, TNumber>
         {
-            x = x,
-            y = y,
+            x = TLane.Gather(pData + 0, pIndices, scale),
+            y = TLane.Gather(pData + 1, pIndices, scale),
         };
     }
 
@@ -316,104 +152,10 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
-                    ref var vmask = ref Unsafe.As<TLane, Vector128<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
-                    var vmask = Unsafe.As<TLane, Vector128<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector256<int>>(ref indices);
-                    var vmask = Unsafe.As<TLane, Vector256<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
-                    var vmask = Unsafe.As<TLane, Vector256<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            if (mask[i] == TNumber.Zero)
-            {
-                continue;
-            }
-
-            var scalerIdx = int.CreateTruncating(indices[i]);
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 1) * scale));
-        }
-
         return new Vector2<TLane, TNumber>
         {
-            x = x,
-            y = y,
+            x = TLane.MaskGather(pData + 0, indices, mask, scale),
+            y = TLane.MaskGather(pData + 1, indices, mask, scale),
         };
     }
 
@@ -422,104 +164,10 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector128.Load(pIndices);
-                    ref var vmask = ref Unsafe.As<TLane, Vector128<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-                    var vmask = Unsafe.As<TLane, Vector128<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector256.Load(pIndices);
-                    var vmask = Unsafe.As<TLane, Vector256<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-                    var vmask = Unsafe.As<TLane, Vector256<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector2<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            if (mask[i] == TNumber.Zero)
-            {
-                continue;
-            }
-
-            var scalerIdx = pIndices[i];
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 1) * scale));
-        }
-
         return new Vector2<TLane, TNumber>
         {
-            x = x,
-            y = y,
+            x = TLane.MaskGather(pData + 0, pIndices, mask, scale),
+            y = TLane.MaskGather(pData + 1, pIndices, mask, scale),
         };
     }
 
@@ -859,25 +507,11 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-        Unsafe.SkipInit(out TLane z);
-        var pz = (TNumber*)&z;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            px[i] = pSrc[i * 3 + 0];
-            py[i] = pSrc[i * 3 + 1];
-            pz[i] = pSrc[i * 3 + 2];
-        }
-
         return new Vector3<TLane, TNumber>
         {
-            x = x,
-            y = y,
-            z = z,
+            x = TLane.Load(pSrc + 0),
+            y = TLane.Load(pSrc + 1),
+            z = TLane.Load(pSrc + 2),
         };
     }
 
@@ -887,6 +521,27 @@ public static unsafe partial class MathV
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return LoadVector3<TLane, TNumber>((TNumber*)Unsafe.AsPointer(ref src));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> MaskLoadVector3<TLane, TNumber>(TNumber* pSrc, TLane mask)
+        where TLane : unmanaged, ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector3<TLane, TNumber>
+        {
+            x = TLane.MaskLoad(pSrc + 0, mask),
+            y = TLane.MaskLoad(pSrc + 1, mask),
+            z = TLane.MaskLoad(pSrc + 2, mask),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector3<TLane, TNumber> MaskLoadVector3<TLane, TNumber>(ref TNumber src, TLane mask)
+        where TLane : unmanaged, ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return MaskLoadVector3<TLane, TNumber>((TNumber*)Unsafe.AsPointer(ref src), mask);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -921,111 +576,11 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector128<TNumber>>(ref indices);
-                    var vidx = v.AsInt32();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((uint*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector128((uint*)(pData + 2), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<uint>, TLane>(ref vz),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector128<TNumber>>(ref indices);
-                    var vidx = v.AsInt64();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((ulong*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector128((ulong*)(pData + 2), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<ulong>, TLane>(ref vz),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector256<TNumber>>(ref indices);
-                    var vidx = v.AsInt32();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((uint*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector256((uint*)(pData + 2), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<uint>, TLane>(ref vz),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector256<TNumber>>(ref indices);
-                    var vidx = v.AsInt64();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((ulong*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector256((ulong*)(pData + 2), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<ulong>, TLane>(ref vz),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-        Unsafe.SkipInit(out TLane z);
-        var pz = (TNumber*)&z;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            var scalarIdx = int.CreateTruncating(indices[i]);
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalarIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalarIdx + 1) * scale));
-            pz[i] = *(TNumber*)((byte*)pData + ((scalarIdx + 2) * scale));
-        }
-
         return new Vector3<TLane, TNumber>
         {
-            x = x,
-            y = y,
-            z = z,
+            x = TLane.Gather(pData + 0, indices, scale),
+            y = TLane.Gather(pData + 1, indices, scale),
+            z = TLane.Gather(pData + 2, indices, scale),
         };
     }
 
@@ -1034,107 +589,11 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector128.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((uint*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector128((uint*)(pData + 2), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<uint>, TLane>(ref vz),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((ulong*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector128((ulong*)(pData + 2), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<ulong>, TLane>(ref vz),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector256.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((uint*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector256((uint*)(pData + 2), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<uint>, TLane>(ref vz),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((ulong*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector256((ulong*)(pData + 2), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<ulong>, TLane>(ref vz),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-        Unsafe.SkipInit(out TLane z);
-        var pz = (TNumber*)&z;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            var scalerIdx = pIndices[i];
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 1) * scale));
-            pz[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 2) * scale));
-        }
-
         return new Vector3<TLane, TNumber>
         {
-            x = x,
-            y = y,
-            z = z,
+            x = TLane.Gather(pData + 0, pIndices, scale),
+            y = TLane.Gather(pData + 1, pIndices, scale),
+            z = TLane.Gather(pData + 2, pIndices, scale),
         };
     }
 
@@ -1159,116 +618,11 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
-                    ref var vmask = ref Unsafe.As<TLane, Vector128<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 2), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<uint>, TLane>(ref vz),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
-                    var vmask = Unsafe.As<TLane, Vector128<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 2), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<ulong>, TLane>(ref vz),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector256<int>>(ref indices);
-                    var vmask = Unsafe.As<TLane, Vector256<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 2), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<uint>, TLane>(ref vz),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
-                    var vmask = Unsafe.As<TLane, Vector256<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 2), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<ulong>, TLane>(ref vz),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-        Unsafe.SkipInit(out TLane z);
-        var pz = (TNumber*)&z;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            if (mask[i] == TNumber.Zero)
-            {
-                continue;
-            }
-
-            var scalerIdx = int.CreateTruncating(indices[i]);
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 1) * scale));
-            pz[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 2) * scale));
-        }
-
         return new Vector3<TLane, TNumber>
         {
-            x = x,
-            y = y,
-            z = z,
+            x = TLane.MaskGather(pData + 0, indices, mask, scale),
+            y = TLane.MaskGather(pData + 1, indices, mask, scale),
+            z = TLane.MaskGather(pData + 2, indices, mask, scale),
         };
     }
 
@@ -1277,116 +631,11 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector128.Load(pIndices);
-                    ref var vmask = ref Unsafe.As<TLane, Vector128<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 2), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<uint>, TLane>(ref vz),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-                    var vmask = Unsafe.As<TLane, Vector128<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 2), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<ulong>, TLane>(ref vz),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector256.Load(pIndices);
-                    var vmask = Unsafe.As<TLane, Vector256<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 2), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<uint>, TLane>(ref vz),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-                    var vmask = Unsafe.As<TLane, Vector256<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 2), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector3<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<ulong>, TLane>(ref vz),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-        Unsafe.SkipInit(out TLane z);
-        var pz = (TNumber*)&z;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            if (mask[i] == TNumber.Zero)
-            {
-                continue;
-            }
-
-            var scalerIdx = pIndices[i];
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 1) * scale));
-            pz[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 2) * scale));
-        }
-
         return new Vector3<TLane, TNumber>
         {
-            x = x,
-            y = y,
-            z = z,
+            x = TLane.MaskGather(pData + 0, pIndices, mask, scale),
+            y = TLane.MaskGather(pData + 1, pIndices, mask, scale),
+            z = TLane.MaskGather(pData + 2, pIndices, mask, scale),
         };
     }
 
@@ -1743,29 +992,12 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-        Unsafe.SkipInit(out TLane z);
-        var pz = (TNumber*)&z;
-        Unsafe.SkipInit(out TLane w);
-        var pw = (TNumber*)&w;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            px[i] = pSrc[i * 4 + 0];
-            py[i] = pSrc[i * 4 + 1];
-            pz[i] = pSrc[i * 4 + 2];
-            pw[i] = pSrc[i * 4 + 3];
-        }
-
         return new Vector4<TLane, TNumber>
         {
-            x = x,
-            y = y,
-            z = z,
-            w = w,
+            x = TLane.Load(pSrc + 0),
+            y = TLane.Load(pSrc + 1),
+            z = TLane.Load(pSrc + 2),
+            w = TLane.Load(pSrc + 3),
         };
     }
 
@@ -1775,6 +1007,28 @@ public static unsafe partial class MathV
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
         return LoadVector4<TLane, TNumber>((TNumber*)Unsafe.AsPointer(ref src));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> MaskLoadVector4<TLane, TNumber>(TNumber* pSrc, TLane mask)
+        where TLane : unmanaged, ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return new Vector4<TLane, TNumber>
+        {
+            x = TLane.MaskLoad(pSrc + 0, mask),
+            y = TLane.MaskLoad(pSrc + 1, mask),
+            z = TLane.MaskLoad(pSrc + 2, mask),
+            w = TLane.MaskLoad(pSrc + 3, mask),
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Vector4<TLane, TNumber> MaskLoadVector4<TLane, TNumber>(ref TNumber src, TLane mask)
+        where TLane : unmanaged, ISPMDLane<TLane, TNumber>
+        where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
+    {
+        return MaskLoadVector4<TLane, TNumber>((TNumber*)Unsafe.AsPointer(ref src), mask);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1811,123 +1065,12 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector128<TNumber>>(ref indices);
-                    var vidx = v.AsInt32();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((uint*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector128((uint*)(pData + 2), vidx, scale);
-                    var vw = Avx2.GatherVector128((uint*)(pData + 3), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<uint>, TLane>(ref vz),
-                        w = Unsafe.As<Vector128<uint>, TLane>(ref vw),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector128<TNumber>>(ref indices);
-                    var vidx = v.AsInt64();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((ulong*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector128((ulong*)(pData + 2), vidx, scale);
-                    var vw = Avx2.GatherVector128((ulong*)(pData + 3), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<ulong>, TLane>(ref vz),
-                        w = Unsafe.As<Vector128<ulong>, TLane>(ref vw),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector256<TNumber>>(ref indices);
-                    var vidx = v.AsInt32();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((uint*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector256((uint*)(pData + 2), vidx, scale);
-                    var vw = Avx2.GatherVector256((uint*)(pData + 3), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<uint>, TLane>(ref vz),
-                        w = Unsafe.As<Vector256<uint>, TLane>(ref vw),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var v = ref Unsafe.As<TLane, Vector256<TNumber>>(ref indices);
-                    var vidx = v.AsInt64();
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((ulong*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector256((ulong*)(pData + 2), vidx, scale);
-                    var vw = Avx2.GatherVector256((ulong*)(pData + 3), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<ulong>, TLane>(ref vz),
-                        w = Unsafe.As<Vector256<ulong>, TLane>(ref vw),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-        Unsafe.SkipInit(out TLane z);
-        var pz = (TNumber*)&z;
-        Unsafe.SkipInit(out TLane w);
-        var pw = (TNumber*)&w;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            var scalarIdx = int.CreateTruncating(indices[i]);
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalarIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalarIdx + 1) * scale));
-            pz[i] = *(TNumber*)((byte*)pData + ((scalarIdx + 2) * scale));
-            pw[i] = *(TNumber*)((byte*)pData + ((scalarIdx + 3) * scale));
-        }
-
         return new Vector4<TLane, TNumber>
         {
-            x = x,
-            y = y,
-            z = z,
-            w = w,
+            x = TLane.Gather(pData + 0, indices, scale),
+            y = TLane.Gather(pData + 1, indices, scale),
+            z = TLane.Gather(pData + 2, indices, scale),
+            w = TLane.Gather(pData + 3, indices, scale),
         };
     }
 
@@ -1936,119 +1079,12 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector128.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((uint*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector128((uint*)(pData + 2), vidx, scale);
-                    var vw = Avx2.GatherVector128((uint*)(pData + 3), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<uint>, TLane>(ref vz),
-                        w = Unsafe.As<Vector128<uint>, TLane>(ref vw),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector128((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector128((ulong*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector128((ulong*)(pData + 2), vidx, scale);
-                    var vw = Avx2.GatherVector128((ulong*)(pData + 3), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<ulong>, TLane>(ref vz),
-                        w = Unsafe.As<Vector128<ulong>, TLane>(ref vw),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector256.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((uint*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((uint*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector256((uint*)(pData + 2), vidx, scale);
-                    var vw = Avx2.GatherVector256((uint*)(pData + 3), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<uint>, TLane>(ref vz),
-                        w = Unsafe.As<Vector256<uint>, TLane>(ref vw),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherVector256((ulong*)(pData + 0), vidx, scale);
-                    var vy = Avx2.GatherVector256((ulong*)(pData + 1), vidx, scale);
-                    var vz = Avx2.GatherVector256((ulong*)(pData + 2), vidx, scale);
-                    var vw = Avx2.GatherVector256((ulong*)(pData + 3), vidx, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<ulong>, TLane>(ref vz),
-                        w = Unsafe.As<Vector256<ulong>, TLane>(ref vw),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-        Unsafe.SkipInit(out TLane z);
-        var pz = (TNumber*)&z;
-        Unsafe.SkipInit(out TLane w);
-        var pw = (TNumber*)&w;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            var scalerIdx = pIndices[i];
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 1) * scale));
-            pz[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 2) * scale));
-            pw[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 3) * scale));
-        }
-
         return new Vector4<TLane, TNumber>
         {
-            x = x,
-            y = y,
-            z = z,
-            w = w,
+            x = TLane.Gather(pData + 0, pIndices, scale),
+            y = TLane.Gather(pData + 1, pIndices, scale),
+            z = TLane.Gather(pData + 2, pIndices, scale),
+            w = TLane.Gather(pData + 3, pIndices, scale),
         };
     }
 
@@ -2073,128 +1109,12 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
-                    ref var vmask = ref Unsafe.As<TLane, Vector128<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 2), vidx, vmask, scale);
-                    var vw = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 3), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<uint>, TLane>(ref vz),
-                        w = Unsafe.As<Vector128<uint>, TLane>(ref vw),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
-                    var vmask = Unsafe.As<TLane, Vector128<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 2), vidx, vmask, scale);
-                    var vw = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 3), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<ulong>, TLane>(ref vz),
-                        w = Unsafe.As<Vector128<ulong>, TLane>(ref vw),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector256<int>>(ref indices);
-                    var vmask = Unsafe.As<TLane, Vector256<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 2), vidx, vmask, scale);
-                    var vw = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 3), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<uint>, TLane>(ref vz),
-                        w = Unsafe.As<Vector256<uint>, TLane>(ref vw),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    ref var vidx = ref Unsafe.As<TLane, Vector128<int>>(ref indices);
-                    var vmask = Unsafe.As<TLane, Vector256<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 2), vidx, vmask, scale);
-                    var vw = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 3), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<ulong>, TLane>(ref vz),
-                        w = Unsafe.As<Vector256<ulong>, TLane>(ref vw),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-        Unsafe.SkipInit(out TLane z);
-        var pz = (TNumber*)&z;
-        Unsafe.SkipInit(out TLane w);
-        var pw = (TNumber*)&w;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            if (mask[i] == TNumber.Zero)
-            {
-                continue;
-            }
-
-            var scalerIdx = int.CreateTruncating(indices[i]);
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 1) * scale));
-            pz[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 2) * scale));
-            pw[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 3) * scale));
-        }
-
         return new Vector4<TLane, TNumber>
         {
-            x = x,
-            y = y,
-            z = z,
-            w = w,
+            x = TLane.MaskGather(pData + 0, indices, mask, scale),
+            y = TLane.MaskGather(pData + 1, indices, mask, scale),
+            z = TLane.MaskGather(pData + 2, indices, mask, scale),
+            w = TLane.MaskGather(pData + 3, indices, mask, scale),
         };
     }
 
@@ -2203,128 +1123,12 @@ public static unsafe partial class MathV
         where TLane : unmanaged, ISPMDLane<TLane, TNumber>
         where TNumber : unmanaged, INumber<TNumber>, IBinaryNumber<TNumber>, IMinMaxValue<TNumber>, IBitwiseOperators<TNumber, TNumber, TNumber>
     {
-        if (Avx2.IsSupported)
-        {
-            if (TLane.LaneWidth == Vector128<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector128.Load(pIndices);
-                    ref var vmask = ref Unsafe.As<TLane, Vector128<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 2), vidx, vmask, scale);
-                    var vw = Avx2.GatherMaskVector128(Vector128<uint>.Zero, (uint*)(pData + 3), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<uint>, TLane>(ref vz),
-                        w = Unsafe.As<Vector128<uint>, TLane>(ref vw),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-                    var vmask = Unsafe.As<TLane, Vector128<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 2), vidx, vmask, scale);
-                    var vw = Avx2.GatherMaskVector128(Vector128<ulong>.Zero, (ulong*)(pData + 3), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector128<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector128<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector128<ulong>, TLane>(ref vz),
-                        w = Unsafe.As<Vector128<ulong>, TLane>(ref vw),
-                    };
-                }
-            }
-            else if (TLane.LaneWidth == Vector256<TNumber>.Count)
-            {
-                if (sizeof(TNumber) == sizeof(uint))
-                {
-                    var vidx = Vector256.Load(pIndices);
-                    var vmask = Unsafe.As<TLane, Vector256<uint>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 2), vidx, vmask, scale);
-                    var vw = Avx2.GatherMaskVector256(Vector256<uint>.Zero, (uint*)(pData + 3), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<uint>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<uint>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<uint>, TLane>(ref vz),
-                        w = Unsafe.As<Vector256<uint>, TLane>(ref vw),
-                    };
-                }
-
-                if (sizeof(TNumber) == sizeof(ulong))
-                {
-                    var vidx = Vector128.Load(pIndices);
-                    var vmask = Unsafe.As<TLane, Vector256<ulong>>(ref mask);
-
-#pragma warning disable CA1857 // A constant is expected for the parameter
-                    var vx = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 0), vidx, vmask, scale);
-                    var vy = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 1), vidx, vmask, scale);
-                    var vz = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 2), vidx, vmask, scale);
-                    var vw = Avx2.GatherMaskVector256(Vector256<ulong>.Zero, (ulong*)(pData + 3), vidx, vmask, scale);
-#pragma warning restore CA1857 // A constant is expected for the parameter
-
-                    return new Vector4<TLane, TNumber>
-                    {
-                        x = Unsafe.As<Vector256<ulong>, TLane>(ref vx),
-                        y = Unsafe.As<Vector256<ulong>, TLane>(ref vy),
-                        z = Unsafe.As<Vector256<ulong>, TLane>(ref vz),
-                        w = Unsafe.As<Vector256<ulong>, TLane>(ref vw),
-                    };
-                }
-            }
-        }
-
-        Unsafe.SkipInit(out TLane x);
-        var px = (TNumber*)&x;
-        Unsafe.SkipInit(out TLane y);
-        var py = (TNumber*)&y;
-        Unsafe.SkipInit(out TLane z);
-        var pz = (TNumber*)&z;
-        Unsafe.SkipInit(out TLane w);
-        var pw = (TNumber*)&w;
-
-        for (var i = 0; i < TLane.LaneWidth; i++)
-        {
-            if (mask[i] == TNumber.Zero)
-            {
-                continue;
-            }
-
-            var scalerIdx = pIndices[i];
-
-            px[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 0) * scale));
-            py[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 1) * scale));
-            pz[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 2) * scale));
-            pw[i] = *(TNumber*)((byte*)pData + ((scalerIdx + 3) * scale));
-        }
-
         return new Vector4<TLane, TNumber>
         {
-            x = x,
-            y = y,
-            z = z,
-            w = w,
+            x = TLane.MaskGather(pData + 0, pIndices, mask, scale),
+            y = TLane.MaskGather(pData + 1, pIndices, mask, scale),
+            z = TLane.MaskGather(pData + 2, pIndices, mask, scale),
+            w = TLane.MaskGather(pData + 3, pIndices, mask, scale),
         };
     }
 

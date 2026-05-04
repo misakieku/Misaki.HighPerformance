@@ -115,6 +115,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         private void GenerateConstructors()
         {
             sourceBuilder.AppendLine($@"
+        {INLINE_METHOD_ATTRIBUTE}
         public unsafe {typeInfo.TypeName}(in global::System.ReadOnlySpan<{typeInfo.ComponentTypeFullName}> values)
         {{
             if (values.Length < {typeInfo.Column})
@@ -132,6 +133,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             if (typeInfo.ElementTypeSymbol != null)
             {
                 sourceBuilder.AppendLine($@"
+        {INLINE_METHOD_ATTRIBUTE}
         public unsafe {typeInfo.TypeName}(in global::System.ReadOnlySpan<{typeInfo.ElementTypeFullName}> values)
         {{
             if (values.Length < {typeInfo.Column * typeInfo.Row})
@@ -201,6 +203,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             foreach (var (signature, assignment) in _constructorSignatures)
             {
                 sourceBuilder.Append($@"
+        {INLINE_METHOD_ATTRIBUTE}
         public {typeInfo.TypeName}({signature})
         {{");
                 for (var i = 0; i < typeInfo.Column; i++)

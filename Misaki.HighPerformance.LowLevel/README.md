@@ -40,23 +40,34 @@ This package is the lowest-level layer in the solution. It is intended for code 
 
 ## Example
 
+### General usage
+
 ```csharp
 var opts = new AllocationManagerInitOpts
 {
     ArenaCapacity = 1024 * 1024,
     StackCapacity = 1024 * 1024,
-    FreeListConcurrencyLevel = 1
 };
 
 AllocationManager.Initialize(opts);
 
-var arr = new UnsafeArray<int>(10, Allocator.Persistent);
+var arr = new UnsafeArray<int>(10, AllocationHandle.Persistent);
 
 // Use the array
 
 arr.Dispose();
 
 AllocationManager.Dispose();
+```
+
+### Custom memory pool
+```csharp
+
+using var pool = new MemoryPool<TLSF, TLSF.CreationOptions>(new TLSF.CreationOptions { alignment = 16 });
+using var array = new UnsafeArray<int>(10, pool.AllocationHandle);
+
+// Use the array
+
 ```
 
 ## Package reference
@@ -70,7 +81,7 @@ dotnet add package Misaki.HighPerformance.LowLevel
 This project targets `net10.0`, enables unsafe code, and is packaged as content files for downstream consumption.
 
 You can enable debug features for leak detection and use-after-free checks by defining `MHP_ENABLE_SAFETY_CHECKS` in your project. And define `MHP_ENABLE_STACKTRACE` to enable additional debug features such as tracking allocations and providing detailed error messages.
-> Which means if you disable the safety checks, the library will not perform any safety checks and provide the maximum performance, and it will be your responsibility to ensure correct usage to avoid memory leaks and undefined behavior.
+> If you disable the safety checks, the library will not perform any safety checks, including bounds checking, and provide the maximum performance, and it will be your responsibility to ensure correct usage to avoid memory leaks and undefined behavior.
 > Even `IUnsafeCollection.IsCreated` will only check if the internal pointer is non-null, without verifying the actual validity of the memory.
 
 You can also define `MHP_ENABLE_MIMALLOC` to use mimalloc as the underlying allocator instead of the default C allocator.

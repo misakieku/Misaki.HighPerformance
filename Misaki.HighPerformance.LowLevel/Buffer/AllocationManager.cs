@@ -60,7 +60,8 @@ public readonly struct AllocationManagerDesc
         get; init;
     }
 
-    public required int FreeListConcurrencyLevel
+    [Obsolete("FreeList concurrency level is no longer used and will be ignored. FreeList is now designed to be thread-safe without a fixed concurrency level.")]
+    public int FreeListConcurrencyLevel
     {
         get; init;
     }
@@ -71,7 +72,6 @@ public readonly struct AllocationManagerDesc
         StackCapacity = 16 * 1024 * 1024, // 16 MB per thread
         FreeListChunkSize = 64 * 1024 * 1024,
         FreeListDefaultAlignment = 8,
-        FreeListConcurrencyLevel = Environment.ProcessorCount
     };
 }
 
@@ -210,8 +210,7 @@ public static unsafe class AllocationManager
         s_freeListAllocator = new MemoryPool<FreeList, FreeList.CreationOptions>(new FreeList.CreationOptions
         {
             alignment = opts.FreeListDefaultAlignment,
-            chunkSize = opts.FreeListChunkSize,
-            maxConcurrencyLevel = opts.FreeListConcurrencyLevel
+            chunkSize = opts.FreeListChunkSize
         });
 
         s_pHeapAllocator = (HeapAllocator*)Malloc((nuint)(sizeof(HeapAllocator)));

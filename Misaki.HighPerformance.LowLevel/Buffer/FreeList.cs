@@ -15,6 +15,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     {
         public nuint alignment;
         public nuint chunkSize;
+        [Obsolete("Max concurrency level is no longer used and will be ignored. FreeList is now designed to be thread-safe without a fixed concurrency level.")]
         public int maxConcurrencyLevel;
     }
 
@@ -501,7 +502,6 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     /// <remarks>
     /// This is thread safe.
     /// </remarks>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void* Allocate(nuint size, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
     {
         if (_disposed != 0)
@@ -605,7 +605,6 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
     /// <remarks>
     /// This is thread safe.
     /// </remarks>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void Free(void* ptr)
     {
         if (_disposed != 0 || ptr == null)
