@@ -70,7 +70,13 @@ public static unsafe partial class MemoryUtility
     public static void* Malloc(nuint size)
     {
 #if MHP_ENABLE_MIMALLOC
-        return Mimalloc.mi_malloc(size);
+        var ptr = Mimalloc.mi_malloc(size);
+        if (ptr == null)
+        {
+            throw new OutOfMemoryException("Failed to allocate memory using Malloc.");
+        }
+
+        return ptr;
 #elif NET6_0_OR_GREATER
         return NativeMemory.Alloc(size);
 #else
@@ -87,7 +93,13 @@ public static unsafe partial class MemoryUtility
     public static void* Calloc(nuint size)
     {
 #if MHP_ENABLE_MIMALLOC
-        return Mimalloc.mi_zalloc(size);
+        var ptr = Mimalloc.mi_zalloc(size);
+        if (ptr == null)
+        {
+            throw new OutOfMemoryException("Failed to allocate zero-initialized memory using Calloc.");
+        }
+
+        return ptr;
 #elif NET6_0_OR_GREATER
         return NativeMemory.AllocZeroed(size);
 #else
@@ -107,7 +119,13 @@ public static unsafe partial class MemoryUtility
     public static void* AlignedAlloc(nuint size, nuint alignment)
     {
 #if MHP_ENABLE_MIMALLOC
-        return Mimalloc.mi_aligned_alloc(alignment, size);
+        var ptr = Mimalloc.mi_aligned_alloc(alignment, size);
+        if (ptr == null)
+        {
+            throw new OutOfMemoryException("Failed to allocate aligned memory using AlignedAlloc.");
+        }
+
+        return ptr;
 #elif NET6_0_OR_GREATER
         return NativeMemory.AlignedAlloc(size, alignment);
 #else
@@ -125,7 +143,13 @@ public static unsafe partial class MemoryUtility
     public static void* Realloc(void* ptr, nuint size)
     {
 #if MHP_ENABLE_MIMALLOC
-        return Mimalloc.mi_realloc(ptr, size);
+        var ptr = Mimalloc.mi_realloc(ptr, size);
+        if (ptr == null)
+        {
+            throw new OutOfMemoryException("Failed to reallocate memory using Realloc.");
+        }
+
+        return ptr;
 #elif NET6_0_OR_GREATER
         return NativeMemory.Realloc(ptr, size);
 #else
@@ -145,7 +169,13 @@ public static unsafe partial class MemoryUtility
     public static void* AlignedRealloc(void* ptr, nuint size, nuint alignment)
     {
 #if MHP_ENABLE_MIMALLOC
-        return Mimalloc.mi_realloc_aligned(ptr, size, alignment);
+        var ptr = Mimalloc.mi_realloc_aligned(ptr, size, alignment);
+        if (ptr == null)
+        {
+            throw new OutOfMemoryException("Failed to reallocate aligned memory using AlignedRealloc.");
+        }
+
+        return ptr;
 #elif NET6_0_OR_GREATER
         return NativeMemory.AlignedRealloc(ptr, size, alignment);
 #else

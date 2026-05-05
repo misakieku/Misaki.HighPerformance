@@ -2,6 +2,7 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using Misaki.HighPerformance.Image;
 using Misaki.HighPerformance.Jobs;
+using Misaki.HighPerformance.Mathematics;
 using Misaki.HighPerformance.Mathematics.SPMD;
 using SkiaSharp;
 using System.Runtime.CompilerServices;
@@ -134,7 +135,6 @@ internal unsafe struct GGXMipGenerationJobSPMD : IJobSPMD<float, int>
         // 3. Monte Carlo Integration Loop
 
         var dynamicSampleCount = (uint)max(1.0f, GGXMipGenerationBenchmark.SAMPLE_COUNT * mipLevel.roughness);
-        var vDynamicSampleCount = TFloat.Create(dynamicSampleCount);
         var lumaVector = MathV.Create<TFloat, float>(0.2126f, 0.7152f, 0.0722f);
 
         for (var i = 0; i < dynamicSampleCount; i++)
@@ -151,7 +151,7 @@ internal unsafe struct GGXMipGenerationJobSPMD : IJobSPMD<float, int>
 
             var NdotL = TFloat.Max(MathV.Dot(N, L), TFloat.Zero);
             var sampleColor = SampleEquirectangularMap<TFloat, TInt>(image.Data, (int)image.Width, (int)image.Height, L, mask);
-
+            
             // The Karis Average Weight: 1 / (1 + luma)
             // A normal sky pixel (luma 1.0) gets a weight of 0.5.
             // A sun pixel (luma 1000.0) gets a tiny weight of ~0.001, naturally suppressing it.
@@ -169,21 +169,7 @@ internal unsafe struct GGXMipGenerationJobSPMD : IJobSPMD<float, int>
 
         // Write to output mip array
         var out_idx = (y * w + x) * 3;
-
-        // TODO: Optimize this
-        for (var i = 0; i < TFloat.LaneWidth; i++)
-        {
-            if (mask[i] == 0.0f)
-            {
-                continue;
-            }
-
-            var idx = out_idx[i];
-
-            pData[idx] = prefilteredColor.x[i];
-            pData[idx + 1] = prefilteredColor.y[i];
-            pData[idx + 2] = prefilteredColor.z[i];
-        }
+        prefilteredColor.MaskScatter(pData, out_idx.GetUnsafePtr(), mask);
     }
 }
 
@@ -334,7 +320,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
 
             var NdotL = TFloat.Max(MathV.Dot(vN, L), TFloat.Zero);
             var sampleColor = SampleEquirectangularMap(image.Data, (int)image.Width, (int)image.Height, L);
-
+            
             NdotL &= validLaneMask;
 
             // The Karis Average Weight: 1 / (1 + luma)
@@ -364,7 +350,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
         // 4. Average the result
         if (totalWeight > 0.0f)
         {
-            prefilteredColor *= 1.0f / totalWeight;
+            prefilteredColor *= rcp(totalWeight);
         }
 
         // Write to output mip array
