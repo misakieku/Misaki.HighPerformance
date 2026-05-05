@@ -70,7 +70,7 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
     {
         ArgumentOutOfRangeException.ThrowIfNegative(capacity);
 
-        _data = (UnsafeParallelHashMapData<TKey, TValue>*)handle.Alloc(handle.State, (uint)sizeof(UnsafeParallelHashMapData<TKey, TValue>), (nuint)AlignOf<UnsafeParallelHashMapData<TKey, TValue>>(), AllocationOption.Clear);
+        _data = (UnsafeParallelHashMapData<TKey, TValue>*)handle.Alloc((uint)sizeof(UnsafeParallelHashMapData<TKey, TValue>), (nuint)AlignOf<UnsafeParallelHashMapData<TKey, TValue>>(), AllocationOption.Clear);
 
         if (_data == null)
             throw new OutOfMemoryException("Failed to allocate UnsafeParallelHashMapData.");
@@ -110,13 +110,13 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
 
         if (_data->buffer != null && _data->allocationHandle.Free != null)
         {
-            _data->allocationHandle.Free(_data->allocationHandle.State, _data->buffer);
+            _data->allocationHandle.Free(_data->buffer);
             _data->buffer = null;
         }
 
         if (_data != null && _data->allocationHandle.Free != null)
         {
-            _data->allocationHandle.Free(_data->allocationHandle.State, _data);
+            _data->allocationHandle.Free(_data);
             _data = null;
         }
     }
@@ -186,7 +186,7 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
-        var buf = (byte*)data->allocationHandle.Alloc(data->allocationHandle.State, (uint)totalSize, (nuint)data->alignment, allocationOption);
+        var buf = (byte*)data->allocationHandle.Alloc((uint)totalSize, (nuint)data->alignment, allocationOption);
 
         data->buffer = buf;
         data->keys = (TKey*)(buf + keyOffset);
@@ -399,7 +399,7 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
 
         if (_data->allocationHandle.Free != null && oldBuffer != null)
         {
-            _data->allocationHandle.Free(_data->allocationHandle.State, oldBuffer);
+            _data->allocationHandle.Free(oldBuffer);
         }
 
 #if MHP_ENABLE_SAFETY_CHECKS

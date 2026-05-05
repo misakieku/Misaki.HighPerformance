@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics;
 
 namespace Misaki.HighPerformance.LowLevel.Utilities;
@@ -56,7 +57,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="searchSpace">A pointer to the byte array where the search will be performed.</param>
     /// <returns>Returns the index of the first null byte found in the array..</returns>
     /// <exception cref="ArgumentException">Thrown if the byte array is not null-terminated.</exception>"
-    public static unsafe int IndexOfNullByte(byte* searchSpace)
+    public static int IndexOfNullByte(byte* searchSpace)
     {
         const int Length = int.MaxValue;
         const uint uValue = 0; // Use uint for comparisons to avoid unnecessary 8->32 extensions
@@ -75,21 +76,44 @@ public static unsafe partial class MemoryUtility
             lengthToExamine -= 8;
 
             if (uValue == searchSpace[offset])
+            {
                 goto Found;
+            }
+
             if (uValue == searchSpace[offset + 1])
+            {
                 goto Found1;
+            }
+
             if (uValue == searchSpace[offset + 2])
+            {
                 goto Found2;
+            }
+
             if (uValue == searchSpace[offset + 3])
+            {
                 goto Found3;
+            }
+
             if (uValue == searchSpace[offset + 4])
+            {
                 goto Found4;
+            }
+
             if (uValue == searchSpace[offset + 5])
+            {
                 goto Found5;
+            }
+
             if (uValue == searchSpace[offset + 6])
+            {
                 goto Found6;
+            }
+
             if (uValue == searchSpace[offset + 7])
+            {
                 goto Found7;
+            }
 
             offset += 8;
         }
@@ -99,13 +123,24 @@ public static unsafe partial class MemoryUtility
             lengthToExamine -= 4;
 
             if (uValue == searchSpace[offset])
+            {
                 goto Found;
+            }
+
             if (uValue == searchSpace[offset + 1])
+            {
                 goto Found1;
+            }
+
             if (uValue == searchSpace[offset + 2])
+            {
                 goto Found2;
+            }
+
             if (uValue == searchSpace[offset + 3])
+            {
                 goto Found3;
+            }
 
             offset += 4;
         }
@@ -115,7 +150,9 @@ public static unsafe partial class MemoryUtility
             lengthToExamine -= 1;
 
             if (uValue == searchSpace[offset])
+            {
                 goto Found;
+            }
 
             offset += 1;
         }
@@ -358,5 +395,74 @@ public static unsafe partial class MemoryUtility
         return (int)(offset + 6);
     Found7:
         return (int)(offset + 7);
+    }
+
+    public static void ReplaceIfZeros(Span<byte> a, ReadOnlySpan<byte> b)
+    {
+        if (a.Length != b.Length)
+        {
+            throw new ArgumentException("Spans must be the same size.");
+        }
+
+        var i = 0;
+        if (Vector.IsHardwareAccelerated && a.Length >= Vector<byte>.Count)
+        {
+            ref var ptrA = ref MemoryMarshal.GetReference(a);
+            ref var ptrB = ref MemoryMarshal.GetReference(b);
+
+            var limit = a.Length - Vector<byte>.Count;
+            for (; i <= limit; i += Vector<byte>.Count)
+            {
+                var vecA = Vector.LoadUnsafe(ref ptrA, (nuint)i);
+                var vecB = Vector.LoadUnsafe(ref ptrB, (nuint)i);
+
+                var mask = Vector.Equals(vecA, Vector<byte>.Zero);
+
+                var result = Vector.ConditionalSelect(mask, vecB, vecA);
+                result.StoreUnsafe(ref ptrA, (nuint)i);
+            }
+        }
+
+        // Fallback standard loop for the remaining "tail" bytes (e.g., the last 15 bytes)
+        for (; i < a.Length; i++)
+        {
+            if (a[i] == 0)
+            {
+                a[i] = b[i];
+            }
+        }
+    }
+
+    public static void ReplaceIfZeros(void* a, void* b, nuint length)
+    {
+        var ptrA = (byte*)a;
+        var ptrB = (byte*)b;
+
+        nuint i = 0u;
+
+        if (Vector.IsHardwareAccelerated && length >= (nuint)Vector<byte>.Count)
+        {
+            var vectorSize = (nuint)Vector<byte>.Count;
+            var limit = length - vectorSize;
+            for (; i <= limit; i += vectorSize)
+            {
+                var vecA = Vector.Load(ptrA + i);
+                var vecB = Vector.Load(ptrB + i);
+
+                var mask = Vector.Equals(vecA, Vector<byte>.Zero);
+
+                var result = Vector.ConditionalSelect(mask, vecB, vecA);
+                result.Store(ptrA + i);
+            }
+        }
+
+        // Fallback standard loop for the remaining "tail" bytes (e.g., the last 15 bytes)
+        for (; i < length; i++)
+        {
+            if (ptrA[i] == 0)
+            {
+                ptrA[i] = ptrB[i];
+            }
+        }
     }
 }

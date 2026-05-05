@@ -86,8 +86,8 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
     private uint* _slBitmaps;
     private BlockHeader** _blocks;
     private MemoryChunk* _chunks;
-    private nuint _alignment;
-    private nuint _chunkSize;
+    private readonly nuint _alignment;
+    private readonly nuint _chunkSize;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TLSF Create(in CreationOptions opts)
@@ -141,10 +141,6 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
     {
         var totalSize = size + (nuint)sizeof(MemoryChunk);
         var mem = (byte*)AlignedAlloc(totalSize, _alignment);
-        if (mem == null)
-        {
-            throw new OutOfMemoryException("Failed to allocate MemoryChunk for TlsfAllocator.");
-        }
 
         MemoryChunk* chunk = (MemoryChunk*)mem;
         chunk->next = _chunks;

@@ -251,7 +251,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
-        var buf = (byte*)_allocationHandle.Alloc(_allocationHandle.State, (uint)totalSize, (nuint)_alignment, allocationOption);
+        var buf = (byte*)_allocationHandle.Alloc((uint)totalSize, (nuint)_alignment, allocationOption);
 
         _buffer = buf;
         _keys = (TKey*)(_buffer + keyOffset);
@@ -287,7 +287,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
         if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.State, oldBuffer);
+            _allocationHandle.Free(oldBuffer);
         }
 
 #if MHP_ENABLE_SAFETY_CHECKS
@@ -707,7 +707,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
         if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.State, _buffer);
+            _allocationHandle.Free(_buffer);
         }
 
 #if MHP_ENABLE_SAFETY_CHECKS

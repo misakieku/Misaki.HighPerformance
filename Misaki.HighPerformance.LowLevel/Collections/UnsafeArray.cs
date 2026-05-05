@@ -141,7 +141,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
-        _buffer = (T*)handle.Alloc(handle.State, (nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption);
+        _buffer = (T*)handle.Alloc((nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption);
 #if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle = MemoryHandle.Create(_buffer, (nuint)(count * sizeof(T)));
 #endif
@@ -232,7 +232,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         }
 
         var elemSize = SizeOf<T>();
-        _buffer = (T*)_allocationHandle.Realloc(_allocationHandle.State, _buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option);
+        _buffer = (T*)_allocationHandle.Realloc(_buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option);
         _count = newSize;
 #if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle.Update(_buffer, (nuint)newSize * elemSize);
@@ -388,10 +388,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
-        if (_allocationHandle.Free != null)
-        {
-            _allocationHandle.Free(_allocationHandle.State, _buffer);
-        }
+        _allocationHandle.Free(_buffer);
 
 #if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle.Dispose();

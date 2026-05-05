@@ -88,7 +88,7 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DisposablePtr<UnsafeParallelQueue<T>> Allocate(int capacityPerChunk, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        var pQueue = (UnsafeParallelQueue<T>*)handle.Alloc(handle.State, SizeOf<DisposablePtr<UnsafeParallelQueue<T>>>(), AlignOf<DisposablePtr<UnsafeParallelQueue<T>>>(), AllocationOption.None);
+        var pQueue = (UnsafeParallelQueue<T>*)handle.Alloc(SizeOf<DisposablePtr<UnsafeParallelQueue<T>>>(), AlignOf<DisposablePtr<UnsafeParallelQueue<T>>>(), AllocationOption.None);
         *pQueue = new UnsafeParallelQueue<T>(capacityPerChunk, handle, allocationOption);
         return new DisposablePtr<UnsafeParallelQueue<T>>(pQueue);
     }
@@ -289,7 +289,7 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
     private readonly ChunkHeader* AllocateNewChunk()
     {
         nuint byteSize = (nuint)sizeof(ChunkHeader) + (nuint)(_chunkCapacity * sizeof(ChunkSlot));
-        ChunkHeader* block = (ChunkHeader*)_allocHandle.Alloc(_allocHandle.State, byteSize, AlignOf<int>(), _allocOption);
+        ChunkHeader* block = (ChunkHeader*)_allocHandle.Alloc(byteSize, AlignOf<int>(), _allocOption);
 
         block->next = null;
         block->nextFree = null;
@@ -352,7 +352,7 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
         while (curr != null)
         {
             var next = curr->next;
-            _allocHandle.Free(_allocHandle.State, curr);
+            _allocHandle.Free(curr);
             curr = next;
         }
 
@@ -361,7 +361,7 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
         while (free != null)
         {
             var next = free->nextFree;
-            _allocHandle.Free(_allocHandle.State, free);
+            _allocHandle.Free(free);
             free = next;
         }
 

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
@@ -97,35 +98,39 @@ public readonly unsafe struct AllocationHandle
     public static AllocationHandle Persistent => AllocationManager.s_pHeapAllocator->Handle;
 
     /// <summary>
-    /// Gets a pointer to the state instance associated with this allocation handle.
+    /// Allocator for persistent allocations using a Two-Level Segregated Fit (TLSF) algorithm. Allocations are not automatically released after use, but can be reused to reduce fragmentation, system call and improve performance.
     /// </summary>
-    public required void* State
+    public static AllocationHandle TLSF => AllocationManager.s_pTLSFAllocator->Handle;
+
+    private readonly void* _state;
+    private readonly AllocFunc _alloc;
+    private readonly ReallocFunc _realloc;
+    private readonly FreeFunc _free;
+
+    public AllocationHandle(void* state, AllocFunc alloc, ReallocFunc realloc, FreeFunc free)
     {
-        get; init;
+        _state = state;
+        _alloc = alloc;
+        _realloc = realloc;
+        _free = free;
     }
 
-    /// <summary>
-    /// Gets a function pointer for allocating memory.
-    /// </summary>
-    public required AllocFunc Alloc
+    public void* Alloc(nuint size, nuint alignment, AllocationOption option = AllocationOption.None)
     {
-        get; init;
+        Debug.Assert(_alloc != null);
+        return _alloc(_state, size, alignment, option);
     }
 
-    /// <summary>
-    /// Gets a function pointer for reallocating memory.
-    /// </summary>
-    public required ReallocFunc Realloc
+    public void* Realloc(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
     {
-        get; init;
+        Debug.Assert(_realloc != null);
+        return _realloc(_state, ptr, oldSize, newSize, alignment, allocationOption);
     }
 
-    /// <summary>
-    /// Gets a function pointer for freeing allocated memory.
-    /// </summary>
-    public required FreeFunc Free
+    public void Free(void* ptr)
     {
-        get; init;
+        Debug.Assert(_free != null);
+        _free(_state, ptr);
     }
 }
 

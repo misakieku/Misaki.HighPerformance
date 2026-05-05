@@ -422,8 +422,8 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             }
 
             var blockSize = bucket->blockSize;
-            var blocksToCreate = Math.Max(1u, _chunkSize / blockSize);
-            blocksToCreate = Math.Min(blocksToCreate, 256);
+            const nuint REFILL_BUDGET = 64 * 1024; // 64KB per refill
+            var blocksToCreate = Math.Max(1u, REFILL_BUDGET / blockSize);
 
             if (blocksToCreate == 0)
             {

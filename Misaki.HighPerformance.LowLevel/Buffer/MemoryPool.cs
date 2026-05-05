@@ -19,13 +19,7 @@ public unsafe struct MemoryPool<TAllocator, TOpts> : IDisposable
         _pAllocator = (TAllocator*)Malloc((nuint)sizeof(TAllocator));
         *_pAllocator = allocator;
 
-        _allocationHandle = new AllocationHandle
-        {
-            State = _pAllocator,
-            Alloc = &Allocate,
-            Realloc = &Reallocate,
-            Free = &Free
-        };
+        _allocationHandle = new AllocationHandle(_pAllocator, &Allocate, &Reallocate, &Free);
     }
 
     private static void* Allocate(void* pAllocator, nuint size, nuint alignment, AllocationOption allocationOption)

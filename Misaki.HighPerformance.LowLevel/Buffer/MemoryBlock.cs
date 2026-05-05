@@ -49,7 +49,7 @@ public unsafe struct MemoryBlock : IDisposable
             throw new InvalidOperationException("Target allocation handle does not support allocation.");
         }
 
-        _buffer = handle.Alloc(handle.State, size, alignment, allocationOption);
+        _buffer = handle.Alloc(size, alignment, allocationOption);
         _size = size;
         _alignment = alignment;
 
@@ -110,7 +110,7 @@ public unsafe struct MemoryBlock : IDisposable
             return;
         }
 
-        _buffer = _allocationHandle.Realloc(_allocationHandle.State, _buffer, _size, newSize, _alignment, option);
+        _buffer = _allocationHandle.Realloc(_buffer, _size, newSize, _alignment, option);
         _size = newSize;
 #if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle.Update(_buffer, _size);
@@ -265,7 +265,7 @@ public unsafe struct MemoryBlock : IDisposable
 
         if (_allocationHandle.Free != null)
         {
-            _allocationHandle.Free(_allocationHandle.State, _buffer);
+            _allocationHandle.Free(_buffer);
         }
 
 #if MHP_ENABLE_SAFETY_CHECKS

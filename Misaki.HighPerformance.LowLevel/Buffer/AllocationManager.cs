@@ -3,6 +3,7 @@ using Misaki.HighPerformance.Collections;
 #endif
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -20,7 +21,7 @@ public readonly struct AllocationInfo
     }
 
     /// <summary>
-    /// Gets the newSize of the allocation in bytes.
+    /// Gets the size of the allocation in bytes.
     /// </summary>
     public nuint Size
     {
@@ -38,40 +39,46 @@ public readonly struct AllocationInfo
 #endif
 }
 
-public readonly struct AllocationManagerDesc
+public struct AllocationManagerDesc
 {
-    public required nuint ArenaCapacity
+    public nuint ArenaCapacity
     {
-        get; init;
+        get; set;
     }
 
-    public required nuint StackCapacity
+    public nuint StackCapacity
     {
-        get; init;
+        get; set;
     }
 
-    public required nuint FreeListChunkSize
+    public nuint FreeListChunkSize
     {
-        get; init;
+        get; set;
     }
 
-    public required nuint FreeListDefaultAlignment
+    public nuint FreeListDefaultAlignment
     {
-        get; init;
+        get; set;
     }
 
-    [Obsolete("FreeList concurrency level is no longer used and will be ignored. FreeList is now designed to be thread-safe without a fixed concurrency level.")]
-    public int FreeListConcurrencyLevel
+    public nuint TLSFAlignment
     {
-        get; init;
+        get; set;
+    }
+
+    public nuint TLSFInitialChunkSize
+    {
+        get; set;
     }
 
     public static AllocationManagerDesc Default => new AllocationManagerDesc
     {
         ArenaCapacity = 1024 * 1024 * 1024, // 1 GB
-        StackCapacity = 16 * 1024 * 1024, // 16 MB per thread
+        StackCapacity = 32 * 1024 * 1024, // 32 MB per thread
         FreeListChunkSize = 64 * 1024 * 1024,
         FreeListDefaultAlignment = 8,
+        TLSFAlignment = 16,
+        TLSFInitialChunkSize = 64 * 1024, // 64 KB
     };
 }
 
@@ -89,13 +96,7 @@ public static unsafe class AllocationManager
 
         public void Init()
         {
-            _handle = new AllocationHandle
-            {
-                State = null,
-                Alloc = &Allocate,
-                Realloc = &Reallocate,
-                Free = &Free
-            };
+            _handle = new AllocationHandle(null, &Allocate, &Reallocate, &Free);
         }
 
         private static void* Allocate(void* _, nuint size, nuint alignment, AllocationOption allocationOption)
@@ -138,6 +139,63 @@ public static unsafe class AllocationManager
         }
     }
 
+    // TODO: Lock-free implementation
+    internal struct TLSFAllocator : IAllocator, IDisposable
+    {
+        private TLSF _tlsf;
+        private GCHandle _lock;
+        private AllocationHandle _handle;
+
+        public readonly AllocationHandle Handle => _handle;
+
+        public void Init(nuint alignment, nuint initialChunkSize)
+        {
+            _tlsf = new TLSF(alignment, initialChunkSize);
+#pragma warning disable CS9216 // A value of type 'System.Threading.Lock' converted to a different type will use likely unintended monitor-based locking in 'lock' statement.
+            _lock = GCHandle.Alloc(new Lock(), GCHandleType.Normal);
+#pragma warning restore CS9216 // A value of type 'System.Threading.Lock' converted to a different type will use likely unintended monitor-based locking in 'lock' statement.
+            _handle = new AllocationHandle(Unsafe.AsPointer(in this), &Allocate, &Reallocate, &Free);
+        }
+
+        private static void* Allocate(void* state, nuint size, nuint alignment, AllocationOption allocationOption)
+        {
+            var allocator = (TLSFAllocator*)state;
+            var locker = (Lock)allocator->_lock.Target!;
+
+            lock (locker)
+            {
+                return allocator->_tlsf.Allocate(size, alignment, allocationOption);
+            }
+        }
+
+        private static void* Reallocate(void* state, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
+        {
+            var allocator = (TLSFAllocator*)state;
+            var locker = (Lock)allocator->_lock.Target!;
+
+            lock (locker)
+            {
+                return allocator->_tlsf.Reallocate(ptr, oldSize, newSize, alignment, allocationOption);
+            }
+        }
+
+        private static void Free(void* state, void* ptr)
+        {
+            var allocator = (TLSFAllocator*)state;
+            var locker = (Lock)allocator->_lock.Target!;
+
+            lock (locker)
+            {
+                allocator->_tlsf.Free(ptr);
+            }
+        }
+
+        public void Dispose()
+        {
+            _lock.Free();
+        }
+    }
+
     private class ThreadLocalStackPool
     {
         public MemoryPool<VirtualStack, VirtualStack.CreationOptions> pool;
@@ -159,6 +217,7 @@ public static unsafe class AllocationManager
     internal static MemoryPool<VirtualArena, VirtualArena.CreationOptions> s_arenaAllocator;
     internal static MemoryPool<FreeList, FreeList.CreationOptions> s_freeListAllocator;
     internal static HeapAllocator* s_pHeapAllocator;
+    internal static TLSFAllocator* s_pTLSFAllocator;
 
     [ThreadStatic]
     private static ThreadLocalStackPool? t_stackAllocator;
@@ -189,9 +248,8 @@ public static unsafe class AllocationManager
     private static volatile bool s_initialized;
 
     private static nuint s_threadLocalStackSize;
-    private static SpinLock s_stackLocker = new SpinLock(false);
 
-    public static void Initialize(AllocationManagerDesc opts)
+    public static void Initialize(AllocationManagerDesc desc = default)
     {
         if (s_initialized)
         {
@@ -202,21 +260,30 @@ public static unsafe class AllocationManager
         s_allocations = new ConcurrentSlotMap<AllocationInfo>(256);
 #endif
 
+        var defaultDesc = AllocationManagerDesc.Default;
+
+        var spanDesc = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref desc, 1));
+        var spanDefault = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref defaultDesc, 1));
+        ReplaceIfZeros(spanDesc, spanDefault);
+
         s_arenaAllocator = new MemoryPool<VirtualArena, VirtualArena.CreationOptions>(new VirtualArena.CreationOptions
         {
-            reserveCapacity = opts.ArenaCapacity
+            reserveCapacity = desc.ArenaCapacity
         });
 
         s_freeListAllocator = new MemoryPool<FreeList, FreeList.CreationOptions>(new FreeList.CreationOptions
         {
-            alignment = opts.FreeListDefaultAlignment,
-            chunkSize = opts.FreeListChunkSize
+            alignment = desc.FreeListDefaultAlignment,
+            chunkSize = desc.FreeListChunkSize
         });
 
-        s_pHeapAllocator = (HeapAllocator*)Malloc((nuint)(sizeof(HeapAllocator)));
+        s_pHeapAllocator = (HeapAllocator*)Malloc((nuint)sizeof(HeapAllocator));
         s_pHeapAllocator->Init();
 
-        s_threadLocalStackSize = opts.StackCapacity;
+        s_pTLSFAllocator = (TLSFAllocator*)Malloc((nuint)sizeof(TLSFAllocator));
+        s_pTLSFAllocator->Init(desc.TLSFAlignment, desc.TLSFInitialChunkSize);
+
+        s_threadLocalStackSize = desc.StackCapacity;
 
         s_initialized = true;
     }
@@ -422,6 +489,13 @@ public static unsafe class AllocationManager
         {
             Free(s_pHeapAllocator);
             s_pHeapAllocator = null;
+        }
+
+        if (s_pTLSFAllocator != null)
+        {
+            s_pTLSFAllocator->Dispose();
+            Free(s_pTLSFAllocator);
+            s_pTLSFAllocator = null;
         }
     }
 }
