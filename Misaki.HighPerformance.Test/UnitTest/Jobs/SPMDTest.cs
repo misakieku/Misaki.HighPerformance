@@ -119,15 +119,9 @@ internal struct DistanceJob : IJobSPMD<float>
 public partial class SPMDTest
 {
     [HPCompute(TargetInstructionSet.AVX2)]
-    private static (TFloat, TFloat) Test_SPMD<TFloat>(TFloat a, TFloat b, TFloat c)
-        where TFloat : unmanaged, ISPMDLane<TFloat, float>
+    private static void Test_SPMD(float a, out float sin, out float cos)
     {
-        var u = TFloat.Atan2(a, b);
-        var v = TFloat.Asin(c);
-
-        u = u / (2.0f * 3.14159265358979323846f) + 0.5f;
-        v = v / 3.14159265358979323846f + 0.5f;
-        return (u, v);
+        math.sincos(a, out sin, out cos);
     }
 
     [TestMethod]
