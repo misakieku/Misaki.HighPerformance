@@ -5,6 +5,8 @@ using Misaki.HighPerformance.Test.Benchmark;
 using Misaki.HighPerformance.Test.UnitTest;
 using Misaki.HighPerformance.Test.UnitTest.Jobs;
 using System.Buffers;
+using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics.X86;
 
 //BenchmarkRunner.Run<GGXMipGenerationBenchmark>();
 

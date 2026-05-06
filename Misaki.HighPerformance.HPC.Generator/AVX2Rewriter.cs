@@ -1,5 +1,6 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Misaki.HighPerformance.HPC.Generator.VectorAPI;
 using System;
 
 namespace Misaki.HighPerformance.HPC.Generator
@@ -11,28 +12,39 @@ namespace Misaki.HighPerformance.HPC.Generator
         {
             context.RegisterPostInitializationOutput(static ctx =>
             {
-                var source = @"
+                var api = new Avx2APIContext();
+
+                var sinFloat_standard = UtilityTemplate.SinFloat_Standard(api);
+                var sinFloat_fast = UtilityTemplate.SinFloat_Fast(api);
+
+                var source = @$"
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
 
 namespace Misaki.HighPerformance.HPC
-{
+{{
     public static class AVX2Utility
-    {
+    {{
+        [MethodImpl(MethodImplOptions.NoInlining)]
+{sinFloat_standard.GetFullCode("        ")}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+{sinFloat_fast.GetFullCode("        ")}
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector256<float> Asin(Vector256<float> value)
-        {
+        {{
             // asin(value) = pi/2 - acos(value)
 
             var piOver2 = Vector256.Create(MathF.PI / 2.0f);
             return Avx2.Subtract(piOver2, Acos(value));
-        }
+        }}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector256<float> Acos(Vector256<float> value)
-        {
+        {{
             // 0 <= value <= 1 : acos(value) = sqrt(1 - value) * (c0 + c1*value + c2*value^2 + c3*value^3)
             // value < 0 : acos(value) = pi - acos(-value)
 
@@ -54,11 +66,11 @@ namespace Misaki.HighPerformance.HPC
             var isNegative = Avx2.CompareLessThan(value, Vector256<float>.Zero);
 
             return Avx2.BlendVariable(pi, Avx2.Subtract(pi, result), isNegative);
-        }
+        }}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector256<float> Atan2(Vector256<float> y, Vector256<float> x)
-        {
+        {{
             var absX = Vector256.Abs(x);
             var absY = Vector256.Abs(y);
 
@@ -103,9 +115,9 @@ namespace Misaki.HighPerformance.HPC
             // (This works because our ratio logic effectively computed atan(|y|/|value|) above)
             var negativeResult = Avx2.Subtract(Vector256<float>.Zero, result);
             return Avx2.BlendVariable(negativeResult, result, yLtZero);
-        }
-    }
-}";
+        }}
+    }}
+}}";
 
                 ctx.AddSource("AVX2Utility.g.cs", source);
             });

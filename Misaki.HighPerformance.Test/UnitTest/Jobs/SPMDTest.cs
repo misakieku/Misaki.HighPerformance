@@ -119,12 +119,6 @@ internal struct DistanceJob : IJobSPMD<float>
 public partial class SPMDTest
 {
     [HPCompute(TargetInstructionSet.AVX2)]
-    private static WideLane<float> Test(WideLane<float> a, WideLane<float> b, WideLane<float> c)
-    {
-        return WideLane<float>.MultiplyAdd(a, b, c);
-    }
-
-    [HPCompute(TargetInstructionSet.AVX2)]
     private static (TFloat, TFloat) Test_SPMD<TFloat>(TFloat a, TFloat b, TFloat c)
         where TFloat : unmanaged, ISPMDLane<TFloat, float>
     {

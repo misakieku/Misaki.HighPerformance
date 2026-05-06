@@ -416,14 +416,14 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// <summary>
     /// Computes a * b + c element-wise.
     /// </summary>
-    /// <param name="a">The first multiplier.</param>
-    /// <param name="b">The second multiplier.</param>
-    /// <param name="c">The addend.</param>
+    /// <param name="left">The first multiplier.</param>
+    /// <param name="right">The second multiplier.</param>
+    /// <param name="addend">The addend.</param>
     /// <returns>The result of the fused multiply-add operation.</returns>
     /// <remarks>
     /// Float and double implementations should use fused multiply-add instructions when available for both accuracy and performance.
     /// </remarks>
-    static abstract TSelf MultiplyAdd(TSelf a, TSelf b, TSelf c);
+    static abstract TSelf MultiplyAdd(TSelf left, TSelf right, TSelf addend);
     /// <summary>
     /// Returns the minimum of the two lane values element-wise.
     /// </summary>
