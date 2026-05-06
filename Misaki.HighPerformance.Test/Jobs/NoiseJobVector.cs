@@ -1,6 +1,6 @@
 using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.Mathematics;
-using Misaki.HighPerformance.Mathematics.SPMD;
+using Misaki.HighPerformance.HPC;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;

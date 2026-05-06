@@ -31,7 +31,8 @@
     <ProjectReference Include="..\Misaki.HighPerformance.Image\Misaki.HighPerformance.Image.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance.Jobs\Misaki.HighPerformance.Jobs.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance.LowLevel\Misaki.HighPerformance.LowLevel.csproj" />
-    <ProjectReference Include="..\Misaki.HighPerformance.Mathematics.SPMD\Misaki.HighPerformance.Mathematics.SPMD.csproj" />
+    <ProjectReference Include="..\Misaki.HighPerformance.HPC.Generator\Misaki.HighPerformance.HPC.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Misaki.HighPerformance.HPC\Misaki.HighPerformance.HPC.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance.Mathematics\Misaki.HighPerformance.Mathematics.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance\Misaki.HighPerformance.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance.Analyzer\Misaki.HighPerformance.Analyzer\Misaki.HighPerformance.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />

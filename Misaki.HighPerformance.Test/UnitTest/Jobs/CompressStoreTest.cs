@@ -1,5 +1,6 @@
-using Misaki.HighPerformance.Mathematics.SPMD;
+using Misaki.HighPerformance.HPC;
 using System.Numerics;
+using System.Runtime.Intrinsics.X86;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Jobs;
 

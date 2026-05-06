@@ -1,6 +1,6 @@
 using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.Mathematics;
-using Misaki.HighPerformance.Mathematics.SPMD;
+using Misaki.HighPerformance.HPC;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Jobs;
@@ -116,8 +116,26 @@ internal struct DistanceJob : IJobSPMD<float>
 }
 
 [TestClass]
-public class SPMDTest
+public partial class SPMDTest
 {
+    [HPCompute(TargetInstructionSet.AVX2)]
+    private static WideLane<float> Test(WideLane<float> a, WideLane<float> b, WideLane<float> c)
+    {
+        return WideLane<float>.MultiplyAdd(a, b, c);
+    }
+
+    [HPCompute(TargetInstructionSet.AVX2)]
+    private static (TFloat, TFloat) Test_SPMD<TFloat>(TFloat a, TFloat b, TFloat c)
+        where TFloat : unmanaged, ISPMDLane<TFloat, float>
+    {
+        var u = TFloat.Atan2(a, b);
+        var v = TFloat.Asin(c);
+
+        u = u / (2.0f * 3.14159265358979323846f) + 0.5f;
+        v = v / 3.14159265358979323846f + 0.5f;
+        return (u, v);
+    }
+
     [TestMethod]
     public unsafe void TestSPMDVectorDot()
     {

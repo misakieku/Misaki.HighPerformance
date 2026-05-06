@@ -405,20 +405,54 @@ public static unsafe partial class MemoryUtility
         }
 
         var i = 0;
-        if (Vector.IsHardwareAccelerated && a.Length >= Vector<byte>.Count)
+        if (Vector512.IsHardwareAccelerated && a.Length >= Vector512<byte>.Count)
         {
             ref var ptrA = ref MemoryMarshal.GetReference(a);
             ref var ptrB = ref MemoryMarshal.GetReference(b);
 
-            var limit = a.Length - Vector<byte>.Count;
-            for (; i <= limit; i += Vector<byte>.Count)
+            var limit = a.Length - Vector512<byte>.Count;
+            for (; i <= limit; i += Vector512<byte>.Count)
             {
-                var vecA = Vector.LoadUnsafe(ref ptrA, (nuint)i);
-                var vecB = Vector.LoadUnsafe(ref ptrB, (nuint)i);
+                var vecA = Vector512.LoadUnsafe(ref ptrA, (nuint)i);
+                var vecB = Vector512.LoadUnsafe(ref ptrB, (nuint)i);
 
-                var mask = Vector.Equals(vecA, Vector<byte>.Zero);
+                var mask = Vector512.Equals(vecA, Vector512<byte>.Zero);
 
-                var result = Vector.ConditionalSelect(mask, vecB, vecA);
+                var result = Vector512.ConditionalSelect(mask, vecB, vecA);
+                result.StoreUnsafe(ref ptrA, (nuint)i);
+            }
+        }
+        else if (Vector256.IsHardwareAccelerated && a.Length >= Vector256<byte>.Count)
+        {
+            ref var ptrA = ref MemoryMarshal.GetReference(a);
+            ref var ptrB = ref MemoryMarshal.GetReference(b);
+
+            var limit = a.Length - Vector256<byte>.Count;
+            for (; i <= limit; i += Vector256<byte>.Count)
+            {
+                var vecA = Vector256.LoadUnsafe(ref ptrA, (nuint)i);
+                var vecB = Vector256.LoadUnsafe(ref ptrB, (nuint)i);
+
+                var mask = Vector256.Equals(vecA, Vector256<byte>.Zero);
+
+                var result = Vector256.ConditionalSelect(mask, vecB, vecA);
+                result.StoreUnsafe(ref ptrA, (nuint)i);
+            }
+        }
+        else if (Vector128.IsHardwareAccelerated && a.Length >= Vector128<byte>.Count)
+        {
+            ref var ptrA = ref MemoryMarshal.GetReference(a);
+            ref var ptrB = ref MemoryMarshal.GetReference(b);
+
+            var limit = a.Length - Vector128<byte>.Count;
+            for (; i <= limit; i += Vector128<byte>.Count)
+            {
+                var vecA = Vector128.LoadUnsafe(ref ptrA, (nuint)i);
+                var vecB = Vector128.LoadUnsafe(ref ptrB, (nuint)i);
+
+                var mask = Vector128.Equals(vecA, Vector128<byte>.Zero);
+
+                var result = Vector128.ConditionalSelect(mask, vecB, vecA);
                 result.StoreUnsafe(ref ptrA, (nuint)i);
             }
         }
@@ -440,18 +474,48 @@ public static unsafe partial class MemoryUtility
 
         nuint i = 0u;
 
-        if (Vector.IsHardwareAccelerated && length >= (nuint)Vector<byte>.Count)
+        if (Vector512.IsHardwareAccelerated && length >= (nuint)Vector512<byte>.Count)
         {
-            var vectorSize = (nuint)Vector<byte>.Count;
+            var vectorSize = (nuint)Vector512<byte>.Count;
             var limit = length - vectorSize;
             for (; i <= limit; i += vectorSize)
             {
-                var vecA = Vector.Load(ptrA + i);
-                var vecB = Vector.Load(ptrB + i);
+                var vecA = Vector512.Load(ptrA + i);
+                var vecB = Vector512.Load(ptrB + i);
 
-                var mask = Vector.Equals(vecA, Vector<byte>.Zero);
+                var mask = Vector512.Equals(vecA, Vector512<byte>.Zero);
 
-                var result = Vector.ConditionalSelect(mask, vecB, vecA);
+                var result = Vector512.ConditionalSelect(mask, vecB, vecA);
+                result.Store(ptrA + i);
+            }
+        }
+        else if (Vector256.IsHardwareAccelerated && length >= (nuint)Vector256<byte>.Count)
+        {
+            var vectorSize = (nuint)Vector256<byte>.Count;
+            var limit = length - vectorSize;
+            for (; i <= limit; i += vectorSize)
+            {
+                var vecA = Vector256.Load(ptrA + i);
+                var vecB = Vector256.Load(ptrB + i);
+
+                var mask = Vector256.Equals(vecA, Vector256<byte>.Zero);
+
+                var result = Vector256.ConditionalSelect(mask, vecB, vecA);
+                result.Store(ptrA + i);
+            }
+        }
+        else if (Vector128.IsHardwareAccelerated && length >= (nuint)Vector128<byte>.Count)
+        {
+            var vectorSize = (nuint)Vector128<byte>.Count;
+            var limit = length - vectorSize;
+            for (; i <= limit; i += vectorSize)
+            {
+                var vecA = Vector128.Load(ptrA + i);
+                var vecB = Vector128.Load(ptrB + i);
+
+                var mask = Vector128.Equals(vecA, Vector128<byte>.Zero);
+
+                var result = Vector128.ConditionalSelect(mask, vecB, vecA);
                 result.Store(ptrA + i);
             }
         }

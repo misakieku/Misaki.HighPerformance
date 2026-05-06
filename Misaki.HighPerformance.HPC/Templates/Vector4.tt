@@ -3,11 +3,11 @@
 <#@ include file="Vector{T}Helper.ttinclude" #>
 <#@ output extension=".gen.cs" #>
 <#
-var code = GenerateVectorType(2);
+var code = GenerateVectorType(4);
 #>
 using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-namespace Misaki.HighPerformance.Mathematics.SPMD;
+namespace Misaki.HighPerformance.HPC;
 <#= code #>

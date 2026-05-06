@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
 
-namespace Misaki.HighPerformance.Mathematics.SPMD;
+namespace Misaki.HighPerformance.HPC;
 
 public static unsafe class WideLane
 {
@@ -891,7 +891,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var floored = Vector.Floor(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(floored));
+            return Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(floored);
         }
         else if (typeof(TNumber) == typeof(double))
         {
@@ -922,7 +922,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static WideLane<TNumber> MultipleAdd(WideLane<TNumber> a, WideLane<TNumber> b, WideLane<TNumber> c)
+    public static WideLane<TNumber> MultiplyAdd(WideLane<TNumber> a, WideLane<TNumber> b, WideLane<TNumber> c)
     {
         if (typeof(TNumber) == typeof(float))
         {
@@ -930,7 +930,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
             var vb = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(b);
             var vc = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(c);
             var result = Vector.FusedMultiplyAdd(va, vb, vc);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(result);
         }
         else if (typeof(TNumber) == typeof(double))
         {
@@ -938,7 +938,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
             var vb = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(b);
             var vc = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(c);
             var result = Vector.FusedMultiplyAdd(va, vb, vc);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<double>, WideLane<TNumber>>(result);
         }
 
         return new WideLane<TNumber>((a.value * b.value) + c.value);
@@ -992,10 +992,10 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         var c9 = Create(TNumber.CreateTruncating(0.08214589f));   // PI^9 / 362880
 
         var z2_sin = z_sin * z_sin;
-        var poly_sin = MultipleAdd(z2_sin, c9, c7);       // c7 + c9*z^2
-        poly_sin = MultipleAdd(z2_sin, poly_sin, c5);                   // c5 + z^2*(...)
-        poly_sin = MultipleAdd(z2_sin, poly_sin, c3);                   // c3 + z^2*(...)
-        poly_sin = MultipleAdd(z2_sin, poly_sin, c1);                   // c1 + z^2*(...)
+        var poly_sin = MultiplyAdd(z2_sin, c9, c7);       // c7 + c9*z^2
+        poly_sin = MultiplyAdd(z2_sin, poly_sin, c5);                   // c5 + z^2*(...)
+        poly_sin = MultiplyAdd(z2_sin, poly_sin, c3);                   // c3 + z^2*(...)
+        poly_sin = MultiplyAdd(z2_sin, poly_sin, c1);                   // c1 + z^2*(...)
         poly_sin = z_sin * poly_sin;                                            // z * (...)
 
         return poly_sin * sign_sin;
@@ -1004,7 +1004,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Sin(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(result));
         }
         else if (typeof(TNumber) == typeof(double))
         {
@@ -1042,10 +1042,10 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         var c9 = Create(TNumber.CreateTruncating(0.08214589f));   // PI^9 / 362880
 
         var z2_cos = z_cos * z_cos;
-        var poly_cos = MultipleAdd(z2_cos, c9, c7);
-        poly_cos = MultipleAdd(z2_cos, poly_cos, c5);
-        poly_cos = MultipleAdd(z2_cos, poly_cos, c3);
-        poly_cos = MultipleAdd(z2_cos, poly_cos, c1);
+        var poly_cos = MultiplyAdd(z2_cos, c9, c7);
+        poly_cos = MultiplyAdd(z2_cos, poly_cos, c5);
+        poly_cos = MultiplyAdd(z2_cos, poly_cos, c3);
+        poly_cos = MultiplyAdd(z2_cos, poly_cos, c1);
         poly_cos = z_cos * poly_cos;
 
         return poly_cos * sign_cos;
@@ -1054,7 +1054,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Cos(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(result));
         }
         else if (typeof(TNumber) == typeof(double))
         {
@@ -1117,17 +1117,17 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         var c9 = Create(TNumber.CreateTruncating(0.08214589f));   // PI^9 / 362880
 
         var z2_sin = z_sin * z_sin;
-        var poly_sin = MultipleAdd(z2_sin, c9, c7);       // c7 + c9*z^2
-        poly_sin = MultipleAdd(z2_sin, poly_sin, c5);                   // c5 + z^2*(...)
-        poly_sin = MultipleAdd(z2_sin, poly_sin, c3);                   // c3 + z^2*(...)
-        poly_sin = MultipleAdd(z2_sin, poly_sin, c1);                   // c1 + z^2*(...)
+        var poly_sin = MultiplyAdd(z2_sin, c9, c7);       // c7 + c9*z^2
+        poly_sin = MultiplyAdd(z2_sin, poly_sin, c5);                   // c5 + z^2*(...)
+        poly_sin = MultiplyAdd(z2_sin, poly_sin, c3);                   // c3 + z^2*(...)
+        poly_sin = MultiplyAdd(z2_sin, poly_sin, c1);                   // c1 + z^2*(...)
         poly_sin = z_sin * poly_sin;                                            // z * (...)
 
         var z2_cos = z_cos * z_cos;
-        var poly_cos = MultipleAdd(z2_cos, c9, c7);
-        poly_cos = MultipleAdd(z2_cos, poly_cos, c5);
-        poly_cos = MultipleAdd(z2_cos, poly_cos, c3);
-        poly_cos = MultipleAdd(z2_cos, poly_cos, c1);
+        var poly_cos = MultiplyAdd(z2_cos, c9, c7);
+        poly_cos = MultiplyAdd(z2_cos, poly_cos, c5);
+        poly_cos = MultiplyAdd(z2_cos, poly_cos, c3);
+        poly_cos = MultiplyAdd(z2_cos, poly_cos, c1);
         poly_cos = z_cos * poly_cos;
 
         sin = poly_sin * sign_sin;
@@ -1137,8 +1137,8 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var (sinResult, cosResult) = Vector.SinCos(v);
-            sin = new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(sinResult));
-            cos = new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(cosResult));
+            sin = Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(sinResult));
+            cos = Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(cosResult));
         }
         else if (typeof(TNumber) == typeof(double))
         {
@@ -1175,16 +1175,16 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         var vc2 = Create(TNumber.CreateTruncating(0.1333923995)); // 2/15
 
         // x2 * (c1 + c2 * x2)
-        var poly = MultipleAdd(x2, vc2, vc1);
+        var poly = MultiplyAdd(x2, vc2, vc1);
         // value * (1 + x2 * poly)
-        return MultipleAdd(x, MultipleAdd(x2, poly, One), Zero);
+        return MultiplyAdd(x, MultiplyAdd(x2, poly, One), Zero);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static WideLane<TNumber> Asin(WideLane<TNumber> value)
     {
         // asin(value) = pi/2 - acos(value)
-
+        
         var piOver2 = Create(TNumber.CreateTruncating(Math.PI / 2));
         return piOver2 - Acos(value);
     }
@@ -1202,16 +1202,16 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         var c2 = Create(TNumber.CreateTruncating(0.0742610f));
         var c3 = Create(TNumber.CreateTruncating(-0.0187293f));
 
-        var term1 = MultipleAdd(x, c3, c2);
-        var term2 = MultipleAdd(x, term1, c1);
-        var poly = MultipleAdd(x, term2, c0);
+        var term1 = MultiplyAdd(x, c3, c2);
+        var term2 = MultiplyAdd(x, term1, c1);
+        var poly = MultiplyAdd(x, term2, c0);
 
         var sqrtTerm = Sqrt(One - x);
         var result = poly * sqrtTerm;
 
         var pi = Create(TNumber.CreateTruncating(Math.PI));
         var isNegative = LessThan(value, Zero);
-
+        
         return Select(isNegative, pi - result, result);
     }
 
@@ -1224,7 +1224,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         var c2 = Create(TNumber.CreateTruncating(-0.19194795f));
 
         var x2 = value * value;
-        var poly = MultipleAdd(x2, c2, c1);
+        var poly = MultiplyAdd(x2, c2, c1);
         return value * poly;
     }
 
@@ -1251,7 +1251,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         var c2 = Create(TNumber.CreateTruncating(-0.19194795f));
 
         // (c1 + c2 * t2)
-        var poly = MultipleAdd(c2, t2, c1);
+        var poly = MultiplyAdd(c2, t2, c1);
 
         // result = t * poly
         var result = t * poly;
@@ -1290,7 +1290,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Exp(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(result);
         }
         else if (typeof(TNumber) == typeof(double))
         {
@@ -1315,13 +1315,13 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Log(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(result);
         }
         else if (typeof(TNumber) == typeof(double))
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Log(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<double>, WideLane<TNumber>>(result);
         }
 
         return value;
@@ -1334,13 +1334,13 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Log2(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(result);
         }
         else if (typeof(TNumber) == typeof(double))
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Log2(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<double>, WideLane<TNumber>>(result);
         }
 
         return value;
@@ -1353,13 +1353,13 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Ceiling(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(result);
         }
         else if (typeof(TNumber) == typeof(double))
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Ceiling(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<double>, WideLane<TNumber>>(result);
         }
 
         return value;
@@ -1372,13 +1372,13 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Round(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(result);
         }
         else if (typeof(TNumber) == typeof(double))
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Round(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<double>, WideLane<TNumber>>(result);
         }
 
         return value;
@@ -1391,13 +1391,13 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<float>>(value);
             var result = Vector.Truncate(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<float>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<float>, WideLane<TNumber>>(result);
         }
         else if (typeof(TNumber) == typeof(double))
         {
             var v = Unsafe.BitCast<WideLane<TNumber>, Vector<double>>(value);
             var result = Vector.Truncate(v);
-            return new WideLane<TNumber>(Unsafe.BitCast<Vector<double>, Vector<TNumber>>(result));
+            return Unsafe.BitCast<Vector<double>, WideLane<TNumber>>(result);
         }
 
         return value;
@@ -1530,7 +1530,7 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
                 min = value[i];
             }
         }
-
+        
         return min;
     }
 
@@ -1542,6 +1542,12 @@ public readonly unsafe partial struct WideLane<TNumber> : ISPMDLane<WideLane<TNu
                 conditionMask.value,
                 ifTrue.value,
                 ifFalse.value));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static WideLane<TNumber> Select(byte conditionMask, WideLane<TNumber> ifTrue, WideLane<TNumber> ifFalse)
+    {
+        throw new NotImplementedException();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

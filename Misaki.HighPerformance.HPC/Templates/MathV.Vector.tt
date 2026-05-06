@@ -15,7 +15,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics;
 using System.Runtime.Intrinsics.X86;
 
-namespace Misaki.HighPerformance.Mathematics.SPMD;
+namespace Misaki.HighPerformance.HPC;
 <#
 const string TLane = "TLane";
 const string TNumber = "TNumber";

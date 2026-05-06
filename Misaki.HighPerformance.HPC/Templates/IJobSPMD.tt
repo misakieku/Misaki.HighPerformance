@@ -7,7 +7,7 @@
 using Misaki.HighPerformance.Jobs;
 using System.Numerics;
 
-namespace Misaki.HighPerformance.Mathematics.SPMD;
+namespace Misaki.HighPerformance.HPC;
 
 <#
 const string TLane = "TLane";

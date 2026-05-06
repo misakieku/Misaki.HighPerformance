@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
-namespace Misaki.HighPerformance.Mathematics.SPMD;
+namespace Misaki.HighPerformance.HPC;
 
 /// <summary>
 /// Common marker interface for SPMD lane types.
@@ -423,7 +423,7 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// <remarks>
     /// Float and double implementations should use fused multiply-add instructions when available for both accuracy and performance.
     /// </remarks>
-    static abstract TSelf MultipleAdd(TSelf a, TSelf b, TSelf c);
+    static abstract TSelf MultiplyAdd(TSelf a, TSelf b, TSelf c);
     /// <summary>
     /// Returns the minimum of the two lane values element-wise.
     /// </summary>

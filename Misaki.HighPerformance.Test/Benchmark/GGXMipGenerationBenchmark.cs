@@ -1,9 +1,8 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
+using Misaki.HighPerformance.HPC;
 using Misaki.HighPerformance.Image;
 using Misaki.HighPerformance.Jobs;
-using Misaki.HighPerformance.Mathematics;
-using Misaki.HighPerformance.Mathematics.SPMD;
 using SkiaSharp;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -23,6 +22,7 @@ internal unsafe struct MipLevel
     public float roughness;
 }
 
+[HPCompute(TargetInstructionSet.AVX2)]
 internal unsafe struct GGXMipGenerationJobSPMD : IJobSPMD<float, int>
 {
     public ImageResultFloat image;
@@ -47,7 +47,7 @@ internal unsafe struct GGXMipGenerationJobSPMD : IJobSPMD<float, int>
 
         var phi = 2.0f * PI * Xi.x;
 
-        var cosTheta = TFloat.Sqrt((1.0f - Xi.y) / TFloat.MultipleAdd(a * a - 1.0f, Xi.y, 1.0f));
+        var cosTheta = TFloat.Sqrt((1.0f - Xi.y) / TFloat.MultiplyAdd(a * a - 1.0f, Xi.y, 1.0f));
         var sinTheta = TFloat.Sqrt(1.0f - cosTheta * cosTheta);
 
         // Spherical to Cartesian coordinates (Halfway vector)
@@ -151,7 +151,7 @@ internal unsafe struct GGXMipGenerationJobSPMD : IJobSPMD<float, int>
 
             var NdotL = TFloat.Max(MathV.Dot(N, L), TFloat.Zero);
             var sampleColor = SampleEquirectangularMap<TFloat, TInt>(image.Data, (int)image.Width, (int)image.Height, L, mask);
-            
+
             // The Karis Average Weight: 1 / (1 + luma)
             // A normal sky pixel (luma 1.0) gets a weight of 0.5.
             // A sun pixel (luma 1000.0) gets a tiny weight of ~0.001, naturally suppressing it.
@@ -198,7 +198,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
 
         var phi = 2.0f * PI * Xi.x;
 
-        var cosTheta = TFloat.Sqrt((1.0f - Xi.y) / TFloat.MultipleAdd(a * a - 1.0f, Xi.y, 1.0f));
+        var cosTheta = TFloat.Sqrt((1.0f - Xi.y) / TFloat.MultiplyAdd(a * a - 1.0f, Xi.y, 1.0f));
         var sinTheta = TFloat.Sqrt(1.0f - cosTheta * cosTheta);
 
         // Spherical to Cartesian coordinates (Halfway vector)
@@ -320,7 +320,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
 
             var NdotL = TFloat.Max(MathV.Dot(vN, L), TFloat.Zero);
             var sampleColor = SampleEquirectangularMap(image.Data, (int)image.Width, (int)image.Height, L);
-            
+
             NdotL &= validLaneMask;
 
             // The Karis Average Weight: 1 / (1 + luma)

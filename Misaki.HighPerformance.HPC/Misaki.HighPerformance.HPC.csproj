@@ -35,7 +35,7 @@
   <ItemGroup>
     <Content Include="**\*.cs" Exclude="obj\**;bin\**">
       <Pack>true</Pack>
-      <PackagePath>contentFiles\cs\any\Misaki.HighPerformance.Mathematics.SPMD\</PackagePath>
+      <PackagePath>contentFiles\cs\any\Misaki.HighPerformance.HPC\</PackagePath>
       <PackageCopyToOutput>false</PackageCopyToOutput>
       <BuildAction>Compile</BuildAction>
     </Content>

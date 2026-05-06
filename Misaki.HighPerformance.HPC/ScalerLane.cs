@@ -3,7 +3,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Misaki.HighPerformance.Mathematics.SPMD;
+namespace Misaki.HighPerformance.HPC;
 
 [StructLayout(LayoutKind.Sequential)]
 public readonly unsafe struct ScalarLane<TNumber> : ISPMDLane<ScalarLane<TNumber>, TNumber>
@@ -446,7 +446,7 @@ public readonly unsafe struct ScalarLane<TNumber> : ISPMDLane<ScalarLane<TNumber
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ScalarLane<TNumber> MultipleAdd(ScalarLane<TNumber> a, ScalarLane<TNumber> b, ScalarLane<TNumber> c)
+    public static ScalarLane<TNumber> MultiplyAdd(ScalarLane<TNumber> a, ScalarLane<TNumber> b, ScalarLane<TNumber> c)
     {
         return new ScalarLane<TNumber>(TNumber.MultiplyAddEstimate(a.value, b.value, c.value));
     }

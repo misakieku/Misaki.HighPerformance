@@ -1,6 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using Misaki.HighPerformance.Jobs;
-using Misaki.HighPerformance.Mathematics.SPMD;
+using Misaki.HighPerformance.HPC;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Test.Benchmark;

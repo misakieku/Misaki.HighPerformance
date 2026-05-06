@@ -2,7 +2,7 @@ using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.LowLevel.Utilities;
-using Misaki.HighPerformance.Mathematics.SPMD;
+using Misaki.HighPerformance.HPC;
 using Misaki.HighPerformance.Test.Jobs;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Jobs;

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-namespace Misaki.HighPerformance.Mathematics.SPMD;
+namespace Misaki.HighPerformance.HPC;
 
 public unsafe struct Vector4<TLane, TNumber> : IEquatable<Vector4<TLane, TNumber>>
     where TLane : ISPMDLane<TLane, TNumber>

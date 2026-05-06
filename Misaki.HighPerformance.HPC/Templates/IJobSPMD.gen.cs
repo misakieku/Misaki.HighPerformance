@@ -1,7 +1,7 @@
 using Misaki.HighPerformance.Jobs;
 using System.Numerics;
 
-namespace Misaki.HighPerformance.Mathematics.SPMD;
+namespace Misaki.HighPerformance.HPC;
 
 /// <summary>
 /// A job interface for Single Program Multiple Data (SPMD) execution, allowing for efficient parallel processing of data across multiple lanes.

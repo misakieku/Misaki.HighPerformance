@@ -7,7 +7,7 @@
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
-namespace Misaki.HighPerformance.Mathematics.SPMD;
+namespace Misaki.HighPerformance.HPC;
 <#
 var conversions = new CastRoute[]
 {
