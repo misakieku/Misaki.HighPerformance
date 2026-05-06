@@ -621,11 +621,6 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         }
 
         var blockStartPtr = header->blockStart;
-        var chunk = header->ownerChunk;
-        if (chunk == null)
-        {
-            return;
-        }
 
         var targetCache = header->ownerCache;
         var bucketIndex = header->bucketIndex;
@@ -640,6 +635,11 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         }
 
         var sameThread = t_ownerId == _instanceId && t_localCache == targetCache;
+        var chunk = header->ownerChunk;
+        if (chunk == null)
+        {
+            return;
+        }
 
         if (sameThread)
         {

@@ -7,50 +7,50 @@ using System.Buffers;
 
 //BenchmarkRunner.Run<GGXMipGenerationBenchmark>();
 
-//const int count = 16;
+const int count = 16;
 
-//var bench = new GGXMipGenerationBenchmark();
-//bench.Setup();
+var bench = new GGXMipGenerationBenchmark();
+bench.Setup();
 
-//for (var i = 0; i < count; i++)
-//{
-//    bench.JobGGX();
-//}
+for (var i = 0; i < count; i++)
+{
+    bench.JobGGX();
+}
 
-//var sw = System.Diagnostics.Stopwatch.StartNew();
+var sw = System.Diagnostics.Stopwatch.StartNew();
 
-//for (var i = 0; i < count; i++)
-//{
-//    bench.JobGGX();
-//}
+for (var i = 0; i < count; i++)
+{
+    bench.JobGGX();
+}
 
-//sw.Stop();
-//var avgTime = sw.Elapsed.TotalMilliseconds / count;
-//Console.WriteLine($"GGX Mip Generation (Inline): {avgTime} ms");
-//bench.Cleanup();
+sw.Stop();
+var avgTime = sw.Elapsed.TotalMilliseconds / count;
+Console.WriteLine($"GGX Mip Generation (Inline): {avgTime} ms");
+bench.Cleanup();
 
 //GlobalSetup.GlobalInitialize(null!);
 //TestJobSystem.Initialize(null!);
 
-AllocationManager.Initialize();
+//AllocationManager.Initialize();
 
-Console.WriteLine(0);
-for (var i = 0; i < 64; i++)
-{
-    var size = Random.Shared.Next(2048, 8192 * 2);
-    var arr = new UnsafeArray<Guid>(size, AllocationHandle.TLSF); // AllocationHandle.FreeList
-    arr.Dispose();
-}
+//Console.WriteLine(0);
+//for (var i = 0; i < 64; i++)
+//{
+//    var size = Random.Shared.Next(2048, 8192 * 2);
+//    var arr = new UnsafeArray<Guid>(size, AllocationHandle.FreeList); // AllocationHandle.FreeList
+//    arr.Dispose();
+//}
 
-Thread.Sleep(1000);
+//Thread.Sleep(1000);
 
-Console.WriteLine(1);
-for (var i = 0; i < 64; i++)
-{
-    var size = Random.Shared.Next(2048, 8192 * 2);
-    var arr = new UnsafeArray<Guid>(size, AllocationHandle.TLSF); // AllocationHandle.FreeList
-    arr.Dispose();
-}
+//Console.WriteLine(1);
+//for (var i = 0; i < 64; i++)
+//{
+//    var size = Random.Shared.Next(2048, 8192 * 2);
+//    var arr = new UnsafeArray<Guid>(size, AllocationHandle.FreeList); // AllocationHandle.FreeList
+//    arr.Dispose();
+//}
 
-AllocationManager.Dispose();
-Console.Read();
+//Console.Read();
+//AllocationManager.Dispose();
