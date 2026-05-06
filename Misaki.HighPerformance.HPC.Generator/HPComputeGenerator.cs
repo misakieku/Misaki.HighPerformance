@@ -21,6 +21,11 @@ namespace Misaki.HighPerformance.HPC.Generator
             get; set;
         } = null!;
 
+        public SemanticModel SemanticModel
+        {
+            get; set;
+        } = null!;
+
         public TargetInstructionSet InstructionSet
         {
             get; set;
@@ -55,6 +60,7 @@ namespace Misaki.HighPerformance.HPC.Generator
                             {
                                 MethodDeclaration = (MethodDeclarationSyntax)ctx.TargetNode,
                                 MethodSymbol = methodSymbol,
+                                SemanticModel = ctx.SemanticModel,
                                 InstructionSet = (TargetInstructionSet)attributes.ConstructorArguments[0].Value!,
                                 Precision = (FloatPrecision)attributes.ConstructorArguments[1].Value!,
                                 Mode = (MathMode)attributes.ConstructorArguments[2].Value!,
@@ -82,7 +88,7 @@ namespace Misaki.HighPerformance.HPC.Generator
                     continue;
                 }
 
-                var rewriters = HPCRewriter.GetRewriter(info.InstructionSet);
+                var rewriters = HPCRewriter.GetRewriter(info.InstructionSet, info.SemanticModel);
 
                 foreach (var writer in rewriters)
                 {

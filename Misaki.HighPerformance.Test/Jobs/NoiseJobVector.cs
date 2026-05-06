@@ -77,13 +77,14 @@ internal unsafe struct NoiseJobVector : IJobParallel
     }
 }
 
-internal unsafe struct NoiseJobMath : IJobParallel
+internal unsafe partial struct NoiseJobMath : IJobParallel
 {
     public float* buffers;
     public int width;
     public int height;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [HPCompute(TargetInstructionSet.AVX2)]
     private static float2 GradientNoiseDirect(float2 uv)
     {
         uv = noise.mod289(uv);

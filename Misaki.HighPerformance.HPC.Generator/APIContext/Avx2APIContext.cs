@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 
-namespace Misaki.HighPerformance.HPC.Generator.VectorAPI
+namespace Misaki.HighPerformance.HPC.Generator.APIContext
 {
     internal class Avx2APIContext : IVectorAPIContext
     {
@@ -23,7 +22,7 @@ namespace Misaki.HighPerformance.HPC.Generator.VectorAPI
 
         public Expression Call(string methodName, params string[] args)
         {
-            return new Expression(this, $"{GetVectorType()}.{methodName}({string.Join(", ", args)})");
+            return new Expression(this, $"{methodName}({string.Join(", ", args)})");
         }
 
         public Expression Assign(Expression expr, string? varName = null, bool isNew = true)
@@ -38,11 +37,14 @@ namespace Misaki.HighPerformance.HPC.Generator.VectorAPI
             return new Expression(this, varName);
         }
 
-        public Code Return(Expression expr)
+        public Code Return(Expression? expr)
         {
-            var statement = $"return {expr.Code};";
-            _statements.Add(statement);
-            expr.Clear();
+            if (expr != null)
+            {
+                var statement = $"return {expr.Code};";
+                _statements.Add(statement);
+                expr.Clear();
+            }
 
             var fullCode = new Code(_statements);
             Reset();

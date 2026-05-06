@@ -31,16 +31,28 @@ namespace Misaki.HighPerformance.HPC.Generator
             {
                 get; set;
             }
+
+            public int[]? ArgumentOrder
+            {
+                get; set;
+            }
         }
 
-        public static IReadOnlyCollection<HPCRewriter> GetRewriter(TargetInstructionSet instructionSet)
+        protected readonly SemanticModel semanticModel;
+
+        protected HPCRewriter(SemanticModel semanticModel)
+        {
+            this.semanticModel = semanticModel;
+        }
+
+        public static IReadOnlyCollection<HPCRewriter> GetRewriter(TargetInstructionSet instructionSet, SemanticModel semanticModel)
         {
             var rewriters = new List<HPCRewriter>();
 
             // TODO: Add more rewriters for different instruction sets
             if (instructionSet.HasFlag(TargetInstructionSet.AVX2))
             {
-                rewriters.Add(new AVX2Rewriter());
+                rewriters.Add(new AVX2Rewriter(semanticModel));
             }
 
             return rewriters;
@@ -60,8 +72,6 @@ namespace Misaki.HighPerformance.HPC.Generator
             ["Asin"] = SIMDInstruction.Asin,
             ["Atan2"] = SIMDInstruction.Atan2,
         };
-
-        protected readonly Dictionary<string, string> spmdTypes = new();
 
         public abstract string Name
         {
@@ -159,28 +169,10 @@ namespace Misaki.HighPerformance.HPC.Generator
             return base.VisitGenericName(node);
         }
 
-        public override SyntaxNode? VisitIdentifierName(IdentifierNameSyntax node)
-        {
-            // Rewrites signature types and generic types from `TLane0` to `Vector256<float>`
-            if (spmdTypes.TryGetValue(node.Identifier.Text, out var primType))
-            {
-                return SyntaxFactory.GenericName("Vector256")
-                    .WithTypeArgumentList(
-                        SyntaxFactory.TypeArgumentList(
-                            SyntaxFactory.SingletonSeparatedList<TypeSyntax>(
-                                SyntaxFactory.IdentifierName(primType))))
-                    .WithTriviaFrom(node);
-            }
-
-            return base.VisitIdentifierName(node);
-        }
-
         public override SyntaxNode? VisitMemberAccessExpression(MemberAccessExpressionSyntax node)
         {
             var isSpmdOrWideLane = false;
-            var isFloatingPoint = false;
 
-            // 1. Check if the left-side expression is WideLane<...> or a tracked generic SPMD type
             if (node.Expression is GenericNameSyntax genericName &&
                 genericName.Identifier.Text == "WideLane" &&
                 genericName.TypeArgumentList.Arguments.Count == 1)
@@ -188,13 +180,11 @@ namespace Misaki.HighPerformance.HPC.Generator
                 isSpmdOrWideLane = true;
 
                 var argTypeStr = genericName.TypeArgumentList.Arguments[0].ToString();
-                isFloatingPoint = argTypeStr == "float" || argTypeStr == "double";
             }
             else if (node.Expression is IdentifierNameSyntax idName &&
                      spmdTypes.TryGetValue(idName.Identifier.Text, out var mappedPrimType))
             {
                 isSpmdOrWideLane = true;
-                isFloatingPoint = mappedPrimType == "float" || mappedPrimType == "double";
             }
 
             if (isSpmdOrWideLane)
@@ -213,7 +203,7 @@ namespace Misaki.HighPerformance.HPC.Generator
 
                 if (s_remapMath.TryGetValue(node.Name.Identifier.Text, out var instruction))
                 {
-                    var rewritResult = RewriteMathExpression(instruction, isFloatingPoint);
+                    var rewritResult = RewriteMathExpression(instruction);
                     return SyntaxFactory.MemberAccessExpression(
                         SyntaxKind.SimpleMemberAccessExpression,
                         SyntaxFactory.IdentifierName(rewritResult.Expression),
@@ -229,7 +219,7 @@ namespace Misaki.HighPerformance.HPC.Generator
         {
             if (node.Expression is MemberAccessExpressionSyntax memberAccess)
             {
-                bool isSpmdOrWideLane = false;
+                var isSpmdOrWideLane = false;
 
                 if (memberAccess.Expression is GenericNameSyntax genericName
                     && genericName.Identifier.Text == "WideLane"
@@ -268,7 +258,78 @@ namespace Misaki.HighPerformance.HPC.Generator
             return base.VisitInvocationExpression(node);
         }
 
-        protected abstract MathExpression RewriteMathExpression(SIMDInstruction instruction, bool isFloatingPoint);
+        public override SyntaxNode? VisitBinaryExpression(BinaryExpressionSyntax node)
+        {
+            var type = GetHpcPrimitiveType(node);
+            var ifFloatingPoint = type == "float" || type == "double";
+
+            // Optimize (a * b) + c -> MultiplyAdd(a, b, c)
+            if (node.IsKind(SyntaxKind.AddExpression))
+            {
+                var typeInfo = semanticModel.GetTypeInfo(node);
+
+                if (IsKnownHpcType(typeInfo.Type) && ifFloatingPoint)
+                {
+                    if (node.Left.IsKind(SyntaxKind.MultiplyExpression))
+                    {
+                        var mulNode = (BinaryExpressionSyntax)node.Left;
+
+                        var a = (ExpressionSyntax)Visit(mulNode.Left)!;
+                        var b = (ExpressionSyntax)Visit(mulNode.Right)!;
+                        var c = (ExpressionSyntax)Visit(node.Right)!;
+
+                        // Assuming floating point by default for FMA, though you can expand this logic
+                        return InvokeMathRewrite(SIMDInstruction.MultiplyAdd, a, b, c).WithTriviaFrom(node);
+                    }
+
+                    if (node.Right.IsKind(SyntaxKind.MultiplyExpression) && ifFloatingPoint)
+                    {
+                        var mulNode = (BinaryExpressionSyntax)node.Right;
+                        var c = (ExpressionSyntax)Visit(node.Left)!;
+                        var a = (ExpressionSyntax)Visit(mulNode.Left)!;
+                        var b = (ExpressionSyntax)Visit(mulNode.Right)!;
+
+                        return InvokeMathRewrite(SIMDInstruction.MultiplyAdd, a, b, c).WithTriviaFrom(node);
+                    }
+                }
+            }
+
+            return base.VisitBinaryExpression(node);
+        }
+
+        protected ExpressionSyntax InvokeMathRewrite(SIMDInstruction instruction, params ExpressionSyntax[] args)
+        {
+            var rewriteResult = RewriteMathExpression(instruction);
+
+            var finalArgs = new ArgumentSyntax[args.Length];
+
+            // Reorder arguments if the instruction set backend specifies an order
+            if (rewriteResult.ArgumentOrder != null)
+            {
+                for (var i = 0; i < rewriteResult.ArgumentOrder.Length; i++)
+                {
+                    finalArgs[i] = SyntaxFactory.Argument(args[rewriteResult.ArgumentOrder[i]]);
+                }
+            }
+            else
+            {
+                for (var i = 0; i < args.Length; i++)
+                {
+                    finalArgs[i] = SyntaxFactory.Argument(args[i]);
+                }
+            }
+
+            return SyntaxFactory.InvocationExpression(
+                SyntaxFactory.MemberAccessExpression(
+                    SyntaxKind.SimpleMemberAccessExpression,
+                    SyntaxFactory.IdentifierName(rewriteResult.Expression),
+                    SyntaxFactory.IdentifierName(rewriteResult.Name)
+                ),
+                SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(finalArgs))
+            );
+        }
+
+        protected abstract MathExpression RewriteMathExpression(SIMDInstruction instruction);
         protected abstract void RewriteMathArguments(SIMDInstruction instruction, Span<ArgumentSyntax> originalArgs);
     }
 }

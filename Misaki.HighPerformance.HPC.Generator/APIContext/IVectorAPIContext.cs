@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Misaki.HighPerformance.HPC.Generator.VectorAPI
+namespace Misaki.HighPerformance.HPC.Generator.APIContext
 {
     internal class Expression
     {
@@ -139,7 +139,7 @@ namespace Misaki.HighPerformance.HPC.Generator.VectorAPI
 
         Expression Call(string methodName, params string[] args);
         Expression Assign(Expression expr, string? varName = null, bool isNew = true);
-        Code Return(Expression expr);
+        Code Return(Expression? expr);
 
         Expression Create(string value);
         Expression Zero<T>();

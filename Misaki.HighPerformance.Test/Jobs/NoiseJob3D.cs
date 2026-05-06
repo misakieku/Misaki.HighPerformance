@@ -1,9 +1,11 @@
+using Misaki.HighPerformance.HPC;
 using Misaki.HighPerformance.Mathematics;
 using System.Runtime.CompilerServices;
 using static Misaki.HighPerformance.Mathematics.math;
 
 namespace Misaki.HighPerformance.Test.Jobs;
 
+[HPCompute(TargetInstructionSet.AVX2)]
 public static partial class noise
 {
     // Modulo 289 without a division (only multiplications)
