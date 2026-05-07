@@ -177,4 +177,33 @@ public unsafe class TestFreeList
         freeList.Dispose();
         freeList.Dispose(); // Should not throw
     }
+
+    [TestMethod]
+    public void CollectLocal()
+    {
+        const int threadCount = 8;
+        const int iterations = 1000;
+        using var freeList = new FreeList(8, 64 * 1024);
+
+        var threads = new Thread[threadCount];
+        for (var i = 0; i < threadCount; i++)
+        {
+            threads[i] = new Thread(() =>
+            {
+                for (var j = 0; j < iterations; j++)
+                {
+                    var ptr = freeList.Allocate(128, 8);
+                    Assert.IsNotNull(ptr);
+                    freeList.Free(ptr);
+                }
+
+                freeList.CollectLocal();
+            });
+        }
+
+        foreach (var t in threads)
+            t.Start();
+        foreach (var t in threads)
+            t.Join();
+    }
 }

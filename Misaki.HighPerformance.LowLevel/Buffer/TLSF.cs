@@ -24,6 +24,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
     {
         public MemoryChunk* next;
         public byte* memory;
+        public nuint size;
     }
 
     [StructLayout(LayoutKind.Explicit)]
@@ -41,12 +42,13 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
 
         public readonly bool IsFree => (sizeAndFlags & 1) != 0;
         public readonly bool IsPrevFree => (sizeAndFlags & 2) != 0;
+        public readonly bool IsDecommitted => (sizeAndFlags & 4) != 0;
         public readonly nuint Size => sizeAndFlags & ~3u;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SetSizeAndFlags(nuint size, bool isFree, bool isPrevFree)
+        public void SetSizeAndFlags(nuint size, bool isFree, bool isPrevFree, bool isDecommitted = false)
         {
-            sizeAndFlags = size | (isFree ? 1u : 0u) | (isPrevFree ? 2u : 0u);
+            sizeAndFlags = size | (isFree ? 1u : 0u) | (isPrevFree ? 2u : 0u) | (isDecommitted ? 4u : 0u);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -76,6 +78,19 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void SetDecommitted(bool isDecommitted)
+        {
+            if (isDecommitted)
+            {
+                sizeAndFlags |= 4u;
+            }
+            else
+            {
+                sizeAndFlags &= ~4u;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly BlockHeader* GetNextPhysBlock()
         {
             return (BlockHeader*)((byte*)Unsafe.AsPointer(ref Unsafe.AsRef(in this)) + Size);
@@ -95,7 +110,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
         return new TLSF(opts.alignment, opts.initialChunkSize);
     }
 
-    public TLSF (nuint alignment, nuint chunkSize)
+    public TLSF(nuint alignment, nuint chunkSize)
     {
         alignment = alignment == 0 ? 16 : alignment;
         if (alignment < 16)
@@ -140,11 +155,12 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
     private void AddChunk(nuint size)
     {
         var totalSize = size + (nuint)sizeof(MemoryChunk);
-        var mem = (byte*)NativeMemory.AlignedAlloc(totalSize, _alignment);
+        var mem = (byte*)MemoryUtility.Mmap(null, totalSize, VirtualAllocationFlags.Reserve | VirtualAllocationFlags.Commit);
 
-        MemoryChunk* chunk = (MemoryChunk*)mem;
+        var chunk = (MemoryChunk*)mem;
         chunk->next = _chunks;
         chunk->memory = mem;
+        chunk->size = totalSize;
         _chunks = chunk;
 
         var blockMem = mem + sizeof(MemoryChunk);
@@ -158,11 +174,11 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
         usableSize &= ~15u; // Align usable size to 16
         usableSize -= 16; // Room for sentinel
 
-        BlockHeader* block = (BlockHeader*)blockMem;
+        var block = (BlockHeader*)blockMem;
         block->SetSizeAndFlags(usableSize, true, false);
         block->prevPhysBlock = null;
 
-        BlockHeader* sentinel = block->GetNextPhysBlock();
+        var sentinel = block->GetNextPhysBlock();
         sentinel->SetSizeAndFlags(0, false, true); // Sentinel is marked as allocated so it's never coalesced
         sentinel->prevPhysBlock = block;
 
@@ -174,7 +190,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
     {
         MappingInsert(block->Size, out var fli, out var sli);
 
-        BlockHeader* head = _blocks[fli * 32 + sli];
+        var head = _blocks[fli * 32 + sli];
         block->nextFree = head;
         block->prevFree = null;
         if (head != null)
@@ -227,21 +243,31 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             return null;
         }
 
-        // TODO: Use Front Splitting to better handle alignment requirements
-
         if (alignment != 0 && (alignment & (alignment - 1)) != 0)
         {
             throw new ArgumentException("Alignment must be a power of two.");
         }
 
-        var totalSize = size + 16; // 16 bytes for header overhead
-        totalSize = (totalSize + 15) & ~15u;
-        if (totalSize < 32)
+        if (alignment < 16)
         {
-            totalSize = 32;
+            alignment = 16;
         }
 
-        MappingSearch(totalSize, out var fli, out var sli);
+        var requiredSize = size + 16; // 16 bytes for header overhead
+        requiredSize = (requiredSize + 15) & ~15u;
+        if (requiredSize < 32)
+        {
+            requiredSize = 32;
+        }
+
+        var searchSize = requiredSize;
+        if (alignment > 16)
+        {
+            // Ensure enough room for front splitting
+            searchSize += alignment + 32;
+        }
+
+        MappingSearch(searchSize, out var fli, out var sli);
 
         var slMap = _slBitmaps[fli] & (~0u << sli);
         int blockFli, blockSli;
@@ -256,8 +282,8 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             var flMap = _flBitmap & (~0ul << (fli + 1));
             if (flMap == 0)
             {
-                AddChunk(Math.Max(_chunkSize, totalSize * 2));
-                MappingSearch(totalSize, out fli, out sli);
+                AddChunk(Math.Max(_chunkSize, searchSize * 2));
+                MappingSearch(searchSize, out fli, out sli);
                 slMap = _slBitmaps[fli] & (~0u << sli);
                 if (slMap != 0)
                 {
@@ -278,42 +304,88 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             }
         }
 
-        BlockHeader* block = _blocks[blockFli * 32 + blockSli];
+        var block = _blocks[blockFli * 32 + blockSli];
         RemoveFreeBlock(block, blockFli, blockSli);
 
-        var blockSize = block->Size;
-        var remainSize = blockSize - totalSize;
+        if (block->IsDecommitted)
+        {
+            var pageSize = (nuint)Environment.SystemPageSize;
+            var blockStartMem = (byte*)block;
+            var memoryStart = blockStartMem + sizeof(BlockHeader);
+
+            var alignedMemoryStart = (byte*)(((nuint)memoryStart + pageSize - 1) & ~(pageSize - 1));
+            var unalignedMemoryEnd = blockStartMem + block->Size;
+            var alignedMemoryEnd = (byte*)((nuint)unalignedMemoryEnd & ~(pageSize - 1));
+
+            if (alignedMemoryEnd > alignedMemoryStart)
+            {
+                var recommitSize = (nuint)(alignedMemoryEnd - alignedMemoryStart);
+                MemoryUtility.Recommit(alignedMemoryStart, recommitSize);
+            }
+
+            block->SetDecommitted(false);
+        }
+
+        var blockStart = (byte*)block;
+        var payloadStart = blockStart + 16;
+        var alignedPayloadStart = (byte*)(((nuint)payloadStart + alignment - 1) & ~(alignment - 1));
+        var shift = (nuint)(alignedPayloadStart - payloadStart);
+
+        if (shift > 0 && shift < 32)
+        {
+            alignedPayloadStart += alignment;
+            shift = (nuint)(alignedPayloadStart - payloadStart);
+        }
+
+        var trueBlock = block;
+        if (shift > 0)
+        {
+            var newBlock = (BlockHeader*)(blockStart + shift);
+            var originalSize = block->Size;
+
+            block->SetSizeAndFlags(shift, true, block->IsPrevFree);
+
+            newBlock->SetSizeAndFlags(originalSize - shift, false, true);
+            newBlock->prevPhysBlock = block;
+
+            InsertFreeBlock(block); // Put original front piece back as a free block
+
+            var nextPhys = newBlock->GetNextPhysBlock();
+            if (nextPhys != null) nextPhys->prevPhysBlock = newBlock;
+
+            trueBlock = newBlock;
+        }
+        else
+        {
+            trueBlock->SetSizeAndFlags(block->Size, false, block->IsPrevFree);
+            var nextPhys = trueBlock->GetNextPhysBlock();
+            if (nextPhys != null) nextPhys->SetPrevFree(false);
+        }
+
+        var blockSize = trueBlock->Size;
+        var remainSize = blockSize - requiredSize;
         if (remainSize >= 32)
         {
-            BlockHeader* remainBlock = (BlockHeader*)((byte*)block + totalSize);
+            var remainBlock = (BlockHeader*)((byte*)trueBlock + requiredSize);
             remainBlock->SetSizeAndFlags(remainSize, true, false);
-            remainBlock->prevPhysBlock = block;
+            remainBlock->prevPhysBlock = trueBlock;
 
-            BlockHeader* nextPhys = remainBlock->GetNextPhysBlock();
+            var nextPhys = remainBlock->GetNextPhysBlock();
             if (nextPhys != null)
             {
                 nextPhys->prevPhysBlock = remainBlock;
             }
 
-            block->SetSizeAndFlags(totalSize, false, block->IsPrevFree);
+            trueBlock->SetSizeAndFlags(requiredSize, false, trueBlock->IsPrevFree);
             InsertFreeBlock(remainBlock);
 
             nextPhys->SetPrevFree(true);
         }
-        else
-        {
-            block->SetSizeAndFlags(blockSize, false, block->IsPrevFree);
-            BlockHeader* nextPhys = block->GetNextPhysBlock();
-            if (nextPhys != null)
-            {
-                nextPhys->SetPrevFree(false);
-            }
-        }
 
-        void* userPtr = (byte*)block + 16;
+        void* userPtr = (byte*)trueBlock + 16;
         if (allocationOption.HasOption(AllocationOption.Clear))
         {
-            MemoryUtility.MemClear(userPtr, block->Size - 16);
+            MemoryUtility.MemClear(userPtr, trueBlock->Size - 16);
         }
 
         return userPtr;
@@ -326,18 +398,18 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             return;
         }
 
-        BlockHeader* block = (BlockHeader*)((byte*)ptr - 16);
+        var block = (BlockHeader*)((byte*)ptr - 16);
         block->SetFree(true);
 
-        BlockHeader* prev = block->IsPrevFree ? block->prevPhysBlock : null;
-        BlockHeader* next = block->GetNextPhysBlock();
+        var prev = block->IsPrevFree ? block->prevPhysBlock : null;
+        var next = block->GetNextPhysBlock();
 
         if (next->IsFree)
         {
             RemoveFreeBlock(next);
             block->SetSizeAndFlags(block->Size + next->Size, true, block->IsPrevFree);
 
-            BlockHeader* nextNext = block->GetNextPhysBlock();
+            var nextNext = block->GetNextPhysBlock();
             if (nextNext != null)
             {
                 nextNext->prevPhysBlock = block;
@@ -350,7 +422,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             prev->SetSizeAndFlags(prev->Size + block->Size, true, prev->IsPrevFree);
             block = prev;
 
-            BlockHeader* nextNext = block->GetNextPhysBlock();
+            var nextNext = block->GetNextPhysBlock();
             if (nextNext != null)
             {
                 nextNext->prevPhysBlock = block;
@@ -359,7 +431,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
 
         InsertFreeBlock(block);
 
-        BlockHeader* finalNext = block->GetNextPhysBlock();
+        var finalNext = block->GetNextPhysBlock();
         if (finalNext != null)
         {
             finalNext->SetPrevFree(true);
@@ -379,7 +451,23 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             return null;
         }
 
-        BlockHeader* block = (BlockHeader*)((byte*)ptr - 16);
+        if (alignment > 16)
+        {
+            var currentOffset = (nuint)ptr & (alignment - 1);
+            if (currentOffset != 0)
+            {
+                var newPtr = Allocate(newSize, alignment, allocationOption);
+                if (newPtr != null)
+                {
+                    var copySize = oldSize < newSize ? oldSize : newSize;
+                    MemoryUtility.MemCpy(newPtr, ptr, copySize);
+                    Free(ptr);
+                }
+                return newPtr;
+            }
+        }
+
+        var block = (BlockHeader*)((byte*)ptr - 16);
         var currentTotalSize = block->Size;
         var neededTotalSize = newSize + 16;
         neededTotalSize = (neededTotalSize + 15) & ~15u;
@@ -393,11 +481,11 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             var remainSize = currentTotalSize - neededTotalSize;
             if (remainSize >= 32)
             {
-                BlockHeader* remainBlock = (BlockHeader*)((byte*)block + neededTotalSize);
+                var remainBlock = (BlockHeader*)((byte*)block + neededTotalSize);
                 remainBlock->SetSizeAndFlags(remainSize, true, false);
                 remainBlock->prevPhysBlock = block;
 
-                BlockHeader* nextPhys = remainBlock->GetNextPhysBlock();
+                var nextPhys = remainBlock->GetNextPhysBlock();
                 if (nextPhys != null)
                 {
                     nextPhys->prevPhysBlock = remainBlock;
@@ -411,7 +499,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             return ptr;
         }
 
-        BlockHeader* next = block->GetNextPhysBlock();
+        var next = block->GetNextPhysBlock();
         if (next->IsFree && (currentTotalSize + next->Size) >= neededTotalSize)
         {
             RemoveFreeBlock(next);
@@ -419,7 +507,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             var combinedSize = currentTotalSize + next->Size;
             block->SetSizeAndFlags(combinedSize, false, block->IsPrevFree);
 
-            BlockHeader* nextNext = block->GetNextPhysBlock();
+            var nextNext = block->GetNextPhysBlock();
             if (nextNext != null)
             {
                 nextNext->prevPhysBlock = block;
@@ -428,11 +516,11 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             var remainSize = combinedSize - neededTotalSize;
             if (remainSize >= 32)
             {
-                BlockHeader* remainBlock = (BlockHeader*)((byte*)block + neededTotalSize);
+                var remainBlock = (BlockHeader*)((byte*)block + neededTotalSize);
                 remainBlock->SetSizeAndFlags(remainSize, true, false);
                 remainBlock->prevPhysBlock = block;
 
-                BlockHeader* nextPhys = remainBlock->GetNextPhysBlock();
+                var nextPhys = remainBlock->GetNextPhysBlock();
                 if (nextPhys != null)
                 {
                     nextPhys->prevPhysBlock = remainBlock;
@@ -454,38 +542,83 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
             return ptr;
         }
 
-        var newPtr = Allocate(newSize, alignment, allocationOption);
-        if (newPtr != null)
+        var newPtr2 = Allocate(newSize, alignment, allocationOption);
+        if (newPtr2 != null)
         {
             var copySize = oldSize < newSize ? oldSize : newSize;
-            MemoryUtility.MemCpy(newPtr, ptr, copySize);
+            MemoryUtility.MemCpy(newPtr2, ptr, copySize);
             Free(ptr);
         }
-        return newPtr;
+        return newPtr2;
+    }
+
+    public void Collect()
+    {
+        var pageSize = (nuint)Environment.SystemPageSize;
+
+        var flMap = _flBitmap;
+        while (flMap != 0)
+        {
+            // Get the index of the lowest set bit and clear it
+            var fli = BitOperations.TrailingZeroCount(flMap);
+            flMap &= flMap - 1;
+
+            var slMap = _slBitmaps[fli];
+            while (slMap != 0)
+            {
+                // Get the index of the lowest set bit and clear it
+                var sli = BitOperations.TrailingZeroCount(slMap);
+                slMap &= slMap - 1;
+
+                var block = _blocks[fli * 32 + sli];
+                while (block != null)
+                {
+                    if (!block->IsDecommitted && block->Size >= pageSize * 2) // Ensure the block size is sufficient for decommit
+                    {
+                        var blockStart = (byte*)block;
+                        var memoryStart = blockStart + sizeof(BlockHeader);
+
+                        // Find the first page boundary after the header
+                        var alignedMemoryStart = (byte*)(((nuint)memoryStart + pageSize - 1) & ~(pageSize - 1));
+
+                        // Find the size to decommit ending before the next header/boundary
+                        var unalignedMemoryEnd = blockStart + block->Size;
+                        var alignedMemoryEnd = (byte*)((nuint)unalignedMemoryEnd & ~(pageSize - 1));
+
+                        if (alignedMemoryEnd > alignedMemoryStart)
+                        {
+                            var decommitSize = (nuint)(alignedMemoryEnd - alignedMemoryStart);
+
+                            if (decommitSize >= pageSize)
+                            {
+                                MemoryUtility.Decommit(alignedMemoryStart, decommitSize);
+                                block->SetDecommitted(true);
+                            }
+                        }
+                    }
+
+                    block = block->nextFree;
+                }
+            }
+        }
     }
 
     public void Dispose()
     {
-        if (_blocks != null)
-        {
-            NativeMemory.Free(_blocks);
-            _blocks = null;
-        }
+        NativeMemory.Free(_slBitmaps);
+        NativeMemory.Free(_blocks);
 
-        if (_slBitmaps != null)
-        {
-            NativeMemory.Free(_slBitmaps);
-            _slBitmaps = null;
-        }
-
-        MemoryChunk* chunk = _chunks;
-        _chunks = null;
-
+        var chunk = _chunks;
         while (chunk != null)
         {
-            MemoryChunk* next = chunk->next;
-            NativeMemory.AlignedFree(chunk->memory);
+            var next = chunk->next;
+            MemoryUtility.Munmap(chunk->memory, chunk->size); // Munmap uses virtual memory size
             chunk = next;
         }
+
+        _chunks = null;
+        _flBitmap = 0;
+        _slBitmaps = null;
+        _blocks = null;
     }
 }

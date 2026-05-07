@@ -76,10 +76,10 @@ public struct AllocationManagerDesc
     {
         ArenaCapacity = 1024 * 1024 * 1024, // 1 GB
         StackCapacity = 32 * 1024 * 1024, // 32 MB per thread
+        FreeListDefaultAlignment = 16,
         FreeListChunkSize = 64 * 1024,
-        FreeListDefaultAlignment = 8,
         TLSFAlignment = 16,
-        TLSFInitialChunkSize = 64 * 1024, // 64 KB
+        TLSFInitialChunkSize = 64 * 1024 * 1024, // 64 MB
     };
 }
 

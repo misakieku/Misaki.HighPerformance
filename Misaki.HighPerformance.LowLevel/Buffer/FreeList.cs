@@ -97,17 +97,32 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         // nint is not allowed in fixed buffer, use long instead for 64-bit/32-bit pointers
         public fixed long globalFreeBuckets[_MAX_BUCKETS];
         public fixed int globalFreeLocks[_MAX_BUCKETS];
+        public nint gcHandle;
+    }
+
+    private class SharedStateContainer
+    {
+        public SharedState* State;
+        ~SharedStateContainer()
+        {
+            if (State != null)
+            {
+                NativeMemory.Free(State);
+            }
+        }
     }
 
     private class CacheReclaimer
     {
         private readonly ThreadCache* _cache;
         private readonly SharedState* _state;
+        private readonly object? _stateContainer;
 
-        public CacheReclaimer(ThreadCache* cache, SharedState* state)
+        public CacheReclaimer(ThreadCache* cache, SharedState* state, object? stateContainer)
         {
             _cache = cache;
             _state = state;
+            _stateContainer = stateContainer;
         }
 
         ~CacheReclaimer()
@@ -179,12 +194,17 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             throw new ArgumentException("Chunk size must be at least 1KB", nameof(chunkSize));
         }
 
+        if (alignment < 16)
+        {
+            alignment = 16;
+        }
+
         _alignment = alignment;
         _chunkSize = chunkSize;
 
         try
         {
-            var state = (SharedState*)NativeMemory.Alloc((nuint)sizeof(SharedState));
+            var state = (SharedState*)NativeMemory.AllocZeroed((nuint)sizeof(SharedState));
             state->isDisposed = 0;
             state->headCache = null;
             state->inactiveCacheHead = null;
@@ -194,6 +214,9 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
                 state->globalFreeBuckets[i] = 0;
                 state->globalFreeLocks[i] = 0;
             }
+
+            var container = new SharedStateContainer { State = state };
+            state->gcHandle = (nint)GCHandle.Alloc(container);
 
             _instanceId = state;
 
@@ -437,7 +460,14 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         {
             t_ownerId = _instanceId;
             t_localCache = cacheToUse;
-            t_cacheReclaimer = new CacheReclaimer(cacheToUse, state);
+
+            object? container = null;
+            if (state->gcHandle != 0)
+            {
+                container = GCHandle.FromIntPtr(state->gcHandle).Target;
+            }
+
+            t_cacheReclaimer = new CacheReclaimer(cacheToUse, state, container);
         }
 
         return cacheToUse;
@@ -640,7 +670,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             return null;
         }
 
-        if (alignment == 0)
+        if (alignment < _alignment)
         {
             alignment = _alignment;
         }
@@ -685,7 +715,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             else
             {
                 // Oversized block: Bypass chunk linking entirely and go straight to the OS
-                var ptr = NativeMemory.AlignedAlloc(totalSize, alignment);
+                var ptr = MemoryUtility.AlignedAlloc(totalSize, alignment);
                 if (ptr != null)
                 {
                     userPtr = (byte*)(((nuint)ptr + (nuint)sizeof(BlockHeader) + alignment - 1) & ~(alignment - 1));
@@ -760,7 +790,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             // This is an oversized allocation. It doesn't belong to a bucket or a chunk.
             // Erase the magic number for safety and instantly yield it back to the OS.
             header->magicNumber = 0;
-            NativeMemory.AlignedFree(blockStartPtr);
+            MemoryUtility.AlignedFree(blockStartPtr);
             return;
         }
 
@@ -789,6 +819,58 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
         } while (Interlocked.CompareExchange(ref targetCache->remoteFreeHead, (nint)remoteNode, head) != head);
     }
 
+    /// <summary>
+    /// Flushes the current thread's local memory caches to the global pool.
+    /// Call this during thread idle times or at the end of a frame/job batch.
+    /// </summary>
+    public readonly void CollectLocal()
+    {
+        if (t_ownerId != _instanceId || t_localCache == null)
+        {
+            return;
+        }
+
+        var cache = t_localCache;
+        var state = (SharedState*)_instanceId;
+
+        DrainRemoteFrees(cache);
+
+        var buckets = GetBuckets(cache);
+        for (byte i = 0; i < _MAX_BUCKETS; i++)
+        {
+            var bucket = &buckets[i];
+            if (bucket->freeHead == 0)
+            {
+                continue;
+            }
+
+            var spinWait = new SpinWait();
+            while (Interlocked.CompareExchange(ref state->globalFreeLocks[i], 1, 0) != 0)
+            {
+                spinWait.SpinOnce();
+            }
+
+            try
+            {
+                var localNode = (FreeNode*)bucket->freeHead;
+                while (localNode != null)
+                {
+                    var next = localNode->next;
+                    localNode->next = (FreeNode*)(nint)state->globalFreeBuckets[i];
+                    state->globalFreeBuckets[i] = (long)(nint)localNode;
+                    localNode = next;
+                }
+            }
+            finally
+            {
+                Volatile.Write(ref state->globalFreeLocks[i], 0);
+            }
+
+            bucket->freeHead = 0;
+            bucket->freeCount = 0;
+        }
+    }
+
     public void Dispose()
     {
         if (Interlocked.CompareExchange(ref _disposed, 1, 0) != 0)
@@ -809,7 +891,13 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
                 current = current->next;
             }
 
-            NativeMemory.Free(_instanceId);
+            if (state->gcHandle != 0)
+            {
+                var handle = GCHandle.FromIntPtr(state->gcHandle);
+                handle.Free();
+                state->gcHandle = 0;
+            }
+
             _instanceId = null;
         }
 

@@ -73,4 +73,16 @@ public class TestTlsfAllocator
             allocator.Free(ptrs[i]);
         }
     }
+
+    [TestMethod]
+    public unsafe void TestCollect()
+    {
+        using var allocator = TLSF.Create(new TLSF.CreationOptions { alignment = 16, initialChunkSize = 4096 * 1024 });
+        
+        var ptr = allocator.Allocate(1024 * 1024, 16);
+        Assert.IsTrue(ptr != null);
+        allocator.Free(ptr);
+
+        allocator.Collect();
+    }
 }
