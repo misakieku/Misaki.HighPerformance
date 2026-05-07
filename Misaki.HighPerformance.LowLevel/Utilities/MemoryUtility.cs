@@ -17,6 +17,7 @@ public enum VirtualAllocationFlags
 public static unsafe partial class MemoryUtility
 {
     private const uint _MEM_COMMIT = 0x00001000;
+    private const uint _MEM_DECOMMIT = 0x00004000;
     private const uint _MEM_RESERVE = 0x00002000;
     private const uint _MEM_RELEASE = 0x00008000;
     private const uint _PAGE_READWRITE = 0x04;
@@ -33,6 +34,8 @@ public static unsafe partial class MemoryUtility
     private const int _PROT_READ = 0x1;
     private const int _PROT_WRITE = 0x2;
     private const int _MAP_PRIVATE = 0x02;
+    private const int _MADV_DONTNEED = 0x4;
+    private const int _MADV_WILLNEED = 0x6;
 
     // Note: MAP_ANONYMOUS varies by OS. Linux is 0x20, macOS is 0x1000.
     private static int GetMapAnonymousFlag() => RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? 0x1000 : 0x20;
@@ -52,6 +55,11 @@ public static unsafe partial class MemoryUtility
     [DllImport("libc")]
     private static extern int mprotect(void* addr, nuint len, int prot);
 
+    [SupportedOSPlatform("linux")]
+    [SupportedOSPlatform("macos")]
+    [DllImport("libc")]
+    private static extern int madvise(void* addr, nuint length, int advice);
+
 
     [StructLayout(LayoutKind.Sequential)]
     private struct AlignOfHelper<T>
@@ -64,11 +72,19 @@ public static unsafe partial class MemoryUtility
     /// <summary>
     /// Allocates a block of memory of the specified size in bytes.
     /// </summary>
+    /// <remarks>
+    /// If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+    /// </remarks>
     /// <param name="size">Specifies the number of bytes to allocate in memory.</param>
     /// <returns>Returns a pointer to the allocated memory block.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Malloc(nuint size)
     {
+        if (size == 0)
+        {
+            return null;
+        }
+
 #if MHP_ENABLE_MIMALLOC
         var ptr = Mimalloc.mi_malloc(size);
         if (ptr == null)
@@ -87,11 +103,19 @@ public static unsafe partial class MemoryUtility
     /// <summary>
     /// Allocates a block of memory of the specified size in bytes and initializes it to zero.
     /// </summary>
+    /// <remarks>
+    /// If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+    /// </remarks>
     /// <param name="size">Specifies the number of bytes to allocate in memory.</param>
     /// <returns>Returns a pointer to the allocated and zero-initialized memory block.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Calloc(nuint size)
     {
+        if (size == 0)
+        {
+            return null;
+        }
+
 #if MHP_ENABLE_MIMALLOC
         var ptr = Mimalloc.mi_zalloc(size);
         if (ptr == null)
@@ -112,12 +136,20 @@ public static unsafe partial class MemoryUtility
     /// <summary>
     /// Allocates a block of memory with a specified size and alignment.
     /// </summary>
+    /// <remarks>
+    /// If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+    /// </remarks>
     /// <param name="size">Specifies the total number of bytes to allocate for the memory block.</param>
     /// <param name="alignment">Defines the required alignment for the allocated memory address.</param>
     /// <returns>Returns a pointer to the allocated memory block.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* AlignedAlloc(nuint size, nuint alignment)
     {
+        if (size == 0)
+        {
+            return null;
+        }
+
 #if MHP_ENABLE_MIMALLOC
         var ptr = Mimalloc.mi_aligned_alloc(alignment, size);
         if (ptr == null)
@@ -136,12 +168,25 @@ public static unsafe partial class MemoryUtility
     /// <summary>
     /// Resizes a previously allocated memory block to a new size. It returns a pointer to the reallocated memory.
     /// </summary>
+    /// <remarks>
+    /// If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+    /// </remarks>
     /// <param name="ptr">The pointer to the memory block that needs to be resized.</param>
     /// <param name="size">The new size for the memory block after resizing.</param>
     /// <returns>A pointer to the reallocated memory block, or null if the operation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Realloc(void* ptr, nuint size)
     {
+        if (size == 0)
+        {
+            if (ptr != null)
+            {
+                Free(ptr);
+            }
+
+            return null;
+        }
+
 #if MHP_ENABLE_MIMALLOC
         var newPtr = Mimalloc.mi_realloc(ptr, size);
         if (newPtr == null)
@@ -161,6 +206,9 @@ public static unsafe partial class MemoryUtility
     /// Reallocates memory to a specified size with a given alignment. It returns a pointer to the newly allocated
     /// memory.
     /// </summary>
+    /// <remarks>
+    /// If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+    /// </remarks>
     /// <param name="ptr">The pointer to the existing memory block that needs to be reallocated.</param>
     /// <param name="size">The new size for the memory allocation.</param>
     /// <param name="alignment">The required alignment for the new memory allocation.</param>
@@ -168,6 +216,16 @@ public static unsafe partial class MemoryUtility
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* AlignedRealloc(void* ptr, nuint size, nuint alignment)
     {
+        if (size == 0)
+        {
+            if (ptr != null)
+            {
+                AlignedFree(ptr);
+            }
+
+            return null;
+        }
+
 #if MHP_ENABLE_MIMALLOC
         var newPtr = Mimalloc.mi_realloc_aligned(ptr, size, alignment);
         if (newPtr == null)
@@ -198,6 +256,9 @@ public static unsafe partial class MemoryUtility
     /// <summary>
     /// Releases the allocated memory pointed to by the given pointer. This helps in managing memory usage effectively.
     /// </summary>
+    /// <remarks>
+    /// If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+    /// </remarks>
     /// <param name="ptr">The pointer to the memory block that needs to be freed.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Free(void* ptr)
@@ -212,9 +273,11 @@ public static unsafe partial class MemoryUtility
     }
 
     /// <summary>
-    /// Releases memory that was allocated with alignment requirements. It ensures proper deallocation of aligned memory
-    /// blocks.
+    /// Releases memory that was allocated with alignment requirements. It ensures proper deallocation of aligned memory blocks.
     /// </summary>
+    /// <remarks>
+    /// If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+    /// </remarks>
     /// <param name="ptr">The pointer to the memory block that needs to be freed.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AlignedFree(void* ptr)
@@ -316,8 +379,23 @@ public static unsafe partial class MemoryUtility
         return span1.SequenceCompareTo(span2);
     }
 
+    /// <summary>
+    /// Allocates virtual memory with specified size and flags. The behavior of this method varies based on the operating system.
+    /// </summary>
+    /// <param name="addr">The address at which to allocate the memory.</param>
+    /// <param name="size">The size of the memory block to allocate.</param>
+    /// <param name="flags">The flags specifying the allocation behavior.</param>
+    /// <returns>A pointer to the allocated memory.</returns>
+    /// <exception cref="OutOfMemoryException"></exception>
+    /// <exception cref="PlatformNotSupportedException"></exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void* Mmap(void* addr, nuint size, VirtualAllocationFlags flags)
     {
+        if (size == 0)
+        {
+            return null;
+        }
+
         if (OperatingSystem.IsWindows())
         {
             var allocFlags = 0u;
@@ -369,10 +447,17 @@ public static unsafe partial class MemoryUtility
         throw new PlatformNotSupportedException("Mmap is not supported on this platform.");
     }
 
-
+    /// <summary>
+    /// Unmaps a previously allocated block of virtual memory. The behavior of this method varies based on the operating system.
+    /// </summary>
+    /// <param name="ptr">A pointer to the memory block to unmap.</param>
+    /// <param name="size">The size of the memory block to unmap.</param>
+    /// <returns>true if the memory was successfully unmapped; otherwise, false.</returns>
+    /// <exception cref="PlatformNotSupportedException"></exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool Munmap(void* ptr, nuint size)
     {
-        if (ptr == null)
+        if (ptr == null || size == 0)
         {
             return false;
         }
@@ -387,6 +472,60 @@ public static unsafe partial class MemoryUtility
         }
 
         throw new PlatformNotSupportedException("Munmap is not supported on this platform.");
+    }
+
+    /// <summary>
+    /// Decommits a previously allocated block of virtual memory, releasing the physical memory while keeping the address space reserved. The behavior of this method varies based on the operating system.
+    /// </summary>
+    /// <param name="ptr">A pointer to the memory block to decommit.</param>
+    /// <param name="size">The size of the memory block to decommit.</param>
+    /// <returns>true if the memory was successfully decommitted; otherwise, false.</returns>
+    /// <exception cref="PlatformNotSupportedException"></exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool Decommit(void* ptr, nuint size)
+    {
+        if (ptr == null || size == 0)
+        {
+            return false;
+        }
+
+        if (OperatingSystem.IsWindows())
+        {
+            return VirtualFree(ptr, size, _MEM_DECOMMIT) != 0;
+        }
+        else if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
+        {
+            return madvise(ptr, size, _MADV_DONTNEED) == 0;
+        }
+
+        throw new PlatformNotSupportedException("Decommit is not supported on this platform.");
+    }
+
+    /// <summary>
+    /// Recommits a previously decommitted block of virtual memory, making the physical memory available again while keeping the address space reserved. The behavior of this method varies based on the operating system.
+    /// </summary>
+    /// <param name="ptr">A pointer to the memory block to recommit.</param>
+    /// <param name="size">The size of the memory block to recommit.</param>
+    /// <returns>true if the memory was successfully recommitted; otherwise, false.</returns>
+    /// <exception cref="PlatformNotSupportedException"></exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool Recommit(void* ptr, nuint size)
+    {
+        if (ptr == null || size == 0)
+        {
+            return false;
+        }
+
+        if (OperatingSystem.IsWindows())
+        {
+            return VirtualAlloc(ptr, size, _MEM_COMMIT, _PAGE_READWRITE) != null;
+        }
+        else if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
+        {
+            return madvise(ptr, size, _MADV_WILLNEED) == 0;
+        }
+
+        throw new PlatformNotSupportedException("Recommit is not supported on this platform.");
     }
 
     /// <summary>

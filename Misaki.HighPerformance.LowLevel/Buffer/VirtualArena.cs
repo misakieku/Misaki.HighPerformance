@@ -38,7 +38,7 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
         _committedSize = 0;
         _allocatedOffset = 0;
 
-        _baseAddress = (byte*)Mmap(null, _reserveCapacity, VirtualAllocationFlags.Reserve);
+        _baseAddress = (byte*)MemoryUtility.Mmap(null, _reserveCapacity, VirtualAllocationFlags.Reserve);
 
         if (_baseAddress == null)
         {
@@ -87,7 +87,7 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
 
                     if (allocationOption.HasOption(AllocationOption.Clear))
                     {
-                        MemClear(ptr, size);
+                        MemoryUtility.MemClear(ptr, size);
                     }
 
                     return ptr;
@@ -113,7 +113,7 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
                     sizeToCommit = (sizeToCommit + _PAGE_SIZE - 1) & ~(_PAGE_SIZE - 1);
 
                     var commitAddress = _baseAddress + currentCommitted;
-                    var result = Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
+                    var result = MemoryUtility.Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
 
                     if (result == null)
                     {
@@ -177,7 +177,7 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
                         sizeToCommit = (sizeToCommit + _PAGE_SIZE - 1) & ~(_PAGE_SIZE - 1);
 
                         var commitAddress = _baseAddress + currentCommitted;
-                        var result = Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
+                        var result = MemoryUtility.Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
 
                         if (result == null)
                         {
@@ -199,7 +199,7 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
                 // Safe to clear: we own the space between oldSize and newOffset
                 if (allocationOption.HasOption(AllocationOption.Clear) && additionalSize > 0)
                 {
-                    MemClear((byte*)ptr + oldSize, additionalSize);
+                    MemoryUtility.MemClear((byte*)ptr + oldSize, additionalSize);
                 }
 
                 return ptr;
@@ -212,7 +212,7 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
             return null;
         }
 
-        MemCpy(newPtr, ptr, oldSize);
+        MemoryUtility.MemCpy(newPtr, ptr, oldSize);
         return newPtr;
     }
 
@@ -244,6 +244,6 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
         _committedSize = 0;
         _reserveCapacity = 0;
 
-        Munmap(ptr, _reserveCapacity);
+        MemoryUtility.Munmap(ptr, _reserveCapacity);
     }
 }

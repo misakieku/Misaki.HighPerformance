@@ -84,7 +84,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
 
     public UnsafeHashMap(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        _helper = new HashMapHelper<TKey>(capacity, sizeof(TValue), (int)AlignOf<TValue>(), HashMapHelper<TKey>.MINIMAL_CAPACITY, handle, allocationOption);
+        _helper = new HashMapHelper<TKey>(capacity, sizeof(TValue), (int)MemoryUtility.AlignOf<TValue>(), HashMapHelper<TKey>.MINIMAL_CAPACITY, handle, allocationOption);
     }
 
     [Obsolete("Use AllocationHandle instead.")]

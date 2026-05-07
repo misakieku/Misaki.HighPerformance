@@ -1,5 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -60,7 +61,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
     {
         ArgumentOutOfRangeException.ThrowIfNegative(size);
 
-        _buffer = (byte*)Malloc(size);
+        _buffer = (byte*)NativeMemory.Alloc(size);
         _size = size;
         _offset = 0;
     }
@@ -113,7 +114,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
 
         if (allocationOption.HasOption(AllocationOption.Clear))
         {
-            MemClear(ptr, size);
+            MemoryUtility.MemClear(ptr, size);
         }
 
         return ptr;
@@ -140,7 +141,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
                 _offset += diff;
                 if (allocationOption.HasOption(AllocationOption.Clear))
                 {
-                    MemClear(_buffer + _offset - diff, diff);
+                    MemoryUtility.MemClear(_buffer + _offset - diff, diff);
                 }
             }
 
@@ -153,7 +154,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
             return null;
         }
 
-        MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
+        MemoryUtility.MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
         return newPtr;
     }
 
@@ -184,6 +185,6 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
         _offset = 0;
         _size = 0;
 
-        MemoryUtility.Free(ptr);
+        NativeMemory.Free(ptr);
     }
 }

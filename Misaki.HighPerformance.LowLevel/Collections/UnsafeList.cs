@@ -145,7 +145,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
             fixed (T* pCollection = collection)
             {
-                MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(listData->_array.GetUnsafePtr(), index), pCollection, (uint)(count * sizeof(T)));
+                MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(listData->_array.GetUnsafePtr(), index), pCollection, (uint)(count * sizeof(T)));
             }
         }
     }
@@ -342,7 +342,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
         fixed (T* ptr = values)
         {
-            MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(values.Length * sizeof(T)));
+            MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(values.Length * sizeof(T)));
         }
 
         _count += values.Length;
@@ -361,7 +361,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
             Resize(Capacity + count);
         }
 
-        MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
+        MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
         _count += count;
     }
 
@@ -375,7 +375,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
         fixed (T* pCollection = collection)
         {
-            MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), pCollection, (uint)(collection.Length * sizeof(T)));
+            MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), pCollection, (uint)(collection.Length * sizeof(T)));
         }
 
         _count += collection.Length;
@@ -390,7 +390,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     {
         CheckNoResizeCapacity(count);
 
-        MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
+        MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
         _count += count;
     }
 
@@ -409,7 +409,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         }
 
         var copyFrom = Math.Min(start + length, _count);
-        MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
+        MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
             UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
             (uint)((_count - copyFrom) * sizeof(T))
         );
@@ -444,7 +444,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
         if (numToCopy > 0)
         {
-            MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
+            MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
                 UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
                 (uint)((_count - copyFrom) * sizeof(T)));
         }
@@ -519,7 +519,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         var size = Math.Min(destination.Length, Count);
         fixed (T* pDest = destination)
         {
-            MemCpy(pDest, _array.GetUnsafePtr(), (uint)(size * sizeof(T)));
+            MemoryUtility.MemCpy(pDest, _array.GetUnsafePtr(), (uint)(size * sizeof(T)));
         }
     }
 
@@ -540,7 +540,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
         fixed (T* pDest = destination)
         {
-            MemCpy(pDest + destinationIndex, (byte*)_array.GetUnsafePtr() + sourceIndex * sizeof(T), (nuint)(length * sizeof(T)));
+            MemoryUtility.MemCpy(pDest + destinationIndex, (byte*)_array.GetUnsafePtr() + sourceIndex * sizeof(T), (nuint)(length * sizeof(T)));
         }
     }
 
@@ -557,7 +557,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
         fixed (T* pSrc = source)
         {
-            MemCpy(_array.GetUnsafePtr(), pSrc, (nuint)(source.Length * sizeof(T)));
+            MemoryUtility.MemCpy(_array.GetUnsafePtr(), pSrc, (nuint)(source.Length * sizeof(T)));
         }
     }
 
@@ -583,7 +583,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
         fixed (T* pSrc = source)
         {
-            MemCpy((byte*)_array.GetUnsafePtr() + destinationIndex * sizeof(T), pSrc + sourceIndex, (nuint)(length * sizeof(T)));
+            MemoryUtility.MemCpy((byte*)_array.GetUnsafePtr() + destinationIndex * sizeof(T), pSrc + sourceIndex, (nuint)(length * sizeof(T)));
         }
     }
 

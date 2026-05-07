@@ -114,7 +114,7 @@ public unsafe struct MemoryBlock : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void Clear()
     {
-        MemClear(_buffer, _size);
+        MemoryUtility.MemClear(_buffer, _size);
     }
 
     /// <inheritdoc/>
@@ -141,7 +141,7 @@ public unsafe struct MemoryBlock : IDisposable
 
         fixed (T* pDest = destination)
         {
-            MemCpy(pDest, _buffer, _size);
+            MemoryUtility.MemCpy(pDest, _buffer, _size);
         }
     }
 
@@ -165,7 +165,7 @@ public unsafe struct MemoryBlock : IDisposable
 
         fixed (T* pDest = destination)
         {
-            MemCpy(pDest + destinationIndex, (byte*)_buffer + sourceOffset, length * sizeOfElement);
+            MemoryUtility.MemCpy(pDest + destinationIndex, (byte*)_buffer + sourceOffset, length * sizeOfElement);
         }
     }
 
@@ -187,7 +187,7 @@ public unsafe struct MemoryBlock : IDisposable
 
         fixed (T* pSrc = source)
         {
-            MemCpy(_buffer, pSrc, sourceSize);
+            MemoryUtility.MemCpy(_buffer, pSrc, sourceSize);
         }
     }
 
@@ -211,7 +211,7 @@ public unsafe struct MemoryBlock : IDisposable
 
         fixed (T* pSrc = source)
         {
-            MemCpy((byte*)_buffer + destinationOffset, pSrc + sourceIndex, length * sizeOfElement);
+            MemoryUtility.MemCpy((byte*)_buffer + destinationOffset, pSrc + sourceIndex, length * sizeOfElement);
         }
     }
 

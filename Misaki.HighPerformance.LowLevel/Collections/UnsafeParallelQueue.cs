@@ -1,4 +1,5 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -88,7 +89,7 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DisposablePtr<UnsafeParallelQueue<T>> Allocate(int capacityPerChunk, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        var pQueue = (UnsafeParallelQueue<T>*)handle.Alloc(SizeOf<DisposablePtr<UnsafeParallelQueue<T>>>(), AlignOf<DisposablePtr<UnsafeParallelQueue<T>>>(), AllocationOption.None);
+        var pQueue = (UnsafeParallelQueue<T>*)handle.Alloc(MemoryUtility.SizeOf<DisposablePtr<UnsafeParallelQueue<T>>>(), MemoryUtility.AlignOf<DisposablePtr<UnsafeParallelQueue<T>>>(), AllocationOption.None);
         *pQueue = new UnsafeParallelQueue<T>(capacityPerChunk, handle, allocationOption);
         return new DisposablePtr<UnsafeParallelQueue<T>>(pQueue);
     }
@@ -278,7 +279,7 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
                 free->consumedSlots = 0;
 
                 var slots = (ChunkSlot*)(free + 1);
-                MemClear(slots, (uint)(_chunkCapacity * sizeof(ChunkSlot)));
+                MemoryUtility.MemClear(slots, (uint)(_chunkCapacity * sizeof(ChunkSlot)));
                 return free;
             }
         }
@@ -289,7 +290,7 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
     private readonly ChunkHeader* AllocateNewChunk()
     {
         nuint byteSize = (nuint)sizeof(ChunkHeader) + (nuint)(_chunkCapacity * sizeof(ChunkSlot));
-        ChunkHeader* block = (ChunkHeader*)_allocHandle.Alloc(byteSize, AlignOf<int>(), _allocOption);
+        ChunkHeader* block = (ChunkHeader*)_allocHandle.Alloc(byteSize, MemoryUtility.AlignOf<int>(), _allocOption);
 
         block->next = null;
         block->nextFree = null;
@@ -299,7 +300,7 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
         block->consumedSlots = 0;
 
         var slots = (ChunkSlot*)(block + 1);
-        MemClear(slots, (uint)(_chunkCapacity * sizeof(ChunkSlot)));
+        MemoryUtility.MemClear(slots, (uint)(_chunkCapacity * sizeof(ChunkSlot)));
 
         return block;
     }

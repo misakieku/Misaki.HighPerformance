@@ -44,7 +44,7 @@ public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.
     public DynamicArena(nuint initialSize)
     {
         _initialSize = initialSize;
-        _root = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
+        _root = (ArenaNode*)NativeMemory.Alloc((nuint)sizeof(ArenaNode));
         _root->arena = new Arena(initialSize);
         _root->next = null;
         _current = _root;
@@ -70,7 +70,7 @@ public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.
                 return true;
             }
 
-            var newNode = (ArenaNode*)Malloc(SizeOf<ArenaNode>());
+            var newNode = (ArenaNode*)NativeMemory.Alloc((nuint)sizeof(ArenaNode));
             try
             {
                 newNode->arena = new Arena(size);
@@ -85,7 +85,7 @@ public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.
             }
             catch
             {
-                Free(newNode);
+                NativeMemory.Free(newNode);
                 return false;
             }
         }
@@ -151,7 +151,7 @@ public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.
 
         if (newPtr != ptr)
         {
-            MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
+            MemoryUtility.MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
         }
 
         return newPtr;
@@ -194,7 +194,7 @@ public unsafe struct DynamicArena : IMemoryAllocator<DynamicArena, DynamicArena.
         {
             var next = current->next;
             current->arena.Dispose();
-            MemoryUtility.Free(current);
+            NativeMemory.Free(current);
             current = next;
         }
     }

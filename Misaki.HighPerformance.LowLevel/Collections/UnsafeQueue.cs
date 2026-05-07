@@ -184,7 +184,7 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
             {
                 // No wrap-around, single copy
                 var sizeToCopy = (uint)(_count * sizeof(T));
-                MemCpy(newArray.GetUnsafePtr(), (byte*)_array.GetUnsafePtr() + _offset * sizeof(T), sizeToCopy);
+                MemoryUtility.MemCpy(newArray.GetUnsafePtr(), (byte*)_array.GetUnsafePtr() + _offset * sizeof(T), sizeToCopy);
             }
             else
             {
@@ -193,10 +193,10 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
                 var secondPartElements = _count - firstPartElements;
 
                 // Copy from _offset to the end of the old array
-                MemCpy(newArray.GetUnsafePtr(), (byte*)_array.GetUnsafePtr() + _offset * sizeof(T), (uint)(firstPartElements * sizeof(T)));
+                MemoryUtility.MemCpy(newArray.GetUnsafePtr(), (byte*)_array.GetUnsafePtr() + _offset * sizeof(T), (uint)(firstPartElements * sizeof(T)));
 
                 // Copy from the start of the old array to the remaining count
-                MemCpy((byte*)newArray.GetUnsafePtr() + firstPartElements * sizeof(T), _array.GetUnsafePtr(), (uint)(secondPartElements * sizeof(T)));
+                MemoryUtility.MemCpy((byte*)newArray.GetUnsafePtr() + firstPartElements * sizeof(T), _array.GetUnsafePtr(), (uint)(secondPartElements * sizeof(T)));
             }
         }
 

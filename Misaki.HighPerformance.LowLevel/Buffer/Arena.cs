@@ -40,7 +40,7 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
             return;
         }
 
-        _buffer = (byte*)Malloc(size);
+        _buffer = (byte*)NativeMemory.Alloc(size);
         _size = size;
         _offset = 0;
     }
@@ -91,7 +91,7 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
         var ptr = _buffer + alignedOffset;
         if (allocationOption.HasOption(AllocationOption.Clear))
         {
-            MemClear(ptr, size);
+            MemoryUtility.MemClear(ptr, size);
         }
 
         return ptr;
@@ -120,7 +120,7 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
                 {
                     if (allocationOption.HasOption(AllocationOption.Clear) && additionalSize > 0)
                     {
-                        MemClear((byte*)ptr + oldSize, additionalSize);
+                        MemoryUtility.MemClear((byte*)ptr + oldSize, additionalSize);
                     }
 
                     return ptr;
@@ -134,7 +134,7 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
             return null;
         }
 
-        MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
+        MemoryUtility.MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
         return newPtr;
     }
 
@@ -165,6 +165,6 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
         _size = 0;
         _offset = 0;
 
-        MemoryUtility.Free(ptr);
+        NativeMemory.Free(ptr);
     }
 }

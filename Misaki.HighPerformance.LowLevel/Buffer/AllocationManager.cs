@@ -1,6 +1,7 @@
 #if MHP_ENABLE_SAFETY_CHECKS
 using Misaki.HighPerformance.Collections;
 #endif
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -101,7 +102,7 @@ public static unsafe class AllocationManager
 
         private static void* Allocate(void* _, nuint size, nuint alignment, AllocationOption allocationOption)
         {
-            var ptr = AlignedAlloc(size, alignment);
+            var ptr = MemoryUtility.AlignedAlloc(size, alignment);
             if (ptr == null)
             {
                 return null;
@@ -109,7 +110,7 @@ public static unsafe class AllocationManager
 
             if (allocationOption.HasOption(AllocationOption.Clear))
             {
-                MemClear(ptr, size);
+                MemoryUtility.MemClear(ptr, size);
             }
 
             return ptr;
@@ -117,7 +118,7 @@ public static unsafe class AllocationManager
 
         private static void* Reallocate(void* _, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
         {
-            var newPtr = AlignedRealloc(ptr, newSize, alignment);
+            var newPtr = MemoryUtility.AlignedRealloc(ptr, newSize, alignment);
             if (newPtr == null)
             {
                 return null;
@@ -127,7 +128,7 @@ public static unsafe class AllocationManager
             {
                 var offset = (byte*)newPtr + oldSize;
                 var clearSize = newSize - oldSize;
-                MemClear(offset, clearSize);
+                MemoryUtility.MemClear(offset, clearSize);
             }
 
             return newPtr;
@@ -135,7 +136,7 @@ public static unsafe class AllocationManager
 
         private static void Free(void* _, void* ptr)
         {
-            AlignedFree(ptr);
+            MemoryUtility.AlignedFree(ptr);
         }
     }
 
@@ -264,7 +265,7 @@ public static unsafe class AllocationManager
 
         var spanDesc = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref desc, 1));
         var spanDefault = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref defaultDesc, 1));
-        ReplaceIfZeros(spanDesc, spanDefault);
+        MemoryUtility.ReplaceIfZeros(spanDesc, spanDefault);
 
         s_arenaAllocator = new MemoryPool<VirtualArena, VirtualArena.CreationOptions>(new VirtualArena.CreationOptions
         {
@@ -277,10 +278,10 @@ public static unsafe class AllocationManager
             chunkSize = desc.FreeListChunkSize
         });
 
-        s_pHeapAllocator = (HeapAllocator*)Malloc((nuint)sizeof(HeapAllocator));
+        s_pHeapAllocator = (HeapAllocator*)NativeMemory.Alloc((nuint)sizeof(HeapAllocator));
         s_pHeapAllocator->Init();
 
-        s_pTLSFAllocator = (TLSFAllocator*)Malloc((nuint)sizeof(TLSFAllocator));
+        s_pTLSFAllocator = (TLSFAllocator*)NativeMemory.Alloc((nuint)sizeof(TLSFAllocator));
         s_pTLSFAllocator->Init(desc.TLSFAlignment, desc.TLSFInitialChunkSize);
 
         s_threadLocalStackSize = desc.StackCapacity;
@@ -487,14 +488,14 @@ public static unsafe class AllocationManager
 
         if (s_pHeapAllocator != null)
         {
-            Free(s_pHeapAllocator);
+            NativeMemory.Free(s_pHeapAllocator);
             s_pHeapAllocator = null;
         }
 
         if (s_pTLSFAllocator != null)
         {
             s_pTLSFAllocator->Dispose();
-            Free(s_pTLSFAllocator);
+            NativeMemory.Free(s_pTLSFAllocator);
             s_pTLSFAllocator = null;
         }
     }

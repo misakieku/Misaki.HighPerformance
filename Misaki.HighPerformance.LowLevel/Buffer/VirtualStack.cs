@@ -58,7 +58,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
         _committedSize = 0;
         _allocatedOffset = 0;
 
-        _baseAddress = (byte*)Mmap(null, _reserveCapacity, VirtualAllocationFlags.Reserve);
+        _baseAddress = (byte*)MemoryUtility.Mmap(null, _reserveCapacity, VirtualAllocationFlags.Reserve);
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
             sizeToCommit = (sizeToCommit + _PAGE_SIZE - 1) & ~(_PAGE_SIZE - 1);
 
             var commitAddress = _baseAddress + _committedSize;
-            var result = Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
+            var result = MemoryUtility.Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
 
             if (result == null)
             {
@@ -130,7 +130,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
 
         if (option.HasOption(AllocationOption.Clear))
         {
-            MemClear(userPtr, size);
+            MemoryUtility.MemClear(userPtr, size);
         }
 
         return userPtr;
@@ -166,7 +166,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
                 sizeToCommit = (sizeToCommit + _PAGE_SIZE - 1) & ~(_PAGE_SIZE - 1);
 
                 var commitAddress = _baseAddress + _committedSize;
-                var result = Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
+                var result = MemoryUtility.Mmap(commitAddress, sizeToCommit, VirtualAllocationFlags.Commit);
 
                 if (result == null)
                 {
@@ -178,7 +178,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
 
             if (allocationOption.HasOption(AllocationOption.Clear))
             {
-                MemClear(_baseAddress + _allocatedOffset - diff, diff);
+                MemoryUtility.MemClear(_baseAddress + _allocatedOffset - diff, diff);
             }
 
             return ptr;
@@ -190,7 +190,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
             return null;
         }
 
-        MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
+        MemoryUtility.MemCpy(newPtr, ptr, Math.Min(oldSize, newSize));
 
         return newPtr;
     }
@@ -224,6 +224,6 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
         _committedSize = 0;
         _reserveCapacity = 0;
 
-        Munmap(ptr, size);
+        MemoryUtility.Munmap(ptr, size);
     }
 }

@@ -136,7 +136,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     {
         ArgumentOutOfRangeException.ThrowIfNegative(count);
 
-        _buffer = (T*)handle.Alloc((nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption);
+        _buffer = (T*)handle.Alloc((nuint)(count * sizeof(T)), MemoryUtility.AlignOf<T>(), allocationOption);
 #if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle = MemoryHandle.Create(_buffer, (nuint)(count * sizeof(T)));
 #endif
@@ -221,11 +221,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return;
         }
 
-        var elemSize = SizeOf<T>();
-        _buffer = (T*)_allocationHandle.Realloc(_buffer, (nuint)Count * elemSize, (nuint)newSize * elemSize, AlignOf<T>(), option);
+        var elemSize = sizeof(T);
+        _buffer = (T*)_allocationHandle.Realloc(_buffer, (nuint)(_count * elemSize), (nuint)(newSize * elemSize), MemoryUtility.AlignOf<T>(), option);
         _count = newSize;
 #if MHP_ENABLE_SAFETY_CHECKS
-        _memoryHandle.Update(_buffer, (nuint)newSize * elemSize);
+        _memoryHandle.Update(_buffer, (nuint)(newSize * elemSize));
 #endif
     }
 
@@ -234,7 +234,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     public readonly void Clear()
     {
         ThrowIfNotCreated();
-        MemClear(_buffer, (nuint)(Count * sizeof(T)));
+        MemoryUtility.MemClear(_buffer, (nuint)_count * MemoryUtility.SizeOf<T>());
     }
 
     /// <inheritdoc/>
@@ -292,7 +292,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         var size = Math.Min(destination.Length, Count);
         fixed (T* pDest = destination)
         {
-            MemCpy(pDest, _buffer, (uint)(size * sizeof(T)));
+            MemoryUtility.MemCpy(pDest, _buffer, (nuint)(size * sizeof(T)));
         }
     }
 
@@ -313,7 +313,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
         fixed (T* pDest = destination)
         {
-            MemCpy(pDest + destinationIndex, _buffer + sourceIndex, (nuint)(length * sizeof(T)));
+            MemoryUtility.MemCpy(pDest + destinationIndex, _buffer + sourceIndex, (nuint)(length * sizeof(T)));
         }
     }
 
@@ -330,7 +330,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
         fixed (T* pSrc = source)
         {
-            MemCpy(_buffer, pSrc, (nuint)(source.Length * sizeof(T)));
+            MemoryUtility.MemCpy(_buffer, pSrc, (nuint)(source.Length * sizeof(T)));
         }
     }
 
@@ -356,7 +356,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
         fixed (T* pSrc = source)
         {
-            MemCpy(_buffer + destinationIndex, pSrc + sourceIndex, (nuint)(length * sizeof(T)));
+            MemoryUtility.MemCpy(_buffer + destinationIndex, pSrc + sourceIndex, (nuint)(length * sizeof(T)));
         }
     }
 

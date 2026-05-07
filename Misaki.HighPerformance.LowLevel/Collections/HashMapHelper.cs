@@ -132,8 +132,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         _capacity = CalcCapacityCeilPow2(capacity);
         _bucketCapacity = _capacity * 2;
 
-        var alignOfKey = (int)AlignOf<TKey>();
-        var alignOfInt = (int)AlignOf<int>();
+        var alignOfKey = (int)MemoryUtility.AlignOf<TKey>();
+        var alignOfInt = (int)MemoryUtility.AlignOf<int>();
         var maxDataAlign = Math.Max(Math.Max(alignOfTValue, alignOfKey), alignOfInt);
 
         _alignment = maxDataAlign;
@@ -276,7 +276,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             for (var idx = oldBuckets[i]; idx != -1; idx = oldNext[idx])
             {
                 var newIdx = Add(oldKeys[idx]);
-                MemCpy(_buffer + _sizeOfTValue * newIdx, oldBuffer + _sizeOfTValue * idx, (nuint)_sizeOfTValue);
+                MemoryUtility.MemCpy(_buffer + _sizeOfTValue * newIdx, oldBuffer + _sizeOfTValue * idx, (nuint)_sizeOfTValue);
             }
         }
 
@@ -684,8 +684,8 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     {
         ThrowIfNotCreated();
 
-        MemSet(_buckets, 0xff, (nuint)_bucketCapacity * sizeof(int));
-        MemSet(_next, 0xff, (nuint)_capacity * sizeof(int));
+        MemoryUtility.MemSet(_buckets, 0xff, (nuint)_bucketCapacity * sizeof(int));
+        MemoryUtility.MemSet(_next, 0xff, (nuint)_capacity * sizeof(int));
 
         _count = 0;
         _firstFreeIndex = -1;

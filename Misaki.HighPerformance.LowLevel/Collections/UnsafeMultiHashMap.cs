@@ -121,7 +121,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
 
     public UnsafeMultiHashMap(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        _helper = new HashMapHelper<TKey>(capacity, sizeof(TValue), (int)AlignOf<TValue>(), HashMapHelper<TKey>.MINIMAL_CAPACITY, handle, allocationOption);
+        _helper = new HashMapHelper<TKey>(capacity, sizeof(TValue), (int)MemoryUtility.AlignOf<TValue>(), HashMapHelper<TKey>.MINIMAL_CAPACITY, handle, allocationOption);
     }
 
     [Obsolete("Use AllocationHandle instead.")]

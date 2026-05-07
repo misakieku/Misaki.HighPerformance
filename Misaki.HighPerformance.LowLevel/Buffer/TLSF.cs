@@ -113,8 +113,8 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
 
         var slSize = 64 * (nuint)sizeof(uint);
         var blocksSize = 64 * 32 * (nuint)sizeof(BlockHeader*);
-        _slBitmaps = (uint*)Calloc(slSize);
-        _blocks = (BlockHeader**)Calloc(blocksSize);
+        _slBitmaps = (uint*)NativeMemory.AllocZeroed(slSize);
+        _blocks = (BlockHeader**)NativeMemory.AllocZeroed(blocksSize);
 
         AddChunk(_chunkSize);
     }
@@ -140,7 +140,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
     private void AddChunk(nuint size)
     {
         var totalSize = size + (nuint)sizeof(MemoryChunk);
-        var mem = (byte*)AlignedAlloc(totalSize, _alignment);
+        var mem = (byte*)NativeMemory.AlignedAlloc(totalSize, _alignment);
 
         MemoryChunk* chunk = (MemoryChunk*)mem;
         chunk->next = _chunks;
@@ -313,7 +313,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
         void* userPtr = (byte*)block + 16;
         if (allocationOption.HasOption(AllocationOption.Clear))
         {
-            MemClear(userPtr, block->Size - 16);
+            MemoryUtility.MemClear(userPtr, block->Size - 16);
         }
 
         return userPtr;
@@ -458,7 +458,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
         if (newPtr != null)
         {
             var copySize = oldSize < newSize ? oldSize : newSize;
-            MemCpy(newPtr, ptr, copySize);
+            MemoryUtility.MemCpy(newPtr, ptr, copySize);
             Free(ptr);
         }
         return newPtr;
@@ -468,13 +468,13 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
     {
         if (_blocks != null)
         {
-            MemoryUtility.Free(_blocks);
+            NativeMemory.Free(_blocks);
             _blocks = null;
         }
 
         if (_slBitmaps != null)
         {
-            MemoryUtility.Free(_slBitmaps);
+            NativeMemory.Free(_slBitmaps);
             _slBitmaps = null;
         }
 
@@ -484,7 +484,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
         while (chunk != null)
         {
             MemoryChunk* next = chunk->next;
-            AlignedFree(chunk->memory);
+            NativeMemory.AlignedFree(chunk->memory);
             chunk = next;
         }
     }

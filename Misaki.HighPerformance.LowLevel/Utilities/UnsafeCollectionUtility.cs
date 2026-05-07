@@ -51,7 +51,7 @@ public static unsafe class UnsafeCollectionUtility
         var array = new UnsafeArray<T>(source.Length, allocationHandle);
         fixed (T* pSrc = source)
         {
-            MemCpy(array.GetUnsafePtr(), pSrc, (uint)(source.Length * sizeof(T)));
+            MemoryUtility.MemCpy(array.GetUnsafePtr(), pSrc, (uint)(source.Length * sizeof(T)));
         }
 
         return array;
@@ -70,7 +70,7 @@ public static unsafe class UnsafeCollectionUtility
         var list = new UnsafeList<T>(source.Count, allocationHandle);
         fixed (T* pSrc = CollectionsMarshal.AsSpan(source))
         {
-            MemCpy(list.GetUnsafePtr(), pSrc, (uint)(source.Count * sizeof(T)));
+            MemoryUtility.MemCpy(list.GetUnsafePtr(), pSrc, (uint)(source.Count * sizeof(T)));
         }
 
         return list;
