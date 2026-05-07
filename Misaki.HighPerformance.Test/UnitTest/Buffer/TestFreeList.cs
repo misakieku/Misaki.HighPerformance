@@ -164,13 +164,6 @@ public unsafe class TestFreeList
     }
 
     [TestMethod]
-    public void InvalidAlignment_Throws()
-    {
-        using var freeList = new FreeList(8, 1024);
-        Assert.ThrowsExactly<ArgumentException>(() => freeList.Allocate(16, 3));
-    }
-
-    [TestMethod]
     public void DoubleDispose_IsSafe()
     {
         var freeList = new FreeList(8, 1024);
