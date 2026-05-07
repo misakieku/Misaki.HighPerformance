@@ -89,7 +89,7 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
         } while (Interlocked.CompareExchange(ref _offset, newOffset, currentOffset) != currentOffset);
 
         var ptr = _buffer + alignedOffset;
-        if (allocationOption.HasFlag(AllocationOption.Clear))
+        if (allocationOption.HasOption(AllocationOption.Clear))
         {
             MemClear(ptr, size);
         }
@@ -118,7 +118,7 @@ public unsafe struct Arena : IMemoryAllocator<Arena, Arena.CreationOptions>
             {
                 if (Interlocked.CompareExchange(ref _offset, currentOffset + additionalSize, currentOffset) == currentOffset)
                 {
-                    if (allocationOption.HasFlag(AllocationOption.Clear) && additionalSize > 0)
+                    if (allocationOption.HasOption(AllocationOption.Clear) && additionalSize > 0)
                     {
                         MemClear((byte*)ptr + oldSize, additionalSize);
                     }

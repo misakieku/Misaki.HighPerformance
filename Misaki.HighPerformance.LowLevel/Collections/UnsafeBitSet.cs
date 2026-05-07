@@ -272,7 +272,7 @@ public unsafe struct UnsafeBitSet : IDisposable, IEquatable<UnsafeBitSet>
         var length = RoundToPadding(uints);
 
         _bits.Resize(length, option);
-        if (!option.HasFlag(AllocationOption.Clear))
+        if (!option.HasOption(AllocationOption.Clear))
         {
             _bits.AsSpan()[oldSize..].Clear();
         }

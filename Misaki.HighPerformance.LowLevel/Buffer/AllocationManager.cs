@@ -75,7 +75,7 @@ public struct AllocationManagerDesc
     {
         ArenaCapacity = 1024 * 1024 * 1024, // 1 GB
         StackCapacity = 32 * 1024 * 1024, // 32 MB per thread
-        FreeListChunkSize = 64 * 1024 * 1024,
+        FreeListChunkSize = 64 * 1024,
         FreeListDefaultAlignment = 8,
         TLSFAlignment = 16,
         TLSFInitialChunkSize = 64 * 1024, // 64 KB
@@ -107,7 +107,7 @@ public static unsafe class AllocationManager
                 return null;
             }
 
-            if (allocationOption.HasFlag(AllocationOption.Clear))
+            if (allocationOption.HasOption(AllocationOption.Clear))
             {
                 MemClear(ptr, size);
             }
@@ -123,7 +123,7 @@ public static unsafe class AllocationManager
                 return null;
             }
 
-            if (allocationOption.HasFlag(AllocationOption.Clear) && newSize > oldSize)
+            if (allocationOption.HasOption(AllocationOption.Clear) && newSize > oldSize)
             {
                 var offset = (byte*)newPtr + oldSize;
                 var clearSize = newSize - oldSize;
@@ -380,8 +380,8 @@ public static unsafe class AllocationManager
 
             if (s_allocations.TryGetElement(handle.ID, handle.Generation, out var oldInfo))
             {
-                var diff = newSize - oldInfo.Size;
-                Interlocked.Add(ref s_totalAllocatedMemory, (long)diff);
+                var diff = (long)newSize - (long)oldInfo.Size;
+                Interlocked.Add(ref s_totalAllocatedMemory, diff);
 
                 var newInfo = oldInfo with
                 {

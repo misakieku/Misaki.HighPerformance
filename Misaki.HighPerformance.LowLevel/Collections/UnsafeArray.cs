@@ -136,11 +136,6 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     {
         ArgumentOutOfRangeException.ThrowIfNegative(count);
 
-        if (handle.Alloc == null)
-        {
-            throw new InvalidOperationException("Target allocation handle does not support allocation.");
-        }
-
         _buffer = (T*)handle.Alloc((nuint)(count * sizeof(T)), AlignOf<T>(), allocationOption);
 #if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle = MemoryHandle.Create(_buffer, (nuint)(count * sizeof(T)));
@@ -220,11 +215,6 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
         ThrowIfNotCreated();
-
-        if (_allocationHandle.Realloc == null)
-        {
-            throw new InvalidOperationException("Target allocation handle does not support reallocation.");
-        }
 
         if (newSize == Count)
         {

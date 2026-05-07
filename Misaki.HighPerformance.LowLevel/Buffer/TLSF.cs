@@ -311,7 +311,7 @@ public unsafe struct TLSF : IMemoryAllocator<TLSF, TLSF.CreationOptions>
         }
 
         void* userPtr = (byte*)block + 16;
-        if (allocationOption.HasFlag(AllocationOption.Clear))
+        if (allocationOption.HasOption(AllocationOption.Clear))
         {
             MemClear(userPtr, block->Size - 16);
         }

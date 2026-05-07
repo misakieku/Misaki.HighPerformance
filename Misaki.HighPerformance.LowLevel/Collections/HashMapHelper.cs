@@ -246,11 +246,6 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void AllocateBuffer(int totalSize, int keyOffset, int nextOffset, int bucketOffset, AllocationOption allocationOption)
     {
-        if (_allocationHandle.Alloc == null)
-        {
-            throw new InvalidOperationException("Target allocation handle does not support allocation.");
-        }
-
         var buf = (byte*)_allocationHandle.Alloc((uint)totalSize, (nuint)_alignment, allocationOption);
 
         _buffer = buf;

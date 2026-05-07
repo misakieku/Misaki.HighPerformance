@@ -42,13 +42,6 @@ public unsafe struct MemoryBlock : IDisposable
 
     public MemoryBlock(nuint size, nuint alignment, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        ArgumentOutOfRangeException.ThrowIfNegative(size);
-
-        if (handle.Alloc == null)
-        {
-            throw new InvalidOperationException("Target allocation handle does not support allocation.");
-        }
-
         _buffer = handle.Alloc(size, alignment, allocationOption);
         _size = size;
         _alignment = alignment;

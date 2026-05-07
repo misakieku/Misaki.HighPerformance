@@ -47,7 +47,7 @@ internal unsafe struct GGXMipGenerationJobSPMD : IJobSPMD<float, int>
 
         var phi = 2.0f * PI * Xi.x;
 
-        var cosTheta = TFloat.Sqrt((1.0f - Xi.y) / TFloat.MultipleAdd(a * a - 1.0f, Xi.y, 1.0f));
+        var cosTheta = TFloat.Sqrt((1.0f - Xi.y) / TFloat.MultiplyAdd(a * a - 1.0f, Xi.y, 1.0f));
         var sinTheta = TFloat.Sqrt(1.0f - cosTheta * cosTheta);
 
         // Spherical to Cartesian coordinates (Halfway vector)
@@ -198,7 +198,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
 
         var phi = 2.0f * PI * Xi.x;
 
-        var cosTheta = TFloat.Sqrt((1.0f - Xi.y) / TFloat.MultipleAdd(a * a - 1.0f, Xi.y, 1.0f));
+        var cosTheta = TFloat.Sqrt((1.0f - Xi.y) / TFloat.MultiplyAdd(a * a - 1.0f, Xi.y, 1.0f));
         var sinTheta = TFloat.Sqrt(1.0f - cosTheta * cosTheta);
 
         // Spherical to Cartesian coordinates (Halfway vector)

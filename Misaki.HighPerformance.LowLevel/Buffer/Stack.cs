@@ -111,7 +111,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
 
         _offset = newOffset;
 
-        if (allocationOption.HasFlag(AllocationOption.Clear))
+        if (allocationOption.HasOption(AllocationOption.Clear))
         {
             MemClear(ptr, size);
         }
@@ -138,7 +138,7 @@ public unsafe partial struct Stack : IMemoryAllocator<Stack, Stack.CreationOptio
             {
                 var diff = newSize - oldSize;
                 _offset += diff;
-                if (allocationOption.HasFlag(AllocationOption.Clear))
+                if (allocationOption.HasOption(AllocationOption.Clear))
                 {
                     MemClear(_buffer + _offset - diff, diff);
                 }

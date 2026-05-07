@@ -570,7 +570,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
                 return null;
             }
 
-            if (allocationOption.HasFlag(AllocationOption.Clear))
+            if (allocationOption.HasOption(AllocationOption.Clear))
             {
                 MemClear(userPtr, alignedSize);
             }

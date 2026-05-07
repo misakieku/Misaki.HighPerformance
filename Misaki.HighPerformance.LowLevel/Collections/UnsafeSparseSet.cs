@@ -112,7 +112,7 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         _reverse = new UnsafeArray<int>(capacity, handle, allocationOption);
         _freeSparse = new UnsafeStack<int>(capacity, handle, allocationOption);
 
-        if (!allocationOption.HasFlag(AllocationOption.Clear))
+        if (!allocationOption.HasOption(AllocationOption.Clear))
         {
             _generations.AsSpan().Clear();
             _sparse.AsSpan().Clear();

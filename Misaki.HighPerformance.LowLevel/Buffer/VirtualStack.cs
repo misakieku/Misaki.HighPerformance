@@ -128,7 +128,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
         var userPtr = _baseAddress + alignedOffset;
         _allocatedOffset = newAllocatedOffset;
 
-        if (option.HasFlag(AllocationOption.Clear))
+        if (option.HasOption(AllocationOption.Clear))
         {
             MemClear(userPtr, size);
         }
@@ -176,7 +176,7 @@ public unsafe struct VirtualStack : IMemoryAllocator<VirtualStack, VirtualStack.
                 _committedSize += sizeToCommit;
             }
 
-            if (allocationOption.HasFlag(AllocationOption.Clear))
+            if (allocationOption.HasOption(AllocationOption.Clear))
             {
                 MemClear(_baseAddress + _allocatedOffset - diff, diff);
             }

@@ -179,13 +179,8 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void AllocateBuffer(UnsafeParallelHashMapData<TKey, TValue>* data, int totalSize, int keyOffset, int valueOffset, int nextOffset, int bucketOffset, AllocationOption allocationOption)
+    private readonly void AllocateBuffer(UnsafeParallelHashMapData<TKey, TValue>* data, int totalSize, int keyOffset, int valueOffset, int nextOffset, int bucketOffset, AllocationOption allocationOption)
     {
-        if (data->allocationHandle.Alloc == null)
-        {
-            throw new InvalidOperationException("Target allocation handle does not support allocation.");
-        }
-
         var buf = (byte*)data->allocationHandle.Alloc((uint)totalSize, (nuint)data->alignment, allocationOption);
 
         data->buffer = buf;

@@ -85,7 +85,7 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
                 {
                     var ptr = _baseAddress + alignedOffset;
 
-                    if (allocationOption.HasFlag(AllocationOption.Clear))
+                    if (allocationOption.HasOption(AllocationOption.Clear))
                     {
                         MemClear(ptr, size);
                     }
@@ -197,7 +197,7 @@ public unsafe struct VirtualArena : IMemoryAllocator<VirtualArena, VirtualArena.
             if (Interlocked.CompareExchange(ref _allocatedOffset, newOffset, currentOffset) == currentOffset)
             {
                 // Safe to clear: we own the space between oldSize and newOffset
-                if (allocationOption.HasFlag(AllocationOption.Clear) && additionalSize > 0)
+                if (allocationOption.HasOption(AllocationOption.Clear) && additionalSize > 0)
                 {
                     MemClear((byte*)ptr + oldSize, additionalSize);
                 }

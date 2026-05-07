@@ -217,17 +217,70 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// Implementations may use hardware-specific shuffle tables to reorder the selected lanes before storing, falling back to a scalar loop otherwise.
     /// </remarks>
     int CompressStore(TNumber* pDestination, TSelf mask);
-
+    /// <summary>
+    /// Masks the lane value with the specified mask and stores the result to the given reference, where masked lanes are stored and unmasked lanes are left unchanged in the destination.
+    /// </summary>
+    /// <param name="pDestination">A pointer to the variable where the masked data will be stored.</param>
+    /// <param name="mask">A mask value that determines which elements are included in the masking operation.</param>
     void MaskStore(TNumber* pDestination, TSelf mask);
+    /// <summary>
+    /// Masks the lane value with the specified mask and stores the result to the given reference, where masked lanes are stored and unmasked lanes are left unchanged in the destination.
+    /// </summary>
+    /// <param name="destination">A reference to the variable where the masked data will be stored.</param>
+    /// <param name="mask">A mask value that determines which elements are included in the masking operation.</param>
     void MaskStore(ref TNumber destination, TSelf mask);
 
+    /// <summary>
+    /// Scatters the lane value to the specified base address and indices, where each lane is stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address.
+    /// </summary>
+    /// <param name="pDst">A pointer to the base address where the data will be scattered.</param>
+    /// <param name="indices">A vector of indices that determine the destinations of each lane.</param>
     void Scatter(TNumber* pDst, TSelf indices);
+    /// <summary>
+    /// Scatters the lane value to the specified base address and indices, where each lane is stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address.
+    /// </summary>
+    /// <param name="destination">A reference to the variable where the scattered data will be stored.</param>
+    /// <param name="indices">A vector of indices that determine the destinations of each lane.</param>
     void Scatter(ref TNumber destination, TSelf indices);
+    /// <summary>
+    /// Scatters the lane value to the specified base address and indices, where each lane is stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address.
+    /// </summary>
+    /// <param name="pDst">A pointer to the base address where the data will be scattered.</param>
+    /// <param name="pIndices">A pointer to the array of indices that determine the destinations of each lane.</param>
     void Scatter(TNumber* pDst, int* pIndices);
+    /// <summary>
+    /// Scatters the lane value to the specified base address and indices, where each lane is stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address.
+    /// </summary>
+    /// <param name="destination">A reference to the variable where the scattered data will be stored.</param>
+    /// <param name="pIndices">A pointer to the array of indices that determine the destinations of each lane.</param>
     void Scatter(ref TNumber destination, int* pIndices);
+    /// <summary>
+    /// Masks the lane value with the specified mask and scatters the result to the given base address and indices, where masked lanes are stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address, and unmasked lanes are left unchanged in the destination.
+    /// </summary>
+    /// <param name="pDst">A pointer to the base address where the data will be scattered.</param>
+    /// <param name="indices">A vector of indices that determine the destinations of each lane.</param>
+    /// <param name="mask">A vector of boolean values that determine which lanes to scatter.</param>
     void MaskScatter(TNumber* pDst, TSelf indices, TSelf mask);
+    /// <summary>
+    /// Masks the lane value with the specified mask and scatters the result to the given base address and indices, where masked lanes are stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address, and unmasked lanes are left unchanged in the destination.
+    /// </summary>
+    /// <param name="destination">A reference to the variable where the scattered data will be stored.</param>
+    /// <param name="indices">A vector of indices that determine the destinations of each lane.</param>
+    /// <param name="mask">A vector of boolean values that determine which lanes to scatter.</param>
     void MaskScatter(ref TNumber destination, TSelf indices, TSelf mask);
+    /// <summary>
+    /// Masks the lane value with the specified mask and scatters the result to the given base address and indices, where masked lanes are stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address, and unmasked lanes are left unchanged in the destination.
+    /// </summary>
+    /// <param name="pDst">A pointer to the base address where the data will be scattered.</param>
+    /// <param name="pIndices">A pointer to the array of indices that determine the destinations of each lane.</param>
+    /// <param name="mask">A vector of boolean values that determine which lanes to scatter.</param>
     void MaskScatter(TNumber* pDst, int* pIndices, TSelf mask);
+    /// <summary>
+    /// Masks the lane value with the specified mask and scatters the result to the given base address and indices, where masked lanes are stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address, and unmasked lanes are left unchanged in the destination.
+    /// </summary>
+    /// <param name="destination">A reference to the variable where the scattered data will be stored.</param>
+    /// <param name="pIndices">A pointer to the array of indices that determine the destinations of each lane.</param>
+    /// <param name="mask">A vector of boolean values that determine which lanes to scatter.</param>
     void MaskScatter(ref TNumber destination, int* pIndices, TSelf mask);
 
     /// <summary>
@@ -423,7 +476,7 @@ public unsafe interface ISPMDLane<TSelf, TNumber> : ISPMDLane, IEquatable<TSelf>
     /// <remarks>
     /// Float and double implementations should use fused multiply-add instructions when available for both accuracy and performance.
     /// </remarks>
-    static abstract TSelf MultipleAdd(TSelf a, TSelf b, TSelf c);
+    static abstract TSelf MultiplyAdd(TSelf a, TSelf b, TSelf c);
     /// <summary>
     /// Returns the minimum of the two lane values element-wise.
     /// </summary>

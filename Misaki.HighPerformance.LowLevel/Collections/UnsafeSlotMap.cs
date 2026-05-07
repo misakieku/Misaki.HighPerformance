@@ -135,7 +135,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         for (var i = 0; i < initialChunks; i++)
         {
             _chunks[i] = new UnsafeArray<SlotEntry>(_CHUNK_SIZE, handle, allocationOption);
-            if (!allocationOption.HasFlag(AllocationOption.Clear))
+            if (!allocationOption.HasOption(AllocationOption.Clear))
             {
                 _chunks[i].AsSpan().Clear();
             }
@@ -144,7 +144,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         _freeSlots = new UnsafeQueue<int>(capacity, handle, allocationOption);
         _validBits = new UnsafeBitSet(_capacity, handle, allocationOption);
 
-        if (!allocationOption.HasFlag(AllocationOption.Clear))
+        if (!allocationOption.HasOption(AllocationOption.Clear))
         {
             _validBits.ClearAll();
         }
@@ -190,7 +190,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         for (var i = _capacity / _CHUNK_SIZE; i < newChunkCount; i++)
         {
             _chunks[i] = new UnsafeArray<SlotEntry>(_CHUNK_SIZE, _handle, _allocationOption);
-            if (!_allocationOption.HasFlag(AllocationOption.Clear))
+            if (!_allocationOption.HasOption(AllocationOption.Clear))
             {
                 _chunks[i].AsSpan().Clear();
             }
