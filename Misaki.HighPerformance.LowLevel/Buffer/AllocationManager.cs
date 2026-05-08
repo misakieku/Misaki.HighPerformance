@@ -250,6 +250,28 @@ public static unsafe class AllocationManager
 
     private static nuint s_threadLocalStackSize;
 
+    private static void ReplaceIfZero(ref AllocationManagerDesc desc, AllocationManagerDesc defaultDesc)
+    {
+        desc.ArenaCapacity = desc.ArenaCapacity != 0
+            ? desc.ArenaCapacity
+            : defaultDesc.ArenaCapacity;
+        desc.StackCapacity = desc.StackCapacity != 0
+            ? desc.StackCapacity
+            : defaultDesc.StackCapacity;
+        desc.FreeListChunkSize = desc.FreeListChunkSize != 0
+            ? desc.FreeListChunkSize
+            : defaultDesc.FreeListChunkSize;
+        desc.FreeListDefaultAlignment = desc.FreeListDefaultAlignment != 0
+            ? desc.FreeListDefaultAlignment
+            : defaultDesc.FreeListDefaultAlignment;
+        desc.TLSFAlignment = desc.TLSFAlignment != 0
+            ? desc.TLSFAlignment
+            : defaultDesc.TLSFAlignment;
+        desc.TLSFInitialChunkSize = desc.TLSFInitialChunkSize != 0
+            ? desc.TLSFInitialChunkSize
+            : defaultDesc.TLSFInitialChunkSize;
+    }
+
     public static void Initialize(AllocationManagerDesc desc = default)
     {
         if (s_initialized)
@@ -262,10 +284,7 @@ public static unsafe class AllocationManager
 #endif
 
         var defaultDesc = AllocationManagerDesc.Default;
-
-        var spanDesc = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref desc, 1));
-        var spanDefault = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref defaultDesc, 1));
-        MemoryUtility.ReplaceIfZeros(spanDesc, spanDefault);
+        ReplaceIfZero(ref desc, defaultDesc);
 
         s_arenaAllocator = new MemoryPool<VirtualArena, VirtualArena.CreationOptions>(new VirtualArena.CreationOptions
         {

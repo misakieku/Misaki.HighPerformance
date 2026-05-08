@@ -8,7 +8,7 @@ public unsafe struct MemoryBlock : IDisposable
 {
     private void* _buffer;
     private nuint _size;
-    private nuint _alignment;
+    private readonly nuint _alignment;
 
 #if MHP_ENABLE_SAFETY_CHECKS
     private readonly MemoryHandle _memoryHandle;
@@ -69,13 +69,13 @@ public unsafe struct MemoryBlock : IDisposable
     /// Initializes an UnsafeArray with a pointer to a buffer and a count of elements. This does not copy the data.
     /// </summary>
     /// <param name="buffer">A pointer to the memory location that holds the elements of the array.</param>
-    /// <param name="count">The total size of the data.</param>
+    /// <param name="size">The total size of the data.</param>
     /// <remarks>
     /// When using this constructor, the user is responsible for managing the memory pointed to by the buffer.
     /// Disposing of the UnsafeArray does not free the memory and only release the reference. The memory should be freed manually when no longer needed.
-    /// Use <see cref="UnsafeArray(int, Allocator, AllocationOption)"/> constructor and <see cref="MemCpy(void*, void*, nuint)"/> if you are not sure what you are doing.
+    /// Use <see cref="MemoryBlock(nuint, nuint, AllocationHandle, AllocationOption)"/> constructor and <see cref="MemoryUtility.MemCpy(void*, void*, nuint)"/> if you are not sure what you are doing.
     /// </remarks>
-    public MemoryBlock(void* buffer, uint size)
+    public MemoryBlock(void* buffer, nuint size)
     {
         _buffer = buffer;
         _size = size;

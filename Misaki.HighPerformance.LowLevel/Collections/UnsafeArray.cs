@@ -165,7 +165,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <remarks>
     /// When using this constructor, the user is responsible for managing the memory pointed to by the buffer.
     /// Disposing of the UnsafeArray does not free the memory and only release the reference. The memory should be freed manually when no longer needed.
-    /// Use <see cref="UnsafeArray(int, Allocator, AllocationOption)"/> constructor and <see cref="MemCpy(void*, void*, nuint)"/> if you are not sure what you are doing.
+    /// Use <see cref="UnsafeArray(int, Allocator, AllocationOption)"/> constructor and <see cref="MemoryUtility.MemCpy(void*, void*, nuint)"/> if you are not sure what you are doing.
     /// </remarks>
     public UnsafeArray(T* buffer, int count)
     {

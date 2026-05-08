@@ -34,23 +34,9 @@ using System.Buffers;
 
 AllocationManager.Initialize();
 
-Console.WriteLine(0);
-for (var i = 0; i < 64; i++)
-{
-    var size = Random.Shared.Next(2048, 8192);
-    var arr = new UnsafeArray<Guid>(size, AllocationHandle.FreeList); // AllocationHandle.FreeList
-    arr.Dispose();
-}
+var arr = new UnsafeArray<int>(10, AllocationHandle.Persistent);
+Console.WriteLine(arr[0]);
+Console.WriteLine(arr[10]);
+arr.Dispose();
 
-Thread.Sleep(1000);
-
-Console.WriteLine(1);
-for (var i = 0; i < 64; i++)
-{
-    var size = Random.Shared.Next(2048, 8192);
-    var arr = new UnsafeArray<Guid>(size, AllocationHandle.FreeList); // AllocationHandle.FreeList
-    arr.Dispose();
-}
-
-Console.Read();
 AllocationManager.Dispose();

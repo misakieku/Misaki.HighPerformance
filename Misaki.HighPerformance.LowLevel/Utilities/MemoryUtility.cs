@@ -545,6 +545,7 @@ public static unsafe partial class MemoryUtility
     /// </summary>
     /// <typeparam name="T">Represents an unmanaged type for which the alignment size is being calculated.</typeparam>
     /// <returns>Returns the difference in size between a helper structure and the specified type.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static nuint AlignOf<T>()
         where T : unmanaged
     {
@@ -556,19 +557,22 @@ public static unsafe partial class MemoryUtility
     /// </summary>
     /// <typeparam name="T">Represents a value type that is used to determine the alignment size.</typeparam>
     /// <returns>Returns the size difference in bytes as an integer.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int MarshalAlignOf<T>()
         where T : struct
     {
         return Marshal.SizeOf<AlignOfHelper<T>>() - Marshal.SizeOf<T>();
     }
 
+    /// <summary>
+    /// Aligns a given value up to the nearest multiple of the specified alignment.
+    /// </summary>
+    /// <param name="value">The value to align.</param>
+    /// <param name="alignment">The alignment boundary.</param>
+    /// <returns>The aligned value.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static nuint AlignUp(nuint value, nuint alignment)
     {
-        if (alignment == 0)
-        {
-            throw new ArgumentException("Alignment must be greater than zero.", nameof(alignment));
-        }
-
         var mask = alignment - 1;
         return (value + mask) & ~mask;
     }
