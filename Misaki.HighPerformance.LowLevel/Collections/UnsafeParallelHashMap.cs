@@ -68,12 +68,18 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
 
     public UnsafeParallelHashMap(int capacity, uint minGrowth, AllocationHandle handle, AllocationOption allocationOption)
     {
-        ArgumentOutOfRangeException.ThrowIfNegative(capacity);
+        if (capacity <= 0)
+        {
+            Debug.Assert(capacity >= 0);
+            return;
+        }
 
         _data = (UnsafeParallelHashMapData<TKey, TValue>*)handle.Alloc((uint)sizeof(UnsafeParallelHashMapData<TKey, TValue>), (nuint)AlignOf<UnsafeParallelHashMapData<TKey, TValue>>(), AllocationOption.Clear);
 
         if (_data == null)
+        {
             throw new OutOfMemoryException("Failed to allocate UnsafeParallelHashMapData.");
+        }
 
         _data->capacity = capacity;
         _data->bucketCapacityMask = capacity * 2 - 1;
@@ -102,7 +108,9 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
     public void Dispose()
     {
         if (!IsCreated)
+        {
             return;
+        }
 
 #if MHP_ENABLE_SAFETY_CHECKS
         _data->memoryHandle.Dispose();

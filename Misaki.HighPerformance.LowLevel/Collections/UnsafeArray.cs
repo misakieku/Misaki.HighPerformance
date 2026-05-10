@@ -134,7 +134,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified number of elements is less than or equal to zero.</exception>
     public UnsafeArray(int count, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
-        ArgumentOutOfRangeException.ThrowIfNegative(count);
+        if (count <= 0)
+        {
+            Debug.Assert(count >= 0);
+            return;
+        }
 
         _buffer = (T*)handle.Alloc((nuint)(count * sizeof(T)), MemoryUtility.AlignOf<T>(), allocationOption);
 #if MHP_ENABLE_SAFETY_CHECKS

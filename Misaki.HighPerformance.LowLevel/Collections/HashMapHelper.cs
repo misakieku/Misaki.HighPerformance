@@ -1,6 +1,7 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Diagnostics;
+using System.Drawing;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
@@ -125,9 +126,13 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public HashMapHelper(int capacity, int sizeOfTValue, int alignOfTValue, uint minGrowth, AllocationHandle handle, AllocationOption allocationOption)
     {
-        ArgumentOutOfRangeException.ThrowIfNegative(capacity);
-        ArgumentOutOfRangeException.ThrowIfNegative(sizeOfTValue);
-        ArgumentOutOfRangeException.ThrowIfNegative(alignOfTValue);
+        if (capacity <= 0 || sizeOfTValue <= 0 || alignOfTValue <= 0)
+        {
+            Debug.Assert(capacity >= 0);
+            Debug.Assert(sizeOfTValue >= 0);
+            Debug.Assert(alignOfTValue >= 0);
+            return;
+        }
 
         _capacity = CalcCapacityCeilPow2(capacity);
         _bucketCapacity = _capacity * 2;

@@ -34,9 +34,13 @@ using System.Buffers;
 
 AllocationManager.Initialize();
 
+// var checker = new UnsafeMemoryChecker();
+
 var arr = new UnsafeArray<int>(10, AllocationHandle.Persistent);
 Console.WriteLine(arr[0]);
 Console.WriteLine(arr[10]);
 arr.Dispose();
+
+// checker.Dispose();
 
 AllocationManager.Dispose();

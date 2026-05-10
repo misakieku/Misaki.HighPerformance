@@ -42,6 +42,11 @@ public unsafe struct MemoryBlock : IDisposable
 
     public MemoryBlock(nuint size, nuint alignment, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
+        if (size == 0)
+        {
+            return;
+        }
+
         _buffer = handle.Alloc(size, alignment, allocationOption);
         _size = size;
         _alignment = alignment;
