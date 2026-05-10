@@ -58,7 +58,7 @@ public readonly struct MemoryHandle : IDisposable, IEquatable<MemoryHandle>
 
     public void Dispose()
     {
-        if (!IsInvalid)
+        if (IsInvalid)
         {
             return;
         }

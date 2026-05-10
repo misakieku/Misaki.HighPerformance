@@ -318,8 +318,6 @@ public unsafe struct UnsafeChunkedList<T> : IUnsafeCollection<T>
             return;
         }
 
-        var chunksPtr = (nint*)_chunks.GetUnsafePtr();
-
         while (true)
         {
             var currentCount = Volatile.Read(ref _chunkCount);
@@ -332,9 +330,13 @@ public unsafe struct UnsafeChunkedList<T> : IUnsafeCollection<T>
 
             if (toAlloc >= _chunks.Count)
             {
-                Thread.SpinWait(1);
-                continue;
+                // UnsafeArray resizing is not thread-safe and will invalidate chunksPtr across threads.
+                // It must be pre-sized via EnsureCapacity. Fast-fail instead of deadlocking.
+                throw new InvalidOperationException("Chunk array capacity exceeded during parallel write. EnsureCapacity must be called with the expected capacity before dispatching parallel writes.");
             }
+            
+            // Re-read chunks pointer in case it somehow changed (though without thread-safe resizing, it shouldn't)
+            var chunksPtr = (nint*)_chunks.GetUnsafePtr();
 
             var sizeInBytes = (nuint)(_chunkCapacity * sizeof(T));
             var data = (nint)_allocationHandle.Alloc(sizeInBytes, MemoryUtility.AlignOf<T>());
@@ -582,10 +584,7 @@ public unsafe struct UnsafeChunkedList<T> : IUnsafeCollection<T>
 
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {
-        if (newSize < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(newSize));
-        }
+        ArgumentOutOfRangeException.ThrowIfNegative(newSize);
 
         if (newSize > _count)
         {

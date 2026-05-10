@@ -24,7 +24,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <IsAotCompatible>True</IsAotCompatible>
-    <DefineConstants>$(DefineConstants);MHP_ENABLE_SAFETY_CHECKS</DefineConstants>
+    <DefineConstants>$(DefineConstants);MHP_ENABLE_SAFETY_CHECKS;MHP_ENABLE_STACKTRACE</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

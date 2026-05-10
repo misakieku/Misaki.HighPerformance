@@ -261,11 +261,7 @@ public unsafe struct MemoryBlock : IDisposable
             return;
         }
 
-        if (_allocationHandle.Free != null)
-        {
-            _allocationHandle.Free(_buffer);
-        }
-
+        _allocationHandle.Free(_buffer);
 #if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle.Dispose();
 #endif

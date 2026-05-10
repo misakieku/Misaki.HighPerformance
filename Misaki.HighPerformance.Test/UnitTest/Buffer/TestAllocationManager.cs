@@ -9,8 +9,8 @@ public class TestAllocationManager
     [TestMethod]
     public void PersistentAllocationTest()
     {
-        var ptr1 = new MemoryBlock(1024, 8, AllocationHandle.Persistent);
-        var ptr2 = new MemoryBlock(2048, 8, AllocationHandle.Persistent);
+        using var ptr1 = new MemoryBlock(1024, 8, AllocationHandle.Persistent);
+        using var ptr2 = new MemoryBlock(2048, 8, AllocationHandle.Persistent);
 
         Assert.IsTrue(ptr1.IsCreated);
         Assert.IsTrue(ptr2.IsCreated);
@@ -25,8 +25,8 @@ public class TestAllocationManager
     [TestMethod]
     public void TempAllocationTest()
     {
-        var ptr1 = new MemoryBlock(1024, 8, AllocationHandle.Temp);
-        var ptr2 = new MemoryBlock(2048, 8, AllocationHandle.Temp);
+        using var ptr1 = new MemoryBlock(1024, 8, AllocationHandle.Temp);
+        using var ptr2 = new MemoryBlock(2048, 8, AllocationHandle.Temp);
 
         Assert.IsTrue(ptr1.IsCreated);
         Assert.IsTrue(ptr2.IsCreated);
@@ -61,8 +61,8 @@ public class TestAllocationManager
     {
         var thread = new Thread(() =>
         {
-            var scope = AllocationManager.CreateStackScope();
-            var ptr1 = new MemoryBlock(1024, 8, scope.AllocationHandle);
+            using var scope = AllocationManager.CreateStackScope();
+            using var ptr1 = new MemoryBlock(1024, 8, scope.AllocationHandle);
 
             Assert.IsTrue(ptr1.IsCreated);
 
@@ -74,10 +74,10 @@ public class TestAllocationManager
 
         thread.Start();
 
-        var scope = AllocationManager.CreateStackScope();
+        using var scope = AllocationManager.CreateStackScope();
         Assert.AreEqual(0u, scope.OriginalOffset);
 
-        var ptr2 = new MemoryBlock(1024, 8, scope.AllocationHandle);
+        using var ptr2 = new MemoryBlock(1024, 8, scope.AllocationHandle);
 
         Assert.IsTrue(ptr2.IsCreated);
 

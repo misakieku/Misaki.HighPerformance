@@ -116,13 +116,13 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
         _data->memoryHandle.Dispose();
 #endif
 
-        if (_data->buffer != null && _data->allocationHandle.Free != null)
+        if (_data->buffer != null)
         {
             _data->allocationHandle.Free(_data->buffer);
             _data->buffer = null;
         }
 
-        if (_data != null && _data->allocationHandle.Free != null)
+        if (_data != null)
         {
             _data->allocationHandle.Free(_data);
             _data = null;
@@ -400,7 +400,7 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
             }
         }
 
-        if (_data->allocationHandle.Free != null && oldBuffer != null)
+        if (oldBuffer != null)
         {
             _data->allocationHandle.Free(oldBuffer);
         }

@@ -126,11 +126,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
     public HashMapHelper(int capacity, int sizeOfTValue, int alignOfTValue, uint minGrowth, AllocationHandle handle, AllocationOption allocationOption)
     {
-        if (capacity <= 0 || sizeOfTValue <= 0 || alignOfTValue <= 0)
+        if (capacity <= 0)
         {
             Debug.Assert(capacity >= 0);
-            Debug.Assert(sizeOfTValue >= 0);
-            Debug.Assert(alignOfTValue >= 0);
             return;
         }
 
@@ -285,11 +283,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             }
         }
 
-        if (_allocationHandle.Free != null)
-        {
-            _allocationHandle.Free(oldBuffer);
-        }
-
+        _allocationHandle.Free(oldBuffer);
 #if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle.Update(_buffer, (nuint)totalSize);
 #endif
@@ -705,11 +699,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
             return;
         }
 
-        if (_allocationHandle.Free != null)
-        {
-            _allocationHandle.Free(_buffer);
-        }
-
+        _allocationHandle.Free(_buffer);
 #if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle.Dispose();
 #endif
