@@ -141,10 +141,11 @@ public static unsafe class AllocationManager
     }
 
     // TODO: Lock-free implementation
-    internal struct TLSFAllocator : IAllocator, IDisposable
+    internal struct TLSFAllocator : IAllocator
     {
+        private static readonly Lock s_lock = new Lock();
+
         private TLSF _tlsf;
-        private GCHandle _lock;
         private AllocationHandle _handle;
 
         public readonly AllocationHandle Handle => _handle;
@@ -152,18 +153,14 @@ public static unsafe class AllocationManager
         public void Init(nuint alignment, nuint initialChunkSize)
         {
             _tlsf = new TLSF(alignment, initialChunkSize);
-#pragma warning disable CS9216 // A value of type 'System.Threading.Lock' converted to a different type will use likely unintended monitor-based locking in 'lock' statement.
-            _lock = GCHandle.Alloc(new Lock(), GCHandleType.Normal);
-#pragma warning restore CS9216 // A value of type 'System.Threading.Lock' converted to a different type will use likely unintended monitor-based locking in 'lock' statement.
             _handle = new AllocationHandle(Unsafe.AsPointer(in this), &Allocate, &Reallocate, &Free);
         }
 
         private static void* Allocate(void* state, nuint size, nuint alignment, AllocationOption allocationOption)
         {
             var allocator = (TLSFAllocator*)state;
-            var locker = (Lock)allocator->_lock.Target!;
 
-            lock (locker)
+            lock (s_lock)
             {
                 return allocator->_tlsf.Allocate(size, alignment, allocationOption);
             }
@@ -172,9 +169,8 @@ public static unsafe class AllocationManager
         private static void* Reallocate(void* state, void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)
         {
             var allocator = (TLSFAllocator*)state;
-            var locker = (Lock)allocator->_lock.Target!;
 
-            lock (locker)
+            lock (s_lock)
             {
                 return allocator->_tlsf.Reallocate(ptr, oldSize, newSize, alignment, allocationOption);
             }
@@ -183,17 +179,11 @@ public static unsafe class AllocationManager
         private static void Free(void* state, void* ptr)
         {
             var allocator = (TLSFAllocator*)state;
-            var locker = (Lock)allocator->_lock.Target!;
 
-            lock (locker)
+            lock (s_lock)
             {
                 allocator->_tlsf.Free(ptr);
             }
-        }
-
-        public void Dispose()
-        {
-            _lock.Free();
         }
     }
 
@@ -513,7 +503,6 @@ public static unsafe class AllocationManager
 
         if (s_pTLSFAllocator != null)
         {
-            s_pTLSFAllocator->Dispose();
             NativeMemory.Free(s_pTLSFAllocator);
             s_pTLSFAllocator = null;
         }

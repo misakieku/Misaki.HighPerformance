@@ -332,7 +332,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// Adds a range of elements to the collection.
     /// </summary>
     /// <param name="values">A span containing the elements to add.</param>
-    public void AddRange(Span<T> values)
+    public void AddRange(ReadOnlySpan<T> values)
     {
         var newSize = _count + values.Length;
         if (newSize > Capacity)

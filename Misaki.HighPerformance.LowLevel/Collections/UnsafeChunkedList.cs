@@ -1,7 +1,6 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
-using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -148,9 +147,9 @@ public unsafe struct UnsafeChunkedList<T> : IUnsafeCollection<T>
 
             fixed (T* pCollection = collection)
             {
-                int remaining = count;
+                var remaining = count;
                 T* srcPtr = pCollection;
-                int currentIndex = index;
+                var currentIndex = index;
 
                 while (remaining > 0)
                 {
