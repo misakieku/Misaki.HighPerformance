@@ -29,6 +29,16 @@ public readonly struct AllocationInfo
         get; init;
     }
 
+#if MHP_ENABLE_SAFETY_CHECKS
+    /// <summary>
+    /// Tracks the index in the thread-local allocation list for diagnostic checks.
+    /// </summary>
+    public int ThreadLocalIndex
+    {
+        get; init;
+    }
+#endif
+
 #if MHP_ENABLE_STACKTRACE
     /// <summary>
     /// Gets the stack trace at the time of allocation for debugging purposes.
@@ -357,10 +367,13 @@ public static unsafe class AllocationManager
 #if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
+        var threadLocalIndex = UnsafeMemoryDiagnostic.ReserveLocalAllocation();
+
         var info = new AllocationInfo
         {
             Address = (IntPtr)ptr,
             Size = size,
+            ThreadLocalIndex = threadLocalIndex,
 #if MHP_ENABLE_STACKTRACE
             StackTrace = new StackTrace(1, true)
 #endif
@@ -369,7 +382,11 @@ public static unsafe class AllocationManager
         Interlocked.Add(ref s_totalAllocatedMemory, (long)size);
 
         var id = s_allocations.Add(info, out var generation);
-        return new MemoryHandle(id, generation);
+        var handle = new MemoryHandle(id, generation);
+
+        UnsafeMemoryDiagnostic.SetLocalAllocation(threadLocalIndex, handle);
+
+        return handle;
 #else
         return MemoryHandle.Invalid;
 #endif
@@ -422,6 +439,7 @@ public static unsafe class AllocationManager
         if (s_allocations.Remove(handle.ID, handle.Generation, out var info))
         {
             Interlocked.Add(ref s_totalAllocatedMemory, -(long)info.Size);
+            UnsafeMemoryDiagnostic.RemoveLocalAllocation(info.ThreadLocalIndex);
             return true;
         }
 

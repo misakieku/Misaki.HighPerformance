@@ -22,7 +22,14 @@ public class TestJobSystem
     [ClassInitialize]
     public static void Initialize(TestContext testContext)
     {
-        s_jobScheduler = new JobScheduler(Environment.ProcessorCount);
+        var desc = new JobSchedulerDesc
+        {
+            ThreadCount = Environment.ProcessorCount,
+            ThreadPriority = ThreadPriority.Normal,
+            DependencyChainCapacity = 64,
+        };
+
+        s_jobScheduler = new JobScheduler(in desc);
     }
 
     [ClassCleanup]
@@ -427,5 +434,27 @@ public class TestJobSystem
         s_jobScheduler.Wait(handle);
 
         Assert.AreEqual(1, *value);
+    }
+
+    [TestMethod]
+    public unsafe void RaceConditionTest()
+    {
+        const int iterations = 1_000_000;
+        var value = stackalloc float[1];
+        *value = 0;
+
+        for (var i = 0; i < iterations; i++)
+        {
+            var job = new AddJob
+            {
+                value = 1.0f,
+                result = value
+            };
+
+            var handle = s_jobScheduler.Schedule(ref job);
+            s_jobScheduler.Wait(handle);
+        }
+
+        Assert.AreEqual(iterations, *value);
     }
 }

@@ -22,7 +22,14 @@ public class ParallelNoiseBenchmark
     {
         AllocationManager.Initialize(AllocationManagerDesc.Default);
 
-        _jobScheduler = new JobScheduler(Environment.ProcessorCount);
+        var desc = new JobSchedulerDesc
+        {
+            ThreadCount = Environment.ProcessorCount,
+            ThreadPriority = ThreadPriority.Normal,
+            DependencyChainCapacity = 64,
+        };
+
+        _jobScheduler = new JobScheduler(in desc);
         _buffers = new UnsafeArray<float>(_LENGTH, AllocationHandle.Persistent);
     }
 

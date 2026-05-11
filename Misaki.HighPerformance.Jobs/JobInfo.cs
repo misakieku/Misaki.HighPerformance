@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
@@ -61,6 +62,7 @@ public unsafe ref struct CustomJobDesc<T>
     public JobPriority priority;
 }
 
+[StructLayout(LayoutKind.Sequential, Pack = 8)]
 internal unsafe struct JobInfo
 {
     public ref struct DependentIterator
@@ -189,5 +191,97 @@ internal static class JobUtility
     public static int ReleaseRC(ref int jobState)
     {
         return (Interlocked.Add(ref jobState, -RC_ONE) & ~STATE_MASK) >> RC_SHIFT;
+    }
+
+    public static unsafe bool TryHelpExecuteJob(JobScheduler jobScheduler, JobHandle handle, int callerThreadIndex)
+    {
+        ref var jobInfo = ref jobScheduler.GetJobInfoReference(handle, out var exist);
+        if (!exist)
+        {
+            return false;
+        }
+
+        var rcSpin = new SpinWait();
+        var rcAcquired = false;
+        int rc;
+
+        while (true)
+        {
+            jobScheduler.GetJobInfoReference(handle, out var currentExist);
+            if (!currentExist)
+            {
+                return false;
+            }
+
+            var stateVal = Volatile.Read(ref jobInfo.state);
+            var state = GetState(stateVal);
+
+            // We can't execute it if it's not ready or already done
+            if (state == JobState.Created || state == JobState.Completed || state == JobState.Invalid)
+            {
+                return false;
+            }
+
+            // If it's single job and already running, we can't help it unless we restructure it.
+            // But if it's a Parallel job, multiple threads CAN safely join the `Running` state.
+            if (state == JobState.Running && jobInfo.jobRanges.batchSize == jobInfo.jobRanges.totalIteration)
+            {
+                // Single execution job is already running on another thread. We just return false.
+                return false;
+            }
+
+            var newState = stateVal + RC_ONE;
+            if (state == JobState.Scheduled)
+            {
+                newState = (newState & ~STATE_MASK) | JOBSTATE_RUNNING;
+            }
+
+            if (Interlocked.CompareExchange(ref jobInfo.state, newState, stateVal) == stateVal)
+            {
+                jobScheduler.GetJobInfoReference(handle, out currentExist);
+                if (!currentExist)
+                {
+                    rc = ReleaseRC(ref jobInfo.state);
+                    if (rc == 0)
+                    {
+                        jobScheduler.MarkJobComplete(handle);
+                    }
+
+                    return false;
+                }
+
+                rcAcquired = true;
+                break;
+            }
+
+            rcSpin.SpinOnce(-1);
+        }
+
+        if (!rcAcquired)
+        {
+            return false;
+        }
+
+        // Execute the work inline
+        if (jobInfo.pExecutionFunc != null)
+        {
+            var ctx = new JobExecutionContext
+            {
+                ThreadIndex = callerThreadIndex,
+                JobScheduler = jobScheduler,
+                State = jobScheduler.State,
+                SelfHandle = handle,
+            };
+
+            jobInfo.pExecutionFunc(jobInfo.dataID, jobInfo.dataGeneration, ref jobInfo.jobRanges, in ctx);
+        }
+
+        rc = ReleaseRC(ref jobInfo.state);
+        if (rc == 0)
+        {
+            jobScheduler.MarkJobComplete(handle);
+        }
+
+        return true;
     }
 }

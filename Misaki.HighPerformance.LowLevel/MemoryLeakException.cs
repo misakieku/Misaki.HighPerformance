@@ -55,7 +55,7 @@ public class MemoryLeakException : Exception
             if (frame != null)
             {
                 var methodInfo = DiagnosticMethodInfo.Create(frame);
-                stringBuilder.AppendLine($"Type: {methodInfo?.DeclaringTypeName}, Method: {methodInfo?.Name}, File: {fileName}, Line: {frame.GetFileLineNumber()}");
+                stringBuilder.AppendLine($"at {methodInfo?.DeclaringTypeName}.{methodInfo?.ToString()} in {fileName}: line {frame.GetFileLineNumber()}");
             }
         }
     }

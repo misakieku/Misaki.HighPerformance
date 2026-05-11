@@ -41,6 +41,8 @@ internal class WorkerThread : IDisposable
             Name = $"WorkerThread-{index}",
             Priority = priority,
         };
+
+        _priorityTick = (uint)Random.Shared.Next(0, 8);
     }
 
     public void Start()
@@ -67,6 +69,7 @@ internal class WorkerThread : IDisposable
             2, 0, 1  // Tick 7 (Low)
         };
 
+        var helperThreadCount = _scheduler.ExternalHelperThreadCount;
         var index = tick * 3;
         for (var offset = 0; offset < 3; offset++)
         {
@@ -85,7 +88,7 @@ internal class WorkerThread : IDisposable
             for (var i = 1; i < _scheduler.WorkerCount; i++)
             {
                 // Calculate the target deterministically using modulo arithmetic 
-                var targetIndex = (t_threadIndex + i) % _scheduler.WorkerCount;
+                var targetIndex = ((t_threadIndex + i) % _scheduler.WorkerCount) + helperThreadCount;
 
                 if (_scheduler.TryStealFromWorker(targetIndex, p, out handle))
                 {
@@ -142,87 +145,89 @@ internal class WorkerThread : IDisposable
                 }
             }
 
-            ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
-            if (!exist)
-            {
-                continue;
-            }
+            JobUtility.TryHelpExecuteJob(_scheduler, handle, t_threadIndex);
 
-            // Try to acquire a reference count for the job. This ensures that the job won't be removed while we're processing it.
-            // This is critical that if thread A reads the job, but suddenly os scheduler delay the thread for just a moment, and thread B completes the job and removes it from the system, when thread A resumes, it might be accessing invalid memory.
-            // By acquiring a reference count, we ensure that even if the job is completed while we're processing it, it won't be removed until we're done.
+            //ref var jobInfo = ref _scheduler.GetJobInfoReference(handle, out var exist);
+            //if (!exist)
+            //{
+            //    continue;
+            //}
 
-            var rcSpin = new SpinWait();
-            var rcAcquired = false;
-            int rc;
+            //// Try to acquire a reference count for the job. This ensures that the job won't be removed while we're processing it.
+            //// This is critical that if thread A reads the job, but suddenly os scheduler delay the thread for just a moment, and thread B completes the job and removes it from the system, when thread A resumes, it might be accessing invalid memory.
+            //// By acquiring a reference count, we ensure that even if the job is completed while we're processing it, it won't be removed until we're done.
 
-            while (true)
-            {
-                _scheduler.GetJobInfoReference(handle, out var currentExist);
-                if (!currentExist)
-                {
-                    break;
-                }
+            //var rcSpin = new SpinWait();
+            //var rcAcquired = false;
+            //int rc;
 
-                var stateVal = Volatile.Read(ref jobInfo.state);
-                var state = JobUtility.GetState(stateVal);
+            //while (true)
+            //{
+            //    _scheduler.GetJobInfoReference(handle, out var currentExist);
+            //    if (!currentExist)
+            //    {
+            //        break;
+            //    }
 
-                if (state == JobState.Completed || state == JobState.Invalid)
-                {
-                    break;
-                }
+            //    var stateVal = Volatile.Read(ref jobInfo.state);
+            //    var state = JobUtility.GetState(stateVal);
 
-                var newState = stateVal + JobUtility.RC_ONE;
-                if (state == JobState.Scheduled)
-                {
-                    newState = (newState & ~JobUtility.STATE_MASK) | JobUtility.JOBSTATE_RUNNING;
-                }
+            //    if (state == JobState.Completed || state == JobState.Invalid)
+            //    {
+            //        break;
+            //    }
 
-                // Attempt to acquire a reference count by incrementing the state value. If the state has changed since we read it, we need to retry.
-                if (Interlocked.CompareExchange(ref jobInfo.state, newState, stateVal) == stateVal)
-                {
-                    _scheduler.GetJobInfoReference(handle, out currentExist);
-                    if (!currentExist)
-                    {
-                        rc = JobUtility.ReleaseRC(ref jobInfo.state);
-                        if (rc == 0)
-                        {
-                            _scheduler.MarkJobComplete(handle);
-                        }
+            //    var newState = stateVal + JobUtility.RC_ONE;
+            //    if (state == JobState.Scheduled)
+            //    {
+            //        newState = (newState & ~JobUtility.STATE_MASK) | JobUtility.JOBSTATE_RUNNING;
+            //    }
 
-                        break;
-                    }
+            //    // Attempt to acquire a reference count by incrementing the state value. If the state has changed since we read it, we need to retry.
+            //    if (Interlocked.CompareExchange(ref jobInfo.state, newState, stateVal) == stateVal)
+            //    {
+            //        _scheduler.GetJobInfoReference(handle, out currentExist);
+            //        if (!currentExist)
+            //        {
+            //            rc = JobUtility.ReleaseRC(ref jobInfo.state);
+            //            if (rc == 0)
+            //            {
+            //                _scheduler.MarkJobComplete(handle);
+            //            }
 
-                    rcAcquired = true;
-                    break;
-                }
+            //            break;
+            //        }
 
-                rcSpin.SpinOnce(-1);
-            }
+            //        rcAcquired = true;
+            //        break;
+            //    }
 
-            if (!rcAcquired)
-            {
-                continue;
-            }
+            //    rcSpin.SpinOnce(-1);
+            //}
 
-            if (jobInfo.pExecutionFunc != null)
-            {
-                var ctx = new JobExecutionContext
-                {
-                    ThreadIndex = t_threadIndex,
-                    JobScheduler = _scheduler,
-                    State = _scheduler.State,
-                    SelfHandle = handle,
-                };
+            //if (!rcAcquired)
+            //{
+            //    continue;
+            //}
 
-                jobInfo.pExecutionFunc(jobInfo.dataID, jobInfo.dataGeneration, ref jobInfo.jobRanges, in ctx);
-            }
+            //if (jobInfo.pExecutionFunc != null)
+            //{
+            //    var ctx = new JobExecutionContext
+            //    {
+            //        ThreadIndex = t_threadIndex,
+            //        JobScheduler = _scheduler,
+            //        State = _scheduler.State,
+            //        SelfHandle = handle,
+            //    };
 
-            rc = JobUtility.ReleaseRC(ref jobInfo.state);
-            if (rc == 0)
-            {
-                _scheduler.MarkJobComplete(handle);
-            }
+            //    jobInfo.pExecutionFunc(jobInfo.dataID, jobInfo.dataGeneration, ref jobInfo.jobRanges, in ctx);
+            //}
+
+            //rc = JobUtility.ReleaseRC(ref jobInfo.state);
+            //if (rc == 0)
+            //{
+            //    _scheduler.MarkJobComplete(handle);
+            //}
         }
     }
 

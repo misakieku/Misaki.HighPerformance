@@ -15,7 +15,14 @@ public unsafe class SPMDBenchmark
     [GlobalSetup]
     public void Setup()
     {
-        _scheduler = new JobScheduler(Environment.ProcessorCount);
+        var desc = new JobSchedulerDesc
+        {
+            ThreadCount = Environment.ProcessorCount,
+            ThreadPriority = ThreadPriority.Normal,
+            DependencyChainCapacity = 64,
+        };
+
+        _scheduler = new JobScheduler(in desc);
         _buf = (float*)NativeMemory.Alloc(sizeof(float) * _SIZE * _SIZE);
     }
 

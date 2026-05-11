@@ -1,14 +1,22 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
+[StructLayout(LayoutKind.Sequential)]
 public class SPMCQueue<T>
 {
+    private unsafe struct padding
+    {
+        private fixed byte _padding[64];
+    }
+
     private readonly T[] _queue;
     private readonly int _mask;
 
     private int _head;
+    private padding _padding; // Prevent false sharing between head and tail
     private int _tail;
 
     public bool IsEmpty => Volatile.Read(ref _tail) - Volatile.Read(ref _head) <= 0;

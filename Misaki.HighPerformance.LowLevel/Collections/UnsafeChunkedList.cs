@@ -215,7 +215,7 @@ public unsafe struct UnsafeChunkedList<T> : IUnsafeCollection<T>
     public UnsafeChunkedList(int chunkCapacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
     {
         chunkCapacity = Math.Max(1, chunkCapacity);
-        _chunks = new UnsafeArray<nint>(4, handle, allocationOption);
+        _chunks = new UnsafeArray<nint>(4, handle, allocationOption | AllocationOption.Clear);
         _chunkCount = 0;
         _count = 0;
         _chunkCapacity = chunkCapacity;

@@ -61,7 +61,7 @@ internal sealed class WaitItem : IThreadPoolWorkItem
 
     public void Execute()
     {
-        _scheduler.Wait(_jobHandle);
+        _scheduler.Wait(_jobHandle, false);
         _completionSource.SetResult();
     }
 }
@@ -135,6 +135,9 @@ public sealed unsafe partial class JobScheduler : IDisposable
     private readonly SemaphoreSlim _workSignal;
     private readonly CancellationTokenSource _cts;
 
+    private readonly int _workerThreadCount;
+    private readonly int _helperThreadCount;
+
     private readonly object? _state;
 
     private bool _disposed = false;
@@ -145,7 +148,17 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <summary>
     /// Gets the number of worker threads managed by the job scheduler.
     /// </summary>
-    public int WorkerCount => _workerThreads.Length;
+    public int WorkerCount => _workerThreadCount;
+
+    /// <summary>
+    /// Gets the number of external helper threads, which is the number of threads reserved for external use.
+    /// </summary>
+    public int ExternalHelperThreadCount => _helperThreadCount;
+
+    /// <summary>
+    /// Gets the total number of threads that is possible to execute the jobs, including worker threads and external helper threads. You can use this property to allocate thread local storage.
+    /// </summary>
+    public int ThreadLocalCount => _workerThreads.Length;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JobScheduler"/> class with the specified description.
@@ -170,57 +183,18 @@ public sealed unsafe partial class JobScheduler : IDisposable
         _workSignal = new SemaphoreSlim(0);
         _cts = new CancellationTokenSource();
 
+        _workerThreadCount = workerCount;
+        _helperThreadCount = 1;
         _state = desc.State;
 
-        _workerThreads = new WorkerThread[workerCount];
+        _workerThreads = new WorkerThread[workerCount + _helperThreadCount];
 
-        for (var i = 0; i < workerCount; i++)
+        for (var i = _helperThreadCount; i < _workerThreads.Length; i++)
         {
             _workerThreads[i] = new WorkerThread(i, this, desc.ThreadPriority);
         }
 
-        foreach (var worker in _workerThreads)
-        {
-            worker.Start();
-        }
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="JobScheduler"/> class with the specified number of worker threads.
-    /// </summary>
-    /// <param name="threadCount">The number of worker threads to create. If less than 1, at least one thread will be created.</param>
-    /// <param name="priority">The priority of the worker threads.</param>
-    /// <param name="state">The state object for the job scheduler.</param>
-    [Obsolete("Use JobScheduler(JobSchedulerDesc) instead.")]
-    public JobScheduler(int threadCount, ThreadPriority priority = ThreadPriority.Normal, object? state = null)
-    {
-        var workerCount = Math.Max(1, threadCount);
-
-        _jobInfoPool = new ConcurrentSlotMap<JobInfo>(128);
-        _jobQueues = new ConcurrentQueue<JobHandle>[3];
-
-        for (var i = 0; i < 3; i++)
-        {
-            _jobQueues[i] = new ConcurrentQueue<JobHandle>();
-        }
-
-        _jobEdges = new JobEdge[4096];
-        _watermark = 0;
-        _freeListHead = -1L;
-
-        _workSignal = new SemaphoreSlim(0);
-        _cts = new CancellationTokenSource();
-
-        _state = state;
-
-        _workerThreads = new WorkerThread[workerCount];
-
-        for (var i = 0; i < workerCount; i++)
-        {
-            _workerThreads[i] = new WorkerThread(i, this, priority);
-        }
-
-        for (var i = 0; i < workerCount; i++)
+        for (var i = _helperThreadCount; i < _workerThreads.Length; i++)
         {
             _workerThreads[i].Start();
         }
@@ -448,45 +422,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
             return;
         }
 
-#if false
-        // Lock-free Completion:
-        // 1. Transition State to Completed (preserving or setting upper bits?).
-        //    Actually, we want to block new Readers. Setting state to Completed blocks new Readers.
-        // 2. Wait for existing Readers (RC == 0).
-        var spin = new SpinWait();
-        while (true)
-        {
-            var stateVal = Volatile.Read(ref info.state);
-            var state = JobUtility.GetState(stateVal);
-
-            if (state == JobState.Completed)
-            {
-                return;
-            }
-
-            // Preserve upper bits (RC) and set state to Completed. This blocks new Readers.
-            var newState = (stateVal & ~JobUtility.STATE_MASK) | (int)JobState.Completed;
-            if (Interlocked.CompareExchange(ref info.state, newState, stateVal) == stateVal)
-            {
-                // Successfully set State to Completed. New readers will see Completed and back off.
-                // Now we must wait for existing readers to finish (RC to become 0).
-                while (true)
-                {
-                    var current = Volatile.Read(ref info.state);
-                    if (((uint)current >> 16) == 0)
-                    {
-                        break; // RC is 0. Safe to proceed.
-                    }
-
-                    spin.SpinOnce(-1);
-                }
-                break;
-            }
-
-            spin.SpinOnce(-1);
-        }
-#else
-        // NOTE: We are the last one to complete. Because we call this on the thread that get rc = 0, not the last one to complete. So we can directly set state to Completed without caring about RC. This also means we don't need to preserve upper bits.
+        // NOTE: Because we call this on the thread that get rc = 0, not the last one to complete. So we can directly set state to Completed without caring about RC. This also means we don't need to preserve upper bits.
         var spin = new SpinWait();
         while (Interlocked.CompareExchange(ref info.state, JobUtility.JOBSTATE_COMPLETED, JobUtility.JOBSTATE_RUNNING) != JobUtility.JOBSTATE_RUNNING)
         {
@@ -497,7 +433,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
             spin.SpinOnce(-1);
         }
-#endif
 
         var it = info.GetDependentIterator(_jobEdges);
         while (it.MoveNext())
@@ -858,7 +793,8 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// Blocks the calling thread until the specified job is completed.
     /// </summary>
     /// <param name="handle">The handle of the job to wait for.</param>
-    public void Wait(JobHandle handle)
+    /// <param name="inlineExecution">A value indicating whether to help execute the job while waiting. Defaults to true. Only ONE external thread is allowed to help execute jobs if you rely on thread local storage.</param>
+    public void Wait(JobHandle handle, bool inlineExecution = true)
     {
         if (!handle.IsValid)
         {
@@ -867,6 +803,8 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         // TODO: Maybe we can steal a up stream or current job to execute while waiting?
         // For example, if we wait on job A which depends on job B, and both are not scheduled yet, we can steal and execute job B to speed up the completion of A.
+
+        var callerThreadIndex = WorkerThread.ThreadIndex;
 
         var spin = new SpinWait();
         while (true)
@@ -878,13 +816,26 @@ public sealed unsafe partial class JobScheduler : IDisposable
             }
 
             // Mask out RC
-            if (JobUtility.ReadState(ref jobInfo) == JobState.Completed)
+            var state = JobUtility.ReadState(ref jobInfo);
+            if (state == JobState.Completed)
             {
                 return;
             }
 
-            // var sleepThreshold = jobInfo.jobRanges.totalIteration * jobInfo.jobRanges.batchSize * 100;
-            spin.SpinOnce(_SLEEP_THRESHOLD);
+            var madeProgress = false;
+            if (inlineExecution)
+            {
+                // Only try to help execute THIS specific job.
+                if (state == JobState.Scheduled || (state == JobState.Running && jobInfo.jobRanges.totalIteration > jobInfo.jobRanges.batchSize))
+                {
+                    madeProgress = JobUtility.TryHelpExecuteJob(this, handle, callerThreadIndex);
+                }
+            }
+
+            if (!madeProgress)
+            {
+                spin.SpinOnce(_SLEEP_THRESHOLD);
+            }
         }
     }
 
@@ -1022,9 +973,9 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         _cts.Cancel();
 
-        foreach (var worker in _workerThreads)
+        for (var i = _helperThreadCount; i < _workerThreads.Length; i++)
         {
-            worker.Dispose();
+            _workerThreads[i].Dispose();
         }
 
         _workSignal.Dispose();
