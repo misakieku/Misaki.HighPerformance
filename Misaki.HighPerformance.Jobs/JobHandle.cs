@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace Misaki.HighPerformance.Jobs;
 
 public readonly struct JobHandle : IEquatable<JobHandle>
@@ -5,8 +7,17 @@ public readonly struct JobHandle : IEquatable<JobHandle>
     private readonly int _id;
     private readonly int _generation;
 
-    public int ID => _id - 1;
-    public int Generation => _generation - 1;
+    public int ID
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => _id;
+    }
+
+    public int Generation
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => _generation;
+    }
 
     public static JobHandle Invalid => default;
 
@@ -14,8 +25,8 @@ public readonly struct JobHandle : IEquatable<JobHandle>
 
     internal JobHandle(int id, int generation)
     {
-        _id = id + 1;
-        _generation = generation + 1;
+        _id = id;
+        _generation = generation;
     }
 
     public bool Equals(JobHandle other)

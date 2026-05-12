@@ -236,11 +236,10 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
             ref var newValue = ref currentValues[newChunkIdx][newLocalIdx];
             ref var newGeneration = ref currentGenerations[newChunkIdx][newLocalIdx];
             ref var newValid = ref currentValidBits[newChunkIdx][newLocalIdx];
-            newValue = item;
-            newGeneration = 0;
             Volatile.Write(ref newValid, 1);
 
-            generation = 0;
+            newValue = item;
+            generation = newGeneration;
             Interlocked.Increment(ref _count);
             return newSlotIndex;
         }
