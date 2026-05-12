@@ -1,46 +1,30 @@
-using Misaki.HighPerformance.LowLevel.Buffer;
-using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.Test.Benchmark;
 using Misaki.HighPerformance.Test.UnitTest;
 using Misaki.HighPerformance.Test.UnitTest.Jobs;
-using System.Buffers;
 
 //BenchmarkRunner.Run<GGXMipGenerationBenchmark>();
 
-//const int count = 16;
+const int count = 16;
 
-//var bench = new GGXMipGenerationBenchmark();
-//bench.Setup();
+var bench = new GGXMipGenerationBenchmark();
+bench.Setup();
 
-//for (var i = 0; i < count; i++)
-//{
-//    bench.JobGGX();
-//}
+for (var i = 0; i < count; i++)
+{
+    bench.JobGGX();
+}
 
-//var sw = System.Diagnostics.Stopwatch.StartNew();
+var sw = System.Diagnostics.Stopwatch.StartNew();
 
-//for (var i = 0; i < count; i++)
-//{
-//    bench.JobGGX();
-//}
+for (var i = 0; i < count; i++)
+{
+    bench.JobGGX();
+}
 
-//sw.Stop();
-//var avgTime = sw.Elapsed.TotalMilliseconds / count;
-//Console.WriteLine($"GGX Mip Generation (Inline): {avgTime} ms");
-//bench.Cleanup();
+sw.Stop();
+var avgTime = sw.Elapsed.TotalMilliseconds / count;
+Console.WriteLine($"GGX Mip Generation (Inline): {avgTime} ms");
+bench.Cleanup();
 
-//GlobalSetup.GlobalInitialize(null!);
-//TestJobSystem.Initialize(null!);
-
-AllocationManager.Initialize();
-
-// var checker = new UnsafeMemoryChecker();
-
-var arr = new UnsafeArray<int>(10, AllocationHandle.Persistent);
-Console.WriteLine(arr[0]);
-Console.WriteLine(arr[10]);
-arr.Dispose();
-
-// checker.Dispose();
-
-AllocationManager.Dispose();
+GlobalSetup.GlobalInitialize(null!);
+TestJobSystem.Initialize(null!);

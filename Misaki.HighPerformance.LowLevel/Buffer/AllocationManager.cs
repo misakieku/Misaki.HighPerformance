@@ -223,10 +223,9 @@ public static unsafe class AllocationManager
     [ThreadStatic]
     private static ThreadLocalStackPool? t_stackAllocator;
 
-
 #if MHP_ENABLE_SAFETY_CHECKS
-    private static ConcurrentSlotMap<AllocationInfo> s_allocations = null!;
-    private static long s_totalAllocatedMemory;
+    internal static ConcurrentSlotMap<AllocationInfo> s_allocations = null!;
+    internal static long s_totalAllocatedMemory;
 #endif
 
     /// <summary>
@@ -367,7 +366,7 @@ public static unsafe class AllocationManager
 #if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
-        var threadLocalIndex = UnsafeMemoryDiagnostic.ReserveLocalAllocation();
+        var threadLocalIndex = MemoryDiagnostic.ReserveLocalAllocation();
 
         var info = new AllocationInfo
         {
@@ -384,7 +383,7 @@ public static unsafe class AllocationManager
         var id = s_allocations.Add(info, out var generation);
         var handle = new MemoryHandle(id, generation);
 
-        UnsafeMemoryDiagnostic.SetLocalAllocation(threadLocalIndex, handle);
+        MemoryDiagnostic.SetLocalAllocation(threadLocalIndex, handle);
 
         return handle;
 #else
@@ -439,7 +438,7 @@ public static unsafe class AllocationManager
         if (s_allocations.Remove(handle.ID, handle.Generation, out var info))
         {
             Interlocked.Add(ref s_totalAllocatedMemory, -(long)info.Size);
-            UnsafeMemoryDiagnostic.RemoveLocalAllocation(info.ThreadLocalIndex);
+            MemoryDiagnostic.RemoveLocalAllocation(info.ThreadLocalIndex);
             return true;
         }
 

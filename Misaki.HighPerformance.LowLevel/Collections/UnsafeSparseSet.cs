@@ -1,7 +1,5 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
-using Misaki.HighPerformance.LowLevel.Utilities;
-using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
@@ -112,18 +110,12 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         _reverse = new UnsafeArray<int>(capacity, handle, allocationOption);
         _freeSparse = new UnsafeStack<int>(capacity, handle, allocationOption);
 
-        if (!allocationOption.HasOption(AllocationOption.Clear))
-        {
-            _generations.AsSpan().Clear();
-            _sparse.AsSpan().Clear();
-        }
-
         _count = 0;
         _nextId = 0;
         _capacity = capacity;
 
         _sparse.AsSpan().Fill(-1);
-        _generations.Clear();
+        _generations.AsSpan().Fill(1); // Start generations at 1 to avoid confusion with default value of 0
     }
 
     /// <summary>
@@ -380,7 +372,6 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         }
 
         _sparse.AsSpan().Fill(-1);
-        _generations.AsSpan().Clear();
 
         _count = 0;
         _nextId = 0;
@@ -395,13 +386,15 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
         }
 
         _dense.Resize(newSize, option);
-        _generations.Resize(newSize, option | AllocationOption.Clear);
+        _generations.Resize(newSize, option);
         _reverse.Resize(newSize, option);
 
         if (newSize > _sparse.Count)
         {
             ResizeSparse(newSize);
         }
+
+        _generations.AsSpan(_capacity).Fill(1); // Initialize new generations to 1
 
         _capacity = newSize;
     }

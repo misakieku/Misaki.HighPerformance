@@ -83,6 +83,8 @@ public class SparseSet<T> : IEnumerable<T>
         _count = 0;
         _nextId = 0;
         _capacity = capacity;
+
+        _generations.AsSpan().Fill(1);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -271,12 +273,9 @@ public class SparseSet<T> : IEnumerable<T>
     public void Clear()
     {
         _sparse.AsSpan().Fill(-1);
-        _generations.AsSpan().Clear();
 
         _count = 0;
         _nextId = 0;
-
-        Add(default!, out _);
     }
 
     /// <inheritdoc/>
@@ -296,6 +295,7 @@ public class SparseSet<T> : IEnumerable<T>
             ResizeSparse(newSize);
         }
 
+        _generations.AsSpan(_capacity).Fill(1);
         _capacity = newSize;
     }
 }

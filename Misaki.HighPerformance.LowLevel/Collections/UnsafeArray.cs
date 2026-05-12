@@ -257,6 +257,13 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly Span<T> AsSpan(int start)
+    {
+        ThrowIfNotCreated();
+        return new Span<T>(_buffer + start, _count - start);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly Span<T> AsSpan(int start, int length)
     {
         ThrowIfNotCreated();

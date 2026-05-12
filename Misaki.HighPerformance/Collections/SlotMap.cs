@@ -63,6 +63,8 @@ public class SlotMap<T> : IEnumerable<T>
         _generations = new int[initialCapacity];
         _isOccupiedBits = new BitArray(initialCapacity);
         _freeSlots = new(initialCapacity);
+
+        _generations.AsSpan().Fill(1);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -75,6 +77,7 @@ public class SlotMap<T> : IEnumerable<T>
 
         _isOccupiedBits.Length = newCapacity;
         _freeSlots.EnsureCapacity(newCapacity);
+        _generations.AsSpan(_capacity).Fill(1);
 
         _capacity = newCapacity;
     }
@@ -192,11 +195,7 @@ public class SlotMap<T> : IEnumerable<T>
     public void Clear()
     {
         _count = 0;
-
-        _data.AsSpan().Clear();
         _freeSlots.Clear();
-
-        Add(default!, out _);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

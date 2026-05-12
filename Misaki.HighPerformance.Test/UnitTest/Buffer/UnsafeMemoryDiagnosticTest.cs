@@ -5,13 +5,13 @@ using Misaki.HighPerformance.LowLevel.Buffer;
 namespace Misaki.HighPerformance.Test.UnitTest.Buffer;
 
 [TestClass]
-public class UnsafeMemoryDiagnosticTest
+public class MemoryDiagnosticTest
 {
     [TestMethod]
     public unsafe void NoLeak_DoesNotThrow()
     {
 
-        using (var diagnostic = new UnsafeMemoryDiagnostic())
+        using (var diagnostic = new MemoryDiagnostic())
         {
             var memory = new MemoryBlock(1024, 16, AllocationHandle.Persistent);
             memory.Dispose();
@@ -25,7 +25,7 @@ public class UnsafeMemoryDiagnosticTest
         MemoryBlock memory = default;
         Assert.ThrowsExactly<MemoryLeakException>(() =>
         {
-            using (var diagnostic = new UnsafeMemoryDiagnostic())
+            using (var diagnostic = new MemoryDiagnostic())
             {
                 memory = new MemoryBlock(1024, 16, AllocationHandle.Persistent);
                 // Intentionally not freeing to cause leak
@@ -38,7 +38,7 @@ public class UnsafeMemoryDiagnosticTest
     [TestMethod]
     public unsafe void OutOfOrderFrees_DoesNotThrow()
     {
-        using (var diagnostic = new UnsafeMemoryDiagnostic())
+        using (var diagnostic = new MemoryDiagnostic())
         {
             var memory1 = new MemoryBlock(1024, 16, AllocationHandle.Persistent);
             var memory2 = new MemoryBlock(1024, 16, AllocationHandle.Persistent);

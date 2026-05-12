@@ -101,6 +101,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
             if (CanUseVectorStorage)
             {
                 sourceBuilder.AppendLine($@"
+        [global::System.Text.Json.Serialization.JsonIgnore]
         [global::System.Runtime.InteropServices.FieldOffset(0)]
         public global::System.Runtime.Intrinsics.Vector{_vectorBitsSize}<{typeInfo.ComponentTypeFullName}> __v;");
 

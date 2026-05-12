@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
-public readonly ref struct UnsafeMemoryDiagnostic : IDisposable
+public readonly ref struct MemoryDiagnostic : IDisposable
 {
 #if MHP_ENABLE_SAFETY_CHECKS
     [ThreadStatic]
@@ -14,7 +14,7 @@ public readonly ref struct UnsafeMemoryDiagnostic : IDisposable
     private readonly int _initialThreadId;
     private readonly int _startIndex;
 
-    public UnsafeMemoryDiagnostic()
+    public MemoryDiagnostic()
     {
         _initialThreadId = Environment.CurrentManagedThreadId;
         _startIndex = s_localAllocations?.Count ?? 0;
@@ -37,7 +37,7 @@ public readonly ref struct UnsafeMemoryDiagnostic : IDisposable
         return -1;
     }
 
-    [System.Runtime.CompilerServices.MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void SetLocalAllocation(int idx, MemoryHandle handle)
     {
         if (idx != -1 && s_localAllocations != null)
@@ -46,7 +46,7 @@ public readonly ref struct UnsafeMemoryDiagnostic : IDisposable
         }
     }
 
-    [System.Runtime.CompilerServices.MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void RemoveLocalAllocation(int idx)
     {
         if (s_diagnosticDepth > 0 && idx != -1 && s_localAllocations != null)
@@ -104,7 +104,7 @@ public readonly ref struct UnsafeMemoryDiagnostic : IDisposable
         }
     }
 #else
-    public UnsafeMemoryDiagnostic() { }
+    public MemoryDiagnostic() { }
     public void Dispose() { }
 #endif
 }
