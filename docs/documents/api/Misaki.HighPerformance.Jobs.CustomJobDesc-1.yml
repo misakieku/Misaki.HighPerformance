@@ -1,0 +1,518 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Jobs.CustomJobDesc`1
+  commentId: T:Misaki.HighPerformance.Jobs.CustomJobDesc`1
+  id: CustomJobDesc`1
+  parent: Misaki.HighPerformance.Jobs
+  children:
+  - Misaki.HighPerformance.Jobs.CustomJobDesc`1.data
+  - Misaki.HighPerformance.Jobs.CustomJobDesc`1.jobRanges
+  - Misaki.HighPerformance.Jobs.CustomJobDesc`1.pExecutionFunc
+  - Misaki.HighPerformance.Jobs.CustomJobDesc`1.pFreeFunc
+  - Misaki.HighPerformance.Jobs.CustomJobDesc`1.priority
+  langs:
+  - csharp
+  - vb
+  name: CustomJobDesc<T>
+  nameWithType: CustomJobDesc<T>
+  fullName: Misaki.HighPerformance.Jobs.CustomJobDesc<T>
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CustomJobDesc
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 67
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  syntax:
+    content: public ref struct CustomJobDesc<T>
+    typeParameters:
+    - id: T
+    content.vb: Public Structure CustomJobDesc(Of T)
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: CustomJobDesc(Of T)
+  fullName.vb: Misaki.HighPerformance.Jobs.CustomJobDesc(Of T)
+  name.vb: CustomJobDesc(Of T)
+- uid: Misaki.HighPerformance.Jobs.CustomJobDesc`1.data
+  commentId: F:Misaki.HighPerformance.Jobs.CustomJobDesc`1.data
+  id: data
+  parent: Misaki.HighPerformance.Jobs.CustomJobDesc`1
+  langs:
+  - csharp
+  - vb
+  name: data
+  nameWithType: CustomJobDesc<T>.data
+  fullName: Misaki.HighPerformance.Jobs.CustomJobDesc<T>.data
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: data
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 69
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  syntax:
+    content: public required ref T data
+    return:
+      type: '{T}'
+    content.vb: Public data As T
+  nameWithType.vb: CustomJobDesc(Of T).data
+  fullName.vb: Misaki.HighPerformance.Jobs.CustomJobDesc(Of T).data
+- uid: Misaki.HighPerformance.Jobs.CustomJobDesc`1.pExecutionFunc
+  commentId: F:Misaki.HighPerformance.Jobs.CustomJobDesc`1.pExecutionFunc
+  id: pExecutionFunc
+  parent: Misaki.HighPerformance.Jobs.CustomJobDesc`1
+  langs:
+  - csharp
+  - vb
+  name: pExecutionFunc
+  nameWithType: CustomJobDesc<T>.pExecutionFunc
+  fullName: Misaki.HighPerformance.Jobs.CustomJobDesc<T>.pExecutionFunc
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: pExecutionFunc
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 70
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  syntax:
+    content: public required delegate*<ref T, ref JobRanges, ref readonly JobExecutionContext, void> pExecutionFunc
+    return:
+      type: delegate*<ref T, ref Misaki.HighPerformance.Jobs.JobRanges, ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext, void>
+    content.vb: 'Public pExecutionFunc As '
+  nameWithType.vb: CustomJobDesc(Of T).pExecutionFunc
+  fullName.vb: Misaki.HighPerformance.Jobs.CustomJobDesc(Of T).pExecutionFunc
+- uid: Misaki.HighPerformance.Jobs.CustomJobDesc`1.pFreeFunc
+  commentId: F:Misaki.HighPerformance.Jobs.CustomJobDesc`1.pFreeFunc
+  id: pFreeFunc
+  parent: Misaki.HighPerformance.Jobs.CustomJobDesc`1
+  langs:
+  - csharp
+  - vb
+  name: pFreeFunc
+  nameWithType: CustomJobDesc<T>.pFreeFunc
+  fullName: Misaki.HighPerformance.Jobs.CustomJobDesc<T>.pFreeFunc
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: pFreeFunc
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 71
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  syntax:
+    content: public required delegate*<ref T, void> pFreeFunc
+    return:
+      type: delegate*<ref T, void>
+    content.vb: 'Public pFreeFunc As '
+  nameWithType.vb: CustomJobDesc(Of T).pFreeFunc
+  fullName.vb: Misaki.HighPerformance.Jobs.CustomJobDesc(Of T).pFreeFunc
+- uid: Misaki.HighPerformance.Jobs.CustomJobDesc`1.jobRanges
+  commentId: F:Misaki.HighPerformance.Jobs.CustomJobDesc`1.jobRanges
+  id: jobRanges
+  parent: Misaki.HighPerformance.Jobs.CustomJobDesc`1
+  langs:
+  - csharp
+  - vb
+  name: jobRanges
+  nameWithType: CustomJobDesc<T>.jobRanges
+  fullName: Misaki.HighPerformance.Jobs.CustomJobDesc<T>.jobRanges
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: jobRanges
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 72
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  syntax:
+    content: public JobRanges jobRanges
+    return:
+      type: Misaki.HighPerformance.Jobs.JobRanges
+    content.vb: Public jobRanges As JobRanges
+  nameWithType.vb: CustomJobDesc(Of T).jobRanges
+  fullName.vb: Misaki.HighPerformance.Jobs.CustomJobDesc(Of T).jobRanges
+- uid: Misaki.HighPerformance.Jobs.CustomJobDesc`1.priority
+  commentId: F:Misaki.HighPerformance.Jobs.CustomJobDesc`1.priority
+  id: priority
+  parent: Misaki.HighPerformance.Jobs.CustomJobDesc`1
+  langs:
+  - csharp
+  - vb
+  name: priority
+  nameWithType: CustomJobDesc<T>.priority
+  fullName: Misaki.HighPerformance.Jobs.CustomJobDesc<T>.priority
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: priority
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 73
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  syntax:
+    content: public JobPriority priority
+    return:
+      type: Misaki.HighPerformance.Jobs.JobPriority
+    content.vb: Public priority As JobPriority
+  nameWithType.vb: CustomJobDesc(Of T).priority
+  fullName.vb: Misaki.HighPerformance.Jobs.CustomJobDesc(Of T).priority
+references:
+- uid: Misaki.HighPerformance.Jobs
+  commentId: N:Misaki.HighPerformance.Jobs
+  href: Misaki.html
+  name: Misaki.HighPerformance.Jobs
+  nameWithType: Misaki.HighPerformance.Jobs
+  fullName: Misaki.HighPerformance.Jobs
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: delegate*<ref T, ref Misaki.HighPerformance.Jobs.JobRanges, ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext, void>
+  isExternal: true
+  href: Misaki.HighPerformance.Jobs.JobRanges.html
+  name: delegate*<ref T, ref JobRanges, ref readonly JobExecutionContext, void>
+  nameWithType: delegate*<ref T, ref JobRanges, ref readonly JobExecutionContext, void>
+  fullName: delegate*<ref T, ref Misaki.HighPerformance.Jobs.JobRanges, ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext, void>
+  spec.csharp:
+  - name: delegate
+  - name: '*'
+  - name: <
+  - name: ref
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: ref
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.JobRanges
+    name: JobRanges
+    href: Misaki.HighPerformance.Jobs.JobRanges.html
+  - name: ','
+  - name: " "
+  - name: ref
+  - name: " "
+  - name: readonly
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+    name: JobExecutionContext
+    href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  - name: ','
+  - name: " "
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '>'
+- uid: delegate*<ref T, void>
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.void
+  name: delegate*<ref T, void>
+  nameWithType: delegate*<ref T, void>
+  fullName: delegate*<ref T, void>
+  spec.csharp:
+  - name: delegate
+  - name: '*'
+  - name: <
+  - name: ref
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '>'
+- uid: Misaki.HighPerformance.Jobs.JobRanges
+  commentId: T:Misaki.HighPerformance.Jobs.JobRanges
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobRanges.html
+  name: JobRanges
+  nameWithType: JobRanges
+  fullName: Misaki.HighPerformance.Jobs.JobRanges
+- uid: Misaki.HighPerformance.Jobs.JobPriority
+  commentId: T:Misaki.HighPerformance.Jobs.JobPriority
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobPriority.html
+  name: JobPriority
+  nameWithType: JobPriority
+  fullName: Misaki.HighPerformance.Jobs.JobPriority

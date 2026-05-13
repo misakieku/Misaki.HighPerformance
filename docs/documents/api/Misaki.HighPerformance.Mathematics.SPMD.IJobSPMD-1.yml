@@ -1,0 +1,170 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1
+  id: IJobSPMD`1
+  parent: Misaki.HighPerformance.Mathematics.SPMD
+  children:
+  - Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1.Execute``1(``0,``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  langs:
+  - csharp
+  - vb
+  name: IJobSPMD<TNumber0>
+  nameWithType: IJobSPMD<TNumber0>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0>
+  type: Interface
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics.SPMD/Templates/IJobSPMD.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IJobSPMD
+    path: src/Misaki.HighPerformance.Mathematics.SPMD/Templates/IJobSPMD.gen.cs
+    startLine: 12
+  assemblies:
+  - Misaki.HighPerformance.Mathematics.SPMD
+  namespace: Misaki.HighPerformance.Mathematics.SPMD
+  summary: A job interface for Single Program Multiple Data (SPMD) execution, allowing for efficient parallel processing of data across multiple lanes.
+  remarks: Always use TNumber0 as the primary type for determining lane width and job scheduling, even if it's not used in the job execution.
+  example: []
+  syntax:
+    content: 'public interface IJobSPMD<TNumber0> where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0>'
+    typeParameters:
+    - id: TNumber0
+      description: The first numeric type used in the SPMD job.
+    content.vb: Public Interface IJobSPMD(Of TNumber0 As {Structure, INumber(Of TNumber0), IBinaryNumber(Of TNumber0), IMinMaxValue(Of TNumber0), IBitwiseOperators(Of TNumber0, TNumber0, TNumber0)})
+  nameWithType.vb: IJobSPMD(Of TNumber0)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0)
+  name.vb: IJobSPMD(Of TNumber0)
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1.Execute``1(``0,``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  commentId: M:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1.Execute``1(``0,``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  id: Execute``1(``0,``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  parent: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1
+  langs:
+  - csharp
+  - vb
+  name: Execute<TLane0>(TLane0, TLane0, ref readonly JobExecutionContext)
+  nameWithType: IJobSPMD<TNumber0>.Execute<TLane0>(TLane0, TLane0, ref readonly JobExecutionContext)
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0>.Execute<TLane0>(TLane0, TLane0, ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics.SPMD/Templates/IJobSPMD.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Execute
+    path: src/Misaki.HighPerformance.Mathematics.SPMD/Templates/IJobSPMD.gen.cs
+    startLine: 15
+  assemblies:
+  - Misaki.HighPerformance.Mathematics.SPMD
+  namespace: Misaki.HighPerformance.Mathematics.SPMD
+  syntax:
+    content: 'void Execute<TLane0>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx) where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0>'
+    parameters:
+    - id: indices
+      type: '{TLane0}'
+    - id: mask
+      type: '{TLane0}'
+    - id: ctx
+      type: Misaki.HighPerformance.Jobs.JobExecutionContext
+    typeParameters:
+    - id: TLane0
+    content.vb: Sub Execute(Of TLane0 As {Structure, ISPMDLane(Of TLane0, TNumber0)})(indices As TLane0, mask As TLane0, ctx As JobExecutionContext)
+  overload: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1.Execute*
+  nameWithType.vb: IJobSPMD(Of TNumber0).Execute(Of TLane0)(TLane0, TLane0, JobExecutionContext)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0).Execute(Of TLane0)(TLane0, TLane0, Misaki.HighPerformance.Jobs.JobExecutionContext)
+  name.vb: Execute(Of TLane0)(TLane0, TLane0, JobExecutionContext)
+references:
+- uid: Misaki.HighPerformance.Mathematics.SPMD
+  commentId: N:Misaki.HighPerformance.Mathematics.SPMD
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics.SPMD
+  nameWithType: Misaki.HighPerformance.Mathematics.SPMD
+  fullName: Misaki.HighPerformance.Mathematics.SPMD
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.SPMD
+    name: SPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.SPMD
+    name: SPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.html
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1.Execute*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1.Execute
+  href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-1.html#Misaki_HighPerformance_Mathematics_SPMD_IJobSPMD_1_Execute__1___0___0_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  name: Execute
+  nameWithType: IJobSPMD<TNumber0>.Execute
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0>.Execute
+  nameWithType.vb: IJobSPMD(Of TNumber0).Execute
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0).Execute
+- uid: '{TLane0}'
+  commentId: '!:TLane0'
+  definition: TLane0
+  name: TLane0
+  nameWithType: TLane0
+  fullName: TLane0
+- uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+  commentId: T:Misaki.HighPerformance.Jobs.JobExecutionContext
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  name: JobExecutionContext
+  nameWithType: JobExecutionContext
+  fullName: Misaki.HighPerformance.Jobs.JobExecutionContext
+- uid: TLane0
+  name: TLane0
+  nameWithType: TLane0
+  fullName: TLane0
+- uid: Misaki.HighPerformance.Jobs
+  commentId: N:Misaki.HighPerformance.Jobs
+  href: Misaki.html
+  name: Misaki.HighPerformance.Jobs
+  nameWithType: Misaki.HighPerformance.Jobs
+  fullName: Misaki.HighPerformance.Jobs
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html

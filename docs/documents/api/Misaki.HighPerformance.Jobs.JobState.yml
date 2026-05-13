@@ -1,0 +1,213 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Jobs.JobState
+  commentId: T:Misaki.HighPerformance.Jobs.JobState
+  id: JobState
+  parent: Misaki.HighPerformance.Jobs
+  children:
+  - Misaki.HighPerformance.Jobs.JobState.Completed
+  - Misaki.HighPerformance.Jobs.JobState.Created
+  - Misaki.HighPerformance.Jobs.JobState.Invalid
+  - Misaki.HighPerformance.Jobs.JobState.Running
+  - Misaki.HighPerformance.Jobs.JobState.Scheduled
+  langs:
+  - csharp
+  - vb
+  name: JobState
+  nameWithType: JobState
+  fullName: Misaki.HighPerformance.Jobs.JobState
+  type: Enum
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: JobState
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 8
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: The state of a job in its lifecycle.
+  example: []
+  syntax:
+    content: public enum JobState
+    content.vb: Public Enum JobState
+- uid: Misaki.HighPerformance.Jobs.JobState.Invalid
+  commentId: F:Misaki.HighPerformance.Jobs.JobState.Invalid
+  id: Invalid
+  parent: Misaki.HighPerformance.Jobs.JobState
+  langs:
+  - csharp
+  - vb
+  name: Invalid
+  nameWithType: JobState.Invalid
+  fullName: Misaki.HighPerformance.Jobs.JobState.Invalid
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Invalid
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: The job is in an invalid state, indicating an error or uninitialized state.
+  example: []
+  syntax:
+    content: Invalid = -1
+    return:
+      type: Misaki.HighPerformance.Jobs.JobState
+- uid: Misaki.HighPerformance.Jobs.JobState.Created
+  commentId: F:Misaki.HighPerformance.Jobs.JobState.Created
+  id: Created
+  parent: Misaki.HighPerformance.Jobs.JobState
+  langs:
+  - csharp
+  - vb
+  name: Created
+  nameWithType: JobState.Created
+  fullName: Misaki.HighPerformance.Jobs.JobState.Created
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Created
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 17
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: The job has been created but not yet scheduled for execution.
+  example: []
+  syntax:
+    content: Created = 0
+    return:
+      type: Misaki.HighPerformance.Jobs.JobState
+- uid: Misaki.HighPerformance.Jobs.JobState.Scheduled
+  commentId: F:Misaki.HighPerformance.Jobs.JobState.Scheduled
+  id: Scheduled
+  parent: Misaki.HighPerformance.Jobs.JobState
+  langs:
+  - csharp
+  - vb
+  name: Scheduled
+  nameWithType: JobState.Scheduled
+  fullName: Misaki.HighPerformance.Jobs.JobState.Scheduled
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Scheduled
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 21
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: The job is scheduled and waiting to be executed.
+  example: []
+  syntax:
+    content: Scheduled = 1
+    return:
+      type: Misaki.HighPerformance.Jobs.JobState
+- uid: Misaki.HighPerformance.Jobs.JobState.Running
+  commentId: F:Misaki.HighPerformance.Jobs.JobState.Running
+  id: Running
+  parent: Misaki.HighPerformance.Jobs.JobState
+  langs:
+  - csharp
+  - vb
+  name: Running
+  nameWithType: JobState.Running
+  fullName: Misaki.HighPerformance.Jobs.JobState.Running
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Running
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 25
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: The job is currently being executed.
+  example: []
+  syntax:
+    content: Running = 2
+    return:
+      type: Misaki.HighPerformance.Jobs.JobState
+- uid: Misaki.HighPerformance.Jobs.JobState.Completed
+  commentId: F:Misaki.HighPerformance.Jobs.JobState.Completed
+  id: Completed
+  parent: Misaki.HighPerformance.Jobs.JobState
+  langs:
+  - csharp
+  - vb
+  name: Completed
+  nameWithType: JobState.Completed
+  fullName: Misaki.HighPerformance.Jobs.JobState.Completed
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Completed
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 29
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: The job has completed execution.
+  example: []
+  syntax:
+    content: Completed = 3
+    return:
+      type: Misaki.HighPerformance.Jobs.JobState
+references:
+- uid: Misaki.HighPerformance.Jobs
+  commentId: N:Misaki.HighPerformance.Jobs
+  href: Misaki.html
+  name: Misaki.HighPerformance.Jobs
+  nameWithType: Misaki.HighPerformance.Jobs
+  fullName: Misaki.HighPerformance.Jobs
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+- uid: Misaki.HighPerformance.Jobs.JobState
+  commentId: T:Misaki.HighPerformance.Jobs.JobState
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobState.html
+  name: JobState
+  nameWithType: JobState
+  fullName: Misaki.HighPerformance.Jobs.JobState

@@ -1,0 +1,1074 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  id: SpanBitSet
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.#ctor(System.Span{System.UInt32})
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan(System.Span{System.UInt32},System.Boolean)
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearAll
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearBit(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetHashCode
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetIterator
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.IsSet(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.NextSetBit(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetAll
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetBit(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ToString
+  langs:
+  - csharp
+  - vb
+  name: SpanBitSet
+  nameWithType: SpanBitSet
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SpanBitSet
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 826
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: >-
+    The <xref href="Misaki.HighPerformance.LowLevel.Collections.SpanBitSet" data-throw-if-not-resolved="false"></xref> struct
+
+    represents a non resizable collection of bits.
+
+    Used to set, check and clear bits on a allocated <xref href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet" data-throw-if-not-resolved="false"></xref> or on the stack.
+  example: []
+  syntax:
+    content: 'public readonly ref struct SpanBitSet : IEquatable<SpanBitSet>'
+    content.vb: Public Structure SpanBitSet Implements IEquatable(Of SpanBitSet)
+  implements:
+  - System.IEquatable{Misaki.HighPerformance.LowLevel.Collections.SpanBitSet}
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.#ctor(System.Span{System.UInt32})
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.#ctor(System.Span{System.UInt32})
+  id: '#ctor(System.Span{System.UInt32})'
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: SpanBitSet(Span<uint>)
+  nameWithType: SpanBitSet.SpanBitSet(Span<uint>)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SpanBitSet(System.Span<uint>)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 859
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Initializes a new instance of the <xref href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public SpanBitSet(Span<uint> bits)
+    parameters:
+    - id: bits
+      type: System.Span{System.UInt32}
+    content.vb: Public Sub New(bits As Span(Of UInteger))
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.#ctor*
+  nameWithType.vb: SpanBitSet.New(Span(Of UInteger))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.New(System.Span(Of UInteger))
+  name.vb: New(Span(Of UInteger))
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetIterator
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetIterator
+  id: GetIterator
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: GetIterator()
+  nameWithType: SpanBitSet.GetIterator()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetIterator()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetIterator
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 864
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public SpanBitSet.Iterator GetIterator()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+    content.vb: Public Function GetIterator() As SpanBitSet.Iterator
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetIterator*
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.IsSet(System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.IsSet(System.Int32)
+  id: IsSet(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: IsSet(int)
+  nameWithType: SpanBitSet.IsSet(int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.IsSet(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsSet
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 874
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Checks whether a bit is set at the index.
+  example: []
+  syntax:
+    content: public bool IsSet(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index.
+    return:
+      type: System.Boolean
+      description: True if it is, otherwise false
+    content.vb: Public Function IsSet(index As Integer) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.IsSet*
+  nameWithType.vb: SpanBitSet.IsSet(Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.IsSet(Integer)
+  name.vb: IsSet(Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetBit(System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetBit(System.Int32)
+  id: SetBit(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: SetBit(int)
+  nameWithType: SpanBitSet.SetBit(int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetBit(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SetBit
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 890
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: >-
+    Sets a bit at the given index.
+
+    Resizes its internal array if necessary.
+  example: []
+  syntax:
+    content: public void SetBit(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index.
+    content.vb: Public Sub SetBit(index As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetBit*
+  nameWithType.vb: SpanBitSet.SetBit(Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetBit(Integer)
+  name.vb: SetBit(Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearBit(System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearBit(System.Int32)
+  id: ClearBit(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: ClearBit(int)
+  nameWithType: SpanBitSet.ClearBit(int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearBit(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ClearBit
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 905
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Clears the bit at the given index.
+  example: []
+  syntax:
+    content: public void ClearBit(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index.
+    content.vb: Public Sub ClearBit(index As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearBit*
+  nameWithType.vb: SpanBitSet.ClearBit(Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearBit(Integer)
+  name.vb: ClearBit(Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetAll
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetAll
+  id: SetAll
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: SetAll()
+  nameWithType: SpanBitSet.SetAll()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetAll()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SetAll
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 919
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Sets all bits.
+  example: []
+  syntax:
+    content: public void SetAll()
+    content.vb: Public Sub SetAll()
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetAll*
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearAll
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearAll
+  id: ClearAll
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: ClearAll()
+  nameWithType: SpanBitSet.ClearAll()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearAll()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ClearAll
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 931
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Clears all set bits.
+  example: []
+  syntax:
+    content: public void ClearAll()
+    content.vb: Public Sub ClearAll()
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearAll*
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.NextSetBit(System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.NextSetBit(System.Int32)
+  id: NextSetBit(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: NextSetBit(int)
+  nameWithType: SpanBitSet.NextSetBit(int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.NextSetBit(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextSetBit
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 936
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int NextSetBit(int startIndex)
+    parameters:
+    - id: startIndex
+      type: System.Int32
+    return:
+      type: System.Int32
+    content.vb: Public Function NextSetBit(startIndex As Integer) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.NextSetBit*
+  nameWithType.vb: SpanBitSet.NextSetBit(Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.NextSetBit(Integer)
+  name.vb: NextSetBit(Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan
+  id: AsSpan
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: AsSpan()
+  nameWithType: SpanBitSet.AsSpan()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsSpan
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 970
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Creates a <xref href="System.Span%601" data-throw-if-not-resolved="false"></xref> to access the <xref href="Misaki.HighPerformance.LowLevel.Collections.SpanBitSet._bits" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public Span<uint> AsSpan()
+    return:
+      type: System.Span{System.UInt32}
+      description: The hash.
+    content.vb: Public Function AsSpan() As Span(Of UInteger)
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan*
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan(System.Span{System.UInt32},System.Boolean)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan(System.Span{System.UInt32},System.Boolean)
+  id: AsSpan(System.Span{System.UInt32},System.Boolean)
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: AsSpan(Span<uint>, bool)
+  nameWithType: SpanBitSet.AsSpan(Span<uint>, bool)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan(System.Span<uint>, bool)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsSpan
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 981
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Copies the bits into a <xref href="System.Span%601" data-throw-if-not-resolved="false"></xref> and returns a slice containing the copied <xref href="Misaki.HighPerformance.LowLevel.Collections.SpanBitSet._bits" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public Span<uint> AsSpan(Span<uint> span, bool zero = true)
+    parameters:
+    - id: span
+      type: System.Span{System.UInt32}
+    - id: zero
+      type: System.Boolean
+    return:
+      type: System.Span{System.UInt32}
+      description: The hash.
+    content.vb: Public Function AsSpan(span As Span(Of UInteger), zero As Boolean = True) As Span(Of UInteger)
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan*
+  nameWithType.vb: SpanBitSet.AsSpan(Span(Of UInteger), Boolean)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan(System.Span(Of UInteger), Boolean)
+  name.vb: AsSpan(Span(Of UInteger), Boolean)
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+  id: Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: Equals(SpanBitSet)
+  nameWithType: SpanBitSet.Equals(SpanBitSet)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Equals
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 999
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Indicates whether the current object is equal to another object of the same type.
+  example: []
+  syntax:
+    content: public bool Equals(SpanBitSet other)
+    parameters:
+    - id: other
+      type: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+      description: An object to compare with this object.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Function Equals(other As SpanBitSet) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Equals*
+  implements:
+  - System.IEquatable{Misaki.HighPerformance.LowLevel.Collections.SpanBitSet}.Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetHashCode
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetHashCode
+  id: GetHashCode
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: SpanBitSet.GetHashCode()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetHashCode
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 1017
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Returns the hash code for this instance.
+  example: []
+  syntax:
+    content: public override int GetHashCode()
+    return:
+      type: System.Int32
+      description: A 32-bit signed integer that is the hash code for this instance.
+    content.vb: Public Overrides Function GetHashCode() As Integer
+  overridden: System.ValueType.GetHashCode
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetHashCode*
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ToString
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ToString
+  id: ToString
+  parent: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: SpanBitSet.ToString()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ToString
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeBitSet.cs
+    startLine: 1024
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Returns the fully qualified type name of this instance.
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: The fully qualified type name.
+    content.vb: Public Overrides Function ToString() As String
+  overridden: System.ValueType.ToString
+  overload: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ToString*
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  name: SpanBitSet
+  nameWithType: SpanBitSet
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html
+  name: UnsafeBitSet
+  nameWithType: UnsafeBitSet
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+- uid: System.IEquatable{Misaki.HighPerformance.LowLevel.Collections.SpanBitSet}
+  commentId: T:System.IEquatable{Misaki.HighPerformance.LowLevel.Collections.SpanBitSet}
+  parent: System
+  definition: System.IEquatable`1
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<SpanBitSet>
+  nameWithType: IEquatable<SpanBitSet>
+  fullName: System.IEquatable<Misaki.HighPerformance.LowLevel.Collections.SpanBitSet>
+  nameWithType.vb: IEquatable(Of SpanBitSet)
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+  name.vb: IEquatable(Of SpanBitSet)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+    name: SpanBitSet
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+    name: SpanBitSet
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  - name: )
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.IEquatable`1
+  commentId: T:System.IEquatable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<T>
+  nameWithType: IEquatable<T>
+  fullName: System.IEquatable<T>
+  nameWithType.vb: IEquatable(Of T)
+  fullName.vb: System.IEquatable(Of T)
+  name.vb: IEquatable(Of T)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.#ctor
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet__ctor_System_Span_System_UInt32__
+  name: SpanBitSet
+  nameWithType: SpanBitSet.SpanBitSet
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SpanBitSet
+  nameWithType.vb: SpanBitSet.New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.New
+  name.vb: New
+- uid: System.Span{System.UInt32}
+  commentId: T:System.Span{System.UInt32}
+  parent: System
+  definition: System.Span`1
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<uint>
+  nameWithType: Span<uint>
+  fullName: System.Span<uint>
+  nameWithType.vb: Span(Of UInteger)
+  fullName.vb: System.Span(Of UInteger)
+  name.vb: Span(Of UInteger)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - uid: System.UInt32
+    name: uint
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint32
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt32
+    name: UInteger
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint32
+  - name: )
+- uid: System.Span`1
+  commentId: T:System.Span`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<T>
+  nameWithType: Span<T>
+  fullName: System.Span<T>
+  nameWithType.vb: Span(Of T)
+  fullName.vb: System.Span(Of T)
+  name.vb: Span(Of T)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetIterator*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetIterator
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_GetIterator
+  name: GetIterator
+  nameWithType: SpanBitSet.GetIterator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetIterator
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  name: SpanBitSet.Iterator
+  nameWithType: SpanBitSet.Iterator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+    name: SpanBitSet
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+    name: Iterator
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+    name: SpanBitSet
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+    name: Iterator
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.IsSet*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.IsSet
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_IsSet_System_Int32_
+  name: IsSet
+  nameWithType: SpanBitSet.IsSet
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.IsSet
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetBit*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetBit
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_SetBit_System_Int32_
+  name: SetBit
+  nameWithType: SpanBitSet.SetBit
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetBit
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearBit*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearBit
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_ClearBit_System_Int32_
+  name: ClearBit
+  nameWithType: SpanBitSet.ClearBit
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearBit
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetAll*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetAll
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_SetAll
+  name: SetAll
+  nameWithType: SpanBitSet.SetAll
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.SetAll
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearAll*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearAll
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_ClearAll
+  name: ClearAll
+  nameWithType: SpanBitSet.ClearAll
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ClearAll
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.NextSetBit*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.NextSetBit
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_NextSetBit_System_Int32_
+  name: NextSetBit
+  nameWithType: SpanBitSet.NextSetBit
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.NextSetBit
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet._bits
+  commentId: F:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet._bits
+  name: _bits
+  nameWithType: SpanBitSet._bits
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet._bits
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_AsSpan
+  name: AsSpan
+  nameWithType: SpanBitSet.AsSpan
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.AsSpan
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Equals*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Equals
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_Equals_Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_
+  name: Equals
+  nameWithType: SpanBitSet.Equals
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Equals
+- uid: System.IEquatable{Misaki.HighPerformance.LowLevel.Collections.SpanBitSet}.Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+  commentId: M:System.IEquatable{Misaki.HighPerformance.LowLevel.Collections.SpanBitSet}.Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+  parent: System.IEquatable{Misaki.HighPerformance.LowLevel.Collections.SpanBitSet}
+  definition: System.IEquatable`1.Equals(`0)
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(SpanBitSet)
+  nameWithType: IEquatable<SpanBitSet>.Equals(SpanBitSet)
+  fullName: System.IEquatable<Misaki.HighPerformance.LowLevel.Collections.SpanBitSet>.Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+  nameWithType.vb: IEquatable(Of SpanBitSet).Equals(SpanBitSet)
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.LowLevel.Collections.SpanBitSet).Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+  spec.csharp:
+  - uid: System.IEquatable{Misaki.HighPerformance.LowLevel.Collections.SpanBitSet}.Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+    name: SpanBitSet
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable{Misaki.HighPerformance.LowLevel.Collections.SpanBitSet}.Equals(Misaki.HighPerformance.LowLevel.Collections.SpanBitSet)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+    name: SpanBitSet
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  - name: )
+- uid: System.IEquatable`1.Equals(`0)
+  commentId: M:System.IEquatable`1.Equals(`0)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(T)
+  nameWithType: IEquatable<T>.Equals(T)
+  fullName: System.IEquatable<T>.Equals(T)
+  nameWithType.vb: IEquatable(Of T).Equals(T)
+  fullName.vb: System.IEquatable(Of T).Equals(T)
+  spec.csharp:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetHashCode*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetHashCode
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_GetHashCode
+  name: GetHashCode
+  nameWithType: SpanBitSet.GetHashCode
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.GetHashCode
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ToString*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ToString
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html#Misaki_HighPerformance_LowLevel_Collections_SpanBitSet_ToString
+  name: ToString
+  nameWithType: SpanBitSet.ToString
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.ToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String

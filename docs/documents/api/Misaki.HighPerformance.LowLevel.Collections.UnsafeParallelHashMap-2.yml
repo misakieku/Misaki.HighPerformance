@@ -1,0 +1,1046 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  id: UnsafeParallelHashMap`2
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.#ctor(System.Int32,System.UInt32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Add(`0@,`1@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.AsParallelWriter
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Capacity
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Clear
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Count
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Dispose
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Find(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsCreated
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsEmpty
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.MINIMAL_CAPACITY
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Remove(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Resize(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.TryGetValue(`0@,`1@)
+  langs:
+  - csharp
+  - vb
+  name: UnsafeParallelHashMap<TKey, TValue>
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: UnsafeParallelHashMap
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 34
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: 'public struct UnsafeParallelHashMap<TKey, TValue> : IDisposable where TKey : unmanaged, IEquatable<TKey> where TValue : unmanaged'
+    typeParameters:
+    - id: TKey
+    - id: TValue
+    content.vb: Public Structure UnsafeParallelHashMap(Of TKey As {Structure, IEquatable(Of TKey)}, TValue As Structure) Implements IDisposable
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue)
+  name.vb: UnsafeParallelHashMap(Of TKey, TValue)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.MINIMAL_CAPACITY
+  commentId: F:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.MINIMAL_CAPACITY
+  id: MINIMAL_CAPACITY
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: MINIMAL_CAPACITY
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.MINIMAL_CAPACITY
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.MINIMAL_CAPACITY
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MINIMAL_CAPACITY
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 40
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public const int MINIMAL_CAPACITY = 64
+    return:
+      type: System.Int32
+    content.vb: Public Const MINIMAL_CAPACITY As Integer = 64
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).MINIMAL_CAPACITY
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).MINIMAL_CAPACITY
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Count
+  id: Count
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Count
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Count
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 42
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Count*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Capacity
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Capacity
+  id: Capacity
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: Capacity
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Capacity
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Capacity
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Capacity
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 44
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly int Capacity { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Capacity As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Capacity*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Capacity
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Capacity
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsEmpty
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsEmpty
+  id: IsEmpty
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: IsEmpty
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.IsEmpty
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.IsEmpty
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsEmpty
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 46
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly bool IsEmpty { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsEmpty As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsEmpty*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).IsEmpty
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).IsEmpty
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsCreated
+  id: IsCreated
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: IsCreated
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.IsCreated
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsCreated
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 48
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly bool IsCreated { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsCreated As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsCreated*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.#ctor(System.Int32,System.UInt32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.#ctor(System.Int32,System.UInt32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: '#ctor(System.Int32,System.UInt32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)'
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: UnsafeParallelHashMap(int, uint, AllocationHandle, AllocationOption)
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.UnsafeParallelHashMap(int, uint, AllocationHandle, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.UnsafeParallelHashMap(int, uint, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 68
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public UnsafeParallelHashMap(int capacity, uint minGrowth, AllocationHandle handle, AllocationOption allocationOption)
+    parameters:
+    - id: capacity
+      type: System.Int32
+    - id: minGrowth
+      type: System.UInt32
+    - id: handle
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+    - id: allocationOption
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    content.vb: Public Sub New(capacity As Integer, minGrowth As UInteger, handle As AllocationHandle, allocationOption As AllocationOption)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.#ctor*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).New(Integer, UInteger, AllocationHandle, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).New(Integer, UInteger, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: New(Integer, UInteger, AllocationHandle, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Dispose
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Dispose
+  id: Dispose
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Dispose()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dispose
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 107
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Dispose()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Dispose()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Clear
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Clear
+  id: Clear
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Clear()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Clear
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 221
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Clear*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Clear()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Clear()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Add(`0@,`1@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Add(`0@,`1@)
+  id: Add(`0@,`1@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: Add(scoped in TKey, scoped in TValue)
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Add(scoped in TKey, scoped in TValue)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Add(scoped in TKey, scoped in TValue)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Add
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 239
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int Add(scoped in TKey key, scoped in TValue value)
+    parameters:
+    - id: key
+      type: '{TKey}'
+    - id: value
+      type: '{TValue}'
+    return:
+      type: System.Int32
+    content.vb: Public Function Add(key As TKey, value As TValue) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Add*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Add(TKey, TValue)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Add(TKey, TValue)
+  name.vb: Add(TKey, TValue)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.TryGetValue(`0@,`1@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.TryGetValue(`0@,`1@)
+  id: TryGetValue(`0@,`1@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: TryGetValue(scoped in TKey, out TValue)
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.TryGetValue(scoped in TKey, out TValue)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.TryGetValue(scoped in TKey, out TValue)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TryGetValue
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 251
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public bool TryGetValue(scoped in TKey key, out TValue item)
+    parameters:
+    - id: key
+      type: '{TKey}'
+    - id: item
+      type: '{TValue}'
+    return:
+      type: System.Boolean
+    content.vb: Public Function TryGetValue(key As TKey, item As TValue) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.TryGetValue*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).TryGetValue(TKey, TValue)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).TryGetValue(TKey, TValue)
+  name.vb: TryGetValue(TKey, TValue)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Find(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Find(`0@)
+  id: Find(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: Find(scoped in TKey)
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Find(scoped in TKey)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Find(scoped in TKey)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Find
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 264
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int Find(scoped in TKey key)
+    parameters:
+    - id: key
+      type: '{TKey}'
+    return:
+      type: System.Int32
+    content.vb: Public Function Find(key As TKey) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Find*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Find(TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Find(TKey)
+  name.vb: Find(TKey)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Remove(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Remove(`0@)
+  id: Remove(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: Remove(scoped in TKey)
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Remove(scoped in TKey)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Remove(scoped in TKey)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Remove
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 330
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public bool Remove(scoped in TKey key)
+    parameters:
+    - id: key
+      type: '{TKey}'
+    return:
+      type: System.Boolean
+    content.vb: Public Function Remove(key As TKey) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Remove*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Remove(TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Remove(TKey)
+  name.vb: Remove(TKey)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Resize(System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Resize(System.Int32)
+  id: Resize(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: Resize(int)
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Resize(int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Resize(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Resize
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 418
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public void Resize(int newCapacity)
+    parameters:
+    - id: newCapacity
+      type: System.Int32
+    content.vb: Public Sub Resize(newCapacity As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Resize*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Resize(Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Resize(Integer)
+  name.vb: Resize(Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.AsParallelWriter
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.AsParallelWriter
+  id: AsParallelWriter
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  langs:
+  - csharp
+  - vb
+  name: AsParallelWriter()
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.AsParallelWriter()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.AsParallelWriter()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsParallelWriter
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelHashMap.cs
+    startLine: 433
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public UnsafeParallelHashMap<TKey, TValue>.ParallelWriter AsParallelWriter()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.ParallelWriter
+    content.vb: Public Function AsParallelWriter() As UnsafeParallelHashMap(Of TKey, TValue).ParallelWriter
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.AsParallelWriter*
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).AsParallelWriter()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).AsParallelWriter()
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Count*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_Count
+  name: Count
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Count
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Capacity*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Capacity
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_Capacity
+  name: Capacity
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Capacity
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Capacity
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Capacity
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Capacity
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsEmpty*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsEmpty
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_IsEmpty
+  name: IsEmpty
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.IsEmpty
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.IsEmpty
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).IsEmpty
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).IsEmpty
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsCreated*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.IsCreated
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_IsCreated
+  name: IsCreated
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.IsCreated
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.#ctor
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2__ctor_System_Int32_System_UInt32_Misaki_HighPerformance_LowLevel_Buffer_AllocationHandle_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: UnsafeParallelHashMap
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.UnsafeParallelHashMap
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.UnsafeParallelHashMap
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).New
+  name.vb: New
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html
+  name: AllocationHandle
+  nameWithType: AllocationHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  name: AllocationOption
+  nameWithType: AllocationOption
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Dispose*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Dispose
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_Dispose
+  name: Dispose
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Dispose
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Dispose
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Dispose
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Clear*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Clear
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_Clear
+  name: Clear
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Clear
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Clear
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Clear
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Clear
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Add*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Add
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_Add__0___1__
+  name: Add
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Add
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Add
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Add
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Add
+- uid: '{TKey}'
+  commentId: '!:TKey'
+  definition: TKey
+  name: TKey
+  nameWithType: TKey
+  fullName: TKey
+- uid: '{TValue}'
+  commentId: '!:TValue'
+  definition: TValue
+  name: TValue
+  nameWithType: TValue
+  fullName: TValue
+- uid: TKey
+  name: TKey
+  nameWithType: TKey
+  fullName: TKey
+- uid: TValue
+  name: TValue
+  nameWithType: TValue
+  fullName: TValue
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.TryGetValue*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.TryGetValue
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_TryGetValue__0___1__
+  name: TryGetValue
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.TryGetValue
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.TryGetValue
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).TryGetValue
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).TryGetValue
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Find*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Find
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_Find__0__
+  name: Find
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Find
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Find
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Find
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Find
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Remove*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Remove
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_Remove__0__
+  name: Remove
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Remove
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Remove
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Remove
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Remove
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Resize*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.Resize
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_Resize_System_Int32_
+  name: Resize
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.Resize
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.Resize
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).Resize
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).Resize
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.AsParallelWriter*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.AsParallelWriter
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelHashMap_2_AsParallelWriter
+  name: AsParallelWriter
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.AsParallelWriter
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.AsParallelWriter
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).AsParallelWriter
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).AsParallelWriter
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.ParallelWriter
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.ParallelWriter
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html
+  name: UnsafeParallelHashMap<TKey, TValue>.ParallelWriter
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.ParallelWriter
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.ParallelWriter
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).ParallelWriter
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).ParallelWriter
+  name.vb: UnsafeParallelHashMap(Of TKey, TValue).ParallelWriter
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+    name: UnsafeParallelHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.ParallelWriter
+    name: ParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.ParallelWriter.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+    name: UnsafeParallelHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.ParallelWriter
+    name: ParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.ParallelWriter.html

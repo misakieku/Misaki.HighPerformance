@@ -1,0 +1,185 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Jobs.ICustomJob`1
+  commentId: T:Misaki.HighPerformance.Jobs.ICustomJob`1
+  id: ICustomJob`1
+  parent: Misaki.HighPerformance.Jobs
+  children:
+  - Misaki.HighPerformance.Jobs.ICustomJob`1.Execute(`0@,Misaki.HighPerformance.Jobs.JobRanges@,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  - Misaki.HighPerformance.Jobs.ICustomJob`1.Free(`0@)
+  langs:
+  - csharp
+  - vb
+  name: ICustomJob<TSelf>
+  nameWithType: ICustomJob<TSelf>
+  fullName: Misaki.HighPerformance.Jobs.ICustomJob<TSelf>
+  type: Interface
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/IJob.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ICustomJob
+    path: src/Misaki.HighPerformance.Jobs/IJob.cs
+    startLine: 47
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Represents a custom job with user-defined execution and cleanup logic, allowing for more flexible job definitions beyond the standard interfaces.
+  example: []
+  syntax:
+    content: public interface ICustomJob<TSelf>
+    typeParameters:
+    - id: TSelf
+      description: ''
+    content.vb: Public Interface ICustomJob(Of TSelf)
+  nameWithType.vb: ICustomJob(Of TSelf)
+  fullName.vb: Misaki.HighPerformance.Jobs.ICustomJob(Of TSelf)
+  name.vb: ICustomJob(Of TSelf)
+- uid: Misaki.HighPerformance.Jobs.ICustomJob`1.Execute(`0@,Misaki.HighPerformance.Jobs.JobRanges@,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  commentId: M:Misaki.HighPerformance.Jobs.ICustomJob`1.Execute(`0@,Misaki.HighPerformance.Jobs.JobRanges@,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  id: Execute(`0@,Misaki.HighPerformance.Jobs.JobRanges@,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  parent: Misaki.HighPerformance.Jobs.ICustomJob`1
+  langs:
+  - csharp
+  - vb
+  name: Execute(ref TSelf, ref JobRanges, ref readonly JobExecutionContext)
+  nameWithType: ICustomJob<TSelf>.Execute(ref TSelf, ref JobRanges, ref readonly JobExecutionContext)
+  fullName: Misaki.HighPerformance.Jobs.ICustomJob<TSelf>.Execute(ref TSelf, ref Misaki.HighPerformance.Jobs.JobRanges, ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/IJob.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Execute
+    path: src/Misaki.HighPerformance.Jobs/IJob.cs
+    startLine: 55
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Executes the job logic, providing access to the job's own state, the job ranges for parallel execution, and the job execution context for thread-specific information and scheduling capabilities.
+  example: []
+  syntax:
+    content: public static abstract void Execute(ref TSelf job, ref JobRanges jobRanges, ref readonly JobExecutionContext ctx)
+    parameters:
+    - id: job
+      type: '{TSelf}'
+      description: The job instance to execute.
+    - id: jobRanges
+      type: Misaki.HighPerformance.Jobs.JobRanges
+      description: The ranges of items to process.
+    - id: ctx
+      type: Misaki.HighPerformance.Jobs.JobExecutionContext
+      description: The context of the job execution.
+    content.vb: Public Shared MustInherit Sub Execute(job As TSelf, jobRanges As JobRanges, ctx As JobExecutionContext)
+  overload: Misaki.HighPerformance.Jobs.ICustomJob`1.Execute*
+  nameWithType.vb: ICustomJob(Of TSelf).Execute(TSelf, JobRanges, JobExecutionContext)
+  fullName.vb: Misaki.HighPerformance.Jobs.ICustomJob(Of TSelf).Execute(TSelf, Misaki.HighPerformance.Jobs.JobRanges, Misaki.HighPerformance.Jobs.JobExecutionContext)
+  name.vb: Execute(TSelf, JobRanges, JobExecutionContext)
+- uid: Misaki.HighPerformance.Jobs.ICustomJob`1.Free(`0@)
+  commentId: M:Misaki.HighPerformance.Jobs.ICustomJob`1.Free(`0@)
+  id: Free(`0@)
+  parent: Misaki.HighPerformance.Jobs.ICustomJob`1
+  langs:
+  - csharp
+  - vb
+  name: Free(ref TSelf)
+  nameWithType: ICustomJob<TSelf>.Free(ref TSelf)
+  fullName: Misaki.HighPerformance.Jobs.ICustomJob<TSelf>.Free(ref TSelf)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/IJob.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Free
+    path: src/Misaki.HighPerformance.Jobs/IJob.cs
+    startLine: 60
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Frees any resources associated with the job after execution, allowing for cleanup of unmanaged resources or other necessary finalization steps.
+  example: []
+  syntax:
+    content: public static abstract void Free(ref TSelf job)
+    parameters:
+    - id: job
+      type: '{TSelf}'
+      description: The job instance to clean up.
+    content.vb: Public Shared MustInherit Sub Free(job As TSelf)
+  overload: Misaki.HighPerformance.Jobs.ICustomJob`1.Free*
+  nameWithType.vb: ICustomJob(Of TSelf).Free(TSelf)
+  fullName.vb: Misaki.HighPerformance.Jobs.ICustomJob(Of TSelf).Free(TSelf)
+  name.vb: Free(TSelf)
+references:
+- uid: Misaki.HighPerformance.Jobs
+  commentId: N:Misaki.HighPerformance.Jobs
+  href: Misaki.html
+  name: Misaki.HighPerformance.Jobs
+  nameWithType: Misaki.HighPerformance.Jobs
+  fullName: Misaki.HighPerformance.Jobs
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+- uid: Misaki.HighPerformance.Jobs.ICustomJob`1.Execute*
+  commentId: Overload:Misaki.HighPerformance.Jobs.ICustomJob`1.Execute
+  href: Misaki.HighPerformance.Jobs.ICustomJob-1.html#Misaki_HighPerformance_Jobs_ICustomJob_1_Execute__0__Misaki_HighPerformance_Jobs_JobRanges__Misaki_HighPerformance_Jobs_JobExecutionContext__
+  name: Execute
+  nameWithType: ICustomJob<TSelf>.Execute
+  fullName: Misaki.HighPerformance.Jobs.ICustomJob<TSelf>.Execute
+  nameWithType.vb: ICustomJob(Of TSelf).Execute
+  fullName.vb: Misaki.HighPerformance.Jobs.ICustomJob(Of TSelf).Execute
+- uid: '{TSelf}'
+  commentId: '!:TSelf'
+  definition: TSelf
+  name: TSelf
+  nameWithType: TSelf
+  fullName: TSelf
+- uid: Misaki.HighPerformance.Jobs.JobRanges
+  commentId: T:Misaki.HighPerformance.Jobs.JobRanges
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobRanges.html
+  name: JobRanges
+  nameWithType: JobRanges
+  fullName: Misaki.HighPerformance.Jobs.JobRanges
+- uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+  commentId: T:Misaki.HighPerformance.Jobs.JobExecutionContext
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  name: JobExecutionContext
+  nameWithType: JobExecutionContext
+  fullName: Misaki.HighPerformance.Jobs.JobExecutionContext
+- uid: TSelf
+  name: TSelf
+  nameWithType: TSelf
+  fullName: TSelf
+- uid: Misaki.HighPerformance.Jobs.ICustomJob`1.Free*
+  commentId: Overload:Misaki.HighPerformance.Jobs.ICustomJob`1.Free
+  href: Misaki.HighPerformance.Jobs.ICustomJob-1.html#Misaki_HighPerformance_Jobs_ICustomJob_1_Free__0__
+  name: Free
+  nameWithType: ICustomJob<TSelf>.Free
+  fullName: Misaki.HighPerformance.Jobs.ICustomJob<TSelf>.Free
+  nameWithType.vb: ICustomJob(Of TSelf).Free
+  fullName.vb: Misaki.HighPerformance.Jobs.ICustomJob(Of TSelf).Free

@@ -1,0 +1,1996 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  commentId: T:Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  id: SupportedVectorMath
+  parent: Misaki.HighPerformance.Mathematics
+  children:
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Abs
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Acos
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.All
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Any
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Asin
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Atan
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Atan2
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Ceil
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.CeilLog2
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.CeilPow2
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Clamp
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cmax
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cmin
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cos
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.CosH
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.CountBits
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cross
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Degrees
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Distance
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.DistanceSq
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Dot
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp10
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp2
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.FaceForward
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.FloatingPointMask
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Floor
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.FloorLog2
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Fmod
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Frac
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.IntegerMask
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Length
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.LengthSq
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Lerp
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log10
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log2
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Lzcnt
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Mad
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Max
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Min
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Modf
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.None
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Normalize
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Pow
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Project
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Radians
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rcp
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Reflect
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Refract
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Remap
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.ReverseBits
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rol
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Ror
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Round
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rsqrt
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Saturate
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Select
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sign
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sin
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.SinCos
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.SinH
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.SmoothStep
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sqrt
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Step
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Tan
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.TanH
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Trunc
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Tzcnt
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.Unlerp
+  - Misaki.HighPerformance.Mathematics.SupportedVectorMath.UnsignedIntegerMask
+  langs:
+  - csharp
+  - vb
+  name: SupportedVectorMath
+  nameWithType: SupportedVectorMath
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  type: Enum
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SupportedVectorMath
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 18
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum SupportedVectorMath
+    content.vb: >-
+      <Flags>
+
+      Public Enum SupportedVectorMath
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.None
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.None
+  id: None
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: SupportedVectorMath.None
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.None
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: None
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 21
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: None = 0
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Min
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Min
+  id: Min
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Min
+  nameWithType: SupportedVectorMath.Min
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Min
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Min
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 22
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Min = 1
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Max
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Max
+  id: Max
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Max
+  nameWithType: SupportedVectorMath.Max
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Max
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Max
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 23
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Max = 2
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Lerp
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Lerp
+  id: Lerp
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Lerp
+  nameWithType: SupportedVectorMath.Lerp
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Lerp
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Lerp
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 24
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Lerp = 4
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Unlerp
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Unlerp
+  id: Unlerp
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Unlerp
+  nameWithType: SupportedVectorMath.Unlerp
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Unlerp
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Unlerp
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 25
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Unlerp = 8
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Remap
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Remap
+  id: Remap
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Remap
+  nameWithType: SupportedVectorMath.Remap
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Remap
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Remap
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 26
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Remap = 16
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Mad
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Mad
+  id: Mad
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Mad
+  nameWithType: SupportedVectorMath.Mad
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Mad
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Mad
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 27
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Mad = 32
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Clamp
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Clamp
+  id: Clamp
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Clamp
+  nameWithType: SupportedVectorMath.Clamp
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Clamp
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Clamp
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 28
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Clamp = 64
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Saturate
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Saturate
+  id: Saturate
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Saturate
+  nameWithType: SupportedVectorMath.Saturate
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Saturate
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Saturate
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 29
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Saturate = 128
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Abs
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Abs
+  id: Abs
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Abs
+  nameWithType: SupportedVectorMath.Abs
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Abs
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Abs
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 30
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Abs = 256
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Dot
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Dot
+  id: Dot
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Dot
+  nameWithType: SupportedVectorMath.Dot
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Dot
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dot
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 31
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Dot = 512
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Tan
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Tan
+  id: Tan
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Tan
+  nameWithType: SupportedVectorMath.Tan
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Tan
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Tan
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 32
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Tan = 1024
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.TanH
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.TanH
+  id: TanH
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: TanH
+  nameWithType: SupportedVectorMath.TanH
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.TanH
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TanH
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 33
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: TanH = 2048
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Atan
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Atan
+  id: Atan
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Atan
+  nameWithType: SupportedVectorMath.Atan
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Atan
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Atan
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 34
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Atan = 4096
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Atan2
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Atan2
+  id: Atan2
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Atan2
+  nameWithType: SupportedVectorMath.Atan2
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Atan2
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Atan2
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 35
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Atan2 = 8192
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cos
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cos
+  id: Cos
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Cos
+  nameWithType: SupportedVectorMath.Cos
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cos
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Cos
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 36
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Cos = 16384
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.CosH
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.CosH
+  id: CosH
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: CosH
+  nameWithType: SupportedVectorMath.CosH
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.CosH
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CosH
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 37
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: CosH = 32768
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Acos
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Acos
+  id: Acos
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Acos
+  nameWithType: SupportedVectorMath.Acos
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Acos
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Acos
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 38
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Acos = 65536
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sin
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sin
+  id: Sin
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Sin
+  nameWithType: SupportedVectorMath.Sin
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sin
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Sin
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 39
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Sin = 131072
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.SinH
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.SinH
+  id: SinH
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: SinH
+  nameWithType: SupportedVectorMath.SinH
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.SinH
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SinH
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 40
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: SinH = 262144
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Asin
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Asin
+  id: Asin
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Asin
+  nameWithType: SupportedVectorMath.Asin
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Asin
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Asin
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 41
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Asin = 524288
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Floor
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Floor
+  id: Floor
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Floor
+  nameWithType: SupportedVectorMath.Floor
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Floor
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Floor
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 42
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Floor = 1048576
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Ceil
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Ceil
+  id: Ceil
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Ceil
+  nameWithType: SupportedVectorMath.Ceil
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Ceil
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Ceil
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 43
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Ceil = 2097152
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Round
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Round
+  id: Round
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Round
+  nameWithType: SupportedVectorMath.Round
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Round
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Round
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 44
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Round = 4194304
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Trunc
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Trunc
+  id: Trunc
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Trunc
+  nameWithType: SupportedVectorMath.Trunc
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Trunc
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Trunc
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 45
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Trunc = 8388608
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Frac
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Frac
+  id: Frac
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Frac
+  nameWithType: SupportedVectorMath.Frac
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Frac
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Frac
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 46
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Frac = 16777216
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rcp
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rcp
+  id: Rcp
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Rcp
+  nameWithType: SupportedVectorMath.Rcp
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rcp
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Rcp
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 47
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Rcp = 33554432
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sign
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sign
+  id: Sign
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Sign
+  nameWithType: SupportedVectorMath.Sign
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sign
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Sign
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 48
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Sign = 67108864
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Pow
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Pow
+  id: Pow
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Pow
+  nameWithType: SupportedVectorMath.Pow
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Pow
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Pow
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 49
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Pow = 134217728
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp
+  id: Exp
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Exp
+  nameWithType: SupportedVectorMath.Exp
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Exp
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 50
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Exp = 268435456
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp2
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp2
+  id: Exp2
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Exp2
+  nameWithType: SupportedVectorMath.Exp2
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp2
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Exp2
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 51
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Exp2 = 536870912
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp10
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp10
+  id: Exp10
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Exp10
+  nameWithType: SupportedVectorMath.Exp10
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Exp10
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Exp10
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 52
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Exp10 = 1073741824
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log
+  id: Log
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Log
+  nameWithType: SupportedVectorMath.Log
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Log
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 53
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Log = -2147483648
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log2
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log2
+  id: Log2
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Log2
+  nameWithType: SupportedVectorMath.Log2
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log2
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Log2
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 54
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Log2 = 1
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log10
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log10
+  id: Log10
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Log10
+  nameWithType: SupportedVectorMath.Log10
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Log10
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Log10
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 55
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Log10 = 2
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Fmod
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Fmod
+  id: Fmod
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Fmod
+  nameWithType: SupportedVectorMath.Fmod
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Fmod
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Fmod
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 56
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Fmod = 4
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Modf
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Modf
+  id: Modf
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Modf
+  nameWithType: SupportedVectorMath.Modf
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Modf
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Modf
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 57
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Modf = 8
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sqrt
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sqrt
+  id: Sqrt
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Sqrt
+  nameWithType: SupportedVectorMath.Sqrt
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Sqrt
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Sqrt
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 58
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Sqrt = 16
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rsqrt
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rsqrt
+  id: Rsqrt
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Rsqrt
+  nameWithType: SupportedVectorMath.Rsqrt
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rsqrt
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Rsqrt
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 59
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Rsqrt = 32
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Length
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Length
+  id: Length
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Length
+  nameWithType: SupportedVectorMath.Length
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Length
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Length
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 60
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Length = 64
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.LengthSq
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.LengthSq
+  id: LengthSq
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: LengthSq
+  nameWithType: SupportedVectorMath.LengthSq
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.LengthSq
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: LengthSq
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 61
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: LengthSq = 128
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Distance
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Distance
+  id: Distance
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Distance
+  nameWithType: SupportedVectorMath.Distance
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Distance
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Distance
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 62
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Distance = 256
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.DistanceSq
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.DistanceSq
+  id: DistanceSq
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: DistanceSq
+  nameWithType: SupportedVectorMath.DistanceSq
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.DistanceSq
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: DistanceSq
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 63
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: DistanceSq = 512
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cross
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cross
+  id: Cross
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Cross
+  nameWithType: SupportedVectorMath.Cross
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cross
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Cross
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 64
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Cross = 1024
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.SmoothStep
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.SmoothStep
+  id: SmoothStep
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: SmoothStep
+  nameWithType: SupportedVectorMath.SmoothStep
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.SmoothStep
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SmoothStep
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 65
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: SmoothStep = 2048
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Select
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Select
+  id: Select
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Select
+  nameWithType: SupportedVectorMath.Select
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Select
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Select
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 66
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Select = 4096
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Step
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Step
+  id: Step
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Step
+  nameWithType: SupportedVectorMath.Step
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Step
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Step
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 67
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Step = 8192
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.FaceForward
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.FaceForward
+  id: FaceForward
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: FaceForward
+  nameWithType: SupportedVectorMath.FaceForward
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.FaceForward
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: FaceForward
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 68
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: FaceForward = 16384
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.SinCos
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.SinCos
+  id: SinCos
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: SinCos
+  nameWithType: SupportedVectorMath.SinCos
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.SinCos
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SinCos
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 69
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: SinCos = 32768
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Any
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Any
+  id: Any
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Any
+  nameWithType: SupportedVectorMath.Any
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Any
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Any
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 70
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Any = 65536
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.All
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.All
+  id: All
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: SupportedVectorMath.All
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.All
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: All
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 71
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: All = 131072
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Normalize
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Normalize
+  id: Normalize
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Normalize
+  nameWithType: SupportedVectorMath.Normalize
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Normalize
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Normalize
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 72
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Normalize = 262144
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Reflect
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Reflect
+  id: Reflect
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Reflect
+  nameWithType: SupportedVectorMath.Reflect
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Reflect
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Reflect
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 73
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Reflect = 524288
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Refract
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Refract
+  id: Refract
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Refract
+  nameWithType: SupportedVectorMath.Refract
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Refract
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Refract
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 74
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Refract = 1048576
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Project
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Project
+  id: Project
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Project
+  nameWithType: SupportedVectorMath.Project
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Project
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Project
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 75
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Project = 2097152
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.CountBits
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.CountBits
+  id: CountBits
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: CountBits
+  nameWithType: SupportedVectorMath.CountBits
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.CountBits
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CountBits
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 76
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: CountBits = 4194304
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Lzcnt
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Lzcnt
+  id: Lzcnt
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Lzcnt
+  nameWithType: SupportedVectorMath.Lzcnt
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Lzcnt
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Lzcnt
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 77
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Lzcnt = 8388608
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Tzcnt
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Tzcnt
+  id: Tzcnt
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Tzcnt
+  nameWithType: SupportedVectorMath.Tzcnt
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Tzcnt
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Tzcnt
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 78
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Tzcnt = 16777216
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.ReverseBits
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.ReverseBits
+  id: ReverseBits
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: ReverseBits
+  nameWithType: SupportedVectorMath.ReverseBits
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.ReverseBits
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ReverseBits
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 79
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: ReverseBits = 33554432
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rol
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rol
+  id: Rol
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Rol
+  nameWithType: SupportedVectorMath.Rol
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Rol
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Rol
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 80
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Rol = 67108864
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Ror
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Ror
+  id: Ror
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Ror
+  nameWithType: SupportedVectorMath.Ror
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Ror
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Ror
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 81
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Ror = 134217728
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.CeilPow2
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.CeilPow2
+  id: CeilPow2
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: CeilPow2
+  nameWithType: SupportedVectorMath.CeilPow2
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.CeilPow2
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CeilPow2
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 82
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: CeilPow2 = 268435456
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.CeilLog2
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.CeilLog2
+  id: CeilLog2
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: CeilLog2
+  nameWithType: SupportedVectorMath.CeilLog2
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.CeilLog2
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CeilLog2
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 83
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: CeilLog2 = 536870912
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.FloorLog2
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.FloorLog2
+  id: FloorLog2
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: FloorLog2
+  nameWithType: SupportedVectorMath.FloorLog2
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.FloorLog2
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: FloorLog2
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 84
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: FloorLog2 = 1073741824
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Radians
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Radians
+  id: Radians
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Radians
+  nameWithType: SupportedVectorMath.Radians
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Radians
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Radians
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 85
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Radians = -2147483648
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Degrees
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Degrees
+  id: Degrees
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Degrees
+  nameWithType: SupportedVectorMath.Degrees
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Degrees
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Degrees
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 86
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Degrees = 1
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cmin
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cmin
+  id: Cmin
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Cmin
+  nameWithType: SupportedVectorMath.Cmin
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cmin
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Cmin
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 87
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Cmin = 2
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cmax
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cmax
+  id: Cmax
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: Cmax
+  nameWithType: SupportedVectorMath.Cmax
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.Cmax
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Cmax
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 88
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Cmax = 4
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.FloatingPointMask
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.FloatingPointMask
+  id: FloatingPointMask
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: FloatingPointMask
+  nameWithType: SupportedVectorMath.FloatingPointMask
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.FloatingPointMask
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: FloatingPointMask
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 90
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: FloatingPointMask = Log | Degrees | Cmin | Cmax | Modf | Remap | Mad | Clamp | LengthSq | Abs | DistanceSq | Cross | SmoothStep | Atan | Atan2 | Cos | CosH | Acos | All | Normalize | Asin | Floor | Ceil
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+    content.vb: FloatingPointMask = Log Or Degrees Or Cmin Or Cmax Or Modf Or Remap Or Mad Or Clamp Or LengthSq Or Abs Or DistanceSq Or Cross Or SmoothStep Or Atan Or Atan2 Or Cos Or CosH Or Acos Or All Or Normalize Or Asin Or Floor Or Ceil
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.IntegerMask
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.IntegerMask
+  id: IntegerMask
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: IntegerMask
+  nameWithType: SupportedVectorMath.IntegerMask
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.IntegerMask
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IntegerMask
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 91
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: IntegerMask = Rol | UnsignedIntegerMask
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+    content.vb: IntegerMask = Rol Or UnsignedIntegerMask
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath.UnsignedIntegerMask
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedVectorMath.UnsignedIntegerMask
+  id: UnsignedIntegerMask
+  parent: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  langs:
+  - csharp
+  - vb
+  name: UnsignedIntegerMask
+  nameWithType: SupportedVectorMath.UnsignedIntegerMask
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath.UnsignedIntegerMask
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: UnsignedIntegerMask
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 92
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: UnsignedIntegerMask = Degrees | Cmin | Cmax | Mad | Clamp | Abs | DistanceSq | Atan | Acos | All | CountBits | Lzcnt | Frac | Rcp | Pow | CeilPow2 | CeilLog2 | Exp10
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+    content.vb: UnsignedIntegerMask = Degrees Or Cmin Or Cmax Or Mad Or Clamp Or Abs Or DistanceSq Or Atan Or Acos Or All Or CountBits Or Lzcnt Or Frac Or Rcp Or Pow Or CeilPow2 Or CeilLog2 Or Exp10
+references:
+- uid: Misaki.HighPerformance.Mathematics
+  commentId: N:Misaki.HighPerformance.Mathematics
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics
+  nameWithType: Misaki.HighPerformance.Mathematics
+  fullName: Misaki.HighPerformance.Mathematics
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+- uid: Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  commentId: T:Misaki.HighPerformance.Mathematics.SupportedVectorMath
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.SupportedVectorMath.html
+  name: SupportedVectorMath
+  nameWithType: SupportedVectorMath
+  fullName: Misaki.HighPerformance.Mathematics.SupportedVectorMath

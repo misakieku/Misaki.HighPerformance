@@ -1,0 +1,1441 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  id: UnsafeHashSet`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.#ctor
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Add(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Capacity
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Clear
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Contains(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Count
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Dispose
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetEnumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetUnsafePtr
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.IsCreated
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Remove(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.ToUnsafeArray(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.TrimExcess
+  langs:
+  - csharp
+  - vb
+  name: UnsafeHashSet<T>
+  nameWithType: UnsafeHashSet<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: UnsafeHashSet
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 12
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: >-
+    A collection that provides fast, unsafe operations for managing a set of unmanaged types. It supports adding,
+
+    removing, and checking for values.
+  example: []
+  syntax:
+    content: 'public struct UnsafeHashSet<T> : IUnsafeHashCollection<T>, IDisposable where T : unmanaged, IEquatable<T>'
+    typeParameters:
+    - id: T
+      description: Represents an unmanaged type that can be compared for equality.
+    content.vb: Public Structure UnsafeHashSet(Of T As {Structure, IEquatable(Of T)}) Implements IUnsafeHashCollection(Of T), IDisposable
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}
+  - System.IDisposable
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: UnsafeHashSet(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T)
+  name.vb: UnsafeHashSet(Of T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Count
+  id: Count
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: UnsafeHashSet<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Count
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Count
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 40
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Gets the number of elements in a collection. The value is read-only.
+  example: []
+  syntax:
+    content: public readonly int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Count*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}.Count
+  nameWithType.vb: UnsafeHashSet(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Capacity
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Capacity
+  id: Capacity
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Capacity
+  nameWithType: UnsafeHashSet<T>.Capacity
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Capacity
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Capacity
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 41
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly int Capacity { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Capacity As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Capacity*
+  nameWithType.vb: UnsafeHashSet(Of T).Capacity
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Capacity
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.IsCreated
+  id: IsCreated
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: IsCreated
+  nameWithType: UnsafeHashSet<T>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.IsCreated
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsCreated
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 42
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Indicates whether the object has been created. Returns true if the object is created, otherwise false.
+  example: []
+  syntax:
+    content: public readonly bool IsCreated { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsCreated As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.IsCreated*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}.IsCreated
+  nameWithType.vb: UnsafeHashSet(Of T).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.#ctor
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.#ctor
+  id: '#ctor'
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: UnsafeHashSet()
+  nameWithType: UnsafeHashSet<T>.UnsafeHashSet()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.UnsafeHashSet()
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 47
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Initializes a new instance of UnsafeHashSet with a default size of 1 and a persistent allocation handle.
+  example: []
+  syntax:
+    content: public UnsafeHashSet()
+    content.vb: Public Sub New()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.#ctor*
+  nameWithType.vb: UnsafeHashSet(Of T).New()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).New()
+  name.vb: New()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: '#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)'
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: UnsafeHashSet(int, AllocationHandle, AllocationOption)
+  nameWithType: UnsafeHashSet<T>.UnsafeHashSet(int, AllocationHandle, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.UnsafeHashSet(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 58
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Initializes a new instance of UnsafeHashSet with the specified initial capacity and allocation handle.
+  example: []
+  syntax:
+    content: public UnsafeHashSet(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    parameters:
+    - id: capacity
+      type: System.Int32
+      description: The initial capacity of the set.
+    - id: handle
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+      description: The allocation handle to use for managing the set's memory.
+    - id: allocationOption
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+      description: The allocation options for the set.
+    content.vb: Public Sub New(capacity As Integer, handle As AllocationHandle, allocationOption As AllocationOption = AllocationOption.None)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.#ctor*
+  nameWithType.vb: UnsafeHashSet(Of T).New(Integer, AllocationHandle, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).New(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: New(Integer, AllocationHandle, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetEnumerator
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetEnumerator
+  id: GetEnumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: UnsafeHashSet<T>.GetEnumerator()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetEnumerator
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 63
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: >-
+      [UnscopedRef]
+
+      public UnsafeHashSet<T>.Enumerator GetEnumerator()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Enumerator
+    content.vb: >-
+      <UnscopedRef>
+
+      Public Function GetEnumerator() As UnsafeHashSet(Of T).Enumerator
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetEnumerator*
+  attributes:
+  - type: System.Diagnostics.CodeAnalysis.UnscopedRefAttribute
+    ctor: System.Diagnostics.CodeAnalysis.UnscopedRefAttribute.#ctor
+    arguments: []
+  nameWithType.vb: UnsafeHashSet(Of T).GetEnumerator()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).GetEnumerator()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Add(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Add(`0@)
+  id: Add(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Add(scoped in T)
+  nameWithType: UnsafeHashSet<T>.Add(scoped in T)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Add(scoped in T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Add
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 75
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Adds a new value (unless it is already present).
+  example: []
+  syntax:
+    content: public bool Add(scoped in T item)
+    parameters:
+    - id: item
+      type: '{T}'
+      description: The value to add.
+    return:
+      type: System.Boolean
+      description: True if the value was not already present.
+    content.vb: Public Function Add(item As T) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Add*
+  nameWithType.vb: UnsafeHashSet(Of T).Add(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Add(T)
+  name.vb: Add(T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Remove(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Remove(`0@)
+  id: Remove(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Remove(scoped in T)
+  nameWithType: UnsafeHashSet<T>.Remove(scoped in T)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Remove(scoped in T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Remove
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 86
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Removes a particular value.
+  example: []
+  syntax:
+    content: public bool Remove(scoped in T item)
+    parameters:
+    - id: item
+      type: '{T}'
+      description: The value to remove.
+    return:
+      type: System.Boolean
+      description: True if the value was present.
+    content.vb: Public Function Remove(item As T) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Remove*
+  nameWithType.vb: UnsafeHashSet(Of T).Remove(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Remove(T)
+  name.vb: Remove(T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Contains(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Contains(`0@)
+  id: Contains(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Contains(scoped in T)
+  nameWithType: UnsafeHashSet<T>.Contains(scoped in T)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Contains(scoped in T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Contains
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 97
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Returns true if a particular value is present.
+  example: []
+  syntax:
+    content: public bool Contains(scoped in T item)
+    parameters:
+    - id: item
+      type: '{T}'
+      description: The value to check for.
+    return:
+      type: System.Boolean
+      description: True if the value was present.
+    content.vb: Public Function Contains(item As T) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Contains*
+  nameWithType.vb: UnsafeHashSet(Of T).Contains(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Contains(T)
+  name.vb: Contains(T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.TrimExcess
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.TrimExcess
+  id: TrimExcess
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: TrimExcess()
+  nameWithType: UnsafeHashSet<T>.TrimExcess()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.TrimExcess()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TrimExcess
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 106
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Sets the capacity to match what it would be if it had been originally initialized with all its entries.
+  example: []
+  syntax:
+    content: public void TrimExcess()
+    content.vb: Public Sub TrimExcess()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.TrimExcess*
+  nameWithType.vb: UnsafeHashSet(Of T).TrimExcess()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).TrimExcess()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.ToUnsafeArray(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.ToUnsafeArray(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+  id: ToUnsafeArray(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: ToUnsafeArray(AllocationHandle)
+  nameWithType: UnsafeHashSet<T>.ToUnsafeArray(AllocationHandle)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.ToUnsafeArray(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ToUnsafeArray
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 117
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Returns an array with a copy of this set's values (in no particular order).
+  example: []
+  syntax:
+    content: public UnsafeArray<T> ToUnsafeArray(AllocationHandle allocationHandle)
+    parameters:
+    - id: allocationHandle
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+      description: The allocation handle to use to allocate the array.
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray{{T}}
+      description: An array with a copy of the set's values.
+    content.vb: Public Function ToUnsafeArray(allocationHandle As AllocationHandle) As UnsafeArray(Of T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.ToUnsafeArray*
+  nameWithType.vb: UnsafeHashSet(Of T).ToUnsafeArray(AllocationHandle)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).ToUnsafeArray(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Resize(int, AllocationOption)
+  nameWithType: UnsafeHashSet<T>.Resize(int, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Resize(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Resize
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 123
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Changes the size of a collection to the specified value.
+  remarks: This is to adjust the element count of the collection, not the size of the underlying buffer in memory.
+  example: []
+  syntax:
+    content: public void Resize(int newSize, AllocationOption option = AllocationOption.None)
+    parameters:
+    - id: newSize
+      type: System.Int32
+      description: Specifies the new size to which the collection should be adjusted.
+    - id: option
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+      description: Specifies allocation options that may affect how memory is managed during the resize operation.
+    content.vb: Public Sub Resize(newSize As Integer, [option] As AllocationOption = AllocationOption.None)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Resize*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  nameWithType.vb: UnsafeHashSet(Of T).Resize(Integer, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Resize(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Resize(Integer, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Clear
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Clear
+  id: Clear
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: UnsafeHashSet<T>.Clear()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Clear
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 129
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Removes all elements from the collection. The collection will be empty after this operation.
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Clear*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}.Clear
+  nameWithType.vb: UnsafeHashSet(Of T).Clear()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Clear()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetUnsafePtr
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetUnsafePtr
+  id: GetUnsafePtr
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: GetUnsafePtr()
+  nameWithType: UnsafeHashSet<T>.GetUnsafePtr()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.GetUnsafePtr()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetUnsafePtr
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 135
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly void* GetUnsafePtr()
+    return:
+      type: System.Void*
+    content.vb: Public Function GetUnsafePtr() As Void*
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetUnsafePtr*
+  nameWithType.vb: UnsafeHashSet(Of T).GetUnsafePtr()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).GetUnsafePtr()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Dispose
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Dispose
+  id: Dispose
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: UnsafeHashSet<T>.Dispose()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dispose
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashSet.cs
+    startLine: 141
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  nameWithType.vb: UnsafeHashSet(Of T).Dispose()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Dispose()
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{`0}
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  definition: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html
+  name: IUnsafeHashCollection<T>
+  nameWithType: IUnsafeHashCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>
+  nameWithType.vb: IUnsafeHashCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection(Of T)
+  name.vb: IUnsafeHashCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+    name: IUnsafeHashCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+    name: IUnsafeHashCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html
+  name: IUnsafeHashCollection<T>
+  nameWithType: IUnsafeHashCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>
+  nameWithType.vb: IUnsafeHashCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection(Of T)
+  name.vb: IUnsafeHashCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+    name: IUnsafeHashCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+    name: IUnsafeHashCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections.Contracts
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Count*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_Count
+  name: Count
+  nameWithType: UnsafeHashSet<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Count
+  nameWithType.vb: UnsafeHashSet(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{`0}.Count
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}
+  definition: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Count
+  name: Count
+  nameWithType: IUnsafeHashCollection<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>.Count
+  nameWithType.vb: IUnsafeHashCollection(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection(Of T).Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Count
+  name: Count
+  nameWithType: IUnsafeHashCollection<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>.Count
+  nameWithType.vb: IUnsafeHashCollection(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection(Of T).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Capacity*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Capacity
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_Capacity
+  name: Capacity
+  nameWithType: UnsafeHashSet<T>.Capacity
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Capacity
+  nameWithType.vb: UnsafeHashSet(Of T).Capacity
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Capacity
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.IsCreated*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.IsCreated
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_IsCreated
+  name: IsCreated
+  nameWithType: UnsafeHashSet<T>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.IsCreated
+  nameWithType.vb: UnsafeHashSet(Of T).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{`0}.IsCreated
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}
+  definition: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.IsCreated
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_IsCreated
+  name: IsCreated
+  nameWithType: IUnsafeHashCollection<T>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>.IsCreated
+  nameWithType.vb: IUnsafeHashCollection(Of T).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection(Of T).IsCreated
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.IsCreated
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_IsCreated
+  name: IsCreated
+  nameWithType: IUnsafeHashCollection<T>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>.IsCreated
+  nameWithType.vb: IUnsafeHashCollection(Of T).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection(Of T).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.#ctor
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1__ctor
+  name: UnsafeHashSet
+  nameWithType: UnsafeHashSet<T>.UnsafeHashSet
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.UnsafeHashSet
+  nameWithType.vb: UnsafeHashSet(Of T).New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).New
+  name.vb: New
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html
+  name: AllocationHandle
+  nameWithType: AllocationHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  name: AllocationOption
+  nameWithType: AllocationOption
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetEnumerator*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetEnumerator
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_GetEnumerator
+  name: GetEnumerator
+  nameWithType: UnsafeHashSet<T>.GetEnumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.GetEnumerator
+  nameWithType.vb: UnsafeHashSet(Of T).GetEnumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).GetEnumerator
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html
+  name: UnsafeHashSet<T>.Enumerator
+  nameWithType: UnsafeHashSet<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Enumerator
+  nameWithType.vb: UnsafeHashSet(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Enumerator
+  name.vb: UnsafeHashSet(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+    name: UnsafeHashSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+    name: UnsafeHashSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Add*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Add
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_Add__0__
+  name: Add
+  nameWithType: UnsafeHashSet<T>.Add
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Add
+  nameWithType.vb: UnsafeHashSet(Of T).Add
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Add
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Remove*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Remove
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_Remove__0__
+  name: Remove
+  nameWithType: UnsafeHashSet<T>.Remove
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Remove
+  nameWithType.vb: UnsafeHashSet(Of T).Remove
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Remove
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Contains*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Contains
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_Contains__0__
+  name: Contains
+  nameWithType: UnsafeHashSet<T>.Contains
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Contains
+  nameWithType.vb: UnsafeHashSet(Of T).Contains
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Contains
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.TrimExcess*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.TrimExcess
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_TrimExcess
+  name: TrimExcess
+  nameWithType: UnsafeHashSet<T>.TrimExcess
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.TrimExcess
+  nameWithType.vb: UnsafeHashSet(Of T).TrimExcess
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).TrimExcess
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.ToUnsafeArray*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.ToUnsafeArray
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_ToUnsafeArray_Misaki_HighPerformance_LowLevel_Buffer_AllocationHandle_
+  name: ToUnsafeArray
+  nameWithType: UnsafeHashSet<T>.ToUnsafeArray
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.ToUnsafeArray
+  nameWithType.vb: UnsafeHashSet(Of T).ToUnsafeArray
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).ToUnsafeArray
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray{{T}}
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeArray{`0}
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  definition: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  name: UnsafeArray<T>
+  nameWithType: UnsafeArray<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<T>
+  nameWithType.vb: UnsafeArray(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray(Of T)
+  name.vb: UnsafeArray(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  name: UnsafeArray<T>
+  nameWithType: UnsafeArray<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<T>
+  nameWithType.vb: UnsafeArray(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray(Of T)
+  name.vb: UnsafeArray(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Resize*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Resize
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Resize
+  nameWithType: UnsafeHashSet<T>.Resize
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Resize
+  nameWithType.vb: UnsafeHashSet(Of T).Resize
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Resize
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{`0}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}
+  definition: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Resize(int, AllocationOption)
+  nameWithType: IUnsafeHashCollection<T>.Resize(int, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>.Resize(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  nameWithType.vb: IUnsafeHashCollection(Of T).Resize(Integer, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection(Of T).Resize(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Resize(Integer, AllocationOption)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{`0}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{`0}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  isExternal: true
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Resize(int, AllocationOption)
+  nameWithType: IUnsafeHashCollection<T>.Resize(int, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>.Resize(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  nameWithType.vb: IUnsafeHashCollection(Of T).Resize(Integer, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection(Of T).Resize(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Resize(Integer, AllocationOption)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Clear*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Clear
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_Clear
+  name: Clear
+  nameWithType: UnsafeHashSet<T>.Clear
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Clear
+  nameWithType.vb: UnsafeHashSet(Of T).Clear
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Clear
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}.Clear
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{`0}.Clear
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{{T}}
+  definition: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Clear
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Clear
+  name: Clear()
+  nameWithType: IUnsafeHashCollection<T>.Clear()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>.Clear()
+  nameWithType.vb: IUnsafeHashCollection(Of T).Clear()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection(Of T).Clear()
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{`0}.Clear
+    name: Clear
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Clear
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection{`0}.Clear
+    name: Clear
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Clear
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Clear
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Clear
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Clear
+  name: Clear()
+  nameWithType: IUnsafeHashCollection<T>.Clear()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>.Clear()
+  nameWithType.vb: IUnsafeHashCollection(Of T).Clear()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection(Of T).Clear()
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Clear
+    name: Clear
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Clear
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1.Clear
+    name: Clear
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeHashCollection_1_Clear
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetUnsafePtr*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.GetUnsafePtr
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_GetUnsafePtr
+  name: GetUnsafePtr
+  nameWithType: UnsafeHashSet<T>.GetUnsafePtr
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.GetUnsafePtr
+  nameWithType.vb: UnsafeHashSet(Of T).GetUnsafePtr
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).GetUnsafePtr
+- uid: System.Void*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.void
+  name: void*
+  nameWithType: void*
+  fullName: void*
+  nameWithType.vb: Void*
+  fullName.vb: Void*
+  name.vb: Void*
+  spec.csharp:
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  spec.vb:
+  - uid: System.Void
+    name: Void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Dispose*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Dispose
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashSet_1_Dispose
+  name: Dispose
+  nameWithType: UnsafeHashSet<T>.Dispose
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Dispose
+  nameWithType.vb: UnsafeHashSet(Of T).Dispose
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )

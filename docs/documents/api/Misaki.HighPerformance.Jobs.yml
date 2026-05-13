@@ -1,0 +1,225 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Jobs
+  commentId: N:Misaki.HighPerformance.Jobs
+  id: Misaki.HighPerformance.Jobs
+  children:
+  - Misaki.HighPerformance.Jobs.CustomJobDesc`1
+  - Misaki.HighPerformance.Jobs.ICustomJob`1
+  - Misaki.HighPerformance.Jobs.IJob
+  - Misaki.HighPerformance.Jobs.IJobExtensions
+  - Misaki.HighPerformance.Jobs.IJobParallel
+  - Misaki.HighPerformance.Jobs.IJobParallelExtensions
+  - Misaki.HighPerformance.Jobs.IJobParallelFor
+  - Misaki.HighPerformance.Jobs.IJobParallelForExtensions
+  - Misaki.HighPerformance.Jobs.JobExecutionContext
+  - Misaki.HighPerformance.Jobs.JobHandle
+  - Misaki.HighPerformance.Jobs.JobPriority
+  - Misaki.HighPerformance.Jobs.JobRanges
+  - Misaki.HighPerformance.Jobs.JobScheduler
+  - Misaki.HighPerformance.Jobs.JobSchedulerDesc
+  - Misaki.HighPerformance.Jobs.JobState
+  - Misaki.HighPerformance.Jobs.SPMCQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance.Jobs
+  nameWithType: Misaki.HighPerformance.Jobs
+  fullName: Misaki.HighPerformance.Jobs
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+references:
+- uid: Misaki.HighPerformance.Jobs.IJob
+  commentId: T:Misaki.HighPerformance.Jobs.IJob
+  href: Misaki.HighPerformance.Jobs.IJob.html
+  name: IJob
+  nameWithType: IJob
+  fullName: Misaki.HighPerformance.Jobs.IJob
+- uid: Misaki.HighPerformance.Jobs.IJobParallelFor
+  commentId: T:Misaki.HighPerformance.Jobs.IJobParallelFor
+  href: Misaki.HighPerformance.Jobs.IJobParallelFor.html
+  name: IJobParallelFor
+  nameWithType: IJobParallelFor
+  fullName: Misaki.HighPerformance.Jobs.IJobParallelFor
+- uid: Misaki.HighPerformance.Jobs.IJobParallel
+  commentId: T:Misaki.HighPerformance.Jobs.IJobParallel
+  href: Misaki.HighPerformance.Jobs.IJobParallel.html
+  name: IJobParallel
+  nameWithType: IJobParallel
+  fullName: Misaki.HighPerformance.Jobs.IJobParallel
+- uid: Misaki.HighPerformance.Jobs.ICustomJob`1
+  commentId: T:Misaki.HighPerformance.Jobs.ICustomJob`1
+  href: Misaki.HighPerformance.Jobs.ICustomJob-1.html
+  name: ICustomJob<TSelf>
+  nameWithType: ICustomJob<TSelf>
+  fullName: Misaki.HighPerformance.Jobs.ICustomJob<TSelf>
+  nameWithType.vb: ICustomJob(Of TSelf)
+  fullName.vb: Misaki.HighPerformance.Jobs.ICustomJob(Of TSelf)
+  name.vb: ICustomJob(Of TSelf)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Jobs.ICustomJob`1
+    name: ICustomJob
+    href: Misaki.HighPerformance.Jobs.ICustomJob-1.html
+  - name: <
+  - name: TSelf
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Jobs.ICustomJob`1
+    name: ICustomJob
+    href: Misaki.HighPerformance.Jobs.ICustomJob-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSelf
+  - name: )
+- uid: Misaki.HighPerformance.Jobs.IJobExtensions
+  commentId: T:Misaki.HighPerformance.Jobs.IJobExtensions
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.IJobExtensions.html
+  name: IJobExtensions
+  nameWithType: IJobExtensions
+  fullName: Misaki.HighPerformance.Jobs.IJobExtensions
+- uid: Misaki.HighPerformance.Jobs.IJobParallelForExtensions
+  commentId: T:Misaki.HighPerformance.Jobs.IJobParallelForExtensions
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.html
+  name: IJobParallelForExtensions
+  nameWithType: IJobParallelForExtensions
+  fullName: Misaki.HighPerformance.Jobs.IJobParallelForExtensions
+- uid: Misaki.HighPerformance.Jobs.IJobParallelExtensions
+  commentId: T:Misaki.HighPerformance.Jobs.IJobParallelExtensions
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.IJobParallelExtensions.html
+  name: IJobParallelExtensions
+  nameWithType: IJobParallelExtensions
+  fullName: Misaki.HighPerformance.Jobs.IJobParallelExtensions
+- uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+  commentId: T:Misaki.HighPerformance.Jobs.JobExecutionContext
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  name: JobExecutionContext
+  nameWithType: JobExecutionContext
+  fullName: Misaki.HighPerformance.Jobs.JobExecutionContext
+- uid: Misaki.HighPerformance.Jobs.JobHandle
+  commentId: T:Misaki.HighPerformance.Jobs.JobHandle
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobHandle.html
+  name: JobHandle
+  nameWithType: JobHandle
+  fullName: Misaki.HighPerformance.Jobs.JobHandle
+- uid: Misaki.HighPerformance.Jobs.JobState
+  commentId: T:Misaki.HighPerformance.Jobs.JobState
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobState.html
+  name: JobState
+  nameWithType: JobState
+  fullName: Misaki.HighPerformance.Jobs.JobState
+- uid: Misaki.HighPerformance.Jobs.JobPriority
+  commentId: T:Misaki.HighPerformance.Jobs.JobPriority
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobPriority.html
+  name: JobPriority
+  nameWithType: JobPriority
+  fullName: Misaki.HighPerformance.Jobs.JobPriority
+- uid: Misaki.HighPerformance.Jobs.JobRanges
+  commentId: T:Misaki.HighPerformance.Jobs.JobRanges
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobRanges.html
+  name: JobRanges
+  nameWithType: JobRanges
+  fullName: Misaki.HighPerformance.Jobs.JobRanges
+- uid: Misaki.HighPerformance.Jobs.CustomJobDesc`1
+  commentId: T:Misaki.HighPerformance.Jobs.CustomJobDesc`1
+  href: Misaki.HighPerformance.Jobs.CustomJobDesc-1.html
+  name: CustomJobDesc<T>
+  nameWithType: CustomJobDesc<T>
+  fullName: Misaki.HighPerformance.Jobs.CustomJobDesc<T>
+  nameWithType.vb: CustomJobDesc(Of T)
+  fullName.vb: Misaki.HighPerformance.Jobs.CustomJobDesc(Of T)
+  name.vb: CustomJobDesc(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Jobs.CustomJobDesc`1
+    name: CustomJobDesc
+    href: Misaki.HighPerformance.Jobs.CustomJobDesc-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Jobs.CustomJobDesc`1
+    name: CustomJobDesc
+    href: Misaki.HighPerformance.Jobs.CustomJobDesc-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.Jobs.JobSchedulerDesc
+  commentId: T:Misaki.HighPerformance.Jobs.JobSchedulerDesc
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobSchedulerDesc.html
+  name: JobSchedulerDesc
+  nameWithType: JobSchedulerDesc
+  fullName: Misaki.HighPerformance.Jobs.JobSchedulerDesc
+- uid: Misaki.HighPerformance.Jobs.JobScheduler
+  commentId: T:Misaki.HighPerformance.Jobs.JobScheduler
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobScheduler.html
+  name: JobScheduler
+  nameWithType: JobScheduler
+  fullName: Misaki.HighPerformance.Jobs.JobScheduler
+- uid: Misaki.HighPerformance.Jobs.SPMCQueue`1
+  commentId: T:Misaki.HighPerformance.Jobs.SPMCQueue`1
+  href: Misaki.HighPerformance.Jobs.SPMCQueue-1.html
+  name: SPMCQueue<T>
+  nameWithType: SPMCQueue<T>
+  fullName: Misaki.HighPerformance.Jobs.SPMCQueue<T>
+  nameWithType.vb: SPMCQueue(Of T)
+  fullName.vb: Misaki.HighPerformance.Jobs.SPMCQueue(Of T)
+  name.vb: SPMCQueue(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Jobs.SPMCQueue`1
+    name: SPMCQueue
+    href: Misaki.HighPerformance.Jobs.SPMCQueue-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Jobs.SPMCQueue`1
+    name: SPMCQueue
+    href: Misaki.HighPerformance.Jobs.SPMCQueue-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.Jobs
+  commentId: N:Misaki.HighPerformance.Jobs
+  href: Misaki.html
+  name: Misaki.HighPerformance.Jobs
+  nameWithType: Misaki.HighPerformance.Jobs
+  fullName: Misaki.HighPerformance.Jobs
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html

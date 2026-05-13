@@ -1,0 +1,1470 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop
+  commentId: T:Misaki.HighPerformance.Mathematics.VectorInterop
+  id: VectorInterop
+  parent: Misaki.HighPerformance.Mathematics
+  children:
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.double2)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float2)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float4)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int2)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int3)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int4)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint2)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint3)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint4)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256(Misaki.HighPerformance.Mathematics.double3)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256(Misaki.HighPerformance.Mathematics.double4)
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble2(System.Runtime.Intrinsics.Vector128{System.Double})
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble3(System.Runtime.Intrinsics.Vector256{System.Double})
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble4(System.Runtime.Intrinsics.Vector256{System.Double})
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat2(System.Runtime.Intrinsics.Vector128{System.Single})
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat3(System.Runtime.Intrinsics.Vector128{System.Single})
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat4(System.Runtime.Intrinsics.Vector128{System.Single})
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asint2(System.Runtime.Intrinsics.Vector128{System.Int32})
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asint3(System.Runtime.Intrinsics.Vector128{System.Int32})
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asint4(System.Runtime.Intrinsics.Vector128{System.Int32})
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asuint2(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asuint3(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  - Misaki.HighPerformance.Mathematics.VectorInterop.Asuint4(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  langs:
+  - csharp
+  - vb
+  name: VectorInterop
+  nameWithType: VectorInterop
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop
+  type: Class
+  source:
+    id: VectorInterop
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\double3.g.cs
+    startLine: 1271
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static class VectorInterop
+    content.vb: Public Module VectorInterop
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint2)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint2)
+  id: AsVector128(Misaki.HighPerformance.Mathematics.uint2)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector128(uint2)
+  nameWithType: VectorInterop.AsVector128(uint2)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint2)
+  type: Method
+  source:
+    id: AsVector128
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint2.g.cs
+    startLine: 635
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector128<uint> AsVector128(this uint2 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.uint2
+    return:
+      type: System.Runtime.Intrinsics.Vector128{System.UInt32}
+    content.vb: Public Shared Function AsVector128(value As uint2) As Vector128(Of UInteger)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint2(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asuint2(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  id: Asuint2(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asuint2(Vector128<uint>)
+  nameWithType: VectorInterop.Asuint2(Vector128<uint>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint2(System.Runtime.Intrinsics.Vector128<uint>)
+  type: Method
+  source:
+    id: Asuint2
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint2.g.cs
+    startLine: 641
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint2 Asuint2(this Vector128<uint> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector128{System.UInt32}
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint2
+    content.vb: Public Shared Function Asuint2(value As Vector128(Of UInteger)) As uint2
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint2*
+  nameWithType.vb: VectorInterop.Asuint2(Vector128(Of UInteger))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint2(System.Runtime.Intrinsics.Vector128(Of UInteger))
+  name.vb: Asuint2(Vector128(Of UInteger))
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint3)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint3)
+  id: AsVector128(Misaki.HighPerformance.Mathematics.uint3)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector128(uint3)
+  nameWithType: VectorInterop.AsVector128(uint3)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint3)
+  type: Method
+  source:
+    id: AsVector128
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3.g.cs
+    startLine: 1312
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector128<uint> AsVector128(this uint3 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.uint3
+    return:
+      type: System.Runtime.Intrinsics.Vector128{System.UInt32}
+    content.vb: Public Shared Function AsVector128(value As uint3) As Vector128(Of UInteger)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint3(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asuint3(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  id: Asuint3(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asuint3(Vector128<uint>)
+  nameWithType: VectorInterop.Asuint3(Vector128<uint>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint3(System.Runtime.Intrinsics.Vector128<uint>)
+  type: Method
+  source:
+    id: Asuint3
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3.g.cs
+    startLine: 1318
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3 Asuint3(this Vector128<uint> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector128{System.UInt32}
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3
+    content.vb: Public Shared Function Asuint3(value As Vector128(Of UInteger)) As uint3
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint3*
+  nameWithType.vb: VectorInterop.Asuint3(Vector128(Of UInteger))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint3(System.Runtime.Intrinsics.Vector128(Of UInteger))
+  name.vb: Asuint3(Vector128(Of UInteger))
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256(Misaki.HighPerformance.Mathematics.double4)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256(Misaki.HighPerformance.Mathematics.double4)
+  id: AsVector256(Misaki.HighPerformance.Mathematics.double4)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector256(double4)
+  nameWithType: VectorInterop.AsVector256(double4)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256(Misaki.HighPerformance.Mathematics.double4)
+  type: Method
+  source:
+    id: AsVector256
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\double4.g.cs
+    startLine: 2942
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector256<double> AsVector256(this double4 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.double4
+    return:
+      type: System.Runtime.Intrinsics.Vector256{System.Double}
+    content.vb: Public Shared Function AsVector256(value As double4) As Vector256(Of Double)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble4(System.Runtime.Intrinsics.Vector256{System.Double})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble4(System.Runtime.Intrinsics.Vector256{System.Double})
+  id: Asdouble4(System.Runtime.Intrinsics.Vector256{System.Double})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asdouble4(Vector256<double>)
+  nameWithType: VectorInterop.Asdouble4(Vector256<double>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble4(System.Runtime.Intrinsics.Vector256<double>)
+  type: Method
+  source:
+    id: Asdouble4
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\double4.g.cs
+    startLine: 2948
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static double4 Asdouble4(this Vector256<double> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector256{System.Double}
+    return:
+      type: Misaki.HighPerformance.Mathematics.double4
+    content.vb: Public Shared Function Asdouble4(value As Vector256(Of Double)) As double4
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble4*
+  nameWithType.vb: VectorInterop.Asdouble4(Vector256(Of Double))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble4(System.Runtime.Intrinsics.Vector256(Of Double))
+  name.vb: Asdouble4(Vector256(Of Double))
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int2)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int2)
+  id: AsVector128(Misaki.HighPerformance.Mathematics.int2)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector128(int2)
+  nameWithType: VectorInterop.AsVector128(int2)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int2)
+  type: Method
+  source:
+    id: AsVector128
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\int2.g.cs
+    startLine: 635
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector128<int> AsVector128(this int2 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.int2
+    return:
+      type: System.Runtime.Intrinsics.Vector128{System.Int32}
+    content.vb: Public Shared Function AsVector128(value As int2) As Vector128(Of Integer)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asint2(System.Runtime.Intrinsics.Vector128{System.Int32})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asint2(System.Runtime.Intrinsics.Vector128{System.Int32})
+  id: Asint2(System.Runtime.Intrinsics.Vector128{System.Int32})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asint2(Vector128<int>)
+  nameWithType: VectorInterop.Asint2(Vector128<int>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asint2(System.Runtime.Intrinsics.Vector128<int>)
+  type: Method
+  source:
+    id: Asint2
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\int2.g.cs
+    startLine: 641
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static int2 Asint2(this Vector128<int> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector128{System.Int32}
+    return:
+      type: Misaki.HighPerformance.Mathematics.int2
+    content.vb: Public Shared Function Asint2(value As Vector128(Of Integer)) As int2
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asint2*
+  nameWithType.vb: VectorInterop.Asint2(Vector128(Of Integer))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asint2(System.Runtime.Intrinsics.Vector128(Of Integer))
+  name.vb: Asint2(Vector128(Of Integer))
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.double2)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.double2)
+  id: AsVector128(Misaki.HighPerformance.Mathematics.double2)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector128(double2)
+  nameWithType: VectorInterop.AsVector128(double2)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.double2)
+  type: Method
+  source:
+    id: AsVector128
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\double2.g.cs
+    startLine: 595
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector128<double> AsVector128(this double2 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.double2
+    return:
+      type: System.Runtime.Intrinsics.Vector128{System.Double}
+    content.vb: Public Shared Function AsVector128(value As double2) As Vector128(Of Double)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble2(System.Runtime.Intrinsics.Vector128{System.Double})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble2(System.Runtime.Intrinsics.Vector128{System.Double})
+  id: Asdouble2(System.Runtime.Intrinsics.Vector128{System.Double})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asdouble2(Vector128<double>)
+  nameWithType: VectorInterop.Asdouble2(Vector128<double>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble2(System.Runtime.Intrinsics.Vector128<double>)
+  type: Method
+  source:
+    id: Asdouble2
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\double2.g.cs
+    startLine: 601
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static double2 Asdouble2(this Vector128<double> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector128{System.Double}
+    return:
+      type: Misaki.HighPerformance.Mathematics.double2
+    content.vb: Public Shared Function Asdouble2(value As Vector128(Of Double)) As double2
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble2*
+  nameWithType.vb: VectorInterop.Asdouble2(Vector128(Of Double))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble2(System.Runtime.Intrinsics.Vector128(Of Double))
+  name.vb: Asdouble2(Vector128(Of Double))
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float4)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float4)
+  id: AsVector128(Misaki.HighPerformance.Mathematics.float4)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector128(float4)
+  nameWithType: VectorInterop.AsVector128(float4)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float4)
+  type: Method
+  source:
+    id: AsVector128
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\float4.g.cs
+    startLine: 2960
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector128<float> AsVector128(this float4 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.float4
+    return:
+      type: System.Runtime.Intrinsics.Vector128{System.Single}
+    content.vb: Public Shared Function AsVector128(value As float4) As Vector128(Of Single)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat4(System.Runtime.Intrinsics.Vector128{System.Single})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat4(System.Runtime.Intrinsics.Vector128{System.Single})
+  id: Asfloat4(System.Runtime.Intrinsics.Vector128{System.Single})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asfloat4(Vector128<float>)
+  nameWithType: VectorInterop.Asfloat4(Vector128<float>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat4(System.Runtime.Intrinsics.Vector128<float>)
+  type: Method
+  source:
+    id: Asfloat4
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\float4.g.cs
+    startLine: 2966
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static float4 Asfloat4(this Vector128<float> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector128{System.Single}
+    return:
+      type: Misaki.HighPerformance.Mathematics.float4
+    content.vb: Public Shared Function Asfloat4(value As Vector128(Of Single)) As float4
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat4*
+  nameWithType.vb: VectorInterop.Asfloat4(Vector128(Of Single))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat4(System.Runtime.Intrinsics.Vector128(Of Single))
+  name.vb: Asfloat4(Vector128(Of Single))
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float3)
+  id: AsVector128(Misaki.HighPerformance.Mathematics.float3)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector128(float3)
+  nameWithType: VectorInterop.AsVector128(float3)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    id: AsVector128
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\float3.g.cs
+    startLine: 1273
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector128<float> AsVector128(this float3 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.float3
+    return:
+      type: System.Runtime.Intrinsics.Vector128{System.Single}
+    content.vb: Public Shared Function AsVector128(value As float3) As Vector128(Of Single)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat3(System.Runtime.Intrinsics.Vector128{System.Single})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat3(System.Runtime.Intrinsics.Vector128{System.Single})
+  id: Asfloat3(System.Runtime.Intrinsics.Vector128{System.Single})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asfloat3(Vector128<float>)
+  nameWithType: VectorInterop.Asfloat3(Vector128<float>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat3(System.Runtime.Intrinsics.Vector128<float>)
+  type: Method
+  source:
+    id: Asfloat3
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\float3.g.cs
+    startLine: 1279
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static float3 Asfloat3(this Vector128<float> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector128{System.Single}
+    return:
+      type: Misaki.HighPerformance.Mathematics.float3
+    content.vb: Public Shared Function Asfloat3(value As Vector128(Of Single)) As float3
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat3*
+  nameWithType.vb: VectorInterop.Asfloat3(Vector128(Of Single))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat3(System.Runtime.Intrinsics.Vector128(Of Single))
+  name.vb: Asfloat3(Vector128(Of Single))
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int3)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int3)
+  id: AsVector128(Misaki.HighPerformance.Mathematics.int3)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector128(int3)
+  nameWithType: VectorInterop.AsVector128(int3)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int3)
+  type: Method
+  source:
+    id: AsVector128
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\int3.g.cs
+    startLine: 1312
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector128<int> AsVector128(this int3 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.int3
+    return:
+      type: System.Runtime.Intrinsics.Vector128{System.Int32}
+    content.vb: Public Shared Function AsVector128(value As int3) As Vector128(Of Integer)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asint3(System.Runtime.Intrinsics.Vector128{System.Int32})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asint3(System.Runtime.Intrinsics.Vector128{System.Int32})
+  id: Asint3(System.Runtime.Intrinsics.Vector128{System.Int32})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asint3(Vector128<int>)
+  nameWithType: VectorInterop.Asint3(Vector128<int>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asint3(System.Runtime.Intrinsics.Vector128<int>)
+  type: Method
+  source:
+    id: Asint3
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\int3.g.cs
+    startLine: 1318
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static int3 Asint3(this Vector128<int> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector128{System.Int32}
+    return:
+      type: Misaki.HighPerformance.Mathematics.int3
+    content.vb: Public Shared Function Asint3(value As Vector128(Of Integer)) As int3
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asint3*
+  nameWithType.vb: VectorInterop.Asint3(Vector128(Of Integer))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asint3(System.Runtime.Intrinsics.Vector128(Of Integer))
+  name.vb: Asint3(Vector128(Of Integer))
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int4)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int4)
+  id: AsVector128(Misaki.HighPerformance.Mathematics.int4)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector128(int4)
+  nameWithType: VectorInterop.AsVector128(int4)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.int4)
+  type: Method
+  source:
+    id: AsVector128
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\int4.g.cs
+    startLine: 3003
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector128<int> AsVector128(this int4 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.int4
+    return:
+      type: System.Runtime.Intrinsics.Vector128{System.Int32}
+    content.vb: Public Shared Function AsVector128(value As int4) As Vector128(Of Integer)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asint4(System.Runtime.Intrinsics.Vector128{System.Int32})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asint4(System.Runtime.Intrinsics.Vector128{System.Int32})
+  id: Asint4(System.Runtime.Intrinsics.Vector128{System.Int32})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asint4(Vector128<int>)
+  nameWithType: VectorInterop.Asint4(Vector128<int>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asint4(System.Runtime.Intrinsics.Vector128<int>)
+  type: Method
+  source:
+    id: Asint4
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\int4.g.cs
+    startLine: 3009
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static int4 Asint4(this Vector128<int> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector128{System.Int32}
+    return:
+      type: Misaki.HighPerformance.Mathematics.int4
+    content.vb: Public Shared Function Asint4(value As Vector128(Of Integer)) As int4
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asint4*
+  nameWithType.vb: VectorInterop.Asint4(Vector128(Of Integer))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asint4(System.Runtime.Intrinsics.Vector128(Of Integer))
+  name.vb: Asint4(Vector128(Of Integer))
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint4)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint4)
+  id: AsVector128(Misaki.HighPerformance.Mathematics.uint4)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector128(uint4)
+  nameWithType: VectorInterop.AsVector128(uint4)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.uint4)
+  type: Method
+  source:
+    id: AsVector128
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint4.g.cs
+    startLine: 3003
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector128<uint> AsVector128(this uint4 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.uint4
+    return:
+      type: System.Runtime.Intrinsics.Vector128{System.UInt32}
+    content.vb: Public Shared Function AsVector128(value As uint4) As Vector128(Of UInteger)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint4(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asuint4(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  id: Asuint4(System.Runtime.Intrinsics.Vector128{System.UInt32})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asuint4(Vector128<uint>)
+  nameWithType: VectorInterop.Asuint4(Vector128<uint>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint4(System.Runtime.Intrinsics.Vector128<uint>)
+  type: Method
+  source:
+    id: Asuint4
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint4.g.cs
+    startLine: 3009
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint4 Asuint4(this Vector128<uint> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector128{System.UInt32}
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint4
+    content.vb: Public Shared Function Asuint4(value As Vector128(Of UInteger)) As uint4
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint4*
+  nameWithType.vb: VectorInterop.Asuint4(Vector128(Of UInteger))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint4(System.Runtime.Intrinsics.Vector128(Of UInteger))
+  name.vb: Asuint4(Vector128(Of UInteger))
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float2)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float2)
+  id: AsVector128(Misaki.HighPerformance.Mathematics.float2)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector128(float2)
+  nameWithType: VectorInterop.AsVector128(float2)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128(Misaki.HighPerformance.Mathematics.float2)
+  type: Method
+  source:
+    id: AsVector128
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\float2.g.cs
+    startLine: 596
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector128<float> AsVector128(this float2 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.float2
+    return:
+      type: System.Runtime.Intrinsics.Vector128{System.Single}
+    content.vb: Public Shared Function AsVector128(value As float2) As Vector128(Of Single)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat2(System.Runtime.Intrinsics.Vector128{System.Single})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat2(System.Runtime.Intrinsics.Vector128{System.Single})
+  id: Asfloat2(System.Runtime.Intrinsics.Vector128{System.Single})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asfloat2(Vector128<float>)
+  nameWithType: VectorInterop.Asfloat2(Vector128<float>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat2(System.Runtime.Intrinsics.Vector128<float>)
+  type: Method
+  source:
+    id: Asfloat2
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\float2.g.cs
+    startLine: 602
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static float2 Asfloat2(this Vector128<float> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector128{System.Single}
+    return:
+      type: Misaki.HighPerformance.Mathematics.float2
+    content.vb: Public Shared Function Asfloat2(value As Vector128(Of Single)) As float2
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat2*
+  nameWithType.vb: VectorInterop.Asfloat2(Vector128(Of Single))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat2(System.Runtime.Intrinsics.Vector128(Of Single))
+  name.vb: Asfloat2(Vector128(Of Single))
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256(Misaki.HighPerformance.Mathematics.double3)
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256(Misaki.HighPerformance.Mathematics.double3)
+  id: AsVector256(Misaki.HighPerformance.Mathematics.double3)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: AsVector256(double3)
+  nameWithType: VectorInterop.AsVector256(double3)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256(Misaki.HighPerformance.Mathematics.double3)
+  type: Method
+  source:
+    id: AsVector256
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\double3.g.cs
+    startLine: 1273
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static Vector256<double> AsVector256(this double3 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.double3
+    return:
+      type: System.Runtime.Intrinsics.Vector256{System.Double}
+    content.vb: Public Shared Function AsVector256(value As double3) As Vector256(Of Double)
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256*
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble3(System.Runtime.Intrinsics.Vector256{System.Double})
+  commentId: M:Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble3(System.Runtime.Intrinsics.Vector256{System.Double})
+  id: Asdouble3(System.Runtime.Intrinsics.Vector256{System.Double})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Mathematics.VectorInterop
+  langs:
+  - csharp
+  - vb
+  name: Asdouble3(Vector256<double>)
+  nameWithType: VectorInterop.Asdouble3(Vector256<double>)
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble3(System.Runtime.Intrinsics.Vector256<double>)
+  type: Method
+  source:
+    id: Asdouble3
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\double3.g.cs
+    startLine: 1279
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static double3 Asdouble3(this Vector256<double> value)
+    parameters:
+    - id: value
+      type: System.Runtime.Intrinsics.Vector256{System.Double}
+    return:
+      type: Misaki.HighPerformance.Mathematics.double3
+    content.vb: Public Shared Function Asdouble3(value As Vector256(Of Double)) As double3
+  overload: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble3*
+  nameWithType.vb: VectorInterop.Asdouble3(Vector256(Of Double))
+  fullName.vb: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble3(System.Runtime.Intrinsics.Vector256(Of Double))
+  name.vb: Asdouble3(Vector256(Of Double))
+references:
+- uid: Misaki.HighPerformance.Mathematics
+  commentId: N:Misaki.HighPerformance.Mathematics
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics
+  nameWithType: Misaki.HighPerformance.Mathematics
+  fullName: Misaki.HighPerformance.Mathematics
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_AsVector128_Misaki_HighPerformance_Mathematics_uint2_
+  name: AsVector128
+  nameWithType: VectorInterop.AsVector128
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector128
+- uid: Misaki.HighPerformance.Mathematics.uint2
+  commentId: T:Misaki.HighPerformance.Mathematics.uint2
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.uint2.html
+  name: uint2
+  nameWithType: uint2
+  fullName: Misaki.HighPerformance.Mathematics.uint2
+- uid: System.Runtime.Intrinsics.Vector128{System.UInt32}
+  commentId: T:System.Runtime.Intrinsics.Vector128{System.UInt32}
+  parent: System.Runtime.Intrinsics
+  definition: System.Runtime.Intrinsics.Vector128`1
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  name: Vector128<uint>
+  nameWithType: Vector128<uint>
+  fullName: System.Runtime.Intrinsics.Vector128<uint>
+  nameWithType.vb: Vector128(Of UInteger)
+  fullName.vb: System.Runtime.Intrinsics.Vector128(Of UInteger)
+  name.vb: Vector128(Of UInteger)
+  spec.csharp:
+  - uid: System.Runtime.Intrinsics.Vector128`1
+    name: Vector128
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  - name: <
+  - uid: System.UInt32
+    name: uint
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint32
+  - name: '>'
+  spec.vb:
+  - uid: System.Runtime.Intrinsics.Vector128`1
+    name: Vector128
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt32
+    name: UInteger
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint32
+  - name: )
+- uid: System.Runtime.Intrinsics.Vector128`1
+  commentId: T:System.Runtime.Intrinsics.Vector128`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  name: Vector128<T>
+  nameWithType: Vector128<T>
+  fullName: System.Runtime.Intrinsics.Vector128<T>
+  nameWithType.vb: Vector128(Of T)
+  fullName.vb: System.Runtime.Intrinsics.Vector128(Of T)
+  name.vb: Vector128(Of T)
+  spec.csharp:
+  - uid: System.Runtime.Intrinsics.Vector128`1
+    name: Vector128
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Runtime.Intrinsics.Vector128`1
+    name: Vector128
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Runtime.Intrinsics
+  commentId: N:System.Runtime.Intrinsics
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Runtime.Intrinsics
+  nameWithType: System.Runtime.Intrinsics
+  fullName: System.Runtime.Intrinsics
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Runtime
+    name: Runtime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime
+  - name: .
+  - uid: System.Runtime.Intrinsics
+    name: Intrinsics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Runtime
+    name: Runtime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime
+  - name: .
+  - uid: System.Runtime.Intrinsics
+    name: Intrinsics
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint2*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asuint2
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asuint2_System_Runtime_Intrinsics_Vector128_System_UInt32__
+  name: Asuint2
+  nameWithType: VectorInterop.Asuint2
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint2
+- uid: Misaki.HighPerformance.Mathematics.uint3
+  commentId: T:Misaki.HighPerformance.Mathematics.uint3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.uint3.html
+  name: uint3
+  nameWithType: uint3
+  fullName: Misaki.HighPerformance.Mathematics.uint3
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint3*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asuint3
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asuint3_System_Runtime_Intrinsics_Vector128_System_UInt32__
+  name: Asuint3
+  nameWithType: VectorInterop.Asuint3
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint3
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_AsVector256_Misaki_HighPerformance_Mathematics_double4_
+  name: AsVector256
+  nameWithType: VectorInterop.AsVector256
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.AsVector256
+- uid: Misaki.HighPerformance.Mathematics.double4
+  commentId: T:Misaki.HighPerformance.Mathematics.double4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.double4.html
+  name: double4
+  nameWithType: double4
+  fullName: Misaki.HighPerformance.Mathematics.double4
+- uid: System.Runtime.Intrinsics.Vector256{System.Double}
+  commentId: T:System.Runtime.Intrinsics.Vector256{System.Double}
+  parent: System.Runtime.Intrinsics
+  definition: System.Runtime.Intrinsics.Vector256`1
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector256-1
+  name: Vector256<double>
+  nameWithType: Vector256<double>
+  fullName: System.Runtime.Intrinsics.Vector256<double>
+  nameWithType.vb: Vector256(Of Double)
+  fullName.vb: System.Runtime.Intrinsics.Vector256(Of Double)
+  name.vb: Vector256(Of Double)
+  spec.csharp:
+  - uid: System.Runtime.Intrinsics.Vector256`1
+    name: Vector256
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector256-1
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: System.Runtime.Intrinsics.Vector256`1
+    name: Vector256
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector256-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: System.Runtime.Intrinsics.Vector256`1
+  commentId: T:System.Runtime.Intrinsics.Vector256`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector256-1
+  name: Vector256<T>
+  nameWithType: Vector256<T>
+  fullName: System.Runtime.Intrinsics.Vector256<T>
+  nameWithType.vb: Vector256(Of T)
+  fullName.vb: System.Runtime.Intrinsics.Vector256(Of T)
+  name.vb: Vector256(Of T)
+  spec.csharp:
+  - uid: System.Runtime.Intrinsics.Vector256`1
+    name: Vector256
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector256-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Runtime.Intrinsics.Vector256`1
+    name: Vector256
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector256-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble4*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble4
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asdouble4_System_Runtime_Intrinsics_Vector256_System_Double__
+  name: Asdouble4
+  nameWithType: VectorInterop.Asdouble4
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble4
+- uid: Misaki.HighPerformance.Mathematics.int2
+  commentId: T:Misaki.HighPerformance.Mathematics.int2
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.int2.html
+  name: int2
+  nameWithType: int2
+  fullName: Misaki.HighPerformance.Mathematics.int2
+- uid: System.Runtime.Intrinsics.Vector128{System.Int32}
+  commentId: T:System.Runtime.Intrinsics.Vector128{System.Int32}
+  parent: System.Runtime.Intrinsics
+  definition: System.Runtime.Intrinsics.Vector128`1
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  name: Vector128<int>
+  nameWithType: Vector128<int>
+  fullName: System.Runtime.Intrinsics.Vector128<int>
+  nameWithType.vb: Vector128(Of Integer)
+  fullName.vb: System.Runtime.Intrinsics.Vector128(Of Integer)
+  name.vb: Vector128(Of Integer)
+  spec.csharp:
+  - uid: System.Runtime.Intrinsics.Vector128`1
+    name: Vector128
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '>'
+  spec.vb:
+  - uid: System.Runtime.Intrinsics.Vector128`1
+    name: Vector128
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asint2*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asint2
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asint2_System_Runtime_Intrinsics_Vector128_System_Int32__
+  name: Asint2
+  nameWithType: VectorInterop.Asint2
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asint2
+- uid: Misaki.HighPerformance.Mathematics.double2
+  commentId: T:Misaki.HighPerformance.Mathematics.double2
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.double2.html
+  name: double2
+  nameWithType: double2
+  fullName: Misaki.HighPerformance.Mathematics.double2
+- uid: System.Runtime.Intrinsics.Vector128{System.Double}
+  commentId: T:System.Runtime.Intrinsics.Vector128{System.Double}
+  parent: System.Runtime.Intrinsics
+  definition: System.Runtime.Intrinsics.Vector128`1
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  name: Vector128<double>
+  nameWithType: Vector128<double>
+  fullName: System.Runtime.Intrinsics.Vector128<double>
+  nameWithType.vb: Vector128(Of Double)
+  fullName.vb: System.Runtime.Intrinsics.Vector128(Of Double)
+  name.vb: Vector128(Of Double)
+  spec.csharp:
+  - uid: System.Runtime.Intrinsics.Vector128`1
+    name: Vector128
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: System.Runtime.Intrinsics.Vector128`1
+    name: Vector128
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble2*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble2
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asdouble2_System_Runtime_Intrinsics_Vector128_System_Double__
+  name: Asdouble2
+  nameWithType: VectorInterop.Asdouble2
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble2
+- uid: Misaki.HighPerformance.Mathematics.float4
+  commentId: T:Misaki.HighPerformance.Mathematics.float4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float4.html
+  name: float4
+  nameWithType: float4
+  fullName: Misaki.HighPerformance.Mathematics.float4
+- uid: System.Runtime.Intrinsics.Vector128{System.Single}
+  commentId: T:System.Runtime.Intrinsics.Vector128{System.Single}
+  parent: System.Runtime.Intrinsics
+  definition: System.Runtime.Intrinsics.Vector128`1
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  name: Vector128<float>
+  nameWithType: Vector128<float>
+  fullName: System.Runtime.Intrinsics.Vector128<float>
+  nameWithType.vb: Vector128(Of Single)
+  fullName.vb: System.Runtime.Intrinsics.Vector128(Of Single)
+  name.vb: Vector128(Of Single)
+  spec.csharp:
+  - uid: System.Runtime.Intrinsics.Vector128`1
+    name: Vector128
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  - name: <
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  spec.vb:
+  - uid: System.Runtime.Intrinsics.Vector128`1
+    name: Vector128
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.intrinsics.vector128-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat4*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat4
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asfloat4_System_Runtime_Intrinsics_Vector128_System_Single__
+  name: Asfloat4
+  nameWithType: VectorInterop.Asfloat4
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat4
+- uid: Misaki.HighPerformance.Mathematics.float3
+  commentId: T:Misaki.HighPerformance.Mathematics.float3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float3.html
+  name: float3
+  nameWithType: float3
+  fullName: Misaki.HighPerformance.Mathematics.float3
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat3*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat3
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asfloat3_System_Runtime_Intrinsics_Vector128_System_Single__
+  name: Asfloat3
+  nameWithType: VectorInterop.Asfloat3
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat3
+- uid: Misaki.HighPerformance.Mathematics.int3
+  commentId: T:Misaki.HighPerformance.Mathematics.int3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.int3.html
+  name: int3
+  nameWithType: int3
+  fullName: Misaki.HighPerformance.Mathematics.int3
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asint3*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asint3
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asint3_System_Runtime_Intrinsics_Vector128_System_Int32__
+  name: Asint3
+  nameWithType: VectorInterop.Asint3
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asint3
+- uid: Misaki.HighPerformance.Mathematics.int4
+  commentId: T:Misaki.HighPerformance.Mathematics.int4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.int4.html
+  name: int4
+  nameWithType: int4
+  fullName: Misaki.HighPerformance.Mathematics.int4
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asint4*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asint4
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asint4_System_Runtime_Intrinsics_Vector128_System_Int32__
+  name: Asint4
+  nameWithType: VectorInterop.Asint4
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asint4
+- uid: Misaki.HighPerformance.Mathematics.uint4
+  commentId: T:Misaki.HighPerformance.Mathematics.uint4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.uint4.html
+  name: uint4
+  nameWithType: uint4
+  fullName: Misaki.HighPerformance.Mathematics.uint4
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint4*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asuint4
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asuint4_System_Runtime_Intrinsics_Vector128_System_UInt32__
+  name: Asuint4
+  nameWithType: VectorInterop.Asuint4
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asuint4
+- uid: Misaki.HighPerformance.Mathematics.float2
+  commentId: T:Misaki.HighPerformance.Mathematics.float2
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float2.html
+  name: float2
+  nameWithType: float2
+  fullName: Misaki.HighPerformance.Mathematics.float2
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat2*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat2
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asfloat2_System_Runtime_Intrinsics_Vector128_System_Single__
+  name: Asfloat2
+  nameWithType: VectorInterop.Asfloat2
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asfloat2
+- uid: Misaki.HighPerformance.Mathematics.double3
+  commentId: T:Misaki.HighPerformance.Mathematics.double3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.double3.html
+  name: double3
+  nameWithType: double3
+  fullName: Misaki.HighPerformance.Mathematics.double3
+- uid: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble3*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble3
+  href: Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_Asdouble3_System_Runtime_Intrinsics_Vector256_System_Double__
+  name: Asdouble3
+  nameWithType: VectorInterop.Asdouble3
+  fullName: Misaki.HighPerformance.Mathematics.VectorInterop.Asdouble3

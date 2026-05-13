@@ -1,0 +1,423 @@
+using Misaki.HighPerformance.LowLevel.Buffer;
+using Misaki.HighPerformance.LowLevel.Collections.Contracts;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
+namespace Misaki.HighPerformance.LowLevel.Collections;
+
+internal class UnsafeSlotMapDebugView<T>
+    where T : unmanaged
+{
+    private readonly UnsafeSlotMap<T> _slotMap;
+    public UnsafeSlotMapDebugView(UnsafeSlotMap<T> slotMap)
+    {
+        _slotMap = slotMap;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public T[] Items
+    {
+        get
+        {
+            var items = new List<T>(_slotMap.Count);
+            var enumerator = _slotMap.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                items.Add(enumerator.Current);
+            }
+
+            return items.ToArray();
+        }
+    }
+}
+
+/// <summary>
+/// Provides an unsafe, high-performance slot map for storing and managing unmanaged values, supporting fast insertion,
+/// removal, and lookup by slot index and generation.
+/// </summary>
+/// <typeparam name="T">The type of value to store in the slot map. Must be unmanaged.</typeparam>
+[DebuggerTypeProxy(typeof(UnsafeSlotMapDebugView<>))]
+public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
+    where T : unmanaged
+{
+    private const int _CHUNK_SHIFT = 8;
+    private const int _CHUNK_SIZE = 1 << _CHUNK_SHIFT;
+    private const int _CHUNK_MASK = _CHUNK_SIZE - 1;
+
+    public ref struct Enumerator
+    {
+        private ref UnsafeSlotMap<T> _collection;
+        private int _currentIndex;
+
+        public Enumerator(ref UnsafeSlotMap<T> collection)
+        {
+            _collection = ref collection;
+            _currentIndex = -1;
+        }
+
+        public readonly ref T Current
+        {
+            get
+            {
+                var values = _collection._values;
+                var chunkIdx = _currentIndex >> _CHUNK_SHIFT;
+                var localIdx = _currentIndex & _CHUNK_MASK;
+                return ref values[chunkIdx][localIdx];
+            }
+        }
+
+        public bool MoveNext()
+        {
+            _currentIndex = _collection._validBits.NextSetBit(_currentIndex + 1);
+            return _currentIndex != -1;
+        }
+
+        public void Reset()
+        {
+            _currentIndex = -1;
+        }
+    }
+
+    private UnsafeArray<UnsafeArray<T>> _values;
+    private UnsafeArray<UnsafeArray<int>> _generations;
+    private UnsafeQueue<int> _freeSlots;
+    private UnsafeBitSet _validBits;
+    private AllocationHandle _handle;
+    private AllocationOption _allocationOption;
+
+    private int _count;
+    private int _capacity;
+    private int _nextSlotIndex;
+
+    public readonly int Count => _count;
+    public readonly int Capacity => _capacity;
+
+    public readonly bool IsCreated => _values.IsCreated && _generations.IsCreated && _freeSlots.IsCreated && _validBits.IsCreated;
+
+    /// <summary>
+    /// Initializes a new instance of UnsafeSlotMap with a default size of 1 and a persistent allocation handle.
+    /// </summary>
+    public UnsafeSlotMap()
+        : this(1, AllocationHandle.Persistent)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the UnsafeSlotMap class with the specified capacity, allocation handle, and
+    /// allocation options.
+    /// </summary>
+    /// <param name="capacity">The number of slots to allocate for the map. Must be greater than zero.</param>
+    /// <param name="handle">A reference to the allocation handle used to manage memory for the slot map.</param>
+    /// <param name="allocationOption">The allocation options to use when creating internal data structures. The default is AllocationOption.None.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when capacity is less than or equal to zero.</exception>
+    public UnsafeSlotMap(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    {
+        if (capacity <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
+        }
+
+        _handle = handle;
+        _allocationOption = allocationOption;
+
+        var initialChunks = (capacity + _CHUNK_MASK) / _CHUNK_SIZE;
+        if (initialChunks == 0)
+        {
+            initialChunks = 1;
+        }
+
+        _capacity = initialChunks * _CHUNK_SIZE;
+        _values = new UnsafeArray<UnsafeArray<T>>(initialChunks, handle, allocationOption);
+        _generations = new UnsafeArray<UnsafeArray<int>>(initialChunks, handle, allocationOption);
+        for (var i = 0; i < initialChunks; i++)
+        {
+            _values[i] = new UnsafeArray<T>(_CHUNK_SIZE, handle, allocationOption);
+            _generations[i] = new UnsafeArray<int>(_CHUNK_SIZE, handle, allocationOption);
+            _generations[i].AsSpan().Fill(1);
+        }
+
+        _freeSlots = new UnsafeQueue<int>(capacity, handle, allocationOption);
+        _validBits = new UnsafeBitSet(_capacity, handle, allocationOption);
+
+        if (!allocationOption.HasOption(AllocationOption.Clear))
+        {
+            _validBits.ClearAll();
+        }
+
+        _count = 0;
+        _nextSlotIndex = 0;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnscopedRef]
+    public Enumerator GetEnumerator()
+    {
+        return new Enumerator(ref this);
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private void EnsureChunkExists(int requiredChunkIndex)
+    {
+        if (requiredChunkIndex < _values.Length)
+        {
+            return;
+        }
+
+        var newChunkCount = _values.Length;
+        while (newChunkCount <= requiredChunkIndex)
+        {
+            newChunkCount *= 2;
+        }
+
+        _values.Resize(newChunkCount, _allocationOption);
+        _generations.Resize(newChunkCount, _allocationOption);
+
+        for (var i = _capacity / _CHUNK_SIZE; i < newChunkCount; i++)
+        {
+            _values[i] = new UnsafeArray<T>(_CHUNK_SIZE, _handle, _allocationOption);
+            _generations[i] = new UnsafeArray<int>(_CHUNK_SIZE, _handle, _allocationOption);
+            _generations[i].AsSpan().Fill(1);
+        }
+
+        _capacity = newChunkCount * _CHUNK_SIZE;
+        _validBits.Resize(_capacity, _allocationOption);
+    }
+
+    /// <summary>
+    /// Adds the specified item to the collection and returns the index of the slot where it was stored.
+    /// </summary>
+    /// <param name="item">The item to add to the collection.</param>
+    /// <param name="generation">When this method returns, contains the generation number associated with the slot where the item was stored.</param>
+    /// <returns>The index of the slot in which the item was stored.</returns>
+    public int Add(scoped in T item, out int generation)
+    {
+        if (_freeSlots.Count > 0)
+        {
+            var slotIndex = _freeSlots.Dequeue();
+            var chunkIdx = slotIndex >> _CHUNK_SHIFT;
+            var localIdx = slotIndex & _CHUNK_MASK;
+
+            ref var slotValue = ref _values[chunkIdx][localIdx];
+            ref var slotGeneration = ref _generations[chunkIdx][localIdx];
+
+            generation = slotGeneration;
+            slotValue = item;
+            _validBits.SetBit(slotIndex);
+
+            _count++;
+            return slotIndex;
+        }
+
+        var newSlotIndex = _nextSlotIndex++;
+        var newChunkIdx = newSlotIndex >> _CHUNK_SHIFT;
+        var newLocalIdx = newSlotIndex & _CHUNK_MASK;
+
+        if (newChunkIdx >= _values.Length)
+        {
+            EnsureChunkExists(newChunkIdx);
+        }
+
+        ref var newValue = ref _values[newChunkIdx][newLocalIdx];
+        ref var newGeneration = ref _generations[newChunkIdx][newLocalIdx];
+        newValue = item;
+        newGeneration = 1;
+
+        _validBits.SetBit(newSlotIndex);
+
+        generation = 1;
+        _count++;
+        return newSlotIndex;
+    }
+
+    /// <summary>
+    /// Attempts to remove the item at the specified slot index and generation from the collection.
+    /// </summary>
+    /// <param name="slotIndex">The zero-based index of the slot to remove. Must be within the valid range of slot indices.</param>
+    /// <param name="generation">The generation value associated with the slot. Removal succeeds only if this matches the current generation of the slot.</param>
+    /// <param name="item">When this method returns, contains the item that was removed if the removal was successful; otherwise, the default value for type <typeparamref name="T"/>.</param>
+    /// <returns>true if the item was successfully removed; otherwise, false.</returns>
+    public bool Remove(int slotIndex, int generation, out T item)
+    {
+        item = default;
+        if (slotIndex < 0)
+        {
+            return false;
+        }
+
+        var chunkIdx = slotIndex >> _CHUNK_SHIFT;
+        var localIdx = slotIndex & _CHUNK_MASK;
+
+        if (chunkIdx >= _values.Length)
+        {
+            return false;
+        }
+
+        ref var slotGeneration = ref _generations[chunkIdx][localIdx];
+
+        if (!_validBits.IsSet(slotIndex) || slotGeneration != generation)
+        {
+            return false;
+        }
+
+        slotGeneration++;
+        _validBits.ClearBit(slotIndex);
+        item = _values[chunkIdx][localIdx];
+        _values[chunkIdx][localIdx] = default;
+
+        _freeSlots.Enqueue(slotIndex);
+        _count--;
+
+        return true;
+    }
+
+    /// <summary>
+    /// Attempts to remove the item at the specified slot index and generation from the collection.
+    /// </summary>
+    /// <param name="slotIndex">The zero-based index of the slot to remove. Must be within the valid range of slot indices.</param>
+    /// <param name="generation">The generation value associated with the slot. Removal succeeds only if this matches the current generation of
+    /// the slot.</param>
+    /// <returns>true if the item was successfully removed; otherwise, false.</returns>
+    public bool Remove(int slotIndex, int generation)
+    {
+        return Remove(slotIndex, generation, out _);
+    }
+
+    /// <summary>
+    /// Determines whether the specified slot index contains a valid entry with the given generation.
+    /// </summary>
+    /// <param name="slotIndex">The zero-based index of the slot to check. Must be greater than or equal to 0 and less than the current capacity.</param>
+    /// <param name="generation">The generation value to compare against the slot's generation.</param>
+    /// <returns>true if the slot at the specified index is valid and its generation matches the specified value; otherwise, false.</returns>
+    public readonly bool Contains(int slotIndex, int generation)
+    {
+        GetElementReferenceAt(slotIndex, generation, out var exist);
+        return exist;
+    }
+
+    /// <summary>
+    /// Attempts to retrieve the element at the specified slot index and generation.
+    /// </summary>
+    /// <param name="slotIndex">The zero-based index of the slot to retrieve. Must be within the valid range of slots.</param>
+    /// <param name="generation">The generation identifier associated with the slot. Used to verify that the slot has not been replaced or
+    /// invalidated.</param>
+    /// <param name="value">When this method returns, contains the element at the specified slot and generation if found; otherwise, the
+    /// default value for type <typeparamref name="T"/>.</param>
+    /// <returns>true if the element at the specified slot index and generation is found; otherwise, false.</returns>
+    public readonly bool TryGetElementAt(int slotIndex, int generation, out T value)
+    {
+        ref var val = ref GetElementReferenceAt(slotIndex, generation, out var exist);
+        if (exist)
+        {
+            value = val;
+            return true;
+        }
+        else
+        {
+            value = default;
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Retrieves the element stored at the specified slot index and generation.
+    /// </summary>
+    /// <param name="slotIndex">The zero-based index of the slot from which to retrieve the element. Must be within the valid range of allocated slots.</param>
+    /// <param name="generation">The generation identifier associated with the slot. Used to ensure the element has not been replaced or removed since allocation.</param>
+    /// <returns>The element stored at the specified slot and generation.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="slotIndex"/> is less than zero or greater than or equal to the capacity.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when the specified slot is not occupied or the generation does not match.</exception>
+    public readonly T GetElementAt(int slotIndex, int generation)
+    {
+        if (!TryGetElementAt(slotIndex, generation, out var value))
+        {
+            throw new InvalidOperationException("The specified slot is not occupied or the generation does not match.");
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    /// Returns a reference to the element at the specified slot index and generation, if it exists; otherwise, returns
+    /// a null reference.
+    /// </summary>
+    /// <param name="slotIndex">The zero-based index of the slot to retrieve. Must be within the valid range of allocated slots.</param>
+    /// <param name="generation">The expected generation value for the slot. Used to verify that the slot has not been recycled or replaced.</param>
+    /// <param name="exist">When this method returns, contains <see langword="true"/> if a valid element exists at the specified slot and generation; otherwise, <see langword="false"/>.</param>
+    /// <returns>A reference to the element of type <typeparamref name="T"/> at the specified slot and generation if it exists; otherwise, a null reference.</returns>
+    public readonly ref T GetElementReferenceAt(int slotIndex, int generation, out bool exist)
+    {
+        if (slotIndex < 0)
+        {
+            exist = false;
+            return ref Unsafe.NullRef<T>();
+        }
+
+        var chunkIdx = slotIndex >> _CHUNK_SHIFT;
+        var localIdx = slotIndex & _CHUNK_MASK;
+
+        if (chunkIdx >= _values.Length)
+        {
+            exist = false;
+            return ref Unsafe.NullRef<T>();
+        }
+
+        ref var slotGeneration = ref _generations[chunkIdx][localIdx];
+
+        if (_validBits.IsSet(slotIndex) && slotGeneration == generation)
+        {
+            exist = true;
+            return ref _values[chunkIdx][localIdx];
+        }
+
+        exist = false;
+        return ref Unsafe.NullRef<T>();
+    }
+
+    public void Resize(int newSize, AllocationOption option = AllocationOption.None)
+    {
+        var requiredChunkIndex = (newSize + _CHUNK_MASK) / _CHUNK_SIZE - 1;
+        EnsureChunkExists(requiredChunkIndex);
+        _freeSlots.Resize(newSize, option);
+        _validBits.Resize(newSize, option);
+    }
+
+    public void Clear()
+    {
+        for (var i = 0; i < _values.Length; i++)
+        {
+            if (_values[i].IsCreated)
+            {
+                _values[i].AsSpan().Clear();
+            }
+        }
+
+        _freeSlots.Clear();
+        _validBits.ClearAll();
+        _count = 0;
+        _nextSlotIndex = 0;
+    }
+
+    public readonly void* GetUnsafePtr()
+    {
+        return null;
+    }
+
+    public void Dispose()
+    {
+        for (var i = 0; i < _values.Length; i++)
+        {
+            _values[i].Dispose();
+            _generations[i].Dispose();
+        }
+
+        _values.Dispose();
+        _generations.Dispose();
+        _freeSlots.Dispose();
+        _validBits.Dispose();
+
+        _count = 0;
+        _capacity = 0;
+        _nextSlotIndex = 0;
+    }
+}

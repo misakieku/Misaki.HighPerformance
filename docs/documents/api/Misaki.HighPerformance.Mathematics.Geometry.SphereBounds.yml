@@ -1,0 +1,1073 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  commentId: T:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  id: SphereBounds
+  parent: Misaki.HighPerformance.Mathematics.Geometry
+  children:
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.#ctor(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Center
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ClosestPoint(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Contains(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals(System.Object)
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.GetHashCode
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Overlaps(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Radius
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ToString
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Equality(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds,Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Inequality(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds,Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  langs:
+  - csharp
+  - vb
+  name: SphereBounds
+  nameWithType: SphereBounds
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SphereBounds
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 8
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: >-
+    Represents a three-dimensional sphere defined by a center point and a radius, typically used for spatial bounding or
+
+    intersection tests.
+  example: []
+  syntax:
+    content: 'public struct SphereBounds : IEquatable<SphereBounds>'
+    content.vb: Public Structure SphereBounds Implements IEquatable(Of SphereBounds)
+  implements:
+  - System.IEquatable{Misaki.HighPerformance.Mathematics.Geometry.SphereBounds}
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Center
+  commentId: P:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Center
+  id: Center
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: Center
+  nameWithType: SphereBounds.Center
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Center
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Center
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Gets or sets the coordinates of the center point in three-dimensional space.
+  example: []
+  syntax:
+    content: public float3 Center { readonly get; set; }
+    parameters: []
+    return:
+      type: Misaki.HighPerformance.Mathematics.float3
+    content.vb: Public Property Center As float3
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Center*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Radius
+  commentId: P:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Radius
+  id: Radius
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: Radius
+  nameWithType: SphereBounds.Radius
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Radius
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Radius
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 21
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Gets or sets the radius of the shape.
+  example: []
+  syntax:
+    content: public float Radius { readonly get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Radius As Single
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Radius*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.#ctor(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.#ctor(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  id: '#ctor(Misaki.HighPerformance.Mathematics.float3,System.Single)'
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: SphereBounds(float3, float)
+  nameWithType: SphereBounds.SphereBounds(float3, float)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.SphereBounds(Misaki.HighPerformance.Mathematics.float3, float)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 26
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  syntax:
+    content: public SphereBounds(float3 center, float radius)
+    parameters:
+    - id: center
+      type: Misaki.HighPerformance.Mathematics.float3
+    - id: radius
+      type: System.Single
+    content.vb: Public Sub New(center As float3, radius As Single)
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.#ctor*
+  nameWithType.vb: SphereBounds.New(float3, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.New(Misaki.HighPerformance.Mathematics.float3, Single)
+  name.vb: New(float3, Single)
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Contains(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Contains(Misaki.HighPerformance.Mathematics.float3)
+  id: Contains(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: Contains(float3)
+  nameWithType: SphereBounds.Contains(float3)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Contains(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Contains
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 37
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Determines whether the specified point is contained within the sphere.
+  example: []
+  syntax:
+    content: public readonly bool Contains(float3 point)
+    parameters:
+    - id: point
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: The point to test for inclusion within the sphere.
+    return:
+      type: System.Boolean
+      description: true if the point lies inside or on the boundary of the sphere; otherwise, false.
+    content.vb: Public Function Contains(point As float3) As Boolean
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Contains*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Overlaps(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Overlaps(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  id: Overlaps(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: Overlaps(SphereBounds)
+  nameWithType: SphereBounds.Overlaps(SphereBounds)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Overlaps(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Overlaps
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 49
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Determines whether this sphere intersects with the specified sphere.
+  example: []
+  syntax:
+    content: public readonly bool Overlaps(SphereBounds other)
+    parameters:
+    - id: other
+      type: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+      description: The sphere to test for intersection with this sphere.
+    return:
+      type: System.Boolean
+      description: true if the spheres intersect or touch; otherwise, false.
+    content.vb: Public Function Overlaps(other As SphereBounds) As Boolean
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Overlaps*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ClosestPoint(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ClosestPoint(Misaki.HighPerformance.Mathematics.float3)
+  id: ClosestPoint(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: ClosestPoint(float3)
+  nameWithType: SphereBounds.ClosestPoint(float3)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ClosestPoint(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ClosestPoint
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 57
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  syntax:
+    content: public readonly float3 ClosestPoint(float3 point)
+    parameters:
+    - id: point
+      type: Misaki.HighPerformance.Mathematics.float3
+    return:
+      type: Misaki.HighPerformance.Mathematics.float3
+    content.vb: Public Function ClosestPoint(point As float3) As float3
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ClosestPoint*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  id: Encapsulate(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: Encapsulate(SphereBounds)
+  nameWithType: SphereBounds.Encapsulate(SphereBounds)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Encapsulate
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 70
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  syntax:
+    content: public void Encapsulate(SphereBounds other)
+    parameters:
+    - id: other
+      type: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+    content.vb: Public Sub Encapsulate(other As SphereBounds)
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate(Misaki.HighPerformance.Mathematics.float3)
+  id: Encapsulate(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: Encapsulate(float3)
+  nameWithType: SphereBounds.Encapsulate(float3)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Encapsulate
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 85
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  syntax:
+    content: public void Encapsulate(float3 point)
+    parameters:
+    - id: point
+      type: Misaki.HighPerformance.Mathematics.float3
+    content.vb: Public Sub Encapsulate(point As float3)
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ToString
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ToString
+  id: ToString
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: SphereBounds.ToString()
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ToString
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 100
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Returns the fully qualified type name of this instance.
+  example: []
+  syntax:
+    content: public override readonly string ToString()
+    return:
+      type: System.String
+      description: The fully qualified type name.
+    content.vb: Public Overrides Function ToString() As String
+  overridden: System.ValueType.ToString
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ToString*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.GetHashCode
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.GetHashCode
+  id: GetHashCode
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: SphereBounds.GetHashCode()
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetHashCode
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 105
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Returns the hash code for this instance.
+  example: []
+  syntax:
+    content: public override readonly int GetHashCode()
+    return:
+      type: System.Int32
+      description: A 32-bit signed integer that is the hash code for this instance.
+    content.vb: Public Overrides Function GetHashCode() As Integer
+  overridden: System.ValueType.GetHashCode
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.GetHashCode*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals(System.Object)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: Equals(object?)
+  nameWithType: SphereBounds.Equals(object?)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals(object?)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Equals
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 110
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Indicates whether this instance and a specified object are equal.
+  example: []
+  syntax:
+    content: public override readonly bool Equals(object? obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: The object to compare with the current instance.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">obj</code> and this instance are the same type and represent the same value; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Overrides Function Equals(obj As Object) As Boolean
+  overridden: System.ValueType.Equals(System.Object)
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals*
+  nameWithType.vb: SphereBounds.Equals(Object)
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals(Object)
+  name.vb: Equals(Object)
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  id: Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: Equals(SphereBounds)
+  nameWithType: SphereBounds.Equals(SphereBounds)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Equals
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 115
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Indicates whether the current object is equal to another object of the same type.
+  example: []
+  syntax:
+    content: public readonly bool Equals(SphereBounds other)
+    parameters:
+    - id: other
+      type: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+      description: An object to compare with this object.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Function Equals(other As SphereBounds) As Boolean
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals*
+  implements:
+  - System.IEquatable{Misaki.HighPerformance.Mathematics.Geometry.SphereBounds}.Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Equality(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds,Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Equality(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds,Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  id: op_Equality(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds,Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: operator ==(SphereBounds, SphereBounds)
+  nameWithType: SphereBounds.operator ==(SphereBounds, SphereBounds)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.operator ==(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds, Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  type: Operator
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: op_Equality
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 120
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  syntax:
+    content: public static bool operator ==(SphereBounds left, SphereBounds right)
+    parameters:
+    - id: left
+      type: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+    - id: right
+      type: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Operator =(left As SphereBounds, right As SphereBounds) As Boolean
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Equality*
+  nameWithType.vb: SphereBounds.=(SphereBounds, SphereBounds)
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.=(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds, Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  name.vb: =(SphereBounds, SphereBounds)
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Inequality(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds,Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Inequality(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds,Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  id: op_Inequality(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds,Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: operator !=(SphereBounds, SphereBounds)
+  nameWithType: SphereBounds.operator !=(SphereBounds, SphereBounds)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.operator !=(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds, Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  type: Operator
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: op_Inequality
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/SphereBounds.cs
+    startLine: 125
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  syntax:
+    content: public static bool operator !=(SphereBounds left, SphereBounds right)
+    parameters:
+    - id: left
+      type: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+    - id: right
+      type: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Operator <>(left As SphereBounds, right As SphereBounds) As Boolean
+  overload: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Inequality*
+  nameWithType.vb: SphereBounds.<>(SphereBounds, SphereBounds)
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.<>(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds, Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  name.vb: <>(SphereBounds, SphereBounds)
+references:
+- uid: Misaki.HighPerformance.Mathematics.Geometry
+  commentId: N:Misaki.HighPerformance.Mathematics.Geometry
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics.Geometry
+  nameWithType: Misaki.HighPerformance.Mathematics.Geometry
+  fullName: Misaki.HighPerformance.Mathematics.Geometry
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.Geometry
+    name: Geometry
+    href: Misaki.HighPerformance.Mathematics.Geometry.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.Geometry
+    name: Geometry
+    href: Misaki.HighPerformance.Mathematics.Geometry.html
+- uid: System.IEquatable{Misaki.HighPerformance.Mathematics.Geometry.SphereBounds}
+  commentId: T:System.IEquatable{Misaki.HighPerformance.Mathematics.Geometry.SphereBounds}
+  parent: System
+  definition: System.IEquatable`1
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<SphereBounds>
+  nameWithType: IEquatable<SphereBounds>
+  fullName: System.IEquatable<Misaki.HighPerformance.Mathematics.Geometry.SphereBounds>
+  nameWithType.vb: IEquatable(Of SphereBounds)
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  name.vb: IEquatable(Of SphereBounds)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+    name: SphereBounds
+    href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+    name: SphereBounds
+    href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.IEquatable`1
+  commentId: T:System.IEquatable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<T>
+  nameWithType: IEquatable<T>
+  fullName: System.IEquatable<T>
+  nameWithType.vb: IEquatable(Of T)
+  fullName.vb: System.IEquatable(Of T)
+  name.vb: IEquatable(Of T)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Center*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Center
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_Center
+  name: Center
+  nameWithType: SphereBounds.Center
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Center
+- uid: Misaki.HighPerformance.Mathematics.float3
+  commentId: T:Misaki.HighPerformance.Mathematics.float3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float3.html
+  name: float3
+  nameWithType: float3
+  fullName: Misaki.HighPerformance.Mathematics.float3
+- uid: Misaki.HighPerformance.Mathematics
+  commentId: N:Misaki.HighPerformance.Mathematics
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics
+  nameWithType: Misaki.HighPerformance.Mathematics
+  fullName: Misaki.HighPerformance.Mathematics
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Radius*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Radius
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_Radius
+  name: Radius
+  nameWithType: SphereBounds.Radius
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Radius
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.#ctor*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.#ctor
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds__ctor_Misaki_HighPerformance_Mathematics_float3_System_Single_
+  name: SphereBounds
+  nameWithType: SphereBounds.SphereBounds
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.SphereBounds
+  nameWithType.vb: SphereBounds.New
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.New
+  name.vb: New
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Contains*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Contains
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_Contains_Misaki_HighPerformance_Mathematics_float3_
+  name: Contains
+  nameWithType: SphereBounds.Contains
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Contains
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Overlaps*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Overlaps
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_Overlaps_Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_
+  name: Overlaps
+  nameWithType: SphereBounds.Overlaps
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Overlaps
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  commentId: T:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  parent: Misaki.HighPerformance.Mathematics.Geometry
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html
+  name: SphereBounds
+  nameWithType: SphereBounds
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ClosestPoint*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ClosestPoint
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_ClosestPoint_Misaki_HighPerformance_Mathematics_float3_
+  name: ClosestPoint
+  nameWithType: SphereBounds.ClosestPoint
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ClosestPoint
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_Encapsulate_Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_
+  name: Encapsulate
+  nameWithType: SphereBounds.Encapsulate
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Encapsulate
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ToString*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ToString
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_ToString
+  name: ToString
+  nameWithType: SphereBounds.ToString
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.ToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.GetHashCode*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.GetHashCode
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_GetHashCode
+  name: GetHashCode
+  nameWithType: SphereBounds.GetHashCode
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.GetHashCode
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_Equals_System_Object_
+  name: Equals
+  nameWithType: SphereBounds.Equals
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.Equals
+- uid: System.IEquatable{Misaki.HighPerformance.Mathematics.Geometry.SphereBounds}.Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  commentId: M:System.IEquatable{Misaki.HighPerformance.Mathematics.Geometry.SphereBounds}.Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  parent: System.IEquatable{Misaki.HighPerformance.Mathematics.Geometry.SphereBounds}
+  definition: System.IEquatable`1.Equals(`0)
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(SphereBounds)
+  nameWithType: IEquatable<SphereBounds>.Equals(SphereBounds)
+  fullName: System.IEquatable<Misaki.HighPerformance.Mathematics.Geometry.SphereBounds>.Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  nameWithType.vb: IEquatable(Of SphereBounds).Equals(SphereBounds)
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.Mathematics.Geometry.SphereBounds).Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+  spec.csharp:
+  - uid: System.IEquatable{Misaki.HighPerformance.Mathematics.Geometry.SphereBounds}.Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+    name: SphereBounds
+    href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable{Misaki.HighPerformance.Mathematics.Geometry.SphereBounds}.Equals(Misaki.HighPerformance.Mathematics.Geometry.SphereBounds)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+    name: SphereBounds
+    href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html
+  - name: )
+- uid: System.IEquatable`1.Equals(`0)
+  commentId: M:System.IEquatable`1.Equals(`0)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(T)
+  nameWithType: IEquatable<T>.Equals(T)
+  fullName: System.IEquatable<T>.Equals(T)
+  nameWithType.vb: IEquatable(Of T).Equals(T)
+  fullName.vb: System.IEquatable(Of T).Equals(T)
+  spec.csharp:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Equality*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Equality
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_op_Equality_Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_
+  name: operator ==
+  nameWithType: SphereBounds.operator ==
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.operator ==
+  nameWithType.vb: SphereBounds.=
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.=
+  name.vb: =
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Equality*
+    name: ==
+    href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_op_Equality_Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Inequality*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Inequality
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_op_Inequality_Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_
+  name: operator !=
+  nameWithType: SphereBounds.operator !=
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.operator !=
+  nameWithType.vb: SphereBounds.<>
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.<>
+  name.vb: <>
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.op_Inequality*
+    name: '!='
+    href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html#Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_op_Inequality_Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_Misaki_HighPerformance_Mathematics_Geometry_SphereBounds_

@@ -1,0 +1,265 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  commentId: T:Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  id: SupportedMatrixMath
+  parent: Misaki.HighPerformance.Mathematics
+  children:
+  - Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Adjugate
+  - Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Cofactor
+  - Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Determinant
+  - Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Inverse
+  - Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Minor
+  - Misaki.HighPerformance.Mathematics.SupportedMatrixMath.OuterProduct
+  - Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Transpose
+  langs:
+  - csharp
+  - vb
+  name: SupportedMatrixMath
+  nameWithType: SupportedMatrixMath
+  fullName: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  type: Enum
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SupportedMatrixMath
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 95
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum SupportedMatrixMath
+    content.vb: >-
+      <Flags>
+
+      Public Enum SupportedMatrixMath
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+- uid: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Transpose
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Transpose
+  id: Transpose
+  parent: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  langs:
+  - csharp
+  - vb
+  name: Transpose
+  nameWithType: SupportedMatrixMath.Transpose
+  fullName: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Transpose
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Transpose
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 98
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Transpose = 1
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Determinant
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Determinant
+  id: Determinant
+  parent: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  langs:
+  - csharp
+  - vb
+  name: Determinant
+  nameWithType: SupportedMatrixMath.Determinant
+  fullName: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Determinant
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Determinant
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 99
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Determinant = 2
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Inverse
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Inverse
+  id: Inverse
+  parent: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  langs:
+  - csharp
+  - vb
+  name: Inverse
+  nameWithType: SupportedMatrixMath.Inverse
+  fullName: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Inverse
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Inverse
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 100
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Inverse = 4
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Adjugate
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Adjugate
+  id: Adjugate
+  parent: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  langs:
+  - csharp
+  - vb
+  name: Adjugate
+  nameWithType: SupportedMatrixMath.Adjugate
+  fullName: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Adjugate
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Adjugate
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 101
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Adjugate = 8
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Cofactor
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Cofactor
+  id: Cofactor
+  parent: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  langs:
+  - csharp
+  - vb
+  name: Cofactor
+  nameWithType: SupportedMatrixMath.Cofactor
+  fullName: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Cofactor
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Cofactor
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 102
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Cofactor = 16
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Minor
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Minor
+  id: Minor
+  parent: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  langs:
+  - csharp
+  - vb
+  name: Minor
+  nameWithType: SupportedMatrixMath.Minor
+  fullName: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.Minor
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Minor
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 103
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: Minor = 32
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+- uid: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.OuterProduct
+  commentId: F:Misaki.HighPerformance.Mathematics.SupportedMatrixMath.OuterProduct
+  id: OuterProduct
+  parent: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  langs:
+  - csharp
+  - vb
+  name: OuterProduct
+  nameWithType: SupportedMatrixMath.OuterProduct
+  fullName: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.OuterProduct
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: OuterProduct
+    path: src/Misaki.HighPerformance.Mathematics/NumericType.cs
+    startLine: 104
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: OuterProduct = 64
+    return:
+      type: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+references:
+- uid: Misaki.HighPerformance.Mathematics
+  commentId: N:Misaki.HighPerformance.Mathematics
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics
+  nameWithType: Misaki.HighPerformance.Mathematics
+  fullName: Misaki.HighPerformance.Mathematics
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+- uid: Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  commentId: T:Misaki.HighPerformance.Mathematics.SupportedMatrixMath
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.SupportedMatrixMath.html
+  name: SupportedMatrixMath
+  nameWithType: SupportedMatrixMath
+  fullName: Misaki.HighPerformance.Mathematics.SupportedMatrixMath

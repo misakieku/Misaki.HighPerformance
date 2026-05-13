@@ -1,0 +1,1076 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  id: ReadOnlyUnsafeCollection`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.#ctor(`0*,System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.AsSpan
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Count
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetEnumerator
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetUnsafePtr
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Item(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Item(System.UInt32)
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Length
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Reinterpret``1
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.op_Implicit(Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{`0})~System.ReadOnlySpan{`0}
+  langs:
+  - csharp
+  - vb
+  name: ReadOnlyUnsafeCollection<T>
+  nameWithType: ReadOnlyUnsafeCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ReadOnlyUnsafeCollection
+    path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+    startLine: 16
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: >-
+    Provides a read-only, unsafe view over a contiguous region of unmanaged memory as an array of elements of type T.
+
+    Enables efficient, low-level access to memory without copying or additional safety checks.
+  remarks: >-
+    This read only collection does not own the memory it points to. The user is responsible for ensuring the memory remains valid for the lifetime of this structure.
+
+    The goal of this struc is similar to <xref href="System.ReadOnlySpan%601" data-throw-if-not-resolved="false"></xref>, but it can be used in contexts where spans are not allowed, such as fields in structs and shared across threads.
+  example: []
+  syntax:
+    content: 'public readonly struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>, IEnumerable where T : unmanaged'
+    typeParameters:
+    - id: T
+      description: The type of elements in the collection. Must be an unmanaged type.
+    content.vb: Public Structure ReadOnlyUnsafeCollection(Of T As Structure) Implements IEnumerable(Of T), IEnumerable
+  implements:
+  - System.Collections.Generic.IEnumerable{{T}}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T)
+  name.vb: ReadOnlyUnsafeCollection(Of T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Count
+  id: Count
+  parent: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ReadOnlyUnsafeCollection<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.Count
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Count
+    path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+    startLine: 53
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Count*
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Length
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Length
+  id: Length
+  parent: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: Length
+  nameWithType: ReadOnlyUnsafeCollection<T>.Length
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.Length
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Length
+    path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+    startLine: 54
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int Length { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Length As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Length*
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).Length
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).Length
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Item(System.Int32)
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: ReadOnlyUnsafeCollection<T>.this[int]
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.this[int]
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: this[]
+    path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+    startLine: 56
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public ref readonly T this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+    return:
+      type: '{T}'
+    content.vb: Public ReadOnly Default Property this[](index As Integer) As T
+  overload: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Item*
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).this[](Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).this[](Integer)
+  name.vb: this[](Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Item(System.UInt32)
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Item(System.UInt32)
+  id: Item(System.UInt32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: this[uint]
+  nameWithType: ReadOnlyUnsafeCollection<T>.this[uint]
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.this[uint]
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: this[]
+    path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+    startLine: 66
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public ref readonly T this[uint index] { get; }
+    parameters:
+    - id: index
+      type: System.UInt32
+    return:
+      type: '{T}'
+    content.vb: Public ReadOnly Default Property this[](index As UInteger) As T
+  overload: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Item*
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).this[](UInteger)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).this[](UInteger)
+  name.vb: this[](UInteger)
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetEnumerator
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetEnumerator
+  id: GetEnumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ReadOnlyUnsafeCollection<T>.GetEnumerator()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetEnumerator
+    path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+    startLine: 76
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public ReadOnlyUnsafeCollection<T>.Enumerator GetEnumerator()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Enumerator
+    content.vb: Public Function GetEnumerator() As ReadOnlyUnsafeCollection(Of T).Enumerator
+  overload: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetEnumerator*
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).GetEnumerator()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).GetEnumerator()
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.#ctor(`0*,System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.#ctor(`0*,System.Int32)
+  id: '#ctor(`0*,System.Int32)'
+  parent: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: ReadOnlyUnsafeCollection(T*, int)
+  nameWithType: ReadOnlyUnsafeCollection<T>.ReadOnlyUnsafeCollection(T*, int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.ReadOnlyUnsafeCollection(T*, int)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+    startLine: 91
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public ReadOnlyUnsafeCollection(T* buffer, int count)
+    parameters:
+    - id: buffer
+      type: '{T}*'
+    - id: count
+      type: System.Int32
+    content.vb: Public Sub New(buffer As T*, count As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.#ctor*
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).New(T*, Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).New(T*, Integer)
+  name.vb: New(T*, Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.AsSpan
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.AsSpan
+  id: AsSpan
+  parent: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: AsSpan()
+  nameWithType: ReadOnlyUnsafeCollection<T>.AsSpan()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.AsSpan()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsSpan
+    path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+    startLine: 111
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Returns a read-only span that represents the valid elements in the underlying buffer.
+  example: []
+  syntax:
+    content: public ReadOnlySpan<T> AsSpan()
+    return:
+      type: System.ReadOnlySpan{{T}}
+      description: A <xref href="System.ReadOnlySpan%601" data-throw-if-not-resolved="false"></xref> containing the elements of the buffer up to the current count.
+    content.vb: Public Function AsSpan() As ReadOnlySpan(Of T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.AsSpan*
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).AsSpan()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).AsSpan()
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Reinterpret``1
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Reinterpret``1
+  id: Reinterpret``1
+  parent: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: Reinterpret<U>()
+  nameWithType: ReadOnlyUnsafeCollection<T>.Reinterpret<U>()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.Reinterpret<U>()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Reinterpret
+    path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+    startLine: 123
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Reinterprets the underlying collection as a read-only collection of a different unmanaged type without copying the data.
+  example: []
+  syntax:
+    content: 'public ReadOnlyUnsafeCollection<U> Reinterpret<U>() where U : unmanaged'
+    typeParameters:
+    - id: U
+      description: The unmanaged type to reinterpret the collection elements as.
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{{U}}
+      description: A new <xref href="Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection%601" data-throw-if-not-resolved="false"></xref> that provides a read-only view of the same memory, interpreted as elements of type U.
+    content.vb: Public Function Reinterpret(Of U As Structure)() As ReadOnlyUnsafeCollection(Of U)
+  overload: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Reinterpret*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: Thrown if the total size of the underlying collection is not a multiple of the size of type U, making the reinterpretation invalid.
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).Reinterpret(Of U)()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).Reinterpret(Of U)()
+  name.vb: Reinterpret(Of U)()
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetUnsafePtr
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetUnsafePtr
+  id: GetUnsafePtr
+  parent: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: GetUnsafePtr()
+  nameWithType: ReadOnlyUnsafeCollection<T>.GetUnsafePtr()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.GetUnsafePtr()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetUnsafePtr
+    path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+    startLine: 140
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Returns an unsafe pointer to the underlying buffer of the collection, allowing for low-level access to the memory.
+  example: []
+  syntax:
+    content: public void* GetUnsafePtr()
+    return:
+      type: System.Void*
+      description: The pointer to the first element of the collection's buffer.
+    content.vb: Public Function GetUnsafePtr() As Void*
+  overload: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetUnsafePtr*
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).GetUnsafePtr()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).GetUnsafePtr()
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.op_Implicit(Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{`0})~System.ReadOnlySpan{`0}
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.op_Implicit(Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{`0})~System.ReadOnlySpan{`0}
+  id: op_Implicit(Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{`0})~System.ReadOnlySpan{`0}
+  parent: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: implicit operator ReadOnlySpan<T>(ReadOnlyUnsafeCollection<T>)
+  nameWithType: ReadOnlyUnsafeCollection<T>.implicit operator ReadOnlySpan<T>(ReadOnlyUnsafeCollection<T>)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.implicit operator System.ReadOnlySpan<T>(Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>)
+  type: Operator
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: op_Implicit
+    path: src/Misaki.HighPerformance.LowLevel/Collections/ReadOnlyUnsafeCollection.cs
+    startLine: 146
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public static implicit operator ReadOnlySpan<T>(ReadOnlyUnsafeCollection<T> collection)
+    parameters:
+    - id: collection
+      type: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    return:
+      type: System.ReadOnlySpan{{T}}
+    content.vb: Public Shared Widening Operator CType(collection As ReadOnlyUnsafeCollection(Of T)) As ReadOnlySpan(Of T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.op_Implicit*
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).CType(ReadOnlyUnsafeCollection(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).CType(Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T))
+  name.vb: CType(ReadOnlyUnsafeCollection(Of T))
+references:
+- uid: System.ReadOnlySpan`1
+  commentId: T:System.ReadOnlySpan`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+- uid: System.Collections.Generic.IEnumerable{{T}}
+  commentId: T:System.Collections.Generic.IEnumerable{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Count*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_ReadOnlyUnsafeCollection_1_Count
+  name: Count
+  nameWithType: ReadOnlyUnsafeCollection<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.Count
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Length*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Length
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_ReadOnlyUnsafeCollection_1_Length
+  name: Length
+  nameWithType: ReadOnlyUnsafeCollection<T>.Length
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.Length
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).Length
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).Length
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Item*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Item
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_ReadOnlyUnsafeCollection_1_Item_System_Int32_
+  name: this
+  nameWithType: ReadOnlyUnsafeCollection<T>.this
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.this
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).this[]
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).this[]
+  name.vb: this[]
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetEnumerator*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetEnumerator
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_ReadOnlyUnsafeCollection_1_GetEnumerator
+  name: GetEnumerator
+  nameWithType: ReadOnlyUnsafeCollection<T>.GetEnumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.GetEnumerator
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).GetEnumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).GetEnumerator
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  name: ReadOnlyUnsafeCollection<T>.Enumerator
+  nameWithType: ReadOnlyUnsafeCollection<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.Enumerator
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).Enumerator
+  name.vb: ReadOnlyUnsafeCollection(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.#ctor
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_ReadOnlyUnsafeCollection_1__ctor__0__System_Int32_
+  name: ReadOnlyUnsafeCollection
+  nameWithType: ReadOnlyUnsafeCollection<T>.ReadOnlyUnsafeCollection
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.ReadOnlyUnsafeCollection
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).New
+  name.vb: New
+- uid: '{T}*'
+  isExternal: true
+  name: T*
+  nameWithType: T*
+  fullName: T*
+  spec.csharp:
+  - name: T
+  - name: '*'
+  spec.vb:
+  - name: T
+  - name: '*'
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.AsSpan*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.AsSpan
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_ReadOnlyUnsafeCollection_1_AsSpan
+  name: AsSpan
+  nameWithType: ReadOnlyUnsafeCollection<T>.AsSpan
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.AsSpan
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).AsSpan
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).AsSpan
+- uid: System.ReadOnlySpan{{T}}
+  commentId: T:System.ReadOnlySpan{``0}
+  parent: System
+  definition: System.ReadOnlySpan`1
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  name: ReadOnlyUnsafeCollection<T>
+  nameWithType: ReadOnlyUnsafeCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T)
+  name.vb: ReadOnlyUnsafeCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.invalidoperationexception
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Reinterpret*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Reinterpret
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_ReadOnlyUnsafeCollection_1_Reinterpret__1
+  name: Reinterpret
+  nameWithType: ReadOnlyUnsafeCollection<T>.Reinterpret
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.Reinterpret
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).Reinterpret
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).Reinterpret
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{{U}}
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{``0}
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  definition: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  name: ReadOnlyUnsafeCollection<U>
+  nameWithType: ReadOnlyUnsafeCollection<U>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<U>
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of U)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of U)
+  name.vb: ReadOnlyUnsafeCollection(Of U)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: <
+  - name: U
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: U
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetUnsafePtr*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.GetUnsafePtr
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_ReadOnlyUnsafeCollection_1_GetUnsafePtr
+  name: GetUnsafePtr
+  nameWithType: ReadOnlyUnsafeCollection<T>.GetUnsafePtr
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.GetUnsafePtr
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).GetUnsafePtr
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).GetUnsafePtr
+- uid: System.Void*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.void
+  name: void*
+  nameWithType: void*
+  fullName: void*
+  nameWithType.vb: Void*
+  fullName.vb: Void*
+  name.vb: Void*
+  spec.csharp:
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  spec.vb:
+  - uid: System.Void
+    name: Void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.op_Implicit*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.op_Implicit
+  name: implicit operator
+  nameWithType: ReadOnlyUnsafeCollection<T>.implicit operator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.implicit operator
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).CType
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).CType
+  name.vb: CType
+  spec.csharp:
+  - name: implicit
+  - name: " "
+  - name: operator

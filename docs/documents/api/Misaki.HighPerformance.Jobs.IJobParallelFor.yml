@@ -1,0 +1,265 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Jobs.IJobParallelFor
+  commentId: T:Misaki.HighPerformance.Jobs.IJobParallelFor
+  id: IJobParallelFor
+  parent: Misaki.HighPerformance.Jobs
+  children:
+  - Misaki.HighPerformance.Jobs.IJobParallelFor.Execute(System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  langs:
+  - csharp
+  - vb
+  name: IJobParallelFor
+  nameWithType: IJobParallelFor
+  fullName: Misaki.HighPerformance.Jobs.IJobParallelFor
+  type: Interface
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/IJob.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IJobParallelFor
+    path: src/Misaki.HighPerformance.Jobs/IJob.cs
+    startLine: 19
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Represents a job that performs the same operation for a set of items, executed in parallel.
+  example: []
+  syntax:
+    content: public interface IJobParallelFor
+    content.vb: Public Interface IJobParallelFor
+  extensionMethods:
+  - Misaki.HighPerformance.Jobs.IJobParallelFor.Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run``1(System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+- uid: Misaki.HighPerformance.Jobs.IJobParallelFor.Execute(System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  commentId: M:Misaki.HighPerformance.Jobs.IJobParallelFor.Execute(System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  id: Execute(System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  parent: Misaki.HighPerformance.Jobs.IJobParallelFor
+  langs:
+  - csharp
+  - vb
+  name: Execute(int, ref readonly JobExecutionContext)
+  nameWithType: IJobParallelFor.Execute(int, ref readonly JobExecutionContext)
+  fullName: Misaki.HighPerformance.Jobs.IJobParallelFor.Execute(int, ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/IJob.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Execute
+    path: src/Misaki.HighPerformance.Jobs/IJob.cs
+    startLine: 26
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Executes the job for a single item at the given index.
+  example: []
+  syntax:
+    content: void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
+    parameters:
+    - id: loopIndex
+      type: System.Int32
+      description: The index of the item to process.
+    - id: ctx
+      type: Misaki.HighPerformance.Jobs.JobExecutionContext
+      description: The context of the job execution, providing access to thread-specific information and job scheduling capabilities.
+    content.vb: Sub Execute(loopIndex As Integer, ctx As JobExecutionContext)
+  overload: Misaki.HighPerformance.Jobs.IJobParallelFor.Execute*
+  nameWithType.vb: IJobParallelFor.Execute(Integer, JobExecutionContext)
+  fullName.vb: Misaki.HighPerformance.Jobs.IJobParallelFor.Execute(Integer, Misaki.HighPerformance.Jobs.JobExecutionContext)
+  name.vb: Execute(Integer, JobExecutionContext)
+references:
+- uid: Misaki.HighPerformance.Jobs
+  commentId: N:Misaki.HighPerformance.Jobs
+  href: Misaki.html
+  name: Misaki.HighPerformance.Jobs
+  nameWithType: Misaki.HighPerformance.Jobs
+  fullName: Misaki.HighPerformance.Jobs
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+- uid: Misaki.HighPerformance.Jobs.IJobParallelFor.Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run``1(System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  commentId: M:Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run``1(``0,System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  parent: Misaki.HighPerformance.Jobs.IJobParallelForExtensions
+  definition: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run``1(``0,System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  href: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.html#Misaki_HighPerformance_Jobs_IJobParallelForExtensions_Run__1___0_System_Int32_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  name: Run<IJobParallelFor>(IJobParallelFor, int, ref readonly JobExecutionContext)
+  nameWithType: IJobParallelForExtensions.Run<IJobParallelFor>(IJobParallelFor, int, ref readonly JobExecutionContext)
+  fullName: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run<Misaki.HighPerformance.Jobs.IJobParallelFor>(Misaki.HighPerformance.Jobs.IJobParallelFor, int, ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext)
+  nameWithType.vb: IJobParallelForExtensions.Run(Of IJobParallelFor)(IJobParallelFor, Integer, JobExecutionContext)
+  fullName.vb: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run(Of Misaki.HighPerformance.Jobs.IJobParallelFor)(Misaki.HighPerformance.Jobs.IJobParallelFor, Integer, Misaki.HighPerformance.Jobs.JobExecutionContext)
+  name.vb: Run(Of IJobParallelFor)(IJobParallelFor, Integer, JobExecutionContext)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run``1(Misaki.HighPerformance.Jobs.IJobParallelFor,System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+    name: Run
+    href: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.html#Misaki_HighPerformance_Jobs_IJobParallelForExtensions_Run__1___0_System_Int32_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  - name: <
+  - uid: Misaki.HighPerformance.Jobs.IJobParallelFor
+    name: IJobParallelFor
+    href: Misaki.HighPerformance.Jobs.IJobParallelFor.html
+  - name: '>'
+  - name: (
+  - uid: Misaki.HighPerformance.Jobs.IJobParallelFor
+    name: IJobParallelFor
+    href: Misaki.HighPerformance.Jobs.IJobParallelFor.html
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: ref
+  - name: " "
+  - name: readonly
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+    name: JobExecutionContext
+    href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run``1(Misaki.HighPerformance.Jobs.IJobParallelFor,System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+    name: Run
+    href: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.html#Misaki_HighPerformance_Jobs_IJobParallelForExtensions_Run__1___0_System_Int32_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.IJobParallelFor
+    name: IJobParallelFor
+    href: Misaki.HighPerformance.Jobs.IJobParallelFor.html
+  - name: )
+  - name: (
+  - uid: Misaki.HighPerformance.Jobs.IJobParallelFor
+    name: IJobParallelFor
+    href: Misaki.HighPerformance.Jobs.IJobParallelFor.html
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+    name: JobExecutionContext
+    href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  - name: )
+- uid: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run``1(``0,System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  commentId: M:Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run``1(``0,System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  isExternal: true
+  href: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.html#Misaki_HighPerformance_Jobs_IJobParallelForExtensions_Run__1___0_System_Int32_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  name: Run<T>(T, int, ref readonly JobExecutionContext)
+  nameWithType: IJobParallelForExtensions.Run<T>(T, int, ref readonly JobExecutionContext)
+  fullName: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run<T>(T, int, ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext)
+  nameWithType.vb: IJobParallelForExtensions.Run(Of T)(T, Integer, JobExecutionContext)
+  fullName.vb: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run(Of T)(T, Integer, Misaki.HighPerformance.Jobs.JobExecutionContext)
+  name.vb: Run(Of T)(T, Integer, JobExecutionContext)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run``1(``0,System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+    name: Run
+    href: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.html#Misaki_HighPerformance_Jobs_IJobParallelForExtensions_Run__1___0_System_Int32_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - name: ref
+  - name: " "
+  - name: readonly
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+    name: JobExecutionContext
+    href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.Run``1(``0,System.Int32,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+    name: Run
+    href: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.html#Misaki_HighPerformance_Jobs_IJobParallelForExtensions_Run__1___0_System_Int32_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+    name: JobExecutionContext
+    href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  - name: )
+- uid: Misaki.HighPerformance.Jobs.IJobParallelForExtensions
+  commentId: T:Misaki.HighPerformance.Jobs.IJobParallelForExtensions
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.IJobParallelForExtensions.html
+  name: IJobParallelForExtensions
+  nameWithType: IJobParallelForExtensions
+  fullName: Misaki.HighPerformance.Jobs.IJobParallelForExtensions
+- uid: Misaki.HighPerformance.Jobs.IJobParallelFor.Execute*
+  commentId: Overload:Misaki.HighPerformance.Jobs.IJobParallelFor.Execute
+  href: Misaki.HighPerformance.Jobs.IJobParallelFor.html#Misaki_HighPerformance_Jobs_IJobParallelFor_Execute_System_Int32_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  name: Execute
+  nameWithType: IJobParallelFor.Execute
+  fullName: Misaki.HighPerformance.Jobs.IJobParallelFor.Execute
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+  commentId: T:Misaki.HighPerformance.Jobs.JobExecutionContext
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  name: JobExecutionContext
+  nameWithType: JobExecutionContext
+  fullName: Misaki.HighPerformance.Jobs.JobExecutionContext
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System

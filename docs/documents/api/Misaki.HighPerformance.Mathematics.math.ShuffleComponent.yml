@@ -1,0 +1,316 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  commentId: T:Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  id: math.ShuffleComponent
+  parent: Misaki.HighPerformance.Mathematics
+  children:
+  - Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftW
+  - Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftX
+  - Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftY
+  - Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftZ
+  - Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightW
+  - Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightX
+  - Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightY
+  - Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightZ
+  langs:
+  - csharp
+  - vb
+  name: math.ShuffleComponent
+  nameWithType: math.ShuffleComponent
+  fullName: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  type: Enum
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ShuffleComponent
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 37
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Specifies a shuffle component.
+  example: []
+  syntax:
+    content: 'public enum math.ShuffleComponent : byte'
+    content.vb: Public Enum math.ShuffleComponent As Byte
+- uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftX
+  commentId: F:Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftX
+  id: LeftX
+  parent: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  langs:
+  - csharp
+  - vb
+  name: LeftX
+  nameWithType: math.ShuffleComponent.LeftX
+  fullName: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftX
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: LeftX
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 40
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Specified the x component of the left vector.
+  example: []
+  syntax:
+    content: LeftX = 0
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+- uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftY
+  commentId: F:Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftY
+  id: LeftY
+  parent: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  langs:
+  - csharp
+  - vb
+  name: LeftY
+  nameWithType: math.ShuffleComponent.LeftY
+  fullName: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftY
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: LeftY
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 42
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Specified the y component of the left vector.
+  example: []
+  syntax:
+    content: LeftY = 1
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+- uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftZ
+  commentId: F:Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftZ
+  id: LeftZ
+  parent: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  langs:
+  - csharp
+  - vb
+  name: LeftZ
+  nameWithType: math.ShuffleComponent.LeftZ
+  fullName: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftZ
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: LeftZ
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 44
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Specified the z component of the left vector.
+  example: []
+  syntax:
+    content: LeftZ = 2
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+- uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftW
+  commentId: F:Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftW
+  id: LeftW
+  parent: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  langs:
+  - csharp
+  - vb
+  name: LeftW
+  nameWithType: math.ShuffleComponent.LeftW
+  fullName: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.LeftW
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: LeftW
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 46
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Specified the w component of the left vector.
+  example: []
+  syntax:
+    content: LeftW = 3
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+- uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightX
+  commentId: F:Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightX
+  id: RightX
+  parent: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  langs:
+  - csharp
+  - vb
+  name: RightX
+  nameWithType: math.ShuffleComponent.RightX
+  fullName: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightX
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RightX
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 49
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Specified the x component of the right vector.
+  example: []
+  syntax:
+    content: RightX = 4
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+- uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightY
+  commentId: F:Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightY
+  id: RightY
+  parent: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  langs:
+  - csharp
+  - vb
+  name: RightY
+  nameWithType: math.ShuffleComponent.RightY
+  fullName: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightY
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RightY
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 51
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Specified the y component of the right vector.
+  example: []
+  syntax:
+    content: RightY = 5
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+- uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightZ
+  commentId: F:Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightZ
+  id: RightZ
+  parent: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  langs:
+  - csharp
+  - vb
+  name: RightZ
+  nameWithType: math.ShuffleComponent.RightZ
+  fullName: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightZ
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RightZ
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 53
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Specified the z component of the right vector.
+  example: []
+  syntax:
+    content: RightZ = 6
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+- uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightW
+  commentId: F:Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightW
+  id: RightW
+  parent: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  langs:
+  - csharp
+  - vb
+  name: RightW
+  nameWithType: math.ShuffleComponent.RightW
+  fullName: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.RightW
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RightW
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 55
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Specified the w component of the right vector.
+  example: []
+  syntax:
+    content: RightW = 7
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+references:
+- uid: Misaki.HighPerformance.Mathematics
+  commentId: N:Misaki.HighPerformance.Mathematics
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics
+  nameWithType: Misaki.HighPerformance.Mathematics
+  fullName: Misaki.HighPerformance.Mathematics
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+- uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  commentId: T:Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.math.html
+  name: math.ShuffleComponent
+  nameWithType: math.ShuffleComponent
+  fullName: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.math
+    name: math
+    href: Misaki.HighPerformance.Mathematics.math.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+    name: ShuffleComponent
+    href: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.math
+    name: math
+    href: Misaki.HighPerformance.Mathematics.math.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.math.ShuffleComponent
+    name: ShuffleComponent
+    href: Misaki.HighPerformance.Mathematics.math.ShuffleComponent.html

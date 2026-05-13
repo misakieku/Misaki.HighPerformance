@@ -1,0 +1,1064 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  commentId: T:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  id: UnsafeUtility
+  parent: Misaki.HighPerformance.LowLevel.Utilities
+  children:
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AddressOf``1(``0@)
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AsRef``1(System.Void*)
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr``1(System.ReadOnlySpan{``0})
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr``1(System.Span{``0})
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef``1(System.Void*,System.IntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef``1(System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe``1(System.Void*,System.IntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe``1(System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement``1(System.Void*,System.IntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement``1(System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement``1(System.Void*,System.IntPtr,``0)
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement``1(System.Void*,System.UIntPtr,``0)
+  langs:
+  - csharp
+  - vb
+  name: UnsafeUtility
+  nameWithType: UnsafeUtility
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  type: Class
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: UnsafeUtility
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 4
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  syntax:
+    content: public static class UnsafeUtility
+    content.vb: Public Module UnsafeUtility
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AsRef``1(System.Void*)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AsRef``1(System.Void*)
+  id: AsRef``1(System.Void*)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: AsRef<T>(void*)
+  nameWithType: UnsafeUtility.AsRef<T>(void*)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AsRef<T>(void*)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsRef
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 12
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Converts a pointer to a reference of a specified type.
+  example: []
+  syntax:
+    content: 'public static ref T AsRef<T>(void* ptr) where T : unmanaged'
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: Represents the memory address to be converted into a reference.
+    typeParameters:
+    - id: T
+      description: Specifies the type of the reference to be created from the pointer.
+    return:
+      type: '{T}'
+      description: Returns a reference of the specified type pointing to the given memory address.
+    content.vb: Public Shared ByRef Function AsRef(Of T As Structure)(ptr As Void*) As T
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AsRef*
+  nameWithType.vb: UnsafeUtility.AsRef(Of T)(Void*)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AsRef(Of T)(Void*)
+  name.vb: AsRef(Of T)(Void*)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AddressOf``1(``0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AddressOf``1(``0@)
+  id: AddressOf``1(``0@)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: AddressOf<T>(ref T)
+  nameWithType: UnsafeUtility.AddressOf<T>(ref T)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AddressOf<T>(ref T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AddressOf
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 25
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Returns the address of a specified variable in memory.
+  example: []
+  syntax:
+    content: 'public static void* AddressOf<T>(ref T value) where T : unmanaged'
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The variable whose memory address is to be obtained.
+    typeParameters:
+    - id: T
+      description: Represents the type of the variable whose address is being retrieved.
+    return:
+      type: System.Void*
+      description: A pointer to the memory address of the specified variable.
+    content.vb: Public Shared Function [AddressOf](Of T As Structure)(value As T) As Void*
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AddressOf*
+  nameWithType.vb: UnsafeUtility.AddressOf(Of T)(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AddressOf(Of T)(T)
+  name.vb: AddressOf(Of T)(T)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe``1(System.Void*,System.IntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe``1(System.Void*,System.IntPtr)
+  id: ReadArrayElementUnsafe``1(System.Void*,System.IntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: ReadArrayElementUnsafe<T>(void*, nint)
+  nameWithType: UnsafeUtility.ReadArrayElementUnsafe<T>(void*, nint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe<T>(void*, nint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ReadArrayElementUnsafe
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 39
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Reads an element from an unmanaged array at a specified index using a pointer.
+  example: []
+  syntax:
+    content: 'public static T* ReadArrayElementUnsafe<T>(void* ptr, nint index) where T : unmanaged'
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: Points to the start of the unmanaged array from which the element is read.
+    - id: index
+      type: System.IntPtr
+      description: Indicates the position of the element to be accessed within the array.
+    typeParameters:
+    - id: T
+      description: Specifies the type of elements in the unmanaged array.
+    return:
+      type: '{T}*'
+      description: Returns a pointer to the element located at the specified index.
+    content.vb: Public Shared Function ReadArrayElementUnsafe(Of T As Structure)(ptr As Void*, index As IntPtr) As T*
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe*
+  nameWithType.vb: UnsafeUtility.ReadArrayElementUnsafe(Of T)(Void*, IntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe(Of T)(Void*, System.IntPtr)
+  name.vb: ReadArrayElementUnsafe(Of T)(Void*, IntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe``1(System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe``1(System.Void*,System.UIntPtr)
+  id: ReadArrayElementUnsafe``1(System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: ReadArrayElementUnsafe<T>(void*, nuint)
+  nameWithType: UnsafeUtility.ReadArrayElementUnsafe<T>(void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe<T>(void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ReadArrayElementUnsafe
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 53
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Reads an element from an unmanaged array at a specified index using a pointer.
+  example: []
+  syntax:
+    content: 'public static T* ReadArrayElementUnsafe<T>(void* ptr, nuint index) where T : unmanaged'
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: Points to the start of the unmanaged array from which the element is read.
+    - id: index
+      type: System.UIntPtr
+      description: Indicates the position of the element to be accessed within the array.
+    typeParameters:
+    - id: T
+      description: Specifies the type of elements in the unmanaged array.
+    return:
+      type: '{T}*'
+      description: Returns a pointer to the element located at the specified index.
+    content.vb: Public Shared Function ReadArrayElementUnsafe(Of T As Structure)(ptr As Void*, index As UIntPtr) As T*
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe*
+  nameWithType.vb: UnsafeUtility.ReadArrayElementUnsafe(Of T)(Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe(Of T)(Void*, System.UIntPtr)
+  name.vb: ReadArrayElementUnsafe(Of T)(Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef``1(System.Void*,System.IntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef``1(System.Void*,System.IntPtr)
+  id: ReadArrayElementRef``1(System.Void*,System.IntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: ReadArrayElementRef<T>(void*, nint)
+  nameWithType: UnsafeUtility.ReadArrayElementRef<T>(void*, nint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef<T>(void*, nint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ReadArrayElementRef
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 67
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Reads an element from an unmanaged array using a pointer and index, returning a reference to the element.
+  example: []
+  syntax:
+    content: 'public static ref T ReadArrayElementRef<T>(void* ptr, nint index) where T : unmanaged'
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: Points to the start of the unmanaged array from which the element is read.
+    - id: index
+      type: System.IntPtr
+      description: Indicates the position of the element to be accessed in the array.
+    typeParameters:
+    - id: T
+      description: Specifies the type of the elements in the unmanaged array.
+    return:
+      type: '{T}'
+      description: A reference to the specified element in the unmanaged array.
+    content.vb: Public Shared ByRef Function ReadArrayElementRef(Of T As Structure)(ptr As Void*, index As IntPtr) As T
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef*
+  nameWithType.vb: UnsafeUtility.ReadArrayElementRef(Of T)(Void*, IntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef(Of T)(Void*, System.IntPtr)
+  name.vb: ReadArrayElementRef(Of T)(Void*, IntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef``1(System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef``1(System.Void*,System.UIntPtr)
+  id: ReadArrayElementRef``1(System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: ReadArrayElementRef<T>(void*, nuint)
+  nameWithType: UnsafeUtility.ReadArrayElementRef<T>(void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef<T>(void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ReadArrayElementRef
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 81
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Reads an element from an unmanaged array using a pointer and index, returning a reference to the element.
+  example: []
+  syntax:
+    content: 'public static ref T ReadArrayElementRef<T>(void* ptr, nuint index) where T : unmanaged'
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: Points to the start of the unmanaged array from which the element is read.
+    - id: index
+      type: System.UIntPtr
+      description: Indicates the position of the element to be accessed in the array.
+    typeParameters:
+    - id: T
+      description: Specifies the type of the elements in the unmanaged array.
+    return:
+      type: '{T}'
+      description: A reference to the specified element in the unmanaged array.
+    content.vb: Public Shared ByRef Function ReadArrayElementRef(Of T As Structure)(ptr As Void*, index As UIntPtr) As T
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef*
+  nameWithType.vb: UnsafeUtility.ReadArrayElementRef(Of T)(Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef(Of T)(Void*, System.UIntPtr)
+  name.vb: ReadArrayElementRef(Of T)(Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement``1(System.Void*,System.IntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement``1(System.Void*,System.IntPtr)
+  id: ReadArrayElement``1(System.Void*,System.IntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: ReadArrayElement<T>(void*, nint)
+  nameWithType: UnsafeUtility.ReadArrayElement<T>(void*, nint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement<T>(void*, nint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ReadArrayElement
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 95
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Reads an element from an array at a specified index using a pointer to the array.
+  example: []
+  syntax:
+    content: 'public static T ReadArrayElement<T>(void* ptr, nint index) where T : unmanaged'
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: Points to the start of the array from which an element will be read.
+    - id: index
+      type: System.IntPtr
+      description: Indicates the position of the element to be accessed within the array.
+    typeParameters:
+    - id: T
+      description: Specifies the type of the elements in the array, which must be unmanaged.
+    return:
+      type: '{T}'
+      description: The element located at the specified index in the array.
+    content.vb: Public Shared Function ReadArrayElement(Of T As Structure)(ptr As Void*, index As IntPtr) As T
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement*
+  nameWithType.vb: UnsafeUtility.ReadArrayElement(Of T)(Void*, IntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement(Of T)(Void*, System.IntPtr)
+  name.vb: ReadArrayElement(Of T)(Void*, IntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement``1(System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement``1(System.Void*,System.UIntPtr)
+  id: ReadArrayElement``1(System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: ReadArrayElement<T>(void*, nuint)
+  nameWithType: UnsafeUtility.ReadArrayElement<T>(void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement<T>(void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ReadArrayElement
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 109
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Reads an element from an array at a specified index using a pointer to the array.
+  example: []
+  syntax:
+    content: 'public static T ReadArrayElement<T>(void* ptr, nuint index) where T : unmanaged'
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: Points to the start of the array from which an element will be read.
+    - id: index
+      type: System.UIntPtr
+      description: Indicates the position of the element to be accessed within the array.
+    typeParameters:
+    - id: T
+      description: Specifies the type of the elements in the array, which must be unmanaged.
+    return:
+      type: '{T}'
+      description: The element located at the specified index in the array.
+    content.vb: Public Shared Function ReadArrayElement(Of T As Structure)(ptr As Void*, index As UIntPtr) As T
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement*
+  nameWithType.vb: UnsafeUtility.ReadArrayElement(Of T)(Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement(Of T)(Void*, System.UIntPtr)
+  name.vb: ReadArrayElement(Of T)(Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement``1(System.Void*,System.IntPtr,``0)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement``1(System.Void*,System.IntPtr,``0)
+  id: WriteArrayElement``1(System.Void*,System.IntPtr,``0)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: WriteArrayElement<T>(void*, nint, T)
+  nameWithType: UnsafeUtility.WriteArrayElement<T>(void*, nint, T)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement<T>(void*, nint, T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: WriteArrayElement
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 123
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Writes a value to a specified index of an unmanaged array using a pointer.
+  example: []
+  syntax:
+    content: 'public static void WriteArrayElement<T>(void* ptr, nint index, T value) where T : unmanaged'
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: Points to the beginning of the unmanaged array where the value will be written.
+    - id: index
+      type: System.IntPtr
+      description: Indicates the position in the array where the value should be stored.
+    - id: value
+      type: '{T}'
+      description: Represents the value to be written to the specified index of the array.
+    typeParameters:
+    - id: T
+      description: Specifies the type of the value being written to the array, which must be an unmanaged type.
+    content.vb: Public Shared Sub WriteArrayElement(Of T As Structure)(ptr As Void*, index As IntPtr, value As T)
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement*
+  nameWithType.vb: UnsafeUtility.WriteArrayElement(Of T)(Void*, IntPtr, T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement(Of T)(Void*, System.IntPtr, T)
+  name.vb: WriteArrayElement(Of T)(Void*, IntPtr, T)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement``1(System.Void*,System.UIntPtr,``0)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement``1(System.Void*,System.UIntPtr,``0)
+  id: WriteArrayElement``1(System.Void*,System.UIntPtr,``0)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: WriteArrayElement<T>(void*, nuint, T)
+  nameWithType: UnsafeUtility.WriteArrayElement<T>(void*, nuint, T)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement<T>(void*, nuint, T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: WriteArrayElement
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 137
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Writes a value to a specified index of an unmanaged array using a pointer.
+  example: []
+  syntax:
+    content: 'public static void WriteArrayElement<T>(void* ptr, nuint index, T value) where T : unmanaged'
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: Points to the beginning of the unmanaged array where the value will be written.
+    - id: index
+      type: System.UIntPtr
+      description: Indicates the position in the array where the value should be stored.
+    - id: value
+      type: '{T}'
+      description: Represents the value to be written to the specified index of the array.
+    typeParameters:
+    - id: T
+      description: Specifies the type of the value being written to the array, which must be an unmanaged type.
+    content.vb: Public Shared Sub WriteArrayElement(Of T As Structure)(ptr As Void*, index As UIntPtr, value As T)
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement*
+  nameWithType.vb: UnsafeUtility.WriteArrayElement(Of T)(Void*, UIntPtr, T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement(Of T)(Void*, System.UIntPtr, T)
+  name.vb: WriteArrayElement(Of T)(Void*, UIntPtr, T)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr``1(System.Span{``0})
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr``1(System.Span{``0})
+  id: GetUnsafePtr``1(System.Span{``0})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: GetUnsafePtr<T>(Span<T>)
+  nameWithType: UnsafeUtility.GetUnsafePtr<T>(Span<T>)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr<T>(System.Span<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetUnsafePtr
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 150
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Returns a pointer to the first element of the specified span. This method enables direct, unsafe access to the underlying data of the span.
+  example: []
+  syntax:
+    content: 'public static T* GetUnsafePtr<T>(this Span<T> span) where T : unmanaged'
+    parameters:
+    - id: span
+      type: System.Span{{T}}
+      description: The span whose underlying data pointer is to be obtained.
+    typeParameters:
+    - id: T
+      description: The type of elements in the span. Must be an unmanaged type.
+    return:
+      type: '{T}*'
+      description: A pointer to the first element of the span. If the span is empty, the returned pointer is undefined and must not be dereferenced.
+    content.vb: Public Shared Function GetUnsafePtr(Of T As Structure)(span As Span(Of T)) As T*
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr*
+  nameWithType.vb: UnsafeUtility.GetUnsafePtr(Of T)(Span(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr(Of T)(System.Span(Of T))
+  name.vb: GetUnsafePtr(Of T)(Span(Of T))
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr``1(System.ReadOnlySpan{``0})
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr``1(System.ReadOnlySpan{``0})
+  id: GetUnsafePtr``1(System.ReadOnlySpan{``0})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  langs:
+  - csharp
+  - vb
+  name: GetUnsafePtr<T>(ReadOnlySpan<T>)
+  nameWithType: UnsafeUtility.GetUnsafePtr<T>(ReadOnlySpan<T>)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr<T>(System.ReadOnlySpan<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetUnsafePtr
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/UnsafeUtility.cs
+    startLine: 165
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Returns a pointer to the first element of the specified span. This method enables direct, unsafe access to the underlying data of the span.
+  example: []
+  syntax:
+    content: 'public static T* GetUnsafePtr<T>(this ReadOnlySpan<T> span) where T : unmanaged'
+    parameters:
+    - id: span
+      type: System.ReadOnlySpan{{T}}
+      description: The span whose underlying data pointer is to be obtained.
+    typeParameters:
+    - id: T
+      description: The type of elements in the span. Must be an unmanaged type.
+    return:
+      type: '{T}*'
+      description: A pointer to the first element of the span. If the span is empty, the returned pointer is undefined and must not be dereferenced.
+    content.vb: Public Shared Function GetUnsafePtr(Of T As Structure)(span As ReadOnlySpan(Of T)) As T*
+  overload: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr*
+  nameWithType.vb: UnsafeUtility.GetUnsafePtr(Of T)(ReadOnlySpan(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr(Of T)(System.ReadOnlySpan(Of T))
+  name.vb: GetUnsafePtr(Of T)(ReadOnlySpan(Of T))
+references:
+- uid: Misaki.HighPerformance.LowLevel.Utilities
+  commentId: N:Misaki.HighPerformance.LowLevel.Utilities
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Utilities
+  nameWithType: Misaki.HighPerformance.LowLevel.Utilities
+  fullName: Misaki.HighPerformance.LowLevel.Utilities
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Utilities
+    name: Utilities
+    href: Misaki.HighPerformance.LowLevel.Utilities.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Utilities
+    name: Utilities
+    href: Misaki.HighPerformance.LowLevel.Utilities.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AsRef*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AsRef
+  href: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.html#Misaki_HighPerformance_LowLevel_Utilities_UnsafeUtility_AsRef__1_System_Void__
+  name: AsRef
+  nameWithType: UnsafeUtility.AsRef
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AsRef
+- uid: System.Void*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.void
+  name: void*
+  nameWithType: void*
+  fullName: void*
+  nameWithType.vb: Void*
+  fullName.vb: Void*
+  name.vb: Void*
+  spec.csharp:
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  spec.vb:
+  - uid: System.Void
+    name: Void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AddressOf*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AddressOf
+  href: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.html#Misaki_HighPerformance_LowLevel_Utilities_UnsafeUtility_AddressOf__1___0__
+  name: AddressOf
+  nameWithType: UnsafeUtility.AddressOf
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.AddressOf
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe
+  href: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.html#Misaki_HighPerformance_LowLevel_Utilities_UnsafeUtility_ReadArrayElementUnsafe__1_System_Void__System_IntPtr_
+  name: ReadArrayElementUnsafe
+  nameWithType: UnsafeUtility.ReadArrayElementUnsafe
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementUnsafe
+- uid: System.IntPtr
+  commentId: T:System.IntPtr
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.intptr
+  name: nint
+  nameWithType: nint
+  fullName: nint
+  nameWithType.vb: IntPtr
+  fullName.vb: System.IntPtr
+  name.vb: IntPtr
+- uid: '{T}*'
+  isExternal: true
+  name: T*
+  nameWithType: T*
+  fullName: T*
+  spec.csharp:
+  - name: T
+  - name: '*'
+  spec.vb:
+  - name: T
+  - name: '*'
+- uid: System.UIntPtr
+  commentId: T:System.UIntPtr
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  name: nuint
+  nameWithType: nuint
+  fullName: nuint
+  nameWithType.vb: UIntPtr
+  fullName.vb: System.UIntPtr
+  name.vb: UIntPtr
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef
+  href: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.html#Misaki_HighPerformance_LowLevel_Utilities_UnsafeUtility_ReadArrayElementRef__1_System_Void__System_IntPtr_
+  name: ReadArrayElementRef
+  nameWithType: UnsafeUtility.ReadArrayElementRef
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElementRef
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement
+  href: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.html#Misaki_HighPerformance_LowLevel_Utilities_UnsafeUtility_ReadArrayElement__1_System_Void__System_IntPtr_
+  name: ReadArrayElement
+  nameWithType: UnsafeUtility.ReadArrayElement
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.ReadArrayElement
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement
+  href: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.html#Misaki_HighPerformance_LowLevel_Utilities_UnsafeUtility_WriteArrayElement__1_System_Void__System_IntPtr___0_
+  name: WriteArrayElement
+  nameWithType: UnsafeUtility.WriteArrayElement
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.WriteArrayElement
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr
+  href: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.html#Misaki_HighPerformance_LowLevel_Utilities_UnsafeUtility_GetUnsafePtr__1_System_Span___0__
+  name: GetUnsafePtr
+  nameWithType: UnsafeUtility.GetUnsafePtr
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.GetUnsafePtr
+- uid: System.Span{{T}}
+  commentId: T:System.Span{`0}
+  parent: System
+  definition: System.Span`1
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<T>
+  nameWithType: Span<T>
+  fullName: System.Span<T>
+  nameWithType.vb: Span(Of T)
+  fullName.vb: System.Span(Of T)
+  name.vb: Span(Of T)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Span`1
+  commentId: T:System.Span`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<T>
+  nameWithType: Span<T>
+  fullName: System.Span<T>
+  nameWithType.vb: Span(Of T)
+  fullName.vb: System.Span(Of T)
+  name.vb: Span(Of T)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ReadOnlySpan{{T}}
+  commentId: T:System.ReadOnlySpan{``0}
+  parent: System
+  definition: System.ReadOnlySpan`1
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ReadOnlySpan`1
+  commentId: T:System.ReadOnlySpan`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )

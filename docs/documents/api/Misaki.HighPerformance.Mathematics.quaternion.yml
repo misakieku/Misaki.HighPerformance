@@ -1,0 +1,1892 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.quaternion
+  commentId: T:Misaki.HighPerformance.Mathematics.quaternion
+  id: quaternion
+  parent: Misaki.HighPerformance.Mathematics
+  children:
+  - Misaki.HighPerformance.Mathematics.quaternion.#ctor(Misaki.HighPerformance.Mathematics.float3x3)
+  - Misaki.HighPerformance.Mathematics.quaternion.#ctor(Misaki.HighPerformance.Mathematics.float4)
+  - Misaki.HighPerformance.Mathematics.quaternion.#ctor(Misaki.HighPerformance.Mathematics.float4x4)
+  - Misaki.HighPerformance.Mathematics.quaternion.#ctor(System.Single,System.Single,System.Single,System.Single)
+  - Misaki.HighPerformance.Mathematics.quaternion.AxisAngle(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  - Misaki.HighPerformance.Mathematics.quaternion.Equals(Misaki.HighPerformance.Mathematics.quaternion)
+  - Misaki.HighPerformance.Mathematics.quaternion.Equals(System.Object)
+  - Misaki.HighPerformance.Mathematics.quaternion.Euler(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.math.RotationOrder)
+  - Misaki.HighPerformance.Mathematics.quaternion.Euler(System.Single,System.Single,System.Single,Misaki.HighPerformance.Mathematics.math.RotationOrder)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ(System.Single,System.Single,System.Single)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerXZY(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerXZY(System.Single,System.Single,System.Single)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ(System.Single,System.Single,System.Single)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerYZX(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerYZX(System.Single,System.Single,System.Single)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerZXY(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerZXY(System.Single,System.Single,System.Single)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerZYX(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.quaternion.EulerZYX(System.Single,System.Single,System.Single)
+  - Misaki.HighPerformance.Mathematics.quaternion.GetHashCode
+  - Misaki.HighPerformance.Mathematics.quaternion.LookRotation(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.quaternion.LookRotationSafe(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.quaternion.RotateX(System.Single)
+  - Misaki.HighPerformance.Mathematics.quaternion.RotateY(System.Single)
+  - Misaki.HighPerformance.Mathematics.quaternion.RotateZ(System.Single)
+  - Misaki.HighPerformance.Mathematics.quaternion.ToString
+  - Misaki.HighPerformance.Mathematics.quaternion.identity
+  - Misaki.HighPerformance.Mathematics.quaternion.op_Implicit(Misaki.HighPerformance.Mathematics.float4)~Misaki.HighPerformance.Mathematics.quaternion
+  - Misaki.HighPerformance.Mathematics.quaternion.value
+  langs:
+  - csharp
+  - vb
+  name: quaternion
+  nameWithType: quaternion
+  fullName: Misaki.HighPerformance.Mathematics.quaternion
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: quaternion
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 7
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: 'public struct quaternion : IEquatable<quaternion>'
+    content.vb: Public Structure quaternion Implements IEquatable(Of quaternion)
+  implements:
+  - System.IEquatable{Misaki.HighPerformance.Mathematics.quaternion}
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.value
+  commentId: F:Misaki.HighPerformance.Mathematics.quaternion.value
+  id: value
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: value
+  nameWithType: quaternion.value
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.value
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: value
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: The quaternion component values.
+  example: []
+  syntax:
+    content: public float4 value
+    return:
+      type: Misaki.HighPerformance.Mathematics.float4
+    content.vb: Public value As float4
+- uid: Misaki.HighPerformance.Mathematics.quaternion.identity
+  commentId: F:Misaki.HighPerformance.Mathematics.quaternion.identity
+  id: identity
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: identity
+  nameWithType: quaternion.identity
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.identity
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: identity
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 16
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: A quaternion representing the identity transform.
+  example: []
+  syntax:
+    content: public static readonly quaternion identity
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+    content.vb: Public Shared ReadOnly identity As quaternion
+- uid: Misaki.HighPerformance.Mathematics.quaternion.#ctor(System.Single,System.Single,System.Single,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.#ctor(System.Single,System.Single,System.Single,System.Single)
+  id: '#ctor(System.Single,System.Single,System.Single,System.Single)'
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: quaternion(float, float, float, float)
+  nameWithType: quaternion.quaternion(float, float, float, float)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.quaternion(float, float, float, float)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 23
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Constructs a quaternion from four float values.
+  example: []
+  syntax:
+    content: public quaternion(float x, float y, float z, float w)
+    parameters:
+    - id: x
+      type: System.Single
+      description: The quaternion x component.
+    - id: y
+      type: System.Single
+      description: The quaternion y component.
+    - id: z
+      type: System.Single
+      description: The quaternion z component.
+    - id: w
+      type: System.Single
+      description: The quaternion w component.
+    content.vb: Public Sub New(x As Single, y As Single, z As Single, w As Single)
+  overload: Misaki.HighPerformance.Mathematics.quaternion.#ctor*
+  nameWithType.vb: quaternion.New(Single, Single, Single, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.New(Single, Single, Single, Single)
+  name.vb: New(Single, Single, Single, Single)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.#ctor(Misaki.HighPerformance.Mathematics.float4)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.#ctor(Misaki.HighPerformance.Mathematics.float4)
+  id: '#ctor(Misaki.HighPerformance.Mathematics.float4)'
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: quaternion(float4)
+  nameWithType: quaternion.quaternion(float4)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.quaternion(Misaki.HighPerformance.Mathematics.float4)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 34
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Constructs a quaternion from float4 vector.
+  example: []
+  syntax:
+    content: public quaternion(float4 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.float4
+      description: The quaternion xyzw component values.
+    content.vb: Public Sub New(value As float4)
+  overload: Misaki.HighPerformance.Mathematics.quaternion.#ctor*
+  nameWithType.vb: quaternion.New(float4)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.New(Misaki.HighPerformance.Mathematics.float4)
+  name.vb: New(float4)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.op_Implicit(Misaki.HighPerformance.Mathematics.float4)~Misaki.HighPerformance.Mathematics.quaternion
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.op_Implicit(Misaki.HighPerformance.Mathematics.float4)~Misaki.HighPerformance.Mathematics.quaternion
+  id: op_Implicit(Misaki.HighPerformance.Mathematics.float4)~Misaki.HighPerformance.Mathematics.quaternion
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: implicit operator quaternion(float4)
+  nameWithType: quaternion.implicit operator quaternion(float4)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.implicit operator Misaki.HighPerformance.Mathematics.quaternion(Misaki.HighPerformance.Mathematics.float4)
+  type: Operator
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: op_Implicit
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 43
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Implicitly converts a float4 vector to a quaternion.
+  example: []
+  syntax:
+    content: public static implicit operator quaternion(float4 v)
+    parameters:
+    - id: v
+      type: Misaki.HighPerformance.Mathematics.float4
+      description: The quaternion xyzw component values.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion constructed from a float4 vector.
+    content.vb: Public Shared Widening Operator CType(v As float4) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.op_Implicit*
+  nameWithType.vb: quaternion.CType(float4)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.CType(Misaki.HighPerformance.Mathematics.float4)
+  name.vb: CType(float4)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.#ctor(Misaki.HighPerformance.Mathematics.float3x3)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.#ctor(Misaki.HighPerformance.Mathematics.float3x3)
+  id: '#ctor(Misaki.HighPerformance.Mathematics.float3x3)'
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: quaternion(float3x3)
+  nameWithType: quaternion.quaternion(float3x3)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.quaternion(Misaki.HighPerformance.Mathematics.float3x3)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 51
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Constructs a unit quaternion from a float3x3 rotation matrix. The matrix must be orthonormal.
+  example: []
+  syntax:
+    content: public quaternion(float3x3 m)
+    parameters:
+    - id: m
+      type: Misaki.HighPerformance.Mathematics.float3x3
+      description: The float3x3 orthonormal rotation matrix.
+    content.vb: Public Sub New(m As float3x3)
+  overload: Misaki.HighPerformance.Mathematics.quaternion.#ctor*
+  nameWithType.vb: quaternion.New(float3x3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.New(Misaki.HighPerformance.Mathematics.float3x3)
+  name.vb: New(float3x3)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.#ctor(Misaki.HighPerformance.Mathematics.float4x4)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.#ctor(Misaki.HighPerformance.Mathematics.float4x4)
+  id: '#ctor(Misaki.HighPerformance.Mathematics.float4x4)'
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: quaternion(float4x4)
+  nameWithType: quaternion.quaternion(float4x4)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.quaternion(Misaki.HighPerformance.Mathematics.float4x4)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 75
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Constructs a unit quaternion from an orthonormal float4x4 matrix.
+  example: []
+  syntax:
+    content: public quaternion(float4x4 m)
+    parameters:
+    - id: m
+      type: Misaki.HighPerformance.Mathematics.float4x4
+      description: The float4x4 orthonormal rotation matrix.
+    content.vb: Public Sub New(m As float4x4)
+  overload: Misaki.HighPerformance.Mathematics.quaternion.#ctor*
+  nameWithType.vb: quaternion.New(float4x4)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.New(Misaki.HighPerformance.Mathematics.float4x4)
+  name.vb: New(float4x4)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.AxisAngle(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.AxisAngle(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  id: AxisAngle(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: AxisAngle(float3, float)
+  nameWithType: quaternion.AxisAngle(float3, float)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.AxisAngle(Misaki.HighPerformance.Mathematics.float3, float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AxisAngle
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 105
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion representing a rotation around a unit axis by an angle in radians.
+
+    The rotation direction is clockwise when looking along the rotation axis towards the origin.
+  example: []
+  syntax:
+    content: public static quaternion AxisAngle(float3 axis, float angle)
+    parameters:
+    - id: axis
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: The axis of rotation.
+    - id: angle
+      type: System.Single
+      description: The angle of rotation in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing a rotation around an axis.
+    content.vb: Public Shared Function AxisAngle(axis As float3, angle As Single) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.AxisAngle*
+  nameWithType.vb: quaternion.AxisAngle(float3, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.AxisAngle(Misaki.HighPerformance.Mathematics.float3, Single)
+  name.vb: AxisAngle(float3, Single)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ(Misaki.HighPerformance.Mathematics.float3)
+  id: EulerXYZ(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerXYZ(float3)
+  nameWithType: quaternion.EulerXYZ(float3)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerXYZ
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 118
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the x-axis, then the y-axis and finally the z-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+  example: []
+  syntax:
+    content: public static quaternion EulerXYZ(float3 xyz)
+    parameters:
+    - id: xyz
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A float3 vector containing the rotation angles around the x-, y- and z-axis measures in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in x-y-z order.
+    content.vb: Public Shared Function EulerXYZ(xyz As float3) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ*
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerXZY(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerXZY(Misaki.HighPerformance.Mathematics.float3)
+  id: EulerXZY(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerXZY(float3)
+  nameWithType: quaternion.EulerXZY(float3)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerXZY(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerXZY
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 137
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the x-axis, then the z-axis and finally the y-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+  example: []
+  syntax:
+    content: public static quaternion EulerXZY(float3 xyz)
+    parameters:
+    - id: xyz
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A float3 vector containing the rotation angles around the x-, y- and z-axis measures in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in x-z-y order.
+    content.vb: Public Shared Function EulerXZY(xyz As float3) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerXZY*
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ(Misaki.HighPerformance.Mathematics.float3)
+  id: EulerYXZ(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerYXZ(float3)
+  nameWithType: quaternion.EulerYXZ(float3)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerYXZ
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 156
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the y-axis, then the x-axis and finally the z-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+  example: []
+  syntax:
+    content: public static quaternion EulerYXZ(float3 xyz)
+    parameters:
+    - id: xyz
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A float3 vector containing the rotation angles around the x-, y- and z-axis measures in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in y-x-z order.
+    content.vb: Public Shared Function EulerYXZ(xyz As float3) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ*
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerYZX(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerYZX(Misaki.HighPerformance.Mathematics.float3)
+  id: EulerYZX(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerYZX(float3)
+  nameWithType: quaternion.EulerYZX(float3)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerYZX(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerYZX
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 175
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the y-axis, then the z-axis and finally the x-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+  example: []
+  syntax:
+    content: public static quaternion EulerYZX(float3 xyz)
+    parameters:
+    - id: xyz
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A float3 vector containing the rotation angles around the x-, y- and z-axis measures in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in y-z-x order.
+    content.vb: Public Shared Function EulerYZX(xyz As float3) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerYZX*
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerZXY(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerZXY(Misaki.HighPerformance.Mathematics.float3)
+  id: EulerZXY(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerZXY(float3)
+  nameWithType: quaternion.EulerZXY(float3)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerZXY(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerZXY
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 195
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the z-axis, then the x-axis and finally the y-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+
+    This is the default order rotation order in Unity.
+  example: []
+  syntax:
+    content: public static quaternion EulerZXY(float3 xyz)
+    parameters:
+    - id: xyz
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A float3 vector containing the rotation angles around the x-, y- and z-axis measures in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in z-x-y order.
+    content.vb: Public Shared Function EulerZXY(xyz As float3) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerZXY*
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerZYX(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerZYX(Misaki.HighPerformance.Mathematics.float3)
+  id: EulerZYX(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerZYX(float3)
+  nameWithType: quaternion.EulerZYX(float3)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerZYX(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerZYX
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 214
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the z-axis, then the y-axis and finally the x-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+  example: []
+  syntax:
+    content: public static quaternion EulerZYX(float3 xyz)
+    parameters:
+    - id: xyz
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A float3 vector containing the rotation angles around the x-, y- and z-axis measures in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in z-y-x order.
+    content.vb: Public Shared Function EulerZYX(xyz As float3) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerZYX*
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ(System.Single,System.Single,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ(System.Single,System.Single,System.Single)
+  id: EulerXYZ(System.Single,System.Single,System.Single)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerXYZ(float, float, float)
+  nameWithType: quaternion.EulerXYZ(float, float, float)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ(float, float, float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerXYZ
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 235
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the x-axis, then the y-axis and finally the z-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+  example: []
+  syntax:
+    content: public static quaternion EulerXYZ(float x, float y, float z)
+    parameters:
+    - id: x
+      type: System.Single
+      description: The rotation angle around the x-axis in radians.
+    - id: y
+      type: System.Single
+      description: The rotation angle around the y-axis in radians.
+    - id: z
+      type: System.Single
+      description: The rotation angle around the z-axis in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in x-y-z order.
+    content.vb: Public Shared Function EulerXYZ(x As Single, y As Single, z As Single) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ*
+  nameWithType.vb: quaternion.EulerXYZ(Single, Single, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ(Single, Single, Single)
+  name.vb: EulerXYZ(Single, Single, Single)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerXZY(System.Single,System.Single,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerXZY(System.Single,System.Single,System.Single)
+  id: EulerXZY(System.Single,System.Single,System.Single)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerXZY(float, float, float)
+  nameWithType: quaternion.EulerXZY(float, float, float)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerXZY(float, float, float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerXZY
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 249
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the x-axis, then the z-axis and finally the y-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+  example: []
+  syntax:
+    content: public static quaternion EulerXZY(float x, float y, float z)
+    parameters:
+    - id: x
+      type: System.Single
+      description: The rotation angle around the x-axis in radians.
+    - id: y
+      type: System.Single
+      description: The rotation angle around the y-axis in radians.
+    - id: z
+      type: System.Single
+      description: The rotation angle around the z-axis in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in x-z-y order.
+    content.vb: Public Shared Function EulerXZY(x As Single, y As Single, z As Single) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerXZY*
+  nameWithType.vb: quaternion.EulerXZY(Single, Single, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.EulerXZY(Single, Single, Single)
+  name.vb: EulerXZY(Single, Single, Single)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ(System.Single,System.Single,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ(System.Single,System.Single,System.Single)
+  id: EulerYXZ(System.Single,System.Single,System.Single)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerYXZ(float, float, float)
+  nameWithType: quaternion.EulerYXZ(float, float, float)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ(float, float, float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerYXZ
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 263
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the y-axis, then the x-axis and finally the z-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+  example: []
+  syntax:
+    content: public static quaternion EulerYXZ(float x, float y, float z)
+    parameters:
+    - id: x
+      type: System.Single
+      description: The rotation angle around the x-axis in radians.
+    - id: y
+      type: System.Single
+      description: The rotation angle around the y-axis in radians.
+    - id: z
+      type: System.Single
+      description: The rotation angle around the z-axis in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in y-x-z order.
+    content.vb: Public Shared Function EulerYXZ(x As Single, y As Single, z As Single) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ*
+  nameWithType.vb: quaternion.EulerYXZ(Single, Single, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ(Single, Single, Single)
+  name.vb: EulerYXZ(Single, Single, Single)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerYZX(System.Single,System.Single,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerYZX(System.Single,System.Single,System.Single)
+  id: EulerYZX(System.Single,System.Single,System.Single)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerYZX(float, float, float)
+  nameWithType: quaternion.EulerYZX(float, float, float)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerYZX(float, float, float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerYZX
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 277
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the y-axis, then the z-axis and finally the x-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+  example: []
+  syntax:
+    content: public static quaternion EulerYZX(float x, float y, float z)
+    parameters:
+    - id: x
+      type: System.Single
+      description: The rotation angle around the x-axis in radians.
+    - id: y
+      type: System.Single
+      description: The rotation angle around the y-axis in radians.
+    - id: z
+      type: System.Single
+      description: The rotation angle around the z-axis in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in y-z-x order.
+    content.vb: Public Shared Function EulerYZX(x As Single, y As Single, z As Single) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerYZX*
+  nameWithType.vb: quaternion.EulerYZX(Single, Single, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.EulerYZX(Single, Single, Single)
+  name.vb: EulerYZX(Single, Single, Single)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerZXY(System.Single,System.Single,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerZXY(System.Single,System.Single,System.Single)
+  id: EulerZXY(System.Single,System.Single,System.Single)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerZXY(float, float, float)
+  nameWithType: quaternion.EulerZXY(float, float, float)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerZXY(float, float, float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerZXY
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 292
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the z-axis, then the x-axis and finally the y-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+
+    This is the default order rotation order in Unity.
+  example: []
+  syntax:
+    content: public static quaternion EulerZXY(float x, float y, float z)
+    parameters:
+    - id: x
+      type: System.Single
+      description: The rotation angle around the x-axis in radians.
+    - id: y
+      type: System.Single
+      description: The rotation angle around the y-axis in radians.
+    - id: z
+      type: System.Single
+      description: The rotation angle around the z-axis in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in z-x-y order.
+    content.vb: Public Shared Function EulerZXY(x As Single, y As Single, z As Single) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerZXY*
+  nameWithType.vb: quaternion.EulerZXY(Single, Single, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.EulerZXY(Single, Single, Single)
+  name.vb: EulerZXY(Single, Single, Single)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerZYX(System.Single,System.Single,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.EulerZYX(System.Single,System.Single,System.Single)
+  id: EulerZYX(System.Single,System.Single,System.Single)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: EulerZYX(float, float, float)
+  nameWithType: quaternion.EulerZYX(float, float, float)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerZYX(float, float, float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EulerZYX
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 306
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing a rotation around the z-axis, then the y-axis and finally the x-axis.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+  example: []
+  syntax:
+    content: public static quaternion EulerZYX(float x, float y, float z)
+    parameters:
+    - id: x
+      type: System.Single
+      description: The rotation angle around the x-axis in radians.
+    - id: y
+      type: System.Single
+      description: The rotation angle around the y-axis in radians.
+    - id: z
+      type: System.Single
+      description: The rotation angle around the z-axis in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in z-y-x order.
+    content.vb: Public Shared Function EulerZYX(x As Single, y As Single, z As Single) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.EulerZYX*
+  nameWithType.vb: quaternion.EulerZYX(Single, Single, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.EulerZYX(Single, Single, Single)
+  name.vb: EulerZYX(Single, Single, Single)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.Euler(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.math.RotationOrder)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.Euler(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.math.RotationOrder)
+  id: Euler(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.math.RotationOrder)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: Euler(float3, RotationOrder)
+  nameWithType: quaternion.Euler(float3, math.RotationOrder)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.Euler(Misaki.HighPerformance.Mathematics.float3, Misaki.HighPerformance.Mathematics.math.RotationOrder)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Euler
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 321
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing 3 rotations around the principal axes in a given order.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+
+    When the rotation order is known at compile time, it is recommended for performance reasons to use specific
+
+    Euler rotation constructors such as EulerZXY(...).
+  example: []
+  syntax:
+    content: public static quaternion Euler(float3 xyz, math.RotationOrder order = RotationOrder.Default)
+    parameters:
+    - id: xyz
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A float3 vector containing the rotation angles around the x-, y- and z-axis measures in radians.
+    - id: order
+      type: Misaki.HighPerformance.Mathematics.math.RotationOrder
+      description: The order in which the rotations are applied.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in the specified order.
+    content.vb: Public Shared Function Euler(xyz As float3, order As math.RotationOrder = RotationOrder.Default) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.Euler*
+- uid: Misaki.HighPerformance.Mathematics.quaternion.Euler(System.Single,System.Single,System.Single,Misaki.HighPerformance.Mathematics.math.RotationOrder)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.Euler(System.Single,System.Single,System.Single,Misaki.HighPerformance.Mathematics.math.RotationOrder)
+  id: Euler(System.Single,System.Single,System.Single,Misaki.HighPerformance.Mathematics.math.RotationOrder)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: Euler(float, float, float, RotationOrder)
+  nameWithType: quaternion.Euler(float, float, float, math.RotationOrder)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.Euler(float, float, float, Misaki.HighPerformance.Mathematics.math.RotationOrder)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Euler
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 354
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion constructed by first performing 3 rotations around the principal axes in a given order.
+
+    All rotation angles are in radians and clockwise when looking along the rotation axis towards the origin.
+
+    When the rotation order is known at compile time, it is recommended for performance reasons to use specific
+
+    Euler rotation constructors such as EulerZXY(...).
+  example: []
+  syntax:
+    content: public static quaternion Euler(float x, float y, float z, math.RotationOrder order = RotationOrder.Default)
+    parameters:
+    - id: x
+      type: System.Single
+      description: The rotation angle around the x-axis in radians.
+    - id: y
+      type: System.Single
+      description: The rotation angle around the y-axis in radians.
+    - id: z
+      type: System.Single
+      description: The rotation angle around the z-axis in radians.
+    - id: order
+      type: Misaki.HighPerformance.Mathematics.math.RotationOrder
+      description: The order in which the rotations are applied.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing the Euler angle rotation in the specified order.
+    content.vb: Public Shared Function Euler(x As Single, y As Single, z As Single, order As math.RotationOrder = RotationOrder.Default) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.Euler*
+  nameWithType.vb: quaternion.Euler(Single, Single, Single, math.RotationOrder)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.Euler(Single, Single, Single, Misaki.HighPerformance.Mathematics.math.RotationOrder)
+  name.vb: Euler(Single, Single, Single, RotationOrder)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.RotateX(System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.RotateX(System.Single)
+  id: RotateX(System.Single)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: RotateX(float)
+  nameWithType: quaternion.RotateX(float)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.RotateX(float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RotateX
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 363
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a quaternion that rotates around the x-axis by a given number of radians.
+  example: []
+  syntax:
+    content: public static quaternion RotateX(float angle)
+    parameters:
+    - id: angle
+      type: System.Single
+      description: The clockwise rotation angle when looking along the x-axis towards the origin in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing a rotation around the x-axis.
+    content.vb: Public Shared Function RotateX(angle As Single) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.RotateX*
+  nameWithType.vb: quaternion.RotateX(Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.RotateX(Single)
+  name.vb: RotateX(Single)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.RotateY(System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.RotateY(System.Single)
+  id: RotateY(System.Single)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: RotateY(float)
+  nameWithType: quaternion.RotateY(float)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.RotateY(float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RotateY
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 373
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a quaternion that rotates around the y-axis by a given number of radians.
+  example: []
+  syntax:
+    content: public static quaternion RotateY(float angle)
+    parameters:
+    - id: angle
+      type: System.Single
+      description: The clockwise rotation angle when looking along the y-axis towards the origin in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing a rotation around the y-axis.
+    content.vb: Public Shared Function RotateY(angle As Single) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.RotateY*
+  nameWithType.vb: quaternion.RotateY(Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.RotateY(Single)
+  name.vb: RotateY(Single)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.RotateZ(System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.RotateZ(System.Single)
+  id: RotateZ(System.Single)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: RotateZ(float)
+  nameWithType: quaternion.RotateZ(float)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.RotateZ(float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RotateZ
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 383
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a quaternion that rotates around the z-axis by a given number of radians.
+  example: []
+  syntax:
+    content: public static quaternion RotateZ(float angle)
+    parameters:
+    - id: angle
+      type: System.Single
+      description: The clockwise rotation angle when looking along the z-axis towards the origin in radians.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion representing a rotation around the z-axis.
+    content.vb: Public Shared Function RotateZ(angle As Single) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.RotateZ*
+  nameWithType.vb: quaternion.RotateZ(Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.RotateZ(Single)
+  name.vb: RotateZ(Single)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.LookRotation(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.LookRotation(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  id: LookRotation(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: LookRotation(float3, float3)
+  nameWithType: quaternion.LookRotation(float3, float3)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.LookRotation(Misaki.HighPerformance.Mathematics.float3, Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: LookRotation
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 398
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion view rotation given a unit length forward vector and a unit length up vector.
+
+    The two input vectors are assumed to be unit length and not collinear.
+
+    If these assumptions are not met use float3x3.LookRotationSafe instead.
+  example: []
+  syntax:
+    content: public static quaternion LookRotation(float3 forward, float3 up)
+    parameters:
+    - id: forward
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: The view forward direction.
+    - id: up
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: The view up direction.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion view rotation.
+    content.vb: Public Shared Function LookRotation(forward As float3, up As float3) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.LookRotation*
+- uid: Misaki.HighPerformance.Mathematics.quaternion.LookRotationSafe(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.LookRotationSafe(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  id: LookRotationSafe(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: LookRotationSafe(float3, float3)
+  nameWithType: quaternion.LookRotationSafe(float3, float3)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.LookRotationSafe(Misaki.HighPerformance.Mathematics.float3, Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: LookRotationSafe
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 414
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: >-
+    Returns a quaternion view rotation given a forward vector and an up vector.
+
+    The two input vectors are not assumed to be unit length.
+
+    If the magnitude of either of the vectors is so extreme that the calculation cannot be carried out reliably or the vectors are collinear,
+
+    the identity will be returned instead.
+  example: []
+  syntax:
+    content: public static quaternion LookRotationSafe(float3 forward, float3 up)
+    parameters:
+    - id: forward
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: The view forward direction.
+    - id: up
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: The view up direction.
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion view rotation or the identity quaternion.
+    content.vb: Public Shared Function LookRotationSafe(forward As float3, up As float3) As quaternion
+  overload: Misaki.HighPerformance.Mathematics.quaternion.LookRotationSafe*
+- uid: Misaki.HighPerformance.Mathematics.quaternion.Equals(Misaki.HighPerformance.Mathematics.quaternion)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.Equals(Misaki.HighPerformance.Mathematics.quaternion)
+  id: Equals(Misaki.HighPerformance.Mathematics.quaternion)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: Equals(quaternion)
+  nameWithType: quaternion.Equals(quaternion)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.Equals(Misaki.HighPerformance.Mathematics.quaternion)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Equals
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 436
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns true if the quaternion is equal to a given quaternion, false otherwise.
+  example: []
+  syntax:
+    content: public bool Equals(quaternion x)
+    parameters:
+    - id: x
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: The quaternion to compare with.
+    return:
+      type: System.Boolean
+      description: True if the quaternion is equal to the input, false otherwise.
+    content.vb: Public Function Equals(x As quaternion) As Boolean
+  overload: Misaki.HighPerformance.Mathematics.quaternion.Equals*
+  implements:
+  - System.IEquatable{Misaki.HighPerformance.Mathematics.quaternion}.Equals(Misaki.HighPerformance.Mathematics.quaternion)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.Equals(System.Object)
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: Equals(object?)
+  nameWithType: quaternion.Equals(object?)
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.Equals(object?)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Equals
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 445
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns whether true if the quaternion is equal to a given quaternion, false otherwise.
+  example: []
+  syntax:
+    content: public override bool Equals(object? x)
+    parameters:
+    - id: x
+      type: System.Object
+      description: The object to compare with.
+    return:
+      type: System.Boolean
+      description: True if the quaternion is equal to the input, false otherwise.
+    content.vb: Public Overrides Function Equals(x As Object) As Boolean
+  overridden: System.ValueType.Equals(System.Object)
+  overload: Misaki.HighPerformance.Mathematics.quaternion.Equals*
+  nameWithType.vb: quaternion.Equals(Object)
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.Equals(Object)
+  name.vb: Equals(Object)
+- uid: Misaki.HighPerformance.Mathematics.quaternion.GetHashCode
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.GetHashCode
+  id: GetHashCode
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: quaternion.GetHashCode()
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetHashCode
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 453
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a hash code for the quaternion.
+  example: []
+  syntax:
+    content: public override int GetHashCode()
+    return:
+      type: System.Int32
+      description: The hash code of the quaternion.
+    content.vb: Public Overrides Function GetHashCode() As Integer
+  overridden: System.ValueType.GetHashCode
+  overload: Misaki.HighPerformance.Mathematics.quaternion.GetHashCode*
+- uid: Misaki.HighPerformance.Mathematics.quaternion.ToString
+  commentId: M:Misaki.HighPerformance.Mathematics.quaternion.ToString
+  id: ToString
+  parent: Misaki.HighPerformance.Mathematics.quaternion
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: quaternion.ToString()
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ToString
+    path: src/Misaki.HighPerformance.Mathematics/quaternion.cs
+    startLine: 461
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a string representation of the quaternion.
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: The string representation of the quaternion.
+    content.vb: Public Overrides Function ToString() As String
+  overridden: System.ValueType.ToString
+  overload: Misaki.HighPerformance.Mathematics.quaternion.ToString*
+references:
+- uid: Misaki.HighPerformance.Mathematics
+  commentId: N:Misaki.HighPerformance.Mathematics
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics
+  nameWithType: Misaki.HighPerformance.Mathematics
+  fullName: Misaki.HighPerformance.Mathematics
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+- uid: System.IEquatable{Misaki.HighPerformance.Mathematics.quaternion}
+  commentId: T:System.IEquatable{Misaki.HighPerformance.Mathematics.quaternion}
+  parent: System
+  definition: System.IEquatable`1
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<quaternion>
+  nameWithType: IEquatable<quaternion>
+  fullName: System.IEquatable<Misaki.HighPerformance.Mathematics.quaternion>
+  nameWithType.vb: IEquatable(Of quaternion)
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.Mathematics.quaternion)
+  name.vb: IEquatable(Of quaternion)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - uid: Misaki.HighPerformance.Mathematics.quaternion
+    name: quaternion
+    href: Misaki.HighPerformance.Mathematics.quaternion.html
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.quaternion
+    name: quaternion
+    href: Misaki.HighPerformance.Mathematics.quaternion.html
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.IEquatable`1
+  commentId: T:System.IEquatable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<T>
+  nameWithType: IEquatable<T>
+  fullName: System.IEquatable<T>
+  nameWithType.vb: IEquatable(Of T)
+  fullName.vb: System.IEquatable(Of T)
+  name.vb: IEquatable(Of T)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Misaki.HighPerformance.Mathematics.float4
+  commentId: T:Misaki.HighPerformance.Mathematics.float4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float4.html
+  name: float4
+  nameWithType: float4
+  fullName: Misaki.HighPerformance.Mathematics.float4
+- uid: Misaki.HighPerformance.Mathematics.quaternion
+  commentId: T:Misaki.HighPerformance.Mathematics.quaternion
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.quaternion.html
+  name: quaternion
+  nameWithType: quaternion
+  fullName: Misaki.HighPerformance.Mathematics.quaternion
+- uid: Misaki.HighPerformance.Mathematics.quaternion.#ctor*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.#ctor
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion__ctor_System_Single_System_Single_System_Single_System_Single_
+  name: quaternion
+  nameWithType: quaternion.quaternion
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.quaternion
+  nameWithType.vb: quaternion.New
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.New
+  name.vb: New
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: Misaki.HighPerformance.Mathematics.quaternion.op_Implicit*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.op_Implicit
+  name: implicit operator
+  nameWithType: quaternion.implicit operator
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.implicit operator
+  nameWithType.vb: quaternion.CType
+  fullName.vb: Misaki.HighPerformance.Mathematics.quaternion.CType
+  name.vb: CType
+  spec.csharp:
+  - name: implicit
+  - name: " "
+  - name: operator
+- uid: Misaki.HighPerformance.Mathematics.float3x3
+  commentId: T:Misaki.HighPerformance.Mathematics.float3x3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float3x3.html
+  name: float3x3
+  nameWithType: float3x3
+  fullName: Misaki.HighPerformance.Mathematics.float3x3
+- uid: Misaki.HighPerformance.Mathematics.float4x4
+  commentId: T:Misaki.HighPerformance.Mathematics.float4x4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float4x4.html
+  name: float4x4
+  nameWithType: float4x4
+  fullName: Misaki.HighPerformance.Mathematics.float4x4
+- uid: Misaki.HighPerformance.Mathematics.quaternion.AxisAngle*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.AxisAngle
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_AxisAngle_Misaki_HighPerformance_Mathematics_float3_System_Single_
+  name: AxisAngle
+  nameWithType: quaternion.AxisAngle
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.AxisAngle
+- uid: Misaki.HighPerformance.Mathematics.float3
+  commentId: T:Misaki.HighPerformance.Mathematics.float3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float3.html
+  name: float3
+  nameWithType: float3
+  fullName: Misaki.HighPerformance.Mathematics.float3
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_EulerXYZ_Misaki_HighPerformance_Mathematics_float3_
+  name: EulerXYZ
+  nameWithType: quaternion.EulerXYZ
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerXYZ
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerXZY*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.EulerXZY
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_EulerXZY_Misaki_HighPerformance_Mathematics_float3_
+  name: EulerXZY
+  nameWithType: quaternion.EulerXZY
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerXZY
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_EulerYXZ_Misaki_HighPerformance_Mathematics_float3_
+  name: EulerYXZ
+  nameWithType: quaternion.EulerYXZ
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerYXZ
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerYZX*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.EulerYZX
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_EulerYZX_Misaki_HighPerformance_Mathematics_float3_
+  name: EulerYZX
+  nameWithType: quaternion.EulerYZX
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerYZX
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerZXY*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.EulerZXY
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_EulerZXY_Misaki_HighPerformance_Mathematics_float3_
+  name: EulerZXY
+  nameWithType: quaternion.EulerZXY
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerZXY
+- uid: Misaki.HighPerformance.Mathematics.quaternion.EulerZYX*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.EulerZYX
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_EulerZYX_Misaki_HighPerformance_Mathematics_float3_
+  name: EulerZYX
+  nameWithType: quaternion.EulerZYX
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.EulerZYX
+- uid: Misaki.HighPerformance.Mathematics.quaternion.Euler*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.Euler
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_Euler_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_math_RotationOrder_
+  name: Euler
+  nameWithType: quaternion.Euler
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.Euler
+- uid: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  commentId: T:Misaki.HighPerformance.Mathematics.math.RotationOrder
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.math.html
+  name: math.RotationOrder
+  nameWithType: math.RotationOrder
+  fullName: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.math
+    name: math
+    href: Misaki.HighPerformance.Mathematics.math.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.math.RotationOrder
+    name: RotationOrder
+    href: Misaki.HighPerformance.Mathematics.math.RotationOrder.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.math
+    name: math
+    href: Misaki.HighPerformance.Mathematics.math.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.math.RotationOrder
+    name: RotationOrder
+    href: Misaki.HighPerformance.Mathematics.math.RotationOrder.html
+- uid: Misaki.HighPerformance.Mathematics.quaternion.RotateX*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.RotateX
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_RotateX_System_Single_
+  name: RotateX
+  nameWithType: quaternion.RotateX
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.RotateX
+- uid: Misaki.HighPerformance.Mathematics.quaternion.RotateY*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.RotateY
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_RotateY_System_Single_
+  name: RotateY
+  nameWithType: quaternion.RotateY
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.RotateY
+- uid: Misaki.HighPerformance.Mathematics.quaternion.RotateZ*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.RotateZ
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_RotateZ_System_Single_
+  name: RotateZ
+  nameWithType: quaternion.RotateZ
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.RotateZ
+- uid: Misaki.HighPerformance.Mathematics.quaternion.LookRotation*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.LookRotation
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_LookRotation_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_float3_
+  name: LookRotation
+  nameWithType: quaternion.LookRotation
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.LookRotation
+- uid: Misaki.HighPerformance.Mathematics.quaternion.LookRotationSafe*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.LookRotationSafe
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_LookRotationSafe_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_float3_
+  name: LookRotationSafe
+  nameWithType: quaternion.LookRotationSafe
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.LookRotationSafe
+- uid: Misaki.HighPerformance.Mathematics.quaternion.Equals*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.Equals
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_Equals_Misaki_HighPerformance_Mathematics_quaternion_
+  name: Equals
+  nameWithType: quaternion.Equals
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.Equals
+- uid: System.IEquatable{Misaki.HighPerformance.Mathematics.quaternion}.Equals(Misaki.HighPerformance.Mathematics.quaternion)
+  commentId: M:System.IEquatable{Misaki.HighPerformance.Mathematics.quaternion}.Equals(Misaki.HighPerformance.Mathematics.quaternion)
+  parent: System.IEquatable{Misaki.HighPerformance.Mathematics.quaternion}
+  definition: System.IEquatable`1.Equals(`0)
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(quaternion)
+  nameWithType: IEquatable<quaternion>.Equals(quaternion)
+  fullName: System.IEquatable<Misaki.HighPerformance.Mathematics.quaternion>.Equals(Misaki.HighPerformance.Mathematics.quaternion)
+  nameWithType.vb: IEquatable(Of quaternion).Equals(quaternion)
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.Mathematics.quaternion).Equals(Misaki.HighPerformance.Mathematics.quaternion)
+  spec.csharp:
+  - uid: System.IEquatable{Misaki.HighPerformance.Mathematics.quaternion}.Equals(Misaki.HighPerformance.Mathematics.quaternion)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.Mathematics.quaternion
+    name: quaternion
+    href: Misaki.HighPerformance.Mathematics.quaternion.html
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable{Misaki.HighPerformance.Mathematics.quaternion}.Equals(Misaki.HighPerformance.Mathematics.quaternion)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.Mathematics.quaternion
+    name: quaternion
+    href: Misaki.HighPerformance.Mathematics.quaternion.html
+  - name: )
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.IEquatable`1.Equals(`0)
+  commentId: M:System.IEquatable`1.Equals(`0)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(T)
+  nameWithType: IEquatable<T>.Equals(T)
+  fullName: System.IEquatable<T>.Equals(T)
+  nameWithType.vb: IEquatable(Of T).Equals(T)
+  fullName.vb: System.IEquatable(Of T).Equals(T)
+  spec.csharp:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.quaternion.GetHashCode*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.GetHashCode
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_GetHashCode
+  name: GetHashCode
+  nameWithType: quaternion.GetHashCode
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.GetHashCode
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.quaternion.ToString*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.quaternion.ToString
+  href: Misaki.HighPerformance.Mathematics.quaternion.html#Misaki_HighPerformance_Mathematics_quaternion_ToString
+  name: ToString
+  nameWithType: quaternion.ToString
+  fullName: Misaki.HighPerformance.Mathematics.quaternion.ToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String

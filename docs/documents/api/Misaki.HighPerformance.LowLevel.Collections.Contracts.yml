@@ -1,0 +1,122 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections.Contracts
+  id: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html
+  name: IUnsafeCollection
+  nameWithType: IUnsafeCollection
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  name: IUnsafeCollection<T>
+  nameWithType: IUnsafeCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>
+  nameWithType.vb: IUnsafeCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T)
+  name.vb: IUnsafeCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+    name: IUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+    name: IUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html
+  name: IUnsafeHashCollection<T>
+  nameWithType: IUnsafeHashCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>
+  nameWithType.vb: IUnsafeHashCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection(Of T)
+  name.vb: IUnsafeHashCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+    name: IUnsafeHashCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection`1
+    name: IUnsafeHashCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections.Contracts
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html

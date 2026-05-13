@@ -1,0 +1,545 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+  id: UnsafeList`1.ParallelWriter
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddNoResize(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddRangeNoResize(System.ReadOnlySpan{`0},System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.listData
+  langs:
+  - csharp
+  - vb
+  name: UnsafeList<T>.ParallelWriter
+  nameWithType: UnsafeList<T>.ParallelWriter
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelWriter
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ParallelWriter
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 114
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: A parallel writer for an UnsafeList.
+  remarks: >-
+    Use <xref href="Misaki.HighPerformance.LowLevel.Collections.UnsafeList%601.AsParallelWriter" data-throw-if-not-resolved="false"></xref> to create a parallel writer for a list.
+
+    The list must live and the address of the list remain stable at least as long as the parallel writer, and the parallel writer must not be used after the list is disposed.
+  example: []
+  syntax:
+    content: public readonly struct UnsafeList<T>.ParallelWriter
+    content.vb: Public Structure UnsafeList(Of T).ParallelWriter
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: UnsafeList(Of T).ParallelWriter
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ParallelWriter
+  name.vb: UnsafeList(Of T).ParallelWriter
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.listData
+  commentId: F:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.listData
+  id: listData
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+  langs:
+  - csharp
+  - vb
+  name: listData
+  nameWithType: UnsafeList<T>.ParallelWriter.listData
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelWriter.listData
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: listData
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 116
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly UnsafeList<T>* listData
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1*
+    content.vb: Public ReadOnly listData As UnsafeList(Of T)*
+  nameWithType.vb: UnsafeList(Of T).ParallelWriter.listData
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ParallelWriter.listData
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddNoResize(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddNoResize(`0@)
+  id: AddNoResize(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+  langs:
+  - csharp
+  - vb
+  name: AddNoResize(scoped in T)
+  nameWithType: UnsafeList<T>.ParallelWriter.AddNoResize(scoped in T)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelWriter.AddNoResize(scoped in T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AddNoResize
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 127
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Adds a value to a collection without resizing it, ensuring capacity is checked before insertion.
+  example: []
+  syntax:
+    content: public void AddNoResize(scoped in T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The value to be added to the collection.
+    content.vb: Public Sub AddNoResize(value As T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddNoResize*
+  nameWithType.vb: UnsafeList(Of T).ParallelWriter.AddNoResize(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ParallelWriter.AddNoResize(T)
+  name.vb: AddNoResize(T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddRangeNoResize(System.ReadOnlySpan{`0},System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddRangeNoResize(System.ReadOnlySpan{`0},System.Int32)
+  id: AddRangeNoResize(System.ReadOnlySpan{`0},System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+  langs:
+  - csharp
+  - vb
+  name: AddRangeNoResize(ReadOnlySpan<T>, int)
+  nameWithType: UnsafeList<T>.ParallelWriter.AddRangeNoResize(ReadOnlySpan<T>, int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelWriter.AddRangeNoResize(System.ReadOnlySpan<T>, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AddRangeNoResize
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 139
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Adds a specified number of elements from a pointer to a buffer without resizing the underlying storage.
+  example: []
+  syntax:
+    content: public void AddRangeNoResize(ReadOnlySpan<T> collection, int count)
+    parameters:
+    - id: collection
+      type: System.ReadOnlySpan{{T}}
+    - id: count
+      type: System.Int32
+      description: Indicates the number of elements to be added from the source data.
+    content.vb: Public Sub AddRangeNoResize(collection As ReadOnlySpan(Of T), count As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddRangeNoResize*
+  nameWithType.vb: UnsafeList(Of T).ParallelWriter.AddRangeNoResize(ReadOnlySpan(Of T), Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ParallelWriter.AddRangeNoResize(System.ReadOnlySpan(Of T), Integer)
+  name.vb: AddRangeNoResize(ReadOnlySpan(Of T), Integer)
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelWriter
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelWriter
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_AsParallelWriter
+  name: AsParallelWriter()
+  nameWithType: UnsafeList<T>.AsParallelWriter()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsParallelWriter()
+  nameWithType.vb: UnsafeList(Of T).AsParallelWriter()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsParallelWriter()
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelWriter
+    name: AsParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_AsParallelWriter
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelWriter
+    name: AsParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_AsParallelWriter
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1*
+  isExternal: true
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  name: UnsafeList<T>*
+  nameWithType: UnsafeList<T>*
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>*
+  nameWithType.vb: UnsafeList(Of T)*
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T)*
+  name.vb: UnsafeList(Of T)*
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: '*'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: '*'
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddNoResize*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddNoResize
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelWriter.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_ParallelWriter_AddNoResize__0__
+  name: AddNoResize
+  nameWithType: UnsafeList<T>.ParallelWriter.AddNoResize
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelWriter.AddNoResize
+  nameWithType.vb: UnsafeList(Of T).ParallelWriter.AddNoResize
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ParallelWriter.AddNoResize
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddRangeNoResize*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter.AddRangeNoResize
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelWriter.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_ParallelWriter_AddRangeNoResize_System_ReadOnlySpan__0__System_Int32_
+  name: AddRangeNoResize
+  nameWithType: UnsafeList<T>.ParallelWriter.AddRangeNoResize
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelWriter.AddRangeNoResize
+  nameWithType.vb: UnsafeList(Of T).ParallelWriter.AddRangeNoResize
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ParallelWriter.AddRangeNoResize
+- uid: System.ReadOnlySpan{{T}}
+  commentId: T:System.ReadOnlySpan{``0}
+  parent: System
+  definition: System.ReadOnlySpan`1
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.ReadOnlySpan`1
+  commentId: T:System.ReadOnlySpan`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )

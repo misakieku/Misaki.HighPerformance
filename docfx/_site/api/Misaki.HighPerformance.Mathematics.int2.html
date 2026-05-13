@@ -1,0 +1,3442 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Struct int2 | Misaki.HighPerformance </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct int2 | Misaki.HighPerformance ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Misaki.HighPerformance">
+            Misaki.HighPerformance
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Misaki.HighPerformance.Mathematics.int2">
+
+
+
+  <h1 id="Misaki_HighPerformance_Mathematics_int2" data-uid="Misaki.HighPerformance.Mathematics.int2" class="text-break">
+Struct int2  
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Misaki.html">Misaki</a>.<a class="xref" href="Misaki.HighPerformance.html">HighPerformance</a>.<a class="xref" href="Misaki.HighPerformance.Mathematics.html">Mathematics</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Misaki.HighPerformance.Mathematics.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[NumericType(typeof(int), 4, 2, 1, &quot;global::Misaki.HighPerformance.Mathematics.int&quot;, true, true, null, null)]
+[NumericConvertable(&quot;(int){v}.{c}&quot;, new Type[] { typeof(uint2), typeof(float2), typeof(double2), typeof(bool2) })]
+[NumericConvertable(&quot;(int){v}&quot;, new Type[] { typeof(uint), typeof(float), typeof(double) })]
+public struct int2 : IEquatable&lt;int2&gt;</code></pre>
+  </div>
+
+
+
+
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a>&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="Misaki.HighPerformance.Mathematics.VectorInterop.html#Misaki_HighPerformance_Mathematics_VectorInterop_AsVector128_Misaki_HighPerformance_Mathematics_int2_">VectorInterop.AsVector128(int2)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2__ctor_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2__ctor_Misaki_HighPerformance_Mathematics_bool2_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor(Misaki.HighPerformance.Mathematics.bool2)">
+  int2(bool2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int2(bool2 v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.bool2.html">bool2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2__ctor_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2__ctor_Misaki_HighPerformance_Mathematics_double2_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor(Misaki.HighPerformance.Mathematics.double2)">
+  int2(double2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int2(double2 v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.double2.html">double2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2__ctor_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2__ctor_Misaki_HighPerformance_Mathematics_float2_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor(Misaki.HighPerformance.Mathematics.float2)">
+  int2(float2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int2(float2 v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float2.html">float2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2__ctor_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2__ctor_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor(Misaki.HighPerformance.Mathematics.int2)">
+  int2(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int2(int2 xy)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>xy</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2__ctor_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2__ctor_Misaki_HighPerformance_Mathematics_uint2_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor(Misaki.HighPerformance.Mathematics.uint2)">
+  int2(uint2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int2(uint2 v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.uint2.html">uint2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2__ctor_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2__ctor_System_Double_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor(System.Double)">
+  int2(double)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int2(double v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2__ctor_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2__ctor_System_Int32_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor(System.Int32)">
+  int2(int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int2(int value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2__ctor_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2__ctor_System_Int32_System_Int32_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor(System.Int32,System.Int32)">
+  int2(int, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int2(int x, int y)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2__ctor_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2__ctor_System_ReadOnlySpan_System_Int32__" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor(System.ReadOnlySpan{System.Int32})">
+  int2(ReadOnlySpan&lt;int&gt;)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int2(ReadOnlySpan&lt;int&gt; values)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2__ctor_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2__ctor_System_Single_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor(System.Single)">
+  int2(float)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int2(float v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2__ctor_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2__ctor_System_UInt32_" data-uid="Misaki.HighPerformance.Mathematics.int2.#ctor(System.UInt32)">
+  int2(uint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int2(uint v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_x" data-uid="Misaki.HighPerformance.Mathematics.int2.x">
+  x
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int x</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_y" data-uid="Misaki.HighPerformance.Mathematics.int2.y">
+  y
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int y</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_Item_" data-uid="Misaki.HighPerformance.Mathematics.int2.Item*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_Item_System_Int32_" data-uid="Misaki.HighPerformance.Mathematics.int2.Item(System.Int32)">
+  this[int]
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ref int this[int index] { get; }</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_one_" data-uid="Misaki.HighPerformance.Mathematics.int2.one*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_one" data-uid="Misaki.HighPerformance.Mathematics.int2.one">
+  one
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 one { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_unitX_" data-uid="Misaki.HighPerformance.Mathematics.int2.unitX*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_unitX" data-uid="Misaki.HighPerformance.Mathematics.int2.unitX">
+  unitX
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 unitX { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_unitY_" data-uid="Misaki.HighPerformance.Mathematics.int2.unitY*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_unitY" data-uid="Misaki.HighPerformance.Mathematics.int2.unitY">
+  unitY
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 unitY { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xx_" data-uid="Misaki.HighPerformance.Mathematics.int2.xx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xx" data-uid="Misaki.HighPerformance.Mathematics.int2.xx">
+  xx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int2 xx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xxx_" data-uid="Misaki.HighPerformance.Mathematics.int2.xxx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xxx" data-uid="Misaki.HighPerformance.Mathematics.int2.xxx">
+  xxx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int3 xxx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int3.html">int3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xxxx_" data-uid="Misaki.HighPerformance.Mathematics.int2.xxxx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xxxx" data-uid="Misaki.HighPerformance.Mathematics.int2.xxxx">
+  xxxx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 xxxx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xxxy_" data-uid="Misaki.HighPerformance.Mathematics.int2.xxxy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xxxy" data-uid="Misaki.HighPerformance.Mathematics.int2.xxxy">
+  xxxy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 xxxy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xxy_" data-uid="Misaki.HighPerformance.Mathematics.int2.xxy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xxy" data-uid="Misaki.HighPerformance.Mathematics.int2.xxy">
+  xxy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int3 xxy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int3.html">int3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xxyx_" data-uid="Misaki.HighPerformance.Mathematics.int2.xxyx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xxyx" data-uid="Misaki.HighPerformance.Mathematics.int2.xxyx">
+  xxyx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 xxyx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xxyy_" data-uid="Misaki.HighPerformance.Mathematics.int2.xxyy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xxyy" data-uid="Misaki.HighPerformance.Mathematics.int2.xxyy">
+  xxyy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 xxyy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xy_" data-uid="Misaki.HighPerformance.Mathematics.int2.xy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xy" data-uid="Misaki.HighPerformance.Mathematics.int2.xy">
+  xy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public int2 xy { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xyx_" data-uid="Misaki.HighPerformance.Mathematics.int2.xyx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xyx" data-uid="Misaki.HighPerformance.Mathematics.int2.xyx">
+  xyx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int3 xyx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int3.html">int3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xyxx_" data-uid="Misaki.HighPerformance.Mathematics.int2.xyxx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xyxx" data-uid="Misaki.HighPerformance.Mathematics.int2.xyxx">
+  xyxx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 xyxx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xyxy_" data-uid="Misaki.HighPerformance.Mathematics.int2.xyxy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xyxy" data-uid="Misaki.HighPerformance.Mathematics.int2.xyxy">
+  xyxy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 xyxy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xyy_" data-uid="Misaki.HighPerformance.Mathematics.int2.xyy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xyy" data-uid="Misaki.HighPerformance.Mathematics.int2.xyy">
+  xyy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int3 xyy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int3.html">int3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xyyx_" data-uid="Misaki.HighPerformance.Mathematics.int2.xyyx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xyyx" data-uid="Misaki.HighPerformance.Mathematics.int2.xyyx">
+  xyyx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 xyyx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_xyyy_" data-uid="Misaki.HighPerformance.Mathematics.int2.xyyy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_xyyy" data-uid="Misaki.HighPerformance.Mathematics.int2.xyyy">
+  xyyy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 xyyy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yx_" data-uid="Misaki.HighPerformance.Mathematics.int2.yx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yx" data-uid="Misaki.HighPerformance.Mathematics.int2.yx">
+  yx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public int2 yx { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yxx_" data-uid="Misaki.HighPerformance.Mathematics.int2.yxx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yxx" data-uid="Misaki.HighPerformance.Mathematics.int2.yxx">
+  yxx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int3 yxx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int3.html">int3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yxxx_" data-uid="Misaki.HighPerformance.Mathematics.int2.yxxx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yxxx" data-uid="Misaki.HighPerformance.Mathematics.int2.yxxx">
+  yxxx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 yxxx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yxxy_" data-uid="Misaki.HighPerformance.Mathematics.int2.yxxy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yxxy" data-uid="Misaki.HighPerformance.Mathematics.int2.yxxy">
+  yxxy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 yxxy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yxy_" data-uid="Misaki.HighPerformance.Mathematics.int2.yxy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yxy" data-uid="Misaki.HighPerformance.Mathematics.int2.yxy">
+  yxy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int3 yxy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int3.html">int3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yxyx_" data-uid="Misaki.HighPerformance.Mathematics.int2.yxyx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yxyx" data-uid="Misaki.HighPerformance.Mathematics.int2.yxyx">
+  yxyx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 yxyx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yxyy_" data-uid="Misaki.HighPerformance.Mathematics.int2.yxyy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yxyy" data-uid="Misaki.HighPerformance.Mathematics.int2.yxyy">
+  yxyy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 yxyy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yy_" data-uid="Misaki.HighPerformance.Mathematics.int2.yy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yy" data-uid="Misaki.HighPerformance.Mathematics.int2.yy">
+  yy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int2 yy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yyx_" data-uid="Misaki.HighPerformance.Mathematics.int2.yyx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yyx" data-uid="Misaki.HighPerformance.Mathematics.int2.yyx">
+  yyx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int3 yyx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int3.html">int3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yyxx_" data-uid="Misaki.HighPerformance.Mathematics.int2.yyxx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yyxx" data-uid="Misaki.HighPerformance.Mathematics.int2.yyxx">
+  yyxx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 yyxx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yyxy_" data-uid="Misaki.HighPerformance.Mathematics.int2.yyxy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yyxy" data-uid="Misaki.HighPerformance.Mathematics.int2.yyxy">
+  yyxy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 yyxy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yyy_" data-uid="Misaki.HighPerformance.Mathematics.int2.yyy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yyy" data-uid="Misaki.HighPerformance.Mathematics.int2.yyy">
+  yyy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int3 yyy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int3.html">int3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yyyx_" data-uid="Misaki.HighPerformance.Mathematics.int2.yyyx*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yyyx" data-uid="Misaki.HighPerformance.Mathematics.int2.yyyx">
+  yyyx
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 yyyx { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_yyyy_" data-uid="Misaki.HighPerformance.Mathematics.int2.yyyy*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_yyyy" data-uid="Misaki.HighPerformance.Mathematics.int2.yyyy">
+  yyyy
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[JsonIgnore]
+public readonly int4 yyyy { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int4.html">int4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_zero_" data-uid="Misaki.HighPerformance.Mathematics.int2.zero*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_zero" data-uid="Misaki.HighPerformance.Mathematics.int2.zero">
+  zero
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 zero { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_Equals_" data-uid="Misaki.HighPerformance.Mathematics.int2.Equals*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_Equals_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.Equals(Misaki.HighPerformance.Mathematics.int2)">
+  Equals(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether the current object is equal to another object of the same type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly bool Equals(int2 other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd><p>An object to compare with this object.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_Equals_" data-uid="Misaki.HighPerformance.Mathematics.int2.Equals*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_Equals_System_Object_" data-uid="Misaki.HighPerformance.Mathematics.int2.Equals(System.Object)">
+  Equals(object?)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether this instance and a specified object are equal.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override readonly bool Equals(object? obj)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>obj</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>The object to compare with the current instance.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">obj</code> and this instance are the same type and represent the same value; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_GetHashCode_" data-uid="Misaki.HighPerformance.Mathematics.int2.GetHashCode*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_GetHashCode" data-uid="Misaki.HighPerformance.Mathematics.int2.GetHashCode">
+  GetHashCode()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override readonly int GetHashCode()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>A 32-bit signed integer that is the hash code for this instance.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_ToString_" data-uid="Misaki.HighPerformance.Mathematics.int2.ToString*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_ToString" data-uid="Misaki.HighPerformance.Mathematics.int2.ToString">
+  ToString()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the fully qualified type name of this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override readonly string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The fully qualified type name.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="operators">Operators
+</h2>
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Addition_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Addition*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Addition_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Addition(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator +(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator +(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Addition_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Addition*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Addition_Misaki_HighPerformance_Mathematics_int2_System_Int32_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Addition(Misaki.HighPerformance.Mathematics.int2,System.Int32)">
+  operator +(int2, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator +(int2 lhs, int rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Addition_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Addition*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Addition_System_Int32_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Addition(System.Int32,Misaki.HighPerformance.Mathematics.int2)">
+  operator +(int, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator +(int lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_AdditionAssignment_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_AdditionAssignment*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_AdditionAssignment_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_AdditionAssignment(Misaki.HighPerformance.Mathematics.int2)">
+  operator +=(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void operator +=(int2 other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_BitwiseAnd_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_BitwiseAnd*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_BitwiseAnd_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_BitwiseAnd(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator &amp;(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator &amp;(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_BitwiseOr_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_BitwiseOr*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_BitwiseOr_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_BitwiseOr(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator |(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator |(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Decrement_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Decrement*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Decrement_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Decrement(Misaki.HighPerformance.Mathematics.int2)">
+  operator --(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator --(int2 value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Division_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Division*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Division_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Division(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator /(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator /(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Division_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Division*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Division_Misaki_HighPerformance_Mathematics_int2_System_Int32_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Division(Misaki.HighPerformance.Mathematics.int2,System.Int32)">
+  operator /(int2, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator /(int2 lhs, int rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Division_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Division*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Division_System_Int32_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Division(System.Int32,Misaki.HighPerformance.Mathematics.int2)">
+  operator /(int, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator /(int lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_DivisionAssignment_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_DivisionAssignment*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_DivisionAssignment_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_DivisionAssignment(Misaki.HighPerformance.Mathematics.int2)">
+  operator /=(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void operator /=(int2 other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Equality_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Equality*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Equality_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Equality(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator ==(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool2 operator ==(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.bool2.html">bool2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_ExclusiveOr_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_ExclusiveOr*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_ExclusiveOr_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_ExclusiveOr(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator ^(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator ^(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_GreaterThan_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_GreaterThan*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_GreaterThan_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_GreaterThan(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator &gt;(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool2 operator &gt;(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.bool2.html">bool2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_GreaterThanOrEqual_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_GreaterThanOrEqual*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_GreaterThanOrEqual_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_GreaterThanOrEqual(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator &gt;=(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool2 operator &gt;=(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.bool2.html">bool2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_Misaki_HighPerformance_Mathematics_bool2__Misaki_HighPerformance_Mathematics_int2" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit(Misaki.HighPerformance.Mathematics.bool2)~Misaki.HighPerformance.Mathematics.int2">
+  implicit operator int2(bool2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator int2(bool2 v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.bool2.html">bool2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_Misaki_HighPerformance_Mathematics_double2__Misaki_HighPerformance_Mathematics_int2" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit(Misaki.HighPerformance.Mathematics.double2)~Misaki.HighPerformance.Mathematics.int2">
+  implicit operator int2(double2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator int2(double2 v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.double2.html">double2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_Misaki_HighPerformance_Mathematics_float2__Misaki_HighPerformance_Mathematics_int2" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit(Misaki.HighPerformance.Mathematics.float2)~Misaki.HighPerformance.Mathematics.int2">
+  implicit operator int2(float2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator int2(float2 v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float2.html">float2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_Misaki_HighPerformance_Mathematics_uint2__Misaki_HighPerformance_Mathematics_int2" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit(Misaki.HighPerformance.Mathematics.uint2)~Misaki.HighPerformance.Mathematics.int2">
+  implicit operator int2(uint2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator int2(uint2 v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.uint2.html">uint2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_System_Double__Misaki_HighPerformance_Mathematics_int2" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit(System.Double)~Misaki.HighPerformance.Mathematics.int2">
+  implicit operator int2(double)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator int2(double v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_System_Int32__Misaki_HighPerformance_Mathematics_int2" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit(System.Int32)~Misaki.HighPerformance.Mathematics.int2">
+  implicit operator int2(int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator int2(int value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_System_ReadOnlySpan_System_Int32___Misaki_HighPerformance_Mathematics_int2" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit(System.ReadOnlySpan{System.Int32})~Misaki.HighPerformance.Mathematics.int2">
+  implicit operator int2(ReadOnlySpan&lt;int&gt;)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator int2(ReadOnlySpan&lt;int&gt; value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_System_Single__Misaki_HighPerformance_Mathematics_int2" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit(System.Single)~Misaki.HighPerformance.Mathematics.int2">
+  implicit operator int2(float)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator int2(float v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Implicit_System_UInt32__Misaki_HighPerformance_Mathematics_int2" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Implicit(System.UInt32)~Misaki.HighPerformance.Mathematics.int2">
+  implicit operator int2(uint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator int2(uint v)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>v</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Increment_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Increment*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Increment_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Increment(Misaki.HighPerformance.Mathematics.int2)">
+  operator ++(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator ++(int2 value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Inequality_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Inequality*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Inequality_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Inequality(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator !=(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool2 operator !=(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.bool2.html">bool2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_LeftShift_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_LeftShift*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_LeftShift_Misaki_HighPerformance_Mathematics_int2_System_Int32_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_LeftShift(Misaki.HighPerformance.Mathematics.int2,System.Int32)">
+  operator &lt;&lt;(int2, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator &lt;&lt;(int2 x, int n)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>n</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_LessThan_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_LessThan*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_LessThan_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_LessThan(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator &lt;(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool2 operator &lt;(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.bool2.html">bool2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_LessThanOrEqual_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_LessThanOrEqual*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_LessThanOrEqual_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_LessThanOrEqual(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator &lt;=(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool2 operator &lt;=(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.bool2.html">bool2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Modulus_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Modulus*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Modulus_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Modulus(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator %(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator %(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Modulus_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Modulus*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Modulus_Misaki_HighPerformance_Mathematics_int2_System_Int32_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Modulus(Misaki.HighPerformance.Mathematics.int2,System.Int32)">
+  operator %(int2, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator %(int2 lhs, int rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Modulus_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Modulus*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Modulus_System_Int32_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Modulus(System.Int32,Misaki.HighPerformance.Mathematics.int2)">
+  operator %(int, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator %(int lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_ModulusAssignment_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_ModulusAssignment*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_ModulusAssignment_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_ModulusAssignment(Misaki.HighPerformance.Mathematics.int2)">
+  operator %=(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void operator %=(int2 other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_MultiplicationAssignment_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_MultiplicationAssignment*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_MultiplicationAssignment_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_MultiplicationAssignment(Misaki.HighPerformance.Mathematics.int2)">
+  operator *=(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void operator *=(int2 other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Multiply_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Multiply*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Multiply_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Multiply(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator *(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator *(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Multiply_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Multiply*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Multiply_Misaki_HighPerformance_Mathematics_int2_System_Int32_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Multiply(Misaki.HighPerformance.Mathematics.int2,System.Int32)">
+  operator *(int2, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator *(int2 lhs, int rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Multiply_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Multiply*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Multiply_System_Int32_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Multiply(System.Int32,Misaki.HighPerformance.Mathematics.int2)">
+  operator *(int, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator *(int lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_OnesComplement_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_OnesComplement*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_OnesComplement_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_OnesComplement(Misaki.HighPerformance.Mathematics.int2)">
+  operator ~(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator ~(int2 value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_RightShift_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_RightShift*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_RightShift_Misaki_HighPerformance_Mathematics_int2_System_Int32_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_RightShift(Misaki.HighPerformance.Mathematics.int2,System.Int32)">
+  operator &gt;&gt;(int2, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator &gt;&gt;(int2 x, int n)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>n</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Subtraction_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Subtraction*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Subtraction_Misaki_HighPerformance_Mathematics_int2_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Subtraction(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)">
+  operator -(int2, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator -(int2 lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Subtraction_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Subtraction*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Subtraction_Misaki_HighPerformance_Mathematics_int2_System_Int32_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Subtraction(Misaki.HighPerformance.Mathematics.int2,System.Int32)">
+  operator -(int2, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator -(int2 lhs, int rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_Subtraction_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Subtraction*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_Subtraction_System_Int32_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_Subtraction(System.Int32,Misaki.HighPerformance.Mathematics.int2)">
+  operator -(int, int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator -(int lhs, int2 rhs)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lhs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>rhs</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_SubtractionAssignment_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_SubtractionAssignment*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_SubtractionAssignment_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_SubtractionAssignment(Misaki.HighPerformance.Mathematics.int2)">
+  operator -=(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void operator -=(int2 other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_UnaryNegation_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_UnaryNegation*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_UnaryNegation_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_UnaryNegation(Misaki.HighPerformance.Mathematics.int2)">
+  operator -(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator -(int2 value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_int2_op_UnaryPlus_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_UnaryPlus*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_int2_op_UnaryPlus_Misaki_HighPerformance_Mathematics_int2_" data-uid="Misaki.HighPerformance.Mathematics.int2.op_UnaryPlus(Misaki.HighPerformance.Mathematics.int2)">
+  operator +(int2)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int2 operator +(int2 value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.int2.html">int2</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

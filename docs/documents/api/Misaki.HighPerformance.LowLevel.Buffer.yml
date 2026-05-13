@@ -1,0 +1,472 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  id: Misaki.HighPerformance.LowLevel.Buffer
+  children:
+  - Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  - Misaki.HighPerformance.LowLevel.Buffer.AllocationInfo
+  - Misaki.HighPerformance.LowLevel.Buffer.AllocationManager
+  - Misaki.HighPerformance.LowLevel.Buffer.AllocationManagerDesc
+  - Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  - Misaki.HighPerformance.LowLevel.Buffer.Arena
+  - Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions
+  - Misaki.HighPerformance.LowLevel.Buffer.DynamicArena
+  - Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.CreationOptions
+  - Misaki.HighPerformance.LowLevel.Buffer.FreeList
+  - Misaki.HighPerformance.LowLevel.Buffer.FreeList.CreationOptions
+  - Misaki.HighPerformance.LowLevel.Buffer.IAllocator
+  - Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryBlock
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryDiagnostic
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2
+  - Misaki.HighPerformance.LowLevel.Buffer.MemorySnapshot
+  - Misaki.HighPerformance.LowLevel.Buffer.Stack
+  - Misaki.HighPerformance.LowLevel.Buffer.Stack.CreationOptions
+  - Misaki.HighPerformance.LowLevel.Buffer.Stack.Scope
+  - Misaki.HighPerformance.LowLevel.Buffer.TLSF
+  - Misaki.HighPerformance.LowLevel.Buffer.TLSF.CreationOptions
+  - Misaki.HighPerformance.LowLevel.Buffer.VirtualArena
+  - Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.CreationOptions
+  - Misaki.HighPerformance.LowLevel.Buffer.VirtualMemoryBlock
+  - Misaki.HighPerformance.LowLevel.Buffer.VirtualStack
+  - Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.CreationOptions
+  - Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.Scope
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+references:
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationInfo
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationInfo
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationInfo.html
+  name: AllocationInfo
+  nameWithType: AllocationInfo
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationInfo
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationManagerDesc
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationManagerDesc
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationManagerDesc.html
+  name: AllocationManagerDesc
+  nameWithType: AllocationManagerDesc
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationManagerDesc
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationManager
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationManager
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationManager.html
+  name: AllocationManager
+  nameWithType: AllocationManager
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationManager
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  name: AllocationOption
+  nameWithType: AllocationOption
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+- uid: Misaki.HighPerformance.LowLevel.Buffer.Arena
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.Arena
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.Arena.html
+  name: Arena
+  nameWithType: Arena
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.Arena
+- uid: Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.Arena.html
+  name: Arena.CreationOptions
+  nameWithType: Arena.CreationOptions
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Arena
+    name: Arena
+    href: Misaki.HighPerformance.LowLevel.Buffer.Arena.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Arena
+    name: Arena
+    href: Misaki.HighPerformance.LowLevel.Buffer.Arena.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions.html
+- uid: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.DynamicArena
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.html
+  name: DynamicArena
+  nameWithType: DynamicArena
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena
+- uid: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.CreationOptions
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.CreationOptions
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.html
+  name: DynamicArena.CreationOptions
+  nameWithType: DynamicArena.CreationOptions
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.CreationOptions
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena
+    name: DynamicArena
+    href: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.CreationOptions.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena
+    name: DynamicArena
+    href: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.CreationOptions.html
+- uid: Misaki.HighPerformance.LowLevel.Buffer.FreeList
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.FreeList
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.FreeList.html
+  name: FreeList
+  nameWithType: FreeList
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.FreeList
+- uid: Misaki.HighPerformance.LowLevel.Buffer.FreeList.CreationOptions
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.FreeList.CreationOptions
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.FreeList.html
+  name: FreeList.CreationOptions
+  nameWithType: FreeList.CreationOptions
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.FreeList.CreationOptions
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.FreeList
+    name: FreeList
+    href: Misaki.HighPerformance.LowLevel.Buffer.FreeList.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.FreeList.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.FreeList.CreationOptions.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.FreeList
+    name: FreeList
+    href: Misaki.HighPerformance.LowLevel.Buffer.FreeList.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.FreeList.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.FreeList.CreationOptions.html
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html
+  name: MemoryHandle
+  nameWithType: MemoryHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html
+  name: AllocationHandle
+  nameWithType: AllocationHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IAllocator
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.IAllocator
+  href: Misaki.HighPerformance.LowLevel.Buffer.IAllocator.html
+  name: IAllocator
+  nameWithType: IAllocator
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IAllocator
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2
+  href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html
+  name: IMemoryAllocator<TSelf, TOpts>
+  nameWithType: IMemoryAllocator<TSelf, TOpts>
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts)
+  name.vb: IMemoryAllocator(Of TSelf, TOpts)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2
+    name: IMemoryAllocator
+    href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html
+  - name: <
+  - name: TSelf
+  - name: ','
+  - name: " "
+  - name: TOpts
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2
+    name: IMemoryAllocator
+    href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSelf
+  - name: ','
+  - name: " "
+  - name: TOpts
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryBlock
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.MemoryBlock
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryBlock.html
+  name: MemoryBlock
+  nameWithType: MemoryBlock
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryBlock
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryDiagnostic
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.MemoryDiagnostic
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryDiagnostic.html
+  name: MemoryDiagnostic
+  nameWithType: MemoryDiagnostic
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryDiagnostic
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool-2.html
+  name: MemoryPool<TAllocator, TOpts>
+  nameWithType: MemoryPool<TAllocator, TOpts>
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool<TAllocator, TOpts>
+  nameWithType.vb: MemoryPool(Of TAllocator, TOpts)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool(Of TAllocator, TOpts)
+  name.vb: MemoryPool(Of TAllocator, TOpts)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2
+    name: MemoryPool
+    href: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool-2.html
+  - name: <
+  - name: TAllocator
+  - name: ','
+  - name: " "
+  - name: TOpts
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2
+    name: MemoryPool
+    href: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TAllocator
+  - name: ','
+  - name: " "
+  - name: TOpts
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemorySnapshot
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.MemorySnapshot
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemorySnapshot.html
+  name: MemorySnapshot
+  nameWithType: MemorySnapshot
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemorySnapshot
+- uid: Misaki.HighPerformance.LowLevel.Buffer.Stack
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.Stack
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.Stack.html
+  name: Stack
+  nameWithType: Stack
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.Stack
+- uid: Misaki.HighPerformance.LowLevel.Buffer.Stack.CreationOptions
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.Stack.CreationOptions
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.Stack.html
+  name: Stack.CreationOptions
+  nameWithType: Stack.CreationOptions
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.Stack.CreationOptions
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Stack
+    name: Stack
+    href: Misaki.HighPerformance.LowLevel.Buffer.Stack.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Stack.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.Stack.CreationOptions.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Stack
+    name: Stack
+    href: Misaki.HighPerformance.LowLevel.Buffer.Stack.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Stack.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.Stack.CreationOptions.html
+- uid: Misaki.HighPerformance.LowLevel.Buffer.Stack.Scope
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.Stack.Scope
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.Stack.html
+  name: Stack.Scope
+  nameWithType: Stack.Scope
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.Stack.Scope
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Stack
+    name: Stack
+    href: Misaki.HighPerformance.LowLevel.Buffer.Stack.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Stack.Scope
+    name: Scope
+    href: Misaki.HighPerformance.LowLevel.Buffer.Stack.Scope.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Stack
+    name: Stack
+    href: Misaki.HighPerformance.LowLevel.Buffer.Stack.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.Stack.Scope
+    name: Scope
+    href: Misaki.HighPerformance.LowLevel.Buffer.Stack.Scope.html
+- uid: Misaki.HighPerformance.LowLevel.Buffer.TLSF
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.TLSF
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.TLSF.html
+  name: TLSF
+  nameWithType: TLSF
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.TLSF
+- uid: Misaki.HighPerformance.LowLevel.Buffer.TLSF.CreationOptions
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.TLSF.CreationOptions
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.TLSF.html
+  name: TLSF.CreationOptions
+  nameWithType: TLSF.CreationOptions
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.TLSF.CreationOptions
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.TLSF
+    name: TLSF
+    href: Misaki.HighPerformance.LowLevel.Buffer.TLSF.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.TLSF.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.TLSF.CreationOptions.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.TLSF
+    name: TLSF
+    href: Misaki.HighPerformance.LowLevel.Buffer.TLSF.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.TLSF.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.TLSF.CreationOptions.html
+- uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.VirtualArena
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.html
+  name: VirtualArena
+  nameWithType: VirtualArena
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena
+- uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.CreationOptions
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.CreationOptions
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.html
+  name: VirtualArena.CreationOptions
+  nameWithType: VirtualArena.CreationOptions
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.CreationOptions
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena
+    name: VirtualArena
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.CreationOptions.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena
+    name: VirtualArena
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.CreationOptions.html
+- uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualMemoryBlock
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.VirtualMemoryBlock
+  href: Misaki.HighPerformance.LowLevel.Buffer.VirtualMemoryBlock.html
+  name: VirtualMemoryBlock
+  nameWithType: VirtualMemoryBlock
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.VirtualMemoryBlock
+- uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.VirtualStack
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.html
+  name: VirtualStack
+  nameWithType: VirtualStack
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack
+- uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.CreationOptions
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.CreationOptions
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.html
+  name: VirtualStack.CreationOptions
+  nameWithType: VirtualStack.CreationOptions
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.CreationOptions
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack
+    name: VirtualStack
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.CreationOptions.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack
+    name: VirtualStack
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.CreationOptions
+    name: CreationOptions
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.CreationOptions.html
+- uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.Scope
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.Scope
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.html
+  name: VirtualStack.Scope
+  nameWithType: VirtualStack.Scope
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.Scope
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack
+    name: VirtualStack
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.Scope
+    name: Scope
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.Scope.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack
+    name: VirtualStack
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.Scope
+    name: Scope
+    href: Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.Scope.html
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html

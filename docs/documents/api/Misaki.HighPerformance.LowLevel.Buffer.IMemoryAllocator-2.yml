@@ -1,0 +1,547 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2
+  id: IMemoryAllocator`2
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  children:
+  - Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Allocate(System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  - Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Create(`1@)
+  - Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Free(System.Void*)
+  - Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Reallocate(System.Void*,System.UIntPtr,System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  langs:
+  - csharp
+  - vb
+  name: IMemoryAllocator<TSelf, TOpts>
+  nameWithType: IMemoryAllocator<TSelf, TOpts>
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>
+  type: Interface
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IMemoryAllocator
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 206
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  syntax:
+    content: 'public interface IMemoryAllocator<TSelf, TOpts> : IDisposable where TSelf : unmanaged, IMemoryAllocator<TSelf, TOpts>'
+    typeParameters:
+    - id: TSelf
+    - id: TOpts
+    content.vb: Public Interface IMemoryAllocator(Of TSelf As {Structure, IMemoryAllocator(Of TSelf, TOpts)}, TOpts) Inherits IDisposable
+  derivedClasses:
+  - Misaki.HighPerformance.LowLevel.Buffer.Arena
+  - Misaki.HighPerformance.LowLevel.Buffer.DynamicArena
+  - Misaki.HighPerformance.LowLevel.Buffer.FreeList
+  - Misaki.HighPerformance.LowLevel.Buffer.Stack
+  - Misaki.HighPerformance.LowLevel.Buffer.TLSF
+  - Misaki.HighPerformance.LowLevel.Buffer.VirtualArena
+  - Misaki.HighPerformance.LowLevel.Buffer.VirtualStack
+  inheritedMembers:
+  - System.IDisposable.Dispose
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts)
+  name.vb: IMemoryAllocator(Of TSelf, TOpts)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Create(`1@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Create(`1@)
+  id: Create(`1@)
+  parent: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2
+  langs:
+  - csharp
+  - vb
+  name: Create(in TOpts)
+  nameWithType: IMemoryAllocator<TSelf, TOpts>.Create(in TOpts)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>.Create(in TOpts)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Create
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 214
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Creates a new instance of the allocator with the specified options.
+  example: []
+  syntax:
+    content: public static abstract TSelf Create(in TOpts opts)
+    parameters:
+    - id: opts
+      type: '{TOpts}'
+      description: The options for creating the allocator.
+    return:
+      type: '{TSelf}'
+      description: The created allocator instance.
+    content.vb: Public Shared MustInherit Function Create(opts As TOpts) As TSelf
+  overload: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Create*
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts).Create(TOpts)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts).Create(TOpts)
+  name.vb: Create(TOpts)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Allocate(System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Allocate(System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: Allocate(System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  parent: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2
+  langs:
+  - csharp
+  - vb
+  name: Allocate(nuint, nuint, AllocationOption)
+  nameWithType: IMemoryAllocator<TSelf, TOpts>.Allocate(nuint, nuint, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>.Allocate(nuint, nuint, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Allocate
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 226
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Allocates a block of memory with the specified size, alignment, and allocation options.
+  remarks: The returned pointer must be freed using the <xref href="Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator%602.Free(System.Void*)" data-throw-if-not-resolved="false"></xref> method to avoid memory leaks.
+  example: []
+  syntax:
+    content: void* Allocate(nuint size, nuint alignment, AllocationOption option = AllocationOption.None)
+    parameters:
+    - id: size
+      type: System.UIntPtr
+      description: The size of the memory block to allocate.
+    - id: alignment
+      type: System.UIntPtr
+      description: The alignment of the memory block.
+    - id: option
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+      description: The allocation options.
+    return:
+      type: System.Void*
+      description: A pointer to the allocated memory block. null if allocation fails.
+    content.vb: Function Allocate(size As UIntPtr, alignment As UIntPtr, [option] As AllocationOption = AllocationOption.None) As Void*
+  overload: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Allocate*
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts).Allocate(UIntPtr, UIntPtr, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts).Allocate(System.UIntPtr, System.UIntPtr, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Allocate(UIntPtr, UIntPtr, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Reallocate(System.Void*,System.UIntPtr,System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Reallocate(System.Void*,System.UIntPtr,System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: Reallocate(System.Void*,System.UIntPtr,System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  parent: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2
+  langs:
+  - csharp
+  - vb
+  name: Reallocate(void*, nuint, nuint, nuint, AllocationOption)
+  nameWithType: IMemoryAllocator<TSelf, TOpts>.Reallocate(void*, nuint, nuint, nuint, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>.Reallocate(void*, nuint, nuint, nuint, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Reallocate
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 239
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Reallocates a block of memory to a new size and alignment.
+  remarks: The returned pointer must be freed using the <xref href="Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator%602.Free(System.Void*)" data-throw-if-not-resolved="false"></xref> method to avoid memory leaks. If the reallocation fails, the original pointer remains valid and must be freed by the caller.
+  example: []
+  syntax:
+    content: void* Reallocate(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: A pointer to the memory block to reallocate.
+    - id: oldSize
+      type: System.UIntPtr
+      description: The size of the original memory block.
+    - id: newSize
+      type: System.UIntPtr
+      description: The size of the new memory block.
+    - id: alignment
+      type: System.UIntPtr
+      description: The alignment of the new memory block.
+    - id: allocationOption
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+      description: The allocation options.
+    return:
+      type: System.Void*
+      description: A pointer to the reallocated memory block. null if reallocation fails.
+    content.vb: Function Reallocate(ptr As Void*, oldSize As UIntPtr, newSize As UIntPtr, alignment As UIntPtr, allocationOption As AllocationOption = AllocationOption.None) As Void*
+  overload: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Reallocate*
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts).Reallocate(Void*, UIntPtr, UIntPtr, UIntPtr, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts).Reallocate(Void*, System.UIntPtr, System.UIntPtr, System.UIntPtr, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Reallocate(Void*, UIntPtr, UIntPtr, UIntPtr, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Free(System.Void*)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Free(System.Void*)
+  id: Free(System.Void*)
+  parent: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2
+  langs:
+  - csharp
+  - vb
+  name: Free(void*)
+  nameWithType: IMemoryAllocator<TSelf, TOpts>.Free(void*)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>.Free(void*)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Free
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 247
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Frees a previously allocated block of memory.
+  remarks: The pointer must have been returned by a previous call to the <xref href="Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator%602.Allocate(System.UIntPtr%2cSystem.UIntPtr%2cMisaki.HighPerformance.LowLevel.Buffer.AllocationOption)" data-throw-if-not-resolved="false"></xref> or <xref href="Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator%602.Reallocate(System.Void*%2cSystem.UIntPtr%2cSystem.UIntPtr%2cSystem.UIntPtr%2cMisaki.HighPerformance.LowLevel.Buffer.AllocationOption)" data-throw-if-not-resolved="false"></xref> method. After calling this method, the pointer is no longer valid and must not be used.
+  example: []
+  syntax:
+    content: void Free(void* ptr)
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: A pointer to the memory block to free.
+    content.vb: Sub Free(ptr As Void*)
+  overload: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Free*
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts).Free(Void*)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts).Free(Void*)
+  name.vb: Free(Void*)
+references:
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Create*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Create
+  href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Create__1__
+  name: Create
+  nameWithType: IMemoryAllocator<TSelf, TOpts>.Create
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>.Create
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts).Create
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts).Create
+- uid: '{TOpts}'
+  commentId: '!:TOpts'
+  definition: TOpts
+  name: TOpts
+  nameWithType: TOpts
+  fullName: TOpts
+- uid: '{TSelf}'
+  commentId: '!:TSelf'
+  definition: TSelf
+  name: TSelf
+  nameWithType: TSelf
+  fullName: TSelf
+- uid: TOpts
+  name: TOpts
+  nameWithType: TOpts
+  fullName: TOpts
+- uid: TSelf
+  name: TSelf
+  nameWithType: TSelf
+  fullName: TSelf
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Free(System.Void*)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Free(System.Void*)
+  isExternal: true
+  href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Free_System_Void__
+  name: Free(void*)
+  nameWithType: IMemoryAllocator<TSelf, TOpts>.Free(void*)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>.Free(void*)
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts).Free(Void*)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts).Free(Void*)
+  name.vb: Free(Void*)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Free(System.Void*)
+    name: Free
+    href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Free_System_Void__
+  - name: (
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Free(System.Void*)
+    name: Free
+    href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Free_System_Void__
+  - name: (
+  - uid: System.Void
+    name: Void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Allocate*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Allocate
+  href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Allocate_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Allocate
+  nameWithType: IMemoryAllocator<TSelf, TOpts>.Allocate
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>.Allocate
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts).Allocate
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts).Allocate
+- uid: System.UIntPtr
+  commentId: T:System.UIntPtr
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  name: nuint
+  nameWithType: nuint
+  fullName: nuint
+  nameWithType.vb: UIntPtr
+  fullName.vb: System.UIntPtr
+  name.vb: UIntPtr
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  name: AllocationOption
+  nameWithType: AllocationOption
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+- uid: System.Void*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.void
+  name: void*
+  nameWithType: void*
+  fullName: void*
+  nameWithType.vb: Void*
+  fullName.vb: Void*
+  name.vb: Void*
+  spec.csharp:
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  spec.vb:
+  - uid: System.Void
+    name: Void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Reallocate*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Reallocate
+  href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Reallocate_System_Void__System_UIntPtr_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Reallocate
+  nameWithType: IMemoryAllocator<TSelf, TOpts>.Reallocate
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>.Reallocate
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts).Reallocate
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts).Reallocate
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Allocate(System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Allocate(System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  isExternal: true
+  href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Allocate_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Allocate(nuint, nuint, AllocationOption)
+  nameWithType: IMemoryAllocator<TSelf, TOpts>.Allocate(nuint, nuint, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>.Allocate(nuint, nuint, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts).Allocate(UIntPtr, UIntPtr, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts).Allocate(System.UIntPtr, System.UIntPtr, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Allocate(UIntPtr, UIntPtr, AllocationOption)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Allocate(System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Allocate
+    href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Allocate_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.UIntPtr
+    name: nuint
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  - name: ','
+  - name: " "
+  - uid: System.UIntPtr
+    name: nuint
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Allocate(System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Allocate
+    href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Allocate_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.UIntPtr
+    name: UIntPtr
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  - name: ','
+  - name: " "
+  - uid: System.UIntPtr
+    name: UIntPtr
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Reallocate(System.Void*,System.UIntPtr,System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Reallocate(System.Void*,System.UIntPtr,System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  isExternal: true
+  href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Reallocate_System_Void__System_UIntPtr_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Reallocate(void*, nuint, nuint, nuint, AllocationOption)
+  nameWithType: IMemoryAllocator<TSelf, TOpts>.Reallocate(void*, nuint, nuint, nuint, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>.Reallocate(void*, nuint, nuint, nuint, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts).Reallocate(Void*, UIntPtr, UIntPtr, UIntPtr, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts).Reallocate(Void*, System.UIntPtr, System.UIntPtr, System.UIntPtr, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Reallocate(Void*, UIntPtr, UIntPtr, UIntPtr, AllocationOption)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Reallocate(System.Void*,System.UIntPtr,System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Reallocate
+    href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Reallocate_System_Void__System_UIntPtr_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  - name: ','
+  - name: " "
+  - uid: System.UIntPtr
+    name: nuint
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  - name: ','
+  - name: " "
+  - uid: System.UIntPtr
+    name: nuint
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  - name: ','
+  - name: " "
+  - uid: System.UIntPtr
+    name: nuint
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Reallocate(System.Void*,System.UIntPtr,System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Reallocate
+    href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Reallocate_System_Void__System_UIntPtr_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Void
+    name: Void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  - name: ','
+  - name: " "
+  - uid: System.UIntPtr
+    name: UIntPtr
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  - name: ','
+  - name: " "
+  - uid: System.UIntPtr
+    name: UIntPtr
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  - name: ','
+  - name: " "
+  - uid: System.UIntPtr
+    name: UIntPtr
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Free*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator`2.Free
+  href: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Free_System_Void__
+  name: Free
+  nameWithType: IMemoryAllocator<TSelf, TOpts>.Free
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>.Free
+  nameWithType.vb: IMemoryAllocator(Of TSelf, TOpts).Free
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator(Of TSelf, TOpts).Free

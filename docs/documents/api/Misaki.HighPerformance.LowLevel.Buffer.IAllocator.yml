@@ -1,0 +1,114 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IAllocator
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.IAllocator
+  id: IAllocator
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  children:
+  - Misaki.HighPerformance.LowLevel.Buffer.IAllocator.Handle
+  langs:
+  - csharp
+  - vb
+  name: IAllocator
+  nameWithType: IAllocator
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IAllocator
+  type: Interface
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IAllocator
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 195
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Represents an state interface for managing memory allocations.
+  example: []
+  syntax:
+    content: public interface IAllocator
+    content.vb: Public Interface IAllocator
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IAllocator.Handle
+  commentId: P:Misaki.HighPerformance.LowLevel.Buffer.IAllocator.Handle
+  id: Handle
+  parent: Misaki.HighPerformance.LowLevel.Buffer.IAllocator
+  langs:
+  - csharp
+  - vb
+  name: Handle
+  nameWithType: IAllocator.Handle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IAllocator.Handle
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Handle
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 200
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Gets a reference to the allocation handle associated with this state.
+  example: []
+  syntax:
+    content: AllocationHandle Handle { get; }
+    parameters: []
+    return:
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+    content.vb: ReadOnly Property Handle As AllocationHandle
+  overload: Misaki.HighPerformance.LowLevel.Buffer.IAllocator.Handle*
+references:
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+- uid: Misaki.HighPerformance.LowLevel.Buffer.IAllocator.Handle*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.IAllocator.Handle
+  href: Misaki.HighPerformance.LowLevel.Buffer.IAllocator.html#Misaki_HighPerformance_LowLevel_Buffer_IAllocator_Handle
+  name: Handle
+  nameWithType: IAllocator.Handle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.IAllocator.Handle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html
+  name: AllocationHandle
+  nameWithType: AllocationHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle

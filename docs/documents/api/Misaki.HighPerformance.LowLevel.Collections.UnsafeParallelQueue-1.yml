@@ -1,0 +1,948 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  id: UnsafeParallelQueue`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Allocate(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelConsumer
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelProducer
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Dispose
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Enqueue(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.IsCreated
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.TryDequeue(`0@)
+  langs:
+  - csharp
+  - vb
+  name: UnsafeParallelQueue<T>
+  nameWithType: UnsafeParallelQueue<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: UnsafeParallelQueue
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+    startLine: 11
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: >-
+    A dynamically resizing, parallel, lock-free queue using unmanaged chunks.
+
+    Uses a very brief spin lock only during chunk allocation, alongside a lock-free segment cache.
+  example: []
+  syntax:
+    content: 'public struct UnsafeParallelQueue<T> : IDisposable where T : unmanaged'
+    typeParameters:
+    - id: T
+    content.vb: Public Structure UnsafeParallelQueue(Of T As Structure) Implements IDisposable
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: UnsafeParallelQueue(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T)
+  name.vb: UnsafeParallelQueue(Of T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.IsCreated
+  id: IsCreated
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  langs:
+  - csharp
+  - vb
+  name: IsCreated
+  nameWithType: UnsafeParallelQueue<T>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.IsCreated
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsCreated
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+    startLine: 86
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly bool IsCreated { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsCreated As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.IsCreated*
+  nameWithType.vb: UnsafeParallelQueue(Of T).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Allocate(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Allocate(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: Allocate(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Allocate(int, AllocationHandle, AllocationOption)
+  nameWithType: UnsafeParallelQueue<T>.Allocate(int, AllocationHandle, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.Allocate(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Allocate
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+    startLine: 95
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Allocates a new UnsafeParallelQueue on the heap using the provided allocation handle and returns a DisposablePtr to it.
+  example: []
+  syntax:
+    content: public static DisposablePtr<UnsafeParallelQueue<T>> Allocate(int capacityPerChunk, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    parameters:
+    - id: capacityPerChunk
+      type: System.Int32
+      description: The capacity per chunk.
+    - id: handle
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+      description: The allocation handle.
+    - id: allocationOption
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+      description: The allocation option.
+    return:
+      type: Misaki.HighPerformance.LowLevel.DisposablePtr{Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1}
+      description: A DisposablePtr to the allocated UnsafeParallelQueue.
+    content.vb: Public Shared Function Allocate(capacityPerChunk As Integer, handle As AllocationHandle, allocationOption As AllocationOption = AllocationOption.None) As DisposablePtr(Of UnsafeParallelQueue(Of T))
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Allocate*
+  nameWithType.vb: UnsafeParallelQueue(Of T).Allocate(Integer, AllocationHandle, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).Allocate(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Allocate(Integer, AllocationHandle, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: '#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)'
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  langs:
+  - csharp
+  - vb
+  name: UnsafeParallelQueue(int, AllocationHandle, AllocationOption)
+  nameWithType: UnsafeParallelQueue<T>.UnsafeParallelQueue(int, AllocationHandle, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.UnsafeParallelQueue(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+    startLine: 109
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Initializes a new instance of the UnsafeParallelQueue with the specified capacity per chunk and allocation handle.
+  example: []
+  syntax:
+    content: public UnsafeParallelQueue(int capacityPerChunk, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    parameters:
+    - id: capacityPerChunk
+      type: System.Int32
+      description: The capacity per chunk.
+    - id: handle
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+      description: The allocation handle.
+    - id: allocationOption
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+      description: The allocation option.
+    content.vb: Public Sub New(capacityPerChunk As Integer, handle As AllocationHandle, allocationOption As AllocationOption = AllocationOption.None)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.#ctor*
+  nameWithType.vb: UnsafeParallelQueue(Of T).New(Integer, AllocationHandle, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).New(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: New(Integer, AllocationHandle, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Enqueue(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Enqueue(`0@)
+  id: Enqueue(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Enqueue(scoped in T)
+  nameWithType: UnsafeParallelQueue<T>.Enqueue(scoped in T)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.Enqueue(scoped in T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Enqueue
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+    startLine: 131
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Try to enqueue an item. Expands automatically if the current chunk is full.
+  example: []
+  syntax:
+    content: public void Enqueue(scoped in T item)
+    parameters:
+    - id: item
+      type: '{T}'
+      description: The item to enqueue.
+    content.vb: Public Sub Enqueue(item As T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Enqueue*
+  nameWithType.vb: UnsafeParallelQueue(Of T).Enqueue(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).Enqueue(T)
+  name.vb: Enqueue(T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.TryDequeue(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.TryDequeue(`0@)
+  id: TryDequeue(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  langs:
+  - csharp
+  - vb
+  name: TryDequeue(out T)
+  nameWithType: UnsafeParallelQueue<T>.TryDequeue(out T)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.TryDequeue(out T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TryDequeue
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+    startLine: 185
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Attempts to dequeue an item.
+  example: []
+  syntax:
+    content: public bool TryDequeue(out T item)
+    parameters:
+    - id: item
+      type: '{T}'
+      description: The dequeued item if successful; otherwise, the default value of T.
+    return:
+      type: System.Boolean
+      description: True if an item was dequeued successfully; otherwise, false.
+    content.vb: Public Function TryDequeue(item As T) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.TryDequeue*
+  nameWithType.vb: UnsafeParallelQueue(Of T).TryDequeue(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).TryDequeue(T)
+  name.vb: TryDequeue(T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelProducer
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelProducer
+  id: AsParallelProducer
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  langs:
+  - csharp
+  - vb
+  name: AsParallelProducer()
+  nameWithType: UnsafeParallelQueue<T>.AsParallelProducer()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.AsParallelProducer()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsParallelProducer
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+    startLine: 336
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: >-
+    Returns a parallel producer for this queue. The returned struct contains a raw pointer
+
+    to the queue and can be used from multiple threads as long as the queue struct itself
+
+    remains alive and its address stable.
+  example: []
+  syntax:
+    content: public UnsafeParallelQueue<T>.ParallelProducer AsParallelProducer()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelProducer
+    content.vb: Public Function AsParallelProducer() As UnsafeParallelQueue(Of T).ParallelProducer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelProducer*
+  nameWithType.vb: UnsafeParallelQueue(Of T).AsParallelProducer()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).AsParallelProducer()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelConsumer
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelConsumer
+  id: AsParallelConsumer
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  langs:
+  - csharp
+  - vb
+  name: AsParallelConsumer()
+  nameWithType: UnsafeParallelQueue<T>.AsParallelConsumer()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.AsParallelConsumer()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsParallelConsumer
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+    startLine: 347
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: >-
+    Returns a parallel consumer for this queue. The returned struct contains a raw pointer
+
+    to the queue and can be used from multiple threads as long as the queue struct itself
+
+    remains alive and its address stable.
+  example: []
+  syntax:
+    content: public UnsafeParallelQueue<T>.ParallelConsumer AsParallelConsumer()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelConsumer
+    content.vb: Public Function AsParallelConsumer() As UnsafeParallelQueue(Of T).ParallelConsumer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelConsumer*
+  nameWithType.vb: UnsafeParallelQueue(Of T).AsParallelConsumer()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).AsParallelConsumer()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Dispose
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Dispose
+  id: Dispose
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: UnsafeParallelQueue<T>.Dispose()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dispose
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeParallelQueue.cs
+    startLine: 353
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  nameWithType.vb: UnsafeParallelQueue(Of T).Dispose()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).Dispose()
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.IsCreated*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.IsCreated
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelQueue_1_IsCreated
+  name: IsCreated
+  nameWithType: UnsafeParallelQueue<T>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.IsCreated
+  nameWithType.vb: UnsafeParallelQueue(Of T).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).IsCreated
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Allocate*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Allocate
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelQueue_1_Allocate_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationHandle_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Allocate
+  nameWithType: UnsafeParallelQueue<T>.Allocate
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.Allocate
+  nameWithType.vb: UnsafeParallelQueue(Of T).Allocate
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).Allocate
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html
+  name: AllocationHandle
+  nameWithType: AllocationHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  name: AllocationOption
+  nameWithType: AllocationOption
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr{Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1}
+  commentId: T:Misaki.HighPerformance.LowLevel.DisposablePtr{Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1}
+  parent: Misaki.HighPerformance.LowLevel
+  definition: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  name: DisposablePtr<UnsafeParallelQueue<T>>
+  nameWithType: DisposablePtr<UnsafeParallelQueue<T>>
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>>
+  nameWithType.vb: DisposablePtr(Of UnsafeParallelQueue(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T))
+  name.vb: DisposablePtr(Of UnsafeParallelQueue(Of T))
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: <
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  commentId: T:Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  parent: Misaki.HighPerformance.LowLevel
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  name: DisposablePtr<T>
+  nameWithType: DisposablePtr<T>
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>
+  nameWithType.vb: DisposablePtr(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T)
+  name.vb: DisposablePtr(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel
+  commentId: N:Misaki.HighPerformance.LowLevel
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel
+  nameWithType: Misaki.HighPerformance.LowLevel
+  fullName: Misaki.HighPerformance.LowLevel
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.#ctor
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelQueue_1__ctor_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationHandle_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: UnsafeParallelQueue
+  nameWithType: UnsafeParallelQueue<T>.UnsafeParallelQueue
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.UnsafeParallelQueue
+  nameWithType.vb: UnsafeParallelQueue(Of T).New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).New
+  name.vb: New
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Enqueue*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Enqueue
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelQueue_1_Enqueue__0__
+  name: Enqueue
+  nameWithType: UnsafeParallelQueue<T>.Enqueue
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.Enqueue
+  nameWithType.vb: UnsafeParallelQueue(Of T).Enqueue
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).Enqueue
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.TryDequeue*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.TryDequeue
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelQueue_1_TryDequeue__0__
+  name: TryDequeue
+  nameWithType: UnsafeParallelQueue<T>.TryDequeue
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.TryDequeue
+  nameWithType.vb: UnsafeParallelQueue(Of T).TryDequeue
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).TryDequeue
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelProducer*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelProducer
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelQueue_1_AsParallelProducer
+  name: AsParallelProducer
+  nameWithType: UnsafeParallelQueue<T>.AsParallelProducer
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.AsParallelProducer
+  nameWithType.vb: UnsafeParallelQueue(Of T).AsParallelProducer
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).AsParallelProducer
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelProducer
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelProducer
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  name: UnsafeParallelQueue<T>.ParallelProducer
+  nameWithType: UnsafeParallelQueue<T>.ParallelProducer
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.ParallelProducer
+  nameWithType.vb: UnsafeParallelQueue(Of T).ParallelProducer
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).ParallelProducer
+  name.vb: UnsafeParallelQueue(Of T).ParallelProducer
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelProducer
+    name: ParallelProducer
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelProducer.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelProducer
+    name: ParallelProducer
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelProducer.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelConsumer*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.AsParallelConsumer
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelQueue_1_AsParallelConsumer
+  name: AsParallelConsumer
+  nameWithType: UnsafeParallelQueue<T>.AsParallelConsumer
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.AsParallelConsumer
+  nameWithType.vb: UnsafeParallelQueue(Of T).AsParallelConsumer
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).AsParallelConsumer
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelConsumer
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelConsumer
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  name: UnsafeParallelQueue<T>.ParallelConsumer
+  nameWithType: UnsafeParallelQueue<T>.ParallelConsumer
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.ParallelConsumer
+  nameWithType.vb: UnsafeParallelQueue(Of T).ParallelConsumer
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).ParallelConsumer
+  name.vb: UnsafeParallelQueue(Of T).ParallelConsumer
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelConsumer
+    name: ParallelConsumer
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelConsumer.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelConsumer
+    name: ParallelConsumer
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelConsumer.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Dispose*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.Dispose
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeParallelQueue_1_Dispose
+  name: Dispose
+  nameWithType: UnsafeParallelQueue<T>.Dispose
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.Dispose
+  nameWithType.vb: UnsafeParallelQueue(Of T).Dispose
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )

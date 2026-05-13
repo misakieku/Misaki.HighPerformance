@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Struct UnsafeChunkedList&lt;T&gt; | Misaki.HighPerformance </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct UnsafeChunkedList&lt;T&gt; | Misaki.HighPerformance ">
+      
+      <meta name="description" content="A collection that stores elements in fixed-size chunks, enabling stable element addresses and eliminating large reallocation during growth. Adding elements never moves existing ones.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Misaki.HighPerformance">
+            Misaki.HighPerformance
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1">
+
+
+
+  <h1 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1" class="text-break">
+Struct UnsafeChunkedList&lt;T&gt;  
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Misaki.html">Misaki</a>.<a class="xref" href="Misaki.HighPerformance.html">HighPerformance</a>.<a class="xref" href="Misaki.HighPerformance.LowLevel.html">LowLevel</a>.<a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.html">Collections</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Misaki.HighPerformance.LowLevel.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A collection that stores elements in fixed-size chunks, enabling stable element addresses
+and eliminating large reallocation during growth. Adding elements never moves existing ones.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public struct UnsafeChunkedList&lt;T&gt; : IUnsafeCollection&lt;T&gt;, IUnsafeCollection, IDisposable where T : unmanaged</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>Represents a type that can be stored in the collection, constrained to unmanaged types for performance and safety.</p>
+</dd>
+  </dl>
+
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html">IUnsafeCollection</a>&lt;T&gt;</div>
+      <div><a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html">IUnsafeCollection</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.equals">ValueType.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode">ValueType.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.tostring">ValueType.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1__ctor_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1__ctor" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.#ctor">
+  UnsafeChunkedList()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Invalid constructor, use <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1__ctor_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationHandle_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_">UnsafeChunkedList(int, AllocationHandle, AllocationOption)</a> instead.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UnsafeChunkedList()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1__ctor_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1__ctor_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationHandle_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)">
+  UnsafeChunkedList(int, AllocationHandle, AllocationOption)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance with a specified chunk capacity and allocator.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UnsafeChunkedList(int chunkCapacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>chunkCapacity</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The maximum number of elements per chunk.</p>
+</dd>
+    <dt><code>handle</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html">AllocationHandle</a></dt>
+    <dd><p>A reference to an AllocationHandle that manages memory allocation.</p>
+</dd>
+    <dt><code>allocationOption</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html">AllocationOption</a></dt>
+    <dd><p>Specifies how the memory should be allocated.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_DEFAULT_CHUNK_SIZE_IN_BYTES" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.DEFAULT_CHUNK_SIZE_IN_BYTES">
+  DEFAULT_CHUNK_SIZE_IN_BYTES
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int DEFAULT_CHUNK_SIZE_IN_BYTES = 16384</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Capacity_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Capacity*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Capacity" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Capacity">
+  Capacity
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int Capacity { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_ChunkCapacity_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ChunkCapacity*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_ChunkCapacity" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ChunkCapacity">
+  ChunkCapacity
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int ChunkCapacity { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_ChunkCount_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ChunkCount*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_ChunkCount" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ChunkCount">
+  ChunkCount
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int ChunkCount { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Count_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Count*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Count" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Count">
+  Count
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the number of elements in a collection.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int Count { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_IsCreated_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.IsCreated*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_IsCreated" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.IsCreated">
+  IsCreated
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether the object has been created. Returns true if the object is created, otherwise false.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly bool IsCreated { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_IsCreated_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If MHP_ENABLE_STACKTRACE is not defined, this property will only check if the underlying pointer is not null, which may not be sufficient to determine if the collection is fully initialized and ready for use.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Item_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Item*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Item_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Item(System.Int32)">
+  this[int]
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly ref T this[int index] { get; }</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Item_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Item*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Item_System_UInt32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Item(System.UInt32)">
+  this[uint]
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly ref T this[uint index] { get; }</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Add_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Add*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Add__0__" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Add(`0@)">
+  Add(scoped in T)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a new element to the end of the list, allocating new chunks as needed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Add(scoped in T value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddNoResize_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AddNoResize*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddNoResize__0__" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AddNoResize(`0@)">
+  AddNoResize(scoped in T)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds the specified value to the collection. For chunked lists, this is equivalent to <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Add__0__">Add(scoped in T)</a>,
+since allocating new chunks never moves existing elements.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddNoResize(scoped in T value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddRange_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AddRange*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddRange_System_ReadOnlySpan__0__" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AddRange(System.ReadOnlySpan{`0})">
+  AddRange(ReadOnlySpan&lt;T&gt;)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a range of elements to the collection, allocating new chunks as needed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddRange(ReadOnlySpan&lt;T&gt; values)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddRange_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AddRange*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddRange__0__System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AddRange(`0*,System.Int32)">
+  AddRange(T*, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a range of elements from a pointer to the collection, allocating new chunks as needed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddRange(T* ptr, int count)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> T*</dt>
+    <dd></dd>
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddRangeNoResize_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AddRangeNoResize*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddRangeNoResize_System_ReadOnlySpan__0__" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AddRangeNoResize(System.ReadOnlySpan{`0})">
+  AddRangeNoResize(ReadOnlySpan&lt;T&gt;)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a range of elements. For chunked lists, this is equivalent to <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddRange_System_ReadOnlySpan__0__">AddRange(ReadOnlySpan&lt;T&gt;)</a>,
+since allocating new chunks never moves existing elements.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddRangeNoResize(ReadOnlySpan&lt;T&gt; collection)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>collection</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddRangeNoResize_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AddRangeNoResize*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddRangeNoResize__0__System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AddRangeNoResize(`0*,System.Int32)">
+  AddRangeNoResize(T*, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds a range of elements from a pointer. For chunked lists, this is equivalent to <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AddRange__0__System_Int32_">AddRange(T*, int)</a>,
+since allocating new chunks never moves existing elements.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddRangeNoResize(T* ptr, int count)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> T*</dt>
+    <dd></dd>
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AsParallelReader_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AsParallelReader*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AsParallelReader" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AsParallelReader">
+  AsParallelReader()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Provides a parallel reader for the current list, enabling thread-safe read operations.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UnsafeChunkedList&lt;T&gt;.ParallelReader AsParallelReader()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html">UnsafeChunkedList</a>&lt;T&gt;.<a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelReader.html">ParallelReader</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AsParallelWriter_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AsParallelWriter*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_AsParallelWriter" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.AsParallelWriter">
+  AsParallelWriter()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Provides a parallel writer for the current list, enabling thread-safe additions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UnsafeChunkedList&lt;T&gt;.ParallelWriter AsParallelWriter()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html">UnsafeChunkedList</a>&lt;T&gt;.<a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelWriter.html">ParallelWriter</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Clear_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Clear*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Clear" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Clear">
+  Clear()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes all elements from the collection. The collection will be empty after this operation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Clear()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_CopyFrom_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.CopyFrom*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_CopyFrom_System_ReadOnlySpan__0__" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.CopyFrom(System.ReadOnlySpan{`0})">
+  CopyFrom(ReadOnlySpan&lt;T&gt;)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies elements from a source span into the list, growing as needed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CopyFrom(ReadOnlySpan&lt;T&gt; source)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>source</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_CopyFrom_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.CopyFrom*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_CopyFrom_System_ReadOnlySpan__0__System_Int32_System_Int32_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.CopyFrom(System.ReadOnlySpan{`0},System.Int32,System.Int32,System.Int32)">
+  CopyFrom(ReadOnlySpan&lt;T&gt;, int, int, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies a range of elements from a source span to the list.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CopyFrom(ReadOnlySpan&lt;T&gt; source, int sourceIndex, int destinationIndex, int length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>source</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>sourceIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>destinationIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_CopyTo_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.CopyTo*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_CopyTo_System_Span__0__" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.CopyTo(System.Span{`0})">
+  CopyTo(Span&lt;T&gt;)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies all elements into a destination span.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly void CopyTo(Span&lt;T&gt; destination)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>destination</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_CopyTo_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.CopyTo*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_CopyTo_System_Span__0__System_Int32_System_Int32_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.CopyTo(System.Span{`0},System.Int32,System.Int32,System.Int32)">
+  CopyTo(Span&lt;T&gt;, int, int, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies a range of elements from the list to a destination span.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly void CopyTo(Span&lt;T&gt; destination, int sourceIndex, int destinationIndex, int length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>destination</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>sourceIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>destinationIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Dispose_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Dispose*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Dispose" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Dispose">
+  Dispose()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_EnsureCapacity_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.EnsureCapacity*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_EnsureCapacity_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.EnsureCapacity(System.Int32)">
+  EnsureCapacity(int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Pre-allocates chunks to accommodate at least the specified number of elements.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void EnsureCapacity(int capacity)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>capacity</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_GetEnumerator_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.GetEnumerator*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_GetEnumerator" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.GetEnumerator">
+  GetEnumerator()
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[UnscopedRef]
+public UnsafeChunkedList&lt;T&gt;.Enumerator GetEnumerator()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html">UnsafeChunkedList</a>&lt;T&gt;.<a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.Enumerator.html">Enumerator</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_GetUnsafePtr_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.GetUnsafePtr*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_GetUnsafePtr" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.GetUnsafePtr">
+  GetUnsafePtr()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns a pointer to an unmanaged memory location. This pointer can be used for low-level memory operations.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly void* GetUnsafePtr()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>The method returns a void pointer to the unsafe memory location.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_RemoveAt_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.RemoveAt*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_RemoveAt_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.RemoveAt(System.Int32)">
+  RemoveAt(int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes the element at the specified index.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveAt(int index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_RemoveAtSwapBack_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.RemoveAtSwapBack*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_RemoveAtSwapBack_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.RemoveAtSwapBack(System.Int32)">
+  RemoveAtSwapBack(int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes the element at the specified index by swapping it with the last element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveAtSwapBack(int index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_RemoveRange_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.RemoveRange*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_RemoveRange_System_Int32_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.RemoveRange(System.Int32,System.Int32)">
+  RemoveRange(int, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes a range of elements from the list starting at the specified index.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveRange(int start, int length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>start</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_RemoveRangeSwapBack_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.RemoveRangeSwapBack*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_RemoveRangeSwapBack_System_Int32_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.RemoveRangeSwapBack(System.Int32,System.Int32)">
+  RemoveRangeSwapBack(int, int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Removes a range of elements by swapping them with elements from the end of the list.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveRangeSwapBack(int start, int length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>start</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Resize_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Resize*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)">
+  Resize(int, AllocationOption)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Changes the size of a collection to the specified value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Resize(int newSize, AllocationOption option = AllocationOption.None)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>newSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Specifies the new size to which the collection should be adjusted.</p>
+</dd>
+    <dt><code>option</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html">AllocationOption</a></dt>
+    <dd><p>Specifies allocation options that may affect how memory is managed during the resize operation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_ToList_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ToList*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeChunkedList_1_ToList" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ToList">
+  ToList()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List&lt;T&gt;</a> containing the elements.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly List&lt;T&gt; ToList()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

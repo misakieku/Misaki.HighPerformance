@@ -1,0 +1,86 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.Geometry
+  commentId: N:Misaki.HighPerformance.Mathematics.Geometry
+  id: Misaki.HighPerformance.Mathematics.Geometry
+  children:
+  - Misaki.HighPerformance.Mathematics.Geometry.AABB
+  - Misaki.HighPerformance.Mathematics.Geometry.OBB
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane
+  - Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance.Mathematics.Geometry
+  nameWithType: Misaki.HighPerformance.Mathematics.Geometry
+  fullName: Misaki.HighPerformance.Mathematics.Geometry
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+references:
+- uid: Misaki.HighPerformance.Mathematics.Geometry.AABB
+  commentId: T:Misaki.HighPerformance.Mathematics.Geometry.AABB
+  parent: Misaki.HighPerformance.Mathematics.Geometry
+  href: Misaki.HighPerformance.Mathematics.Geometry.AABB.html
+  name: AABB
+  nameWithType: AABB
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.AABB
+- uid: Misaki.HighPerformance.Mathematics.Geometry.OBB
+  commentId: T:Misaki.HighPerformance.Mathematics.Geometry.OBB
+  parent: Misaki.HighPerformance.Mathematics.Geometry
+  href: Misaki.HighPerformance.Mathematics.Geometry.OBB.html
+  name: OBB
+  nameWithType: OBB
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.OBB
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  commentId: T:Misaki.HighPerformance.Mathematics.Geometry.Plane
+  parent: Misaki.HighPerformance.Mathematics.Geometry
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html
+  name: Plane
+  nameWithType: Plane
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane
+- uid: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  commentId: T:Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+  parent: Misaki.HighPerformance.Mathematics.Geometry
+  href: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html
+  name: SphereBounds
+  nameWithType: SphereBounds
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.SphereBounds
+- uid: Misaki.HighPerformance.Mathematics.Geometry
+  commentId: N:Misaki.HighPerformance.Mathematics.Geometry
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics.Geometry
+  nameWithType: Misaki.HighPerformance.Mathematics.Geometry
+  fullName: Misaki.HighPerformance.Mathematics.Geometry
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.Geometry
+    name: Geometry
+    href: Misaki.HighPerformance.Mathematics.Geometry.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.Geometry
+    name: Geometry
+    href: Misaki.HighPerformance.Mathematics.Geometry.html

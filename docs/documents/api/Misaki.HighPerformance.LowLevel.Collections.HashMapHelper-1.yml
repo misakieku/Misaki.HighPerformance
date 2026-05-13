@@ -1,0 +1,1548 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  id: HashMapHelper`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.#ctor(System.Int32,System.Int32,System.Int32,System.UInt32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Add(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Buffer
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Capacity
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Clear
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Count
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.CountValuesForKey(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Dispose
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Find(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.FindNext(System.Int32,`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetKeyValueArrays``1(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRefOrAddDefault``1(`0@,System.Boolean@)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRef``1(`0@,System.Boolean@)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsCreated
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsEmpty
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MINIMAL_CAPACITY
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNext(System.Int32@,System.Int32@,System.Int32@)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNextSearch(System.Int32@,System.Int32@,System.Int32@)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.RemoveAll(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Resize(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TrimExcess
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryAdd(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryGetValue``1(`0@,``0@)
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryRemove(`0@)
+  langs:
+  - csharp
+  - vb
+  name: HashMapHelper<TKey>
+  nameWithType: HashMapHelper<TKey>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: HashMapHelper
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 8
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: 'public struct HashMapHelper<TKey> : IDisposable where TKey : unmanaged, IEquatable<TKey>'
+    typeParameters:
+    - id: TKey
+    content.vb: Public Structure HashMapHelper(Of TKey As {Structure, IEquatable(Of TKey)}) Implements IDisposable
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: HashMapHelper(Of TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey)
+  name.vb: HashMapHelper(Of TKey)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MINIMAL_CAPACITY
+  commentId: F:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MINIMAL_CAPACITY
+  id: MINIMAL_CAPACITY
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: MINIMAL_CAPACITY
+  nameWithType: HashMapHelper<TKey>.MINIMAL_CAPACITY
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.MINIMAL_CAPACITY
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MINIMAL_CAPACITY
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 80
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public const int MINIMAL_CAPACITY = 64
+    return:
+      type: System.Int32
+    content.vb: Public Const MINIMAL_CAPACITY As Integer = 64
+  nameWithType.vb: HashMapHelper(Of TKey).MINIMAL_CAPACITY
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).MINIMAL_CAPACITY
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Buffer
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Buffer
+  id: Buffer
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: Buffer
+  nameWithType: HashMapHelper<TKey>.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Buffer
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Buffer
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 82
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly byte* Buffer { get; }
+    parameters: []
+    return:
+      type: System.Byte*
+    content.vb: Public ReadOnly Property Buffer As Byte*
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Buffer*
+  nameWithType.vb: HashMapHelper(Of TKey).Buffer
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Buffer
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Count
+  id: Count
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: HashMapHelper<TKey>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Count
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Count
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 84
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Count*
+  nameWithType.vb: HashMapHelper(Of TKey).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Capacity
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Capacity
+  id: Capacity
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: Capacity
+  nameWithType: HashMapHelper<TKey>.Capacity
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Capacity
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Capacity
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 86
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly int Capacity { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Capacity As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Capacity*
+  nameWithType.vb: HashMapHelper(Of TKey).Capacity
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Capacity
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsEmpty
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsEmpty
+  id: IsEmpty
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: IsEmpty
+  nameWithType: HashMapHelper<TKey>.IsEmpty
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.IsEmpty
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsEmpty
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 88
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly bool IsEmpty { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsEmpty As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsEmpty*
+  nameWithType.vb: HashMapHelper(Of TKey).IsEmpty
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).IsEmpty
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsCreated
+  id: IsCreated
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: IsCreated
+  nameWithType: HashMapHelper<TKey>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.IsCreated
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsCreated
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 90
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly bool IsCreated { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsCreated As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsCreated*
+  nameWithType.vb: HashMapHelper(Of TKey).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.#ctor(System.Int32,System.Int32,System.Int32,System.UInt32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.#ctor(System.Int32,System.Int32,System.Int32,System.UInt32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: '#ctor(System.Int32,System.Int32,System.Int32,System.UInt32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)'
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: HashMapHelper(int, int, int, uint, AllocationHandle, AllocationOption)
+  nameWithType: HashMapHelper<TKey>.HashMapHelper(int, int, int, uint, AllocationHandle, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.HashMapHelper(int, int, int, uint, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 125
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public HashMapHelper(int capacity, int sizeOfTValue, int alignOfTValue, uint minGrowth, AllocationHandle handle, AllocationOption allocationOption)
+    parameters:
+    - id: capacity
+      type: System.Int32
+    - id: sizeOfTValue
+      type: System.Int32
+    - id: alignOfTValue
+      type: System.Int32
+    - id: minGrowth
+      type: System.UInt32
+    - id: handle
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+    - id: allocationOption
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    content.vb: Public Sub New(capacity As Integer, sizeOfTValue As Integer, alignOfTValue As Integer, minGrowth As UInteger, handle As AllocationHandle, allocationOption As AllocationOption)
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.#ctor*
+  nameWithType.vb: HashMapHelper(Of TKey).New(Integer, Integer, Integer, UInteger, AllocationHandle, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).New(Integer, Integer, Integer, UInteger, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: New(Integer, Integer, Integer, UInteger, AllocationHandle, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Resize(System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Resize(System.Int32)
+  id: Resize(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: Resize(int)
+  nameWithType: HashMapHelper<TKey>.Resize(int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Resize(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Resize
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 290
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public void Resize(int newCapacity)
+    parameters:
+    - id: newCapacity
+      type: System.Int32
+    content.vb: Public Sub Resize(newCapacity As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Resize*
+  nameWithType.vb: HashMapHelper(Of TKey).Resize(Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Resize(Integer)
+  name.vb: Resize(Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TrimExcess
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TrimExcess
+  id: TrimExcess
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: TrimExcess()
+  nameWithType: HashMapHelper<TKey>.TrimExcess()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.TrimExcess()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TrimExcess
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 305
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public void TrimExcess()
+    content.vb: Public Sub TrimExcess()
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TrimExcess*
+  nameWithType.vb: HashMapHelper(Of TKey).TrimExcess()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).TrimExcess()
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Find(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Find(`0@)
+  id: Find(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: Find(scoped in TKey)
+  nameWithType: HashMapHelper<TKey>.Find(scoped in TKey)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Find(scoped in TKey)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Find
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 313
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int Find(scoped in TKey key)
+    parameters:
+    - id: key
+      type: '{TKey}'
+    return:
+      type: System.Int32
+    content.vb: Public Function Find(key As TKey) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Find*
+  nameWithType.vb: HashMapHelper(Of TKey).Find(TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Find(TKey)
+  name.vb: Find(TKey)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryAdd(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryAdd(`0@)
+  id: TryAdd(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: TryAdd(scoped in TKey)
+  nameWithType: HashMapHelper<TKey>.TryAdd(scoped in TKey)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.TryAdd(scoped in TKey)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TryAdd
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 344
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int TryAdd(scoped in TKey key)
+    parameters:
+    - id: key
+      type: '{TKey}'
+    return:
+      type: System.Int32
+    content.vb: Public Function TryAdd(key As TKey) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryAdd*
+  nameWithType.vb: HashMapHelper(Of TKey).TryAdd(TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).TryAdd(TKey)
+  name.vb: TryAdd(TKey)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Add(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Add(`0@)
+  id: Add(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: Add(scoped in TKey)
+  nameWithType: HashMapHelper<TKey>.Add(scoped in TKey)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Add(scoped in TKey)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Add
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 356
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int Add(scoped in TKey key)
+    parameters:
+    - id: key
+      type: '{TKey}'
+    return:
+      type: System.Int32
+    content.vb: Public Function Add(key As TKey) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Add*
+  nameWithType.vb: HashMapHelper(Of TKey).Add(TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Add(TKey)
+  name.vb: Add(TKey)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryRemove(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryRemove(`0@)
+  id: TryRemove(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: TryRemove(scoped in TKey)
+  nameWithType: HashMapHelper<TKey>.TryRemove(scoped in TKey)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.TryRemove(scoped in TKey)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TryRemove
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 363
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int TryRemove(scoped in TKey key)
+    parameters:
+    - id: key
+      type: '{TKey}'
+    return:
+      type: System.Int32
+    content.vb: Public Function TryRemove(key As TKey) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryRemove*
+  nameWithType.vb: HashMapHelper(Of TKey).TryRemove(TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).TryRemove(TKey)
+  name.vb: TryRemove(TKey)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.RemoveAll(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.RemoveAll(`0@)
+  id: RemoveAll(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: RemoveAll(scoped in TKey)
+  nameWithType: HashMapHelper<TKey>.RemoveAll(scoped in TKey)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.RemoveAll(scoped in TKey)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RemoveAll
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 415
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int RemoveAll(scoped in TKey key)
+    parameters:
+    - id: key
+      type: '{TKey}'
+    return:
+      type: System.Int32
+    content.vb: Public Function RemoveAll(key As TKey) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.RemoveAll*
+  nameWithType.vb: HashMapHelper(Of TKey).RemoveAll(TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).RemoveAll(TKey)
+  name.vb: RemoveAll(TKey)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryGetValue``1(`0@,``0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryGetValue``1(`0@,``0@)
+  id: TryGetValue``1(`0@,``0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: TryGetValue<TValue>(scoped in TKey, out TValue)
+  nameWithType: HashMapHelper<TKey>.TryGetValue<TValue>(scoped in TKey, out TValue)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.TryGetValue<TValue>(scoped in TKey, out TValue)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TryGetValue
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 459
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: 'public bool TryGetValue<TValue>(scoped in TKey key, out TValue item) where TValue : unmanaged'
+    parameters:
+    - id: key
+      type: '{TKey}'
+    - id: item
+      type: '{TValue}'
+    typeParameters:
+    - id: TValue
+    return:
+      type: System.Boolean
+    content.vb: Public Function TryGetValue(Of TValue As Structure)(key As TKey, item As TValue) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryGetValue*
+  nameWithType.vb: HashMapHelper(Of TKey).TryGetValue(Of TValue)(TKey, TValue)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).TryGetValue(Of TValue)(TKey, TValue)
+  name.vb: TryGetValue(Of TValue)(TKey, TValue)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.FindNext(System.Int32,`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.FindNext(System.Int32,`0@)
+  id: FindNext(System.Int32,`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: FindNext(int, scoped in TKey)
+  nameWithType: HashMapHelper<TKey>.FindNext(int, scoped in TKey)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.FindNext(int, scoped in TKey)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: FindNext
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 476
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int FindNext(int entryIdx, scoped in TKey key)
+    parameters:
+    - id: entryIdx
+      type: System.Int32
+    - id: key
+      type: '{TKey}'
+    return:
+      type: System.Int32
+    content.vb: Public Function FindNext(entryIdx As Integer, key As TKey) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.FindNext*
+  nameWithType.vb: HashMapHelper(Of TKey).FindNext(Integer, TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).FindNext(Integer, TKey)
+  name.vb: FindNext(Integer, TKey)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.CountValuesForKey(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.CountValuesForKey(`0@)
+  id: CountValuesForKey(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: CountValuesForKey(scoped in TKey)
+  nameWithType: HashMapHelper<TKey>.CountValuesForKey(scoped in TKey)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.CountValuesForKey(scoped in TKey)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CountValuesForKey
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 499
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public int CountValuesForKey(scoped in TKey key)
+    parameters:
+    - id: key
+      type: '{TKey}'
+    return:
+      type: System.Int32
+    content.vb: Public Function CountValuesForKey(key As TKey) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.CountValuesForKey*
+  nameWithType.vb: HashMapHelper(Of TKey).CountValuesForKey(TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).CountValuesForKey(TKey)
+  name.vb: CountValuesForKey(TKey)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRef``1(`0@,System.Boolean@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRef``1(`0@,System.Boolean@)
+  id: GetValueRef``1(`0@,System.Boolean@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: GetValueRef<TValue>(scoped in TKey, out bool)
+  nameWithType: HashMapHelper<TKey>.GetValueRef<TValue>(scoped in TKey, out bool)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.GetValueRef<TValue>(scoped in TKey, out bool)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetValueRef
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 512
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: 'public ref TValue GetValueRef<TValue>(scoped in TKey key, out bool exists) where TValue : unmanaged'
+    parameters:
+    - id: key
+      type: '{TKey}'
+    - id: exists
+      type: System.Boolean
+    typeParameters:
+    - id: TValue
+    return:
+      type: '{TValue}'
+    content.vb: Public ByRef Function GetValueRef(Of TValue As Structure)(key As TKey, exists As Boolean) As TValue
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRef*
+  nameWithType.vb: HashMapHelper(Of TKey).GetValueRef(Of TValue)(TKey, Boolean)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).GetValueRef(Of TValue)(TKey, Boolean)
+  name.vb: GetValueRef(Of TValue)(TKey, Boolean)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRefOrAddDefault``1(`0@,System.Boolean@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRefOrAddDefault``1(`0@,System.Boolean@)
+  id: GetValueRefOrAddDefault``1(`0@,System.Boolean@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: GetValueRefOrAddDefault<TValue>(scoped in TKey, out bool)
+  nameWithType: HashMapHelper<TKey>.GetValueRefOrAddDefault<TValue>(scoped in TKey, out bool)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.GetValueRefOrAddDefault<TValue>(scoped in TKey, out bool)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetValueRefOrAddDefault
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 528
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: 'public ref TValue GetValueRefOrAddDefault<TValue>(scoped in TKey key, out bool exists) where TValue : unmanaged'
+    parameters:
+    - id: key
+      type: '{TKey}'
+    - id: exists
+      type: System.Boolean
+    typeParameters:
+    - id: TValue
+    return:
+      type: '{TValue}'
+    content.vb: Public ByRef Function GetValueRefOrAddDefault(Of TValue As Structure)(key As TKey, exists As Boolean) As TValue
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRefOrAddDefault*
+  nameWithType.vb: HashMapHelper(Of TKey).GetValueRefOrAddDefault(Of TValue)(TKey, Boolean)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).GetValueRefOrAddDefault(Of TValue)(TKey, Boolean)
+  name.vb: GetValueRefOrAddDefault(Of TValue)(TKey, Boolean)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNextSearch(System.Int32@,System.Int32@,System.Int32@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNextSearch(System.Int32@,System.Int32@,System.Int32@)
+  id: MoveNextSearch(System.Int32@,System.Int32@,System.Int32@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: MoveNextSearch(ref int, ref int, out int)
+  nameWithType: HashMapHelper<TKey>.MoveNextSearch(ref int, ref int, out int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.MoveNextSearch(ref int, ref int, out int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MoveNextSearch
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 576
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public bool MoveNextSearch(ref int bucketIndex, ref int nextIndex, out int index)
+    parameters:
+    - id: bucketIndex
+      type: System.Int32
+    - id: nextIndex
+      type: System.Int32
+    - id: index
+      type: System.Int32
+    return:
+      type: System.Boolean
+    content.vb: Public Function MoveNextSearch(bucketIndex As Integer, nextIndex As Integer, index As Integer) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNextSearch*
+  nameWithType.vb: HashMapHelper(Of TKey).MoveNextSearch(Integer, Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).MoveNextSearch(Integer, Integer, Integer)
+  name.vb: MoveNextSearch(Integer, Integer, Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNext(System.Int32@,System.Int32@,System.Int32@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNext(System.Int32@,System.Int32@,System.Int32@)
+  id: MoveNext(System.Int32@,System.Int32@,System.Int32@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: MoveNext(ref int, ref int, out int)
+  nameWithType: HashMapHelper<TKey>.MoveNext(ref int, ref int, out int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.MoveNext(ref int, ref int, out int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MoveNext
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 600
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public bool MoveNext(ref int bucketIndex, ref int nextIndex, out int index)
+    parameters:
+    - id: bucketIndex
+      type: System.Int32
+    - id: nextIndex
+      type: System.Int32
+    - id: index
+      type: System.Int32
+    return:
+      type: System.Boolean
+    content.vb: Public Function MoveNext(bucketIndex As Integer, nextIndex As Integer, index As Integer) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNext*
+  nameWithType.vb: HashMapHelper(Of TKey).MoveNext(Integer, Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).MoveNext(Integer, Integer, Integer)
+  name.vb: MoveNext(Integer, Integer, Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetKeyValueArrays``1(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetKeyValueArrays``1(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+  id: GetKeyValueArrays``1(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: GetKeyValueArrays<TValue>(AllocationHandle)
+  nameWithType: HashMapHelper<TKey>.GetKeyValueArrays<TValue>(AllocationHandle)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.GetKeyValueArrays<TValue>(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetKeyValueArrays
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 656
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: 'public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays<TValue>(AllocationHandle allocator) where TValue : unmanaged'
+    parameters:
+    - id: allocator
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+    typeParameters:
+    - id: TValue
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray{System.Collections.Generic.KeyValuePair{{TKey},{TValue}}}
+    content.vb: Public Function GetKeyValueArrays(Of TValue As Structure)(allocator As AllocationHandle) As UnsafeArray(Of KeyValuePair(Of TKey, TValue))
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetKeyValueArrays*
+  nameWithType.vb: HashMapHelper(Of TKey).GetKeyValueArrays(Of TValue)(AllocationHandle)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).GetKeyValueArrays(Of TValue)(Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)
+  name.vb: GetKeyValueArrays(Of TValue)(AllocationHandle)
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Clear
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Clear
+  id: Clear
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: HashMapHelper<TKey>.Clear()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Clear
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 680
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear()
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Clear*
+  nameWithType.vb: HashMapHelper(Of TKey).Clear()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Clear()
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Dispose
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Dispose
+  id: Dispose
+  parent: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: HashMapHelper<TKey>.Dispose()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dispose
+    path: src/Misaki.HighPerformance.LowLevel/Collections/HashMapHelper.cs
+    startLine: 692
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  nameWithType.vb: HashMapHelper(Of TKey).Dispose()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Dispose()
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Buffer*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Buffer
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_Buffer
+  name: Buffer
+  nameWithType: HashMapHelper<TKey>.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Buffer
+  nameWithType.vb: HashMapHelper(Of TKey).Buffer
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Buffer
+- uid: System.Byte*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte*
+  nameWithType: byte*
+  fullName: byte*
+  nameWithType.vb: Byte*
+  fullName.vb: Byte*
+  name.vb: Byte*
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '*'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '*'
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Count*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_Count
+  name: Count
+  nameWithType: HashMapHelper<TKey>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Count
+  nameWithType.vb: HashMapHelper(Of TKey).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Capacity*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Capacity
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_Capacity
+  name: Capacity
+  nameWithType: HashMapHelper<TKey>.Capacity
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Capacity
+  nameWithType.vb: HashMapHelper(Of TKey).Capacity
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Capacity
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsEmpty*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsEmpty
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_IsEmpty
+  name: IsEmpty
+  nameWithType: HashMapHelper<TKey>.IsEmpty
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.IsEmpty
+  nameWithType.vb: HashMapHelper(Of TKey).IsEmpty
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).IsEmpty
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsCreated*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.IsCreated
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_IsCreated
+  name: IsCreated
+  nameWithType: HashMapHelper<TKey>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.IsCreated
+  nameWithType.vb: HashMapHelper(Of TKey).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.#ctor
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1__ctor_System_Int32_System_Int32_System_Int32_System_UInt32_Misaki_HighPerformance_LowLevel_Buffer_AllocationHandle_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: HashMapHelper
+  nameWithType: HashMapHelper<TKey>.HashMapHelper
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.HashMapHelper
+  nameWithType.vb: HashMapHelper(Of TKey).New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).New
+  name.vb: New
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html
+  name: AllocationHandle
+  nameWithType: AllocationHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  name: AllocationOption
+  nameWithType: AllocationOption
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Resize*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Resize
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_Resize_System_Int32_
+  name: Resize
+  nameWithType: HashMapHelper<TKey>.Resize
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Resize
+  nameWithType.vb: HashMapHelper(Of TKey).Resize
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Resize
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TrimExcess*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TrimExcess
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_TrimExcess
+  name: TrimExcess
+  nameWithType: HashMapHelper<TKey>.TrimExcess
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.TrimExcess
+  nameWithType.vb: HashMapHelper(Of TKey).TrimExcess
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).TrimExcess
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Find*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Find
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_Find__0__
+  name: Find
+  nameWithType: HashMapHelper<TKey>.Find
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Find
+  nameWithType.vb: HashMapHelper(Of TKey).Find
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Find
+- uid: '{TKey}'
+  commentId: '!:TKey'
+  definition: TKey
+  name: TKey
+  nameWithType: TKey
+  fullName: TKey
+- uid: TKey
+  name: TKey
+  nameWithType: TKey
+  fullName: TKey
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryAdd*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryAdd
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_TryAdd__0__
+  name: TryAdd
+  nameWithType: HashMapHelper<TKey>.TryAdd
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.TryAdd
+  nameWithType.vb: HashMapHelper(Of TKey).TryAdd
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).TryAdd
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Add*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Add
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_Add__0__
+  name: Add
+  nameWithType: HashMapHelper<TKey>.Add
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Add
+  nameWithType.vb: HashMapHelper(Of TKey).Add
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Add
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryRemove*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryRemove
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_TryRemove__0__
+  name: TryRemove
+  nameWithType: HashMapHelper<TKey>.TryRemove
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.TryRemove
+  nameWithType.vb: HashMapHelper(Of TKey).TryRemove
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).TryRemove
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.RemoveAll*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.RemoveAll
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_RemoveAll__0__
+  name: RemoveAll
+  nameWithType: HashMapHelper<TKey>.RemoveAll
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.RemoveAll
+  nameWithType.vb: HashMapHelper(Of TKey).RemoveAll
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).RemoveAll
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryGetValue*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.TryGetValue
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_TryGetValue__1__0____0__
+  name: TryGetValue
+  nameWithType: HashMapHelper<TKey>.TryGetValue
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.TryGetValue
+  nameWithType.vb: HashMapHelper(Of TKey).TryGetValue
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).TryGetValue
+- uid: '{TValue}'
+  commentId: '!:TValue'
+  definition: TValue
+  name: TValue
+  nameWithType: TValue
+  fullName: TValue
+- uid: TValue
+  name: TValue
+  nameWithType: TValue
+  fullName: TValue
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.FindNext*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.FindNext
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_FindNext_System_Int32__0__
+  name: FindNext
+  nameWithType: HashMapHelper<TKey>.FindNext
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.FindNext
+  nameWithType.vb: HashMapHelper(Of TKey).FindNext
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).FindNext
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.CountValuesForKey*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.CountValuesForKey
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_CountValuesForKey__0__
+  name: CountValuesForKey
+  nameWithType: HashMapHelper<TKey>.CountValuesForKey
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.CountValuesForKey
+  nameWithType.vb: HashMapHelper(Of TKey).CountValuesForKey
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).CountValuesForKey
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRef*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRef
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_GetValueRef__1__0__System_Boolean__
+  name: GetValueRef
+  nameWithType: HashMapHelper<TKey>.GetValueRef
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.GetValueRef
+  nameWithType.vb: HashMapHelper(Of TKey).GetValueRef
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).GetValueRef
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRefOrAddDefault*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetValueRefOrAddDefault
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_GetValueRefOrAddDefault__1__0__System_Boolean__
+  name: GetValueRefOrAddDefault
+  nameWithType: HashMapHelper<TKey>.GetValueRefOrAddDefault
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.GetValueRefOrAddDefault
+  nameWithType.vb: HashMapHelper(Of TKey).GetValueRefOrAddDefault
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).GetValueRefOrAddDefault
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNextSearch*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNextSearch
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_MoveNextSearch_System_Int32__System_Int32__System_Int32__
+  name: MoveNextSearch
+  nameWithType: HashMapHelper<TKey>.MoveNextSearch
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.MoveNextSearch
+  nameWithType.vb: HashMapHelper(Of TKey).MoveNextSearch
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).MoveNextSearch
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNext*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.MoveNext
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_MoveNext_System_Int32__System_Int32__System_Int32__
+  name: MoveNext
+  nameWithType: HashMapHelper<TKey>.MoveNext
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.MoveNext
+  nameWithType.vb: HashMapHelper(Of TKey).MoveNext
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).MoveNext
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetKeyValueArrays*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.GetKeyValueArrays
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_GetKeyValueArrays__1_Misaki_HighPerformance_LowLevel_Buffer_AllocationHandle_
+  name: GetKeyValueArrays
+  nameWithType: HashMapHelper<TKey>.GetKeyValueArrays
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.GetKeyValueArrays
+  nameWithType.vb: HashMapHelper(Of TKey).GetKeyValueArrays
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).GetKeyValueArrays
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray{System.Collections.Generic.KeyValuePair{{TKey},{TValue}}}
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeArray{System.Collections.Generic.KeyValuePair{`0,``0}}
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  definition: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  name: UnsafeArray<KeyValuePair<TKey, TValue>>
+  nameWithType: UnsafeArray<KeyValuePair<TKey, TValue>>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<System.Collections.Generic.KeyValuePair<TKey, TValue>>
+  nameWithType.vb: UnsafeArray(Of KeyValuePair(Of TKey, TValue))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray(Of System.Collections.Generic.KeyValuePair(Of TKey, TValue))
+  name.vb: UnsafeArray(Of KeyValuePair(Of TKey, TValue))
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: <
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  name: UnsafeArray<T>
+  nameWithType: UnsafeArray<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<T>
+  nameWithType.vb: UnsafeArray(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray(Of T)
+  name.vb: UnsafeArray(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Clear*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Clear
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_Clear
+  name: Clear
+  nameWithType: HashMapHelper<TKey>.Clear
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Clear
+  nameWithType.vb: HashMapHelper(Of TKey).Clear
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Clear
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Dispose*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1.Dispose
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html#Misaki_HighPerformance_LowLevel_Collections_HashMapHelper_1_Dispose
+  name: Dispose
+  nameWithType: HashMapHelper<TKey>.Dispose
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>.Dispose
+  nameWithType.vb: HashMapHelper(Of TKey).Dispose
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey).Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )

@@ -1,0 +1,485 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.AtomicCounter64
+  commentId: T:Misaki.HighPerformance.AtomicCounter64
+  id: AtomicCounter64
+  parent: Misaki.HighPerformance
+  children:
+  - Misaki.HighPerformance.AtomicCounter64.#ctor(System.Int64)
+  - Misaki.HighPerformance.AtomicCounter64.Add(System.Int64)
+  - Misaki.HighPerformance.AtomicCounter64.Reset(System.Int64)
+  - Misaki.HighPerformance.AtomicCounter64.Subtract(System.Int64)
+  - Misaki.HighPerformance.AtomicCounter64.Value
+  langs:
+  - csharp
+  - vb
+  name: AtomicCounter64
+  nameWithType: AtomicCounter64
+  fullName: Misaki.HighPerformance.AtomicCounter64
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AtomicCounter64
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 29
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public struct AtomicCounter64
+    content.vb: Public Structure AtomicCounter64
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Misaki.HighPerformance.AtomicCounter64.Value
+  commentId: P:Misaki.HighPerformance.AtomicCounter64.Value
+  id: Value
+  parent: Misaki.HighPerformance.AtomicCounter64
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: AtomicCounter64.Value
+  fullName: Misaki.HighPerformance.AtomicCounter64.Value
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Value
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 33
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public readonly long Value { get; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public ReadOnly Property Value As Long
+  overload: Misaki.HighPerformance.AtomicCounter64.Value*
+- uid: Misaki.HighPerformance.AtomicCounter64.#ctor(System.Int64)
+  commentId: M:Misaki.HighPerformance.AtomicCounter64.#ctor(System.Int64)
+  id: '#ctor(System.Int64)'
+  parent: Misaki.HighPerformance.AtomicCounter64
+  langs:
+  - csharp
+  - vb
+  name: AtomicCounter64(long)
+  nameWithType: AtomicCounter64.AtomicCounter64(long)
+  fullName: Misaki.HighPerformance.AtomicCounter64.AtomicCounter64(long)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 35
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public AtomicCounter64(long initialValue = 0)
+    parameters:
+    - id: initialValue
+      type: System.Int64
+    content.vb: Public Sub New(initialValue As Long = 0)
+  overload: Misaki.HighPerformance.AtomicCounter64.#ctor*
+  nameWithType.vb: AtomicCounter64.New(Long)
+  fullName.vb: Misaki.HighPerformance.AtomicCounter64.New(Long)
+  name.vb: New(Long)
+- uid: Misaki.HighPerformance.AtomicCounter64.Add(System.Int64)
+  commentId: M:Misaki.HighPerformance.AtomicCounter64.Add(System.Int64)
+  id: Add(System.Int64)
+  parent: Misaki.HighPerformance.AtomicCounter64
+  langs:
+  - csharp
+  - vb
+  name: Add(long)
+  nameWithType: AtomicCounter64.Add(long)
+  fullName: Misaki.HighPerformance.AtomicCounter64.Add(long)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Add
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 40
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public long Add(long value = 1)
+    parameters:
+    - id: value
+      type: System.Int64
+    return:
+      type: System.Int64
+    content.vb: Public Function Add(value As Long = 1) As Long
+  overload: Misaki.HighPerformance.AtomicCounter64.Add*
+  nameWithType.vb: AtomicCounter64.Add(Long)
+  fullName.vb: Misaki.HighPerformance.AtomicCounter64.Add(Long)
+  name.vb: Add(Long)
+- uid: Misaki.HighPerformance.AtomicCounter64.Subtract(System.Int64)
+  commentId: M:Misaki.HighPerformance.AtomicCounter64.Subtract(System.Int64)
+  id: Subtract(System.Int64)
+  parent: Misaki.HighPerformance.AtomicCounter64
+  langs:
+  - csharp
+  - vb
+  name: Subtract(long)
+  nameWithType: AtomicCounter64.Subtract(long)
+  fullName: Misaki.HighPerformance.AtomicCounter64.Subtract(long)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Subtract
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 45
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public long Subtract(long value = 1)
+    parameters:
+    - id: value
+      type: System.Int64
+    return:
+      type: System.Int64
+    content.vb: Public Function Subtract(value As Long = 1) As Long
+  overload: Misaki.HighPerformance.AtomicCounter64.Subtract*
+  nameWithType.vb: AtomicCounter64.Subtract(Long)
+  fullName.vb: Misaki.HighPerformance.AtomicCounter64.Subtract(Long)
+  name.vb: Subtract(Long)
+- uid: Misaki.HighPerformance.AtomicCounter64.Reset(System.Int64)
+  commentId: M:Misaki.HighPerformance.AtomicCounter64.Reset(System.Int64)
+  id: Reset(System.Int64)
+  parent: Misaki.HighPerformance.AtomicCounter64
+  langs:
+  - csharp
+  - vb
+  name: Reset(long)
+  nameWithType: AtomicCounter64.Reset(long)
+  fullName: Misaki.HighPerformance.AtomicCounter64.Reset(long)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Reset
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 50
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public void Reset(long value = 0)
+    parameters:
+    - id: value
+      type: System.Int64
+    content.vb: Public Sub Reset(value As Long = 0)
+  overload: Misaki.HighPerformance.AtomicCounter64.Reset*
+  nameWithType.vb: AtomicCounter64.Reset(Long)
+  fullName.vb: Misaki.HighPerformance.AtomicCounter64.Reset(Long)
+  name.vb: Reset(Long)
+references:
+- uid: Misaki.HighPerformance
+  commentId: N:Misaki.HighPerformance
+  href: Misaki.html
+  name: Misaki.HighPerformance
+  nameWithType: Misaki.HighPerformance
+  fullName: Misaki.HighPerformance
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.AtomicCounter64.Value*
+  commentId: Overload:Misaki.HighPerformance.AtomicCounter64.Value
+  href: Misaki.HighPerformance.AtomicCounter64.html#Misaki_HighPerformance_AtomicCounter64_Value
+  name: Value
+  nameWithType: AtomicCounter64.Value
+  fullName: Misaki.HighPerformance.AtomicCounter64.Value
+- uid: System.Int64
+  commentId: T:System.Int64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int64
+  name: long
+  nameWithType: long
+  fullName: long
+  nameWithType.vb: Long
+  fullName.vb: Long
+  name.vb: Long
+- uid: Misaki.HighPerformance.AtomicCounter64.#ctor*
+  commentId: Overload:Misaki.HighPerformance.AtomicCounter64.#ctor
+  href: Misaki.HighPerformance.AtomicCounter64.html#Misaki_HighPerformance_AtomicCounter64__ctor_System_Int64_
+  name: AtomicCounter64
+  nameWithType: AtomicCounter64.AtomicCounter64
+  fullName: Misaki.HighPerformance.AtomicCounter64.AtomicCounter64
+  nameWithType.vb: AtomicCounter64.New
+  fullName.vb: Misaki.HighPerformance.AtomicCounter64.New
+  name.vb: New
+- uid: Misaki.HighPerformance.AtomicCounter64.Add*
+  commentId: Overload:Misaki.HighPerformance.AtomicCounter64.Add
+  href: Misaki.HighPerformance.AtomicCounter64.html#Misaki_HighPerformance_AtomicCounter64_Add_System_Int64_
+  name: Add
+  nameWithType: AtomicCounter64.Add
+  fullName: Misaki.HighPerformance.AtomicCounter64.Add
+- uid: Misaki.HighPerformance.AtomicCounter64.Subtract*
+  commentId: Overload:Misaki.HighPerformance.AtomicCounter64.Subtract
+  href: Misaki.HighPerformance.AtomicCounter64.html#Misaki_HighPerformance_AtomicCounter64_Subtract_System_Int64_
+  name: Subtract
+  nameWithType: AtomicCounter64.Subtract
+  fullName: Misaki.HighPerformance.AtomicCounter64.Subtract
+- uid: Misaki.HighPerformance.AtomicCounter64.Reset*
+  commentId: Overload:Misaki.HighPerformance.AtomicCounter64.Reset
+  href: Misaki.HighPerformance.AtomicCounter64.html#Misaki_HighPerformance_AtomicCounter64_Reset_System_Int64_
+  name: Reset
+  nameWithType: AtomicCounter64.Reset
+  fullName: Misaki.HighPerformance.AtomicCounter64.Reset

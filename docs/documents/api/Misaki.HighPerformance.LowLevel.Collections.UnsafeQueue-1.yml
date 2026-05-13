@@ -1,0 +1,1441 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  id: UnsafeQueue`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.#ctor
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Capacity
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Clear
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Count
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dequeue
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dispose
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enqueue(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetEnumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetUnsafePtr
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.IsCreated
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Item(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Peek
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryDequeue(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryPeek(`0@)
+  langs:
+  - csharp
+  - vb
+  name: UnsafeQueue<T>
+  nameWithType: UnsafeQueue<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: UnsafeQueue
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 12
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: A structure that implements a queue using unmanaged types for efficient memory management.
+  example: []
+  syntax:
+    content: 'public struct UnsafeQueue<T> : IUnsafeCollection<T>, IUnsafeCollection, IDisposable where T : unmanaged'
+    typeParameters:
+    - id: T
+      description: Represents the type of elements stored in the queue, which must be an unmanaged type for performance and safety.
+    content.vb: Public Structure UnsafeQueue(Of T As Structure) Implements IUnsafeCollection(Of T), IUnsafeCollection, IDisposable
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  - System.IDisposable
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: UnsafeQueue(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T)
+  name.vb: UnsafeQueue(Of T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Count
+  id: Count
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: UnsafeQueue<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Count
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Count
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 46
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Gets the number of elements in a collection.
+  example: []
+  syntax:
+    content: public readonly int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Count*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}.Count
+  nameWithType.vb: UnsafeQueue(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Capacity
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Capacity
+  id: Capacity
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Capacity
+  nameWithType: UnsafeQueue<T>.Capacity
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Capacity
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Capacity
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 47
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly int Capacity { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Capacity As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Capacity*
+  nameWithType.vb: UnsafeQueue(Of T).Capacity
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Capacity
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.IsCreated
+  id: IsCreated
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: IsCreated
+  nameWithType: UnsafeQueue<T>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.IsCreated
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsCreated
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 48
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Indicates whether the object has been created. Returns true if the object is created, otherwise false.
+  remarks: If MHP_ENABLE_STACKTRACE is not defined, this property will only check if the underlying pointer is not null, which may not be sufficient to determine if the collection is fully initialized and ready for use.
+  example: []
+  syntax:
+    content: public readonly bool IsCreated { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsCreated As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.IsCreated*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  nameWithType.vb: UnsafeQueue(Of T).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Item(System.Int32)
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: UnsafeQueue<T>.this[int]
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.this[int]
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: this[]
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 50
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly T this[int index] { get; set; }
+    parameters:
+    - id: index
+      type: System.Int32
+    return:
+      type: '{T}'
+    content.vb: Public Default Property this[](index As Integer) As T
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Item*
+  nameWithType.vb: UnsafeQueue(Of T).this[](Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).this[](Integer)
+  name.vb: this[](Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.#ctor
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.#ctor
+  id: '#ctor'
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: UnsafeQueue()
+  nameWithType: UnsafeQueue<T>.UnsafeQueue()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.UnsafeQueue()
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 61
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Initializes a new instance of UnsafeQueue with a default size of 1 and a persistent allocation handle.
+  example: []
+  syntax:
+    content: public UnsafeQueue()
+    content.vb: Public Sub New()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.#ctor*
+  nameWithType.vb: UnsafeQueue(Of T).New()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).New()
+  name.vb: New()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: '#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)'
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: UnsafeQueue(int, AllocationHandle, AllocationOption)
+  nameWithType: UnsafeQueue<T>.UnsafeQueue(int, AllocationHandle, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.UnsafeQueue(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 72
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Initializes a new instance of UnsafeQueue with the specified initial capacity and allocation handle.
+  example: []
+  syntax:
+    content: public UnsafeQueue(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    parameters:
+    - id: capacity
+      type: System.Int32
+      description: The initial capacity of the queue.
+    - id: handle
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+      description: The allocation handle.
+    - id: allocationOption
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+      description: The allocation option.
+    content.vb: Public Sub New(capacity As Integer, handle As AllocationHandle, allocationOption As AllocationOption = AllocationOption.None)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.#ctor*
+  nameWithType.vb: UnsafeQueue(Of T).New(Integer, AllocationHandle, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).New(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: New(Integer, AllocationHandle, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetEnumerator
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetEnumerator
+  id: GetEnumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: UnsafeQueue<T>.GetEnumerator()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetEnumerator
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 79
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: >-
+      [UnscopedRef]
+
+      public UnsafeQueue<T>.Enumerator GetEnumerator()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enumerator
+    content.vb: >-
+      <UnscopedRef>
+
+      Public Function GetEnumerator() As UnsafeQueue(Of T).Enumerator
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetEnumerator*
+  attributes:
+  - type: System.Diagnostics.CodeAnalysis.UnscopedRefAttribute
+    ctor: System.Diagnostics.CodeAnalysis.UnscopedRefAttribute.#ctor
+    arguments: []
+  nameWithType.vb: UnsafeQueue(Of T).GetEnumerator()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).GetEnumerator()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Peek
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Peek
+  id: Peek
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Peek()
+  nameWithType: UnsafeQueue<T>.Peek()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Peek()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Peek
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 91
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Returns a reference to the item at the front of the queue without removing it.
+  example: []
+  syntax:
+    content: public readonly ref T Peek()
+    return:
+      type: '{T}'
+      description: A reference to the item at the front of the queue.
+    content.vb: Public ByRef Function Peek() As T
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Peek*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: Thrown if the queue is empty.
+  nameWithType.vb: UnsafeQueue(Of T).Peek()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Peek()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryPeek(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryPeek(`0@)
+  id: TryPeek(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: TryPeek(out T)
+  nameWithType: UnsafeQueue<T>.TryPeek(out T)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.TryPeek(out T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TryPeek
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 106
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Attempts to return the object at the top of the collection without removing it.
+  example: []
+  syntax:
+    content: public readonly bool TryPeek(out T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The item at the front of the queue if the operation is successful; otherwise, the default value of <code class="typeparamref">T</code>.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if an object was returned successfully; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Function TryPeek(value As T) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryPeek*
+  nameWithType.vb: UnsafeQueue(Of T).TryPeek(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).TryPeek(T)
+  name.vb: TryPeek(T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enqueue(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enqueue(`0@)
+  id: Enqueue(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Enqueue(scoped in T)
+  nameWithType: UnsafeQueue<T>.Enqueue(scoped in T)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Enqueue(scoped in T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Enqueue
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 123
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: >-
+    Adds an element to the end of a collection, resizing if the current capacity is reached. The new element is
+
+    stored in a circular buffer.
+  example: []
+  syntax:
+    content: public void Enqueue(scoped in T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The item to be added to the collection.
+    content.vb: Public Sub Enqueue(value As T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enqueue*
+  nameWithType.vb: UnsafeQueue(Of T).Enqueue(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Enqueue(T)
+  name.vb: Enqueue(T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dequeue
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dequeue
+  id: Dequeue
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Dequeue()
+  nameWithType: UnsafeQueue<T>.Dequeue()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Dequeue()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dequeue
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 139
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Removes and returns the element at the front of the queue. If the queue is empty, an exception is thrown.
+  example: []
+  syntax:
+    content: public T Dequeue()
+    return:
+      type: '{T}'
+      description: The element that was removed from the front of the queue.
+    content.vb: Public Function Dequeue() As T
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dequeue*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: Thrown when attempting to dequeue from an empty queue.
+  nameWithType.vb: UnsafeQueue(Of T).Dequeue()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Dequeue()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryDequeue(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryDequeue(`0@)
+  id: TryDequeue(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: TryDequeue(out T)
+  nameWithType: UnsafeQueue<T>.TryDequeue(out T)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.TryDequeue(out T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TryDequeue
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 158
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Attempts to remove and return an item from a collection. Returns a boolean indicating success or failure.
+  example: []
+  syntax:
+    content: public bool TryDequeue(out T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The output variable that will hold the dequeued item if the operation is successful.
+    return:
+      type: System.Boolean
+      description: True if an item was successfully dequeued, otherwise false.
+    content.vb: Public Function TryDequeue(value As T) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryDequeue*
+  nameWithType.vb: UnsafeQueue(Of T).TryDequeue(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).TryDequeue(T)
+  name.vb: TryDequeue(T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Resize(int, AllocationOption)
+  nameWithType: UnsafeQueue<T>.Resize(int, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Resize(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Resize
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 170
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Changes the size of a collection to the specified value.
+  example: []
+  syntax:
+    content: public void Resize(int newSize, AllocationOption option = AllocationOption.None)
+    parameters:
+    - id: newSize
+      type: System.Int32
+      description: Specifies the new size to which the collection should be adjusted.
+    - id: option
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+      description: Specifies allocation options that may affect how memory is managed during the resize operation.
+    content.vb: Public Sub Resize(newSize As Integer, [option] As AllocationOption = AllocationOption.None)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Resize*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  nameWithType.vb: UnsafeQueue(Of T).Resize(Integer, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Resize(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Resize(Integer, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Clear
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Clear
+  id: Clear
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: UnsafeQueue<T>.Clear()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Clear
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 207
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Removes all elements from the collection. The collection will be empty after this operation.
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Clear*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  nameWithType.vb: UnsafeQueue(Of T).Clear()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Clear()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetUnsafePtr
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetUnsafePtr
+  id: GetUnsafePtr
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: GetUnsafePtr()
+  nameWithType: UnsafeQueue<T>.GetUnsafePtr()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.GetUnsafePtr()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetUnsafePtr
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 213
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Returns a pointer to an unmanaged memory location. This pointer can be used for low-level memory operations.
+  example: []
+  syntax:
+    content: public readonly void* GetUnsafePtr()
+    return:
+      type: System.Void*
+      description: The method returns a void pointer to the unsafe memory location.
+    content.vb: Public Function GetUnsafePtr() As Void*
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetUnsafePtr*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  nameWithType.vb: UnsafeQueue(Of T).GetUnsafePtr()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).GetUnsafePtr()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dispose
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dispose
+  id: Dispose
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: UnsafeQueue<T>.Dispose()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dispose
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeQueue.cs
+    startLine: 219
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  nameWithType.vb: UnsafeQueue(Of T).Dispose()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Dispose()
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{`0}
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  definition: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  name: IUnsafeCollection<T>
+  nameWithType: IUnsafeCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>
+  nameWithType.vb: IUnsafeCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T)
+  name.vb: IUnsafeCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+    name: IUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+    name: IUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html
+  name: IUnsafeCollection
+  nameWithType: IUnsafeCollection
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  name: IUnsafeCollection<T>
+  nameWithType: IUnsafeCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>
+  nameWithType.vb: IUnsafeCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T)
+  name.vb: IUnsafeCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+    name: IUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+    name: IUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections.Contracts
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Count*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_Count
+  name: Count
+  nameWithType: UnsafeQueue<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Count
+  nameWithType.vb: UnsafeQueue(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{`0}.Count
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}
+  definition: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Count
+  name: Count
+  nameWithType: IUnsafeCollection<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Count
+  nameWithType.vb: IUnsafeCollection(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Count
+  name: Count
+  nameWithType: IUnsafeCollection<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Count
+  nameWithType.vb: IUnsafeCollection(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Capacity*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Capacity
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_Capacity
+  name: Capacity
+  nameWithType: UnsafeQueue<T>.Capacity
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Capacity
+  nameWithType.vb: UnsafeQueue(Of T).Capacity
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Capacity
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.IsCreated*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.IsCreated
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_IsCreated
+  name: IsCreated
+  nameWithType: UnsafeQueue<T>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.IsCreated
+  nameWithType.vb: UnsafeQueue(Of T).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_IsCreated
+  name: IsCreated
+  nameWithType: IUnsafeCollection.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Item*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Item
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_Item_System_Int32_
+  name: this
+  nameWithType: UnsafeQueue<T>.this
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.this
+  nameWithType.vb: UnsafeQueue(Of T).this[]
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).this[]
+  name.vb: this[]
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.#ctor
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1__ctor
+  name: UnsafeQueue
+  nameWithType: UnsafeQueue<T>.UnsafeQueue
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.UnsafeQueue
+  nameWithType.vb: UnsafeQueue(Of T).New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).New
+  name.vb: New
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html
+  name: AllocationHandle
+  nameWithType: AllocationHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  name: AllocationOption
+  nameWithType: AllocationOption
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetEnumerator*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetEnumerator
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_GetEnumerator
+  name: GetEnumerator
+  nameWithType: UnsafeQueue<T>.GetEnumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.GetEnumerator
+  nameWithType.vb: UnsafeQueue(Of T).GetEnumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).GetEnumerator
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html
+  name: UnsafeQueue<T>.Enumerator
+  nameWithType: UnsafeQueue<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Enumerator
+  nameWithType.vb: UnsafeQueue(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Enumerator
+  name.vb: UnsafeQueue(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+    name: UnsafeQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+    name: UnsafeQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.Enumerator.html
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.invalidoperationexception
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Peek*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Peek
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_Peek
+  name: Peek
+  nameWithType: UnsafeQueue<T>.Peek
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Peek
+  nameWithType.vb: UnsafeQueue(Of T).Peek
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Peek
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryPeek*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryPeek
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_TryPeek__0__
+  name: TryPeek
+  nameWithType: UnsafeQueue<T>.TryPeek
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.TryPeek
+  nameWithType.vb: UnsafeQueue(Of T).TryPeek
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).TryPeek
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enqueue*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enqueue
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_Enqueue__0__
+  name: Enqueue
+  nameWithType: UnsafeQueue<T>.Enqueue
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Enqueue
+  nameWithType.vb: UnsafeQueue(Of T).Enqueue
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Enqueue
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dequeue*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dequeue
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_Dequeue
+  name: Dequeue
+  nameWithType: UnsafeQueue<T>.Dequeue
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Dequeue
+  nameWithType.vb: UnsafeQueue(Of T).Dequeue
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Dequeue
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryDequeue*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.TryDequeue
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_TryDequeue__0__
+  name: TryDequeue
+  nameWithType: UnsafeQueue<T>.TryDequeue
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.TryDequeue
+  nameWithType.vb: UnsafeQueue(Of T).TryDequeue
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).TryDequeue
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Resize*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Resize
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Resize
+  nameWithType: UnsafeQueue<T>.Resize
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Resize
+  nameWithType.vb: UnsafeQueue(Of T).Resize
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Resize
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{`0}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}
+  definition: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Resize(int, AllocationOption)
+  nameWithType: IUnsafeCollection<T>.Resize(int, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Resize(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  nameWithType.vb: IUnsafeCollection(Of T).Resize(Integer, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Resize(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Resize(Integer, AllocationOption)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{`0}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{`0}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  isExternal: true
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Resize(int, AllocationOption)
+  nameWithType: IUnsafeCollection<T>.Resize(int, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Resize(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  nameWithType.vb: IUnsafeCollection(Of T).Resize(Integer, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Resize(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Resize(Integer, AllocationOption)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Clear*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Clear
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_Clear
+  name: Clear
+  nameWithType: UnsafeQueue<T>.Clear
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Clear
+  nameWithType.vb: UnsafeQueue(Of T).Clear
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Clear
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_Clear
+  name: Clear()
+  nameWithType: IUnsafeCollection.Clear()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear()
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+    name: Clear
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_Clear
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+    name: Clear
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_Clear
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetUnsafePtr*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.GetUnsafePtr
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_GetUnsafePtr
+  name: GetUnsafePtr
+  nameWithType: UnsafeQueue<T>.GetUnsafePtr
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.GetUnsafePtr
+  nameWithType.vb: UnsafeQueue(Of T).GetUnsafePtr
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).GetUnsafePtr
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_GetUnsafePtr
+  name: GetUnsafePtr()
+  nameWithType: IUnsafeCollection.GetUnsafePtr()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr()
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+    name: GetUnsafePtr
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_GetUnsafePtr
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+    name: GetUnsafePtr
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_GetUnsafePtr
+  - name: (
+  - name: )
+- uid: System.Void*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.void
+  name: void*
+  nameWithType: void*
+  fullName: void*
+  nameWithType.vb: Void*
+  fullName.vb: Void*
+  name.vb: Void*
+  spec.csharp:
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  spec.vb:
+  - uid: System.Void
+    name: Void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dispose*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Dispose
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeQueue_1_Dispose
+  name: Dispose
+  nameWithType: UnsafeQueue<T>.Dispose
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Dispose
+  nameWithType.vb: UnsafeQueue(Of T).Dispose
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )

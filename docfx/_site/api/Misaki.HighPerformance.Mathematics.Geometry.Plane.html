@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Struct Plane | Misaki.HighPerformance </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct Plane | Misaki.HighPerformance ">
+      
+      <meta name="description" content="A plane represented by a normal vector and a distance along the normal from the origin.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Misaki.HighPerformance">
+            Misaki.HighPerformance
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane">
+
+
+
+  <h1 id="Misaki_HighPerformance_Mathematics_Geometry_Plane" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane" class="text-break">
+Struct Plane  
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Misaki.html">Misaki</a>.<a class="xref" href="Misaki.HighPerformance.html">HighPerformance</a>.<a class="xref" href="Misaki.HighPerformance.Mathematics.html">Mathematics</a>.<a class="xref" href="Misaki.HighPerformance.Mathematics.Geometry.html">Geometry</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Misaki.HighPerformance.Mathematics.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A plane represented by a normal vector and a distance along the normal from the origin.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public struct Plane</code></pre>
+  </div>
+
+
+
+
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.equals">ValueType.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode">ValueType.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.tostring">ValueType.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+  <h2 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>A plane splits the 3D space in half.  The normal vector points to the positive half and the other half is
+considered negative.</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_float3_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)">
+  Plane(float3, float3)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Constructs a plane with a normal vector and a point that lies in the plane.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Plane(float3 normal, float3 pointInPlane)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>normal</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>A non-zero vector that is perpendicular to the plane.  It may be any length.</p>
+</dd>
+    <dt><code>pointInPlane</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>A point that lies in the plane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_float3__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The constructed plane will be the normalized form of the plane specified by the inputs.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_float3_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)">
+  Plane(float3, float3, float3)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Constructs a plane with two vectors and a point that all lie in the plane.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Plane(float3 vector1InPlane, float3 vector2InPlane, float3 pointInPlane)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>vector1InPlane</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>A non-zero vector that lies in the plane.  It may be any length.</p>
+</dd>
+    <dt><code>vector2InPlane</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>A non-zero vector that lies in the plane.  It may be any length and must not be a scalar multiple of <code class="paramref">vector1InPlane</code>.</p>
+</dd>
+    <dt><code>pointInPlane</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>A point that lies in the plane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_float3__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The constructed plane will be the normalized form of the plane specified by the inputs.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_Misaki_HighPerformance_Mathematics_float3_System_Single_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,System.Single)">
+  Plane(float3, float)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Constructs a plane with a normal vector and distance from the origin.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Plane(float3 normal, float distance)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>normal</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>A non-zero vector that is perpendicular to the plane.  It may be any length.</p>
+</dd>
+    <dt><code>distance</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Distance from the origin along the normal.  A negative value moves the plane in the
+same direction as the normal while a positive value moves it in the opposite direction.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_Misaki_HighPerformance_Mathematics_float3_System_Single__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The constructed plane will be the normalized form of the plane specified by the inputs.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_System_Single_System_Single_System_Single_System_Single_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(System.Single,System.Single,System.Single,System.Single)">
+  Plane(float, float, float, float)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Constructs a Plane from arbitrary coefficients A, B, C, D of the plane equation Ax + By + Cz + Dw = 0.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Plane(float coefficientA, float coefficientB, float coefficientC, float coefficientD)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>coefficientA</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Coefficient A from plane equation.</p>
+</dd>
+    <dt><code>coefficientB</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Coefficient B from plane equation.</p>
+</dd>
+    <dt><code>coefficientC</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Coefficient C from plane equation.</p>
+</dd>
+    <dt><code>coefficientD</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Coefficient D from plane equation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_System_Single_System_Single_System_Single_System_Single__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The constructed plane will be the normalized form of the plane specified by the given coefficients.</p>
+</div>
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_normalAndDistance" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.normalAndDistance">
+  normalAndDistance
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>A plane in the form Ax + By + Cz + Dw = 0.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float4 normalAndDistance</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.float4.html">float4</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane_normalAndDistance_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Stores the plane coefficients A, B, C, D where (A, B, C) is a unit normal vector and D is the distance
+from the origin.  A plane stored with a unit normal vector is called a normalized plane.</p>
+</div>
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Distance_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Distance*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Distance" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Distance">
+  Distance
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Get/set the distance of the plane from the origin.  May be a negative value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Distance { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Distance_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>It is assumed that the normal is unit length.  If you set a new plane such that Ax + By + Cz + Dw = 0 but
+(A, B, C) is not unit length, then you must normalize the plane by calling <a class="xref" href="Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_Normalize_Misaki_HighPerformance_Mathematics_Geometry_Plane_">Normalize(Plane)</a>.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Flipped_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Flipped*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Flipped" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Flipped">
+  Flipped
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Flips the plane so the normal points in the opposite direction.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Plane Flipped { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.Geometry.Plane.html">Plane</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Normal_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Normal*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Normal" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Normal">
+  Normal
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Get/set the normal vector of the plane.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float3 Normal { get; set; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Normal_remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>It is assumed that the normal is unit length.  If you set a new plane such that Ax + By + Cz + Dw = 0 but
+(A, B, C) is not unit length, then you must normalize the plane by calling <a class="xref" href="Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_Normalize_Misaki_HighPerformance_Mathematics_Geometry_Plane_">Normalize(Plane)</a>.</p>
+</div>
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane_CreateFromUnitNormalAndDistance_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndDistance*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_CreateFromUnitNormalAndDistance_Misaki_HighPerformance_Mathematics_float3_System_Single_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndDistance(Misaki.HighPerformance.Mathematics.float3,System.Single)">
+  CreateFromUnitNormalAndDistance(float3, float)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a normalized Plane directly without normalization cost.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Plane CreateFromUnitNormalAndDistance(float3 unitNormal, float distance)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>unitNormal</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>A non-zero vector that is perpendicular to the plane.  It must be unit length.</p>
+</dd>
+    <dt><code>distance</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Distance from the origin along the normal.  A negative value moves the plane in the
+same direction as the normal while a positive value moves it in the opposite direction.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.Geometry.Plane.html">Plane</a></dt>
+    <dd><p>Normalized Plane constructed from given inputs.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane_CreateFromUnitNormalAndDistance_Misaki_HighPerformance_Mathematics_float3_System_Single__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If you have a unit length normal vector, you can create a Plane faster than using one of its constructors
+by calling this function.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane_CreateFromUnitNormalAndPointInPlane_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndPointInPlane*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_CreateFromUnitNormalAndPointInPlane_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_float3_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndPointInPlane(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)">
+  CreateFromUnitNormalAndPointInPlane(float3, float3)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a normalized Plane without normalization cost.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Plane CreateFromUnitNormalAndPointInPlane(float3 unitNormal, float3 pointInPlane)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>unitNormal</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>A non-zero vector that is perpendicular to the plane.  It must be unit length.</p>
+</dd>
+    <dt><code>pointInPlane</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>A point that lies in the plane.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.Geometry.Plane.html">Plane</a></dt>
+    <dd><p>Normalized Plane constructed from given inputs.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane_CreateFromUnitNormalAndPointInPlane_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_float3__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If you have a unit length normal vector, you can create a Plane faster than using one of its constructors
+by calling this function.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Normalize_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Normalize_Misaki_HighPerformance_Mathematics_Geometry_Plane_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)">
+  Normalize(Plane)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Normalizes the given Plane.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Plane Normalize(Plane plane)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>plane</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.Geometry.Plane.html">Plane</a></dt>
+    <dd><p>Plane to normalize.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.Geometry.Plane.html">Plane</a></dt>
+    <dd><p>Normalized Plane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Normalize_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Normalize_Misaki_HighPerformance_Mathematics_float4_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.float4)">
+  Normalize(float4)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Normalizes the plane represented by the given plane coefficients.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static float4 Normalize(float4 planeCoefficients)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>planeCoefficients</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float4.html">float4</a></dt>
+    <dd><p>Plane coefficients A, B, C, D stored in x, y, z, w (respectively).</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.float4.html">float4</a></dt>
+    <dd><p>Normalized plane coefficients.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Normalize_Misaki_HighPerformance_Mathematics_float4__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The plane coefficients are A, B, C, D and stored in that order in the <a class="xref" href="Misaki.HighPerformance.Mathematics.float4.html">float4</a>.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Projection_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Projection*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Projection_Misaki_HighPerformance_Mathematics_float3_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.Projection(Misaki.HighPerformance.Mathematics.float3)">
+  Projection(float3)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Projects the given point onto the plane.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float3 Projection(float3 point)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>Point to project onto the plane.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>Projected point that's inside the plane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane_Projection_Misaki_HighPerformance_Mathematics_float3__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Plane must be normalized prior to calling this function.  The result is the position closest to the point
+that still lies in the plane.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane_SignedDistanceToPoint_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.SignedDistanceToPoint*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_SignedDistanceToPoint_Misaki_HighPerformance_Mathematics_float3_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.SignedDistanceToPoint(Misaki.HighPerformance.Mathematics.float3)">
+  SignedDistanceToPoint(float3)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Get the signed distance from the point to the plane.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float SignedDistanceToPoint(float3 point)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.float3.html">float3</a></dt>
+    <dd><p>Point to find the signed distance with.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>Signed distance of the point from the plane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_Geometry_Plane_SignedDistanceToPoint_Misaki_HighPerformance_Mathematics_float3__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Plane must be normalized prior to calling this function.  Distance is positive if point is on side of the
+plane the normal points to, negative if on the opposite side and zero if the point lies in the plane.
+Avoid comparing equality with 0.0f when testing if a point lies exactly in the plane and use an approximate
+comparison instead.</p>
+</div>
+
+
+
+
+  <h2 class="section" id="operators">Operators
+</h2>
+
+
+  <a id="Misaki_HighPerformance_Mathematics_Geometry_Plane_op_Implicit_" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.op_Implicit*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_Geometry_Plane_op_Implicit_Misaki_HighPerformance_Mathematics_Geometry_Plane__Misaki_HighPerformance_Mathematics_float4" data-uid="Misaki.HighPerformance.Mathematics.Geometry.Plane.op_Implicit(Misaki.HighPerformance.Mathematics.Geometry.Plane)~Misaki.HighPerformance.Mathematics.float4">
+  implicit operator float4(Plane)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Implicitly converts a <a class="xref" href="Misaki.HighPerformance.Mathematics.Geometry.Plane.html">Plane</a> to <a class="xref" href="Misaki.HighPerformance.Mathematics.float4.html">float4</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static implicit operator float4(Plane plane)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>plane</code> <a class="xref" href="Misaki.HighPerformance.Mathematics.Geometry.Plane.html">Plane</a></dt>
+    <dd><p>Plane to convert.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.Mathematics.float4.html">float4</a></dt>
+    <dd><p>A <a class="xref" href="Misaki.HighPerformance.Mathematics.float4.html">float4</a> representing the plane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

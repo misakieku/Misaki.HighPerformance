@@ -1,0 +1,792 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  id: FixedString2048
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor(System.Char*,System.UInt16)
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor(System.ReadOnlySpan{System.Char})
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor(System.String)
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString2048.AsSpan
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString2048.GetUnsafePtr
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Length
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString2048.MAX_LENGTH
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString2048.ToString
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Value
+  langs:
+  - csharp
+  - vb
+  name: FixedString2048
+  nameWithType: FixedString2048
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: FixedString2048
+    path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+    startLine: 570
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Represents a stack allocated fixed-size string of length 2048 bytes.
+  remarks: This struct is designed to hold data on the stack. Every copy of this struct causes a copy of the underlying data.
+  example: []
+  syntax:
+    content: public struct FixedString2048
+    content.vb: Public Structure FixedString2048
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.MAX_LENGTH
+  commentId: F:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.MAX_LENGTH
+  id: MAX_LENGTH
+  parent: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  langs:
+  - csharp
+  - vb
+  name: MAX_LENGTH
+  nameWithType: FixedString2048.MAX_LENGTH
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.MAX_LENGTH
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MAX_LENGTH
+    path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+    startLine: 573
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public const int MAX_LENGTH = 1023
+    return:
+      type: System.Int32
+    content.vb: Public Const MAX_LENGTH As Integer = 1023
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Length
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Length
+  id: Length
+  parent: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  langs:
+  - csharp
+  - vb
+  name: Length
+  nameWithType: FixedString2048.Length
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Length
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Length
+    path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+    startLine: 578
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly ushort Length { get; }
+    parameters: []
+    return:
+      type: System.UInt16
+    content.vb: Public ReadOnly Property Length As UShort
+  overload: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Length*
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Value
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Value
+  id: Value
+  parent: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: FixedString2048.Value
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Value
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Value
+    path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+    startLine: 579
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public string Value { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Value As String
+  overload: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Value*
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor(System.String)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  langs:
+  - csharp
+  - vb
+  name: FixedString2048(string)
+  nameWithType: FixedString2048.FixedString2048(string)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.FixedString2048(string)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+    startLine: 610
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public FixedString2048(string input)
+    parameters:
+    - id: input
+      type: System.String
+    content.vb: Public Sub New(input As String)
+  overload: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor*
+  nameWithType.vb: FixedString2048.New(String)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.New(String)
+  name.vb: New(String)
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor(System.ReadOnlySpan{System.Char})
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor(System.ReadOnlySpan{System.Char})
+  id: '#ctor(System.ReadOnlySpan{System.Char})'
+  parent: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  langs:
+  - csharp
+  - vb
+  name: FixedString2048(ReadOnlySpan<char>)
+  nameWithType: FixedString2048.FixedString2048(ReadOnlySpan<char>)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.FixedString2048(System.ReadOnlySpan<char>)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+    startLine: 615
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public FixedString2048(ReadOnlySpan<char> input)
+    parameters:
+    - id: input
+      type: System.ReadOnlySpan{System.Char}
+    content.vb: Public Sub New(input As ReadOnlySpan(Of Char))
+  overload: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor*
+  nameWithType.vb: FixedString2048.New(ReadOnlySpan(Of Char))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.New(System.ReadOnlySpan(Of Char))
+  name.vb: New(ReadOnlySpan(Of Char))
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor(System.Char*,System.UInt16)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor(System.Char*,System.UInt16)
+  id: '#ctor(System.Char*,System.UInt16)'
+  parent: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  langs:
+  - csharp
+  - vb
+  name: FixedString2048(char*, ushort)
+  nameWithType: FixedString2048.FixedString2048(char*, ushort)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.FixedString2048(char*, ushort)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+    startLine: 631
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public FixedString2048(char* input, ushort length)
+    parameters:
+    - id: input
+      type: System.Char*
+    - id: length
+      type: System.UInt16
+    content.vb: Public Sub New(input As Char*, length As UShort)
+  overload: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor*
+  nameWithType.vb: FixedString2048.New(Char*, UShort)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.New(Char*, UShort)
+  name.vb: New(Char*, UShort)
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.AsSpan
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.AsSpan
+  id: AsSpan
+  parent: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  langs:
+  - csharp
+  - vb
+  name: AsSpan()
+  nameWithType: FixedString2048.AsSpan()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.AsSpan()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsSpan
+    path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+    startLine: 636
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public Span<byte> AsSpan()
+    return:
+      type: System.Span{System.Byte}
+    content.vb: Public Function AsSpan() As Span(Of Byte)
+  overload: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.AsSpan*
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.GetUnsafePtr
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.GetUnsafePtr
+  id: GetUnsafePtr
+  parent: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  langs:
+  - csharp
+  - vb
+  name: GetUnsafePtr()
+  nameWithType: FixedString2048.GetUnsafePtr()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.GetUnsafePtr()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetUnsafePtr
+    path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+    startLine: 645
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly char* GetUnsafePtr()
+    return:
+      type: System.Char*
+    content.vb: Public Function GetUnsafePtr() As Char*
+  overload: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.GetUnsafePtr*
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.ToString
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.ToString
+  id: ToString
+  parent: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: FixedString2048.ToString()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ToString
+    path: src/Misaki.HighPerformance.LowLevel/Collections/FixedString.gen.cs
+    startLine: 651
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Returns the fully qualified type name of this instance.
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: The fully qualified type name.
+    content.vb: Public Overrides Function ToString() As String
+  overridden: System.ValueType.ToString
+  overload: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.ToString*
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Length*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Length
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.html#Misaki_HighPerformance_LowLevel_Collections_FixedString2048_Length
+  name: Length
+  nameWithType: FixedString2048.Length
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Length
+- uid: System.UInt16
+  commentId: T:System.UInt16
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint16
+  name: ushort
+  nameWithType: ushort
+  fullName: ushort
+  nameWithType.vb: UShort
+  fullName.vb: UShort
+  name.vb: UShort
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Value*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Value
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.html#Misaki_HighPerformance_LowLevel_Collections_FixedString2048_Value
+  name: Value
+  nameWithType: FixedString2048.Value
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.Value
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.#ctor
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.html#Misaki_HighPerformance_LowLevel_Collections_FixedString2048__ctor_System_String_
+  name: FixedString2048
+  nameWithType: FixedString2048.FixedString2048
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.FixedString2048
+  nameWithType.vb: FixedString2048.New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.New
+  name.vb: New
+- uid: System.ReadOnlySpan{System.Char}
+  commentId: T:System.ReadOnlySpan{System.Char}
+  parent: System
+  definition: System.ReadOnlySpan`1
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<char>
+  nameWithType: ReadOnlySpan<char>
+  fullName: System.ReadOnlySpan<char>
+  nameWithType.vb: ReadOnlySpan(Of Char)
+  fullName.vb: System.ReadOnlySpan(Of Char)
+  name.vb: ReadOnlySpan(Of Char)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: )
+- uid: System.ReadOnlySpan`1
+  commentId: T:System.ReadOnlySpan`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Char*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.char
+  name: char*
+  nameWithType: char*
+  fullName: char*
+  nameWithType.vb: Char*
+  fullName.vb: Char*
+  name.vb: Char*
+  spec.csharp:
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: '*'
+  spec.vb:
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: '*'
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.AsSpan*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.AsSpan
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.html#Misaki_HighPerformance_LowLevel_Collections_FixedString2048_AsSpan
+  name: AsSpan
+  nameWithType: FixedString2048.AsSpan
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.AsSpan
+- uid: System.Span{System.Byte}
+  commentId: T:System.Span{System.Byte}
+  parent: System
+  definition: System.Span`1
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<byte>
+  nameWithType: Span<byte>
+  fullName: System.Span<byte>
+  nameWithType.vb: Span(Of Byte)
+  fullName.vb: System.Span(Of Byte)
+  name.vb: Span(Of Byte)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: )
+- uid: System.Span`1
+  commentId: T:System.Span`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<T>
+  nameWithType: Span<T>
+  fullName: System.Span<T>
+  nameWithType.vb: Span(Of T)
+  fullName.vb: System.Span(Of T)
+  name.vb: Span(Of T)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.GetUnsafePtr*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.GetUnsafePtr
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.html#Misaki_HighPerformance_LowLevel_Collections_FixedString2048_GetUnsafePtr
+  name: GetUnsafePtr
+  nameWithType: FixedString2048.GetUnsafePtr
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.GetUnsafePtr
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.ToString*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.FixedString2048.ToString
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.html#Misaki_HighPerformance_LowLevel_Collections_FixedString2048_ToString
+  name: ToString
+  nameWithType: FixedString2048.ToString
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.ToString

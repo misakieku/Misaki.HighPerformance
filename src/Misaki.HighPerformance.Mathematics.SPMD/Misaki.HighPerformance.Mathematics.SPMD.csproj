@@ -1,0 +1,130 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Misaki</Authors>
+    <AssemblyVersion>1.3.8</AssemblyVersion>
+    <Version>$(AssemblyVersion)</Version>
+    <PackageProjectUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</PackageProjectUrl>
+    <RepositoryUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</RepositoryUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>contentFiles</ContentTargetFolders>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../LICENSE" Pack="true" PackagePath=""/>
+    <None Include="README.md" Pack="true" PackagePath=""/>
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsAotCompatible>True</IsAotCompatible>
+    <DefineConstants>$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsAotCompatible>True</IsAotCompatible>
+    <DefineConstants>$(DefineConstants);MHP_FASTMATH</DefineConstants>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Content Include="**\*.cs" Exclude="obj\**;bin\**">
+      <Pack>true</Pack>
+      <PackagePath>contentFiles\cs\any\Misaki.HighPerformance.Mathematics.SPMD\</PackagePath>
+      <PackageCopyToOutput>false</PackageCopyToOutput>
+      <BuildAction>Compile</BuildAction>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Templates\IJobSPMD.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IJobSPMD.tt</DependentUpon>
+    </None>
+    <None Include="Templates\Vector2.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vector2.tt</DependentUpon>
+    </None>
+    <None Include="Templates\WideLane.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WideLane.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Misaki.HighPerformance.Jobs\Misaki.HighPerformance.Jobs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Templates\IJobSPMD.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IJobSPMD.gen.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\MathV.Vector.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MathV.Vector.gen.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\Vector3.tt">
+      <LastGenOutput>Vector3.gen.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Vector4.tt">
+      <LastGenOutput>Vector4.gen.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Templates\Vector2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Vector2.gen.cs</LastGenOutput>
+    </None>
+    <None Update="Templates\WideLane.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>WideLane.gen.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Templates\IJobSPMD.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IJobSPMD.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\MathV.Vector.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MathV.Vector.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Vector2.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vector2.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Vector3.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vector3.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\Vector4.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vector4.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\WideLane.gen.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WideLane.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

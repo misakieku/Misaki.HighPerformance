@@ -1,0 +1,2445 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.uint3x2
+  commentId: T:Misaki.HighPerformance.Mathematics.uint3x2
+  id: uint3x2
+  parent: Misaki.HighPerformance.Mathematics
+  children:
+  - Misaki.HighPerformance.Mathematics.uint3x2.#ctor(Misaki.HighPerformance.Mathematics.uint3)
+  - Misaki.HighPerformance.Mathematics.uint3x2.#ctor(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3)
+  - Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3}@)
+  - Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.ReadOnlySpan{System.UInt32}@)
+  - Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.UInt32)
+  - Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32)
+  - Misaki.HighPerformance.Mathematics.uint3x2.Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.Equals(System.Object)
+  - Misaki.HighPerformance.Mathematics.uint3x2.GetHashCode
+  - Misaki.HighPerformance.Mathematics.uint3x2.Item(System.Int32)
+  - Misaki.HighPerformance.Mathematics.uint3x2.ToString
+  - Misaki.HighPerformance.Mathematics.uint3x2.c0
+  - Misaki.HighPerformance.Mathematics.uint3x2.c1
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Addition(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Addition(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Addition(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseAnd(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseOr(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Decrement(Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Division(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Division(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Division(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Equality(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_ExclusiveOr(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThan(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThanOrEqual(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Implicit(Misaki.HighPerformance.Mathematics.uint3)~Misaki.HighPerformance.Mathematics.uint3x2
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Implicit(System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3})~Misaki.HighPerformance.Mathematics.uint3x2
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Increment(Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Inequality(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_LeftShift(Misaki.HighPerformance.Mathematics.uint3x2,System.Int32)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_LessThan(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_LessThanOrEqual(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_OnesComplement(Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_RightShift(Misaki.HighPerformance.Mathematics.uint3x2,System.Int32)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryNegation(Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryPlus(Misaki.HighPerformance.Mathematics.uint3x2)
+  - Misaki.HighPerformance.Mathematics.uint3x2.zero
+  langs:
+  - csharp
+  - vb
+  name: uint3x2
+  nameWithType: uint3x2
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2
+  type: Struct
+  source:
+    id: uint3x2
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 10
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: >-
+      [NumericType(typeof(uint3), 4, 3, 2, "global::Misaki.HighPerformance.Mathematics.uint", true, false, typeof(uint), null)]
+
+      public struct uint3x2 : IEquatable<uint3x2>
+    content.vb: >-
+      <NumericType(GetType(uint3), 4, 3, 2, "global::Misaki.HighPerformance.Mathematics.uint", True, False, GetType(UInteger), Nothing)>
+
+      Public Structure uint3x2 Implements IEquatable(Of uint3x2)
+  implements:
+  - System.IEquatable{Misaki.HighPerformance.Mathematics.uint3x2}
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  attributes:
+  - type: Misaki.HighPerformance.Mathematics.NumericTypeAttribute
+    ctor: Misaki.HighPerformance.Mathematics.NumericTypeAttribute.#ctor(System.Type,System.Int32,System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Type,System.Type)
+    arguments:
+    - type: System.Type
+      value: Misaki.HighPerformance.Mathematics.uint3
+    - type: System.Int32
+      value: 4
+    - type: System.Int32
+      value: 3
+    - type: System.Int32
+      value: 2
+    - type: System.String
+      value: global::Misaki.HighPerformance.Mathematics.uint
+    - type: System.Boolean
+      value: true
+    - type: System.Boolean
+      value: false
+    - type: System.Type
+      value: System.UInt32
+    - type: System.Type
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.c0
+  commentId: F:Misaki.HighPerformance.Mathematics.uint3x2.c0
+  id: c0
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: c0
+  nameWithType: uint3x2.c0
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.c0
+  type: Field
+  source:
+    id: c0
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 12
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public uint3 c0
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3
+    content.vb: Public c0 As uint3
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.c1
+  commentId: F:Misaki.HighPerformance.Mathematics.uint3x2.c1
+  id: c1
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: c1
+  nameWithType: uint3x2.c1
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.c1
+  type: Field
+  source:
+    id: c1
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public uint3 c1
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3
+    content.vb: Public c1 As uint3
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.Item(System.Int32)
+  commentId: P:Misaki.HighPerformance.Mathematics.uint3x2.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: uint3x2.this[int]
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.this[int]
+  type: Property
+  source:
+    id: this[]
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 15
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public ref uint3 this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3
+    content.vb: Public ReadOnly Default ByRef Property this[](index As Integer) As uint3
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.Item*
+  nameWithType.vb: uint3x2.this[](Integer)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.this[](Integer)
+  name.vb: this[](Integer)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.zero
+  commentId: P:Misaki.HighPerformance.Mathematics.uint3x2.zero
+  id: zero
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: zero
+  nameWithType: uint3x2.zero
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.zero
+  type: Property
+  source:
+    id: zero
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 24
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 zero { get; }
+    parameters: []
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared ReadOnly Property zero As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.zero*
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3}@)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3}@)
+  id: '#ctor(System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3}@)'
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: uint3x2(in ReadOnlySpan<uint3>)
+  nameWithType: uint3x2.uint3x2(in ReadOnlySpan<uint3>)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.uint3x2(in System.ReadOnlySpan<Misaki.HighPerformance.Mathematics.uint3>)
+  type: Constructor
+  source:
+    id: .ctor
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 26
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public uint3x2(in ReadOnlySpan<uint3> values)
+    parameters:
+    - id: values
+      type: System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3}
+    content.vb: Public Sub New(values As ReadOnlySpan(Of uint3))
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.#ctor*
+  nameWithType.vb: uint3x2.New(ReadOnlySpan(Of uint3))
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.New(System.ReadOnlySpan(Of Misaki.HighPerformance.Mathematics.uint3))
+  name.vb: New(ReadOnlySpan(Of uint3))
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.ReadOnlySpan{System.UInt32}@)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.ReadOnlySpan{System.UInt32}@)
+  id: '#ctor(System.ReadOnlySpan{System.UInt32}@)'
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: uint3x2(in ReadOnlySpan<uint>)
+  nameWithType: uint3x2.uint3x2(in ReadOnlySpan<uint>)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.uint3x2(in System.ReadOnlySpan<uint>)
+  type: Constructor
+  source:
+    id: .ctor
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 41
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public uint3x2(in ReadOnlySpan<uint> values)
+    parameters:
+    - id: values
+      type: System.ReadOnlySpan{System.UInt32}
+    content.vb: Public Sub New(values As ReadOnlySpan(Of UInteger))
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.#ctor*
+  nameWithType.vb: uint3x2.New(ReadOnlySpan(Of UInteger))
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.New(System.ReadOnlySpan(Of UInteger))
+  name.vb: New(ReadOnlySpan(Of UInteger))
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.UInt32)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.UInt32)
+  id: '#ctor(System.UInt32)'
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: uint3x2(uint)
+  nameWithType: uint3x2.uint3x2(uint)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.uint3x2(uint)
+  type: Constructor
+  source:
+    id: .ctor
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 56
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public uint3x2(uint value)
+    parameters:
+    - id: value
+      type: System.UInt32
+    content.vb: Public Sub New(value As UInteger)
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.#ctor*
+  nameWithType.vb: uint3x2.New(UInteger)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.New(UInteger)
+  name.vb: New(UInteger)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.#ctor(System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32)
+  id: '#ctor(System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32)'
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: uint3x2(uint, uint, uint, uint, uint, uint)
+  nameWithType: uint3x2.uint3x2(uint, uint, uint, uint, uint, uint)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.uint3x2(uint, uint, uint, uint, uint, uint)
+  type: Constructor
+  source:
+    id: .ctor
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 63
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public uint3x2(uint m00, uint m01, uint m10, uint m11, uint m20, uint m21)
+    parameters:
+    - id: m00
+      type: System.UInt32
+    - id: m01
+      type: System.UInt32
+    - id: m10
+      type: System.UInt32
+    - id: m11
+      type: System.UInt32
+    - id: m20
+      type: System.UInt32
+    - id: m21
+      type: System.UInt32
+    content.vb: Public Sub New(m00 As UInteger, m01 As UInteger, m10 As UInteger, m11 As UInteger, m20 As UInteger, m21 As UInteger)
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.#ctor*
+  nameWithType.vb: uint3x2.New(UInteger, UInteger, UInteger, UInteger, UInteger, UInteger)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.New(UInteger, UInteger, UInteger, UInteger, UInteger, UInteger)
+  name.vb: New(UInteger, UInteger, UInteger, UInteger, UInteger, UInteger)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.#ctor(Misaki.HighPerformance.Mathematics.uint3)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.#ctor(Misaki.HighPerformance.Mathematics.uint3)
+  id: '#ctor(Misaki.HighPerformance.Mathematics.uint3)'
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: uint3x2(uint3)
+  nameWithType: uint3x2.uint3x2(uint3)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.uint3x2(Misaki.HighPerformance.Mathematics.uint3)
+  type: Constructor
+  source:
+    id: .ctor
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 70
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public uint3x2(uint3 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.uint3
+    content.vb: Public Sub New(value As uint3)
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.#ctor*
+  nameWithType.vb: uint3x2.New(uint3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.New(Misaki.HighPerformance.Mathematics.uint3)
+  name.vb: New(uint3)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.#ctor(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.#ctor(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3)
+  id: '#ctor(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3)'
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: uint3x2(uint3, uint3)
+  nameWithType: uint3x2.uint3x2(uint3, uint3)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.uint3x2(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3)
+  type: Constructor
+  source:
+    id: .ctor
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 77
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public uint3x2(uint3 c0, uint3 c1)
+    parameters:
+    - id: c0
+      type: Misaki.HighPerformance.Mathematics.uint3
+    - id: c1
+      type: Misaki.HighPerformance.Mathematics.uint3
+    content.vb: Public Sub New(c0 As uint3, c1 As uint3)
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.#ctor*
+  nameWithType.vb: uint3x2.New(uint3, uint3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.New(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3)
+  name.vb: New(uint3, uint3)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.ToString
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.ToString
+  id: ToString
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: uint3x2.ToString()
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.ToString()
+  type: Method
+  source:
+    id: ToString
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 84
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns the fully qualified type name of this instance.
+  example: []
+  syntax:
+    content: public override readonly string ToString()
+    return:
+      type: System.String
+      description: The fully qualified type name.
+    content.vb: Public Overrides Function ToString() As String
+  overridden: System.ValueType.ToString
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.ToString*
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.GetHashCode
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.GetHashCode
+  id: GetHashCode
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: uint3x2.GetHashCode()
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.GetHashCode()
+  type: Method
+  source:
+    id: GetHashCode
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 89
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns the hash code for this instance.
+  example: []
+  syntax:
+    content: public override readonly int GetHashCode()
+    return:
+      type: System.Int32
+      description: A 32-bit signed integer that is the hash code for this instance.
+    content.vb: Public Overrides Function GetHashCode() As Integer
+  overridden: System.ValueType.GetHashCode
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.GetHashCode*
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.Equals(System.Object)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: Equals(object?)
+  nameWithType: uint3x2.Equals(object?)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.Equals(object?)
+  type: Method
+  source:
+    id: Equals
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 94
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Indicates whether this instance and a specified object are equal.
+  example: []
+  syntax:
+    content: public override readonly bool Equals(object? obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: The object to compare with the current instance.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">obj</code> and this instance are the same type and represent the same value; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Overrides Function Equals(obj As Object) As Boolean
+  overridden: System.ValueType.Equals(System.Object)
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.Equals*
+  nameWithType.vb: uint3x2.Equals(Object)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.Equals(Object)
+  name.vb: Equals(Object)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+  id: Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: Equals(uint3x2)
+  nameWithType: uint3x2.Equals(uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Method
+  source:
+    id: Equals
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 99
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Indicates whether the current object is equal to another object of the same type.
+  example: []
+  syntax:
+    content: public readonly bool Equals(uint3x2 other)
+    parameters:
+    - id: other
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+      description: An object to compare with this object.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Function Equals(other As uint3x2) As Boolean
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.Equals*
+  implements:
+  - System.IEquatable{Misaki.HighPerformance.Mathematics.uint3x2}.Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Equality(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Equality(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Equality(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator ==(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator ==(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator ==(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Equality
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 104
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static bool3x2 operator ==(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.bool3x2
+    content.vb: Public Shared Operator =(lhs As uint3x2, rhs As uint3x2) As bool3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Equality*
+  nameWithType.vb: uint3x2.=(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.=(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: =(uint3x2, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Inequality(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Inequality(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Inequality(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator !=(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator !=(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator !=(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Inequality
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 109
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static bool3x2 operator !=(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.bool3x2
+    content.vb: Public Shared Operator <>(lhs As uint3x2, rhs As uint3x2) As bool3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Inequality*
+  nameWithType.vb: uint3x2.<>(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.<>(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: <>(uint3x2, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Implicit(System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3})~Misaki.HighPerformance.Mathematics.uint3x2
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Implicit(System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3})~Misaki.HighPerformance.Mathematics.uint3x2
+  id: op_Implicit(System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3})~Misaki.HighPerformance.Mathematics.uint3x2
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: implicit operator uint3x2(ReadOnlySpan<uint3>)
+  nameWithType: uint3x2.implicit operator uint3x2(ReadOnlySpan<uint3>)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.implicit operator Misaki.HighPerformance.Mathematics.uint3x2(System.ReadOnlySpan<Misaki.HighPerformance.Mathematics.uint3>)
+  type: Operator
+  source:
+    id: op_Implicit
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 114
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static implicit operator uint3x2(ReadOnlySpan<uint3> value)
+    parameters:
+    - id: value
+      type: System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3}
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Widening Operator CType(value As ReadOnlySpan(Of uint3)) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Implicit*
+  nameWithType.vb: uint3x2.CType(ReadOnlySpan(Of uint3))
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.CType(System.ReadOnlySpan(Of Misaki.HighPerformance.Mathematics.uint3))
+  name.vb: CType(ReadOnlySpan(Of uint3))
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Implicit(Misaki.HighPerformance.Mathematics.uint3)~Misaki.HighPerformance.Mathematics.uint3x2
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Implicit(Misaki.HighPerformance.Mathematics.uint3)~Misaki.HighPerformance.Mathematics.uint3x2
+  id: op_Implicit(Misaki.HighPerformance.Mathematics.uint3)~Misaki.HighPerformance.Mathematics.uint3x2
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: implicit operator uint3x2(uint3)
+  nameWithType: uint3x2.implicit operator uint3x2(uint3)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.implicit operator Misaki.HighPerformance.Mathematics.uint3x2(Misaki.HighPerformance.Mathematics.uint3)
+  type: Operator
+  source:
+    id: op_Implicit
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 119
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static implicit operator uint3x2(uint3 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.uint3
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Widening Operator CType(value As uint3) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Implicit*
+  nameWithType.vb: uint3x2.CType(uint3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.CType(Misaki.HighPerformance.Mathematics.uint3)
+  name.vb: CType(uint3)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Addition(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Addition(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Addition(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator +(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator +(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator +(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Addition
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 124
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator +(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator +(lhs As uint3x2, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Addition*
+  nameWithType.vb: uint3x2.+(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.+(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: +(uint3x2, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Addition(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Addition(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  id: op_Addition(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator +(uint3x2, uint3)
+  nameWithType: uint3x2.operator +(uint3x2, uint3)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator +(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3)
+  type: Operator
+  source:
+    id: op_Addition
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 129
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator +(uint3x2 lhs, uint3 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator +(lhs As uint3x2, rhs As uint3) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Addition*
+  nameWithType.vb: uint3x2.+(uint3x2, uint3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.+(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3)
+  name.vb: +(uint3x2, uint3)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Addition(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Addition(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Addition(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator +(uint3, uint3x2)
+  nameWithType: uint3x2.operator +(uint3, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator +(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Addition
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 134
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator +(uint3 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator +(lhs As uint3, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Addition*
+  nameWithType.vb: uint3x2.+(uint3, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.+(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: +(uint3, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Subtraction(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator -(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator -(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator -(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Subtraction
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 139
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator -(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator -(lhs As uint3x2, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction*
+  nameWithType.vb: uint3x2.-(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.-(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: -(uint3x2, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  id: op_Subtraction(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator -(uint3x2, uint3)
+  nameWithType: uint3x2.operator -(uint3x2, uint3)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator -(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3)
+  type: Operator
+  source:
+    id: op_Subtraction
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 144
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator -(uint3x2 lhs, uint3 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator -(lhs As uint3x2, rhs As uint3) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction*
+  nameWithType.vb: uint3x2.-(uint3x2, uint3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.-(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3)
+  name.vb: -(uint3x2, uint3)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Subtraction(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator -(uint3, uint3x2)
+  nameWithType: uint3x2.operator -(uint3, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator -(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Subtraction
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 149
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator -(uint3 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator -(lhs As uint3, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction*
+  nameWithType.vb: uint3x2.-(uint3, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.-(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: -(uint3, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Multiply(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator *(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator *(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator *(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Multiply
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 154
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator *(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator *(lhs As uint3x2, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply*
+  nameWithType.vb: uint3x2.*(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.*(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: '*(uint3x2, uint3x2)'
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  id: op_Multiply(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator *(uint3x2, uint3)
+  nameWithType: uint3x2.operator *(uint3x2, uint3)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator *(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3)
+  type: Operator
+  source:
+    id: op_Multiply
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 159
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator *(uint3x2 lhs, uint3 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator *(lhs As uint3x2, rhs As uint3) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply*
+  nameWithType.vb: uint3x2.*(uint3x2, uint3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.*(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3)
+  name.vb: '*(uint3x2, uint3)'
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Multiply(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator *(uint3, uint3x2)
+  nameWithType: uint3x2.operator *(uint3, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator *(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Multiply
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 164
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator *(uint3 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator *(lhs As uint3, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply*
+  nameWithType.vb: uint3x2.*(uint3, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.*(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: '*(uint3, uint3x2)'
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Division(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Division(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Division(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator /(uint3, uint3x2)
+  nameWithType: uint3x2.operator /(uint3, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator /(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Division
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 169
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator /(uint3 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator /(lhs As uint3, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Division*
+  nameWithType.vb: uint3x2./(uint3, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2./(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: /(uint3, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Division(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Division(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  id: op_Division(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator /(uint3x2, uint3)
+  nameWithType: uint3x2.operator /(uint3x2, uint3)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator /(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3)
+  type: Operator
+  source:
+    id: op_Division
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 174
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator /(uint3x2 lhs, uint3 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator /(lhs As uint3x2, rhs As uint3) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Division*
+  nameWithType.vb: uint3x2./(uint3x2, uint3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2./(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3)
+  name.vb: /(uint3x2, uint3)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Division(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Division(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Division(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator /(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator /(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator /(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Division
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 179
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator /(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator /(lhs As uint3x2, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Division*
+  nameWithType.vb: uint3x2./(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2./(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: /(uint3x2, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Modulus(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator %(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator %(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator %(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Modulus
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 184
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator %(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator Mod(lhs As uint3x2, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus*
+  nameWithType.vb: uint3x2.Mod(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.Mod(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: Mod(uint3x2, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  id: op_Modulus(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator %(uint3x2, uint3)
+  nameWithType: uint3x2.operator %(uint3x2, uint3)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator %(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3)
+  type: Operator
+  source:
+    id: op_Modulus
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 189
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator %(uint3x2 lhs, uint3 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator Mod(lhs As uint3x2, rhs As uint3) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus*
+  nameWithType.vb: uint3x2.Mod(uint3x2, uint3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.Mod(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3)
+  name.vb: Mod(uint3x2, uint3)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Modulus(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator %(uint3, uint3x2)
+  nameWithType: uint3x2.operator %(uint3, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator %(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Modulus
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 194
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator %(uint3 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator Mod(lhs As uint3, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus*
+  nameWithType.vb: uint3x2.Mod(uint3, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.Mod(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: Mod(uint3, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryPlus(Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryPlus(Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_UnaryPlus(Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator +(uint3x2)
+  nameWithType: uint3x2.operator +(uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator +(Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_UnaryPlus
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 199
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator +(uint3x2 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator +(value As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryPlus*
+  nameWithType.vb: uint3x2.+(uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.+(Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: +(uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryNegation(Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryNegation(Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_UnaryNegation(Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator -(uint3x2)
+  nameWithType: uint3x2.operator -(uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator -(Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_UnaryNegation
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 204
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator -(uint3x2 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator -(value As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryNegation*
+  nameWithType.vb: uint3x2.-(uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.-(Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: -(uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Increment(Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Increment(Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Increment(Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator ++(uint3x2)
+  nameWithType: uint3x2.operator ++(uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator ++(Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Increment
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 209
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator ++(uint3x2 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Function op_Increment(value As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Increment*
+  nameWithType.vb: uint3x2.op_Increment(uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.op_Increment(Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: op_Increment(uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Decrement(Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_Decrement(Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_Decrement(Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator --(uint3x2)
+  nameWithType: uint3x2.operator --(uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator --(Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_Decrement
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 214
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator --(uint3x2 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Function op_Decrement(value As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_Decrement*
+  nameWithType.vb: uint3x2.op_Decrement(uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.op_Decrement(Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: op_Decrement(uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_LessThan(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_LessThan(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_LessThan(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator <(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator <(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator <(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_LessThan
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 219
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static bool3x2 operator <(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.bool3x2
+    content.vb: Public Shared Operator <(lhs As uint3x2, rhs As uint3x2) As bool3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_LessThan*
+  nameWithType.vb: uint3x2.<(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.<(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: <(uint3x2, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_LessThanOrEqual(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_LessThanOrEqual(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_LessThanOrEqual(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator <=(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator <=(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator <=(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_LessThanOrEqual
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 224
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static bool3x2 operator <=(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.bool3x2
+    content.vb: Public Shared Operator <=(lhs As uint3x2, rhs As uint3x2) As bool3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_LessThanOrEqual*
+  nameWithType.vb: uint3x2.<=(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.<=(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: <=(uint3x2, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThan(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThan(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_GreaterThan(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator >(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator >(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator >(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_GreaterThan
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 229
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static bool3x2 operator >(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.bool3x2
+    content.vb: Public Shared Operator >(lhs As uint3x2, rhs As uint3x2) As bool3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThan*
+  nameWithType.vb: uint3x2.>(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.>(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: '>(uint3x2, uint3x2)'
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThanOrEqual(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThanOrEqual(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_GreaterThanOrEqual(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator >=(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator >=(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator >=(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_GreaterThanOrEqual
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 234
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static bool3x2 operator >=(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.bool3x2
+    content.vb: Public Shared Operator >=(lhs As uint3x2, rhs As uint3x2) As bool3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThanOrEqual*
+  nameWithType.vb: uint3x2.>=(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.>=(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: '>=(uint3x2, uint3x2)'
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_LeftShift(Misaki.HighPerformance.Mathematics.uint3x2,System.Int32)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_LeftShift(Misaki.HighPerformance.Mathematics.uint3x2,System.Int32)
+  id: op_LeftShift(Misaki.HighPerformance.Mathematics.uint3x2,System.Int32)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator <<(uint3x2, int)
+  nameWithType: uint3x2.operator <<(uint3x2, int)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator <<(Misaki.HighPerformance.Mathematics.uint3x2, int)
+  type: Operator
+  source:
+    id: op_LeftShift
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 239
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator <<(uint3x2 lhs, int shift)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: shift
+      type: System.Int32
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator <<(lhs As uint3x2, shift As Integer) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_LeftShift*
+  nameWithType.vb: uint3x2.<<(uint3x2, Integer)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.<<(Misaki.HighPerformance.Mathematics.uint3x2, Integer)
+  name.vb: <<(uint3x2, Integer)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_RightShift(Misaki.HighPerformance.Mathematics.uint3x2,System.Int32)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_RightShift(Misaki.HighPerformance.Mathematics.uint3x2,System.Int32)
+  id: op_RightShift(Misaki.HighPerformance.Mathematics.uint3x2,System.Int32)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator >>(uint3x2, int)
+  nameWithType: uint3x2.operator >>(uint3x2, int)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator >>(Misaki.HighPerformance.Mathematics.uint3x2, int)
+  type: Operator
+  source:
+    id: op_RightShift
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 244
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator >>(uint3x2 lhs, int shift)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: shift
+      type: System.Int32
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator >>(lhs As uint3x2, shift As Integer) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_RightShift*
+  nameWithType.vb: uint3x2.>>(uint3x2, Integer)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.>>(Misaki.HighPerformance.Mathematics.uint3x2, Integer)
+  name.vb: '>>(uint3x2, Integer)'
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseAnd(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseAnd(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_BitwiseAnd(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator &(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator &(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator &(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_BitwiseAnd
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 249
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator &(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator And(lhs As uint3x2, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseAnd*
+  nameWithType.vb: uint3x2.And(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.And(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: And(uint3x2, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseOr(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseOr(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_BitwiseOr(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator |(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator |(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator |(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_BitwiseOr
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 254
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator |(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator Or(lhs As uint3x2, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseOr*
+  nameWithType.vb: uint3x2.Or(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.Or(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: Or(uint3x2, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_ExclusiveOr(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_ExclusiveOr(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_ExclusiveOr(Misaki.HighPerformance.Mathematics.uint3x2,Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator ^(uint3x2, uint3x2)
+  nameWithType: uint3x2.operator ^(uint3x2, uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator ^(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_ExclusiveOr
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 259
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator ^(uint3x2 lhs, uint3x2 rhs)
+    parameters:
+    - id: lhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    - id: rhs
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator Xor(lhs As uint3x2, rhs As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_ExclusiveOr*
+  nameWithType.vb: uint3x2.Xor(uint3x2, uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.Xor(Misaki.HighPerformance.Mathematics.uint3x2, Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: Xor(uint3x2, uint3x2)
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_OnesComplement(Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:Misaki.HighPerformance.Mathematics.uint3x2.op_OnesComplement(Misaki.HighPerformance.Mathematics.uint3x2)
+  id: op_OnesComplement(Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: Misaki.HighPerformance.Mathematics.uint3x2
+  langs:
+  - csharp
+  - vb
+  name: operator ~(uint3x2)
+  nameWithType: uint3x2.operator ~(uint3x2)
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator ~(Misaki.HighPerformance.Mathematics.uint3x2)
+  type: Operator
+  source:
+    id: op_OnesComplement
+    path: F:\csharp\Class\Misaki.HighPerformance\src\Misaki.HighPerformance.Mathematics\obj\Release\net10.0\Misaki.HighPerformance.Mathematics.CodeGen\Misaki.HighPerformance.Mathematics.CodeGen.NumericTypeGenerator\uint3x2.g.cs
+    startLine: 264
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public static uint3x2 operator ~(uint3x2 value)
+    parameters:
+    - id: value
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3x2
+    content.vb: Public Shared Operator Not(value As uint3x2) As uint3x2
+  overload: Misaki.HighPerformance.Mathematics.uint3x2.op_OnesComplement*
+  nameWithType.vb: uint3x2.Not(uint3x2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.Not(Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: Not(uint3x2)
+references:
+- uid: Misaki.HighPerformance.Mathematics
+  commentId: N:Misaki.HighPerformance.Mathematics
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics
+  nameWithType: Misaki.HighPerformance.Mathematics
+  fullName: Misaki.HighPerformance.Mathematics
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+- uid: System.IEquatable{Misaki.HighPerformance.Mathematics.uint3x2}
+  commentId: T:System.IEquatable{Misaki.HighPerformance.Mathematics.uint3x2}
+  parent: System
+  definition: System.IEquatable`1
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<uint3x2>
+  nameWithType: IEquatable<uint3x2>
+  fullName: System.IEquatable<Misaki.HighPerformance.Mathematics.uint3x2>
+  nameWithType.vb: IEquatable(Of uint3x2)
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.Mathematics.uint3x2)
+  name.vb: IEquatable(Of uint3x2)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2
+    name: uint3x2
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2
+    name: uint3x2
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.IEquatable`1
+  commentId: T:System.IEquatable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<T>
+  nameWithType: IEquatable<T>
+  fullName: System.IEquatable<T>
+  nameWithType.vb: IEquatable(Of T)
+  fullName.vb: System.IEquatable(Of T)
+  name.vb: IEquatable(Of T)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Misaki.HighPerformance.Mathematics.uint3
+  commentId: T:Misaki.HighPerformance.Mathematics.uint3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.uint3.html
+  name: uint3
+  nameWithType: uint3
+  fullName: Misaki.HighPerformance.Mathematics.uint3
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.Item*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.Item
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_Item_System_Int32_
+  name: this
+  nameWithType: uint3x2.this
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.this
+  nameWithType.vb: uint3x2.this[]
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.this[]
+  name.vb: this[]
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.zero*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.zero
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_zero
+  name: zero
+  nameWithType: uint3x2.zero
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.zero
+- uid: Misaki.HighPerformance.Mathematics.uint3x2
+  commentId: T:Misaki.HighPerformance.Mathematics.uint3x2
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html
+  name: uint3x2
+  nameWithType: uint3x2
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.#ctor*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.#ctor
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2__ctor_System_ReadOnlySpan_Misaki_HighPerformance_Mathematics_uint3___
+  name: uint3x2
+  nameWithType: uint3x2.uint3x2
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.uint3x2
+  nameWithType.vb: uint3x2.New
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.New
+  name.vb: New
+- uid: System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3}
+  commentId: T:System.ReadOnlySpan{Misaki.HighPerformance.Mathematics.uint3}
+  parent: System
+  definition: System.ReadOnlySpan`1
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<uint3>
+  nameWithType: ReadOnlySpan<uint3>
+  fullName: System.ReadOnlySpan<Misaki.HighPerformance.Mathematics.uint3>
+  nameWithType.vb: ReadOnlySpan(Of uint3)
+  fullName.vb: System.ReadOnlySpan(Of Misaki.HighPerformance.Mathematics.uint3)
+  name.vb: ReadOnlySpan(Of uint3)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - uid: Misaki.HighPerformance.Mathematics.uint3
+    name: uint3
+    href: Misaki.HighPerformance.Mathematics.uint3.html
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3
+    name: uint3
+    href: Misaki.HighPerformance.Mathematics.uint3.html
+  - name: )
+- uid: System.ReadOnlySpan`1
+  commentId: T:System.ReadOnlySpan`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ReadOnlySpan{System.UInt32}
+  commentId: T:System.ReadOnlySpan{System.UInt32}
+  parent: System
+  definition: System.ReadOnlySpan`1
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<uint>
+  nameWithType: ReadOnlySpan<uint>
+  fullName: System.ReadOnlySpan<uint>
+  nameWithType.vb: ReadOnlySpan(Of UInteger)
+  fullName.vb: System.ReadOnlySpan(Of UInteger)
+  name.vb: ReadOnlySpan(Of UInteger)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - uid: System.UInt32
+    name: uint
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint32
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt32
+    name: UInteger
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint32
+  - name: )
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.ToString*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.ToString
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_ToString
+  name: ToString
+  nameWithType: uint3x2.ToString
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.ToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.GetHashCode*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.GetHashCode
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_GetHashCode
+  name: GetHashCode
+  nameWithType: uint3x2.GetHashCode
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.GetHashCode
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.Equals*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.Equals
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_Equals_System_Object_
+  name: Equals
+  nameWithType: uint3x2.Equals
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.Equals
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.IEquatable{Misaki.HighPerformance.Mathematics.uint3x2}.Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+  commentId: M:System.IEquatable{Misaki.HighPerformance.Mathematics.uint3x2}.Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+  parent: System.IEquatable{Misaki.HighPerformance.Mathematics.uint3x2}
+  definition: System.IEquatable`1.Equals(`0)
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(uint3x2)
+  nameWithType: IEquatable<uint3x2>.Equals(uint3x2)
+  fullName: System.IEquatable<Misaki.HighPerformance.Mathematics.uint3x2>.Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+  nameWithType.vb: IEquatable(Of uint3x2).Equals(uint3x2)
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.Mathematics.uint3x2).Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+  spec.csharp:
+  - uid: System.IEquatable{Misaki.HighPerformance.Mathematics.uint3x2}.Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2
+    name: uint3x2
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable{Misaki.HighPerformance.Mathematics.uint3x2}.Equals(Misaki.HighPerformance.Mathematics.uint3x2)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2
+    name: uint3x2
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html
+  - name: )
+- uid: System.IEquatable`1.Equals(`0)
+  commentId: M:System.IEquatable`1.Equals(`0)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(T)
+  nameWithType: IEquatable<T>.Equals(T)
+  fullName: System.IEquatable<T>.Equals(T)
+  nameWithType.vb: IEquatable(Of T).Equals(T)
+  fullName.vb: System.IEquatable(Of T).Equals(T)
+  spec.csharp:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Equality*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_Equality
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Equality_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator ==
+  nameWithType: uint3x2.operator ==
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator ==
+  nameWithType.vb: uint3x2.=
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.=
+  name.vb: =
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Equality*
+    name: ==
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Equality_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.bool3x2
+  commentId: T:Misaki.HighPerformance.Mathematics.bool3x2
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.bool3x2.html
+  name: bool3x2
+  nameWithType: bool3x2
+  fullName: Misaki.HighPerformance.Mathematics.bool3x2
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Inequality*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_Inequality
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Inequality_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator !=
+  nameWithType: uint3x2.operator !=
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator !=
+  nameWithType.vb: uint3x2.<>
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.<>
+  name.vb: <>
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Inequality*
+    name: '!='
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Inequality_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Implicit*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_Implicit
+  name: implicit operator
+  nameWithType: uint3x2.implicit operator
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.implicit operator
+  nameWithType.vb: uint3x2.CType
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.CType
+  name.vb: CType
+  spec.csharp:
+  - name: implicit
+  - name: " "
+  - name: operator
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Addition*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_Addition
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Addition_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator +
+  nameWithType: uint3x2.operator +
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator +
+  nameWithType.vb: uint3x2.+
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.+
+  name.vb: +
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Addition*
+    name: +
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Addition_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Subtraction_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator -
+  nameWithType: uint3x2.operator -
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator -
+  nameWithType.vb: uint3x2.-
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.-
+  name.vb: '-'
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Subtraction*
+    name: '-'
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Subtraction_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Multiply_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator *
+  nameWithType: uint3x2.operator *
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator *
+  nameWithType.vb: uint3x2.*
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.*
+  name.vb: '*'
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Multiply*
+    name: '*'
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Multiply_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Division*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_Division
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Division_Misaki_HighPerformance_Mathematics_uint3_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator /
+  nameWithType: uint3x2.operator /
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator /
+  nameWithType.vb: uint3x2./
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2./
+  name.vb: /
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Division*
+    name: /
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Division_Misaki_HighPerformance_Mathematics_uint3_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Modulus_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator %
+  nameWithType: uint3x2.operator %
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator %
+  nameWithType.vb: uint3x2.Mod
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.Mod
+  name.vb: Mod
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Modulus*
+    name: '%'
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Modulus_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryPlus*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryPlus
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_UnaryPlus_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator +
+  nameWithType: uint3x2.operator +
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator +
+  nameWithType.vb: uint3x2.+
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.+
+  name.vb: +
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryPlus*
+    name: +
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_UnaryPlus_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryNegation*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryNegation
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_UnaryNegation_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator -
+  nameWithType: uint3x2.operator -
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator -
+  nameWithType.vb: uint3x2.-
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.-
+  name.vb: '-'
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_UnaryNegation*
+    name: '-'
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_UnaryNegation_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Increment*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_Increment
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Increment_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator ++
+  nameWithType: uint3x2.operator ++
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator ++
+  nameWithType.vb: uint3x2.op_Increment
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.op_Increment
+  name.vb: op_Increment
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Increment*
+    name: ++
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Increment_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Decrement*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_Decrement
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Decrement_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator --
+  nameWithType: uint3x2.operator --
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator --
+  nameWithType.vb: uint3x2.op_Decrement
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.op_Decrement
+  name.vb: op_Decrement
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_Decrement*
+    name: --
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_Decrement_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_LessThan*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_LessThan
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_LessThan_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator <
+  nameWithType: uint3x2.operator <
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator <
+  nameWithType.vb: uint3x2.<
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.<
+  name.vb: <
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_LessThan*
+    name: <
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_LessThan_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_LessThanOrEqual*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_LessThanOrEqual
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_LessThanOrEqual_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator <=
+  nameWithType: uint3x2.operator <=
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator <=
+  nameWithType.vb: uint3x2.<=
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.<=
+  name.vb: <=
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_LessThanOrEqual*
+    name: <=
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_LessThanOrEqual_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThan*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThan
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_GreaterThan_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator >
+  nameWithType: uint3x2.operator >
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator >
+  nameWithType.vb: uint3x2.>
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.>
+  name.vb: '>'
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThan*
+    name: '>'
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_GreaterThan_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThanOrEqual*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThanOrEqual
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_GreaterThanOrEqual_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator >=
+  nameWithType: uint3x2.operator >=
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator >=
+  nameWithType.vb: uint3x2.>=
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.>=
+  name.vb: '>='
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_GreaterThanOrEqual*
+    name: '>='
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_GreaterThanOrEqual_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_LeftShift*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_LeftShift
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_LeftShift_Misaki_HighPerformance_Mathematics_uint3x2_System_Int32_
+  name: operator <<
+  nameWithType: uint3x2.operator <<
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator <<
+  nameWithType.vb: uint3x2.<<
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.<<
+  name.vb: <<
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_LeftShift*
+    name: <<
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_LeftShift_Misaki_HighPerformance_Mathematics_uint3x2_System_Int32_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_RightShift*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_RightShift
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_RightShift_Misaki_HighPerformance_Mathematics_uint3x2_System_Int32_
+  name: operator >>
+  nameWithType: uint3x2.operator >>
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator >>
+  nameWithType.vb: uint3x2.>>
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.>>
+  name.vb: '>>'
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_RightShift*
+    name: '>>'
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_RightShift_Misaki_HighPerformance_Mathematics_uint3x2_System_Int32_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseAnd*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseAnd
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_BitwiseAnd_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator &
+  nameWithType: uint3x2.operator &
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator &
+  nameWithType.vb: uint3x2.And
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.And
+  name.vb: And
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseAnd*
+    name: '&'
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_BitwiseAnd_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseOr*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseOr
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_BitwiseOr_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator |
+  nameWithType: uint3x2.operator |
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator |
+  nameWithType.vb: uint3x2.Or
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.Or
+  name.vb: Or
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_BitwiseOr*
+    name: '|'
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_BitwiseOr_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_ExclusiveOr*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_ExclusiveOr
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_ExclusiveOr_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator ^
+  nameWithType: uint3x2.operator ^
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator ^
+  nameWithType.vb: uint3x2.Xor
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.Xor
+  name.vb: Xor
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_ExclusiveOr*
+    name: ^
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_ExclusiveOr_Misaki_HighPerformance_Mathematics_uint3x2_Misaki_HighPerformance_Mathematics_uint3x2_
+- uid: Misaki.HighPerformance.Mathematics.uint3x2.op_OnesComplement*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.uint3x2.op_OnesComplement
+  href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_OnesComplement_Misaki_HighPerformance_Mathematics_uint3x2_
+  name: operator ~
+  nameWithType: uint3x2.operator ~
+  fullName: Misaki.HighPerformance.Mathematics.uint3x2.operator ~
+  nameWithType.vb: uint3x2.Not
+  fullName.vb: Misaki.HighPerformance.Mathematics.uint3x2.Not
+  name.vb: Not
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.Mathematics.uint3x2.op_OnesComplement*
+    name: "~"
+    href: Misaki.HighPerformance.Mathematics.uint3x2.html#Misaki_HighPerformance_Mathematics_uint3x2_op_OnesComplement_Misaki_HighPerformance_Mathematics_uint3x2_

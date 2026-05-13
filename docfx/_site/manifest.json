@@ -1,0 +1,3488 @@
+{
+  "source_base_path": "F:/csharp/Class/Misaki.HighPerformance",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.AtomicCounter32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.AtomicCounter32.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.AtomicCounter32",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.AtomicCounter64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.AtomicCounter64.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.AtomicCounter64",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Buffer.ObjectPool-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Buffer.ObjectPool-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Buffer.ObjectPool<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Buffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Buffer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Buffer",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.yml\" sourcestartlinenumber=\"1\">A thread-safe slot map that supports concurrent add, remove, lookup, and update operations.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Collections.DynamicArray-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Collections.DynamicArray-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Collections.DynamicArray<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Collections.DynamicArray-1.yml\" sourcestartlinenumber=\"1\">A dynamically sized array that grows as elements are added and exposes span access to the active range.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Collections.SlotMap-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Collections.SlotMap-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Collections.SlotMap<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Collections.SlotMap-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Collections.SlotMap-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Collections.SlotMap<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Collections.SlotMap-1.yml\" sourcestartlinenumber=\"1\">A slot-based collection that stores values in reusable positions and validates access by generation.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Collections.SparseSet-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Collections.SparseSet-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Collections.SparseSet<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Collections.SparseSet-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Collections.SparseSet-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Collections.SparseSet<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Collections.SparseSet-1.yml\" sourcestartlinenumber=\"1\">A sparse set data structure that provides O(1) insertion, deletion, and lookup operations.\nThe sparse set uses three arrays: a dense array for storing values, a sparse array for mapping indices,\nand a reverse array for mapping dense indices back to sparse indices.\nSparse indices work like entity IDs and are automatically generated.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Collections.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Collections.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Collections",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.CustomJobDesc-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.CustomJobDesc-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.CustomJobDesc<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.ICustomJob-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.ICustomJob-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.ICustomJob<TSelf>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Jobs.ICustomJob-1.yml\" sourcestartlinenumber=\"1\">Represents a custom job with user-defined execution and cleanup logic, allowing for more flexible job definitions beyond the standard interfaces.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.IJob.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.IJob.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.IJob",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Jobs.IJob.yml\" sourcestartlinenumber=\"1\">Represents a job that performs a single unit of work.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.IJobExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.IJobExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.IJobExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.IJobParallel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.IJobParallel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.IJobParallel",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Jobs.IJobParallel.yml\" sourcestartlinenumber=\"1\">Represents a job that performs the same operation for a set of items, executed in parallel.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.IJobParallelExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.IJobParallelExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.IJobParallelExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.IJobParallelFor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.IJobParallelFor.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.IJobParallelFor",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Jobs.IJobParallelFor.yml\" sourcestartlinenumber=\"1\">Represents a job that performs the same operation for a set of items, executed in parallel.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.IJobParallelForExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.IJobParallelForExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.IJobParallelForExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.JobExecutionContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.JobExecutionContext.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.JobExecutionContext",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.JobHandle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.JobHandle.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.JobHandle",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.JobPriority.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.JobPriority.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.JobPriority",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Jobs.JobPriority.yml\" sourcestartlinenumber=\"1\">The priority level of a job.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.JobRanges.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.JobRanges.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.JobRanges",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.JobScheduler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.JobScheduler.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.JobScheduler",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Jobs.JobScheduler.yml\" sourcestartlinenumber=\"1\">Provides a mechanism for scheduling and executing jobs across multiple worker threads.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.JobSchedulerDesc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.JobSchedulerDesc.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.JobSchedulerDesc",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.JobState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.JobState.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.JobState",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Jobs.JobState.yml\" sourcestartlinenumber=\"1\">The state of a job in its lifecycle.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.SPMCQueue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.SPMCQueue-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs.SPMCQueue<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Jobs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Jobs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Jobs",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.yml\" sourcestartlinenumber=\"1\">A structure that encapsulates function pointers for memory allocation operations.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.AllocationInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.AllocationInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.AllocationInfo",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.AllocationInfo.yml\" sourcestartlinenumber=\"1\">Holds information about a memory allocation.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.AllocationManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.AllocationManager.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.AllocationManager",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.AllocationManager.yml\" sourcestartlinenumber=\"1\">Provides memory allocation management for native memory allocations, with support for tracking,\ndebugging, and custom allocation strategies.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.AllocationManagerDesc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.AllocationManagerDesc.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.AllocationManagerDesc",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.AllocationOption",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.Arena.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.Arena.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.Arena",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.Arena.yml\" sourcestartlinenumber=\"1\">A memory management structure that allocates and resets memory blocks with specified alignment.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.CreationOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.CreationOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.CreationOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.DynamicArena",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.DynamicArena.yml\" sourcestartlinenumber=\"1\">A dynamic memory management structure that automatically grows by creating linked arenas when more space is needed.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.FreeList.CreationOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.FreeList.CreationOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.FreeList.CreationOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.FreeList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.FreeList.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.FreeList",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.FreeList.yml\" sourcestartlinenumber=\"1\">A variable-size allocator that uses per-thread caches for the hot path and a remote-free queue for cross-thread deallocation.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.IAllocator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.IAllocator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.IAllocator",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.IAllocator.yml\" sourcestartlinenumber=\"1\">Represents an state interface for managing memory allocations.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator<TSelf, TOpts>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.MemoryBlock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.MemoryBlock.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.MemoryBlock",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.MemoryDiagnostic.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.MemoryDiagnostic.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.MemoryDiagnostic",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.yml\" sourcestartlinenumber=\"1\">A structure that represents a handle to a memory allocation for tracking and management purposes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.MemoryPool-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.MemoryPool-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.MemoryPool<TAllocator, TOpts>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.MemorySnapshot.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.MemorySnapshot.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.MemorySnapshot",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.Stack.CreationOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.Stack.CreationOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.Stack.CreationOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.Stack.Scope.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.Stack.Scope.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.Stack.Scope",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.Stack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.Stack.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.Stack",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.Stack.yml\" sourcestartlinenumber=\"1\">Provides a stack-based memory allocator for unmanaged memory, enabling fast allocation and deallocation of memory\nblocks within a preallocated buffer.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.TLSF.CreationOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.TLSF.CreationOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.TLSF.CreationOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.TLSF.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.TLSF.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.TLSF",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.TLSF.yml\" sourcestartlinenumber=\"1\">A Two-Level Segregated Fit (TLSF) memory allocator.\nGuarantees O(1) allocation and deallocation with very low fragmentation.\nNote: This is a single-threaded allocator. Wrap it in a lock for thread safety.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.CreationOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.CreationOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.CreationOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.VirtualArena",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.VirtualArena.yml\" sourcestartlinenumber=\"1\">A thread-safe memory management structure that reserves a large virtual address space and commits physical memory on demand as allocations are made.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.VirtualMemoryBlock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.VirtualMemoryBlock.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.VirtualMemoryBlock",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.CreationOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.CreationOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.CreationOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.Scope.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.Scope.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.Scope",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.VirtualStack.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer.VirtualStack",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Buffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Buffer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Buffer",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeHashCollection<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.Contracts.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.Contracts.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.Contracts",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString1024.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedString1024.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedString1024",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString1024.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size string of length 1024 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString128.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedString128.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedString128",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString128.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size string of length 128 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString2048.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedString2048.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedString2048",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString2048.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size string of length 2048 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString256.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedString256.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedString256",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString256.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size string of length 256 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedString32.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedString32",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString32.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size string of length 32 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString4096.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedString4096.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedString4096",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString4096.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size string of length 4096 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString512.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedString512.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedString512",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString512.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size string of length 512 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedString64.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedString64",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedString64.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size string of length 64 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText1024.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedText1024.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedText1024",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText1024.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size UTF-8 encoded string of length 1024 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText128.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedText128.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedText128",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText128.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size UTF-8 encoded string of length 128 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText2048.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedText2048.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedText2048",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText2048.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size UTF-8 encoded string of length 2048 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText256.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedText256.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedText256",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText256.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size UTF-8 encoded string of length 256 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText32.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedText32.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedText32",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText32.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size UTF-8 encoded string of length 32 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText4096.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedText4096.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedText4096",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText4096.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size UTF-8 encoded string of length 4096 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText512.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedText512.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedText512",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText512.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size UTF-8 encoded string of length 512 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.FixedText64.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.FixedText64",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.FixedText64.yml\" sourcestartlinenumber=\"1\">Represents a stack allocated fixed-size UTF-8 encoded string of length 64 bytes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.yml\" sourcestartlinenumber=\"1\">Provides a read-only, unsafe view over a contiguous region of unmanaged memory as an array of elements of type T.\nEnables efficient, low-level access to memory without copying or additional safety checks.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.SpanBitSet",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.yml\" sourcestartlinenumber=\"1\">The <xref href=\"Misaki.HighPerformance.LowLevel.Collections.SpanBitSet\" data-throw-if-not-resolved=\"false\"></xref> struct\nrepresents a non resizable collection of bits.\nUsed to set, check and clear bits on a allocated <xref href=\"Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet\" data-throw-if-not-resolved=\"false\"></xref> or on the stack.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.yml\" sourcestartlinenumber=\"1\">A structure for managing an array of unmanaged types with unsafe memory operations.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelReader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList<T>.ParallelReader",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelReader.yml\" sourcestartlinenumber=\"1\">A parallel reader for an UnsafeChunkedList.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelWriter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList<T>.ParallelWriter",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelWriter.yml\" sourcestartlinenumber=\"1\">A parallel writer for an UnsafeChunkedList.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.yml\" sourcestartlinenumber=\"1\">A collection that stores elements in fixed-size chunks, enabling stable element addresses\nand eliminating large reallocation during growth. Adding elements never moves existing ones.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.yml\" sourcestartlinenumber=\"1\">A collection that provides fast, unsafe operations for managing a set of unmanaged types. It supports adding,\nremoving, and checking for values.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelReader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelReader",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelReader.yml\" sourcestartlinenumber=\"1\">A Parallel reader for an UnsafeList.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelWriter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelWriter",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelWriter.yml\" sourcestartlinenumber=\"1\">A parallel writer for an UnsafeList.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.yml\" sourcestartlinenumber=\"1\">A collection that allows for unsafe operations on a list of unmanaged types.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap<TKey, TValue>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.Iterator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.Iterator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap<TKey, TValue>.Iterator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.ValueEnumerable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.ValueEnumerable.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap<TKey, TValue>.ValueEnumerable",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.ValueEnumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.ValueEnumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap<TKey, TValue>.ValueEnumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap<TKey, TValue>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.ParallelWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.ParallelWriter.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.ParallelWriter",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData<TKey, TValue>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelConsumer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelConsumer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.ParallelConsumer",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelProducer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelProducer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.ParallelProducer",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.yml\" sourcestartlinenumber=\"1\">A dynamically resizing, parallel, lock-free queue using unmanaged chunks.\nUses a very brief spin lock only during chunk allocation, alongside a lock-free segment cache.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.yml\" sourcestartlinenumber=\"1\">A structure that implements a queue using unmanaged types for efficient memory management.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.yml\" sourcestartlinenumber=\"1\">Provides an unsafe, high-performance slot map for storing and managing unmanaged values, supporting fast insertion,\nremoval, and lookup by slot index and generation.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.yml\" sourcestartlinenumber=\"1\">A sparse set data structure that provides O(1) insertion, deletion, and lookup operations.\nThe sparse set uses three arrays: a dense array for storing values, a sparse array for mapping indices,\nand a reverse array for mapping dense indices back to sparse indices.\nSparse indices work like entity IDs and are automatically generated.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.Enumerator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.Enumerator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeStack<T>.Enumerator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections.UnsafeStack<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.yml\" sourcestartlinenumber=\"1\">Provides a high-performance, unsafe stack data structure for unmanaged types, supporting manual memory management\nand allocation control.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Collections.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Collections.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Collections",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.DisposablePtr-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.DisposablePtr-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.DisposablePtr<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.FunctionPointer-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.FunctionPointer-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.FunctionPointer<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.FunctionPointer-1.yml\" sourcestartlinenumber=\"1\">A structure that encapsulates a function pointer and provides methods to convert between</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.MemoryLeakException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.MemoryLeakException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.MemoryLeakException",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.MemoryLeakException.yml\" sourcestartlinenumber=\"1\">An exception that is thrown when a memory leak is detected.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.NonCopyableAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.NonCopyableAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.NonCopyableAttribute",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.OwnershipTransferAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.OwnershipTransferAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.OwnershipTransferAttribute",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Ref-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Ref-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Ref<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.SharedPtr-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.SharedPtr-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.SharedPtr<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.SharedPtr-1.yml\" sourcestartlinenumber=\"1\">Represents a strongly-typed, read-only pointer to an unmanaged value of type <code class=\"typeparamref\">T</code>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.UniquePtr-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.UniquePtr-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.UniquePtr<T>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.UniquePtr-1.yml\" sourcestartlinenumber=\"1\">Provides exclusive ownership and management of an unmanaged pointer to a value of type <code class=\"typeparamref\">T</code>.\nEnsures that the pointer is not shared and can be safely transferred or detached.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Utilities.UnsafeCollectionUtility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Utilities.UnsafeCollectionUtility.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Utilities.UnsafeCollectionUtility",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.LowLevel.Utilities.UnsafeCollectionUtility.yml\" sourcestartlinenumber=\"1\">Provides extension methods for copying elements between unsafe collections and spans, converting collections to\narrays or lists, and searching for values.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.Utilities.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.Utilities.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel.Utilities",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.LowLevel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.LowLevel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.LowLevel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.Geometry.AABB.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.Geometry.AABB.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.Geometry.AABB",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.Geometry.AABB.yml\" sourcestartlinenumber=\"1\">Represents an axis-aligned bounding box (AABB) defined by minimum and maximum points in 3D space.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.Geometry.OBB.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.Geometry.OBB.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.Geometry.OBB",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.Geometry.Plane.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.Geometry.Plane.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.Geometry.Plane",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.Geometry.Plane.yml\" sourcestartlinenumber=\"1\">A plane represented by a normal vector and a distance along the normal from the origin.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.Geometry.SphereBounds",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.Geometry.SphereBounds.yml\" sourcestartlinenumber=\"1\">Represents a three-dimensional sphere defined by a center point and a radius, typically used for spatial bounding or\nintersection tests.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.Geometry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.Geometry.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.Geometry",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.NumericConvertableAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.NumericConvertableAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.NumericConvertableAttribute",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.NumericTypeAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.NumericTypeAttribute.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.NumericTypeAttribute",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobParallelForSPMDExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.IJobParallelForSPMDExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.IJobParallelForSPMDExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-1.yml\" sourcestartlinenumber=\"1\">A job interface for Single Program Multiple Data (SPMD) execution, allowing for efficient parallel processing of data across multiple lanes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-2.yml\" sourcestartlinenumber=\"1\">A job interface for Single Program Multiple Data (SPMD) execution, allowing for efficient parallel processing of data across multiple lanes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-3.yml\" sourcestartlinenumber=\"1\">A job interface for Single Program Multiple Data (SPMD) execution, allowing for efficient parallel processing of data across multiple lanes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-4.yml\" sourcestartlinenumber=\"1\">A job interface for Single Program Multiple Data (SPMD) execution, allowing for efficient parallel processing of data across multiple lanes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-5.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-5.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-5.yml\" sourcestartlinenumber=\"1\">A job interface for Single Program Multiple Data (SPMD) execution, allowing for efficient parallel processing of data across multiple lanes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-6.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-6.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-6.yml\" sourcestartlinenumber=\"1\">A job interface for Single Program Multiple Data (SPMD) execution, allowing for efficient parallel processing of data across multiple lanes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-7.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-7.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-7.yml\" sourcestartlinenumber=\"1\">A job interface for Single Program Multiple Data (SPMD) execution, allowing for efficient parallel processing of data across multiple lanes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-8.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-8.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-8.yml\" sourcestartlinenumber=\"1\">A job interface for Single Program Multiple Data (SPMD) execution, allowing for efficient parallel processing of data across multiple lanes.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane<TSelf, TNumber>",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane-2.yml\" sourcestartlinenumber=\"1\">Represents a single-lane or multi-lane (vectorized) SPMD value and the operations supported on it.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.yml\" sourcestartlinenumber=\"1\">Common marker interface for SPMD lane types.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.JobSPMDUtility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.JobSPMDUtility.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.JobSPMDUtility",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.MathV.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.MathV.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.MathV",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.ScalarLane-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.ScalarLane-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.ScalarLane<TNumber>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.Vector2-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.Vector2-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.Vector2<TLane, TNumber>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.Vector3-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.Vector3-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.Vector3<TLane, TNumber>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.Vector4-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.Vector4-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.Vector4<TLane, TNumber>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.WideLane-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.WideLane-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.WideLane<TNumber>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.WideLane.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.WideLane.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD.WideLane",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SPMD.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SPMD.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SPMD",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SupportedMatrixMath.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SupportedMatrixMath.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SupportedMatrixMath",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.SupportedVectorMath.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.SupportedVectorMath.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.SupportedVectorMath",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.VectorExtension.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.VectorExtension.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.VectorExtension",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.VectorInterop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.VectorInterop.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.VectorInterop",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool2x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool2x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool2x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool2x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool2x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool2x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool2x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool2x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool2x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool3x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool3x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool3x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool3x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool3x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool3x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool3x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool3x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool3x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool4x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool4x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool4x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool4x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool4x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool4x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.bool4x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.bool4x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.bool4x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double2x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double2x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double2x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double2x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double2x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double2x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double2x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double2x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double2x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double3x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double3x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double3x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double3x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double3x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double3x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double3x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double3x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double3x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double4x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double4x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double4x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double4x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double4x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double4x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.double4x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.double4x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.double4x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float2x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float2x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float2x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float2x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float2x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float2x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float2x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float2x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float2x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float3x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float3x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float3x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float3x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float3x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float3x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float3x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float3x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float3x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float4x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float4x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float4x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float4x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float4x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float4x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.float4x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.float4x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.float4x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int2x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int2x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int2x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int2x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int2x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int2x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int2x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int2x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int2x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int3x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int3x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int3x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int3x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int3x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int3x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int3x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int3x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int3x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int4x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int4x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int4x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int4x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int4x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int4x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.int4x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.int4x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.int4x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.math.RotationOrder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.math.RotationOrder.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.math.RotationOrder",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.math.RotationOrder.yml\" sourcestartlinenumber=\"1\">Extrinsic rotation order. Specifies in which order rotations around the principal axes (x, y and z) are to be applied.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.math.ShuffleComponent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.math.ShuffleComponent.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.math.ShuffleComponent",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.math.ShuffleComponent.yml\" sourcestartlinenumber=\"1\">Specifies a shuffle component.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.math.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.math.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.math",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.Mathematics.math.yml\" sourcestartlinenumber=\"1\">A static class to contain various math functions and constants.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.quaternion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.quaternion.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.quaternion",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.random.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.random.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.random",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.svd.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.svd.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.svd",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint2x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint2x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint2x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint2x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint2x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint2x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint2x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint2x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint2x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint3x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint3x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint3x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint3x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint3x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint3x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint3x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint3x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint3x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint4x2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint4x2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint4x2",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint4x3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint4x3.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint4x3",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.uint4x4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.uint4x4.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics.uint4x4",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Mathematics.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Mathematics.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Mathematics",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.SeqLock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.SeqLock.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.SeqLock",
+      "Summary": "<p sourcefile=\"docs/documents/api/Misaki.HighPerformance.SeqLock.yml\" sourcestartlinenumber=\"1\">A synchronization primitive optimized for many readers and rare writers.\nReaders never block writers and never block each other.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Utilities.CollectionUtility.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Utilities.CollectionUtility.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Utilities.CollectionUtility",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.Utilities.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.Utilities.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance.Utilities",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/documents/api/Misaki.HighPerformance.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Misaki.HighPerformance.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Misaki.HighPerformance",
+      "Summary": null
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/documents/api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/documents/articles/Misaki.HighPerformance.Jobs/best-practices.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Misaki.HighPerformance.Jobs/best-practices.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/documents/articles/Misaki.HighPerformance.Jobs/creating-jobs.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Misaki.HighPerformance.Jobs/creating-jobs.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/documents/articles/Misaki.HighPerformance.Jobs/introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Misaki.HighPerformance.Jobs/introduction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/documents/articles/Misaki.HighPerformance.Jobs/job-dependencies.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Misaki.HighPerformance.Jobs/job-dependencies.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/documents/articles/Misaki.HighPerformance.Jobs/threading-fundamentals.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Misaki.HighPerformance.Jobs/threading-fundamentals.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/documents/articles/Misaki.HighPerformance.Jobs/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Misaki.HighPerformance.Jobs/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/Misaki.HighPerformance.Jobs/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/documents/articles/Misaki.HighPerformance.LowLevel/allocators.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Misaki.HighPerformance.LowLevel/allocators.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/documents/articles/Misaki.HighPerformance.LowLevel/architecture-overview.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Misaki.HighPerformance.LowLevel/architecture-overview.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/documents/articles/Misaki.HighPerformance.LowLevel/collection-types.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Misaki.HighPerformance.LowLevel/collection-types.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/documents/articles/Misaki.HighPerformance.LowLevel/introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Misaki.HighPerformance.LowLevel/introduction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/documents/articles/Misaki.HighPerformance.LowLevel/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/Misaki.HighPerformance.LowLevel/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/Misaki.HighPerformance.LowLevel/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/documents/articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html"
+        },
+        ".json": {
+          "relative_path": "articles/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/documents/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/documents/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

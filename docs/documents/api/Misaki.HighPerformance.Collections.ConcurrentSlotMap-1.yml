@@ -1,0 +1,1197 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  commentId: T:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  id: ConcurrentSlotMap`1
+  parent: Misaki.HighPerformance.Collections
+  children:
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.#ctor(System.Int32)
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Add(`0@,System.Int32@)
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Capacity
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Clear
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Contains(System.Int32,System.Int32)
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Count
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementAt(System.Int32,System.Int32)
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementReferenceAt(System.Int32,System.Int32,System.Boolean@)
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetEnumerator
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Remove(System.Int32,System.Int32)
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Remove(System.Int32,System.Int32,`0@)
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.TryGetElement(System.Int32,System.Int32,`0@)
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.UpdateElement(System.Int32,System.Int32,`0)
+  langs:
+  - csharp
+  - vb
+  name: ConcurrentSlotMap<T>
+  nameWithType: ConcurrentSlotMap<T>
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>
+  type: Class
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ConcurrentSlotMap
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 11
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: A thread-safe slot map that supports concurrent add, remove, lookup, and update operations.
+  example: []
+  syntax:
+    content: 'public class ConcurrentSlotMap<T> : IEnumerable<T>, IEnumerable'
+    typeParameters:
+    - id: T
+      description: Represents a type that can be stored in the concurrent slot map.
+    content.vb: Public Class ConcurrentSlotMap(Of T) Implements IEnumerable(Of T), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{{T}}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  nameWithType.vb: ConcurrentSlotMap(Of T)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T)
+  name.vb: ConcurrentSlotMap(Of T)
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Count
+  commentId: P:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Count
+  id: Count
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ConcurrentSlotMap<T>.Count
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Count
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Count
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 82
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Count*
+  nameWithType.vb: ConcurrentSlotMap(Of T).Count
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Count
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Capacity
+  commentId: P:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Capacity
+  id: Capacity
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: Capacity
+  nameWithType: ConcurrentSlotMap<T>.Capacity
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Capacity
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Capacity
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 83
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public int Capacity { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Capacity As Integer
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Capacity*
+  nameWithType.vb: ConcurrentSlotMap(Of T).Capacity
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Capacity
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetEnumerator
+  commentId: M:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetEnumerator
+  id: GetEnumerator
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ConcurrentSlotMap<T>.GetEnumerator()
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetEnumerator
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 89
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Gets an enumerator that iterates over the valid items in the collection.
+  example: []
+  syntax:
+    content: public IEnumerator<T> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{{T}}
+      description: An enumerator for the collection.
+    content.vb: Public Function GetEnumerator() As IEnumerator(Of T)
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{{T}}.GetEnumerator
+  nameWithType.vb: ConcurrentSlotMap(Of T).GetEnumerator()
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).GetEnumerator()
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.#ctor(System.Int32)
+  commentId: M:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.#ctor(System.Int32)
+  id: '#ctor(System.Int32)'
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: ConcurrentSlotMap(int)
+  nameWithType: ConcurrentSlotMap<T>.ConcurrentSlotMap(int)
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.ConcurrentSlotMap(int)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 97
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Initializes a new instance of <xref href="Misaki.HighPerformance.Collections.ConcurrentSlotMap%601" data-throw-if-not-resolved="false"></xref> with the specified initial capacity.
+  example: []
+  syntax:
+    content: public ConcurrentSlotMap(int initialCapacity)
+    parameters:
+    - id: initialCapacity
+      type: System.Int32
+      description: The initial capacity of the collection.
+    content.vb: Public Sub New(initialCapacity As Integer)
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.#ctor*
+  nameWithType.vb: ConcurrentSlotMap(Of T).New(Integer)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).New(Integer)
+  name.vb: New(Integer)
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Add(`0@,System.Int32@)
+  commentId: M:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Add(`0@,System.Int32@)
+  id: Add(`0@,System.Int32@)
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: Add(scoped in T, out int)
+  nameWithType: ConcurrentSlotMap<T>.Add(scoped in T, out int)
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Add(scoped in T, out int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Add
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 193
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Adds an item to the collection and returns the slot index used to store it.
+  example: []
+  syntax:
+    content: public int Add(scoped in T item, out int generation)
+    parameters:
+    - id: item
+      type: '{T}'
+      description: The item to add.
+    - id: generation
+      type: System.Int32
+      description: Outputs the generation value associated with the stored item.
+    return:
+      type: System.Int32
+      description: The slot index assigned to the item.
+    content.vb: Public Function Add(item As T, generation As Integer) As Integer
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Add*
+  nameWithType.vb: ConcurrentSlotMap(Of T).Add(T, Integer)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Add(T, Integer)
+  name.vb: Add(T, Integer)
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Remove(System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Remove(System.Int32,System.Int32)
+  id: Remove(System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: Remove(int, int)
+  nameWithType: ConcurrentSlotMap<T>.Remove(int, int)
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Remove(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Remove
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 265
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public bool Remove(int slotIndex, int generation)
+    parameters:
+    - id: slotIndex
+      type: System.Int32
+    - id: generation
+      type: System.Int32
+    return:
+      type: System.Boolean
+    content.vb: Public Function Remove(slotIndex As Integer, generation As Integer) As Boolean
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Remove*
+  nameWithType.vb: ConcurrentSlotMap(Of T).Remove(Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Remove(Integer, Integer)
+  name.vb: Remove(Integer, Integer)
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Remove(System.Int32,System.Int32,`0@)
+  commentId: M:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Remove(System.Int32,System.Int32,`0@)
+  id: Remove(System.Int32,System.Int32,`0@)
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: Remove(int, int, out T)
+  nameWithType: ConcurrentSlotMap<T>.Remove(int, int, out T)
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Remove(int, int, out T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Remove
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 284
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Removes the item at the specified slot index and returns its value when the generation matches.
+  example: []
+  syntax:
+    content: public bool Remove(int slotIndex, int generation, out T value)
+    parameters:
+    - id: slotIndex
+      type: System.Int32
+      description: The slot index to remove.
+    - id: generation
+      type: System.Int32
+      description: The generation to validate.
+    - id: value
+      type: '{T}'
+      description: When this method returns, contains the removed item if found.
+      attributes:
+      - type: System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute
+        ctor: System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.#ctor(System.Boolean)
+        arguments:
+        - type: System.Boolean
+          value: false
+    return:
+      type: System.Boolean
+      description: True if the item was removed; otherwise, false.
+    content.vb: Public Function Remove(slotIndex As Integer, generation As Integer, value As T) As Boolean
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Remove*
+  nameWithType.vb: ConcurrentSlotMap(Of T).Remove(Integer, Integer, T)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Remove(Integer, Integer, T)
+  name.vb: Remove(Integer, Integer, T)
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Contains(System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Contains(System.Int32,System.Int32)
+  id: Contains(System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: Contains(int, int)
+  nameWithType: ConcurrentSlotMap<T>.Contains(int, int)
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Contains(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Contains
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 331
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public bool Contains(int slotIndex, int generation)
+    parameters:
+    - id: slotIndex
+      type: System.Int32
+    - id: generation
+      type: System.Int32
+    return:
+      type: System.Boolean
+    content.vb: Public Function Contains(slotIndex As Integer, generation As Integer) As Boolean
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Contains*
+  nameWithType.vb: ConcurrentSlotMap(Of T).Contains(Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Contains(Integer, Integer)
+  name.vb: Contains(Integer, Integer)
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.TryGetElement(System.Int32,System.Int32,`0@)
+  commentId: M:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.TryGetElement(System.Int32,System.Int32,`0@)
+  id: TryGetElement(System.Int32,System.Int32,`0@)
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: TryGetElement(int, int, out T)
+  nameWithType: ConcurrentSlotMap<T>.TryGetElement(int, int, out T)
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.TryGetElement(int, int, out T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TryGetElement
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 344
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public bool TryGetElement(int slotIndex, int generation, out T value)
+    parameters:
+    - id: slotIndex
+      type: System.Int32
+    - id: generation
+      type: System.Int32
+    - id: value
+      type: '{T}'
+      attributes:
+      - type: System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute
+        ctor: System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.#ctor(System.Boolean)
+        arguments:
+        - type: System.Boolean
+          value: false
+    return:
+      type: System.Boolean
+    content.vb: Public Function TryGetElement(slotIndex As Integer, generation As Integer, value As T) As Boolean
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.TryGetElement*
+  nameWithType.vb: ConcurrentSlotMap(Of T).TryGetElement(Integer, Integer, T)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).TryGetElement(Integer, Integer, T)
+  name.vb: TryGetElement(Integer, Integer, T)
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementAt(System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementAt(System.Int32,System.Int32)
+  id: GetElementAt(System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: GetElementAt(int, int)
+  nameWithType: ConcurrentSlotMap<T>.GetElementAt(int, int)
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.GetElementAt(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetElementAt
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 358
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public T GetElementAt(int slotIndex, int generation)
+    parameters:
+    - id: slotIndex
+      type: System.Int32
+    - id: generation
+      type: System.Int32
+    return:
+      type: '{T}'
+    content.vb: Public Function GetElementAt(slotIndex As Integer, generation As Integer) As T
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementAt*
+  nameWithType.vb: ConcurrentSlotMap(Of T).GetElementAt(Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).GetElementAt(Integer, Integer)
+  name.vb: GetElementAt(Integer, Integer)
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementReferenceAt(System.Int32,System.Int32,System.Boolean@)
+  commentId: M:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementReferenceAt(System.Int32,System.Int32,System.Boolean@)
+  id: GetElementReferenceAt(System.Int32,System.Int32,System.Boolean@)
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: GetElementReferenceAt(int, int, out bool)
+  nameWithType: ConcurrentSlotMap<T>.GetElementReferenceAt(int, int, out bool)
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.GetElementReferenceAt(int, int, out bool)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetElementReferenceAt
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 376
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public ref T GetElementReferenceAt(int slotIndex, int generation, out bool exist)
+    parameters:
+    - id: slotIndex
+      type: System.Int32
+    - id: generation
+      type: System.Int32
+    - id: exist
+      type: System.Boolean
+    return:
+      type: '{T}'
+    content.vb: Public ByRef Function GetElementReferenceAt(slotIndex As Integer, generation As Integer, exist As Boolean) As T
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementReferenceAt*
+  nameWithType.vb: ConcurrentSlotMap(Of T).GetElementReferenceAt(Integer, Integer, Boolean)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).GetElementReferenceAt(Integer, Integer, Boolean)
+  name.vb: GetElementReferenceAt(Integer, Integer, Boolean)
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.UpdateElement(System.Int32,System.Int32,`0)
+  commentId: M:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.UpdateElement(System.Int32,System.Int32,`0)
+  id: UpdateElement(System.Int32,System.Int32,`0)
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: UpdateElement(int, int, T)
+  nameWithType: ConcurrentSlotMap<T>.UpdateElement(int, int, T)
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.UpdateElement(int, int, T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: UpdateElement
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 422
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public bool UpdateElement(int slotIndex, int generation, T newValue)
+    parameters:
+    - id: slotIndex
+      type: System.Int32
+    - id: generation
+      type: System.Int32
+    - id: newValue
+      type: '{T}'
+    return:
+      type: System.Boolean
+    content.vb: Public Function UpdateElement(slotIndex As Integer, generation As Integer, newValue As T) As Boolean
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.UpdateElement*
+  nameWithType.vb: ConcurrentSlotMap(Of T).UpdateElement(Integer, Integer, T)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).UpdateElement(Integer, Integer, T)
+  name.vb: UpdateElement(Integer, Integer, T)
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Clear
+  commentId: M:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Clear
+  id: Clear
+  parent: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ConcurrentSlotMap<T>.Clear()
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Clear
+    path: src/Misaki.HighPerformance/Collections/ConcurrentSlotMap.cs
+    startLine: 442
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear()
+  overload: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Clear*
+  nameWithType.vb: ConcurrentSlotMap(Of T).Clear()
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Clear()
+references:
+- uid: Misaki.HighPerformance.Collections
+  commentId: N:Misaki.HighPerformance.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.Collections
+  nameWithType: Misaki.HighPerformance.Collections
+  fullName: Misaki.HighPerformance.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Collections
+    name: Collections
+    href: Misaki.HighPerformance.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Collections
+    name: Collections
+    href: Misaki.HighPerformance.Collections.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Collections.Generic.IEnumerable{{T}}
+  commentId: T:System.Collections.Generic.IEnumerable{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Count*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Count
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1_Count
+  name: Count
+  nameWithType: ConcurrentSlotMap<T>.Count
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Count
+  nameWithType.vb: ConcurrentSlotMap(Of T).Count
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Capacity*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Capacity
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1_Capacity
+  name: Capacity
+  nameWithType: ConcurrentSlotMap<T>.Capacity
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Capacity
+  nameWithType.vb: ConcurrentSlotMap(Of T).Capacity
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Capacity
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetEnumerator*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetEnumerator
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1_GetEnumerator
+  name: GetEnumerator
+  nameWithType: ConcurrentSlotMap<T>.GetEnumerator
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.GetEnumerator
+  nameWithType.vb: ConcurrentSlotMap(Of T).GetEnumerator
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{{T}}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{`0}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{{T}}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable{`0}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable{`0}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator{{T}}
+  commentId: T:System.Collections.Generic.IEnumerator{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  commentId: T:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  parent: Misaki.HighPerformance.Collections
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html
+  name: ConcurrentSlotMap<T>
+  nameWithType: ConcurrentSlotMap<T>
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>
+  nameWithType.vb: ConcurrentSlotMap(Of T)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T)
+  name.vb: ConcurrentSlotMap(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+    name: ConcurrentSlotMap
+    href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+    name: ConcurrentSlotMap
+    href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.#ctor*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.#ctor
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1__ctor_System_Int32_
+  name: ConcurrentSlotMap
+  nameWithType: ConcurrentSlotMap<T>.ConcurrentSlotMap
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.ConcurrentSlotMap
+  nameWithType.vb: ConcurrentSlotMap(Of T).New
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).New
+  name.vb: New
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Add*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Add
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1_Add__0__System_Int32__
+  name: Add
+  nameWithType: ConcurrentSlotMap<T>.Add
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Add
+  nameWithType.vb: ConcurrentSlotMap(Of T).Add
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Add
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Remove*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Remove
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1_Remove_System_Int32_System_Int32_
+  name: Remove
+  nameWithType: ConcurrentSlotMap<T>.Remove
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Remove
+  nameWithType.vb: ConcurrentSlotMap(Of T).Remove
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Remove
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Contains*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Contains
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1_Contains_System_Int32_System_Int32_
+  name: Contains
+  nameWithType: ConcurrentSlotMap<T>.Contains
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Contains
+  nameWithType.vb: ConcurrentSlotMap(Of T).Contains
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Contains
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.TryGetElement*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.TryGetElement
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1_TryGetElement_System_Int32_System_Int32__0__
+  name: TryGetElement
+  nameWithType: ConcurrentSlotMap<T>.TryGetElement
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.TryGetElement
+  nameWithType.vb: ConcurrentSlotMap(Of T).TryGetElement
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).TryGetElement
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementAt*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementAt
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1_GetElementAt_System_Int32_System_Int32_
+  name: GetElementAt
+  nameWithType: ConcurrentSlotMap<T>.GetElementAt
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.GetElementAt
+  nameWithType.vb: ConcurrentSlotMap(Of T).GetElementAt
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).GetElementAt
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementReferenceAt*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.GetElementReferenceAt
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1_GetElementReferenceAt_System_Int32_System_Int32_System_Boolean__
+  name: GetElementReferenceAt
+  nameWithType: ConcurrentSlotMap<T>.GetElementReferenceAt
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.GetElementReferenceAt
+  nameWithType.vb: ConcurrentSlotMap(Of T).GetElementReferenceAt
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).GetElementReferenceAt
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.UpdateElement*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.UpdateElement
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1_UpdateElement_System_Int32_System_Int32__0_
+  name: UpdateElement
+  nameWithType: ConcurrentSlotMap<T>.UpdateElement
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.UpdateElement
+  nameWithType.vb: ConcurrentSlotMap(Of T).UpdateElement
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).UpdateElement
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Clear*
+  commentId: Overload:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Clear
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html#Misaki_HighPerformance_Collections_ConcurrentSlotMap_1_Clear
+  name: Clear
+  nameWithType: ConcurrentSlotMap<T>.Clear
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Clear
+  nameWithType.vb: ConcurrentSlotMap(Of T).Clear
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Clear

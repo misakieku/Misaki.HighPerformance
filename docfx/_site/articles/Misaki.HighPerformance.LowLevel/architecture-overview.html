@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Architecture overview | Misaki.HighPerformance </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Architecture overview | Misaki.HighPerformance ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="Misaki.HighPerformance">
+            Misaki.HighPerformance
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="architecture-overview">Architecture overview</h1>
+
+<p>The library is structured as a stack of explicit layers. Each layer has a single responsibility, and you can work at any level depending on how much control you need.</p>
+<pre><code>User Code
+    |
+Unsafe collections (UnsafeArray, UnsafeList, UnsafeHashMap, ...)
+    |
+AllocationHandle (function-pointer-based &quot;interface&quot;)
+    |
+Allocators (Arena / FreeList / TLSF / Stack)
+    |
+OS memory (VirtualAlloc / malloc / mimalloc)
+</code></pre>
+<h2 id="design-philosophy">Design philosophy</h2>
+<p>The library is built around four principles:</p>
+<p><strong>Explicit over implicit.</strong> Every allocation requires an <code>AllocationHandle</code>. There is no default allocator, no hidden malloc, and no GC fallback. If memory is allocated, you chose exactly where it came from.</p>
+<p><strong>Unsafe-first.</strong> All collections work with raw pointers internally. Safety checks are optional and compiled away in release. The library trusts you — and lets you prove you can be trusted.</p>
+<p><strong>Struct-only collections.</strong> No managed objects, no handles to GC-tracked state, no hidden heap allocations. A collection is just a pointer + metadata. Copy it, inline it, store it in unmanaged memory.</p>
+<p><strong>Zero overhead by default.</strong> Safety checks, stack traces, tracking — all opt-in via compile-time constants. Release builds produce the same code as hand-written pointer manipulation.</p>
+<h2 id="allocationhandle-pattern">AllocationHandle pattern</h2>
+<p><code>AllocationHandle</code> is the central abstraction. It is a struct containing a state pointer and three function pointers:</p>
+<pre><code>AllocationHandle
+  _state   : void*    — allocator-specific context
+  _alloc   : delegate — allocate
+  _realloc : delegate — reallocate
+  _free    : delegate — free
+</code></pre>
+<p>Because it uses function pointers instead of virtual interfaces, an <code>AllocationHandle</code> call is a direct indirect call — no boxing, no vtable lookup, no GC pressure. Any combination of alloc/free/realloc functions can be composed into a handle, which means custom allocators are just a matter of filling in the struct.</p>
+<p>Every collection stores its <code>AllocationHandle</code> and uses it for all internal memory operations.</p>
+<h2 id="memoryhandle-tracking">MemoryHandle tracking</h2>
+<p><code>MemoryHandle</code> is a safety-only struct that pairs an allocation ID with a generation counter:</p>
+<pre><code class="lang-csharp">public readonly struct MemoryHandle
+{
+    public readonly int ID;
+    public readonly int Generation;
+}
+</code></pre>
+<p>When <code>MHP_ENABLE_SAFETY_CHECKS</code> is defined, every allocation is registered in <code>AllocationManager</code>'s tracking database with its address and size. Operations like dispose verify the handle is still valid, catching double-free and use-after-free errors. The generation counter prevents handle reuse after an allocation is freed.</p>
+<p>In release builds, <code>MemoryHandle</code> fields compile away to nothing.</p>
+<h2 id="allocationmanager">AllocationManager</h2>
+<p><code>AllocationManager</code> serves two roles:</p>
+<ul>
+<li><p><strong>Registry.</strong> It owns the global instances of the built-in allocators (<code>Temp</code>, <code>FreeList</code>, <code>Persistent</code>, <code>TLSF</code>). Calling <code>AllocationHandle.Persistent</code> returns a handle to the manager's internal TLSF allocator instance.</p>
+</li>
+<li><p><strong>Safety database.</strong> When safety checks are enabled, the manager tracks every live allocation. Diagnostics, snapshot inspection, and leak detection all go through this system.</p>
+</li>
+</ul>
+<p>The manager must be initialized before any allocation and disposed at shutdown:</p>
+<pre><code class="lang-csharp">AllocationManager.Initialize();
+// ... use collections ...
+AllocationManager.Dispose();
+</code></pre>
+<h2 id="memorypool-for-scoped-allocators">MemoryPool for scoped allocators</h2>
+<p><code>MemoryPool&lt;TAllocator, TOpts&gt;</code> creates a standalone allocator scoped to a method or algorithm, independent of <code>AllocationManager</code>. This is useful when you want an allocator that doesn't exist in the built-in set, or you want to isolate allocations from the global state:</p>
+<pre><code class="lang-csharp">using var pool = new MemoryPool&lt;TLSF, TLSF.CreationOptions&gt;(
+    new TLSF.CreationOptions { alignment = 16 });
+
+using var array = new UnsafeArray&lt;int&gt;(10, pool.AllocationHandle);
+</code></pre>
+<p>Collections work with any <code>AllocationHandle</code>, regardless of whether it came from <code>AllocationManager</code> or a <code>MemoryPool</code>. You do not need to initialize <code>AllocationManager</code> when using only standalone pools. The allocator lives as long as the pool, and all its memory is released when the pool is disposed.</p>
+<h2 id="struct-semantics">Struct semantics</h2>
+<p>All collections are structs with no managed references. This has two important consequences:</p>
+<ul>
+<li><p><strong>No GC overhead.</strong> The struct itself is stack-allocated or inlineable. The memory it points to is unmanaged and outside the GC's view.</p>
+</li>
+<li><p><strong>Pass by value copies the struct.</strong> If you pass an <code>UnsafeList&lt;T&gt;</code> to a method without <code>ref</code>, the method operates on a copy. Additions, removals, and resizes on that copy are invisible to the caller. Always use <code>ref</code> for mutation:</p>
+</li>
+</ul>
+<pre><code class="lang-csharp">public void Process(ref UnsafeList&lt;int&gt; list) { ... }
+</code></pre>
+<h2 id="safety-checks-system">Safety checks system</h2>
+<p>The library supports two compile-time safety levels:</p>
+<ul>
+<li><p><code>MHP_ENABLE_SAFETY_CHECKS</code> — enables bounds checking, use-after-free detection, double-free detection, and <code>IsCreated</code> validity verification (checks that the internal memory handle is still registered in the tracking database).</p>
+</li>
+<li><p><code>MHP_ENABLE_STACKTRACE</code> — adds stack trace capture on every allocation, enabling precise leak investigation. Requires <code>MHP_ENABLE_SAFETY_CHECKS</code>.</p>
+</li>
+</ul>
+<p>When <code>MHP_ENABLE_SAFETY_CHECKS</code> is not defined, the safety fields compile away and <code>IsCreated</code> only checks whether the internal pointer is non-null without verifying the actual validity of the memory. This matches the performance of raw pointer code.</p>
+<h2 id="allocationoption">AllocationOption</h2>
+<p>Allocation operation can take an optional <code>AllocationOption</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>None</code></td>
+<td>Default — memory is returned as-is</td>
+</tr>
+<tr>
+<td><code>Clear</code></td>
+<td>Zero the allocated memory before returning</td>
+</tr>
+</tbody>
+</table>
+<h2 id="content-files-packaging">Content files packaging</h2>
+<p>The library is packaged as content files rather than a traditional assembly. Source files are embedded directly into the consuming project at build time. This enables the AOT compiler to see through every call site, inline aggressively, and strip unused code paths — including the entire safety check infrastructure when the relevant constants are undefined.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

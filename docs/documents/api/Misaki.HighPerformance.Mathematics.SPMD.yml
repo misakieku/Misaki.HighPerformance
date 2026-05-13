@@ -1,0 +1,652 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.SPMD
+  commentId: N:Misaki.HighPerformance.Mathematics.SPMD
+  id: Misaki.HighPerformance.Mathematics.SPMD
+  children:
+  - Misaki.HighPerformance.Mathematics.SPMD.IJobParallelForSPMDExtensions
+  - Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1
+  - Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`2
+  - Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`3
+  - Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`4
+  - Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`5
+  - Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`6
+  - Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7
+  - Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`8
+  - Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane
+  - Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2
+  - Misaki.HighPerformance.Mathematics.SPMD.JobSPMDUtility
+  - Misaki.HighPerformance.Mathematics.SPMD.MathV
+  - Misaki.HighPerformance.Mathematics.SPMD.ScalarLane`1
+  - Misaki.HighPerformance.Mathematics.SPMD.Vector2`2
+  - Misaki.HighPerformance.Mathematics.SPMD.Vector3`2
+  - Misaki.HighPerformance.Mathematics.SPMD.Vector4`2
+  - Misaki.HighPerformance.Mathematics.SPMD.WideLane
+  - Misaki.HighPerformance.Mathematics.SPMD.WideLane`1
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance.Mathematics.SPMD
+  nameWithType: Misaki.HighPerformance.Mathematics.SPMD
+  fullName: Misaki.HighPerformance.Mathematics.SPMD
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance.Mathematics.SPMD
+references:
+- uid: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane
+  parent: Misaki.HighPerformance.Mathematics.SPMD
+  href: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.html
+  name: ISPMDLane
+  nameWithType: ISPMDLane
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane
+- uid: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2
+  href: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane-2.html
+  name: ISPMDLane<TSelf, TNumber>
+  nameWithType: ISPMDLane<TSelf, TNumber>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane<TSelf, TNumber>
+  nameWithType.vb: ISPMDLane(Of TSelf, TNumber)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane(Of TSelf, TNumber)
+  name.vb: ISPMDLane(Of TSelf, TNumber)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2
+    name: ISPMDLane
+    href: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane-2.html
+  - name: <
+  - name: TSelf
+  - name: ','
+  - name: " "
+  - name: TNumber
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2
+    name: ISPMDLane
+    href: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSelf
+  - name: ','
+  - name: " "
+  - name: TNumber
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.ScalarLane`1
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.ScalarLane`1
+  parent: Misaki.HighPerformance.Mathematics.SPMD
+  href: Misaki.HighPerformance.Mathematics.SPMD.ScalarLane-1.html
+  name: ScalarLane<TNumber>
+  nameWithType: ScalarLane<TNumber>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.ScalarLane<TNumber>
+  nameWithType.vb: ScalarLane(Of TNumber)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.ScalarLane(Of TNumber)
+  name.vb: ScalarLane(Of TNumber)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.ScalarLane`1
+    name: ScalarLane
+    href: Misaki.HighPerformance.Mathematics.SPMD.ScalarLane-1.html
+  - name: <
+  - name: TNumber
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.ScalarLane`1
+    name: ScalarLane
+    href: Misaki.HighPerformance.Mathematics.SPMD.ScalarLane-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TNumber
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1
+  href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-1.html
+  name: IJobSPMD<TNumber0>
+  nameWithType: IJobSPMD<TNumber0>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0>
+  nameWithType.vb: IJobSPMD(Of TNumber0)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0)
+  name.vb: IJobSPMD(Of TNumber0)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-1.html
+  - name: <
+  - name: TNumber0
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`1
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TNumber0
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`2
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`2
+  href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-2.html
+  name: IJobSPMD<TNumber0, TNumber1>
+  nameWithType: IJobSPMD<TNumber0, TNumber1>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1>
+  nameWithType.vb: IJobSPMD(Of TNumber0, TNumber1)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0, TNumber1)
+  name.vb: IJobSPMD(Of TNumber0, TNumber1)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`2
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-2.html
+  - name: <
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`2
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`3
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`3
+  href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-3.html
+  name: IJobSPMD<TNumber0, TNumber1, TNumber2>
+  nameWithType: IJobSPMD<TNumber0, TNumber1, TNumber2>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2>
+  nameWithType.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0, TNumber1, TNumber2)
+  name.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`3
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-3.html
+  - name: <
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`3
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-3.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`4
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`4
+  href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-4.html
+  name: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
+  nameWithType: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3>
+  nameWithType.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3)
+  name.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`4
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-4.html
+  - name: <
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: ','
+  - name: " "
+  - name: TNumber3
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`4
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-4.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: ','
+  - name: " "
+  - name: TNumber3
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`5
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`5
+  href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-5.html
+  name: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
+  nameWithType: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4>
+  nameWithType.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4)
+  name.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`5
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-5.html
+  - name: <
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: ','
+  - name: " "
+  - name: TNumber3
+  - name: ','
+  - name: " "
+  - name: TNumber4
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`5
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-5.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: ','
+  - name: " "
+  - name: TNumber3
+  - name: ','
+  - name: " "
+  - name: TNumber4
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`6
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`6
+  href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-6.html
+  name: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
+  nameWithType: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5>
+  nameWithType.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5)
+  name.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`6
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-6.html
+  - name: <
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: ','
+  - name: " "
+  - name: TNumber3
+  - name: ','
+  - name: " "
+  - name: TNumber4
+  - name: ','
+  - name: " "
+  - name: TNumber5
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`6
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-6.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: ','
+  - name: " "
+  - name: TNumber3
+  - name: ','
+  - name: " "
+  - name: TNumber4
+  - name: ','
+  - name: " "
+  - name: TNumber5
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7
+  href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-7.html
+  name: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
+  nameWithType: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
+  nameWithType.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6)
+  name.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-7.html
+  - name: <
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: ','
+  - name: " "
+  - name: TNumber3
+  - name: ','
+  - name: " "
+  - name: TNumber4
+  - name: ','
+  - name: " "
+  - name: TNumber5
+  - name: ','
+  - name: " "
+  - name: TNumber6
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-7.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: ','
+  - name: " "
+  - name: TNumber3
+  - name: ','
+  - name: " "
+  - name: TNumber4
+  - name: ','
+  - name: " "
+  - name: TNumber5
+  - name: ','
+  - name: " "
+  - name: TNumber6
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`8
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`8
+  href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-8.html
+  name: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
+  nameWithType: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7>
+  nameWithType.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7)
+  name.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6, TNumber7)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`8
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-8.html
+  - name: <
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: ','
+  - name: " "
+  - name: TNumber3
+  - name: ','
+  - name: " "
+  - name: TNumber4
+  - name: ','
+  - name: " "
+  - name: TNumber5
+  - name: ','
+  - name: " "
+  - name: TNumber6
+  - name: ','
+  - name: " "
+  - name: TNumber7
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`8
+    name: IJobSPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-8.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TNumber0
+  - name: ','
+  - name: " "
+  - name: TNumber1
+  - name: ','
+  - name: " "
+  - name: TNumber2
+  - name: ','
+  - name: " "
+  - name: TNumber3
+  - name: ','
+  - name: " "
+  - name: TNumber4
+  - name: ','
+  - name: " "
+  - name: TNumber5
+  - name: ','
+  - name: " "
+  - name: TNumber6
+  - name: ','
+  - name: " "
+  - name: TNumber7
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobParallelForSPMDExtensions
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.IJobParallelForSPMDExtensions
+  parent: Misaki.HighPerformance.Mathematics.SPMD
+  href: Misaki.HighPerformance.Mathematics.SPMD.IJobParallelForSPMDExtensions.html
+  name: IJobParallelForSPMDExtensions
+  nameWithType: IJobParallelForSPMDExtensions
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobParallelForSPMDExtensions
+- uid: Misaki.HighPerformance.Mathematics.SPMD.JobSPMDUtility
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.JobSPMDUtility
+  href: Misaki.HighPerformance.Mathematics.SPMD.JobSPMDUtility.html
+  name: JobSPMDUtility
+  nameWithType: JobSPMDUtility
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.JobSPMDUtility
+- uid: Misaki.HighPerformance.Mathematics.SPMD.MathV
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.MathV
+  href: Misaki.HighPerformance.Mathematics.SPMD.MathV.html
+  name: MathV
+  nameWithType: MathV
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.MathV
+- uid: Misaki.HighPerformance.Mathematics.SPMD.Vector2`2
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.Vector2`2
+  parent: Misaki.HighPerformance.Mathematics.SPMD
+  href: Misaki.HighPerformance.Mathematics.SPMD.Vector2-2.html
+  name: Vector2<TLane, TNumber>
+  nameWithType: Vector2<TLane, TNumber>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.Vector2<TLane, TNumber>
+  nameWithType.vb: Vector2(Of TLane, TNumber)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.Vector2(Of TLane, TNumber)
+  name.vb: Vector2(Of TLane, TNumber)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.Vector2`2
+    name: Vector2
+    href: Misaki.HighPerformance.Mathematics.SPMD.Vector2-2.html
+  - name: <
+  - name: TLane
+  - name: ','
+  - name: " "
+  - name: TNumber
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.Vector2`2
+    name: Vector2
+    href: Misaki.HighPerformance.Mathematics.SPMD.Vector2-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TLane
+  - name: ','
+  - name: " "
+  - name: TNumber
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.Vector3`2
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.Vector3`2
+  parent: Misaki.HighPerformance.Mathematics.SPMD
+  href: Misaki.HighPerformance.Mathematics.SPMD.Vector3-2.html
+  name: Vector3<TLane, TNumber>
+  nameWithType: Vector3<TLane, TNumber>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.Vector3<TLane, TNumber>
+  nameWithType.vb: Vector3(Of TLane, TNumber)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.Vector3(Of TLane, TNumber)
+  name.vb: Vector3(Of TLane, TNumber)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.Vector3`2
+    name: Vector3
+    href: Misaki.HighPerformance.Mathematics.SPMD.Vector3-2.html
+  - name: <
+  - name: TLane
+  - name: ','
+  - name: " "
+  - name: TNumber
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.Vector3`2
+    name: Vector3
+    href: Misaki.HighPerformance.Mathematics.SPMD.Vector3-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TLane
+  - name: ','
+  - name: " "
+  - name: TNumber
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.Vector4`2
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.Vector4`2
+  parent: Misaki.HighPerformance.Mathematics.SPMD
+  href: Misaki.HighPerformance.Mathematics.SPMD.Vector4-2.html
+  name: Vector4<TLane, TNumber>
+  nameWithType: Vector4<TLane, TNumber>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.Vector4<TLane, TNumber>
+  nameWithType.vb: Vector4(Of TLane, TNumber)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.Vector4(Of TLane, TNumber)
+  name.vb: Vector4(Of TLane, TNumber)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.Vector4`2
+    name: Vector4
+    href: Misaki.HighPerformance.Mathematics.SPMD.Vector4-2.html
+  - name: <
+  - name: TLane
+  - name: ','
+  - name: " "
+  - name: TNumber
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.Vector4`2
+    name: Vector4
+    href: Misaki.HighPerformance.Mathematics.SPMD.Vector4-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TLane
+  - name: ','
+  - name: " "
+  - name: TNumber
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.WideLane`1
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.WideLane`1
+  parent: Misaki.HighPerformance.Mathematics.SPMD
+  href: Misaki.HighPerformance.Mathematics.SPMD.WideLane-1.html
+  name: WideLane<TNumber>
+  nameWithType: WideLane<TNumber>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.WideLane<TNumber>
+  nameWithType.vb: WideLane(Of TNumber)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.WideLane(Of TNumber)
+  name.vb: WideLane(Of TNumber)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.WideLane`1
+    name: WideLane
+    href: Misaki.HighPerformance.Mathematics.SPMD.WideLane-1.html
+  - name: <
+  - name: TNumber
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.SPMD.WideLane`1
+    name: WideLane
+    href: Misaki.HighPerformance.Mathematics.SPMD.WideLane-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TNumber
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.SPMD.WideLane
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.WideLane
+  href: Misaki.HighPerformance.Mathematics.SPMD.WideLane.html
+  name: WideLane
+  nameWithType: WideLane
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.WideLane
+- uid: Misaki.HighPerformance.Mathematics.SPMD
+  commentId: N:Misaki.HighPerformance.Mathematics.SPMD
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics.SPMD
+  nameWithType: Misaki.HighPerformance.Mathematics.SPMD
+  fullName: Misaki.HighPerformance.Mathematics.SPMD
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.SPMD
+    name: SPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.SPMD
+    name: SPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.html

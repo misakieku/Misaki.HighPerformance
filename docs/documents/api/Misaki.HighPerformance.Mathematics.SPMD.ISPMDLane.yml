@@ -1,0 +1,128 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane
+  id: ISPMDLane
+  parent: Misaki.HighPerformance.Mathematics.SPMD
+  children:
+  - Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.LaneWidth
+  langs:
+  - csharp
+  - vb
+  name: ISPMDLane
+  nameWithType: ISPMDLane
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane
+  type: Interface
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics.SPMD/ISPMDLane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ISPMDLane
+    path: src/Misaki.HighPerformance.Mathematics.SPMD/ISPMDLane.cs
+    startLine: 8
+  assemblies:
+  - Misaki.HighPerformance.Mathematics.SPMD
+  namespace: Misaki.HighPerformance.Mathematics.SPMD
+  summary: Common marker interface for SPMD lane types.
+  example: []
+  syntax:
+    content: public interface ISPMDLane
+    content.vb: Public Interface ISPMDLane
+  derivedClasses:
+  - Misaki.HighPerformance.Mathematics.SPMD.ScalarLane`1
+  - Misaki.HighPerformance.Mathematics.SPMD.WideLane`1
+- uid: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.LaneWidth
+  commentId: P:Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.LaneWidth
+  id: LaneWidth
+  parent: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane
+  langs:
+  - csharp
+  - vb
+  name: LaneWidth
+  nameWithType: ISPMDLane.LaneWidth
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.LaneWidth
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics.SPMD/ISPMDLane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: LaneWidth
+    path: src/Misaki.HighPerformance.Mathematics.SPMD/ISPMDLane.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance.Mathematics.SPMD
+  namespace: Misaki.HighPerformance.Mathematics.SPMD
+  summary: Gets the number of lanes (vector width) for the SPMD implementation.
+  example: []
+  syntax:
+    content: public static abstract int LaneWidth { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Shared MustInherit ReadOnly Property LaneWidth As Integer
+  overload: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.LaneWidth*
+references:
+- uid: Misaki.HighPerformance.Mathematics.SPMD
+  commentId: N:Misaki.HighPerformance.Mathematics.SPMD
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics.SPMD
+  nameWithType: Misaki.HighPerformance.Mathematics.SPMD
+  fullName: Misaki.HighPerformance.Mathematics.SPMD
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.SPMD
+    name: SPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.SPMD
+    name: SPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.html
+- uid: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.LaneWidth*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.LaneWidth
+  href: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.html#Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_LaneWidth
+  name: LaneWidth
+  nameWithType: ISPMDLane.LaneWidth
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.LaneWidth
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System

@@ -1,0 +1,266 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  id: IUnsafeCollection
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  langs:
+  - csharp
+  - vb
+  name: IUnsafeCollection
+  nameWithType: IUnsafeCollection
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  type: Interface
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IUnsafeCollection
+    path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+    startLine: 4
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  syntax:
+    content: 'public interface IUnsafeCollection : IDisposable'
+    content.vb: Public Interface IUnsafeCollection Inherits IDisposable
+  derivedClasses:
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1
+  inheritedMembers:
+  - System.IDisposable.Dispose
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  id: IsCreated
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  langs:
+  - csharp
+  - vb
+  name: IsCreated
+  nameWithType: IUnsafeCollection.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsCreated
+    path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+    startLine: 12
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  summary: Indicates whether the object has been created. Returns true if the object is created, otherwise false.
+  remarks: If MHP_ENABLE_STACKTRACE is not defined, this property will only check if the underlying pointer is not null, which may not be sufficient to determine if the collection is fully initialized and ready for use.
+  example: []
+  syntax:
+    content: bool IsCreated { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: ReadOnly Property IsCreated As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated*
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  id: Clear
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: IUnsafeCollection.Clear()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Clear
+    path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+    startLine: 20
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  summary: Removes all elements from the collection. The collection will be empty after this operation.
+  example: []
+  syntax:
+    content: void Clear()
+    content.vb: Sub Clear()
+  overload: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear*
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  id: GetUnsafePtr
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  langs:
+  - csharp
+  - vb
+  name: GetUnsafePtr()
+  nameWithType: IUnsafeCollection.GetUnsafePtr()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetUnsafePtr
+    path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+    startLine: 26
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  summary: Returns a pointer to an unmanaged memory location. This pointer can be used for low-level memory operations.
+  example: []
+  syntax:
+    content: void* GetUnsafePtr()
+    return:
+      type: System.Void*
+      description: The method returns a void pointer to the unsafe memory location.
+    content.vb: Function GetUnsafePtr() As Void*
+  overload: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr*
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections.Contracts
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_IsCreated
+  name: IsCreated
+  nameWithType: IUnsafeCollection.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_Clear
+  name: Clear
+  nameWithType: IUnsafeCollection.Clear
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_GetUnsafePtr
+  name: GetUnsafePtr
+  nameWithType: IUnsafeCollection.GetUnsafePtr
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+- uid: System.Void*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.void
+  name: void*
+  nameWithType: void*
+  fullName: void*
+  nameWithType.vb: Void*
+  fullName.vb: Void*
+  name.vb: Void*
+  spec.csharp:
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  spec.vb:
+  - uid: System.Void
+    name: Void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'

@@ -1,0 +1,488 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.FunctionPointer`1
+  commentId: T:Misaki.HighPerformance.LowLevel.FunctionPointer`1
+  id: FunctionPointer`1
+  parent: Misaki.HighPerformance.LowLevel
+  children:
+  - Misaki.HighPerformance.LowLevel.FunctionPointer`1.#ctor(`0)
+  - Misaki.HighPerformance.LowLevel.FunctionPointer`1.Delegate
+  - Misaki.HighPerformance.LowLevel.FunctionPointer`1.Pointer
+  langs:
+  - csharp
+  - vb
+  name: FunctionPointer<T>
+  nameWithType: FunctionPointer<T>
+  fullName: Misaki.HighPerformance.LowLevel.FunctionPointer<T>
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/FunctionPointer.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: FunctionPointer
+    path: src/Misaki.HighPerformance.LowLevel/FunctionPointer.cs
+    startLine: 12
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  summary: A structure that encapsulates a function pointer and provides methods to convert between
+  remarks: >-
+    This structure used marshalling to convert between function pointers and delegates, which is not ideal for high-performance scenarios.
+
+    Use this only when necessary, and prefer using <code>delegate* unmanaged</code> for better performance.
+  example: []
+  syntax:
+    content: 'public readonly struct FunctionPointer<T> where T : Delegate'
+    typeParameters:
+    - id: T
+      description: The delegate type that the function pointer represents.
+    content.vb: Public Structure FunctionPointer(Of T As [Delegate])
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: FunctionPointer(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.FunctionPointer(Of T)
+  name.vb: FunctionPointer(Of T)
+- uid: Misaki.HighPerformance.LowLevel.FunctionPointer`1.Pointer
+  commentId: P:Misaki.HighPerformance.LowLevel.FunctionPointer`1.Pointer
+  id: Pointer
+  parent: Misaki.HighPerformance.LowLevel.FunctionPointer`1
+  langs:
+  - csharp
+  - vb
+  name: Pointer
+  nameWithType: FunctionPointer<T>.Pointer
+  fullName: Misaki.HighPerformance.LowLevel.FunctionPointer<T>.Pointer
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/FunctionPointer.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Pointer
+    path: src/Misaki.HighPerformance.LowLevel/FunctionPointer.cs
+    startLine: 20
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  summary: Gets the native function pointer associated with this function pointer instance.
+  example: []
+  syntax:
+    content: public nint Pointer { get; }
+    parameters: []
+    return:
+      type: System.IntPtr
+    content.vb: Public ReadOnly Property Pointer As IntPtr
+  overload: Misaki.HighPerformance.LowLevel.FunctionPointer`1.Pointer*
+  nameWithType.vb: FunctionPointer(Of T).Pointer
+  fullName.vb: Misaki.HighPerformance.LowLevel.FunctionPointer(Of T).Pointer
+- uid: Misaki.HighPerformance.LowLevel.FunctionPointer`1.Delegate
+  commentId: P:Misaki.HighPerformance.LowLevel.FunctionPointer`1.Delegate
+  id: Delegate
+  parent: Misaki.HighPerformance.LowLevel.FunctionPointer`1
+  langs:
+  - csharp
+  - vb
+  name: Delegate
+  nameWithType: FunctionPointer<T>.Delegate
+  fullName: Misaki.HighPerformance.LowLevel.FunctionPointer<T>.Delegate
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/FunctionPointer.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Delegate
+    path: src/Misaki.HighPerformance.LowLevel/FunctionPointer.cs
+    startLine: 29
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  summary: Gets the delegate instance associated with the specified function pointer.
+  remarks: >-
+    This property uses <xref href="System.Runtime.InteropServices.Marshal.GetDelegateForFunctionPointer%60%601(System.IntPtr)" data-throw-if-not-resolved="false"></xref> to convert the function
+        pointer to a delegate. Ensure that the function pointer is valid and compatible with the delegate type
+        <code class="typeparamref">T</code>.
+  example: []
+  syntax:
+    content: public T Delegate { get; }
+    parameters: []
+    return:
+      type: '{T}'
+    content.vb: Public ReadOnly Property [Delegate] As T
+  overload: Misaki.HighPerformance.LowLevel.FunctionPointer`1.Delegate*
+  nameWithType.vb: FunctionPointer(Of T).Delegate
+  fullName.vb: Misaki.HighPerformance.LowLevel.FunctionPointer(Of T).Delegate
+- uid: Misaki.HighPerformance.LowLevel.FunctionPointer`1.#ctor(`0)
+  commentId: M:Misaki.HighPerformance.LowLevel.FunctionPointer`1.#ctor(`0)
+  id: '#ctor(`0)'
+  parent: Misaki.HighPerformance.LowLevel.FunctionPointer`1
+  langs:
+  - csharp
+  - vb
+  name: FunctionPointer(T)
+  nameWithType: FunctionPointer<T>.FunctionPointer(T)
+  fullName: Misaki.HighPerformance.LowLevel.FunctionPointer<T>.FunctionPointer(T)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/FunctionPointer.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/FunctionPointer.cs
+    startLine: 35
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  summary: Creates a new instance of this function pointer with the following native pointer.
+  example: []
+  syntax:
+    content: public FunctionPointer(T func)
+    parameters:
+    - id: func
+      type: '{T}'
+    content.vb: Public Sub New(func As T)
+  overload: Misaki.HighPerformance.LowLevel.FunctionPointer`1.#ctor*
+  nameWithType.vb: FunctionPointer(Of T).New(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.FunctionPointer(Of T).New(T)
+  name.vb: New(T)
+references:
+- uid: Misaki.HighPerformance.LowLevel
+  commentId: N:Misaki.HighPerformance.LowLevel
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel
+  nameWithType: Misaki.HighPerformance.LowLevel
+  fullName: Misaki.HighPerformance.LowLevel
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.LowLevel.FunctionPointer`1.Pointer*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.FunctionPointer`1.Pointer
+  href: Misaki.HighPerformance.LowLevel.FunctionPointer-1.html#Misaki_HighPerformance_LowLevel_FunctionPointer_1_Pointer
+  name: Pointer
+  nameWithType: FunctionPointer<T>.Pointer
+  fullName: Misaki.HighPerformance.LowLevel.FunctionPointer<T>.Pointer
+  nameWithType.vb: FunctionPointer(Of T).Pointer
+  fullName.vb: Misaki.HighPerformance.LowLevel.FunctionPointer(Of T).Pointer
+- uid: System.IntPtr
+  commentId: T:System.IntPtr
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.intptr
+  name: nint
+  nameWithType: nint
+  fullName: nint
+  nameWithType.vb: IntPtr
+  fullName.vb: System.IntPtr
+  name.vb: IntPtr
+- uid: System.Runtime.InteropServices.Marshal.GetDelegateForFunctionPointer``1(System.IntPtr)
+  commentId: M:System.Runtime.InteropServices.Marshal.GetDelegateForFunctionPointer``1(System.IntPtr)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.marshal.getdelegateforfunctionpointer#system-runtime-interopservices-marshal-getdelegateforfunctionpointer-1(system-intptr)
+  name: GetDelegateForFunctionPointer<TDelegate>(nint)
+  nameWithType: Marshal.GetDelegateForFunctionPointer<TDelegate>(nint)
+  fullName: System.Runtime.InteropServices.Marshal.GetDelegateForFunctionPointer<TDelegate>(nint)
+  nameWithType.vb: Marshal.GetDelegateForFunctionPointer(Of TDelegate)(IntPtr)
+  fullName.vb: System.Runtime.InteropServices.Marshal.GetDelegateForFunctionPointer(Of TDelegate)(System.IntPtr)
+  name.vb: GetDelegateForFunctionPointer(Of TDelegate)(IntPtr)
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.Marshal.GetDelegateForFunctionPointer``1(System.IntPtr)
+    name: GetDelegateForFunctionPointer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.marshal.getdelegateforfunctionpointer#system-runtime-interopservices-marshal-getdelegateforfunctionpointer-1(system-intptr)
+  - name: <
+  - name: TDelegate
+  - name: '>'
+  - name: (
+  - uid: System.IntPtr
+    name: nint
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.intptr
+  - name: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.Marshal.GetDelegateForFunctionPointer``1(System.IntPtr)
+    name: GetDelegateForFunctionPointer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.marshal.getdelegateforfunctionpointer#system-runtime-interopservices-marshal-getdelegateforfunctionpointer-1(system-intptr)
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TDelegate
+  - name: )
+  - name: (
+  - uid: System.IntPtr
+    name: IntPtr
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.intptr
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.FunctionPointer`1.Delegate*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.FunctionPointer`1.Delegate
+  href: Misaki.HighPerformance.LowLevel.FunctionPointer-1.html#Misaki_HighPerformance_LowLevel_FunctionPointer_1_Delegate
+  name: Delegate
+  nameWithType: FunctionPointer<T>.Delegate
+  fullName: Misaki.HighPerformance.LowLevel.FunctionPointer<T>.Delegate
+  nameWithType.vb: FunctionPointer(Of T).Delegate
+  fullName.vb: Misaki.HighPerformance.LowLevel.FunctionPointer(Of T).Delegate
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Misaki.HighPerformance.LowLevel.FunctionPointer`1.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.FunctionPointer`1.#ctor
+  href: Misaki.HighPerformance.LowLevel.FunctionPointer-1.html#Misaki_HighPerformance_LowLevel_FunctionPointer_1__ctor__0_
+  name: FunctionPointer
+  nameWithType: FunctionPointer<T>.FunctionPointer
+  fullName: Misaki.HighPerformance.LowLevel.FunctionPointer<T>.FunctionPointer
+  nameWithType.vb: FunctionPointer(Of T).New
+  fullName.vb: Misaki.HighPerformance.LowLevel.FunctionPointer(Of T).New
+  name.vb: New

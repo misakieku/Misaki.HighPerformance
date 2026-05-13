@@ -1,0 +1,138 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  commentId: T:Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  id: VirtualAllocationFlags
+  parent: Misaki.HighPerformance.LowLevel.Utilities
+  children:
+  - Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.Commit
+  - Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.Reserve
+  langs:
+  - csharp
+  - vb
+  name: VirtualAllocationFlags
+  nameWithType: VirtualAllocationFlags
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  type: Enum
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: VirtualAllocationFlags
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 9
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum VirtualAllocationFlags
+    content.vb: >-
+      <Flags>
+
+      Public Enum VirtualAllocationFlags
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+- uid: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.Reserve
+  commentId: F:Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.Reserve
+  id: Reserve
+  parent: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  langs:
+  - csharp
+  - vb
+  name: Reserve
+  nameWithType: VirtualAllocationFlags.Reserve
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.Reserve
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Reserve
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 12
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  syntax:
+    content: Reserve = 1
+    return:
+      type: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+- uid: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.Commit
+  commentId: F:Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.Commit
+  id: Commit
+  parent: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  langs:
+  - csharp
+  - vb
+  name: Commit
+  nameWithType: VirtualAllocationFlags.Commit
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.Commit
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Commit
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  syntax:
+    content: Commit = 2
+    return:
+      type: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+references:
+- uid: Misaki.HighPerformance.LowLevel.Utilities
+  commentId: N:Misaki.HighPerformance.LowLevel.Utilities
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Utilities
+  nameWithType: Misaki.HighPerformance.LowLevel.Utilities
+  fullName: Misaki.HighPerformance.LowLevel.Utilities
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Utilities
+    name: Utilities
+    href: Misaki.HighPerformance.LowLevel.Utilities.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Utilities
+    name: Utilities
+    href: Misaki.HighPerformance.LowLevel.Utilities.html
+- uid: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  commentId: T:Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  parent: Misaki.HighPerformance.LowLevel.Utilities
+  href: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.html
+  name: VirtualAllocationFlags
+  nameWithType: VirtualAllocationFlags
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags

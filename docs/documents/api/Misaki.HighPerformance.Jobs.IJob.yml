@@ -1,0 +1,219 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Jobs.IJob
+  commentId: T:Misaki.HighPerformance.Jobs.IJob
+  id: IJob
+  parent: Misaki.HighPerformance.Jobs
+  children:
+  - Misaki.HighPerformance.Jobs.IJob.Execute(Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  langs:
+  - csharp
+  - vb
+  name: IJob
+  nameWithType: IJob
+  fullName: Misaki.HighPerformance.Jobs.IJob
+  type: Interface
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/IJob.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IJob
+    path: src/Misaki.HighPerformance.Jobs/IJob.cs
+    startLine: 7
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Represents a job that performs a single unit of work.
+  example: []
+  syntax:
+    content: public interface IJob
+    content.vb: Public Interface IJob
+  extensionMethods:
+  - Misaki.HighPerformance.Jobs.IJob.Misaki.HighPerformance.Jobs.IJobExtensions.Run``1(Misaki.HighPerformance.Jobs.JobExecutionContext@)
+- uid: Misaki.HighPerformance.Jobs.IJob.Execute(Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  commentId: M:Misaki.HighPerformance.Jobs.IJob.Execute(Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  id: Execute(Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  parent: Misaki.HighPerformance.Jobs.IJob
+  langs:
+  - csharp
+  - vb
+  name: Execute(ref readonly JobExecutionContext)
+  nameWithType: IJob.Execute(ref readonly JobExecutionContext)
+  fullName: Misaki.HighPerformance.Jobs.IJob.Execute(ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/IJob.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Execute
+    path: src/Misaki.HighPerformance.Jobs/IJob.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Executes the job logic.
+  example: []
+  syntax:
+    content: void Execute(ref readonly JobExecutionContext ctx)
+    parameters:
+    - id: ctx
+      type: Misaki.HighPerformance.Jobs.JobExecutionContext
+      description: The context of the job execution, providing access to thread-specific information and job scheduling capabilities.
+    content.vb: Sub Execute(ctx As JobExecutionContext)
+  overload: Misaki.HighPerformance.Jobs.IJob.Execute*
+  nameWithType.vb: IJob.Execute(JobExecutionContext)
+  fullName.vb: Misaki.HighPerformance.Jobs.IJob.Execute(Misaki.HighPerformance.Jobs.JobExecutionContext)
+  name.vb: Execute(JobExecutionContext)
+references:
+- uid: Misaki.HighPerformance.Jobs
+  commentId: N:Misaki.HighPerformance.Jobs
+  href: Misaki.html
+  name: Misaki.HighPerformance.Jobs
+  nameWithType: Misaki.HighPerformance.Jobs
+  fullName: Misaki.HighPerformance.Jobs
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+- uid: Misaki.HighPerformance.Jobs.IJob.Misaki.HighPerformance.Jobs.IJobExtensions.Run``1(Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  commentId: M:Misaki.HighPerformance.Jobs.IJobExtensions.Run``1(``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  parent: Misaki.HighPerformance.Jobs.IJobExtensions
+  definition: Misaki.HighPerformance.Jobs.IJobExtensions.Run``1(``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  href: Misaki.HighPerformance.Jobs.IJobExtensions.html#Misaki_HighPerformance_Jobs_IJobExtensions_Run__1___0_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  name: Run<IJob>(IJob, ref readonly JobExecutionContext)
+  nameWithType: IJobExtensions.Run<IJob>(IJob, ref readonly JobExecutionContext)
+  fullName: Misaki.HighPerformance.Jobs.IJobExtensions.Run<Misaki.HighPerformance.Jobs.IJob>(Misaki.HighPerformance.Jobs.IJob, ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext)
+  nameWithType.vb: IJobExtensions.Run(Of IJob)(IJob, JobExecutionContext)
+  fullName.vb: Misaki.HighPerformance.Jobs.IJobExtensions.Run(Of Misaki.HighPerformance.Jobs.IJob)(Misaki.HighPerformance.Jobs.IJob, Misaki.HighPerformance.Jobs.JobExecutionContext)
+  name.vb: Run(Of IJob)(IJob, JobExecutionContext)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Jobs.IJobExtensions.Run``1(Misaki.HighPerformance.Jobs.IJob,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+    name: Run
+    href: Misaki.HighPerformance.Jobs.IJobExtensions.html#Misaki_HighPerformance_Jobs_IJobExtensions_Run__1___0_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  - name: <
+  - uid: Misaki.HighPerformance.Jobs.IJob
+    name: IJob
+    href: Misaki.HighPerformance.Jobs.IJob.html
+  - name: '>'
+  - name: (
+  - uid: Misaki.HighPerformance.Jobs.IJob
+    name: IJob
+    href: Misaki.HighPerformance.Jobs.IJob.html
+  - name: ','
+  - name: " "
+  - name: ref
+  - name: " "
+  - name: readonly
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+    name: JobExecutionContext
+    href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.Jobs.IJobExtensions.Run``1(Misaki.HighPerformance.Jobs.IJob,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+    name: Run
+    href: Misaki.HighPerformance.Jobs.IJobExtensions.html#Misaki_HighPerformance_Jobs_IJobExtensions_Run__1___0_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.IJob
+    name: IJob
+    href: Misaki.HighPerformance.Jobs.IJob.html
+  - name: )
+  - name: (
+  - uid: Misaki.HighPerformance.Jobs.IJob
+    name: IJob
+    href: Misaki.HighPerformance.Jobs.IJob.html
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+    name: JobExecutionContext
+    href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  - name: )
+- uid: Misaki.HighPerformance.Jobs.IJobExtensions.Run``1(``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  commentId: M:Misaki.HighPerformance.Jobs.IJobExtensions.Run``1(``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  href: Misaki.HighPerformance.Jobs.IJobExtensions.html#Misaki_HighPerformance_Jobs_IJobExtensions_Run__1___0_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  name: Run<T>(T, ref readonly JobExecutionContext)
+  nameWithType: IJobExtensions.Run<T>(T, ref readonly JobExecutionContext)
+  fullName: Misaki.HighPerformance.Jobs.IJobExtensions.Run<T>(T, ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext)
+  nameWithType.vb: IJobExtensions.Run(Of T)(T, JobExecutionContext)
+  fullName.vb: Misaki.HighPerformance.Jobs.IJobExtensions.Run(Of T)(T, Misaki.HighPerformance.Jobs.JobExecutionContext)
+  name.vb: Run(Of T)(T, JobExecutionContext)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Jobs.IJobExtensions.Run``1(``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+    name: Run
+    href: Misaki.HighPerformance.Jobs.IJobExtensions.html#Misaki_HighPerformance_Jobs_IJobExtensions_Run__1___0_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - name: ref
+  - name: " "
+  - name: readonly
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+    name: JobExecutionContext
+    href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.Jobs.IJobExtensions.Run``1(``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+    name: Run
+    href: Misaki.HighPerformance.Jobs.IJobExtensions.html#Misaki_HighPerformance_Jobs_IJobExtensions_Run__1___0_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+    name: JobExecutionContext
+    href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  - name: )
+- uid: Misaki.HighPerformance.Jobs.IJobExtensions
+  commentId: T:Misaki.HighPerformance.Jobs.IJobExtensions
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.IJobExtensions.html
+  name: IJobExtensions
+  nameWithType: IJobExtensions
+  fullName: Misaki.HighPerformance.Jobs.IJobExtensions
+- uid: Misaki.HighPerformance.Jobs.IJob.Execute*
+  commentId: Overload:Misaki.HighPerformance.Jobs.IJob.Execute
+  href: Misaki.HighPerformance.Jobs.IJob.html#Misaki_HighPerformance_Jobs_IJob_Execute_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  name: Execute
+  nameWithType: IJob.Execute
+  fullName: Misaki.HighPerformance.Jobs.IJob.Execute
+- uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+  commentId: T:Misaki.HighPerformance.Jobs.JobExecutionContext
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  name: JobExecutionContext
+  nameWithType: JobExecutionContext
+  fullName: Misaki.HighPerformance.Jobs.JobExecutionContext

@@ -1,0 +1,256 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Collections
+  commentId: N:Misaki.HighPerformance.Collections
+  id: Misaki.HighPerformance.Collections
+  children:
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  - Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Enumerator
+  - Misaki.HighPerformance.Collections.DynamicArray`1
+  - Misaki.HighPerformance.Collections.SlotMap`1
+  - Misaki.HighPerformance.Collections.SlotMap`1.Enumerator
+  - Misaki.HighPerformance.Collections.SparseSet`1
+  - Misaki.HighPerformance.Collections.SparseSet`1.Enumerator
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance.Collections
+  nameWithType: Misaki.HighPerformance.Collections
+  fullName: Misaki.HighPerformance.Collections
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance
+references:
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  commentId: T:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+  parent: Misaki.HighPerformance.Collections
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html
+  name: ConcurrentSlotMap<T>
+  nameWithType: ConcurrentSlotMap<T>
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>
+  nameWithType.vb: ConcurrentSlotMap(Of T)
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T)
+  name.vb: ConcurrentSlotMap(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+    name: ConcurrentSlotMap
+    href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+    name: ConcurrentSlotMap
+    href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Enumerator
+  commentId: T:Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Enumerator
+  href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html
+  name: ConcurrentSlotMap<T>.Enumerator
+  nameWithType: ConcurrentSlotMap<T>.Enumerator
+  fullName: Misaki.HighPerformance.Collections.ConcurrentSlotMap<T>.Enumerator
+  nameWithType.vb: ConcurrentSlotMap(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.Collections.ConcurrentSlotMap(Of T).Enumerator
+  name.vb: ConcurrentSlotMap(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+    name: ConcurrentSlotMap
+    href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1
+    name: ConcurrentSlotMap
+    href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.Collections.ConcurrentSlotMap`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.Collections.ConcurrentSlotMap-1.Enumerator.html
+- uid: Misaki.HighPerformance.Collections.DynamicArray`1
+  commentId: T:Misaki.HighPerformance.Collections.DynamicArray`1
+  href: Misaki.HighPerformance.Collections.DynamicArray-1.html
+  name: DynamicArray<T>
+  nameWithType: DynamicArray<T>
+  fullName: Misaki.HighPerformance.Collections.DynamicArray<T>
+  nameWithType.vb: DynamicArray(Of T)
+  fullName.vb: Misaki.HighPerformance.Collections.DynamicArray(Of T)
+  name.vb: DynamicArray(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Collections.DynamicArray`1
+    name: DynamicArray
+    href: Misaki.HighPerformance.Collections.DynamicArray-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Collections.DynamicArray`1
+    name: DynamicArray
+    href: Misaki.HighPerformance.Collections.DynamicArray-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.Collections.SlotMap`1
+  commentId: T:Misaki.HighPerformance.Collections.SlotMap`1
+  parent: Misaki.HighPerformance.Collections
+  href: Misaki.HighPerformance.Collections.SlotMap-1.html
+  name: SlotMap<T>
+  nameWithType: SlotMap<T>
+  fullName: Misaki.HighPerformance.Collections.SlotMap<T>
+  nameWithType.vb: SlotMap(Of T)
+  fullName.vb: Misaki.HighPerformance.Collections.SlotMap(Of T)
+  name.vb: SlotMap(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Collections.SlotMap`1
+    name: SlotMap
+    href: Misaki.HighPerformance.Collections.SlotMap-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Collections.SlotMap`1
+    name: SlotMap
+    href: Misaki.HighPerformance.Collections.SlotMap-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.Collections.SlotMap`1.Enumerator
+  commentId: T:Misaki.HighPerformance.Collections.SlotMap`1.Enumerator
+  href: Misaki.HighPerformance.Collections.SlotMap-1.html
+  name: SlotMap<T>.Enumerator
+  nameWithType: SlotMap<T>.Enumerator
+  fullName: Misaki.HighPerformance.Collections.SlotMap<T>.Enumerator
+  nameWithType.vb: SlotMap(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.Collections.SlotMap(Of T).Enumerator
+  name.vb: SlotMap(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Collections.SlotMap`1
+    name: SlotMap
+    href: Misaki.HighPerformance.Collections.SlotMap-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.Collections.SlotMap`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.Collections.SlotMap-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.Collections.SlotMap`1
+    name: SlotMap
+    href: Misaki.HighPerformance.Collections.SlotMap-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.Collections.SlotMap`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.Collections.SlotMap-1.Enumerator.html
+- uid: Misaki.HighPerformance.Collections.SparseSet`1
+  commentId: T:Misaki.HighPerformance.Collections.SparseSet`1
+  parent: Misaki.HighPerformance.Collections
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html
+  name: SparseSet<T>
+  nameWithType: SparseSet<T>
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>
+  nameWithType.vb: SparseSet(Of T)
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T)
+  name.vb: SparseSet(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Collections.SparseSet`1
+    name: SparseSet
+    href: Misaki.HighPerformance.Collections.SparseSet-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Collections.SparseSet`1
+    name: SparseSet
+    href: Misaki.HighPerformance.Collections.SparseSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Enumerator
+  commentId: T:Misaki.HighPerformance.Collections.SparseSet`1.Enumerator
+  parent: Misaki.HighPerformance.Collections
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html
+  name: SparseSet<T>.Enumerator
+  nameWithType: SparseSet<T>.Enumerator
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Enumerator
+  nameWithType.vb: SparseSet(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Enumerator
+  name.vb: SparseSet(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Collections.SparseSet`1
+    name: SparseSet
+    href: Misaki.HighPerformance.Collections.SparseSet-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.Collections.SparseSet`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.Collections.SparseSet-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.Collections.SparseSet`1
+    name: SparseSet
+    href: Misaki.HighPerformance.Collections.SparseSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.Collections.SparseSet`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.Collections.SparseSet-1.Enumerator.html
+- uid: Misaki.HighPerformance.Collections
+  commentId: N:Misaki.HighPerformance.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.Collections
+  nameWithType: Misaki.HighPerformance.Collections
+  fullName: Misaki.HighPerformance.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Collections
+    name: Collections
+    href: Misaki.HighPerformance.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Collections
+    name: Collections
+    href: Misaki.HighPerformance.Collections.html

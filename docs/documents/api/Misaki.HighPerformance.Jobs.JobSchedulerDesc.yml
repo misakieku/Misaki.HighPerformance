@@ -1,0 +1,488 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Jobs.JobSchedulerDesc
+  commentId: T:Misaki.HighPerformance.Jobs.JobSchedulerDesc
+  id: JobSchedulerDesc
+  parent: Misaki.HighPerformance.Jobs
+  children:
+  - Misaki.HighPerformance.Jobs.JobSchedulerDesc.DependencyChainCapacity
+  - Misaki.HighPerformance.Jobs.JobSchedulerDesc.State
+  - Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadCount
+  - Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadPriority
+  langs:
+  - csharp
+  - vb
+  name: JobSchedulerDesc
+  nameWithType: JobSchedulerDesc
+  fullName: Misaki.HighPerformance.Jobs.JobSchedulerDesc
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobScheduler.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: JobSchedulerDesc
+    path: src/Misaki.HighPerformance.Jobs/JobScheduler.cs
+    startLine: 8
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  syntax:
+    content: public struct JobSchedulerDesc
+    content.vb: Public Structure JobSchedulerDesc
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadCount
+  commentId: P:Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadCount
+  id: ThreadCount
+  parent: Misaki.HighPerformance.Jobs.JobSchedulerDesc
+  langs:
+  - csharp
+  - vb
+  name: ThreadCount
+  nameWithType: JobSchedulerDesc.ThreadCount
+  fullName: Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadCount
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobScheduler.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ThreadCount
+    path: src/Misaki.HighPerformance.Jobs/JobScheduler.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Gets or sets the number of worker threads to be created and managed by the job scheduler. If set to less than 1, at least one worker thread will be created.
+  example: []
+  syntax:
+    content: public required int ThreadCount { readonly get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ThreadCount As Integer
+  overload: Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadCount*
+- uid: Misaki.HighPerformance.Jobs.JobSchedulerDesc.DependencyChainCapacity
+  commentId: P:Misaki.HighPerformance.Jobs.JobSchedulerDesc.DependencyChainCapacity
+  id: DependencyChainCapacity
+  parent: Misaki.HighPerformance.Jobs.JobSchedulerDesc
+  langs:
+  - csharp
+  - vb
+  name: DependencyChainCapacity
+  nameWithType: JobSchedulerDesc.DependencyChainCapacity
+  fullName: Misaki.HighPerformance.Jobs.JobSchedulerDesc.DependencyChainCapacity
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobScheduler.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: DependencyChainCapacity
+    path: src/Misaki.HighPerformance.Jobs/JobScheduler.cs
+    startLine: 21
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Gets or sets the maximum number of dependencies in the dependency edge pool. This determines how many job dependencies can be tracked simultaneously.
+  example: []
+  syntax:
+    content: public required int DependencyChainCapacity { readonly get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property DependencyChainCapacity As Integer
+  overload: Misaki.HighPerformance.Jobs.JobSchedulerDesc.DependencyChainCapacity*
+- uid: Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadPriority
+  commentId: P:Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadPriority
+  id: ThreadPriority
+  parent: Misaki.HighPerformance.Jobs.JobSchedulerDesc
+  langs:
+  - csharp
+  - vb
+  name: ThreadPriority
+  nameWithType: JobSchedulerDesc.ThreadPriority
+  fullName: Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadPriority
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobScheduler.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ThreadPriority
+    path: src/Misaki.HighPerformance.Jobs/JobScheduler.cs
+    startLine: 29
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Gets or sets the priority of the worker threads. This can be used to influence the scheduling of the threads by the operating system. The default value is <xref href="System.Threading.ThreadPriority.Normal" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public required ThreadPriority ThreadPriority { readonly get; set; }
+    parameters: []
+    return:
+      type: System.Threading.ThreadPriority
+    content.vb: Public Property ThreadPriority As ThreadPriority
+  overload: Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadPriority*
+- uid: Misaki.HighPerformance.Jobs.JobSchedulerDesc.State
+  commentId: P:Misaki.HighPerformance.Jobs.JobSchedulerDesc.State
+  id: State
+  parent: Misaki.HighPerformance.Jobs.JobSchedulerDesc
+  langs:
+  - csharp
+  - vb
+  name: State
+  nameWithType: JobSchedulerDesc.State
+  fullName: Misaki.HighPerformance.Jobs.JobSchedulerDesc.State
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobScheduler.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: State
+    path: src/Misaki.HighPerformance.Jobs/JobScheduler.cs
+    startLine: 37
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Gets or sets the state object for the job scheduler. This can be used to store any user-defined data or context that may be needed by the jobs or worker threads. The job scheduler does not interpret or manage this state in any way; it is simply provided as a convenience for users of the job scheduler. The default value is null.
+  example: []
+  syntax:
+    content: public object? State { readonly get; set; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public Property State As Object
+  overload: Misaki.HighPerformance.Jobs.JobSchedulerDesc.State*
+references:
+- uid: Misaki.HighPerformance.Jobs
+  commentId: N:Misaki.HighPerformance.Jobs
+  href: Misaki.html
+  name: Misaki.HighPerformance.Jobs
+  nameWithType: Misaki.HighPerformance.Jobs
+  fullName: Misaki.HighPerformance.Jobs
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadCount*
+  commentId: Overload:Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadCount
+  href: Misaki.HighPerformance.Jobs.JobSchedulerDesc.html#Misaki_HighPerformance_Jobs_JobSchedulerDesc_ThreadCount
+  name: ThreadCount
+  nameWithType: JobSchedulerDesc.ThreadCount
+  fullName: Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadCount
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.Jobs.JobSchedulerDesc.DependencyChainCapacity*
+  commentId: Overload:Misaki.HighPerformance.Jobs.JobSchedulerDesc.DependencyChainCapacity
+  href: Misaki.HighPerformance.Jobs.JobSchedulerDesc.html#Misaki_HighPerformance_Jobs_JobSchedulerDesc_DependencyChainCapacity
+  name: DependencyChainCapacity
+  nameWithType: JobSchedulerDesc.DependencyChainCapacity
+  fullName: Misaki.HighPerformance.Jobs.JobSchedulerDesc.DependencyChainCapacity
+- uid: System.Threading.ThreadPriority.Normal
+  commentId: F:System.Threading.ThreadPriority.Normal
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.threadpriority#system-threading-threadpriority-normal
+  name: Normal
+  nameWithType: ThreadPriority.Normal
+  fullName: System.Threading.ThreadPriority.Normal
+- uid: Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadPriority*
+  commentId: Overload:Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadPriority
+  href: Misaki.HighPerformance.Jobs.JobSchedulerDesc.html#Misaki_HighPerformance_Jobs_JobSchedulerDesc_ThreadPriority
+  name: ThreadPriority
+  nameWithType: JobSchedulerDesc.ThreadPriority
+  fullName: Misaki.HighPerformance.Jobs.JobSchedulerDesc.ThreadPriority
+- uid: System.Threading.ThreadPriority
+  commentId: T:System.Threading.ThreadPriority
+  parent: System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.threadpriority
+  name: ThreadPriority
+  nameWithType: ThreadPriority
+  fullName: System.Threading.ThreadPriority
+- uid: System.Threading
+  commentId: N:System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading
+  nameWithType: System.Threading
+  fullName: System.Threading
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+- uid: Misaki.HighPerformance.Jobs.JobSchedulerDesc.State*
+  commentId: Overload:Misaki.HighPerformance.Jobs.JobSchedulerDesc.State
+  href: Misaki.HighPerformance.Jobs.JobSchedulerDesc.html#Misaki_HighPerformance_Jobs_JobSchedulerDesc_State
+  name: State
+  nameWithType: JobSchedulerDesc.State
+  fullName: Misaki.HighPerformance.Jobs.JobSchedulerDesc.State

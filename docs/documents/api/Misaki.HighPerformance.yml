@@ -1,0 +1,37 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance
+  commentId: N:Misaki.HighPerformance
+  id: Misaki.HighPerformance
+  children:
+  - Misaki.HighPerformance.AtomicCounter32
+  - Misaki.HighPerformance.AtomicCounter64
+  - Misaki.HighPerformance.SeqLock
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance
+  nameWithType: Misaki.HighPerformance
+  fullName: Misaki.HighPerformance
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance
+references:
+- uid: Misaki.HighPerformance.AtomicCounter32
+  commentId: T:Misaki.HighPerformance.AtomicCounter32
+  href: Misaki.HighPerformance.AtomicCounter32.html
+  name: AtomicCounter32
+  nameWithType: AtomicCounter32
+  fullName: Misaki.HighPerformance.AtomicCounter32
+- uid: Misaki.HighPerformance.AtomicCounter64
+  commentId: T:Misaki.HighPerformance.AtomicCounter64
+  href: Misaki.HighPerformance.AtomicCounter64.html
+  name: AtomicCounter64
+  nameWithType: AtomicCounter64
+  fullName: Misaki.HighPerformance.AtomicCounter64
+- uid: Misaki.HighPerformance.SeqLock
+  commentId: T:Misaki.HighPerformance.SeqLock
+  href: Misaki.HighPerformance.SeqLock.html
+  name: SeqLock
+  nameWithType: SeqLock
+  fullName: Misaki.HighPerformance.SeqLock

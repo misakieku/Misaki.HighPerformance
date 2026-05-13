@@ -1,0 +1,1423 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  id: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString1024
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString128
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString256
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString32
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString4096
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString512
+  - Misaki.HighPerformance.LowLevel.Collections.FixedString64
+  - Misaki.HighPerformance.LowLevel.Collections.FixedText1024
+  - Misaki.HighPerformance.LowLevel.Collections.FixedText128
+  - Misaki.HighPerformance.LowLevel.Collections.FixedText2048
+  - Misaki.HighPerformance.LowLevel.Collections.FixedText256
+  - Misaki.HighPerformance.LowLevel.Collections.FixedText32
+  - Misaki.HighPerformance.LowLevel.Collections.FixedText4096
+  - Misaki.HighPerformance.LowLevel.Collections.FixedText512
+  - Misaki.HighPerformance.LowLevel.Collections.FixedText64
+  - Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  - Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Enumerator
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  - Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1.Enumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Enumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ParallelReader
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ParallelWriter
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Enumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Enumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelReader
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.Enumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.Iterator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.ValueEnumerable
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.ValueEnumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData`2
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.ParallelWriter
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelConsumer
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelProducer
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1.Enumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1.Enumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1.Enumerator
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString32
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedString32
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString32.html
+  name: FixedString32
+  nameWithType: FixedString32
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString32
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString64
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedString64
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString64.html
+  name: FixedString64
+  nameWithType: FixedString64
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString64
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString128
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedString128
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString128.html
+  name: FixedString128
+  nameWithType: FixedString128
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString128
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString256
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedString256
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString256.html
+  name: FixedString256
+  nameWithType: FixedString256
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString256
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString512
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedString512
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString512.html
+  name: FixedString512
+  nameWithType: FixedString512
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString512
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString1024
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedString1024
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString1024.html
+  name: FixedString1024
+  nameWithType: FixedString1024
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString1024
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString2048.html
+  name: FixedString2048
+  nameWithType: FixedString2048
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString2048
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedString4096
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedString4096
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedString4096.html
+  name: FixedString4096
+  nameWithType: FixedString4096
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedString4096
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedText32
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedText32
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedText32.html
+  name: FixedText32
+  nameWithType: FixedText32
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedText32
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedText64
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedText64
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedText64.html
+  name: FixedText64
+  nameWithType: FixedText64
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedText64
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedText128
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedText128
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedText128.html
+  name: FixedText128
+  nameWithType: FixedText128
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedText128
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedText256
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedText256
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedText256.html
+  name: FixedText256
+  nameWithType: FixedText256
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedText256
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedText512
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedText512
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedText512.html
+  name: FixedText512
+  nameWithType: FixedText512
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedText512
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedText1024
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedText1024
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedText1024.html
+  name: FixedText1024
+  nameWithType: FixedText1024
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedText1024
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedText2048
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedText2048
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedText2048.html
+  name: FixedText2048
+  nameWithType: FixedText2048
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedText2048
+- uid: Misaki.HighPerformance.LowLevel.Collections.FixedText4096
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.FixedText4096
+  href: Misaki.HighPerformance.LowLevel.Collections.FixedText4096.html
+  name: FixedText4096
+  nameWithType: FixedText4096
+  fullName: Misaki.HighPerformance.LowLevel.Collections.FixedText4096
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html
+  name: HashMapHelper<TKey>
+  nameWithType: HashMapHelper<TKey>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>
+  nameWithType.vb: HashMapHelper(Of TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey)
+  name.vb: HashMapHelper(Of TKey)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+    name: HashMapHelper
+    href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html
+  - name: <
+  - name: TKey
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+    name: HashMapHelper
+    href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  name: ReadOnlyUnsafeCollection<T>
+  nameWithType: ReadOnlyUnsafeCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T)
+  name.vb: ReadOnlyUnsafeCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  name: ReadOnlyUnsafeCollection<T>.Enumerator
+  nameWithType: ReadOnlyUnsafeCollection<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>.Enumerator
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T).Enumerator
+  name.vb: ReadOnlyUnsafeCollection(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  name: UnsafeArray<T>
+  nameWithType: UnsafeArray<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<T>
+  nameWithType.vb: UnsafeArray(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray(Of T)
+  name.vb: UnsafeArray(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  name: UnsafeArray<T>.Enumerator
+  nameWithType: UnsafeArray<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<T>.Enumerator
+  nameWithType.vb: UnsafeArray(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray(Of T).Enumerator
+  name.vb: UnsafeArray(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html
+  name: UnsafeBitSet
+  nameWithType: UnsafeBitSet
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html
+  name: UnsafeBitSet.Iterator
+  nameWithType: UnsafeBitSet.Iterator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet
+    name: UnsafeBitSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator
+    name: Iterator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet
+    name: UnsafeBitSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator
+    name: Iterator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  name: SpanBitSet
+  nameWithType: SpanBitSet
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+- uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  name: SpanBitSet.Iterator
+  nameWithType: SpanBitSet.Iterator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+    name: SpanBitSet
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+    name: Iterator
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet
+    name: SpanBitSet
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator
+    name: Iterator
+    href: Misaki.HighPerformance.LowLevel.Collections.SpanBitSet.Iterator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  name: UnsafeChunkedList<T>
+  nameWithType: UnsafeChunkedList<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList<T>
+  nameWithType.vb: UnsafeChunkedList(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList(Of T)
+  name.vb: UnsafeChunkedList(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+    name: UnsafeChunkedList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+    name: UnsafeChunkedList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  name: UnsafeChunkedList<T>.Enumerator
+  nameWithType: UnsafeChunkedList<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList<T>.Enumerator
+  nameWithType.vb: UnsafeChunkedList(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList(Of T).Enumerator
+  name.vb: UnsafeChunkedList(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+    name: UnsafeChunkedList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+    name: UnsafeChunkedList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ParallelReader
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ParallelReader
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  name: UnsafeChunkedList<T>.ParallelReader
+  nameWithType: UnsafeChunkedList<T>.ParallelReader
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList<T>.ParallelReader
+  nameWithType.vb: UnsafeChunkedList(Of T).ParallelReader
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList(Of T).ParallelReader
+  name.vb: UnsafeChunkedList(Of T).ParallelReader
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+    name: UnsafeChunkedList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ParallelReader
+    name: ParallelReader
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelReader.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+    name: UnsafeChunkedList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ParallelReader
+    name: ParallelReader
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelReader.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ParallelWriter
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ParallelWriter
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  name: UnsafeChunkedList<T>.ParallelWriter
+  nameWithType: UnsafeChunkedList<T>.ParallelWriter
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList<T>.ParallelWriter
+  nameWithType.vb: UnsafeChunkedList(Of T).ParallelWriter
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList(Of T).ParallelWriter
+  name.vb: UnsafeChunkedList(Of T).ParallelWriter
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+    name: UnsafeChunkedList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ParallelWriter
+    name: ParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelWriter.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+    name: UnsafeChunkedList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1.ParallelWriter
+    name: ParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList-1.ParallelWriter.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.html
+  name: UnsafeHashMap<TKey, TValue>
+  nameWithType: UnsafeHashMap<TKey, TValue>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue)
+  name.vb: UnsafeHashMap(Of TKey, TValue)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2
+    name: UnsafeHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2
+    name: UnsafeHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.html
+  name: UnsafeHashMap<TKey, TValue>.Enumerator
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator
+  name.vb: UnsafeHashMap(Of TKey, TValue).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2
+    name: UnsafeHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2
+    name: UnsafeHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html
+  name: UnsafeHashSet<T>
+  nameWithType: UnsafeHashSet<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>
+  nameWithType.vb: UnsafeHashSet(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T)
+  name.vb: UnsafeHashSet(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+    name: UnsafeHashSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+    name: UnsafeHashSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html
+  name: UnsafeHashSet<T>.Enumerator
+  nameWithType: UnsafeHashSet<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet<T>.Enumerator
+  nameWithType.vb: UnsafeHashSet(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet(Of T).Enumerator
+  name.vb: UnsafeHashSet(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+    name: UnsafeHashSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1
+    name: UnsafeHashSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashSet-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  name: UnsafeList<T>
+  nameWithType: UnsafeList<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>
+  nameWithType.vb: UnsafeList(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T)
+  name.vb: UnsafeList(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  name: UnsafeList<T>.Enumerator
+  nameWithType: UnsafeList<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Enumerator
+  nameWithType.vb: UnsafeList(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Enumerator
+  name.vb: UnsafeList(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelReader
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelReader
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  name: UnsafeList<T>.ParallelReader
+  nameWithType: UnsafeList<T>.ParallelReader
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelReader
+  nameWithType.vb: UnsafeList(Of T).ParallelReader
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ParallelReader
+  name.vb: UnsafeList(Of T).ParallelReader
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelReader
+    name: ParallelReader
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelReader.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelReader
+    name: ParallelReader
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelReader.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  name: UnsafeList<T>.ParallelWriter
+  nameWithType: UnsafeList<T>.ParallelWriter
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelWriter
+  nameWithType.vb: UnsafeList(Of T).ParallelWriter
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ParallelWriter
+  name.vb: UnsafeList(Of T).ParallelWriter
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+    name: ParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelWriter.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+    name: ParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelWriter.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  name: UnsafeMultiHashMap<TKey, TValue>
+  nameWithType: UnsafeMultiHashMap<TKey, TValue>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap<TKey, TValue>
+  nameWithType.vb: UnsafeMultiHashMap(Of TKey, TValue)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap(Of TKey, TValue)
+  name.vb: UnsafeMultiHashMap(Of TKey, TValue)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+    name: UnsafeMultiHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+    name: UnsafeMultiHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  name: UnsafeMultiHashMap<TKey, TValue>.Enumerator
+  nameWithType: UnsafeMultiHashMap<TKey, TValue>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap<TKey, TValue>.Enumerator
+  nameWithType.vb: UnsafeMultiHashMap(Of TKey, TValue).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap(Of TKey, TValue).Enumerator
+  name.vb: UnsafeMultiHashMap(Of TKey, TValue).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+    name: UnsafeMultiHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+    name: UnsafeMultiHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.Iterator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.Iterator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  name: UnsafeMultiHashMap<TKey, TValue>.Iterator
+  nameWithType: UnsafeMultiHashMap<TKey, TValue>.Iterator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap<TKey, TValue>.Iterator
+  nameWithType.vb: UnsafeMultiHashMap(Of TKey, TValue).Iterator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap(Of TKey, TValue).Iterator
+  name.vb: UnsafeMultiHashMap(Of TKey, TValue).Iterator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+    name: UnsafeMultiHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.Iterator
+    name: Iterator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.Iterator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+    name: UnsafeMultiHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.Iterator
+    name: Iterator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.Iterator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.ValueEnumerable
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.ValueEnumerable
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  name: UnsafeMultiHashMap<TKey, TValue>.ValueEnumerable
+  nameWithType: UnsafeMultiHashMap<TKey, TValue>.ValueEnumerable
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap<TKey, TValue>.ValueEnumerable
+  nameWithType.vb: UnsafeMultiHashMap(Of TKey, TValue).ValueEnumerable
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap(Of TKey, TValue).ValueEnumerable
+  name.vb: UnsafeMultiHashMap(Of TKey, TValue).ValueEnumerable
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+    name: UnsafeMultiHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.ValueEnumerable
+    name: ValueEnumerable
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.ValueEnumerable.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+    name: UnsafeMultiHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.ValueEnumerable
+    name: ValueEnumerable
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.ValueEnumerable.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.ValueEnumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.ValueEnumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  name: UnsafeMultiHashMap<TKey, TValue>.ValueEnumerator
+  nameWithType: UnsafeMultiHashMap<TKey, TValue>.ValueEnumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap<TKey, TValue>.ValueEnumerator
+  nameWithType.vb: UnsafeMultiHashMap(Of TKey, TValue).ValueEnumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap(Of TKey, TValue).ValueEnumerator
+  name.vb: UnsafeMultiHashMap(Of TKey, TValue).ValueEnumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+    name: UnsafeMultiHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.ValueEnumerator
+    name: ValueEnumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.ValueEnumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2
+    name: UnsafeMultiHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap`2.ValueEnumerator
+    name: ValueEnumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeMultiHashMap-2.ValueEnumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData`2
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData`2
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData-2.html
+  name: UnsafeParallelHashMapData<TKey, TValue>
+  nameWithType: UnsafeParallelHashMapData<TKey, TValue>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData<TKey, TValue>
+  nameWithType.vb: UnsafeParallelHashMapData(Of TKey, TValue)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData(Of TKey, TValue)
+  name.vb: UnsafeParallelHashMapData(Of TKey, TValue)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData`2
+    name: UnsafeParallelHashMapData
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData`2
+    name: UnsafeParallelHashMapData
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMapData-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html
+  name: UnsafeParallelHashMap<TKey, TValue>
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue)
+  name.vb: UnsafeParallelHashMap(Of TKey, TValue)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+    name: UnsafeParallelHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+    name: UnsafeParallelHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.ParallelWriter
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.ParallelWriter
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html
+  name: UnsafeParallelHashMap<TKey, TValue>.ParallelWriter
+  nameWithType: UnsafeParallelHashMap<TKey, TValue>.ParallelWriter
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap<TKey, TValue>.ParallelWriter
+  nameWithType.vb: UnsafeParallelHashMap(Of TKey, TValue).ParallelWriter
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap(Of TKey, TValue).ParallelWriter
+  name.vb: UnsafeParallelHashMap(Of TKey, TValue).ParallelWriter
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+    name: UnsafeParallelHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.ParallelWriter
+    name: ParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.ParallelWriter.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2
+    name: UnsafeParallelHashMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap`2.ParallelWriter
+    name: ParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelHashMap-2.ParallelWriter.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  name: UnsafeParallelQueue<T>
+  nameWithType: UnsafeParallelQueue<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>
+  nameWithType.vb: UnsafeParallelQueue(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T)
+  name.vb: UnsafeParallelQueue(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelProducer
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelProducer
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  name: UnsafeParallelQueue<T>.ParallelProducer
+  nameWithType: UnsafeParallelQueue<T>.ParallelProducer
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.ParallelProducer
+  nameWithType.vb: UnsafeParallelQueue(Of T).ParallelProducer
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).ParallelProducer
+  name.vb: UnsafeParallelQueue(Of T).ParallelProducer
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelProducer
+    name: ParallelProducer
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelProducer.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelProducer
+    name: ParallelProducer
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelProducer.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelConsumer
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelConsumer
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  name: UnsafeParallelQueue<T>.ParallelConsumer
+  nameWithType: UnsafeParallelQueue<T>.ParallelConsumer
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue<T>.ParallelConsumer
+  nameWithType.vb: UnsafeParallelQueue(Of T).ParallelConsumer
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue(Of T).ParallelConsumer
+  name.vb: UnsafeParallelQueue(Of T).ParallelConsumer
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelConsumer
+    name: ParallelConsumer
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelConsumer.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1
+    name: UnsafeParallelQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue`1.ParallelConsumer
+    name: ParallelConsumer
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeParallelQueue-1.ParallelConsumer.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html
+  name: UnsafeQueue<T>
+  nameWithType: UnsafeQueue<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>
+  nameWithType.vb: UnsafeQueue(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T)
+  name.vb: UnsafeQueue(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+    name: UnsafeQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+    name: UnsafeQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html
+  name: UnsafeQueue<T>.Enumerator
+  nameWithType: UnsafeQueue<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue<T>.Enumerator
+  nameWithType.vb: UnsafeQueue(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue(Of T).Enumerator
+  name.vb: UnsafeQueue(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+    name: UnsafeQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+    name: UnsafeQueue
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.html
+  name: UnsafeSlotMap<T>
+  nameWithType: UnsafeSlotMap<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap<T>
+  nameWithType.vb: UnsafeSlotMap(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap(Of T)
+  name.vb: UnsafeSlotMap(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1
+    name: UnsafeSlotMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1
+    name: UnsafeSlotMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.html
+  name: UnsafeSlotMap<T>.Enumerator
+  nameWithType: UnsafeSlotMap<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap<T>.Enumerator
+  nameWithType.vb: UnsafeSlotMap(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap(Of T).Enumerator
+  name.vb: UnsafeSlotMap(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1
+    name: UnsafeSlotMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1
+    name: UnsafeSlotMap
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.html
+  name: UnsafeSparseSet<T>
+  nameWithType: UnsafeSparseSet<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet<T>
+  nameWithType.vb: UnsafeSparseSet(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet(Of T)
+  name.vb: UnsafeSparseSet(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1
+    name: UnsafeSparseSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1
+    name: UnsafeSparseSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.html
+  name: UnsafeSparseSet<T>.Enumerator
+  nameWithType: UnsafeSparseSet<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet<T>.Enumerator
+  nameWithType.vb: UnsafeSparseSet(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet(Of T).Enumerator
+  name.vb: UnsafeSparseSet(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1
+    name: UnsafeSparseSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1
+    name: UnsafeSparseSet
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.html
+  name: UnsafeStack<T>
+  nameWithType: UnsafeStack<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack<T>
+  nameWithType.vb: UnsafeStack(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack(Of T)
+  name.vb: UnsafeStack(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1
+    name: UnsafeStack
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1
+    name: UnsafeStack
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.html
+  name: UnsafeStack<T>.Enumerator
+  nameWithType: UnsafeStack<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack<T>.Enumerator
+  nameWithType.vb: UnsafeStack(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack(Of T).Enumerator
+  name.vb: UnsafeStack(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1
+    name: UnsafeStack
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1
+    name: UnsafeStack
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeStack-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html

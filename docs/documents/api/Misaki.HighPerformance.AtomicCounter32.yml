@@ -1,0 +1,485 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.AtomicCounter32
+  commentId: T:Misaki.HighPerformance.AtomicCounter32
+  id: AtomicCounter32
+  parent: Misaki.HighPerformance
+  children:
+  - Misaki.HighPerformance.AtomicCounter32.#ctor(System.Int32)
+  - Misaki.HighPerformance.AtomicCounter32.Add(System.Int32)
+  - Misaki.HighPerformance.AtomicCounter32.Reset(System.Int32)
+  - Misaki.HighPerformance.AtomicCounter32.Subtract(System.Int32)
+  - Misaki.HighPerformance.AtomicCounter32.Value
+  langs:
+  - csharp
+  - vb
+  name: AtomicCounter32
+  nameWithType: AtomicCounter32
+  fullName: Misaki.HighPerformance.AtomicCounter32
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AtomicCounter32
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 2
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public struct AtomicCounter32
+    content.vb: Public Structure AtomicCounter32
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Misaki.HighPerformance.AtomicCounter32.Value
+  commentId: P:Misaki.HighPerformance.AtomicCounter32.Value
+  id: Value
+  parent: Misaki.HighPerformance.AtomicCounter32
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: AtomicCounter32.Value
+  fullName: Misaki.HighPerformance.AtomicCounter32.Value
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Value
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 6
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public readonly int Value { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Value As Integer
+  overload: Misaki.HighPerformance.AtomicCounter32.Value*
+- uid: Misaki.HighPerformance.AtomicCounter32.#ctor(System.Int32)
+  commentId: M:Misaki.HighPerformance.AtomicCounter32.#ctor(System.Int32)
+  id: '#ctor(System.Int32)'
+  parent: Misaki.HighPerformance.AtomicCounter32
+  langs:
+  - csharp
+  - vb
+  name: AtomicCounter32(int)
+  nameWithType: AtomicCounter32.AtomicCounter32(int)
+  fullName: Misaki.HighPerformance.AtomicCounter32.AtomicCounter32(int)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 8
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public AtomicCounter32(int initialValue = 0)
+    parameters:
+    - id: initialValue
+      type: System.Int32
+    content.vb: Public Sub New(initialValue As Integer = 0)
+  overload: Misaki.HighPerformance.AtomicCounter32.#ctor*
+  nameWithType.vb: AtomicCounter32.New(Integer)
+  fullName.vb: Misaki.HighPerformance.AtomicCounter32.New(Integer)
+  name.vb: New(Integer)
+- uid: Misaki.HighPerformance.AtomicCounter32.Add(System.Int32)
+  commentId: M:Misaki.HighPerformance.AtomicCounter32.Add(System.Int32)
+  id: Add(System.Int32)
+  parent: Misaki.HighPerformance.AtomicCounter32
+  langs:
+  - csharp
+  - vb
+  name: Add(int)
+  nameWithType: AtomicCounter32.Add(int)
+  fullName: Misaki.HighPerformance.AtomicCounter32.Add(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Add
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public int Add(int value = 1)
+    parameters:
+    - id: value
+      type: System.Int32
+    return:
+      type: System.Int32
+    content.vb: Public Function Add(value As Integer = 1) As Integer
+  overload: Misaki.HighPerformance.AtomicCounter32.Add*
+  nameWithType.vb: AtomicCounter32.Add(Integer)
+  fullName.vb: Misaki.HighPerformance.AtomicCounter32.Add(Integer)
+  name.vb: Add(Integer)
+- uid: Misaki.HighPerformance.AtomicCounter32.Subtract(System.Int32)
+  commentId: M:Misaki.HighPerformance.AtomicCounter32.Subtract(System.Int32)
+  id: Subtract(System.Int32)
+  parent: Misaki.HighPerformance.AtomicCounter32
+  langs:
+  - csharp
+  - vb
+  name: Subtract(int)
+  nameWithType: AtomicCounter32.Subtract(int)
+  fullName: Misaki.HighPerformance.AtomicCounter32.Subtract(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Subtract
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 18
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public int Subtract(int value = 1)
+    parameters:
+    - id: value
+      type: System.Int32
+    return:
+      type: System.Int32
+    content.vb: Public Function Subtract(value As Integer = 1) As Integer
+  overload: Misaki.HighPerformance.AtomicCounter32.Subtract*
+  nameWithType.vb: AtomicCounter32.Subtract(Integer)
+  fullName.vb: Misaki.HighPerformance.AtomicCounter32.Subtract(Integer)
+  name.vb: Subtract(Integer)
+- uid: Misaki.HighPerformance.AtomicCounter32.Reset(System.Int32)
+  commentId: M:Misaki.HighPerformance.AtomicCounter32.Reset(System.Int32)
+  id: Reset(System.Int32)
+  parent: Misaki.HighPerformance.AtomicCounter32
+  langs:
+  - csharp
+  - vb
+  name: Reset(int)
+  nameWithType: AtomicCounter32.Reset(int)
+  fullName: Misaki.HighPerformance.AtomicCounter32.Reset(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/AtomicCounter.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Reset
+    path: src/Misaki.HighPerformance/AtomicCounter.cs
+    startLine: 23
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public void Reset(int value = 0)
+    parameters:
+    - id: value
+      type: System.Int32
+    content.vb: Public Sub Reset(value As Integer = 0)
+  overload: Misaki.HighPerformance.AtomicCounter32.Reset*
+  nameWithType.vb: AtomicCounter32.Reset(Integer)
+  fullName.vb: Misaki.HighPerformance.AtomicCounter32.Reset(Integer)
+  name.vb: Reset(Integer)
+references:
+- uid: Misaki.HighPerformance
+  commentId: N:Misaki.HighPerformance
+  href: Misaki.html
+  name: Misaki.HighPerformance
+  nameWithType: Misaki.HighPerformance
+  fullName: Misaki.HighPerformance
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.AtomicCounter32.Value*
+  commentId: Overload:Misaki.HighPerformance.AtomicCounter32.Value
+  href: Misaki.HighPerformance.AtomicCounter32.html#Misaki_HighPerformance_AtomicCounter32_Value
+  name: Value
+  nameWithType: AtomicCounter32.Value
+  fullName: Misaki.HighPerformance.AtomicCounter32.Value
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.AtomicCounter32.#ctor*
+  commentId: Overload:Misaki.HighPerformance.AtomicCounter32.#ctor
+  href: Misaki.HighPerformance.AtomicCounter32.html#Misaki_HighPerformance_AtomicCounter32__ctor_System_Int32_
+  name: AtomicCounter32
+  nameWithType: AtomicCounter32.AtomicCounter32
+  fullName: Misaki.HighPerformance.AtomicCounter32.AtomicCounter32
+  nameWithType.vb: AtomicCounter32.New
+  fullName.vb: Misaki.HighPerformance.AtomicCounter32.New
+  name.vb: New
+- uid: Misaki.HighPerformance.AtomicCounter32.Add*
+  commentId: Overload:Misaki.HighPerformance.AtomicCounter32.Add
+  href: Misaki.HighPerformance.AtomicCounter32.html#Misaki_HighPerformance_AtomicCounter32_Add_System_Int32_
+  name: Add
+  nameWithType: AtomicCounter32.Add
+  fullName: Misaki.HighPerformance.AtomicCounter32.Add
+- uid: Misaki.HighPerformance.AtomicCounter32.Subtract*
+  commentId: Overload:Misaki.HighPerformance.AtomicCounter32.Subtract
+  href: Misaki.HighPerformance.AtomicCounter32.html#Misaki_HighPerformance_AtomicCounter32_Subtract_System_Int32_
+  name: Subtract
+  nameWithType: AtomicCounter32.Subtract
+  fullName: Misaki.HighPerformance.AtomicCounter32.Subtract
+- uid: Misaki.HighPerformance.AtomicCounter32.Reset*
+  commentId: Overload:Misaki.HighPerformance.AtomicCounter32.Reset
+  href: Misaki.HighPerformance.AtomicCounter32.html#Misaki_HighPerformance_AtomicCounter32_Reset_System_Int32_
+  name: Reset
+  nameWithType: AtomicCounter32.Reset
+  fullName: Misaki.HighPerformance.AtomicCounter32.Reset

@@ -1,0 +1,1154 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Collections.SparseSet`1
+  commentId: T:Misaki.HighPerformance.Collections.SparseSet`1
+  id: SparseSet`1
+  parent: Misaki.HighPerformance.Collections
+  children:
+  - Misaki.HighPerformance.Collections.SparseSet`1.#ctor(System.Int32)
+  - Misaki.HighPerformance.Collections.SparseSet`1.Add(`0,System.Int32@)
+  - Misaki.HighPerformance.Collections.SparseSet`1.Capacity
+  - Misaki.HighPerformance.Collections.SparseSet`1.Clear
+  - Misaki.HighPerformance.Collections.SparseSet`1.Contains(System.Int32,System.Int32)
+  - Misaki.HighPerformance.Collections.SparseSet`1.Count
+  - Misaki.HighPerformance.Collections.SparseSet`1.GetEnumerator
+  - Misaki.HighPerformance.Collections.SparseSet`1.GetValue(System.Int32,System.Int32)
+  - Misaki.HighPerformance.Collections.SparseSet`1.GetValueReference(System.Int32,System.Int32,System.Boolean@)
+  - Misaki.HighPerformance.Collections.SparseSet`1.Remove(System.Int32,System.Int32)
+  - Misaki.HighPerformance.Collections.SparseSet`1.Resize(System.Int32)
+  - Misaki.HighPerformance.Collections.SparseSet`1.SetValue(System.Int32,System.Int32,`0)
+  - Misaki.HighPerformance.Collections.SparseSet`1.TryGetValue(System.Int32,System.Int32,`0@)
+  langs:
+  - csharp
+  - vb
+  name: SparseSet<T>
+  nameWithType: SparseSet<T>
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>
+  type: Class
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SparseSet
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: >-
+    A sparse set data structure that provides O(1) insertion, deletion, and lookup operations.
+
+    The sparse set uses three arrays: a dense array for storing values, a sparse array for mapping indices,
+
+    and a reverse array for mapping dense indices back to sparse indices.
+
+    Sparse indices work like entity IDs and are automatically generated.
+  example: []
+  syntax:
+    content: 'public class SparseSet<T> : IEnumerable<T>, IEnumerable where T : notnull'
+    typeParameters:
+    - id: T
+      description: Represents a type that can be stored in the sparse set.
+    content.vb: Public Class SparseSet(Of T) Implements IEnumerable(Of T), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{{T}}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  nameWithType.vb: SparseSet(Of T)
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T)
+  name.vb: SparseSet(Of T)
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Count
+  commentId: P:Misaki.HighPerformance.Collections.SparseSet`1.Count
+  id: Count
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: SparseSet<T>.Count
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Count
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Count
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 57
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.Count*
+  nameWithType.vb: SparseSet(Of T).Count
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Count
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Capacity
+  commentId: P:Misaki.HighPerformance.Collections.SparseSet`1.Capacity
+  id: Capacity
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: Capacity
+  nameWithType: SparseSet<T>.Capacity
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Capacity
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Capacity
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 58
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public int Capacity { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Capacity As Integer
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.Capacity*
+  nameWithType.vb: SparseSet(Of T).Capacity
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Capacity
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.GetEnumerator
+  commentId: M:Misaki.HighPerformance.Collections.SparseSet`1.GetEnumerator
+  id: GetEnumerator
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: SparseSet<T>.GetEnumerator()
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetEnumerator
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 60
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  syntax:
+    content: public SparseSet<T>.Enumerator GetEnumerator()
+    return:
+      type: Misaki.HighPerformance.Collections.SparseSet`1.Enumerator
+    content.vb: Public Function GetEnumerator() As SparseSet(Of T).Enumerator
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.GetEnumerator*
+  nameWithType.vb: SparseSet(Of T).GetEnumerator()
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).GetEnumerator()
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.#ctor(System.Int32)
+  commentId: M:Misaki.HighPerformance.Collections.SparseSet`1.#ctor(System.Int32)
+  id: '#ctor(System.Int32)'
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: SparseSet(int)
+  nameWithType: SparseSet<T>.SparseSet(int)
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.SparseSet(int)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 69
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Initializes a new instance of SparseSet with a specified capacity and an allocation handle.
+  example: []
+  syntax:
+    content: public SparseSet(int capacity = 4)
+    parameters:
+    - id: capacity
+      type: System.Int32
+      description: Specifies the initial capacity of the sparse set, which must be greater than zero.
+    content.vb: Public Sub New(capacity As Integer = 4)
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.#ctor*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Thrown when the specified capacity is less than or equal to zero.
+  nameWithType.vb: SparseSet(Of T).New(Integer)
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).New(Integer)
+  name.vb: New(Integer)
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Add(`0,System.Int32@)
+  commentId: M:Misaki.HighPerformance.Collections.SparseSet`1.Add(`0,System.Int32@)
+  id: Add(`0,System.Int32@)
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: Add(T, out int)
+  nameWithType: SparseSet<T>.Add(T, out int)
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Add(T, out int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Add
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 101
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Adds a value to the sparse set and returns a unique sparse index for the value.
+  example: []
+  syntax:
+    content: public int Add(T value, out int generation)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The value to add to the sparse set.
+    - id: generation
+      type: System.Int32
+      description: Outputs the generation number associated with the added value.
+    return:
+      type: System.Int32
+      description: A unique sparse index that can be used to reference this value.
+    content.vb: Public Function Add(value As T, generation As Integer) As Integer
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.Add*
+  nameWithType.vb: SparseSet(Of T).Add(T, Integer)
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Add(T, Integer)
+  name.vb: Add(T, Integer)
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Remove(System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.Collections.SparseSet`1.Remove(System.Int32,System.Int32)
+  id: Remove(System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: Remove(int, int)
+  nameWithType: SparseSet<T>.Remove(int, int)
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Remove(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Remove
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 138
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Removes the value at the specified sparse index.
+  example: []
+  syntax:
+    content: public bool Remove(int sparseIndex, int generation)
+    parameters:
+    - id: sparseIndex
+      type: System.Int32
+      description: The sparse index of the value to remove.
+    - id: generation
+      type: System.Int32
+      description: The generation number associated with the sparse index to validate.
+    return:
+      type: System.Boolean
+      description: True if the value was removed, false if the sparse index was not found.
+    content.vb: Public Function Remove(sparseIndex As Integer, generation As Integer) As Boolean
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.Remove*
+  nameWithType.vb: SparseSet(Of T).Remove(Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Remove(Integer, Integer)
+  name.vb: Remove(Integer, Integer)
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Contains(System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.Collections.SparseSet`1.Contains(System.Int32,System.Int32)
+  id: Contains(System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: Contains(int, int)
+  nameWithType: SparseSet<T>.Contains(int, int)
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Contains(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Contains
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 177
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Checks if the sparse set contains a value at the specified sparse index.
+  example: []
+  syntax:
+    content: public bool Contains(int sparseIndex, int generation)
+    parameters:
+    - id: sparseIndex
+      type: System.Int32
+      description: The sparse index to check.
+    - id: generation
+      type: System.Int32
+      description: The generation number to validate against the stored generation.
+    return:
+      type: System.Boolean
+      description: True if the sparse index is valid and contains a value, false otherwise.
+    content.vb: Public Function Contains(sparseIndex As Integer, generation As Integer) As Boolean
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.Contains*
+  nameWithType.vb: SparseSet(Of T).Contains(Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Contains(Integer, Integer)
+  name.vb: Contains(Integer, Integer)
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.TryGetValue(System.Int32,System.Int32,`0@)
+  commentId: M:Misaki.HighPerformance.Collections.SparseSet`1.TryGetValue(System.Int32,System.Int32,`0@)
+  id: TryGetValue(System.Int32,System.Int32,`0@)
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: TryGetValue(int, int, out T)
+  nameWithType: SparseSet<T>.TryGetValue(int, int, out T)
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.TryGetValue(int, int, out T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: TryGetValue
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 196
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Gets the value at the specified sparse index and generation.
+  example: []
+  syntax:
+    content: public bool TryGetValue(int sparseIndex, int generation, out T value)
+    parameters:
+    - id: sparseIndex
+      type: System.Int32
+      description: The sparse index to retrieve the value from.
+    - id: generation
+      type: System.Int32
+      description: The generation number to validate against the stored generation.
+    - id: value
+      type: '{T}'
+      description: When this method returns, contains the value at the specified sparse index, if found.
+      attributes:
+      - type: System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute
+        ctor: System.Diagnostics.CodeAnalysis.MaybeNullWhenAttribute.#ctor(System.Boolean)
+        arguments:
+        - type: System.Boolean
+          value: false
+    return:
+      type: System.Boolean
+      description: True if the sparse index contains a value, false otherwise.
+    content.vb: Public Function TryGetValue(sparseIndex As Integer, generation As Integer, value As T) As Boolean
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.TryGetValue*
+  nameWithType.vb: SparseSet(Of T).TryGetValue(Integer, Integer, T)
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).TryGetValue(Integer, Integer, T)
+  name.vb: TryGetValue(Integer, Integer, T)
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.GetValue(System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.Collections.SparseSet`1.GetValue(System.Int32,System.Int32)
+  id: GetValue(System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: GetValue(int, int)
+  nameWithType: SparseSet<T>.GetValue(int, int)
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.GetValue(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetValue
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 215
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Gets the value at the specified sparse index and generation.
+  example: []
+  syntax:
+    content: public T GetValue(int sparseIndex, int generation)
+    parameters:
+    - id: sparseIndex
+      type: System.Int32
+      description: The sparse index to retrieve the value from.
+    - id: generation
+      type: System.Int32
+      description: The generation number to validate against the stored generation.
+    return:
+      type: '{T}'
+      description: The value at the specified sparse index.
+    content.vb: Public Function GetValue(sparseIndex As Integer, generation As Integer) As T
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.GetValue*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Thrown when the sparse index is not found.
+  nameWithType.vb: SparseSet(Of T).GetValue(Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).GetValue(Integer, Integer)
+  name.vb: GetValue(Integer, Integer)
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.GetValueReference(System.Int32,System.Int32,System.Boolean@)
+  commentId: M:Misaki.HighPerformance.Collections.SparseSet`1.GetValueReference(System.Int32,System.Int32,System.Boolean@)
+  id: GetValueReference(System.Int32,System.Int32,System.Boolean@)
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: GetValueReference(int, int, out bool)
+  nameWithType: SparseSet<T>.GetValueReference(int, int, out bool)
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.GetValueReference(int, int, out bool)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetValueReference
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 233
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Gets reference of the value at the specified sparse index and generation.
+  example: []
+  syntax:
+    content: public ref T GetValueReference(int sparseIndex, int generation, out bool exist)
+    parameters:
+    - id: sparseIndex
+      type: System.Int32
+      description: The sparse index to retrieve the value from.
+    - id: generation
+      type: System.Int32
+      description: The generation number to validate against the stored generation.
+    - id: exist
+      type: System.Boolean
+      description: Outputs whether the sparse index exists in the set.
+    return:
+      type: '{T}'
+      description: Reference of the value at the specified sparse index.
+    content.vb: Public ByRef Function GetValueReference(sparseIndex As Integer, generation As Integer, exist As Boolean) As T
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.GetValueReference*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Thrown when the sparse index is not found.
+  nameWithType.vb: SparseSet(Of T).GetValueReference(Integer, Integer, Boolean)
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).GetValueReference(Integer, Integer, Boolean)
+  name.vb: GetValueReference(Integer, Integer, Boolean)
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.SetValue(System.Int32,System.Int32,`0)
+  commentId: M:Misaki.HighPerformance.Collections.SparseSet`1.SetValue(System.Int32,System.Int32,`0)
+  id: SetValue(System.Int32,System.Int32,`0)
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: SetValue(int, int, T)
+  nameWithType: SparseSet<T>.SetValue(int, int, T)
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.SetValue(int, int, T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SetValue
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 252
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Updates the value at the specified sparse index.
+  example: []
+  syntax:
+    content: public bool SetValue(int sparseIndex, int generation, T value)
+    parameters:
+    - id: sparseIndex
+      type: System.Int32
+      description: The sparse index of the value to update.
+    - id: generation
+      type: System.Int32
+      description: The generation number to validate against the stored generation.
+    - id: value
+      type: '{T}'
+      description: The new value.
+    return:
+      type: System.Boolean
+      description: True if the value was updated, false if the sparse index was not found.
+    content.vb: Public Function SetValue(sparseIndex As Integer, generation As Integer, value As T) As Boolean
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.SetValue*
+  nameWithType.vb: SparseSet(Of T).SetValue(Integer, Integer, T)
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).SetValue(Integer, Integer, T)
+  name.vb: SetValue(Integer, Integer, T)
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Clear
+  commentId: M:Misaki.HighPerformance.Collections.SparseSet`1.Clear
+  id: Clear
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: SparseSet<T>.Clear()
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Clear
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 274
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Clears the sparse set, removing all values and resetting internal state.
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear()
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.Clear*
+  nameWithType.vb: SparseSet(Of T).Clear()
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Clear()
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Resize(System.Int32)
+  commentId: M:Misaki.HighPerformance.Collections.SparseSet`1.Resize(System.Int32)
+  id: Resize(System.Int32)
+  parent: Misaki.HighPerformance.Collections.SparseSet`1
+  langs:
+  - csharp
+  - vb
+  name: Resize(int)
+  nameWithType: SparseSet<T>.Resize(int)
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Resize(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Resize
+    path: src/Misaki.HighPerformance/Collections/SparseSet.cs
+    startLine: 287
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Collections
+  summary: Resizes the sparse set to accommodate more elements.
+  example: []
+  syntax:
+    content: public void Resize(int newSize)
+    parameters:
+    - id: newSize
+      type: System.Int32
+      description: The new size of the sparse set.
+    content.vb: Public Sub Resize(newSize As Integer)
+  overload: Misaki.HighPerformance.Collections.SparseSet`1.Resize*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Thrown when the new size is not positive.
+  nameWithType.vb: SparseSet(Of T).Resize(Integer)
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Resize(Integer)
+  name.vb: Resize(Integer)
+references:
+- uid: Misaki.HighPerformance.Collections
+  commentId: N:Misaki.HighPerformance.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.Collections
+  nameWithType: Misaki.HighPerformance.Collections
+  fullName: Misaki.HighPerformance.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Collections
+    name: Collections
+    href: Misaki.HighPerformance.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Collections
+    name: Collections
+    href: Misaki.HighPerformance.Collections.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Collections.Generic.IEnumerable{{T}}
+  commentId: T:System.Collections.Generic.IEnumerable{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Count*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.Count
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_Count
+  name: Count
+  nameWithType: SparseSet<T>.Count
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Count
+  nameWithType.vb: SparseSet(Of T).Count
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Capacity*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.Capacity
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_Capacity
+  name: Capacity
+  nameWithType: SparseSet<T>.Capacity
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Capacity
+  nameWithType.vb: SparseSet(Of T).Capacity
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Capacity
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.GetEnumerator*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.GetEnumerator
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_GetEnumerator
+  name: GetEnumerator
+  nameWithType: SparseSet<T>.GetEnumerator
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.GetEnumerator
+  nameWithType.vb: SparseSet(Of T).GetEnumerator
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).GetEnumerator
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Enumerator
+  commentId: T:Misaki.HighPerformance.Collections.SparseSet`1.Enumerator
+  parent: Misaki.HighPerformance.Collections
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html
+  name: SparseSet<T>.Enumerator
+  nameWithType: SparseSet<T>.Enumerator
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Enumerator
+  nameWithType.vb: SparseSet(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Enumerator
+  name.vb: SparseSet(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Collections.SparseSet`1
+    name: SparseSet
+    href: Misaki.HighPerformance.Collections.SparseSet-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.Collections.SparseSet`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.Collections.SparseSet-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.Collections.SparseSet`1
+    name: SparseSet
+    href: Misaki.HighPerformance.Collections.SparseSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.Collections.SparseSet`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.Collections.SparseSet-1.Enumerator.html
+- uid: System.ArgumentOutOfRangeException
+  commentId: T:System.ArgumentOutOfRangeException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception
+  name: ArgumentOutOfRangeException
+  nameWithType: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.#ctor*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.#ctor
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1__ctor_System_Int32_
+  name: SparseSet
+  nameWithType: SparseSet<T>.SparseSet
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.SparseSet
+  nameWithType.vb: SparseSet(Of T).New
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).New
+  name.vb: New
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Add*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.Add
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_Add__0_System_Int32__
+  name: Add
+  nameWithType: SparseSet<T>.Add
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Add
+  nameWithType.vb: SparseSet(Of T).Add
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Add
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Remove*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.Remove
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_Remove_System_Int32_System_Int32_
+  name: Remove
+  nameWithType: SparseSet<T>.Remove
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Remove
+  nameWithType.vb: SparseSet(Of T).Remove
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Remove
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Contains*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.Contains
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_Contains_System_Int32_System_Int32_
+  name: Contains
+  nameWithType: SparseSet<T>.Contains
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Contains
+  nameWithType.vb: SparseSet(Of T).Contains
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Contains
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.TryGetValue*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.TryGetValue
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_TryGetValue_System_Int32_System_Int32__0__
+  name: TryGetValue
+  nameWithType: SparseSet<T>.TryGetValue
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.TryGetValue
+  nameWithType.vb: SparseSet(Of T).TryGetValue
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).TryGetValue
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.GetValue*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.GetValue
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_GetValue_System_Int32_System_Int32_
+  name: GetValue
+  nameWithType: SparseSet<T>.GetValue
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.GetValue
+  nameWithType.vb: SparseSet(Of T).GetValue
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).GetValue
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.GetValueReference*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.GetValueReference
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_GetValueReference_System_Int32_System_Int32_System_Boolean__
+  name: GetValueReference
+  nameWithType: SparseSet<T>.GetValueReference
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.GetValueReference
+  nameWithType.vb: SparseSet(Of T).GetValueReference
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).GetValueReference
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.SetValue*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.SetValue
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_SetValue_System_Int32_System_Int32__0_
+  name: SetValue
+  nameWithType: SparseSet<T>.SetValue
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.SetValue
+  nameWithType.vb: SparseSet(Of T).SetValue
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).SetValue
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Clear*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.Clear
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_Clear
+  name: Clear
+  nameWithType: SparseSet<T>.Clear
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Clear
+  nameWithType.vb: SparseSet(Of T).Clear
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Clear
+- uid: Misaki.HighPerformance.Collections.SparseSet`1.Resize*
+  commentId: Overload:Misaki.HighPerformance.Collections.SparseSet`1.Resize
+  href: Misaki.HighPerformance.Collections.SparseSet-1.html#Misaki_HighPerformance_Collections_SparseSet_1_Resize_System_Int32_
+  name: Resize
+  nameWithType: SparseSet<T>.Resize
+  fullName: Misaki.HighPerformance.Collections.SparseSet<T>.Resize
+  nameWithType.vb: SparseSet(Of T).Resize
+  fullName.vb: Misaki.HighPerformance.Collections.SparseSet(Of T).Resize

@@ -1,0 +1,2722 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  id: UnsafeList`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.#ctor
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Add(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddNoResize(`0@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRange(System.ReadOnlySpan{`0})
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRange(`0*,System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRangeNoResize(System.ReadOnlySpan{`0})
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRangeNoResize(`0*,System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelReader
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelWriter
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsReadOnly
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsSpan
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsSpan(System.Int32,System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsUnsafeArray
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Capacity
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Clear
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyFrom(System.ReadOnlySpan{`0})
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyFrom(System.ReadOnlySpan{`0},System.Int32,System.Int32,System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyTo(System.Span{`0})
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyTo(System.Span{`0},System.Int32,System.Int32,System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Count
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Dispose
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetEnumerator
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetUnsafePtr
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.IsCreated
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Item(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Item(System.UInt32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAt(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAtSwapBack(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRange(System.Int32,System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRangeSwapBack(System.Int32,System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ToList
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.UnsafeSetCount(System.Int32)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.op_Implicit(Misaki.HighPerformance.LowLevel.Collections.UnsafeList{`0})~Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{`0}
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.op_Implicit(Misaki.HighPerformance.LowLevel.Collections.UnsafeList{`0})~System.Span{`0}
+  langs:
+  - csharp
+  - vb
+  name: UnsafeList<T>
+  nameWithType: UnsafeList<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: UnsafeList
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 37
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: A collection that allows for unsafe operations on a list of unmanaged types.
+  example: []
+  syntax:
+    content: 'public struct UnsafeList<T> : IUnsafeCollection<T>, IUnsafeCollection, IDisposable where T : unmanaged'
+    typeParameters:
+    - id: T
+      description: Represents a type that can be stored in the collection, constrained to unmanaged types for performance and safety.
+    content.vb: Public Structure UnsafeList(Of T As Structure) Implements IUnsafeCollection(Of T), IUnsafeCollection, IDisposable
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  - System.IDisposable
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: UnsafeList(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T)
+  name.vb: UnsafeList(Of T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Count
+  id: Count
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: UnsafeList<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Count
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Count
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 155
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Gets the number of elements in a collection.
+  example: []
+  syntax:
+    content: public readonly int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Count*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}.Count
+  nameWithType.vb: UnsafeList(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Capacity
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Capacity
+  id: Capacity
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: Capacity
+  nameWithType: UnsafeList<T>.Capacity
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Capacity
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Capacity
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 156
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly int Capacity { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Capacity As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Capacity*
+  nameWithType.vb: UnsafeList(Of T).Capacity
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Capacity
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.IsCreated
+  id: IsCreated
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: IsCreated
+  nameWithType: UnsafeList<T>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.IsCreated
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsCreated
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 157
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Indicates whether the object has been created. Returns true if the object is created, otherwise false.
+  remarks: If MHP_ENABLE_STACKTRACE is not defined, this property will only check if the underlying pointer is not null, which may not be sufficient to determine if the collection is fully initialized and ready for use.
+  example: []
+  syntax:
+    content: public readonly bool IsCreated { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsCreated As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.IsCreated*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  nameWithType.vb: UnsafeList(Of T).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Item(System.Int32)
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: UnsafeList<T>.this[int]
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.this[int]
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: this[]
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 159
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly ref T this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+    return:
+      type: '{T}'
+    content.vb: Public ReadOnly Default ByRef Property this[](index As Integer) As T
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Item*
+  nameWithType.vb: UnsafeList(Of T).this[](Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).this[](Integer)
+  name.vb: this[](Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Item(System.UInt32)
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Item(System.UInt32)
+  id: Item(System.UInt32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: this[uint]
+  nameWithType: UnsafeList<T>.this[uint]
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.this[uint]
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: this[]
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 165
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly ref T this[uint index] { get; }
+    parameters:
+    - id: index
+      type: System.UInt32
+    return:
+      type: '{T}'
+    content.vb: Public ReadOnly Default ByRef Property this[](index As UInteger) As T
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Item*
+  nameWithType.vb: UnsafeList(Of T).this[](UInteger)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).this[](UInteger)
+  name.vb: this[](UInteger)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.#ctor
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.#ctor
+  id: '#ctor'
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: UnsafeList()
+  nameWithType: UnsafeList<T>.UnsafeList()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.UnsafeList()
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 174
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Initializes a new instance of UnsafeList with a default size of 1 and a persistent allocation handle.
+  example: []
+  syntax:
+    content: public UnsafeList()
+    content.vb: Public Sub New()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.#ctor*
+  nameWithType.vb: UnsafeList(Of T).New()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).New()
+  name.vb: New()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: '#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)'
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: UnsafeList(int, AllocationHandle, AllocationOption)
+  nameWithType: UnsafeList<T>.UnsafeList(int, AllocationHandle, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.UnsafeList(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 185
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Initializes a new instance of UnsafeList with a specified number of initial capacity and an allocation handle.
+  example: []
+  syntax:
+    content: public UnsafeList(int capacity, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
+    parameters:
+    - id: capacity
+      type: System.Int32
+      description: Specifies the number of initial capacity to allocate in the list, which must be greater than zero.
+    - id: handle
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+      description: A reference to an AllocationHandle that manages the memory allocation for the array.
+    - id: allocationOption
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+      description: Specifies how the memory should be allocated.
+    content.vb: Public Sub New(capacity As Integer, handle As AllocationHandle, allocationOption As AllocationOption = AllocationOption.None)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.#ctor*
+  nameWithType.vb: UnsafeList(Of T).New(Integer, AllocationHandle, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).New(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: New(Integer, AllocationHandle, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetEnumerator
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetEnumerator
+  id: GetEnumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: UnsafeList<T>.GetEnumerator()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetEnumerator
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 231
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: >-
+      [UnscopedRef]
+
+      public UnsafeList<T>.Enumerator GetEnumerator()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Enumerator
+    content.vb: >-
+      <UnscopedRef>
+
+      Public Function GetEnumerator() As UnsafeList(Of T).Enumerator
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetEnumerator*
+  attributes:
+  - type: System.Diagnostics.CodeAnalysis.UnscopedRefAttribute
+    ctor: System.Diagnostics.CodeAnalysis.UnscopedRefAttribute.#ctor
+    arguments: []
+  nameWithType.vb: UnsafeList(Of T).GetEnumerator()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).GetEnumerator()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelReader
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelReader
+  id: AsParallelReader
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: AsParallelReader()
+  nameWithType: UnsafeList<T>.AsParallelReader()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsParallelReader()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsParallelReader
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 247
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Provides a parallel reader for the current list, enabling thread-safe read operations.
+  remarks: >-
+    The list must live at least as long as the parallel reader, and the parallel reader must not be used after the list is disposed.
+
+    For example, if you need to access the list in job system and wait that job in another stack frame, please always allocate the list struct itself on heap.
+
+    Otherwise the parallel reader will be invalid after the stack frame that creates the list is popped, even if the list's internal array is still valid.
+  example: []
+  syntax:
+    content: public UnsafeList<T>.ParallelReader AsParallelReader()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelReader
+      description: A <xref href="Misaki.HighPerformance.LowLevel.Collections.UnsafeList%601.ParallelReader" data-throw-if-not-resolved="false"></xref> instance that can be used to read items from the list in a thread-safe manner.
+    content.vb: Public Function AsParallelReader() As UnsafeList(Of T).ParallelReader
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelReader*
+  nameWithType.vb: UnsafeList(Of T).AsParallelReader()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsParallelReader()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelWriter
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelWriter
+  id: AsParallelWriter
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: AsParallelWriter()
+  nameWithType: UnsafeList<T>.AsParallelWriter()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsParallelWriter()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsParallelWriter
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 262
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Provides a parallel writer for the current list, enabling thread-safe additions to the list.
+  remarks: >-
+    The list must live at least as long as the parallel writer, and the parallel writer must not be used after the list is disposed.
+
+    For example, if you need to access the list in job system and wait that job in another stack frame, please always allocate the list struct itself on heap.
+
+    Otherwise the parallel writer will be invalid after the stack frame that creates the list is popped, even if the list's internal array is still valid.
+  example: []
+  syntax:
+    content: public UnsafeList<T>.ParallelWriter AsParallelWriter()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+      description: A <xref href="Misaki.HighPerformance.LowLevel.Collections.UnsafeList%601.ParallelWriter" data-throw-if-not-resolved="false"></xref> instance that can be used to add items to the list in a thread-safe manner.
+    content.vb: Public Function AsParallelWriter() As UnsafeList(Of T).ParallelWriter
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelWriter*
+  nameWithType.vb: UnsafeList(Of T).AsParallelWriter()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsParallelWriter()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsUnsafeArray
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsUnsafeArray
+  id: AsUnsafeArray
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: AsUnsafeArray()
+  nameWithType: UnsafeList<T>.AsUnsafeArray()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsUnsafeArray()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsUnsafeArray
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 275
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Converts the current list to an UnsafeArray representation.
+  remarks: The returned <xref href="Misaki.HighPerformance.LowLevel.Collections.UnsafeArray%601" data-throw-if-not-resolved="false"></xref> shares the same underlying data as the list and does not own the memory.
+  example: []
+  syntax:
+    content: public readonly UnsafeArray<T> AsUnsafeArray()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray{{T}}
+      description: A new <xref href="Misaki.HighPerformance.LowLevel.Collections.UnsafeArray%601" data-throw-if-not-resolved="false"></xref> instance.
+    content.vb: Public Function AsUnsafeArray() As UnsafeArray(Of T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsUnsafeArray*
+  nameWithType.vb: UnsafeList(Of T).AsUnsafeArray()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsUnsafeArray()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsReadOnly
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsReadOnly
+  id: AsReadOnly
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: AsReadOnly()
+  nameWithType: UnsafeList<T>.AsReadOnly()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsReadOnly()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsReadOnly
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 285
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Converts the current list to a read-only collection that provides unsafe access to its elements.
+  example: []
+  syntax:
+    content: public readonly ReadOnlyUnsafeCollection<T> AsReadOnly()
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{{T}}
+      description: A new <xref href="Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection%601" data-throw-if-not-resolved="false"></xref> instance that allows for read-only access to the list's elements without copying.
+    content.vb: Public Function AsReadOnly() As ReadOnlyUnsafeCollection(Of T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsReadOnly*
+  nameWithType.vb: UnsafeList(Of T).AsReadOnly()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsReadOnly()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Add(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Add(`0@)
+  id: Add(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: Add(scoped in T)
+  nameWithType: UnsafeList<T>.Add(scoped in T)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Add(scoped in T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Add
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 294
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Adds a new element to the end of the list, resizing the internal array if necessary.
+  example: []
+  syntax:
+    content: public void Add(scoped in T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The element to be added to the list.
+    content.vb: Public Sub Add(value As T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Add*
+  nameWithType.vb: UnsafeList(Of T).Add(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Add(T)
+  name.vb: Add(T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddNoResize(`0@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddNoResize(`0@)
+  id: AddNoResize(`0@)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: AddNoResize(scoped in T)
+  nameWithType: UnsafeList<T>.AddNoResize(scoped in T)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AddNoResize(scoped in T)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AddNoResize
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 309
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Adds the specified value to the collection without resizing the underlying storage.
+  example: []
+  syntax:
+    content: public void AddNoResize(scoped in T value)
+    parameters:
+    - id: value
+      type: '{T}'
+      description: The value to add to the collection.
+    content.vb: Public Sub AddNoResize(value As T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddNoResize*
+  nameWithType.vb: UnsafeList(Of T).AddNoResize(T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AddNoResize(T)
+  name.vb: AddNoResize(T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRange(System.ReadOnlySpan{`0})
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRange(System.ReadOnlySpan{`0})
+  id: AddRange(System.ReadOnlySpan{`0})
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: AddRange(ReadOnlySpan<T>)
+  nameWithType: UnsafeList<T>.AddRange(ReadOnlySpan<T>)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AddRange(System.ReadOnlySpan<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AddRange
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 321
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Adds a range of elements to the collection.
+  example: []
+  syntax:
+    content: public void AddRange(ReadOnlySpan<T> values)
+    parameters:
+    - id: values
+      type: System.ReadOnlySpan{{T}}
+      description: A span containing the elements to add.
+    content.vb: Public Sub AddRange(values As ReadOnlySpan(Of T))
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRange*
+  nameWithType.vb: UnsafeList(Of T).AddRange(ReadOnlySpan(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AddRange(System.ReadOnlySpan(Of T))
+  name.vb: AddRange(ReadOnlySpan(Of T))
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRange(`0*,System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRange(`0*,System.Int32)
+  id: AddRange(`0*,System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: AddRange(T*, int)
+  nameWithType: UnsafeList<T>.AddRange(T*, int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AddRange(T*, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AddRange
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 342
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Adds a range of elements from a pointer to the collection.
+  example: []
+  syntax:
+    content: public void AddRange(T* ptr, int count)
+    parameters:
+    - id: ptr
+      type: '{T}*'
+      description: Points to the source data to be copied into the collection.
+    - id: count
+      type: System.Int32
+      description: Indicates the number of elements to be added from the source data.
+    content.vb: Public Sub AddRange(ptr As T*, count As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRange*
+  nameWithType.vb: UnsafeList(Of T).AddRange(T*, Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AddRange(T*, Integer)
+  name.vb: AddRange(T*, Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRangeNoResize(System.ReadOnlySpan{`0})
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRangeNoResize(System.ReadOnlySpan{`0})
+  id: AddRangeNoResize(System.ReadOnlySpan{`0})
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: AddRangeNoResize(ReadOnlySpan<T>)
+  nameWithType: UnsafeList<T>.AddRangeNoResize(ReadOnlySpan<T>)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AddRangeNoResize(System.ReadOnlySpan<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AddRangeNoResize
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 358
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Adds the elements of the specified collection to the current list without resizing the underlying storage.
+  example: []
+  syntax:
+    content: public void AddRangeNoResize(ReadOnlySpan<T> collection)
+    parameters:
+    - id: collection
+      type: System.ReadOnlySpan{{T}}
+      description: A read-only span containing the elements to add. The span must not exceed the available capacity.
+    content.vb: Public Sub AddRangeNoResize(collection As ReadOnlySpan(Of T))
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRangeNoResize*
+  nameWithType.vb: UnsafeList(Of T).AddRangeNoResize(ReadOnlySpan(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AddRangeNoResize(System.ReadOnlySpan(Of T))
+  name.vb: AddRangeNoResize(ReadOnlySpan(Of T))
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRangeNoResize(`0*,System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRangeNoResize(`0*,System.Int32)
+  id: AddRangeNoResize(`0*,System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: AddRangeNoResize(T*, int)
+  nameWithType: UnsafeList<T>.AddRangeNoResize(T*, int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AddRangeNoResize(T*, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AddRangeNoResize
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 375
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Adds a range of elements from a pointer to the collection without resizing the underlying storage.
+  example: []
+  syntax:
+    content: public void AddRangeNoResize(T* ptr, int count)
+    parameters:
+    - id: ptr
+      type: '{T}*'
+      description: Points to the source data to be copied into the collection.
+    - id: count
+      type: System.Int32
+      description: Indicates the number of elements to be added from the source data.
+    content.vb: Public Sub AddRangeNoResize(ptr As T*, count As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRangeNoResize*
+  nameWithType.vb: UnsafeList(Of T).AddRangeNoResize(T*, Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AddRangeNoResize(T*, Integer)
+  name.vb: AddRangeNoResize(T*, Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRange(System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRange(System.Int32,System.Int32)
+  id: RemoveRange(System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: RemoveRange(int, int)
+  nameWithType: UnsafeList<T>.RemoveRange(int, int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.RemoveRange(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RemoveRange
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 388
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Removes a range of elements from the list starting at the specified index.
+  example: []
+  syntax:
+    content: public void RemoveRange(int start, int length)
+    parameters:
+    - id: start
+      type: System.Int32
+      description: The zero-based index at which to start removing elements.
+    - id: length
+      type: System.Int32
+      description: The number of elements to remove.
+    content.vb: Public Sub RemoveRange(start As Integer, length As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRange*
+  nameWithType.vb: UnsafeList(Of T).RemoveRange(Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).RemoveRange(Integer, Integer)
+  name.vb: RemoveRange(Integer, Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAt(System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(int)
+  nameWithType: UnsafeList<T>.RemoveAt(int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.RemoveAt(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RemoveAt
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 409
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Removes the element at the specified index from the collection.
+  example: []
+  syntax:
+    content: public void RemoveAt(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The zero-based index of the element to remove.
+    content.vb: Public Sub RemoveAt(index As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAt*
+  nameWithType.vb: UnsafeList(Of T).RemoveAt(Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).RemoveAt(Integer)
+  name.vb: RemoveAt(Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRangeSwapBack(System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRangeSwapBack(System.Int32,System.Int32)
+  id: RemoveRangeSwapBack(System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: RemoveRangeSwapBack(int, int)
+  nameWithType: UnsafeList<T>.RemoveRangeSwapBack(int, int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.RemoveRangeSwapBack(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RemoveRangeSwapBack
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 419
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Removes a range of elements from the list starting at the specified index by swapping them with the last elements.
+  example: []
+  syntax:
+    content: public void RemoveRangeSwapBack(int start, int length)
+    parameters:
+    - id: start
+      type: System.Int32
+      description: The zero-based index at which to start removing elements.
+    - id: length
+      type: System.Int32
+      description: The number of elements to remove.
+    content.vb: Public Sub RemoveRangeSwapBack(start As Integer, length As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRangeSwapBack*
+  nameWithType.vb: UnsafeList(Of T).RemoveRangeSwapBack(Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).RemoveRangeSwapBack(Integer, Integer)
+  name.vb: RemoveRangeSwapBack(Integer, Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAtSwapBack(System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAtSwapBack(System.Int32)
+  id: RemoveAtSwapBack(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: RemoveAtSwapBack(int)
+  nameWithType: UnsafeList<T>.RemoveAtSwapBack(int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.RemoveAtSwapBack(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RemoveAtSwapBack
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 441
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public void RemoveAtSwapBack(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+    content.vb: Public Sub RemoveAtSwapBack(index As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAtSwapBack*
+  nameWithType.vb: UnsafeList(Of T).RemoveAtSwapBack(Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).RemoveAtSwapBack(Integer)
+  name.vb: RemoveAtSwapBack(Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: Resize(int, AllocationOption)
+  nameWithType: UnsafeList<T>.Resize(int, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Resize(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Resize
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 446
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Changes the size of a collection to the specified value.
+  example: []
+  syntax:
+    content: public void Resize(int newSize, AllocationOption option = AllocationOption.None)
+    parameters:
+    - id: newSize
+      type: System.Int32
+      description: Specifies the new size to which the collection should be adjusted.
+    - id: option
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+      description: Specifies allocation options that may affect how memory is managed during the resize operation.
+    content.vb: Public Sub Resize(newSize As Integer, [option] As AllocationOption = AllocationOption.None)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Resize*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  nameWithType.vb: UnsafeList(Of T).Resize(Integer, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Resize(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Resize(Integer, AllocationOption)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.UnsafeSetCount(System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.UnsafeSetCount(System.Int32)
+  id: UnsafeSetCount(System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: UnsafeSetCount(int)
+  nameWithType: UnsafeList<T>.UnsafeSetCount(int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.UnsafeSetCount(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: UnsafeSetCount
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 464
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Sets the count of the collection to a new value without modifying the underlying storage.
+  remarks: This method will not initialize new elements, so it should be used with caution. The new count must be between 0 and the current capacity of the collection.
+  example: []
+  syntax:
+    content: public void UnsafeSetCount(int newCount)
+    parameters:
+    - id: newCount
+      type: System.Int32
+      description: The new count value to set for the collection.
+    content.vb: Public Sub UnsafeSetCount(newCount As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.UnsafeSetCount*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Thrown when the new count is outside the valid range.
+  nameWithType.vb: UnsafeList(Of T).UnsafeSetCount(Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).UnsafeSetCount(Integer)
+  name.vb: UnsafeSetCount(Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Clear
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Clear
+  id: Clear
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: UnsafeList<T>.Clear()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Clear
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 474
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Removes all elements from the collection. The collection will be empty after this operation.
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Clear*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  nameWithType.vb: UnsafeList(Of T).Clear()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Clear()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetUnsafePtr
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetUnsafePtr
+  id: GetUnsafePtr
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: GetUnsafePtr()
+  nameWithType: UnsafeList<T>.GetUnsafePtr()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.GetUnsafePtr()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetUnsafePtr
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 479
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Returns a pointer to an unmanaged memory location. This pointer can be used for low-level memory operations.
+  example: []
+  syntax:
+    content: public readonly void* GetUnsafePtr()
+    return:
+      type: System.Void*
+      description: The method returns a void pointer to the unsafe memory location.
+    content.vb: Public Function GetUnsafePtr() As Void*
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetUnsafePtr*
+  implements:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  nameWithType.vb: UnsafeList(Of T).GetUnsafePtr()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).GetUnsafePtr()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsSpan
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsSpan
+  id: AsSpan
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: AsSpan()
+  nameWithType: UnsafeList<T>.AsSpan()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsSpan()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsSpan
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 485
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly Span<T> AsSpan()
+    return:
+      type: System.Span{{T}}
+    content.vb: Public Function AsSpan() As Span(Of T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsSpan*
+  nameWithType.vb: UnsafeList(Of T).AsSpan()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsSpan()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsSpan(System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsSpan(System.Int32,System.Int32)
+  id: AsSpan(System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: AsSpan(int, int)
+  nameWithType: UnsafeList<T>.AsSpan(int, int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsSpan(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsSpan
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 491
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public readonly Span<T> AsSpan(int start, int length)
+    parameters:
+    - id: start
+      type: System.Int32
+    - id: length
+      type: System.Int32
+    return:
+      type: System.Span{{T}}
+    content.vb: Public Function AsSpan(start As Integer, length As Integer) As Span(Of T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsSpan*
+  nameWithType.vb: UnsafeList(Of T).AsSpan(Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsSpan(Integer, Integer)
+  name.vb: AsSpan(Integer, Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyTo(System.Span{`0})
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyTo(System.Span{`0})
+  id: CopyTo(System.Span{`0})
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: CopyTo(Span<T>)
+  nameWithType: UnsafeList<T>.CopyTo(Span<T>)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.CopyTo(System.Span<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CopyTo
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 503
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Copies elements from a source UnsafeCollection to a destination Span, ensuring both have the same size.
+  example: []
+  syntax:
+    content: public readonly void CopyTo(Span<T> destination)
+    parameters:
+    - id: destination
+      type: System.Span{{T}}
+      description: Represents the target span where elements are copied to.
+    content.vb: Public Sub CopyTo(destination As Span(Of T))
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyTo*
+  nameWithType.vb: UnsafeList(Of T).CopyTo(Span(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).CopyTo(System.Span(Of T))
+  name.vb: CopyTo(Span(Of T))
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyTo(System.Span{`0},System.Int32,System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyTo(System.Span{`0},System.Int32,System.Int32,System.Int32)
+  id: CopyTo(System.Span{`0},System.Int32,System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: CopyTo(Span<T>, int, int, int)
+  nameWithType: UnsafeList<T>.CopyTo(Span<T>, int, int, int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.CopyTo(System.Span<T>, int, int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CopyTo
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 520
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Copies a range of elements from a source collection to a destination span, ensuring both are adequately sized.
+  example: []
+  syntax:
+    content: public readonly void CopyTo(Span<T> destination, int sourceIndex, int destinationIndex, int length)
+    parameters:
+    - id: destination
+      type: System.Span{{T}}
+      description: The span where the elements will be copied to.
+    - id: sourceIndex
+      type: System.Int32
+      description: The starting index in the source collection for the copy operation.
+    - id: destinationIndex
+      type: System.Int32
+      description: The starting index in the destination span where the elements will be placed.
+    - id: length
+      type: System.Int32
+      description: The number of elements to copy from the source to the destination.
+    content.vb: Public Sub CopyTo(destination As Span(Of T), sourceIndex As Integer, destinationIndex As Integer, length As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyTo*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Thrown when the specified range exceeds the bounds of the source collection or destination span.
+  nameWithType.vb: UnsafeList(Of T).CopyTo(Span(Of T), Integer, Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).CopyTo(System.Span(Of T), Integer, Integer, Integer)
+  name.vb: CopyTo(Span(Of T), Integer, Integer, Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyFrom(System.ReadOnlySpan{`0})
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyFrom(System.ReadOnlySpan{`0})
+  id: CopyFrom(System.ReadOnlySpan{`0})
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: CopyFrom(ReadOnlySpan<T>)
+  nameWithType: UnsafeList<T>.CopyFrom(ReadOnlySpan<T>)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.CopyFrom(System.ReadOnlySpan<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CopyFrom
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 537
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Copies elements from a source span to a destination unsafe collection, ensuring both have the same size.
+  example: []
+  syntax:
+    content: public void CopyFrom(ReadOnlySpan<T> source)
+    parameters:
+    - id: source
+      type: System.ReadOnlySpan{{T}}
+      description: Represents the span containing the elements to be copied to the unsafe collection.
+    content.vb: Public Sub CopyFrom(source As ReadOnlySpan(Of T))
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyFrom*
+  nameWithType.vb: UnsafeList(Of T).CopyFrom(ReadOnlySpan(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).CopyFrom(System.ReadOnlySpan(Of T))
+  name.vb: CopyFrom(ReadOnlySpan(Of T))
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyFrom(System.ReadOnlySpan{`0},System.Int32,System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyFrom(System.ReadOnlySpan{`0},System.Int32,System.Int32,System.Int32)
+  id: CopyFrom(System.ReadOnlySpan{`0},System.Int32,System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: CopyFrom(ReadOnlySpan<T>, int, int, int)
+  nameWithType: UnsafeList<T>.CopyFrom(ReadOnlySpan<T>, int, int, int)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.CopyFrom(System.ReadOnlySpan<T>, int, int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CopyFrom
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 558
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Copies a specified range of elements from a source span to a destination collection.
+  example: []
+  syntax:
+    content: public void CopyFrom(ReadOnlySpan<T> source, int sourceIndex, int destinationIndex, int length)
+    parameters:
+    - id: source
+      type: System.ReadOnlySpan{{T}}
+      description: The span containing the elements to be copied.
+    - id: sourceIndex
+      type: System.Int32
+      description: The starting index in the source span from which to begin copying.
+    - id: destinationIndex
+      type: System.Int32
+      description: The starting index in the destination collection where the elements will be placed.
+    - id: length
+      type: System.Int32
+      description: The number of elements to copy from the source span to the destination collection.
+    content.vb: Public Sub CopyFrom(source As ReadOnlySpan(Of T), sourceIndex As Integer, destinationIndex As Integer, length As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyFrom*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Thrown when the specified range exceeds the bounds of the source span or destination collection.
+  nameWithType.vb: UnsafeList(Of T).CopyFrom(ReadOnlySpan(Of T), Integer, Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).CopyFrom(System.ReadOnlySpan(Of T), Integer, Integer, Integer)
+  name.vb: CopyFrom(ReadOnlySpan(Of T), Integer, Integer, Integer)
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ToList
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ToList
+  id: ToList
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: ToList()
+  nameWithType: UnsafeList<T>.ToList()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ToList()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ToList
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 580
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Creates a new <xref href="System.Collections.Generic.List%601" data-throw-if-not-resolved="false"></xref> containing the elements.
+  example: []
+  syntax:
+    content: public readonly List<T> ToList()
+    return:
+      type: System.Collections.Generic.List{{T}}
+      description: A <xref href="System.Collections.Generic.List%601" data-throw-if-not-resolved="false"></xref> containing all elements.
+    content.vb: Public Function ToList() As List(Of T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ToList*
+  nameWithType.vb: UnsafeList(Of T).ToList()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ToList()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Dispose
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Dispose
+  id: Dispose
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: UnsafeList<T>.Dispose()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dispose
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 588
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  summary: Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  nameWithType.vb: UnsafeList(Of T).Dispose()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Dispose()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.op_Implicit(Misaki.HighPerformance.LowLevel.Collections.UnsafeList{`0})~Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{`0}
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.op_Implicit(Misaki.HighPerformance.LowLevel.Collections.UnsafeList{`0})~Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{`0}
+  id: op_Implicit(Misaki.HighPerformance.LowLevel.Collections.UnsafeList{`0})~Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{`0}
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: implicit operator ReadOnlyUnsafeCollection<T>(UnsafeList<T>)
+  nameWithType: UnsafeList<T>.implicit operator ReadOnlyUnsafeCollection<T>(UnsafeList<T>)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.implicit operator Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>(Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>)
+  type: Operator
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: op_Implicit
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 594
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public static implicit operator ReadOnlyUnsafeCollection<T>(UnsafeList<T> list)
+    parameters:
+    - id: list
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    return:
+      type: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{{T}}
+    content.vb: Public Shared Widening Operator CType(list As UnsafeList(Of T)) As ReadOnlyUnsafeCollection(Of T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.op_Implicit*
+  nameWithType.vb: UnsafeList(Of T).CType(UnsafeList(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).CType(Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T))
+  name.vb: CType(UnsafeList(Of T))
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.op_Implicit(Misaki.HighPerformance.LowLevel.Collections.UnsafeList{`0})~System.Span{`0}
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.op_Implicit(Misaki.HighPerformance.LowLevel.Collections.UnsafeList{`0})~System.Span{`0}
+  id: op_Implicit(Misaki.HighPerformance.LowLevel.Collections.UnsafeList{`0})~System.Span{`0}
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  langs:
+  - csharp
+  - vb
+  name: implicit operator Span<T>(UnsafeList<T>)
+  nameWithType: UnsafeList<T>.implicit operator Span<T>(UnsafeList<T>)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.implicit operator System.Span<T>(Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>)
+  type: Operator
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: op_Implicit
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeList.cs
+    startLine: 599
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public static implicit operator Span<T>(UnsafeList<T> list)
+    parameters:
+    - id: list
+      type: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    return:
+      type: System.Span{{T}}
+    content.vb: Public Shared Widening Operator CType(list As UnsafeList(Of T)) As Span(Of T)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.op_Implicit*
+  nameWithType.vb: UnsafeList(Of T).CType(UnsafeList(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).CType(Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T))
+  name.vb: CType(UnsafeList(Of T))
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{`0}
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  definition: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  name: IUnsafeCollection<T>
+  nameWithType: IUnsafeCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>
+  nameWithType.vb: IUnsafeCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T)
+  name.vb: IUnsafeCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+    name: IUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+    name: IUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html
+  name: IUnsafeCollection
+  nameWithType: IUnsafeCollection
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  name: IUnsafeCollection<T>
+  nameWithType: IUnsafeCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>
+  nameWithType.vb: IUnsafeCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T)
+  name.vb: IUnsafeCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+    name: IUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+    name: IUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections.Contracts
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Count*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_Count
+  name: Count
+  nameWithType: UnsafeList<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Count
+  nameWithType.vb: UnsafeList(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{`0}.Count
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}
+  definition: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Count
+  name: Count
+  nameWithType: IUnsafeCollection<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Count
+  nameWithType.vb: IUnsafeCollection(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Count
+  name: Count
+  nameWithType: IUnsafeCollection<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Count
+  nameWithType.vb: IUnsafeCollection(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Capacity*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Capacity
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_Capacity
+  name: Capacity
+  nameWithType: UnsafeList<T>.Capacity
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Capacity
+  nameWithType.vb: UnsafeList(Of T).Capacity
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Capacity
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.IsCreated*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.IsCreated
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_IsCreated
+  name: IsCreated
+  nameWithType: UnsafeList<T>.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.IsCreated
+  nameWithType.vb: UnsafeList(Of T).IsCreated
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_IsCreated
+  name: IsCreated
+  nameWithType: IUnsafeCollection.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Item*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Item
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_Item_System_Int32_
+  name: this
+  nameWithType: UnsafeList<T>.this
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.this
+  nameWithType.vb: UnsafeList(Of T).this[]
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).this[]
+  name.vb: this[]
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.#ctor
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1__ctor
+  name: UnsafeList
+  nameWithType: UnsafeList<T>.UnsafeList
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.UnsafeList
+  nameWithType.vb: UnsafeList(Of T).New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).New
+  name.vb: New
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html
+  name: AllocationHandle
+  nameWithType: AllocationHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  name: AllocationOption
+  nameWithType: AllocationOption
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetEnumerator*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetEnumerator
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_GetEnumerator
+  name: GetEnumerator
+  nameWithType: UnsafeList<T>.GetEnumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.GetEnumerator
+  nameWithType.vb: UnsafeList(Of T).GetEnumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).GetEnumerator
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  name: UnsafeList<T>.Enumerator
+  nameWithType: UnsafeList<T>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Enumerator
+  nameWithType.vb: UnsafeList(Of T).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Enumerator
+  name.vb: UnsafeList(Of T).Enumerator
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.Enumerator.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Enumerator
+    name: Enumerator
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.Enumerator.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelReader
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelReader
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  name: UnsafeList<T>.ParallelReader
+  nameWithType: UnsafeList<T>.ParallelReader
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelReader
+  nameWithType.vb: UnsafeList(Of T).ParallelReader
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ParallelReader
+  name.vb: UnsafeList(Of T).ParallelReader
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelReader
+    name: ParallelReader
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelReader.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelReader
+    name: ParallelReader
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelReader.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelReader*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelReader
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_AsParallelReader
+  name: AsParallelReader
+  nameWithType: UnsafeList<T>.AsParallelReader
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsParallelReader
+  nameWithType.vb: UnsafeList(Of T).AsParallelReader
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsParallelReader
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  name: UnsafeList<T>.ParallelWriter
+  nameWithType: UnsafeList<T>.ParallelWriter
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ParallelWriter
+  nameWithType.vb: UnsafeList(Of T).ParallelWriter
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ParallelWriter
+  name.vb: UnsafeList(Of T).ParallelWriter
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+    name: ParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelWriter.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ParallelWriter
+    name: ParallelWriter
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.ParallelWriter.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelWriter*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsParallelWriter
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_AsParallelWriter
+  name: AsParallelWriter
+  nameWithType: UnsafeList<T>.AsParallelWriter
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsParallelWriter
+  nameWithType.vb: UnsafeList(Of T).AsParallelWriter
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsParallelWriter
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  name: UnsafeArray<T>
+  nameWithType: UnsafeArray<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<T>
+  nameWithType.vb: UnsafeArray(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray(Of T)
+  name.vb: UnsafeArray(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsUnsafeArray*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsUnsafeArray
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_AsUnsafeArray
+  name: AsUnsafeArray
+  nameWithType: UnsafeList<T>.AsUnsafeArray
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsUnsafeArray
+  nameWithType.vb: UnsafeList(Of T).AsUnsafeArray
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsUnsafeArray
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray{{T}}
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeArray{`0}
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  definition: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  name: UnsafeArray<T>
+  nameWithType: UnsafeArray<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray<T>
+  nameWithType.vb: UnsafeArray(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray(Of T)
+  name.vb: UnsafeArray(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+    name: UnsafeArray
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeArray-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  name: ReadOnlyUnsafeCollection<T>
+  nameWithType: ReadOnlyUnsafeCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T)
+  name.vb: ReadOnlyUnsafeCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsReadOnly*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsReadOnly
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_AsReadOnly
+  name: AsReadOnly
+  nameWithType: UnsafeList<T>.AsReadOnly
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsReadOnly
+  nameWithType.vb: UnsafeList(Of T).AsReadOnly
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsReadOnly
+- uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{{T}}
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection{`0}
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  definition: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+  href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  name: ReadOnlyUnsafeCollection<T>
+  nameWithType: ReadOnlyUnsafeCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection<T>
+  nameWithType.vb: ReadOnlyUnsafeCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection(Of T)
+  name.vb: ReadOnlyUnsafeCollection(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection`1
+    name: ReadOnlyUnsafeCollection
+    href: Misaki.HighPerformance.LowLevel.Collections.ReadOnlyUnsafeCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Add*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Add
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_Add__0__
+  name: Add
+  nameWithType: UnsafeList<T>.Add
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Add
+  nameWithType.vb: UnsafeList(Of T).Add
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Add
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddNoResize*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddNoResize
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_AddNoResize__0__
+  name: AddNoResize
+  nameWithType: UnsafeList<T>.AddNoResize
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AddNoResize
+  nameWithType.vb: UnsafeList(Of T).AddNoResize
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AddNoResize
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRange*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRange
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_AddRange_System_ReadOnlySpan__0__
+  name: AddRange
+  nameWithType: UnsafeList<T>.AddRange
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AddRange
+  nameWithType.vb: UnsafeList(Of T).AddRange
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AddRange
+- uid: System.ReadOnlySpan{{T}}
+  commentId: T:System.ReadOnlySpan{``0}
+  parent: System
+  definition: System.ReadOnlySpan`1
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ReadOnlySpan`1
+  commentId: T:System.ReadOnlySpan`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: '{T}*'
+  isExternal: true
+  name: T*
+  nameWithType: T*
+  fullName: T*
+  spec.csharp:
+  - name: T
+  - name: '*'
+  spec.vb:
+  - name: T
+  - name: '*'
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRangeNoResize*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AddRangeNoResize
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_AddRangeNoResize_System_ReadOnlySpan__0__
+  name: AddRangeNoResize
+  nameWithType: UnsafeList<T>.AddRangeNoResize
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AddRangeNoResize
+  nameWithType.vb: UnsafeList(Of T).AddRangeNoResize
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AddRangeNoResize
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRange*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRange
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_RemoveRange_System_Int32_System_Int32_
+  name: RemoveRange
+  nameWithType: UnsafeList<T>.RemoveRange
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.RemoveRange
+  nameWithType.vb: UnsafeList(Of T).RemoveRange
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).RemoveRange
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAt*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAt
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_RemoveAt_System_Int32_
+  name: RemoveAt
+  nameWithType: UnsafeList<T>.RemoveAt
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.RemoveAt
+  nameWithType.vb: UnsafeList(Of T).RemoveAt
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).RemoveAt
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRangeSwapBack*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveRangeSwapBack
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_RemoveRangeSwapBack_System_Int32_System_Int32_
+  name: RemoveRangeSwapBack
+  nameWithType: UnsafeList<T>.RemoveRangeSwapBack
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.RemoveRangeSwapBack
+  nameWithType.vb: UnsafeList(Of T).RemoveRangeSwapBack
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).RemoveRangeSwapBack
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAtSwapBack*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.RemoveAtSwapBack
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_RemoveAtSwapBack_System_Int32_
+  name: RemoveAtSwapBack
+  nameWithType: UnsafeList<T>.RemoveAtSwapBack
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.RemoveAtSwapBack
+  nameWithType.vb: UnsafeList(Of T).RemoveAtSwapBack
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).RemoveAtSwapBack
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Resize*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Resize
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Resize
+  nameWithType: UnsafeList<T>.Resize
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Resize
+  nameWithType.vb: UnsafeList(Of T).Resize
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Resize
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{`0}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{{T}}
+  definition: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Resize(int, AllocationOption)
+  nameWithType: IUnsafeCollection<T>.Resize(int, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Resize(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  nameWithType.vb: IUnsafeCollection(Of T).Resize(Integer, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Resize(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Resize(Integer, AllocationOption)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{`0}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection{`0}.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  isExternal: true
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Resize(int, AllocationOption)
+  nameWithType: IUnsafeCollection<T>.Resize(int, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Resize(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  nameWithType.vb: IUnsafeCollection(Of T).Resize(Integer, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Resize(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Resize(Integer, AllocationOption)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+    name: Resize
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+    name: AllocationOption
+    href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  - name: )
+- uid: System.ArgumentOutOfRangeException
+  commentId: T:System.ArgumentOutOfRangeException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception
+  name: ArgumentOutOfRangeException
+  nameWithType: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.UnsafeSetCount*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.UnsafeSetCount
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_UnsafeSetCount_System_Int32_
+  name: UnsafeSetCount
+  nameWithType: UnsafeList<T>.UnsafeSetCount
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.UnsafeSetCount
+  nameWithType.vb: UnsafeList(Of T).UnsafeSetCount
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).UnsafeSetCount
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Clear*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Clear
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_Clear
+  name: Clear
+  nameWithType: UnsafeList<T>.Clear
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Clear
+  nameWithType.vb: UnsafeList(Of T).Clear
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Clear
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_Clear
+  name: Clear()
+  nameWithType: IUnsafeCollection.Clear()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear()
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+    name: Clear
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_Clear
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+    name: Clear
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_Clear
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetUnsafePtr*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.GetUnsafePtr
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_GetUnsafePtr
+  name: GetUnsafePtr
+  nameWithType: UnsafeList<T>.GetUnsafePtr
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.GetUnsafePtr
+  nameWithType.vb: UnsafeList(Of T).GetUnsafePtr
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).GetUnsafePtr
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_GetUnsafePtr
+  name: GetUnsafePtr()
+  nameWithType: IUnsafeCollection.GetUnsafePtr()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr()
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+    name: GetUnsafePtr
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_GetUnsafePtr
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+    name: GetUnsafePtr
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_GetUnsafePtr
+  - name: (
+  - name: )
+- uid: System.Void*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.void
+  name: void*
+  nameWithType: void*
+  fullName: void*
+  nameWithType.vb: Void*
+  fullName.vb: Void*
+  name.vb: Void*
+  spec.csharp:
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  spec.vb:
+  - uid: System.Void
+    name: Void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsSpan*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.AsSpan
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_AsSpan
+  name: AsSpan
+  nameWithType: UnsafeList<T>.AsSpan
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.AsSpan
+  nameWithType.vb: UnsafeList(Of T).AsSpan
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).AsSpan
+- uid: System.Span{{T}}
+  commentId: T:System.Span{`0}
+  parent: System
+  definition: System.Span`1
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<T>
+  nameWithType: Span<T>
+  fullName: System.Span<T>
+  nameWithType.vb: Span(Of T)
+  fullName.vb: System.Span(Of T)
+  name.vb: Span(Of T)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Span`1
+  commentId: T:System.Span`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<T>
+  nameWithType: Span<T>
+  fullName: System.Span<T>
+  nameWithType.vb: Span(Of T)
+  fullName.vb: System.Span(Of T)
+  name.vb: Span(Of T)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyTo*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyTo
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_CopyTo_System_Span__0__
+  name: CopyTo
+  nameWithType: UnsafeList<T>.CopyTo
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.CopyTo
+  nameWithType.vb: UnsafeList(Of T).CopyTo
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).CopyTo
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyFrom*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.CopyFrom
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_CopyFrom_System_ReadOnlySpan__0__
+  name: CopyFrom
+  nameWithType: UnsafeList<T>.CopyFrom
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.CopyFrom
+  nameWithType.vb: UnsafeList(Of T).CopyFrom
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).CopyFrom
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ToList*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.ToList
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_ToList
+  name: ToList
+  nameWithType: UnsafeList<T>.ToList
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.ToList
+  nameWithType.vb: UnsafeList(Of T).ToList
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).ToList
+- uid: System.Collections.Generic.List{{T}}
+  commentId: T:System.Collections.Generic.List{``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Dispose*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.Dispose
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeList_1_Dispose
+  name: Dispose
+  nameWithType: UnsafeList<T>.Dispose
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.Dispose
+  nameWithType.vb: UnsafeList(Of T).Dispose
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.op_Implicit*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1.op_Implicit
+  name: implicit operator
+  nameWithType: UnsafeList<T>.implicit operator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>.implicit operator
+  nameWithType.vb: UnsafeList(Of T).CType
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T).CType
+  name.vb: CType
+  spec.csharp:
+  - name: implicit
+  - name: " "
+  - name: operator
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  name: UnsafeList<T>
+  nameWithType: UnsafeList<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeList<T>
+  nameWithType.vb: UnsafeList(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeList(Of T)
+  name.vb: UnsafeList(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+    name: UnsafeList
+    href: Misaki.HighPerformance.LowLevel.Collections.UnsafeList-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )

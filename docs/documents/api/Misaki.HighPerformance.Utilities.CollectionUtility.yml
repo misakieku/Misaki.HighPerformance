@@ -1,0 +1,759 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Utilities.CollectionUtility
+  commentId: T:Misaki.HighPerformance.Utilities.CollectionUtility
+  id: CollectionUtility
+  parent: Misaki.HighPerformance.Utilities
+  children:
+  - Misaki.HighPerformance.Utilities.CollectionUtility.AsSpan``1(System.Collections.Generic.List{``0})
+  - Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe``1(System.ReadOnlySpan{``0},System.Int32)
+  - Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe``1(System.Span{``0},System.Int32)
+  - Misaki.HighPerformance.Utilities.CollectionUtility.RemoveAndSwapBack``1(System.Collections.Generic.List{``0},System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: CollectionUtility
+  nameWithType: CollectionUtility
+  fullName: Misaki.HighPerformance.Utilities.CollectionUtility
+  type: Class
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Utilities/CollectionUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CollectionUtility
+    path: src/Misaki.HighPerformance/Utilities/CollectionUtility.cs
+    startLine: 5
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Utilities
+  syntax:
+    content: public static class CollectionUtility
+    content.vb: Public Module CollectionUtility
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Misaki.HighPerformance.Utilities.CollectionUtility.AsSpan``1(System.Collections.Generic.List{``0})
+  commentId: M:Misaki.HighPerformance.Utilities.CollectionUtility.AsSpan``1(System.Collections.Generic.List{``0})
+  id: AsSpan``1(System.Collections.Generic.List{``0})
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Utilities.CollectionUtility
+  langs:
+  - csharp
+  - vb
+  name: AsSpan<T>(List<T>?)
+  nameWithType: CollectionUtility.AsSpan<T>(List<T>?)
+  fullName: Misaki.HighPerformance.Utilities.CollectionUtility.AsSpan<T>(System.Collections.Generic.List<T>?)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Utilities/CollectionUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AsSpan
+    path: src/Misaki.HighPerformance/Utilities/CollectionUtility.cs
+    startLine: 16
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Utilities
+  summary: Creates a span over the elements of the specified list.
+  remarks: The span will become invalid if the list is modified (e.g., elements are added or removed).
+  example: []
+  syntax:
+    content: public static Span<T> AsSpan<T>(this List<T>? list)
+    parameters:
+    - id: list
+      type: System.Collections.Generic.List{{T}}
+      description: The list whose elements the span will cover. Can be null.
+    typeParameters:
+    - id: T
+      description: The type of elements in the list.
+    return:
+      type: System.Span{{T}}
+      description: A span over the elements of the list, or an empty span if the list is null or empty.
+    content.vb: Public Shared Function AsSpan(Of T)(list As List(Of T)) As Span(Of T)
+  overload: Misaki.HighPerformance.Utilities.CollectionUtility.AsSpan*
+  nameWithType.vb: CollectionUtility.AsSpan(Of T)(List(Of T))
+  fullName.vb: Misaki.HighPerformance.Utilities.CollectionUtility.AsSpan(Of T)(System.Collections.Generic.List(Of T))
+  name.vb: AsSpan(Of T)(List(Of T))
+- uid: Misaki.HighPerformance.Utilities.CollectionUtility.RemoveAndSwapBack``1(System.Collections.Generic.List{``0},System.Int32)
+  commentId: M:Misaki.HighPerformance.Utilities.CollectionUtility.RemoveAndSwapBack``1(System.Collections.Generic.List{``0},System.Int32)
+  id: RemoveAndSwapBack``1(System.Collections.Generic.List{``0},System.Int32)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Utilities.CollectionUtility
+  langs:
+  - csharp
+  - vb
+  name: RemoveAndSwapBack<T>(List<T>, int)
+  nameWithType: CollectionUtility.RemoveAndSwapBack<T>(List<T>, int)
+  fullName: Misaki.HighPerformance.Utilities.CollectionUtility.RemoveAndSwapBack<T>(System.Collections.Generic.List<T>, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Utilities/CollectionUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RemoveAndSwapBack
+    path: src/Misaki.HighPerformance/Utilities/CollectionUtility.cs
+    startLine: 31
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Utilities
+  summary: >-
+    Removes the element at the specified index from the list by replacing it with the last element, then removing
+        the last element. This operation does not preserve the order of elements.
+  example: []
+  syntax:
+    content: public static bool RemoveAndSwapBack<T>(this List<T> list, int index)
+    parameters:
+    - id: list
+      type: System.Collections.Generic.List{{T}}
+      description: The list from which to remove the element. Cannot be null.
+    - id: index
+      type: System.Int32
+      description: The zero-based index of the element to remove. Must be within the bounds of the list.
+    typeParameters:
+    - id: T
+      description: The type of elements in the list.
+    return:
+      type: System.Boolean
+      description: True if the element was successfully removed; otherwise, false.
+    content.vb: Public Shared Function RemoveAndSwapBack(Of T)(list As List(Of T), index As Integer) As Boolean
+  overload: Misaki.HighPerformance.Utilities.CollectionUtility.RemoveAndSwapBack*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Thrown if index is less than 0 or greater than or equal to the number of elements in the list.
+  nameWithType.vb: CollectionUtility.RemoveAndSwapBack(Of T)(List(Of T), Integer)
+  fullName.vb: Misaki.HighPerformance.Utilities.CollectionUtility.RemoveAndSwapBack(Of T)(System.Collections.Generic.List(Of T), Integer)
+  name.vb: RemoveAndSwapBack(Of T)(List(Of T), Integer)
+- uid: Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe``1(System.Span{``0},System.Int32)
+  commentId: M:Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe``1(System.Span{``0},System.Int32)
+  id: GetElementUnsafe``1(System.Span{``0},System.Int32)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Utilities.CollectionUtility
+  langs:
+  - csharp
+  - vb
+  name: GetElementUnsafe<T>(Span<T>, int)
+  nameWithType: CollectionUtility.GetElementUnsafe<T>(Span<T>, int)
+  fullName: Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe<T>(System.Span<T>, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Utilities/CollectionUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetElementUnsafe
+    path: src/Misaki.HighPerformance/Utilities/CollectionUtility.cs
+    startLine: 55
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Utilities
+  summary: Returns a reference to the element at the specified index within the given span without performing bounds checking.
+  example: []
+  syntax:
+    content: public static ref T GetElementUnsafe<T>(this Span<T> span, int index)
+    parameters:
+    - id: span
+      type: System.Span{{T}}
+      description: The span from which to retrieve the element.
+    - id: index
+      type: System.Int32
+      description: The zero-based index of the element to retrieve.
+    typeParameters:
+    - id: T
+      description: The type of elements contained in the span.
+    return:
+      type: '{T}'
+      description: A reference to the element at the specified index in the span.
+    content.vb: Public Shared ByRef Function GetElementUnsafe(Of T)(span As Span(Of T), index As Integer) As T
+  overload: Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe*
+  nameWithType.vb: CollectionUtility.GetElementUnsafe(Of T)(Span(Of T), Integer)
+  fullName.vb: Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe(Of T)(System.Span(Of T), Integer)
+  name.vb: GetElementUnsafe(Of T)(Span(Of T), Integer)
+- uid: Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe``1(System.ReadOnlySpan{``0},System.Int32)
+  commentId: M:Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe``1(System.ReadOnlySpan{``0},System.Int32)
+  id: GetElementUnsafe``1(System.ReadOnlySpan{``0},System.Int32)
+  isExtensionMethod: true
+  parent: Misaki.HighPerformance.Utilities.CollectionUtility
+  langs:
+  - csharp
+  - vb
+  name: GetElementUnsafe<T>(ReadOnlySpan<T>, int)
+  nameWithType: CollectionUtility.GetElementUnsafe<T>(ReadOnlySpan<T>, int)
+  fullName: Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe<T>(System.ReadOnlySpan<T>, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/Utilities/CollectionUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetElementUnsafe
+    path: src/Misaki.HighPerformance/Utilities/CollectionUtility.cs
+    startLine: 68
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance.Utilities
+  summary: Returns a read-only reference to the element at the specified index within the given span without performing bounds checking.
+  example: []
+  syntax:
+    content: public static ref readonly T GetElementUnsafe<T>(this ReadOnlySpan<T> span, int index)
+    parameters:
+    - id: span
+      type: System.ReadOnlySpan{{T}}
+      description: The read-only span from which to retrieve the element.
+    - id: index
+      type: System.Int32
+      description: The zero-based index of the element to retrieve.
+    typeParameters:
+    - id: T
+      description: The type of elements contained in the span.
+    return:
+      type: '{T}'
+      description: A read-only reference to the element at the specified index in the span.
+    content.vb: Public Shared Function GetElementUnsafe(Of T)(span As ReadOnlySpan(Of T), index As Integer) As T
+  overload: Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe*
+  nameWithType.vb: CollectionUtility.GetElementUnsafe(Of T)(ReadOnlySpan(Of T), Integer)
+  fullName.vb: Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe(Of T)(System.ReadOnlySpan(Of T), Integer)
+  name.vb: GetElementUnsafe(Of T)(ReadOnlySpan(Of T), Integer)
+references:
+- uid: Misaki.HighPerformance.Utilities
+  commentId: N:Misaki.HighPerformance.Utilities
+  href: Misaki.html
+  name: Misaki.HighPerformance.Utilities
+  nameWithType: Misaki.HighPerformance.Utilities
+  fullName: Misaki.HighPerformance.Utilities
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Utilities
+    name: Utilities
+    href: Misaki.HighPerformance.Utilities.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Utilities
+    name: Utilities
+    href: Misaki.HighPerformance.Utilities.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.Utilities.CollectionUtility.AsSpan*
+  commentId: Overload:Misaki.HighPerformance.Utilities.CollectionUtility.AsSpan
+  href: Misaki.HighPerformance.Utilities.CollectionUtility.html#Misaki_HighPerformance_Utilities_CollectionUtility_AsSpan__1_System_Collections_Generic_List___0__
+  name: AsSpan
+  nameWithType: CollectionUtility.AsSpan
+  fullName: Misaki.HighPerformance.Utilities.CollectionUtility.AsSpan
+- uid: System.Collections.Generic.List{{T}}
+  commentId: T:System.Collections.Generic.List{``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Span{{T}}
+  commentId: T:System.Span{`0}
+  parent: System
+  definition: System.Span`1
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<T>
+  nameWithType: Span<T>
+  fullName: System.Span<T>
+  nameWithType.vb: Span(Of T)
+  fullName.vb: System.Span(Of T)
+  name.vb: Span(Of T)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Span`1
+  commentId: T:System.Span`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<T>
+  nameWithType: Span<T>
+  fullName: System.Span<T>
+  nameWithType.vb: Span(Of T)
+  fullName.vb: System.Span(Of T)
+  name.vb: Span(Of T)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ArgumentOutOfRangeException
+  commentId: T:System.ArgumentOutOfRangeException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception
+  name: ArgumentOutOfRangeException
+  nameWithType: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: Misaki.HighPerformance.Utilities.CollectionUtility.RemoveAndSwapBack*
+  commentId: Overload:Misaki.HighPerformance.Utilities.CollectionUtility.RemoveAndSwapBack
+  href: Misaki.HighPerformance.Utilities.CollectionUtility.html#Misaki_HighPerformance_Utilities_CollectionUtility_RemoveAndSwapBack__1_System_Collections_Generic_List___0__System_Int32_
+  name: RemoveAndSwapBack
+  nameWithType: CollectionUtility.RemoveAndSwapBack
+  fullName: Misaki.HighPerformance.Utilities.CollectionUtility.RemoveAndSwapBack
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe*
+  commentId: Overload:Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe
+  href: Misaki.HighPerformance.Utilities.CollectionUtility.html#Misaki_HighPerformance_Utilities_CollectionUtility_GetElementUnsafe__1_System_Span___0__System_Int32_
+  name: GetElementUnsafe
+  nameWithType: CollectionUtility.GetElementUnsafe
+  fullName: Misaki.HighPerformance.Utilities.CollectionUtility.GetElementUnsafe
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.ReadOnlySpan{{T}}
+  commentId: T:System.ReadOnlySpan{``0}
+  parent: System
+  definition: System.ReadOnlySpan`1
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ReadOnlySpan`1
+  commentId: T:System.ReadOnlySpan`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )

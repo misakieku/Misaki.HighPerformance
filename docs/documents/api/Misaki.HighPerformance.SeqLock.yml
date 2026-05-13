@@ -1,0 +1,444 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.SeqLock
+  commentId: T:Misaki.HighPerformance.SeqLock
+  id: SeqLock
+  parent: Misaki.HighPerformance
+  children:
+  - Misaki.HighPerformance.SeqLock.BeginRead
+  - Misaki.HighPerformance.SeqLock.EndRead(System.UInt64)
+  - Misaki.HighPerformance.SeqLock.EnterWrite
+  - Misaki.HighPerformance.SeqLock.ExitWrite
+  langs:
+  - csharp
+  - vb
+  name: SeqLock
+  nameWithType: SeqLock
+  fullName: Misaki.HighPerformance.SeqLock
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/SeqLock.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SeqLock
+    path: src/Misaki.HighPerformance/SeqLock.cs
+    startLine: 8
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  summary: >-
+    A synchronization primitive optimized for many readers and rare writers.
+
+    Readers never block writers and never block each other.
+  example: []
+  syntax:
+    content: public struct SeqLock
+    content.vb: Public Structure SeqLock
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Misaki.HighPerformance.SeqLock.EnterWrite
+  commentId: M:Misaki.HighPerformance.SeqLock.EnterWrite
+  id: EnterWrite
+  parent: Misaki.HighPerformance.SeqLock
+  langs:
+  - csharp
+  - vb
+  name: EnterWrite()
+  nameWithType: SeqLock.EnterWrite()
+  fullName: Misaki.HighPerformance.SeqLock.EnterWrite()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/SeqLock.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EnterWrite
+    path: src/Misaki.HighPerformance/SeqLock.cs
+    startLine: 14
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public void EnterWrite()
+    content.vb: Public Sub EnterWrite()
+  overload: Misaki.HighPerformance.SeqLock.EnterWrite*
+- uid: Misaki.HighPerformance.SeqLock.ExitWrite
+  commentId: M:Misaki.HighPerformance.SeqLock.ExitWrite
+  id: ExitWrite
+  parent: Misaki.HighPerformance.SeqLock
+  langs:
+  - csharp
+  - vb
+  name: ExitWrite()
+  nameWithType: SeqLock.ExitWrite()
+  fullName: Misaki.HighPerformance.SeqLock.ExitWrite()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/SeqLock.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ExitWrite
+    path: src/Misaki.HighPerformance/SeqLock.cs
+    startLine: 29
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public void ExitWrite()
+    content.vb: Public Sub ExitWrite()
+  overload: Misaki.HighPerformance.SeqLock.ExitWrite*
+- uid: Misaki.HighPerformance.SeqLock.BeginRead
+  commentId: M:Misaki.HighPerformance.SeqLock.BeginRead
+  id: BeginRead
+  parent: Misaki.HighPerformance.SeqLock
+  langs:
+  - csharp
+  - vb
+  name: BeginRead()
+  nameWithType: SeqLock.BeginRead()
+  fullName: Misaki.HighPerformance.SeqLock.BeginRead()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/SeqLock.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: BeginRead
+    path: src/Misaki.HighPerformance/SeqLock.cs
+    startLine: 34
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public ulong BeginRead()
+    return:
+      type: System.UInt64
+    content.vb: Public Function BeginRead() As ULong
+  overload: Misaki.HighPerformance.SeqLock.BeginRead*
+- uid: Misaki.HighPerformance.SeqLock.EndRead(System.UInt64)
+  commentId: M:Misaki.HighPerformance.SeqLock.EndRead(System.UInt64)
+  id: EndRead(System.UInt64)
+  parent: Misaki.HighPerformance.SeqLock
+  langs:
+  - csharp
+  - vb
+  name: EndRead(ulong)
+  nameWithType: SeqLock.EndRead(ulong)
+  fullName: Misaki.HighPerformance.SeqLock.EndRead(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance/SeqLock.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: EndRead
+    path: src/Misaki.HighPerformance/SeqLock.cs
+    startLine: 53
+  assemblies:
+  - Misaki.HighPerformance
+  namespace: Misaki.HighPerformance
+  syntax:
+    content: public bool EndRead(ulong seq)
+    parameters:
+    - id: seq
+      type: System.UInt64
+    return:
+      type: System.Boolean
+    content.vb: Public Function EndRead(seq As ULong) As Boolean
+  overload: Misaki.HighPerformance.SeqLock.EndRead*
+  nameWithType.vb: SeqLock.EndRead(ULong)
+  fullName.vb: Misaki.HighPerformance.SeqLock.EndRead(ULong)
+  name.vb: EndRead(ULong)
+references:
+- uid: Misaki.HighPerformance
+  commentId: N:Misaki.HighPerformance
+  href: Misaki.html
+  name: Misaki.HighPerformance
+  nameWithType: Misaki.HighPerformance
+  fullName: Misaki.HighPerformance
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.SeqLock.EnterWrite*
+  commentId: Overload:Misaki.HighPerformance.SeqLock.EnterWrite
+  href: Misaki.HighPerformance.SeqLock.html#Misaki_HighPerformance_SeqLock_EnterWrite
+  name: EnterWrite
+  nameWithType: SeqLock.EnterWrite
+  fullName: Misaki.HighPerformance.SeqLock.EnterWrite
+- uid: Misaki.HighPerformance.SeqLock.ExitWrite*
+  commentId: Overload:Misaki.HighPerformance.SeqLock.ExitWrite
+  href: Misaki.HighPerformance.SeqLock.html#Misaki_HighPerformance_SeqLock_ExitWrite
+  name: ExitWrite
+  nameWithType: SeqLock.ExitWrite
+  fullName: Misaki.HighPerformance.SeqLock.ExitWrite
+- uid: Misaki.HighPerformance.SeqLock.BeginRead*
+  commentId: Overload:Misaki.HighPerformance.SeqLock.BeginRead
+  href: Misaki.HighPerformance.SeqLock.html#Misaki_HighPerformance_SeqLock_BeginRead
+  name: BeginRead
+  nameWithType: SeqLock.BeginRead
+  fullName: Misaki.HighPerformance.SeqLock.BeginRead
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: Misaki.HighPerformance.SeqLock.EndRead*
+  commentId: Overload:Misaki.HighPerformance.SeqLock.EndRead
+  href: Misaki.HighPerformance.SeqLock.html#Misaki_HighPerformance_SeqLock_EndRead_System_UInt64_
+  name: EndRead
+  nameWithType: SeqLock.EndRead
+  fullName: Misaki.HighPerformance.SeqLock.EndRead
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean

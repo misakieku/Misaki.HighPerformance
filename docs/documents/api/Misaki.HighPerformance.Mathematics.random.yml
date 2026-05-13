@@ -1,0 +1,2804 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.random
+  commentId: T:Misaki.HighPerformance.Mathematics.random
+  id: random
+  parent: Misaki.HighPerformance.Mathematics
+  children:
+  - Misaki.HighPerformance.Mathematics.random.#ctor(System.UInt32)
+  - Misaki.HighPerformance.Mathematics.random.CreateFromIndex(System.UInt32)
+  - Misaki.HighPerformance.Mathematics.random.InitState(System.UInt32)
+  - Misaki.HighPerformance.Mathematics.random.NextBool
+  - Misaki.HighPerformance.Mathematics.random.NextBool2
+  - Misaki.HighPerformance.Mathematics.random.NextBool3
+  - Misaki.HighPerformance.Mathematics.random.NextBool4
+  - Misaki.HighPerformance.Mathematics.random.NextDouble
+  - Misaki.HighPerformance.Mathematics.random.NextDouble(System.Double)
+  - Misaki.HighPerformance.Mathematics.random.NextDouble(System.Double,System.Double)
+  - Misaki.HighPerformance.Mathematics.random.NextDouble2
+  - Misaki.HighPerformance.Mathematics.random.NextDouble2(Misaki.HighPerformance.Mathematics.double2)
+  - Misaki.HighPerformance.Mathematics.random.NextDouble2(Misaki.HighPerformance.Mathematics.double2,Misaki.HighPerformance.Mathematics.double2)
+  - Misaki.HighPerformance.Mathematics.random.NextDouble2Direction
+  - Misaki.HighPerformance.Mathematics.random.NextDouble3
+  - Misaki.HighPerformance.Mathematics.random.NextDouble3(Misaki.HighPerformance.Mathematics.double3)
+  - Misaki.HighPerformance.Mathematics.random.NextDouble3(Misaki.HighPerformance.Mathematics.double3,Misaki.HighPerformance.Mathematics.double3)
+  - Misaki.HighPerformance.Mathematics.random.NextDouble3Direction
+  - Misaki.HighPerformance.Mathematics.random.NextDouble4
+  - Misaki.HighPerformance.Mathematics.random.NextDouble4(Misaki.HighPerformance.Mathematics.double4)
+  - Misaki.HighPerformance.Mathematics.random.NextDouble4(Misaki.HighPerformance.Mathematics.double4,Misaki.HighPerformance.Mathematics.double4)
+  - Misaki.HighPerformance.Mathematics.random.NextFloat
+  - Misaki.HighPerformance.Mathematics.random.NextFloat(System.Single)
+  - Misaki.HighPerformance.Mathematics.random.NextFloat(System.Single,System.Single)
+  - Misaki.HighPerformance.Mathematics.random.NextFloat2
+  - Misaki.HighPerformance.Mathematics.random.NextFloat2(Misaki.HighPerformance.Mathematics.float2)
+  - Misaki.HighPerformance.Mathematics.random.NextFloat2(Misaki.HighPerformance.Mathematics.float2,Misaki.HighPerformance.Mathematics.float2)
+  - Misaki.HighPerformance.Mathematics.random.NextFloat2Direction
+  - Misaki.HighPerformance.Mathematics.random.NextFloat3
+  - Misaki.HighPerformance.Mathematics.random.NextFloat3(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.random.NextFloat3(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.random.NextFloat3Direction
+  - Misaki.HighPerformance.Mathematics.random.NextFloat4
+  - Misaki.HighPerformance.Mathematics.random.NextFloat4(Misaki.HighPerformance.Mathematics.float4)
+  - Misaki.HighPerformance.Mathematics.random.NextFloat4(Misaki.HighPerformance.Mathematics.float4,Misaki.HighPerformance.Mathematics.float4)
+  - Misaki.HighPerformance.Mathematics.random.NextInt
+  - Misaki.HighPerformance.Mathematics.random.NextInt(System.Int32)
+  - Misaki.HighPerformance.Mathematics.random.NextInt(System.Int32,System.Int32)
+  - Misaki.HighPerformance.Mathematics.random.NextInt2
+  - Misaki.HighPerformance.Mathematics.random.NextInt2(Misaki.HighPerformance.Mathematics.int2)
+  - Misaki.HighPerformance.Mathematics.random.NextInt2(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)
+  - Misaki.HighPerformance.Mathematics.random.NextInt3
+  - Misaki.HighPerformance.Mathematics.random.NextInt3(Misaki.HighPerformance.Mathematics.int3)
+  - Misaki.HighPerformance.Mathematics.random.NextInt3(Misaki.HighPerformance.Mathematics.int3,Misaki.HighPerformance.Mathematics.int3)
+  - Misaki.HighPerformance.Mathematics.random.NextInt4
+  - Misaki.HighPerformance.Mathematics.random.NextInt4(Misaki.HighPerformance.Mathematics.int4)
+  - Misaki.HighPerformance.Mathematics.random.NextInt4(Misaki.HighPerformance.Mathematics.int4,Misaki.HighPerformance.Mathematics.int4)
+  - Misaki.HighPerformance.Mathematics.random.NextQuaternionRotation
+  - Misaki.HighPerformance.Mathematics.random.NextUInt
+  - Misaki.HighPerformance.Mathematics.random.NextUInt(System.UInt32)
+  - Misaki.HighPerformance.Mathematics.random.NextUInt(System.UInt32,System.UInt32)
+  - Misaki.HighPerformance.Mathematics.random.NextUInt2
+  - Misaki.HighPerformance.Mathematics.random.NextUInt2(Misaki.HighPerformance.Mathematics.uint2)
+  - Misaki.HighPerformance.Mathematics.random.NextUInt2(Misaki.HighPerformance.Mathematics.uint2,Misaki.HighPerformance.Mathematics.uint2)
+  - Misaki.HighPerformance.Mathematics.random.NextUInt3
+  - Misaki.HighPerformance.Mathematics.random.NextUInt3(Misaki.HighPerformance.Mathematics.uint3)
+  - Misaki.HighPerformance.Mathematics.random.NextUInt3(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3)
+  - Misaki.HighPerformance.Mathematics.random.NextUInt4
+  - Misaki.HighPerformance.Mathematics.random.NextUInt4(Misaki.HighPerformance.Mathematics.uint4)
+  - Misaki.HighPerformance.Mathematics.random.NextUInt4(Misaki.HighPerformance.Mathematics.uint4,Misaki.HighPerformance.Mathematics.uint4)
+  - Misaki.HighPerformance.Mathematics.random.state
+  langs:
+  - csharp
+  - vb
+  name: random
+  nameWithType: random
+  fullName: Misaki.HighPerformance.Mathematics.random
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: random
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 7
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  syntax:
+    content: public struct random
+    content.vb: Public Structure random
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Misaki.HighPerformance.Mathematics.random.state
+  commentId: F:Misaki.HighPerformance.Mathematics.random.state
+  id: state
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: state
+  nameWithType: random.state
+  fullName: Misaki.HighPerformance.Mathematics.random.state
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: state
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: The random number generator state. It should not be zero.
+  example: []
+  syntax:
+    content: public uint state
+    return:
+      type: System.UInt32
+    content.vb: Public state As UInteger
+- uid: Misaki.HighPerformance.Mathematics.random.#ctor(System.UInt32)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.#ctor(System.UInt32)
+  id: '#ctor(System.UInt32)'
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: random(uint)
+  nameWithType: random.random(uint)
+  fullName: Misaki.HighPerformance.Mathematics.random.random(uint)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 19
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Constructs a Random instance with a given seed value. The seed must be non-zero.
+  example: []
+  syntax:
+    content: public random(uint seed)
+    parameters:
+    - id: seed
+      type: System.UInt32
+      description: The seed to initialize with.
+    content.vb: Public Sub New(seed As UInteger)
+  overload: Misaki.HighPerformance.Mathematics.random.#ctor*
+  nameWithType.vb: random.New(UInteger)
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.New(UInteger)
+  name.vb: New(UInteger)
+- uid: Misaki.HighPerformance.Mathematics.random.CreateFromIndex(System.UInt32)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.CreateFromIndex(System.UInt32)
+  id: CreateFromIndex(System.UInt32)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: CreateFromIndex(uint)
+  nameWithType: random.CreateFromIndex(uint)
+  fullName: Misaki.HighPerformance.Mathematics.random.CreateFromIndex(uint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CreateFromIndex
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 47
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Constructs a <xref href="Misaki.HighPerformance.Mathematics.random" data-throw-if-not-resolved="false"></xref> instance with an index that gets hashed.  The index must not be uint.MaxValue.
+  remarks: Use this function when you expect to create several Random instances in a loop.
+  example:
+  - >-
+    <pre><code class="lang-csharp">for (uint i = 0; i &lt; 4096; ++i)
+
+    {
+        Random rand = Random.CreateFromIndex(i);
+
+        // Random numbers drawn from loop iteration j will be very different
+        // from every other loop iteration k.
+        rand.NextUInt();
+    }</code></pre>
+  syntax:
+    content: public static random CreateFromIndex(uint index)
+    parameters:
+    - id: index
+      type: System.UInt32
+      description: An index that will be hashed for Random creation.  Must not be uint.MaxValue.
+    return:
+      type: Misaki.HighPerformance.Mathematics.random
+      description: <xref href="Misaki.HighPerformance.Mathematics.random" data-throw-if-not-resolved="false"></xref> created from an index.
+    content.vb: Public Shared Function CreateFromIndex(index As UInteger) As random
+  overload: Misaki.HighPerformance.Mathematics.random.CreateFromIndex*
+  nameWithType.vb: random.CreateFromIndex(UInteger)
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.CreateFromIndex(UInteger)
+  name.vb: CreateFromIndex(UInteger)
+- uid: Misaki.HighPerformance.Mathematics.random.InitState(System.UInt32)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.InitState(System.UInt32)
+  id: InitState(System.UInt32)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: InitState(uint)
+  nameWithType: random.InitState(uint)
+  fullName: Misaki.HighPerformance.Mathematics.random.InitState(uint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: InitState
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 78
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Initialized the state of the Random instance with a given seed value. The seed must be non-zero.
+  example: []
+  syntax:
+    content: public void InitState(uint seed = 1851936439)
+    parameters:
+    - id: seed
+      type: System.UInt32
+      description: The seed to initialize with.
+    content.vb: Public Sub InitState(seed As UInteger = 1851936439)
+  overload: Misaki.HighPerformance.Mathematics.random.InitState*
+  nameWithType.vb: random.InitState(UInteger)
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.InitState(UInteger)
+  name.vb: InitState(UInteger)
+- uid: Misaki.HighPerformance.Mathematics.random.NextBool
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextBool
+  id: NextBool
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextBool()
+  nameWithType: random.NextBool()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextBool()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextBool
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 87
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random bool value.
+  example: []
+  syntax:
+    content: public bool NextBool()
+    return:
+      type: System.Boolean
+      description: A uniformly random boolean value.
+    content.vb: Public Function NextBool() As Boolean
+  overload: Misaki.HighPerformance.Mathematics.random.NextBool*
+- uid: Misaki.HighPerformance.Mathematics.random.NextBool2
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextBool2
+  id: NextBool2
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextBool2()
+  nameWithType: random.NextBool2()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextBool2()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextBool2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 95
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random bool2 value.
+  example: []
+  syntax:
+    content: public bool2 NextBool2()
+    return:
+      type: Misaki.HighPerformance.Mathematics.bool2
+      description: A uniformly random bool2 value.
+    content.vb: Public Function NextBool2() As bool2
+  overload: Misaki.HighPerformance.Mathematics.random.NextBool2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextBool3
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextBool3
+  id: NextBool3
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextBool3()
+  nameWithType: random.NextBool3()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextBool3()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextBool3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 104
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random bool3 value.
+  example: []
+  syntax:
+    content: public bool3 NextBool3()
+    return:
+      type: Misaki.HighPerformance.Mathematics.bool3
+      description: A uniformly random bool3 value.
+    content.vb: Public Function NextBool3() As bool3
+  overload: Misaki.HighPerformance.Mathematics.random.NextBool3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextBool4
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextBool4
+  id: NextBool4
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextBool4()
+  nameWithType: random.NextBool4()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextBool4()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextBool4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 113
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random bool4 value.
+  example: []
+  syntax:
+    content: public bool4 NextBool4()
+    return:
+      type: Misaki.HighPerformance.Mathematics.bool4
+      description: A uniformly random bool4 value.
+    content.vb: Public Function NextBool4() As bool4
+  overload: Misaki.HighPerformance.Mathematics.random.NextBool4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt
+  id: NextInt
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt()
+  nameWithType: random.NextInt()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 123
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int value in the interval [-2147483647, 2147483647].
+  example: []
+  syntax:
+    content: public int NextInt()
+    return:
+      type: System.Int32
+      description: A uniformly random integer value.
+    content.vb: Public Function NextInt() As Integer
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt*
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt2
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt2
+  id: NextInt2
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt2()
+  nameWithType: random.NextInt2()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt2()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 131
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int2 value with all components in the interval [-2147483647, 2147483647].
+  example: []
+  syntax:
+    content: public int2 NextInt2()
+    return:
+      type: Misaki.HighPerformance.Mathematics.int2
+      description: A uniformly random int2 value.
+    content.vb: Public Function NextInt2() As int2
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt3
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt3
+  id: NextInt3
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt3()
+  nameWithType: random.NextInt3()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt3()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 139
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int3 value with all components in the interval [-2147483647, 2147483647].
+  example: []
+  syntax:
+    content: public int3 NextInt3()
+    return:
+      type: Misaki.HighPerformance.Mathematics.int3
+      description: A uniformly random int3 value.
+    content.vb: Public Function NextInt3() As int3
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt4
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt4
+  id: NextInt4
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt4()
+  nameWithType: random.NextInt4()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt4()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 147
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int4 value with all components in the interval [-2147483647, 2147483647].
+  example: []
+  syntax:
+    content: public int4 NextInt4()
+    return:
+      type: Misaki.HighPerformance.Mathematics.int4
+      description: A uniformly random int4 value.
+    content.vb: Public Function NextInt4() As int4
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt(System.Int32)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt(System.Int32)
+  id: NextInt(System.Int32)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt(int)
+  nameWithType: random.NextInt(int)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt(int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 156
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int value in the interval [0, max).
+  example: []
+  syntax:
+    content: public int NextInt(int max)
+    parameters:
+    - id: max
+      type: System.Int32
+      description: The maximum value to generate, exclusive.
+    return:
+      type: System.Int32
+      description: A uniformly random int value in the range [0, max).
+    content.vb: Public Function NextInt(max As Integer) As Integer
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt*
+  nameWithType.vb: random.NextInt(Integer)
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.NextInt(Integer)
+  name.vb: NextInt(Integer)
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt2(Misaki.HighPerformance.Mathematics.int2)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt2(Misaki.HighPerformance.Mathematics.int2)
+  id: NextInt2(Misaki.HighPerformance.Mathematics.int2)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt2(int2)
+  nameWithType: random.NextInt2(int2)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt2(Misaki.HighPerformance.Mathematics.int2)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 166
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int2 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public int2 NextInt2(int2 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.int2
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.int2
+      description: A uniformly random int2 value with all components in the range [0, max).
+    content.vb: Public Function NextInt2(max As int2) As int2
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt3(Misaki.HighPerformance.Mathematics.int3)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt3(Misaki.HighPerformance.Mathematics.int3)
+  id: NextInt3(Misaki.HighPerformance.Mathematics.int3)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt3(int3)
+  nameWithType: random.NextInt3(int3)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt3(Misaki.HighPerformance.Mathematics.int3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 178
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int3 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public int3 NextInt3(int3 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.int3
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.int3
+      description: A uniformly random int3 value with all components in the range [0, max).
+    content.vb: Public Function NextInt3(max As int3) As int3
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt4(Misaki.HighPerformance.Mathematics.int4)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt4(Misaki.HighPerformance.Mathematics.int4)
+  id: NextInt4(Misaki.HighPerformance.Mathematics.int4)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt4(int4)
+  nameWithType: random.NextInt4(int4)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt4(Misaki.HighPerformance.Mathematics.int4)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 192
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int4 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public int4 NextInt4(int4 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.int4
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.int4
+      description: A uniformly random int4 value with all components in the range [0, max).
+    content.vb: Public Function NextInt4(max As int4) As int4
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt(System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt(System.Int32,System.Int32)
+  id: NextInt(System.Int32,System.Int32)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt(int, int)
+  nameWithType: random.NextInt(int, int)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 209
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int value in the interval [min, max).
+  example: []
+  syntax:
+    content: public int NextInt(int min, int max)
+    parameters:
+    - id: min
+      type: System.Int32
+      description: The minimum value to generate, inclusive.
+    - id: max
+      type: System.Int32
+      description: The maximum value to generate, exclusive.
+    return:
+      type: System.Int32
+      description: A uniformly random integer between [min, max).
+    content.vb: Public Function NextInt(min As Integer, max As Integer) As Integer
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt*
+  nameWithType.vb: random.NextInt(Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.NextInt(Integer, Integer)
+  name.vb: NextInt(Integer, Integer)
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt2(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt2(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)
+  id: NextInt2(Misaki.HighPerformance.Mathematics.int2,Misaki.HighPerformance.Mathematics.int2)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt2(int2, int2)
+  nameWithType: random.NextInt2(int2, int2)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt2(Misaki.HighPerformance.Mathematics.int2, Misaki.HighPerformance.Mathematics.int2)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 221
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int2 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public int2 NextInt2(int2 min, int2 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.int2
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.int2
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.int2
+      description: A uniformly random int2 between [min, max).
+    content.vb: Public Function NextInt2(min As int2, max As int2) As int2
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt3(Misaki.HighPerformance.Mathematics.int3,Misaki.HighPerformance.Mathematics.int3)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt3(Misaki.HighPerformance.Mathematics.int3,Misaki.HighPerformance.Mathematics.int3)
+  id: NextInt3(Misaki.HighPerformance.Mathematics.int3,Misaki.HighPerformance.Mathematics.int3)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt3(int3, int3)
+  nameWithType: random.NextInt3(int3, int3)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt3(Misaki.HighPerformance.Mathematics.int3, Misaki.HighPerformance.Mathematics.int3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 235
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int3 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public int3 NextInt3(int3 min, int3 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.int3
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.int3
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.int3
+      description: A uniformly random int3 between [min, max).
+    content.vb: Public Function NextInt3(min As int3, max As int3) As int3
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt4(Misaki.HighPerformance.Mathematics.int4,Misaki.HighPerformance.Mathematics.int4)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextInt4(Misaki.HighPerformance.Mathematics.int4,Misaki.HighPerformance.Mathematics.int4)
+  id: NextInt4(Misaki.HighPerformance.Mathematics.int4,Misaki.HighPerformance.Mathematics.int4)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextInt4(int4, int4)
+  nameWithType: random.NextInt4(int4, int4)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt4(Misaki.HighPerformance.Mathematics.int4, Misaki.HighPerformance.Mathematics.int4)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextInt4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 251
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random int4 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public int4 NextInt4(int4 min, int4 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.int4
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.int4
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.int4
+      description: A uniformly random int4 between [min, max).
+    content.vb: Public Function NextInt4(min As int4, max As int4) As int4
+  overload: Misaki.HighPerformance.Mathematics.random.NextInt4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt
+  id: NextUInt
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt()
+  nameWithType: random.NextUInt()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 267
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint value in the interval [0, 4294967294].
+  example: []
+  syntax:
+    content: public uint NextUInt()
+    return:
+      type: System.UInt32
+      description: A uniformly random unsigned integer.
+    content.vb: Public Function NextUInt() As UInteger
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt*
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt2
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt2
+  id: NextUInt2
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt2()
+  nameWithType: random.NextUInt2()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt2()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 275
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint2 value with all components in the interval [0, 4294967294].
+  example: []
+  syntax:
+    content: public uint2 NextUInt2()
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint2
+      description: A uniformly random uint2.
+    content.vb: Public Function NextUInt2() As uint2
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt3
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt3
+  id: NextUInt3
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt3()
+  nameWithType: random.NextUInt3()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt3()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 283
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint3 value with all components in the interval [0, 4294967294].
+  example: []
+  syntax:
+    content: public uint3 NextUInt3()
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3
+      description: A uniformly random uint3.
+    content.vb: Public Function NextUInt3() As uint3
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt4
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt4
+  id: NextUInt4
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt4()
+  nameWithType: random.NextUInt4()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt4()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 291
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint4 value with all components in the interval [0, 4294967294].
+  example: []
+  syntax:
+    content: public uint4 NextUInt4()
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint4
+      description: A uniformly random uint4.
+    content.vb: Public Function NextUInt4() As uint4
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt(System.UInt32)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt(System.UInt32)
+  id: NextUInt(System.UInt32)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt(uint)
+  nameWithType: random.NextUInt(uint)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt(uint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 301
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint value in the interval [0, max).
+  example: []
+  syntax:
+    content: public uint NextUInt(uint max)
+    parameters:
+    - id: max
+      type: System.UInt32
+      description: The maximum value to generate, exclusive.
+    return:
+      type: System.UInt32
+      description: A uniformly random unsigned integer in the range [0, max).
+    content.vb: Public Function NextUInt(max As UInteger) As UInteger
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt*
+  nameWithType.vb: random.NextUInt(UInteger)
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.NextUInt(UInteger)
+  name.vb: NextUInt(UInteger)
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt2(Misaki.HighPerformance.Mathematics.uint2)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt2(Misaki.HighPerformance.Mathematics.uint2)
+  id: NextUInt2(Misaki.HighPerformance.Mathematics.uint2)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt2(uint2)
+  nameWithType: random.NextUInt2(uint2)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt2(Misaki.HighPerformance.Mathematics.uint2)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 310
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint2 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public uint2 NextUInt2(uint2 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.uint2
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint2
+      description: A uniformly random uint2 in the range [0, max).
+    content.vb: Public Function NextUInt2(max As uint2) As uint2
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt3(Misaki.HighPerformance.Mathematics.uint3)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt3(Misaki.HighPerformance.Mathematics.uint3)
+  id: NextUInt3(Misaki.HighPerformance.Mathematics.uint3)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt3(uint3)
+  nameWithType: random.NextUInt3(uint3)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt3(Misaki.HighPerformance.Mathematics.uint3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 320
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint3 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public uint3 NextUInt3(uint3 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.uint3
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3
+      description: A uniformly random uint3 in the range [0, max).
+    content.vb: Public Function NextUInt3(max As uint3) As uint3
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt4(Misaki.HighPerformance.Mathematics.uint4)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt4(Misaki.HighPerformance.Mathematics.uint4)
+  id: NextUInt4(Misaki.HighPerformance.Mathematics.uint4)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt4(uint4)
+  nameWithType: random.NextUInt4(uint4)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt4(Misaki.HighPerformance.Mathematics.uint4)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 331
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint4 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public uint4 NextUInt4(uint4 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.uint4
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint4
+      description: A uniformly random uint4 in the range [0, max).
+    content.vb: Public Function NextUInt4(max As uint4) As uint4
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt(System.UInt32,System.UInt32)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt(System.UInt32,System.UInt32)
+  id: NextUInt(System.UInt32,System.UInt32)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt(uint, uint)
+  nameWithType: random.NextUInt(uint, uint)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt(uint, uint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 344
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint value in the interval [min, max).
+  example: []
+  syntax:
+    content: public uint NextUInt(uint min, uint max)
+    parameters:
+    - id: min
+      type: System.UInt32
+      description: The minimum value to generate, inclusive.
+    - id: max
+      type: System.UInt32
+      description: The maximum value to generate, exclusive.
+    return:
+      type: System.UInt32
+      description: A uniformly random unsigned integer in the range [min, max).
+    content.vb: Public Function NextUInt(min As UInteger, max As UInteger) As UInteger
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt*
+  nameWithType.vb: random.NextUInt(UInteger, UInteger)
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.NextUInt(UInteger, UInteger)
+  name.vb: NextUInt(UInteger, UInteger)
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt2(Misaki.HighPerformance.Mathematics.uint2,Misaki.HighPerformance.Mathematics.uint2)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt2(Misaki.HighPerformance.Mathematics.uint2,Misaki.HighPerformance.Mathematics.uint2)
+  id: NextUInt2(Misaki.HighPerformance.Mathematics.uint2,Misaki.HighPerformance.Mathematics.uint2)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt2(uint2, uint2)
+  nameWithType: random.NextUInt2(uint2, uint2)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt2(Misaki.HighPerformance.Mathematics.uint2, Misaki.HighPerformance.Mathematics.uint2)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 356
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint2 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public uint2 NextUInt2(uint2 min, uint2 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.uint2
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.uint2
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint2
+      description: A uniformly random uint2 in the range [min, max).
+    content.vb: Public Function NextUInt2(min As uint2, max As uint2) As uint2
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt3(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt3(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3)
+  id: NextUInt3(Misaki.HighPerformance.Mathematics.uint3,Misaki.HighPerformance.Mathematics.uint3)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt3(uint3, uint3)
+  nameWithType: random.NextUInt3(uint3, uint3)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt3(Misaki.HighPerformance.Mathematics.uint3, Misaki.HighPerformance.Mathematics.uint3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 370
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint3 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public uint3 NextUInt3(uint3 min, uint3 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.uint3
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.uint3
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint3
+      description: A uniformly random uint3 in the range [min, max).
+    content.vb: Public Function NextUInt3(min As uint3, max As uint3) As uint3
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt4(Misaki.HighPerformance.Mathematics.uint4,Misaki.HighPerformance.Mathematics.uint4)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextUInt4(Misaki.HighPerformance.Mathematics.uint4,Misaki.HighPerformance.Mathematics.uint4)
+  id: NextUInt4(Misaki.HighPerformance.Mathematics.uint4,Misaki.HighPerformance.Mathematics.uint4)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextUInt4(uint4, uint4)
+  nameWithType: random.NextUInt4(uint4, uint4)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt4(Misaki.HighPerformance.Mathematics.uint4, Misaki.HighPerformance.Mathematics.uint4)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextUInt4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 386
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random uint4 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public uint4 NextUInt4(uint4 min, uint4 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.uint4
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.uint4
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.uint4
+      description: A uniformly random uint4 in the range [min, max).
+    content.vb: Public Function NextUInt4(min As uint4, max As uint4) As uint4
+  overload: Misaki.HighPerformance.Mathematics.random.NextUInt4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat
+  id: NextFloat
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat()
+  nameWithType: random.NextFloat()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 402
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float value in the interval [0, 1).
+  example: []
+  syntax:
+    content: public float NextFloat()
+    return:
+      type: System.Single
+      description: A uniformly random float value in the range [0, 1).
+    content.vb: Public Function NextFloat() As Single
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat2
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat2
+  id: NextFloat2
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat2()
+  nameWithType: random.NextFloat2()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat2()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 410
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float2 value with all components in the interval [0, 1).
+  example: []
+  syntax:
+    content: public float2 NextFloat2()
+    return:
+      type: Misaki.HighPerformance.Mathematics.float2
+      description: A uniformly random float2 value in the range [0, 1).
+    content.vb: Public Function NextFloat2() As float2
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat3
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat3
+  id: NextFloat3
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat3()
+  nameWithType: random.NextFloat3()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat3()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 418
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float3 value with all components in the interval [0, 1).
+  example: []
+  syntax:
+    content: public float3 NextFloat3()
+    return:
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A uniformly random float3 value in the range [0, 1).
+    content.vb: Public Function NextFloat3() As float3
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat4
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat4
+  id: NextFloat4
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat4()
+  nameWithType: random.NextFloat4()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat4()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 426
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float4 value with all components in the interval [0, 1).
+  example: []
+  syntax:
+    content: public float4 NextFloat4()
+    return:
+      type: Misaki.HighPerformance.Mathematics.float4
+      description: A uniformly random float4 value in the range [0, 1).
+    content.vb: Public Function NextFloat4() As float4
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat(System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat(System.Single)
+  id: NextFloat(System.Single)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat(float)
+  nameWithType: random.NextFloat(float)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat(float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 436
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float value in the interval [0, max).
+  example: []
+  syntax:
+    content: public float NextFloat(float max)
+    parameters:
+    - id: max
+      type: System.Single
+      description: The maximum value to generate, exclusive.
+    return:
+      type: System.Single
+      description: A uniformly random float value in the range [0, max).
+    content.vb: Public Function NextFloat(max As Single) As Single
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat*
+  nameWithType.vb: random.NextFloat(Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.NextFloat(Single)
+  name.vb: NextFloat(Single)
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat2(Misaki.HighPerformance.Mathematics.float2)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat2(Misaki.HighPerformance.Mathematics.float2)
+  id: NextFloat2(Misaki.HighPerformance.Mathematics.float2)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat2(float2)
+  nameWithType: random.NextFloat2(float2)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat2(Misaki.HighPerformance.Mathematics.float2)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 445
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float2 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public float2 NextFloat2(float2 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.float2
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.float2
+      description: A uniformly random float2 value in the range [0, max).
+    content.vb: Public Function NextFloat2(max As float2) As float2
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat3(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat3(Misaki.HighPerformance.Mathematics.float3)
+  id: NextFloat3(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat3(float3)
+  nameWithType: random.NextFloat3(float3)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat3(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 454
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float3 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public float3 NextFloat3(float3 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A uniformly random float3 value in the range [0, max).
+    content.vb: Public Function NextFloat3(max As float3) As float3
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat4(Misaki.HighPerformance.Mathematics.float4)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat4(Misaki.HighPerformance.Mathematics.float4)
+  id: NextFloat4(Misaki.HighPerformance.Mathematics.float4)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat4(float4)
+  nameWithType: random.NextFloat4(float4)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat4(Misaki.HighPerformance.Mathematics.float4)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 463
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float4 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public float4 NextFloat4(float4 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.float4
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.float4
+      description: A uniformly random float4 value in the range [0, max).
+    content.vb: Public Function NextFloat4(max As float4) As float4
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat(System.Single,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat(System.Single,System.Single)
+  id: NextFloat(System.Single,System.Single)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat(float, float)
+  nameWithType: random.NextFloat(float, float)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat(float, float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 474
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float value in the interval [min, max).
+  example: []
+  syntax:
+    content: public float NextFloat(float min, float max)
+    parameters:
+    - id: min
+      type: System.Single
+      description: The minimum value to generate, inclusive.
+    - id: max
+      type: System.Single
+      description: The maximum value to generate, exclusive.
+    return:
+      type: System.Single
+      description: A uniformly random float value in the range [min, max).
+    content.vb: Public Function NextFloat(min As Single, max As Single) As Single
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat*
+  nameWithType.vb: random.NextFloat(Single, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.NextFloat(Single, Single)
+  name.vb: NextFloat(Single, Single)
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat2(Misaki.HighPerformance.Mathematics.float2,Misaki.HighPerformance.Mathematics.float2)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat2(Misaki.HighPerformance.Mathematics.float2,Misaki.HighPerformance.Mathematics.float2)
+  id: NextFloat2(Misaki.HighPerformance.Mathematics.float2,Misaki.HighPerformance.Mathematics.float2)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat2(float2, float2)
+  nameWithType: random.NextFloat2(float2, float2)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat2(Misaki.HighPerformance.Mathematics.float2, Misaki.HighPerformance.Mathematics.float2)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 484
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float2 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public float2 NextFloat2(float2 min, float2 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.float2
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.float2
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.float2
+      description: A uniformly random float2 value in the range [min, max).
+    content.vb: Public Function NextFloat2(min As float2, max As float2) As float2
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat3(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat3(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  id: NextFloat3(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat3(float3, float3)
+  nameWithType: random.NextFloat3(float3, float3)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat3(Misaki.HighPerformance.Mathematics.float3, Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 494
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float3 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public float3 NextFloat3(float3 min, float3 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A uniformly random float3 value in the range [min, max).
+    content.vb: Public Function NextFloat3(min As float3, max As float3) As float3
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat4(Misaki.HighPerformance.Mathematics.float4,Misaki.HighPerformance.Mathematics.float4)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat4(Misaki.HighPerformance.Mathematics.float4,Misaki.HighPerformance.Mathematics.float4)
+  id: NextFloat4(Misaki.HighPerformance.Mathematics.float4,Misaki.HighPerformance.Mathematics.float4)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat4(float4, float4)
+  nameWithType: random.NextFloat4(float4, float4)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat4(Misaki.HighPerformance.Mathematics.float4, Misaki.HighPerformance.Mathematics.float4)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 504
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random float4 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public float4 NextFloat4(float4 min, float4 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.float4
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.float4
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.float4
+      description: A uniformly random float4 value in the range [min, max).
+    content.vb: Public Function NextFloat4(min As float4, max As float4) As float4
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble
+  id: NextDouble
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble()
+  nameWithType: random.NextDouble()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 514
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double value in the interval [0, 1).
+  example: []
+  syntax:
+    content: public double NextDouble()
+    return:
+      type: System.Double
+      description: A uniformly random double value in the range [0, 1).
+    content.vb: Public Function NextDouble() As Double
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble2
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble2
+  id: NextDouble2
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble2()
+  nameWithType: random.NextDouble2()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble2()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 523
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double2 value with all components in the interval [0, 1).
+  example: []
+  syntax:
+    content: public double2 NextDouble2()
+    return:
+      type: Misaki.HighPerformance.Mathematics.double2
+      description: A uniformly random double2 value in the range [0, 1).
+    content.vb: Public Function NextDouble2() As double2
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble3
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble3
+  id: NextDouble3
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble3()
+  nameWithType: random.NextDouble3()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble3()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 534
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double3 value with all components in the interval [0, 1).
+  example: []
+  syntax:
+    content: public double3 NextDouble3()
+    return:
+      type: Misaki.HighPerformance.Mathematics.double3
+      description: A uniformly random double3 value in the range [0, 1).
+    content.vb: Public Function NextDouble3() As double3
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble4
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble4
+  id: NextDouble4
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble4()
+  nameWithType: random.NextDouble4()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble4()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 547
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double4 value with all components in the interval [0, 1).
+  example: []
+  syntax:
+    content: public double4 NextDouble4()
+    return:
+      type: Misaki.HighPerformance.Mathematics.double4
+      description: A uniformly random double4 value in the range [0, 1).
+    content.vb: Public Function NextDouble4() As double4
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble(System.Double)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble(System.Double)
+  id: NextDouble(System.Double)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble(double)
+  nameWithType: random.NextDouble(double)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble(double)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 564
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double value in the interval [0, max).
+  example: []
+  syntax:
+    content: public double NextDouble(double max)
+    parameters:
+    - id: max
+      type: System.Double
+      description: The maximum value to generate, exclusive.
+    return:
+      type: System.Double
+      description: A uniformly random double value in the range [0, max).
+    content.vb: Public Function NextDouble(max As Double) As Double
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble*
+  nameWithType.vb: random.NextDouble(Double)
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.NextDouble(Double)
+  name.vb: NextDouble(Double)
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble2(Misaki.HighPerformance.Mathematics.double2)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble2(Misaki.HighPerformance.Mathematics.double2)
+  id: NextDouble2(Misaki.HighPerformance.Mathematics.double2)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble2(double2)
+  nameWithType: random.NextDouble2(double2)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble2(Misaki.HighPerformance.Mathematics.double2)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 573
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double2 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public double2 NextDouble2(double2 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.double2
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.double2
+      description: A uniformly random double2 value in the range [0, max).
+    content.vb: Public Function NextDouble2(max As double2) As double2
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble3(Misaki.HighPerformance.Mathematics.double3)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble3(Misaki.HighPerformance.Mathematics.double3)
+  id: NextDouble3(Misaki.HighPerformance.Mathematics.double3)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble3(double3)
+  nameWithType: random.NextDouble3(double3)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble3(Misaki.HighPerformance.Mathematics.double3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 582
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double3 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public double3 NextDouble3(double3 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.double3
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.double3
+      description: A uniformly random double3 value in the range [0, max).
+    content.vb: Public Function NextDouble3(max As double3) As double3
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble4(Misaki.HighPerformance.Mathematics.double4)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble4(Misaki.HighPerformance.Mathematics.double4)
+  id: NextDouble4(Misaki.HighPerformance.Mathematics.double4)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble4(double4)
+  nameWithType: random.NextDouble4(double4)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble4(Misaki.HighPerformance.Mathematics.double4)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 591
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double4 value with all components in the interval [0, max).
+  example: []
+  syntax:
+    content: public double4 NextDouble4(double4 max)
+    parameters:
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.double4
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.double4
+      description: A uniformly random double4 value in the range [0, max).
+    content.vb: Public Function NextDouble4(max As double4) As double4
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble(System.Double,System.Double)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble(System.Double,System.Double)
+  id: NextDouble(System.Double,System.Double)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble(double, double)
+  nameWithType: random.NextDouble(double, double)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble(double, double)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 602
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double value in the interval [min, max).
+  example: []
+  syntax:
+    content: public double NextDouble(double min, double max)
+    parameters:
+    - id: min
+      type: System.Double
+      description: The minimum value to generate, inclusive.
+    - id: max
+      type: System.Double
+      description: The maximum value to generate, exclusive.
+    return:
+      type: System.Double
+      description: A uniformly random double value in the range [min, max).
+    content.vb: Public Function NextDouble(min As Double, max As Double) As Double
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble*
+  nameWithType.vb: random.NextDouble(Double, Double)
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.NextDouble(Double, Double)
+  name.vb: NextDouble(Double, Double)
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble2(Misaki.HighPerformance.Mathematics.double2,Misaki.HighPerformance.Mathematics.double2)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble2(Misaki.HighPerformance.Mathematics.double2,Misaki.HighPerformance.Mathematics.double2)
+  id: NextDouble2(Misaki.HighPerformance.Mathematics.double2,Misaki.HighPerformance.Mathematics.double2)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble2(double2, double2)
+  nameWithType: random.NextDouble2(double2, double2)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble2(Misaki.HighPerformance.Mathematics.double2, Misaki.HighPerformance.Mathematics.double2)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble2
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 612
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double2 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public double2 NextDouble2(double2 min, double2 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.double2
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.double2
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.double2
+      description: A uniformly random double2 value in the range [min, max).
+    content.vb: Public Function NextDouble2(min As double2, max As double2) As double2
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble2*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble3(Misaki.HighPerformance.Mathematics.double3,Misaki.HighPerformance.Mathematics.double3)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble3(Misaki.HighPerformance.Mathematics.double3,Misaki.HighPerformance.Mathematics.double3)
+  id: NextDouble3(Misaki.HighPerformance.Mathematics.double3,Misaki.HighPerformance.Mathematics.double3)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble3(double3, double3)
+  nameWithType: random.NextDouble3(double3, double3)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble3(Misaki.HighPerformance.Mathematics.double3, Misaki.HighPerformance.Mathematics.double3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble3
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 622
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double3 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public double3 NextDouble3(double3 min, double3 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.double3
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.double3
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.double3
+      description: A uniformly random double3 value in the range [min, max).
+    content.vb: Public Function NextDouble3(min As double3, max As double3) As double3
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble3*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble4(Misaki.HighPerformance.Mathematics.double4,Misaki.HighPerformance.Mathematics.double4)
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble4(Misaki.HighPerformance.Mathematics.double4,Misaki.HighPerformance.Mathematics.double4)
+  id: NextDouble4(Misaki.HighPerformance.Mathematics.double4,Misaki.HighPerformance.Mathematics.double4)
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble4(double4, double4)
+  nameWithType: random.NextDouble4(double4, double4)
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble4(Misaki.HighPerformance.Mathematics.double4, Misaki.HighPerformance.Mathematics.double4)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble4
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 632
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a uniformly random double4 value with all components in the interval [min, max).
+  example: []
+  syntax:
+    content: public double4 NextDouble4(double4 min, double4 max)
+    parameters:
+    - id: min
+      type: Misaki.HighPerformance.Mathematics.double4
+      description: The componentwise minimum value to generate, inclusive.
+    - id: max
+      type: Misaki.HighPerformance.Mathematics.double4
+      description: The componentwise maximum value to generate, exclusive.
+    return:
+      type: Misaki.HighPerformance.Mathematics.double4
+      description: A uniformly random double4 value in the range [min, max).
+    content.vb: Public Function NextDouble4(min As double4, max As double4) As double4
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble4*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat2Direction
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat2Direction
+  id: NextFloat2Direction
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat2Direction()
+  nameWithType: random.NextFloat2Direction()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat2Direction()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat2Direction
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 640
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a unit length float2 vector representing a uniformly random 2D direction.
+  example: []
+  syntax:
+    content: public float2 NextFloat2Direction()
+    return:
+      type: Misaki.HighPerformance.Mathematics.float2
+      description: A uniformly random unit length float2 vector.
+    content.vb: Public Function NextFloat2Direction() As float2
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat2Direction*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble2Direction
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble2Direction
+  id: NextDouble2Direction
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble2Direction()
+  nameWithType: random.NextDouble2Direction()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble2Direction()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble2Direction
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 650
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a unit length double2 vector representing a uniformly random 2D direction.
+  example: []
+  syntax:
+    content: public double2 NextDouble2Direction()
+    return:
+      type: Misaki.HighPerformance.Mathematics.double2
+      description: A uniformly random unit length double2 vector.
+    content.vb: Public Function NextDouble2Direction() As double2
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble2Direction*
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat3Direction
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextFloat3Direction
+  id: NextFloat3Direction
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextFloat3Direction()
+  nameWithType: random.NextFloat3Direction()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat3Direction()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextFloat3Direction
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 660
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a unit length float3 vector representing a uniformly random 3D direction.
+  example: []
+  syntax:
+    content: public float3 NextFloat3Direction()
+    return:
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A uniformly random unit length float3 vector.
+    content.vb: Public Function NextFloat3Direction() As float3
+  overload: Misaki.HighPerformance.Mathematics.random.NextFloat3Direction*
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble3Direction
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextDouble3Direction
+  id: NextDouble3Direction
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextDouble3Direction()
+  nameWithType: random.NextDouble3Direction()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble3Direction()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextDouble3Direction
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 673
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a unit length double3 vector representing a uniformly random 3D direction.
+  example: []
+  syntax:
+    content: public double3 NextDouble3Direction()
+    return:
+      type: Misaki.HighPerformance.Mathematics.double3
+      description: A uniformly random unit length double3 vector.
+    content.vb: Public Function NextDouble3Direction() As double3
+  overload: Misaki.HighPerformance.Mathematics.random.NextDouble3Direction*
+- uid: Misaki.HighPerformance.Mathematics.random.NextQuaternionRotation
+  commentId: M:Misaki.HighPerformance.Mathematics.random.NextQuaternionRotation
+  id: NextQuaternionRotation
+  parent: Misaki.HighPerformance.Mathematics.random
+  langs:
+  - csharp
+  - vb
+  name: NextQuaternionRotation()
+  nameWithType: random.NextQuaternionRotation()
+  fullName: Misaki.HighPerformance.Mathematics.random.NextQuaternionRotation()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/random.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: NextQuaternionRotation
+    path: src/Misaki.HighPerformance.Mathematics/random.cs
+    startLine: 686
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Returns a unit length quaternion representing a uniformly 3D rotation.
+  example: []
+  syntax:
+    content: public quaternion NextQuaternionRotation()
+    return:
+      type: Misaki.HighPerformance.Mathematics.quaternion
+      description: A uniformly random unit length quaternion.
+    content.vb: Public Function NextQuaternionRotation() As quaternion
+  overload: Misaki.HighPerformance.Mathematics.random.NextQuaternionRotation*
+references:
+- uid: Misaki.HighPerformance.Mathematics
+  commentId: N:Misaki.HighPerformance.Mathematics
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics
+  nameWithType: Misaki.HighPerformance.Mathematics
+  fullName: Misaki.HighPerformance.Mathematics
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: Misaki.HighPerformance.Mathematics.random.#ctor*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.#ctor
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random__ctor_System_UInt32_
+  name: random
+  nameWithType: random.random
+  fullName: Misaki.HighPerformance.Mathematics.random.random
+  nameWithType.vb: random.New
+  fullName.vb: Misaki.HighPerformance.Mathematics.random.New
+  name.vb: New
+- uid: Misaki.HighPerformance.Mathematics.random
+  commentId: T:Misaki.HighPerformance.Mathematics.random
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.random.html
+  name: random
+  nameWithType: random
+  fullName: Misaki.HighPerformance.Mathematics.random
+- uid: Misaki.HighPerformance.Mathematics.random.CreateFromIndex*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.CreateFromIndex
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_CreateFromIndex_System_UInt32_
+  name: CreateFromIndex
+  nameWithType: random.CreateFromIndex
+  fullName: Misaki.HighPerformance.Mathematics.random.CreateFromIndex
+- uid: Misaki.HighPerformance.Mathematics.random.InitState*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.InitState
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_InitState_System_UInt32_
+  name: InitState
+  nameWithType: random.InitState
+  fullName: Misaki.HighPerformance.Mathematics.random.InitState
+- uid: Misaki.HighPerformance.Mathematics.random.NextBool*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextBool
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextBool
+  name: NextBool
+  nameWithType: random.NextBool
+  fullName: Misaki.HighPerformance.Mathematics.random.NextBool
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.Mathematics.random.NextBool2*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextBool2
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextBool2
+  name: NextBool2
+  nameWithType: random.NextBool2
+  fullName: Misaki.HighPerformance.Mathematics.random.NextBool2
+- uid: Misaki.HighPerformance.Mathematics.bool2
+  commentId: T:Misaki.HighPerformance.Mathematics.bool2
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.bool2.html
+  name: bool2
+  nameWithType: bool2
+  fullName: Misaki.HighPerformance.Mathematics.bool2
+- uid: Misaki.HighPerformance.Mathematics.random.NextBool3*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextBool3
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextBool3
+  name: NextBool3
+  nameWithType: random.NextBool3
+  fullName: Misaki.HighPerformance.Mathematics.random.NextBool3
+- uid: Misaki.HighPerformance.Mathematics.bool3
+  commentId: T:Misaki.HighPerformance.Mathematics.bool3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.bool3.html
+  name: bool3
+  nameWithType: bool3
+  fullName: Misaki.HighPerformance.Mathematics.bool3
+- uid: Misaki.HighPerformance.Mathematics.random.NextBool4*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextBool4
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextBool4
+  name: NextBool4
+  nameWithType: random.NextBool4
+  fullName: Misaki.HighPerformance.Mathematics.random.NextBool4
+- uid: Misaki.HighPerformance.Mathematics.bool4
+  commentId: T:Misaki.HighPerformance.Mathematics.bool4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.bool4.html
+  name: bool4
+  nameWithType: bool4
+  fullName: Misaki.HighPerformance.Mathematics.bool4
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextInt
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextInt
+  name: NextInt
+  nameWithType: random.NextInt
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt2*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextInt2
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextInt2
+  name: NextInt2
+  nameWithType: random.NextInt2
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt2
+- uid: Misaki.HighPerformance.Mathematics.int2
+  commentId: T:Misaki.HighPerformance.Mathematics.int2
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.int2.html
+  name: int2
+  nameWithType: int2
+  fullName: Misaki.HighPerformance.Mathematics.int2
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt3*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextInt3
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextInt3
+  name: NextInt3
+  nameWithType: random.NextInt3
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt3
+- uid: Misaki.HighPerformance.Mathematics.int3
+  commentId: T:Misaki.HighPerformance.Mathematics.int3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.int3.html
+  name: int3
+  nameWithType: int3
+  fullName: Misaki.HighPerformance.Mathematics.int3
+- uid: Misaki.HighPerformance.Mathematics.random.NextInt4*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextInt4
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextInt4
+  name: NextInt4
+  nameWithType: random.NextInt4
+  fullName: Misaki.HighPerformance.Mathematics.random.NextInt4
+- uid: Misaki.HighPerformance.Mathematics.int4
+  commentId: T:Misaki.HighPerformance.Mathematics.int4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.int4.html
+  name: int4
+  nameWithType: int4
+  fullName: Misaki.HighPerformance.Mathematics.int4
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextUInt
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextUInt
+  name: NextUInt
+  nameWithType: random.NextUInt
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt2*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextUInt2
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextUInt2
+  name: NextUInt2
+  nameWithType: random.NextUInt2
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt2
+- uid: Misaki.HighPerformance.Mathematics.uint2
+  commentId: T:Misaki.HighPerformance.Mathematics.uint2
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.uint2.html
+  name: uint2
+  nameWithType: uint2
+  fullName: Misaki.HighPerformance.Mathematics.uint2
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt3*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextUInt3
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextUInt3
+  name: NextUInt3
+  nameWithType: random.NextUInt3
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt3
+- uid: Misaki.HighPerformance.Mathematics.uint3
+  commentId: T:Misaki.HighPerformance.Mathematics.uint3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.uint3.html
+  name: uint3
+  nameWithType: uint3
+  fullName: Misaki.HighPerformance.Mathematics.uint3
+- uid: Misaki.HighPerformance.Mathematics.random.NextUInt4*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextUInt4
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextUInt4
+  name: NextUInt4
+  nameWithType: random.NextUInt4
+  fullName: Misaki.HighPerformance.Mathematics.random.NextUInt4
+- uid: Misaki.HighPerformance.Mathematics.uint4
+  commentId: T:Misaki.HighPerformance.Mathematics.uint4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.uint4.html
+  name: uint4
+  nameWithType: uint4
+  fullName: Misaki.HighPerformance.Mathematics.uint4
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextFloat
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextFloat
+  name: NextFloat
+  nameWithType: random.NextFloat
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat2*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextFloat2
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextFloat2
+  name: NextFloat2
+  nameWithType: random.NextFloat2
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat2
+- uid: Misaki.HighPerformance.Mathematics.float2
+  commentId: T:Misaki.HighPerformance.Mathematics.float2
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float2.html
+  name: float2
+  nameWithType: float2
+  fullName: Misaki.HighPerformance.Mathematics.float2
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat3*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextFloat3
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextFloat3
+  name: NextFloat3
+  nameWithType: random.NextFloat3
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat3
+- uid: Misaki.HighPerformance.Mathematics.float3
+  commentId: T:Misaki.HighPerformance.Mathematics.float3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float3.html
+  name: float3
+  nameWithType: float3
+  fullName: Misaki.HighPerformance.Mathematics.float3
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat4*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextFloat4
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextFloat4
+  name: NextFloat4
+  nameWithType: random.NextFloat4
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat4
+- uid: Misaki.HighPerformance.Mathematics.float4
+  commentId: T:Misaki.HighPerformance.Mathematics.float4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float4.html
+  name: float4
+  nameWithType: float4
+  fullName: Misaki.HighPerformance.Mathematics.float4
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextDouble
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextDouble
+  name: NextDouble
+  nameWithType: random.NextDouble
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble2*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextDouble2
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextDouble2
+  name: NextDouble2
+  nameWithType: random.NextDouble2
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble2
+- uid: Misaki.HighPerformance.Mathematics.double2
+  commentId: T:Misaki.HighPerformance.Mathematics.double2
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.double2.html
+  name: double2
+  nameWithType: double2
+  fullName: Misaki.HighPerformance.Mathematics.double2
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble3*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextDouble3
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextDouble3
+  name: NextDouble3
+  nameWithType: random.NextDouble3
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble3
+- uid: Misaki.HighPerformance.Mathematics.double3
+  commentId: T:Misaki.HighPerformance.Mathematics.double3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.double3.html
+  name: double3
+  nameWithType: double3
+  fullName: Misaki.HighPerformance.Mathematics.double3
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble4*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextDouble4
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextDouble4
+  name: NextDouble4
+  nameWithType: random.NextDouble4
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble4
+- uid: Misaki.HighPerformance.Mathematics.double4
+  commentId: T:Misaki.HighPerformance.Mathematics.double4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.double4.html
+  name: double4
+  nameWithType: double4
+  fullName: Misaki.HighPerformance.Mathematics.double4
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat2Direction*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextFloat2Direction
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextFloat2Direction
+  name: NextFloat2Direction
+  nameWithType: random.NextFloat2Direction
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat2Direction
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble2Direction*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextDouble2Direction
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextDouble2Direction
+  name: NextDouble2Direction
+  nameWithType: random.NextDouble2Direction
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble2Direction
+- uid: Misaki.HighPerformance.Mathematics.random.NextFloat3Direction*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextFloat3Direction
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextFloat3Direction
+  name: NextFloat3Direction
+  nameWithType: random.NextFloat3Direction
+  fullName: Misaki.HighPerformance.Mathematics.random.NextFloat3Direction
+- uid: Misaki.HighPerformance.Mathematics.random.NextDouble3Direction*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextDouble3Direction
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextDouble3Direction
+  name: NextDouble3Direction
+  nameWithType: random.NextDouble3Direction
+  fullName: Misaki.HighPerformance.Mathematics.random.NextDouble3Direction
+- uid: Misaki.HighPerformance.Mathematics.random.NextQuaternionRotation*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.random.NextQuaternionRotation
+  href: Misaki.HighPerformance.Mathematics.random.html#Misaki_HighPerformance_Mathematics_random_NextQuaternionRotation
+  name: NextQuaternionRotation
+  nameWithType: random.NextQuaternionRotation
+  fullName: Misaki.HighPerformance.Mathematics.random.NextQuaternionRotation
+- uid: Misaki.HighPerformance.Mathematics.quaternion
+  commentId: T:Misaki.HighPerformance.Mathematics.quaternion
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.quaternion.html
+  name: quaternion
+  nameWithType: quaternion
+  fullName: Misaki.HighPerformance.Mathematics.quaternion

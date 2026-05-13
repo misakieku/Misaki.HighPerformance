@@ -1,0 +1,658 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+  id: UnsafeHashMap`2.Enumerator
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.#ctor(Misaki.HighPerformance.LowLevel.Collections.HashMapHelper{`0}@)
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Current
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Dispose
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.MoveNext
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Reset
+  langs:
+  - csharp
+  - vb
+  name: UnsafeHashMap<TKey, TValue>.Enumerator
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Enumerator
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+    startLine: 12
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public ref struct UnsafeHashMap<TKey, TValue>.Enumerator
+    content.vb: Public Structure UnsafeHashMap(Of TKey, TValue).Enumerator
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator
+  name.vb: UnsafeHashMap(Of TKey, TValue).Enumerator
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Current
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Current
+  id: Current
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+  langs:
+  - csharp
+  - vb
+  name: Current
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator.Current
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator.Current
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Current
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+    startLine: 16
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public KeyValuePair<TKey, TValue> Current { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.KeyValuePair{{TKey},{TValue}}
+    content.vb: Public ReadOnly Property Current As KeyValuePair(Of TKey, TValue)
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Current*
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator.Current
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator.Current
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.#ctor(Misaki.HighPerformance.LowLevel.Collections.HashMapHelper{`0}@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.#ctor(Misaki.HighPerformance.LowLevel.Collections.HashMapHelper{`0}@)
+  id: '#ctor(Misaki.HighPerformance.LowLevel.Collections.HashMapHelper{`0}@)'
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+  langs:
+  - csharp
+  - vb
+  name: Enumerator(ref HashMapHelper<TKey>)
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator.Enumerator(ref HashMapHelper<TKey>)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator.Enumerator(ref Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+    startLine: 18
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public Enumerator(ref HashMapHelper<TKey> data)
+    parameters:
+    - id: data
+      type: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper{{TKey}}
+    content.vb: Public Sub New(data As HashMapHelper(Of TKey))
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.#ctor*
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator.New(HashMapHelper(Of TKey))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator.New(Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey))
+  name.vb: New(HashMapHelper(Of TKey))
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.MoveNext
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.MoveNext
+  id: MoveNext
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+  langs:
+  - csharp
+  - vb
+  name: MoveNext()
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator.MoveNext()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator.MoveNext()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MoveNext
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+    startLine: 23
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public bool MoveNext()
+    return:
+      type: System.Boolean
+    content.vb: Public Function MoveNext() As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.MoveNext*
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator.MoveNext()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator.MoveNext()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Reset
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Reset
+  id: Reset
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+  langs:
+  - csharp
+  - vb
+  name: Reset()
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator.Reset()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator.Reset()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Reset
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+    startLine: 29
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public void Reset()
+    content.vb: Public Sub Reset()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Reset*
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator.Reset()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator.Reset()
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Dispose
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Dispose
+  id: Dispose
+  parent: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator.Dispose()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dispose
+    path: src/Misaki.HighPerformance.LowLevel/Collections/UnsafeHashMap.cs
+    startLine: 34
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Dispose*
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator.Dispose()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator.Dispose()
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections
+  fullName: Misaki.HighPerformance.LowLevel.Collections
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Current*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Current
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.Enumerator.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashMap_2_Enumerator_Current
+  name: Current
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator.Current
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator.Current
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator.Current
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator.Current
+- uid: System.Collections.Generic.KeyValuePair{{TKey},{TValue}}
+  commentId: T:System.Collections.Generic.KeyValuePair{`0,`1}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.KeyValuePair`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  name: KeyValuePair<TKey, TValue>
+  nameWithType: KeyValuePair<TKey, TValue>
+  fullName: System.Collections.Generic.KeyValuePair<TKey, TValue>
+  nameWithType.vb: KeyValuePair(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.KeyValuePair(Of TKey, TValue)
+  name.vb: KeyValuePair(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic.KeyValuePair`2
+  commentId: T:System.Collections.Generic.KeyValuePair`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  name: KeyValuePair<TKey, TValue>
+  nameWithType: KeyValuePair<TKey, TValue>
+  fullName: System.Collections.Generic.KeyValuePair<TKey, TValue>
+  nameWithType.vb: KeyValuePair(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.KeyValuePair(Of TKey, TValue)
+  name.vb: KeyValuePair(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.#ctor
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.Enumerator.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashMap_2_Enumerator__ctor_Misaki_HighPerformance_LowLevel_Collections_HashMapHelper__0___
+  name: Enumerator
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator.Enumerator
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator.Enumerator
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator.New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator.New
+  name.vb: New
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper{{TKey}}
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper{`0}
+  parent: Misaki.HighPerformance.LowLevel.Collections
+  definition: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html
+  name: HashMapHelper<TKey>
+  nameWithType: HashMapHelper<TKey>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>
+  nameWithType.vb: HashMapHelper(Of TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey)
+  name.vb: HashMapHelper(Of TKey)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+    name: HashMapHelper
+    href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html
+  - name: <
+  - name: TKey
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+    name: HashMapHelper
+    href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+  href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html
+  name: HashMapHelper<TKey>
+  nameWithType: HashMapHelper<TKey>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper<TKey>
+  nameWithType.vb: HashMapHelper(Of TKey)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper(Of TKey)
+  name.vb: HashMapHelper(Of TKey)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+    name: HashMapHelper
+    href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html
+  - name: <
+  - name: TKey
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper`1
+    name: HashMapHelper
+    href: Misaki.HighPerformance.LowLevel.Collections.HashMapHelper-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.MoveNext*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.MoveNext
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.Enumerator.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashMap_2_Enumerator_MoveNext
+  name: MoveNext
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator.MoveNext
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator.MoveNext
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator.MoveNext
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator.MoveNext
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Reset*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Reset
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.Enumerator.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashMap_2_Enumerator_Reset
+  name: Reset
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator.Reset
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator.Reset
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator.Reset
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator.Reset
+- uid: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Dispose*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap`2.Enumerator.Dispose
+  href: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap-2.Enumerator.html#Misaki_HighPerformance_LowLevel_Collections_UnsafeHashMap_2_Enumerator_Dispose
+  name: Dispose
+  nameWithType: UnsafeHashMap<TKey, TValue>.Enumerator.Dispose
+  fullName: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap<TKey, TValue>.Enumerator.Dispose
+  nameWithType.vb: UnsafeHashMap(Of TKey, TValue).Enumerator.Dispose
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.UnsafeHashMap(Of TKey, TValue).Enumerator.Dispose

@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class MemoryUtility | Misaki.HighPerformance </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class MemoryUtility | Misaki.HighPerformance ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Misaki.HighPerformance">
+            Misaki.HighPerformance
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility">
+
+
+
+  <h1 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility" class="text-break">
+Class MemoryUtility  
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Misaki.html">Misaki</a>.<a class="xref" href="Misaki.HighPerformance.html">HighPerformance</a>.<a class="xref" href="Misaki.HighPerformance.LowLevel.html">LowLevel</a>.<a class="xref" href="Misaki.HighPerformance.LowLevel.Utilities.html">Utilities</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Misaki.HighPerformance.LowLevel.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class MemoryUtility</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">MemoryUtility</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignOf_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignOf*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignOf__1" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignOf``1">
+  AlignOf&lt;T&gt;()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates the alignment size of a specified unmanaged type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static nuint AlignOf&lt;T&gt;() where T : unmanaged</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>Returns the difference in size between a helper structure and the specified type.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>Represents an unmanaged type for which the alignment size is being calculated.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignUp_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignUp*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignUp_System_UIntPtr_System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignUp(System.UIntPtr,System.UIntPtr)">
+  AlignUp(nuint, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Aligns a given value up to the nearest multiple of the specified alignment.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static nuint AlignUp(nuint value, nuint alignment)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The value to align.</p>
+</dd>
+    <dt><code>alignment</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The alignment boundary.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The aligned value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedAlloc_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedAlloc*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedAlloc_System_UIntPtr_System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedAlloc(System.UIntPtr,System.UIntPtr)">
+  AlignedAlloc(nuint, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Allocates a block of memory with a specified size and alignment.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void* AlignedAlloc(nuint size, nuint alignment)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>Specifies the total number of bytes to allocate for the memory block.</p>
+</dd>
+    <dt><code>alignment</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>Defines the required alignment for the allocated memory address.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>Returns a pointer to the allocated memory block.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedAlloc_System_UIntPtr_System_UIntPtr__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedFree_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedFree*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedFree_System_Void__" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedFree(System.Void*)">
+  AlignedFree(void*)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Releases memory that was allocated with alignment requirements. It ensures proper deallocation of aligned memory blocks.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void AlignedFree(void* ptr)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>The pointer to the memory block that needs to be freed.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedFree_System_Void___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedRealloc_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedRealloc*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedRealloc_System_Void__System_UIntPtr_System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedRealloc(System.Void*,System.UIntPtr,System.UIntPtr)">
+  AlignedRealloc(void*, nuint, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reallocates memory to a specified size with a given alignment. It returns a pointer to the newly allocated
+memory.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void* AlignedRealloc(void* ptr, nuint size, nuint alignment)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>The pointer to the existing memory block that needs to be reallocated.</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The new size for the memory allocation.</p>
+</dd>
+    <dt><code>alignment</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The required alignment for the new memory allocation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the reallocated memory block, or null if the allocation fails.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedRealloc_System_Void__System_UIntPtr_System_UIntPtr__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Calloc_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Calloc*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Calloc_System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Calloc(System.UIntPtr)">
+  Calloc(nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Allocates a block of memory of the specified size in bytes and initializes it to zero.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void* Calloc(nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>Specifies the number of bytes to allocate in memory.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>Returns a pointer to the allocated and zero-initialized memory block.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Calloc_System_UIntPtr__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Decommit_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Decommit*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Decommit_System_Void__System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Decommit(System.Void*,System.UIntPtr)">
+  Decommit(void*, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Decommits a previously allocated block of virtual memory, releasing the physical memory while keeping the address space reserved. The behavior of this method varies based on the operating system.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool Decommit(void* ptr, nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the memory block to decommit.</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The size of the memory block to decommit.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>true if the memory was successfully decommitted; otherwise, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.platformnotsupportedexception">PlatformNotSupportedException</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Free_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Free*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Free_System_Void__" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Free(System.Void*)">
+  Free(void*)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Releases the allocated memory pointed to by the given pointer. This helps in managing memory usage effectively.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Free(void* ptr)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>The pointer to the memory block that needs to be freed.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Free_System_Void___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_IndexOfNullByte_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.IndexOfNullByte*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_IndexOfNullByte_System_Byte__" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.IndexOfNullByte(System.Byte*)">
+  IndexOfNullByte(byte*)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Searches for the first occurrence of a null byte (0x00) in a given byte array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int IndexOfNullByte(byte* searchSpace)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>searchSpace</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>*</dt>
+    <dd><p>A pointer to the byte array where the search will be performed.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Returns the index of the first null byte found in the array..</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></dt>
+    <dd><p>Thrown if the byte array is not null-terminated.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Malloc_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Malloc*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Malloc_System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Malloc(System.UIntPtr)">
+  Malloc(nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Allocates a block of memory of the specified size in bytes.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void* Malloc(nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>Specifies the number of bytes to allocate in memory.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>Returns a pointer to the allocated memory block.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Malloc_System_UIntPtr__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MarshalAlignOf_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MarshalAlignOf*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MarshalAlignOf__1" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MarshalAlignOf``1">
+  MarshalAlignOf&lt;T&gt;()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates the alignment size of a specified struct.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int MarshalAlignOf&lt;T&gt;() where T : struct</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>Returns the size difference in bytes as an integer.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>Represents a value type that is used to determine the alignment size.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemClear_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemClear*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemClear_System_Void__System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemClear(System.Void*,System.UIntPtr)">
+  MemClear(void*, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Clears a block of memory by setting it to zero. It initializes a specified number of bytes at a given memory
+address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MemClear(void* ptr, nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>Specifies the memory address where the clearing operation will begin.</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>Indicates the number of bytes to be cleared in the memory block.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemCmp_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCmp*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemCmp_System_Void__System_Void__System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCmp(System.Void*,System.Void*,System.UIntPtr)">
+  MemCmp(void*, void*, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Compares two blocks of memory byte by byte for a specified length.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int MemCmp(void* ptr1, void* ptr2, nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr1</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the first block of memory to compare.</p>
+</dd>
+    <dt><code>ptr2</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the second block of memory to compare.</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The number of bytes to compare. Must not exceed the length of either memory block.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>A signed integer that indicates the relative order of the memory blocks: less than zero if the first differing
+byte in ptr1 is less than the corresponding byte in ptr2; zero if all compared bytes are equal; greater than
+zero if the first differing byte in ptr1 is greater than the corresponding byte in ptr2.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemCpy_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCpy*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemCpy_System_Void__System_Void__System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCpy(System.Void*,System.Void*,System.UIntPtr)">
+  MemCpy(void*, void*, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies a block of memory from a source location to a destination location.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MemCpy(void* destination, void* source, nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>destination</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>Specifies the memory address where the copied data will be stored.</p>
+</dd>
+    <dt><code>source</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>Indicates the memory address from which data will be copied.</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>Defines the number of bytes to be copied from the source to the destination.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemMove_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemMove*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemMove_System_Void__System_Void__System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemMove(System.Void*,System.Void*,System.UIntPtr)">
+  MemMove(void*, void*, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Moves a block of memory from a source location to a destination location, handling overlapping regions correctly.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MemMove(void* destination, void* source, nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>destination</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>Indicates the memory address where the data will be moved to.</p>
+</dd>
+    <dt><code>source</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>Specifies the memory address from which data will be moved.</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>Defines the number of bytes to be moved from the source to the destination.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemSet_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemSet*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemSet_System_Void__System_Byte_System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemSet(System.Void*,System.Byte,System.UIntPtr)">
+  MemSet(void*, byte, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets a block of memory to a specified byte value for a given size.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MemSet(void* ptr, byte value, nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>The memory address where the byte value will be set.</p>
+</dd>
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>The byte value to which the memory block will be initialized.</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The number of bytes to set to the specified value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Mmap_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Mmap*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Mmap_System_Void__System_UIntPtr_Misaki_HighPerformance_LowLevel_Utilities_VirtualAllocationFlags_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Mmap(System.Void*,System.UIntPtr,Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags)">
+  Mmap(void*, nuint, VirtualAllocationFlags)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Allocates virtual memory with specified size and flags. The behavior of this method varies based on the operating system.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void* Mmap(void* addr, nuint size, VirtualAllocationFlags flags)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>addr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>The address at which to allocate the memory.</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The size of the memory block to allocate.</p>
+</dd>
+    <dt><code>flags</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.html">VirtualAllocationFlags</a></dt>
+    <dd><p>The flags specifying the allocation behavior.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the allocated memory.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.outofmemoryexception">OutOfMemoryException</a></dt>
+    <dd></dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.platformnotsupportedexception">PlatformNotSupportedException</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Munmap_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Munmap*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Munmap_System_Void__System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Munmap(System.Void*,System.UIntPtr)">
+  Munmap(void*, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Unmaps a previously allocated block of virtual memory. The behavior of this method varies based on the operating system.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool Munmap(void* ptr, nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the memory block to unmap.</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The size of the memory block to unmap.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>true if the memory was successfully unmapped; otherwise, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.platformnotsupportedexception">PlatformNotSupportedException</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Realloc_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Realloc*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Realloc_System_Void__System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Realloc(System.Void*,System.UIntPtr)">
+  Realloc(void*, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Resizes a previously allocated memory block to a new size. It returns a pointer to the reallocated memory.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void* Realloc(void* ptr, nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>The pointer to the memory block that needs to be resized.</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The new size for the memory block after resizing.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the reallocated memory block, or null if the operation fails.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Realloc_System_Void__System_UIntPtr__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Recommit_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Recommit*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Recommit_System_Void__System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Recommit(System.Void*,System.UIntPtr)">
+  Recommit(void*, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Recommits a previously decommitted block of virtual memory, making the physical memory available again while keeping the address space reserved. The behavior of this method varies based on the operating system.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool Recommit(void* ptr, nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the memory block to recommit.</p>
+</dd>
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The size of the memory block to recommit.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>true if the memory was successfully recommitted; otherwise, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.platformnotsupportedexception">PlatformNotSupportedException</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_ReplaceIfZeros_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_ReplaceIfZeros_System_Span_System_Byte__System_ReadOnlySpan_System_Byte__" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(System.Span{System.Byte},System.ReadOnlySpan{System.Byte})">
+  ReplaceIfZeros(Span&lt;byte&gt;, ReadOnlySpan&lt;byte&gt;)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ReplaceIfZeros(Span&lt;byte&gt; a, ReadOnlySpan&lt;byte&gt; b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_ReplaceIfZeros_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_ReplaceIfZeros_System_Void__System_Void__System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(System.Void*,System.Void*,System.UIntPtr)">
+  ReplaceIfZeros(void*, void*, nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ReplaceIfZeros(void* a, void* b, nuint length)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd></dd>
+    <dt><code>b</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd></dd>
+    <dt><code>length</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_SizeOf_" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.SizeOf*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_SizeOf__1" data-uid="Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.SizeOf``1">
+  SizeOf&lt;T&gt;()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calculates the size in bytes of a specified unmanaged type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static nuint SizeOf&lt;T&gt;() where T : unmanaged</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>Returns the size of the specified type as an unsigned integer.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>Represents an unmanaged type for which the size is being calculated.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

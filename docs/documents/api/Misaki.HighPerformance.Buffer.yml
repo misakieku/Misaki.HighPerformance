@@ -1,0 +1,42 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Buffer
+  commentId: N:Misaki.HighPerformance.Buffer
+  id: Misaki.HighPerformance.Buffer
+  children:
+  - Misaki.HighPerformance.Buffer.ObjectPool`1
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance.Buffer
+  nameWithType: Misaki.HighPerformance.Buffer
+  fullName: Misaki.HighPerformance.Buffer
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance
+references:
+- uid: Misaki.HighPerformance.Buffer.ObjectPool`1
+  commentId: T:Misaki.HighPerformance.Buffer.ObjectPool`1
+  href: Misaki.HighPerformance.Buffer.ObjectPool-1.html
+  name: ObjectPool<T>
+  nameWithType: ObjectPool<T>
+  fullName: Misaki.HighPerformance.Buffer.ObjectPool<T>
+  nameWithType.vb: ObjectPool(Of T)
+  fullName.vb: Misaki.HighPerformance.Buffer.ObjectPool(Of T)
+  name.vb: ObjectPool(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Buffer.ObjectPool`1
+    name: ObjectPool
+    href: Misaki.HighPerformance.Buffer.ObjectPool-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.Buffer.ObjectPool`1
+    name: ObjectPool
+    href: Misaki.HighPerformance.Buffer.ObjectPool-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )

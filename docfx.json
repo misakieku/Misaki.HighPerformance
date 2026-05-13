@@ -1,0 +1,52 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "src",
+          "files": [
+            "Misaki.HighPerformance/*.csproj",
+            "Misaki.HighPerformance.Jobs/*.csproj",
+            "Misaki.HighPerformance.LowLevel/*.csproj",
+            "Misaki.HighPerformance.Mathematics/*.csproj",
+            "Misaki.HighPerformance.Mathematics.SPMD/*.csproj"
+          ]
+        }
+      ],
+      "dest": "docs/documents/api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ],
+        "src": "docs/documents/",
+        "dest": "."
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "output": "docfx/_site",
+    "template": [
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+      "_appName": "Misaki.HighPerformance",
+      "_appTitle": "Misaki.HighPerformance",
+      "_enableSearch": true,
+      "pdf": false
+    }
+  }
+}

@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Struct UnsafeBitSet | Misaki.HighPerformance </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct UnsafeBitSet | Misaki.HighPerformance ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Misaki.HighPerformance">
+            Misaki.HighPerformance
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet">
+
+
+
+  <h1 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet" class="text-break">
+Struct UnsafeBitSet  
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Misaki.html">Misaki</a>.<a class="xref" href="Misaki.HighPerformance.html">HighPerformance</a>.<a class="xref" href="Misaki.HighPerformance.LowLevel.html">LowLevel</a>.<a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.html">Collections</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Misaki.HighPerformance.LowLevel.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public struct UnsafeBitSet : IDisposable, IEquatable&lt;UnsafeBitSet&gt;</code></pre>
+  </div>
+
+
+
+
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a>&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet__ctor_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet__ctor" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.#ctor">
+  UnsafeBitSet()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of UnsafeBitSet with a default size of 1 and a persistent allocation handle.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UnsafeBitSet()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet__ctor_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet__ctor_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationHandle_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.#ctor(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)">
+  UnsafeBitSet(int, AllocationHandle, AllocationOption)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UnsafeBitSet(int minimalLength, AllocationHandle handle, AllocationOption option = AllocationOption.None)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>minimalLength</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The minimal length in bits.</p>
+</dd>
+    <dt><code>handle</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html">AllocationHandle</a></dt>
+    <dd><p>The allocation handle.</p>
+</dd>
+    <dt><code>option</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html">AllocationOption</a></dt>
+    <dd><p>The allocation option.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet__ctor_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet__ctor_System_Span_System_UInt32__Misaki_HighPerformance_LowLevel_Buffer_AllocationHandle_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.#ctor(System.Span{System.UInt32},Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle)">
+  UnsafeBitSet(Span&lt;uint&gt;, AllocationHandle)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UnsafeBitSet(Span&lt;uint&gt; bits, AllocationHandle handle)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>bits</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a>&gt;</dt>
+    <dd><p>The bits to initialize the bitset with. The length of the bitset will be determined by the length of this span.</p>
+</dd>
+    <dt><code>handle</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html">AllocationHandle</a></dt>
+    <dd><p>The allocation handle.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Count_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Count*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Count" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Count">
+  Count
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the total number of bits represented by the current instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int Count { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_HighestBit_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.HighestBit*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_HighestBit" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.HighestBit">
+  HighestBit
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>The highest bit set.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int HighestBit { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_HighestIndex_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.HighestIndex*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_HighestIndex" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.HighestIndex">
+  HighestIndex
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>The highest uint index in use inside the <span class="xref">Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet._bits</span>-array.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int HighestIndex { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_IsCreated_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.IsCreated*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_IsCreated" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.IsCreated">
+  IsCreated
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly bool IsCreated { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_ANDC_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.ANDC*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_ANDC_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.ANDC(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  ANDC(UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs a bitwise AND NOT operation between the current bit set and the specified bit set, updating the current
+bit set in place.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ANDC(UnsafeBitSet other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd><p>The bit set whose bits will be inverted and ANDed with the current bit set. Must have the same length as the current bit set.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></dt>
+    <dd><p>Thrown when the specified bit set does not have the same length as the current bit set.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_All_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.All*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_All_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.All(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  All(UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Checks if all bits from this instance match those of the other instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly bool All(UnsafeBitSet other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd><p>The other <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True if they match, false if not.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_And_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.And*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_And_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.And(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  And(UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs a bitwise AND operation between the current bit set and the specified bit set, updating the current bit
+set in place.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void And(UnsafeBitSet other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd><p>The bit set to combine with the current bit set using a bitwise AND operation. Must have the same length as the current bit set.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></dt>
+    <dd><p>Thrown when <code class="paramref">other</code> does not have the same length as the current bit set.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Any_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Any*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Any_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Any(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  Any(UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Checks if any bits from this instance match those of the other instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly bool Any(UnsafeBitSet other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd><p>The other <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True if they match, false if not.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_AsSpan_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.AsSpan*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_AsSpan" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.AsSpan">
+  AsSpan()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span&lt;T&gt;</a> to access the <span class="xref">Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet._bits</span>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly Span&lt;uint&gt; AsSpan()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a>&gt;</dt>
+    <dd><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span&lt;T&gt;</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_AsSpan_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.AsSpan*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_AsSpan_System_Span_System_UInt32__System_Boolean_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.AsSpan(System.Span{System.UInt32},System.Boolean)">
+  AsSpan(Span&lt;uint&gt;, bool)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies the bits into a <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span&lt;T&gt;</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly Span&lt;uint&gt; AsSpan(Span&lt;uint&gt; span, bool zero = true)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>span</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a>&gt;</dt>
+    <dd><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span&lt;T&gt;</a> to copy into.</p>
+</dd>
+    <dt><code>zero</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>If true, it will zero the unused space from the <code class="paramref">span</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a>&gt;</dt>
+    <dd><p>The <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.span-1">Span&lt;T&gt;</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_ClearAll_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.ClearAll*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_ClearAll" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.ClearAll">
+  ClearAll()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Clears all set bits.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearAll()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_ClearBit_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.ClearBit*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_ClearBit_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.ClearBit(System.Int32)">
+  ClearBit(int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Clears the bit at the given index.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearBit(int index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The index.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Dispose_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Dispose*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Dispose" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Dispose">
+  Dispose()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Equals_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Equals*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Equals_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Equals(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  Equals(UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether the current object is equal to another object of the same type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly bool Equals(UnsafeBitSet other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd><p>An object to compare with this object.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Equals_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Equals*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Equals_System_Object_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Equals(System.Object)">
+  Equals(object?)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Indicates whether this instance and a specified object are equal.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override readonly bool Equals(object? obj)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>obj</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>The object to compare with the current instance.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">obj</code> and this instance are the same type and represent the same value; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Exclusive_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Exclusive*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Exclusive_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Exclusive(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  Exclusive(UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Checks if exactly all bits from this instance match those of the other instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly bool Exclusive(UnsafeBitSet other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd><p>The other <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True if they match, false if not.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_GetHashCode_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.GetHashCode*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_GetHashCode" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.GetHashCode">
+  GetHashCode()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the hash code for this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override readonly int GetHashCode()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>A 32-bit signed integer that is the hash code for this instance.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_GetIterator_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.GetIterator*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_GetIterator_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.GetIterator(System.Int32)">
+  GetIterator(int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[UnscopedRef]
+public UnsafeBitSet.Iterator GetIterator(int start = 0)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>start</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a>.<a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Iterator.html">Iterator</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_IsSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.IsSet*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_IsSet_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.IsSet(System.Int32)">
+  IsSet(int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Checks whether a bit is set at the index.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly bool IsSet(int index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The index.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True if it is, otherwise false</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Nand_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Nand*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Nand_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Nand(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  Nand(UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs a bitwise NAND operation between the current bit set and the specified bit set, updating the current
+bit set in place.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Nand(UnsafeBitSet other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd><p>The bit set to combine with the current bit set using the NAND operation. Must have the same length as the current bit set.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></dt>
+    <dd><p>Thrown if <code class="paramref">other</code> does not have the same length as the current bit set.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_NextSetBit_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.NextSetBit*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_NextSetBit_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.NextSetBit(System.Int32)">
+  NextSetBit(int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Finds the next set bit at or after <code>startIndex</code>, or -1 if none.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly int NextSetBit(int startIndex)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>startIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_None_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.None*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_None_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.None(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  None(UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Checks if none bits from this instance match those of the other instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly bool None(UnsafeBitSet other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd><p>The other <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True if none match, false if not.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Not_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Not*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Not" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Not">
+  Not()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Inverts all bits in the current vector, replacing each bit with its logical complement.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Not()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Or_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Or*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Or_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Or(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  Or(UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs a bitwise OR operation between the current bit set and the specified bit set, updating the current set
+in place.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Or(UnsafeBitSet other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd><p>The bit set to combine with the current set using a bitwise OR operation. Must have the same length as the current bit set.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></dt>
+    <dd><p>Thrown if <code class="paramref">other</code> does not have the same length as the current bit set.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_RequiredLength_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.RequiredLength*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_RequiredLength_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.RequiredLength(System.Int32)">
+  RequiredLength(int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines the required length of an <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a> to hold the passed ID or bit.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int RequiredLength(int id)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>id</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The ID or bit.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>A size of required <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a>s for the bitset.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Resize_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Resize*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)">
+  Resize(int, AllocationOption)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Resize(int minimalLength, AllocationOption option = AllocationOption.None)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>minimalLength</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>option</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html">AllocationOption</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_SetAll_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.SetAll*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_SetAll" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.SetAll">
+  SetAll()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets all bits.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetAll()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_SetBit_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.SetBit*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_SetBit_System_Int32_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.SetBit(System.Int32)">
+  SetBit(int)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Sets a bit at the given index.
+Resizes its internal array if necessary.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetBit(int index)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The index.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_ToString_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.ToString*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_ToString" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.ToString">
+  ToString()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the fully qualified type name of this instance.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override readonly string ToString()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The fully qualified type name.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Xor_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Xor*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Xor_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.Xor(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  Xor(UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs a bitwise exclusive OR (XOR) operation between the current bit set and the specified bit set.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Xor(UnsafeBitSet other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd><p>The bit set to XOR with the current instance. Must have the same length as the current bit set.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></dt>
+    <dd><p>Thrown if <code class="paramref">other</code> does not have the same length as the current bit set.</p>
+</dd>
+  </dl>
+
+
+
+  <h2 class="section" id="operators">Operators
+</h2>
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_op_Equality_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.op_Equality*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_op_Equality_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.op_Equality(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet,Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  operator ==(UnsafeBitSet, UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator ==(UnsafeBitSet left, UnsafeBitSet right)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>left</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd></dd>
+    <dt><code>right</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_op_Inequality_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.op_Inequality*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_op_Inequality_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_Misaki_HighPerformance_LowLevel_Collections_UnsafeBitSet_" data-uid="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.op_Inequality(Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet,Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet)">
+  operator !=(UnsafeBitSet, UnsafeBitSet)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator !=(UnsafeBitSet left, UnsafeBitSet right)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>left</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd></dd>
+    <dt><code>right</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Collections.UnsafeBitSet.html">UnsafeBitSet</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

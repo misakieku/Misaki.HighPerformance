@@ -1,0 +1,327 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  id: IUnsafeCollection`1
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  children:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  langs:
+  - csharp
+  - vb
+  name: IUnsafeCollection<T>
+  nameWithType: IUnsafeCollection<T>
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>
+  type: Interface
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IUnsafeCollection
+    path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+    startLine: 29
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  syntax:
+    content: 'public interface IUnsafeCollection<T> : IUnsafeCollection, IDisposable where T : unmanaged'
+    typeParameters:
+    - id: T
+    content.vb: Public Interface IUnsafeCollection(Of T As Structure) Inherits IUnsafeCollection, IDisposable
+  derivedClasses:
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeArray`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeChunkedList`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeList`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeQueue`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeSlotMap`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeSparseSet`1
+  - Misaki.HighPerformance.LowLevel.Collections.UnsafeStack`1
+  inheritedMembers:
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  - Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  - System.IDisposable.Dispose
+  nameWithType.vb: IUnsafeCollection(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T)
+  name.vb: IUnsafeCollection(Of T)
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count
+  id: Count
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: IUnsafeCollection<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Count
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Count
+    path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+    startLine: 35
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  summary: Gets the number of elements in a collection.
+  example: []
+  syntax:
+    content: int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: ReadOnly Property Count As Integer
+  overload: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count*
+  nameWithType.vb: IUnsafeCollection(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Count
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  id: Resize(System.Int32,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1
+  langs:
+  - csharp
+  - vb
+  name: Resize(int, AllocationOption)
+  nameWithType: IUnsafeCollection<T>.Resize(int, AllocationOption)
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Resize(int, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Resize
+    path: src/Misaki.HighPerformance.LowLevel/Collections/Contracts/IUnsafeCollection.cs
+    startLine: 45
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  summary: Changes the size of a collection to the specified value.
+  example: []
+  syntax:
+    content: void Resize(int newSize, AllocationOption option)
+    parameters:
+    - id: newSize
+      type: System.Int32
+      description: Specifies the new size to which the collection should be adjusted.
+    - id: option
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+      description: Specifies allocation options that may affect how memory is managed during the resize operation.
+    content.vb: Sub Resize(newSize As Integer, [option] As AllocationOption)
+  overload: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize*
+  nameWithType.vb: IUnsafeCollection(Of T).Resize(Integer, AllocationOption)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Resize(Integer, Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)
+  name.vb: Resize(Integer, AllocationOption)
+references:
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  commentId: N:Misaki.HighPerformance.LowLevel.Collections.Contracts
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  nameWithType: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections
+    name: Collections
+    href: Misaki.HighPerformance.LowLevel.Collections.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts
+    name: Contracts
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.html
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  commentId: P:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_IsCreated
+  name: IsCreated
+  nameWithType: IUnsafeCollection.IsCreated
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.IsCreated
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_Clear
+  name: Clear()
+  nameWithType: IUnsafeCollection.Clear()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear()
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+    name: Clear
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_Clear
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.Clear
+    name: Clear
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_Clear
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  commentId: M:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_GetUnsafePtr
+  name: GetUnsafePtr()
+  nameWithType: IUnsafeCollection.GetUnsafePtr()
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr()
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+    name: GetUnsafePtr
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_GetUnsafePtr
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.GetUnsafePtr
+    name: GetUnsafePtr
+    href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_GetUnsafePtr
+  - name: (
+  - name: )
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  commentId: T:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+  parent: Misaki.HighPerformance.LowLevel.Collections.Contracts
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection.html
+  name: IUnsafeCollection
+  nameWithType: IUnsafeCollection
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Count
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Count
+  name: Count
+  nameWithType: IUnsafeCollection<T>.Count
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Count
+  nameWithType.vb: IUnsafeCollection(Of T).Count
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection`1.Resize
+  href: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection-1.html#Misaki_HighPerformance_LowLevel_Collections_Contracts_IUnsafeCollection_1_Resize_System_Int32_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_
+  name: Resize
+  nameWithType: IUnsafeCollection<T>.Resize
+  fullName: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection<T>.Resize
+  nameWithType.vb: IUnsafeCollection(Of T).Resize
+  fullName.vb: Misaki.HighPerformance.LowLevel.Collections.Contracts.IUnsafeCollection(Of T).Resize
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  name: AllocationOption
+  nameWithType: AllocationOption
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html

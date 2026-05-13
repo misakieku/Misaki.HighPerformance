@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7
+  commentId: T:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7
+  id: IJobSPMD`7
+  parent: Misaki.HighPerformance.Mathematics.SPMD
+  children:
+  - Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7.Execute``7(``0,``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  langs:
+  - csharp
+  - vb
+  name: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
+  nameWithType: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>
+  type: Interface
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics.SPMD/Templates/IJobSPMD.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IJobSPMD
+    path: src/Misaki.HighPerformance.Mathematics.SPMD/Templates/IJobSPMD.gen.cs
+    startLine: 357
+  assemblies:
+  - Misaki.HighPerformance.Mathematics.SPMD
+  namespace: Misaki.HighPerformance.Mathematics.SPMD
+  summary: A job interface for Single Program Multiple Data (SPMD) execution, allowing for efficient parallel processing of data across multiple lanes.
+  remarks: Always use TNumber0 as the primary type for determining lane width and job scheduling, even if it's not used in the job execution.
+  example: []
+  syntax:
+    content: 'public interface IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6> where TNumber0 : unmanaged, INumber<TNumber0>, IBinaryNumber<TNumber0>, IMinMaxValue<TNumber0>, IBitwiseOperators<TNumber0, TNumber0, TNumber0> where TNumber1 : unmanaged, INumber<TNumber1>, IBinaryNumber<TNumber1>, IMinMaxValue<TNumber1>, IBitwiseOperators<TNumber1, TNumber1, TNumber1> where TNumber2 : unmanaged, INumber<TNumber2>, IBinaryNumber<TNumber2>, IMinMaxValue<TNumber2>, IBitwiseOperators<TNumber2, TNumber2, TNumber2> where TNumber3 : unmanaged, INumber<TNumber3>, IBinaryNumber<TNumber3>, IMinMaxValue<TNumber3>, IBitwiseOperators<TNumber3, TNumber3, TNumber3> where TNumber4 : unmanaged, INumber<TNumber4>, IBinaryNumber<TNumber4>, IMinMaxValue<TNumber4>, IBitwiseOperators<TNumber4, TNumber4, TNumber4> where TNumber5 : unmanaged, INumber<TNumber5>, IBinaryNumber<TNumber5>, IMinMaxValue<TNumber5>, IBitwiseOperators<TNumber5, TNumber5, TNumber5> where TNumber6 : unmanaged, INumber<TNumber6>, IBinaryNumber<TNumber6>, IMinMaxValue<TNumber6>, IBitwiseOperators<TNumber6, TNumber6, TNumber6>'
+    typeParameters:
+    - id: TNumber0
+      description: The first numeric type used in the SPMD job.
+    - id: TNumber1
+      description: The first numeric type used in the SPMD job.
+    - id: TNumber2
+      description: The first numeric type used in the SPMD job.
+    - id: TNumber3
+      description: The first numeric type used in the SPMD job.
+    - id: TNumber4
+      description: The first numeric type used in the SPMD job.
+    - id: TNumber5
+      description: The first numeric type used in the SPMD job.
+    - id: TNumber6
+      description: The first numeric type used in the SPMD job.
+    content.vb: Public Interface IJobSPMD(Of TNumber0 As {Structure, INumber(Of TNumber0), IBinaryNumber(Of TNumber0), IMinMaxValue(Of TNumber0), IBitwiseOperators(Of TNumber0, TNumber0, TNumber0)}, TNumber1 As {Structure, INumber(Of TNumber1), IBinaryNumber(Of TNumber1), IMinMaxValue(Of TNumber1), IBitwiseOperators(Of TNumber1, TNumber1, TNumber1)}, TNumber2 As {Structure, INumber(Of TNumber2), IBinaryNumber(Of TNumber2), IMinMaxValue(Of TNumber2), IBitwiseOperators(Of TNumber2, TNumber2, TNumber2)}, TNumber3 As {Structure, INumber(Of TNumber3), IBinaryNumber(Of TNumber3), IMinMaxValue(Of TNumber3), IBitwiseOperators(Of TNumber3, TNumber3, TNumber3)}, TNumber4 As {Structure, INumber(Of TNumber4), IBinaryNumber(Of TNumber4), IMinMaxValue(Of TNumber4), IBitwiseOperators(Of TNumber4, TNumber4, TNumber4)}, TNumber5 As {Structure, INumber(Of TNumber5), IBinaryNumber(Of TNumber5), IMinMaxValue(Of TNumber5), IBitwiseOperators(Of TNumber5, TNumber5, TNumber5)}, TNumber6 As {Structure, INumber(Of TNumber6), IBinaryNumber(Of TNumber6), IMinMaxValue(Of TNumber6), IBitwiseOperators(Of TNumber6, TNumber6, TNumber6)})
+  nameWithType.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6)
+  name.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6)
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7.Execute``7(``0,``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  commentId: M:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7.Execute``7(``0,``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  id: Execute``7(``0,``0,Misaki.HighPerformance.Jobs.JobExecutionContext@)
+  parent: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7
+  langs:
+  - csharp
+  - vb
+  name: Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6>(TLane0, TLane0, ref readonly JobExecutionContext)
+  nameWithType: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>.Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6>(TLane0, TLane0, ref readonly JobExecutionContext)
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>.Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6>(TLane0, TLane0, ref readonly Misaki.HighPerformance.Jobs.JobExecutionContext)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics.SPMD/Templates/IJobSPMD.gen.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Execute
+    path: src/Misaki.HighPerformance.Mathematics.SPMD/Templates/IJobSPMD.gen.cs
+    startLine: 366
+  assemblies:
+  - Misaki.HighPerformance.Mathematics.SPMD
+  namespace: Misaki.HighPerformance.Mathematics.SPMD
+  syntax:
+    content: 'void Execute<TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx) where TLane0 : unmanaged, ISPMDLane<TLane0, TNumber0> where TLane1 : unmanaged, ISPMDLane<TLane1, TNumber1> where TLane2 : unmanaged, ISPMDLane<TLane2, TNumber2> where TLane3 : unmanaged, ISPMDLane<TLane3, TNumber3> where TLane4 : unmanaged, ISPMDLane<TLane4, TNumber4> where TLane5 : unmanaged, ISPMDLane<TLane5, TNumber5> where TLane6 : unmanaged, ISPMDLane<TLane6, TNumber6>'
+    parameters:
+    - id: indices
+      type: '{TLane0}'
+    - id: mask
+      type: '{TLane0}'
+    - id: ctx
+      type: Misaki.HighPerformance.Jobs.JobExecutionContext
+    typeParameters:
+    - id: TLane0
+    - id: TLane1
+    - id: TLane2
+    - id: TLane3
+    - id: TLane4
+    - id: TLane5
+    - id: TLane6
+    content.vb: Sub Execute(Of TLane0 As {Structure, ISPMDLane(Of TLane0, TNumber0)}, TLane1 As {Structure, ISPMDLane(Of TLane1, TNumber1)}, TLane2 As {Structure, ISPMDLane(Of TLane2, TNumber2)}, TLane3 As {Structure, ISPMDLane(Of TLane3, TNumber3)}, TLane4 As {Structure, ISPMDLane(Of TLane4, TNumber4)}, TLane5 As {Structure, ISPMDLane(Of TLane5, TNumber5)}, TLane6 As {Structure, ISPMDLane(Of TLane6, TNumber6)})(indices As TLane0, mask As TLane0, ctx As JobExecutionContext)
+  overload: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7.Execute*
+  nameWithType.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6).Execute(Of TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6)(TLane0, TLane0, JobExecutionContext)
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6).Execute(Of TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6)(TLane0, TLane0, Misaki.HighPerformance.Jobs.JobExecutionContext)
+  name.vb: Execute(Of TLane0, TLane1, TLane2, TLane3, TLane4, TLane5, TLane6)(TLane0, TLane0, JobExecutionContext)
+references:
+- uid: Misaki.HighPerformance.Mathematics.SPMD
+  commentId: N:Misaki.HighPerformance.Mathematics.SPMD
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics.SPMD
+  nameWithType: Misaki.HighPerformance.Mathematics.SPMD
+  fullName: Misaki.HighPerformance.Mathematics.SPMD
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.SPMD
+    name: SPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.SPMD
+    name: SPMD
+    href: Misaki.HighPerformance.Mathematics.SPMD.html
+- uid: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7.Execute*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD`7.Execute
+  href: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD-7.html#Misaki_HighPerformance_Mathematics_SPMD_IJobSPMD_7_Execute__7___0___0_Misaki_HighPerformance_Jobs_JobExecutionContext__
+  name: Execute
+  nameWithType: IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>.Execute
+  fullName: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD<TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6>.Execute
+  nameWithType.vb: IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6).Execute
+  fullName.vb: Misaki.HighPerformance.Mathematics.SPMD.IJobSPMD(Of TNumber0, TNumber1, TNumber2, TNumber3, TNumber4, TNumber5, TNumber6).Execute
+- uid: '{TLane0}'
+  commentId: '!:TLane0'
+  definition: TLane0
+  name: TLane0
+  nameWithType: TLane0
+  fullName: TLane0
+- uid: Misaki.HighPerformance.Jobs.JobExecutionContext
+  commentId: T:Misaki.HighPerformance.Jobs.JobExecutionContext
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobExecutionContext.html
+  name: JobExecutionContext
+  nameWithType: JobExecutionContext
+  fullName: Misaki.HighPerformance.Jobs.JobExecutionContext
+- uid: TLane0
+  name: TLane0
+  nameWithType: TLane0
+  fullName: TLane0
+- uid: Misaki.HighPerformance.Jobs
+  commentId: N:Misaki.HighPerformance.Jobs
+  href: Misaki.html
+  name: Misaki.HighPerformance.Jobs
+  nameWithType: Misaki.HighPerformance.Jobs
+  fullName: Misaki.HighPerformance.Jobs
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html

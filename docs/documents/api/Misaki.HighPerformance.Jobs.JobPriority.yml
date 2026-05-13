@@ -1,0 +1,155 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Jobs.JobPriority
+  commentId: T:Misaki.HighPerformance.Jobs.JobPriority
+  id: JobPriority
+  parent: Misaki.HighPerformance.Jobs
+  children:
+  - Misaki.HighPerformance.Jobs.JobPriority.High
+  - Misaki.HighPerformance.Jobs.JobPriority.Low
+  - Misaki.HighPerformance.Jobs.JobPriority.Normal
+  langs:
+  - csharp
+  - vb
+  name: JobPriority
+  nameWithType: JobPriority
+  fullName: Misaki.HighPerformance.Jobs.JobPriority
+  type: Enum
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: JobPriority
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 35
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: The priority level of a job.
+  example: []
+  syntax:
+    content: public enum JobPriority
+    content.vb: Public Enum JobPriority
+- uid: Misaki.HighPerformance.Jobs.JobPriority.Normal
+  commentId: F:Misaki.HighPerformance.Jobs.JobPriority.Normal
+  id: Normal
+  parent: Misaki.HighPerformance.Jobs.JobPriority
+  langs:
+  - csharp
+  - vb
+  name: Normal
+  nameWithType: JobPriority.Normal
+  fullName: Misaki.HighPerformance.Jobs.JobPriority.Normal
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Normal
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 40
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Normal priority. Which will have 37.5% chance to be picked when there are multiple jobs ready to run.
+  example: []
+  syntax:
+    content: Normal = 0
+    return:
+      type: Misaki.HighPerformance.Jobs.JobPriority
+- uid: Misaki.HighPerformance.Jobs.JobPriority.High
+  commentId: F:Misaki.HighPerformance.Jobs.JobPriority.High
+  id: High
+  parent: Misaki.HighPerformance.Jobs.JobPriority
+  langs:
+  - csharp
+  - vb
+  name: High
+  nameWithType: JobPriority.High
+  fullName: Misaki.HighPerformance.Jobs.JobPriority.High
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: High
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 44
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: High priority. Which will have 50.0% chance to be picked when there are multiple jobs ready to run. This is useful for jobs that are on the critical path of the execution and we want to prioritize their completion.
+  example: []
+  syntax:
+    content: High = 1
+    return:
+      type: Misaki.HighPerformance.Jobs.JobPriority
+- uid: Misaki.HighPerformance.Jobs.JobPriority.Low
+  commentId: F:Misaki.HighPerformance.Jobs.JobPriority.Low
+  id: Low
+  parent: Misaki.HighPerformance.Jobs.JobPriority
+  langs:
+  - csharp
+  - vb
+  name: Low
+  nameWithType: JobPriority.Low
+  fullName: Misaki.HighPerformance.Jobs.JobPriority.Low
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Low
+    path: src/Misaki.HighPerformance.Jobs/JobInfo.cs
+    startLine: 48
+  assemblies:
+  - Misaki.HighPerformance.Jobs
+  namespace: Misaki.HighPerformance.Jobs
+  summary: Low priority. Which will have 12.5% chance to be picked when there are multiple jobs ready to run.
+  example: []
+  syntax:
+    content: Low = 2
+    return:
+      type: Misaki.HighPerformance.Jobs.JobPriority
+references:
+- uid: Misaki.HighPerformance.Jobs
+  commentId: N:Misaki.HighPerformance.Jobs
+  href: Misaki.html
+  name: Misaki.HighPerformance.Jobs
+  nameWithType: Misaki.HighPerformance.Jobs
+  fullName: Misaki.HighPerformance.Jobs
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Jobs
+    name: Jobs
+    href: Misaki.HighPerformance.Jobs.html
+- uid: Misaki.HighPerformance.Jobs.JobPriority
+  commentId: T:Misaki.HighPerformance.Jobs.JobPriority
+  parent: Misaki.HighPerformance.Jobs
+  href: Misaki.HighPerformance.Jobs.JobPriority.html
+  name: JobPriority
+  nameWithType: JobPriority
+  fullName: Misaki.HighPerformance.Jobs.JobPriority

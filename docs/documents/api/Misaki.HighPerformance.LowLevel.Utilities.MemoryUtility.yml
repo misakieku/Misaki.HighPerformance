@@ -1,0 +1,1652 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  commentId: T:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  id: MemoryUtility
+  parent: Misaki.HighPerformance.LowLevel.Utilities
+  children:
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignOf``1
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignUp(System.UIntPtr,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedAlloc(System.UIntPtr,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedFree(System.Void*)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedRealloc(System.Void*,System.UIntPtr,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Calloc(System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Decommit(System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Free(System.Void*)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.IndexOfNullByte(System.Byte*)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Malloc(System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MarshalAlignOf``1
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemClear(System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCmp(System.Void*,System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCpy(System.Void*,System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemMove(System.Void*,System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemSet(System.Void*,System.Byte,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Mmap(System.Void*,System.UIntPtr,Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Munmap(System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Realloc(System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Recommit(System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(System.Span{System.Byte},System.ReadOnlySpan{System.Byte})
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(System.Void*,System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.SizeOf``1
+  langs:
+  - csharp
+  - vb
+  name: MemoryUtility
+  nameWithType: MemoryUtility
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  type: Class
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MemoryUtility
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 16
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  syntax:
+    content: public static class MemoryUtility
+    content.vb: Public Module MemoryUtility
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.IndexOfNullByte(System.Byte*)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.IndexOfNullByte(System.Byte*)
+  id: IndexOfNullByte(System.Byte*)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: IndexOfNullByte(byte*)
+  nameWithType: MemoryUtility.IndexOfNullByte(byte*)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.IndexOfNullByte(byte*)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.Byte.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IndexOfNullByte
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.Byte.cs
+    startLine: 59
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Searches for the first occurrence of a null byte (0x00) in a given byte array.
+  example: []
+  syntax:
+    content: public static int IndexOfNullByte(byte* searchSpace)
+    parameters:
+    - id: searchSpace
+      type: System.Byte*
+      description: A pointer to the byte array where the search will be performed.
+    return:
+      type: System.Int32
+      description: Returns the index of the first null byte found in the array..
+    content.vb: Public Shared Function IndexOfNullByte(searchSpace As Byte*) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.IndexOfNullByte*
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: Thrown if the byte array is not null-terminated.
+  nameWithType.vb: MemoryUtility.IndexOfNullByte(Byte*)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.IndexOfNullByte(Byte*)
+  name.vb: IndexOfNullByte(Byte*)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(System.Span{System.Byte},System.ReadOnlySpan{System.Byte})
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(System.Span{System.Byte},System.ReadOnlySpan{System.Byte})
+  id: ReplaceIfZeros(System.Span{System.Byte},System.ReadOnlySpan{System.Byte})
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: ReplaceIfZeros(Span<byte>, ReadOnlySpan<byte>)
+  nameWithType: MemoryUtility.ReplaceIfZeros(Span<byte>, ReadOnlySpan<byte>)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(System.Span<byte>, System.ReadOnlySpan<byte>)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.Byte.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ReplaceIfZeros
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.Byte.cs
+    startLine: 399
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  syntax:
+    content: public static void ReplaceIfZeros(Span<byte> a, ReadOnlySpan<byte> b)
+    parameters:
+    - id: a
+      type: System.Span{System.Byte}
+    - id: b
+      type: System.ReadOnlySpan{System.Byte}
+    content.vb: Public Shared Sub ReplaceIfZeros(a As Span(Of Byte), b As ReadOnlySpan(Of Byte))
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros*
+  nameWithType.vb: MemoryUtility.ReplaceIfZeros(Span(Of Byte), ReadOnlySpan(Of Byte))
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(System.Span(Of Byte), System.ReadOnlySpan(Of Byte))
+  name.vb: ReplaceIfZeros(Span(Of Byte), ReadOnlySpan(Of Byte))
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(System.Void*,System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(System.Void*,System.Void*,System.UIntPtr)
+  id: ReplaceIfZeros(System.Void*,System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: ReplaceIfZeros(void*, void*, nuint)
+  nameWithType: MemoryUtility.ReplaceIfZeros(void*, void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(void*, void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.Byte.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ReplaceIfZeros
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.Byte.cs
+    startLine: 435
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  syntax:
+    content: public static void ReplaceIfZeros(void* a, void* b, nuint length)
+    parameters:
+    - id: a
+      type: System.Void*
+    - id: b
+      type: System.Void*
+    - id: length
+      type: System.UIntPtr
+    content.vb: Public Shared Sub ReplaceIfZeros(a As Void*, b As Void*, length As UIntPtr)
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros*
+  nameWithType.vb: MemoryUtility.ReplaceIfZeros(Void*, Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros(Void*, Void*, System.UIntPtr)
+  name.vb: ReplaceIfZeros(Void*, Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Malloc(System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Malloc(System.UIntPtr)
+  id: Malloc(System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: Malloc(nuint)
+  nameWithType: MemoryUtility.Malloc(nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Malloc(nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Malloc
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 79
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Allocates a block of memory of the specified size in bytes.
+  remarks: If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+  example: []
+  syntax:
+    content: public static void* Malloc(nuint size)
+    parameters:
+    - id: size
+      type: System.UIntPtr
+      description: Specifies the number of bytes to allocate in memory.
+    return:
+      type: System.Void*
+      description: Returns a pointer to the allocated memory block.
+    content.vb: Public Shared Function Malloc(size As UIntPtr) As Void*
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Malloc*
+  nameWithType.vb: MemoryUtility.Malloc(UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Malloc(System.UIntPtr)
+  name.vb: Malloc(UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Calloc(System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Calloc(System.UIntPtr)
+  id: Calloc(System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: Calloc(nuint)
+  nameWithType: MemoryUtility.Calloc(nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Calloc(nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Calloc
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 110
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Allocates a block of memory of the specified size in bytes and initializes it to zero.
+  remarks: If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+  example: []
+  syntax:
+    content: public static void* Calloc(nuint size)
+    parameters:
+    - id: size
+      type: System.UIntPtr
+      description: Specifies the number of bytes to allocate in memory.
+    return:
+      type: System.Void*
+      description: Returns a pointer to the allocated and zero-initialized memory block.
+    content.vb: Public Shared Function Calloc(size As UIntPtr) As Void*
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Calloc*
+  nameWithType.vb: MemoryUtility.Calloc(UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Calloc(System.UIntPtr)
+  name.vb: Calloc(UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedAlloc(System.UIntPtr,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedAlloc(System.UIntPtr,System.UIntPtr)
+  id: AlignedAlloc(System.UIntPtr,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: AlignedAlloc(nuint, nuint)
+  nameWithType: MemoryUtility.AlignedAlloc(nuint, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedAlloc(nuint, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AlignedAlloc
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 144
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Allocates a block of memory with a specified size and alignment.
+  remarks: If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+  example: []
+  syntax:
+    content: public static void* AlignedAlloc(nuint size, nuint alignment)
+    parameters:
+    - id: size
+      type: System.UIntPtr
+      description: Specifies the total number of bytes to allocate for the memory block.
+    - id: alignment
+      type: System.UIntPtr
+      description: Defines the required alignment for the allocated memory address.
+    return:
+      type: System.Void*
+      description: Returns a pointer to the allocated memory block.
+    content.vb: Public Shared Function AlignedAlloc(size As UIntPtr, alignment As UIntPtr) As Void*
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedAlloc*
+  nameWithType.vb: MemoryUtility.AlignedAlloc(UIntPtr, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedAlloc(System.UIntPtr, System.UIntPtr)
+  name.vb: AlignedAlloc(UIntPtr, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Realloc(System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Realloc(System.Void*,System.UIntPtr)
+  id: Realloc(System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: Realloc(void*, nuint)
+  nameWithType: MemoryUtility.Realloc(void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Realloc(void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Realloc
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 176
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Resizes a previously allocated memory block to a new size. It returns a pointer to the reallocated memory.
+  remarks: If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+  example: []
+  syntax:
+    content: public static void* Realloc(void* ptr, nuint size)
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: The pointer to the memory block that needs to be resized.
+    - id: size
+      type: System.UIntPtr
+      description: The new size for the memory block after resizing.
+    return:
+      type: System.Void*
+      description: A pointer to the reallocated memory block, or null if the operation fails.
+    content.vb: Public Shared Function Realloc(ptr As Void*, size As UIntPtr) As Void*
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Realloc*
+  nameWithType.vb: MemoryUtility.Realloc(Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Realloc(Void*, System.UIntPtr)
+  name.vb: Realloc(Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedRealloc(System.Void*,System.UIntPtr,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedRealloc(System.Void*,System.UIntPtr,System.UIntPtr)
+  id: AlignedRealloc(System.Void*,System.UIntPtr,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: AlignedRealloc(void*, nuint, nuint)
+  nameWithType: MemoryUtility.AlignedRealloc(void*, nuint, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedRealloc(void*, nuint, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AlignedRealloc
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 215
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: >-
+    Reallocates memory to a specified size with a given alignment. It returns a pointer to the newly allocated
+
+    memory.
+  remarks: If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+  example: []
+  syntax:
+    content: public static void* AlignedRealloc(void* ptr, nuint size, nuint alignment)
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: The pointer to the existing memory block that needs to be reallocated.
+    - id: size
+      type: System.UIntPtr
+      description: The new size for the memory allocation.
+    - id: alignment
+      type: System.UIntPtr
+      description: The required alignment for the new memory allocation.
+    return:
+      type: System.Void*
+      description: A pointer to the reallocated memory block, or null if the allocation fails.
+    content.vb: Public Shared Function AlignedRealloc(ptr As Void*, size As UIntPtr, alignment As UIntPtr) As Void*
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedRealloc*
+  nameWithType.vb: MemoryUtility.AlignedRealloc(Void*, UIntPtr, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedRealloc(Void*, System.UIntPtr, System.UIntPtr)
+  name.vb: AlignedRealloc(Void*, UIntPtr, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Free(System.Void*)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Free(System.Void*)
+  id: Free(System.Void*)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: Free(void*)
+  nameWithType: MemoryUtility.Free(void*)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Free(void*)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Free
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 262
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Releases the allocated memory pointed to by the given pointer. This helps in managing memory usage effectively.
+  remarks: If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+  example: []
+  syntax:
+    content: public static void Free(void* ptr)
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: The pointer to the memory block that needs to be freed.
+    content.vb: Public Shared Sub Free(ptr As Void*)
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Free*
+  nameWithType.vb: MemoryUtility.Free(Void*)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Free(Void*)
+  name.vb: Free(Void*)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedFree(System.Void*)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedFree(System.Void*)
+  id: AlignedFree(System.Void*)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: AlignedFree(void*)
+  nameWithType: MemoryUtility.AlignedFree(void*)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedFree(void*)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AlignedFree
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 286
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Releases memory that was allocated with alignment requirements. It ensures proper deallocation of aligned memory blocks.
+  remarks: If MHP_ENABLE_MIMALLOC is defined, this method uses the mimalloc for memory allocation.
+  example: []
+  syntax:
+    content: public static void AlignedFree(void* ptr)
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: The pointer to the memory block that needs to be freed.
+    content.vb: Public Shared Sub AlignedFree(ptr As Void*)
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedFree*
+  nameWithType.vb: MemoryUtility.AlignedFree(Void*)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedFree(Void*)
+  name.vb: AlignedFree(Void*)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemClear(System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemClear(System.Void*,System.UIntPtr)
+  id: MemClear(System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: MemClear(void*, nuint)
+  nameWithType: MemoryUtility.MemClear(void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemClear(void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MemClear
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 309
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: >-
+    Clears a block of memory by setting it to zero. It initializes a specified number of bytes at a given memory
+
+    address.
+  example: []
+  syntax:
+    content: public static void MemClear(void* ptr, nuint size)
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: Specifies the memory address where the clearing operation will begin.
+    - id: size
+      type: System.UIntPtr
+      description: Indicates the number of bytes to be cleared in the memory block.
+    content.vb: Public Shared Sub MemClear(ptr As Void*, size As UIntPtr)
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemClear*
+  nameWithType.vb: MemoryUtility.MemClear(Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemClear(Void*, System.UIntPtr)
+  name.vb: MemClear(Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemSet(System.Void*,System.Byte,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemSet(System.Void*,System.Byte,System.UIntPtr)
+  id: MemSet(System.Void*,System.Byte,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: MemSet(void*, byte, nuint)
+  nameWithType: MemoryUtility.MemSet(void*, byte, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemSet(void*, byte, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MemSet
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 332
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Sets a block of memory to a specified byte value for a given size.
+  example: []
+  syntax:
+    content: public static void MemSet(void* ptr, byte value, nuint size)
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: The memory address where the byte value will be set.
+    - id: value
+      type: System.Byte
+      description: The byte value to which the memory block will be initialized.
+    - id: size
+      type: System.UIntPtr
+      description: The number of bytes to set to the specified value.
+    content.vb: Public Shared Sub MemSet(ptr As Void*, value As Byte, size As UIntPtr)
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemSet*
+  nameWithType.vb: MemoryUtility.MemSet(Void*, Byte, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemSet(Void*, Byte, System.UIntPtr)
+  name.vb: MemSet(Void*, Byte, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCpy(System.Void*,System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCpy(System.Void*,System.Void*,System.UIntPtr)
+  id: MemCpy(System.Void*,System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: MemCpy(void*, void*, nuint)
+  nameWithType: MemoryUtility.MemCpy(void*, void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCpy(void*, void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MemCpy
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 355
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Copies a block of memory from a source location to a destination location.
+  example: []
+  syntax:
+    content: public static void MemCpy(void* destination, void* source, nuint size)
+    parameters:
+    - id: destination
+      type: System.Void*
+      description: Specifies the memory address where the copied data will be stored.
+    - id: source
+      type: System.Void*
+      description: Indicates the memory address from which data will be copied.
+    - id: size
+      type: System.UIntPtr
+      description: Defines the number of bytes to be copied from the source to the destination.
+    content.vb: Public Shared Sub MemCpy(destination As Void*, source As Void*, size As UIntPtr)
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCpy*
+  nameWithType.vb: MemoryUtility.MemCpy(Void*, Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCpy(Void*, Void*, System.UIntPtr)
+  name.vb: MemCpy(Void*, Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemMove(System.Void*,System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemMove(System.Void*,System.Void*,System.UIntPtr)
+  id: MemMove(System.Void*,System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: MemMove(void*, void*, nuint)
+  nameWithType: MemoryUtility.MemMove(void*, void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemMove(void*, void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MemMove
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 378
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Moves a block of memory from a source location to a destination location, handling overlapping regions correctly.
+  example: []
+  syntax:
+    content: public static void MemMove(void* destination, void* source, nuint size)
+    parameters:
+    - id: destination
+      type: System.Void*
+      description: Indicates the memory address where the data will be moved to.
+    - id: source
+      type: System.Void*
+      description: Specifies the memory address from which data will be moved.
+    - id: size
+      type: System.UIntPtr
+      description: Defines the number of bytes to be moved from the source to the destination.
+    content.vb: Public Shared Sub MemMove(destination As Void*, source As Void*, size As UIntPtr)
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemMove*
+  nameWithType.vb: MemoryUtility.MemMove(Void*, Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemMove(Void*, Void*, System.UIntPtr)
+  name.vb: MemMove(Void*, Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCmp(System.Void*,System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCmp(System.Void*,System.Void*,System.UIntPtr)
+  id: MemCmp(System.Void*,System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: MemCmp(void*, void*, nuint)
+  nameWithType: MemoryUtility.MemCmp(void*, void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCmp(void*, void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MemCmp
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 405
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Compares two blocks of memory byte by byte for a specified length.
+  example: []
+  syntax:
+    content: public static int MemCmp(void* ptr1, void* ptr2, nuint size)
+    parameters:
+    - id: ptr1
+      type: System.Void*
+      description: A pointer to the first block of memory to compare.
+    - id: ptr2
+      type: System.Void*
+      description: A pointer to the second block of memory to compare.
+    - id: size
+      type: System.UIntPtr
+      description: The number of bytes to compare. Must not exceed the length of either memory block.
+    return:
+      type: System.Int32
+      description: >-
+        A signed integer that indicates the relative order of the memory blocks: less than zero if the first differing
+                byte in ptr1 is less than the corresponding byte in ptr2; zero if all compared bytes are equal; greater than
+                zero if the first differing byte in ptr1 is greater than the corresponding byte in ptr2.
+    content.vb: Public Shared Function MemCmp(ptr1 As Void*, ptr2 As Void*, size As UIntPtr) As Integer
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCmp*
+  nameWithType.vb: MemoryUtility.MemCmp(Void*, Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCmp(Void*, Void*, System.UIntPtr)
+  name.vb: MemCmp(Void*, Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Mmap(System.Void*,System.UIntPtr,Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Mmap(System.Void*,System.UIntPtr,Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags)
+  id: Mmap(System.Void*,System.UIntPtr,Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: Mmap(void*, nuint, VirtualAllocationFlags)
+  nameWithType: MemoryUtility.Mmap(void*, nuint, VirtualAllocationFlags)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Mmap(void*, nuint, Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Mmap
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 428
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Allocates virtual memory with specified size and flags. The behavior of this method varies based on the operating system.
+  example: []
+  syntax:
+    content: public static void* Mmap(void* addr, nuint size, VirtualAllocationFlags flags)
+    parameters:
+    - id: addr
+      type: System.Void*
+      description: The address at which to allocate the memory.
+    - id: size
+      type: System.UIntPtr
+      description: The size of the memory block to allocate.
+    - id: flags
+      type: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+      description: The flags specifying the allocation behavior.
+    return:
+      type: System.Void*
+      description: A pointer to the allocated memory.
+    content.vb: Public Shared Function Mmap(addr As Void*, size As UIntPtr, flags As VirtualAllocationFlags) As Void*
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Mmap*
+  exceptions:
+  - type: System.OutOfMemoryException
+    commentId: T:System.OutOfMemoryException
+    description: ''
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: ''
+  nameWithType.vb: MemoryUtility.Mmap(Void*, UIntPtr, VirtualAllocationFlags)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Mmap(Void*, System.UIntPtr, Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags)
+  name.vb: Mmap(Void*, UIntPtr, VirtualAllocationFlags)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Munmap(System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Munmap(System.Void*,System.UIntPtr)
+  id: Munmap(System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: Munmap(void*, nuint)
+  nameWithType: MemoryUtility.Munmap(void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Munmap(void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Munmap
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 494
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Unmaps a previously allocated block of virtual memory. The behavior of this method varies based on the operating system.
+  example: []
+  syntax:
+    content: public static bool Munmap(void* ptr, nuint size)
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: A pointer to the memory block to unmap.
+    - id: size
+      type: System.UIntPtr
+      description: The size of the memory block to unmap.
+    return:
+      type: System.Boolean
+      description: true if the memory was successfully unmapped; otherwise, false.
+    content.vb: Public Shared Function Munmap(ptr As Void*, size As UIntPtr) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Munmap*
+  exceptions:
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: ''
+  nameWithType.vb: MemoryUtility.Munmap(Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Munmap(Void*, System.UIntPtr)
+  name.vb: Munmap(Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Decommit(System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Decommit(System.Void*,System.UIntPtr)
+  id: Decommit(System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: Decommit(void*, nuint)
+  nameWithType: MemoryUtility.Decommit(void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Decommit(void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Decommit
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 521
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Decommits a previously allocated block of virtual memory, releasing the physical memory while keeping the address space reserved. The behavior of this method varies based on the operating system.
+  example: []
+  syntax:
+    content: public static bool Decommit(void* ptr, nuint size)
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: A pointer to the memory block to decommit.
+    - id: size
+      type: System.UIntPtr
+      description: The size of the memory block to decommit.
+    return:
+      type: System.Boolean
+      description: true if the memory was successfully decommitted; otherwise, false.
+    content.vb: Public Shared Function Decommit(ptr As Void*, size As UIntPtr) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Decommit*
+  exceptions:
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: ''
+  nameWithType.vb: MemoryUtility.Decommit(Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Decommit(Void*, System.UIntPtr)
+  name.vb: Decommit(Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Recommit(System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Recommit(System.Void*,System.UIntPtr)
+  id: Recommit(System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: Recommit(void*, nuint)
+  nameWithType: MemoryUtility.Recommit(void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Recommit(void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Recommit
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 548
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Recommits a previously decommitted block of virtual memory, making the physical memory available again while keeping the address space reserved. The behavior of this method varies based on the operating system.
+  example: []
+  syntax:
+    content: public static bool Recommit(void* ptr, nuint size)
+    parameters:
+    - id: ptr
+      type: System.Void*
+      description: A pointer to the memory block to recommit.
+    - id: size
+      type: System.UIntPtr
+      description: The size of the memory block to recommit.
+    return:
+      type: System.Boolean
+      description: true if the memory was successfully recommitted; otherwise, false.
+    content.vb: Public Shared Function Recommit(ptr As Void*, size As UIntPtr) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Recommit*
+  exceptions:
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: ''
+  nameWithType.vb: MemoryUtility.Recommit(Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Recommit(Void*, System.UIntPtr)
+  name.vb: Recommit(Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.SizeOf``1
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.SizeOf``1
+  id: SizeOf``1
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: SizeOf<T>()
+  nameWithType: MemoryUtility.SizeOf<T>()
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.SizeOf<T>()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SizeOf
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 573
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Calculates the size in bytes of a specified unmanaged type.
+  example: []
+  syntax:
+    content: 'public static nuint SizeOf<T>() where T : unmanaged'
+    typeParameters:
+    - id: T
+      description: Represents an unmanaged type for which the size is being calculated.
+    return:
+      type: System.UIntPtr
+      description: Returns the size of the specified type as an unsigned integer.
+    content.vb: Public Shared Function SizeOf(Of T As Structure)() As UIntPtr
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.SizeOf*
+  nameWithType.vb: MemoryUtility.SizeOf(Of T)()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.SizeOf(Of T)()
+  name.vb: SizeOf(Of T)()
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignOf``1
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignOf``1
+  id: AlignOf``1
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: AlignOf<T>()
+  nameWithType: MemoryUtility.AlignOf<T>()
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignOf<T>()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AlignOf
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 585
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Calculates the alignment size of a specified unmanaged type.
+  example: []
+  syntax:
+    content: 'public static nuint AlignOf<T>() where T : unmanaged'
+    typeParameters:
+    - id: T
+      description: Represents an unmanaged type for which the alignment size is being calculated.
+    return:
+      type: System.UIntPtr
+      description: Returns the difference in size between a helper structure and the specified type.
+    content.vb: Public Shared Function AlignOf(Of T As Structure)() As UIntPtr
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignOf*
+  nameWithType.vb: MemoryUtility.AlignOf(Of T)()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignOf(Of T)()
+  name.vb: AlignOf(Of T)()
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MarshalAlignOf``1
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MarshalAlignOf``1
+  id: MarshalAlignOf``1
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: MarshalAlignOf<T>()
+  nameWithType: MemoryUtility.MarshalAlignOf<T>()
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MarshalAlignOf<T>()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MarshalAlignOf
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 597
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Calculates the alignment size of a specified struct.
+  example: []
+  syntax:
+    content: 'public static int MarshalAlignOf<T>() where T : struct'
+    typeParameters:
+    - id: T
+      description: Represents a value type that is used to determine the alignment size.
+    return:
+      type: System.Int32
+      description: Returns the size difference in bytes as an integer.
+    content.vb: Public Shared Function MarshalAlignOf(Of T As Structure)() As Integer
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MarshalAlignOf*
+  nameWithType.vb: MemoryUtility.MarshalAlignOf(Of T)()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MarshalAlignOf(Of T)()
+  name.vb: MarshalAlignOf(Of T)()
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignUp(System.UIntPtr,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignUp(System.UIntPtr,System.UIntPtr)
+  id: AlignUp(System.UIntPtr,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  langs:
+  - csharp
+  - vb
+  name: AlignUp(nuint, nuint)
+  nameWithType: MemoryUtility.AlignUp(nuint, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignUp(nuint, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AlignUp
+    path: src/Misaki.HighPerformance.LowLevel/Utilities/MemoryUtility.cs
+    startLine: 610
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Utilities
+  summary: Aligns a given value up to the nearest multiple of the specified alignment.
+  example: []
+  syntax:
+    content: public static nuint AlignUp(nuint value, nuint alignment)
+    parameters:
+    - id: value
+      type: System.UIntPtr
+      description: The value to align.
+    - id: alignment
+      type: System.UIntPtr
+      description: The alignment boundary.
+    return:
+      type: System.UIntPtr
+      description: The aligned value.
+    content.vb: Public Shared Function AlignUp(value As UIntPtr, alignment As UIntPtr) As UIntPtr
+  overload: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignUp*
+  nameWithType.vb: MemoryUtility.AlignUp(UIntPtr, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignUp(System.UIntPtr, System.UIntPtr)
+  name.vb: AlignUp(UIntPtr, UIntPtr)
+references:
+- uid: Misaki.HighPerformance.LowLevel.Utilities
+  commentId: N:Misaki.HighPerformance.LowLevel.Utilities
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Utilities
+  nameWithType: Misaki.HighPerformance.LowLevel.Utilities
+  fullName: Misaki.HighPerformance.LowLevel.Utilities
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Utilities
+    name: Utilities
+    href: Misaki.HighPerformance.LowLevel.Utilities.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Utilities
+    name: Utilities
+    href: Misaki.HighPerformance.LowLevel.Utilities.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.ArgumentException
+  commentId: T:System.ArgumentException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentexception
+  name: ArgumentException
+  nameWithType: ArgumentException
+  fullName: System.ArgumentException
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.IndexOfNullByte*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.IndexOfNullByte
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_IndexOfNullByte_System_Byte__
+  name: IndexOfNullByte
+  nameWithType: MemoryUtility.IndexOfNullByte
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.IndexOfNullByte
+- uid: System.Byte*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte*
+  nameWithType: byte*
+  fullName: byte*
+  nameWithType.vb: Byte*
+  fullName.vb: Byte*
+  name.vb: Byte*
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '*'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '*'
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_ReplaceIfZeros_System_Span_System_Byte__System_ReadOnlySpan_System_Byte__
+  name: ReplaceIfZeros
+  nameWithType: MemoryUtility.ReplaceIfZeros
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.ReplaceIfZeros
+- uid: System.Span{System.Byte}
+  commentId: T:System.Span{System.Byte}
+  parent: System
+  definition: System.Span`1
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<byte>
+  nameWithType: Span<byte>
+  fullName: System.Span<byte>
+  nameWithType.vb: Span(Of Byte)
+  fullName.vb: System.Span(Of Byte)
+  name.vb: Span(Of Byte)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: )
+- uid: System.ReadOnlySpan{System.Byte}
+  commentId: T:System.ReadOnlySpan{System.Byte}
+  parent: System
+  definition: System.ReadOnlySpan`1
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<byte>
+  nameWithType: ReadOnlySpan<byte>
+  fullName: System.ReadOnlySpan<byte>
+  nameWithType.vb: ReadOnlySpan(Of Byte)
+  fullName.vb: System.ReadOnlySpan(Of Byte)
+  name.vb: ReadOnlySpan(Of Byte)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: )
+- uid: System.Span`1
+  commentId: T:System.Span`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.span-1
+  name: Span<T>
+  nameWithType: Span<T>
+  fullName: System.Span<T>
+  nameWithType.vb: Span(Of T)
+  fullName.vb: System.Span(Of T)
+  name.vb: Span(Of T)
+  spec.csharp:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Span`1
+    name: Span
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.span-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ReadOnlySpan`1
+  commentId: T:System.ReadOnlySpan`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  name: ReadOnlySpan<T>
+  nameWithType: ReadOnlySpan<T>
+  fullName: System.ReadOnlySpan<T>
+  nameWithType.vb: ReadOnlySpan(Of T)
+  fullName.vb: System.ReadOnlySpan(Of T)
+  name.vb: ReadOnlySpan(Of T)
+  spec.csharp:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.readonlyspan-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Void*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.void
+  name: void*
+  nameWithType: void*
+  fullName: void*
+  nameWithType.vb: Void*
+  fullName.vb: Void*
+  name.vb: Void*
+  spec.csharp:
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  spec.vb:
+  - uid: System.Void
+    name: Void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+- uid: System.UIntPtr
+  commentId: T:System.UIntPtr
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  name: nuint
+  nameWithType: nuint
+  fullName: nuint
+  nameWithType.vb: UIntPtr
+  fullName.vb: System.UIntPtr
+  name.vb: UIntPtr
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Malloc*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Malloc
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Malloc_System_UIntPtr_
+  name: Malloc
+  nameWithType: MemoryUtility.Malloc
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Malloc
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Calloc*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Calloc
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Calloc_System_UIntPtr_
+  name: Calloc
+  nameWithType: MemoryUtility.Calloc
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Calloc
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedAlloc*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedAlloc
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedAlloc_System_UIntPtr_System_UIntPtr_
+  name: AlignedAlloc
+  nameWithType: MemoryUtility.AlignedAlloc
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedAlloc
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Realloc*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Realloc
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Realloc_System_Void__System_UIntPtr_
+  name: Realloc
+  nameWithType: MemoryUtility.Realloc
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Realloc
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedRealloc*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedRealloc
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedRealloc_System_Void__System_UIntPtr_System_UIntPtr_
+  name: AlignedRealloc
+  nameWithType: MemoryUtility.AlignedRealloc
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedRealloc
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Free*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Free
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Free_System_Void__
+  name: Free
+  nameWithType: MemoryUtility.Free
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Free
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedFree*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedFree
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignedFree_System_Void__
+  name: AlignedFree
+  nameWithType: MemoryUtility.AlignedFree
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignedFree
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemClear*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemClear
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemClear_System_Void__System_UIntPtr_
+  name: MemClear
+  nameWithType: MemoryUtility.MemClear
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemClear
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemSet*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemSet
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemSet_System_Void__System_Byte_System_UIntPtr_
+  name: MemSet
+  nameWithType: MemoryUtility.MemSet
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemSet
+- uid: System.Byte
+  commentId: T:System.Byte
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte
+  nameWithType: byte
+  fullName: byte
+  nameWithType.vb: Byte
+  fullName.vb: Byte
+  name.vb: Byte
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCpy*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCpy
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemCpy_System_Void__System_Void__System_UIntPtr_
+  name: MemCpy
+  nameWithType: MemoryUtility.MemCpy
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCpy
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemMove*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemMove
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemMove_System_Void__System_Void__System_UIntPtr_
+  name: MemMove
+  nameWithType: MemoryUtility.MemMove
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemMove
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCmp*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCmp
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MemCmp_System_Void__System_Void__System_UIntPtr_
+  name: MemCmp
+  nameWithType: MemoryUtility.MemCmp
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MemCmp
+- uid: System.OutOfMemoryException
+  commentId: T:System.OutOfMemoryException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.outofmemoryexception
+  name: OutOfMemoryException
+  nameWithType: OutOfMemoryException
+  fullName: System.OutOfMemoryException
+- uid: System.PlatformNotSupportedException
+  commentId: T:System.PlatformNotSupportedException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.platformnotsupportedexception
+  name: PlatformNotSupportedException
+  nameWithType: PlatformNotSupportedException
+  fullName: System.PlatformNotSupportedException
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Mmap*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Mmap
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Mmap_System_Void__System_UIntPtr_Misaki_HighPerformance_LowLevel_Utilities_VirtualAllocationFlags_
+  name: Mmap
+  nameWithType: MemoryUtility.Mmap
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Mmap
+- uid: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  commentId: T:Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  parent: Misaki.HighPerformance.LowLevel.Utilities
+  href: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.html
+  name: VirtualAllocationFlags
+  nameWithType: VirtualAllocationFlags
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Munmap*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Munmap
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Munmap_System_Void__System_UIntPtr_
+  name: Munmap
+  nameWithType: MemoryUtility.Munmap
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Munmap
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Decommit*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Decommit
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Decommit_System_Void__System_UIntPtr_
+  name: Decommit
+  nameWithType: MemoryUtility.Decommit
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Decommit
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Recommit*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Recommit
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_Recommit_System_Void__System_UIntPtr_
+  name: Recommit
+  nameWithType: MemoryUtility.Recommit
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.Recommit
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.SizeOf*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.SizeOf
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_SizeOf__1
+  name: SizeOf
+  nameWithType: MemoryUtility.SizeOf
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.SizeOf
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignOf*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignOf
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignOf__1
+  name: AlignOf
+  nameWithType: MemoryUtility.AlignOf
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignOf
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MarshalAlignOf*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MarshalAlignOf
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_MarshalAlignOf__1
+  name: MarshalAlignOf
+  nameWithType: MemoryUtility.MarshalAlignOf
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.MarshalAlignOf
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignUp*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignUp
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html#Misaki_HighPerformance_LowLevel_Utilities_MemoryUtility_AlignUp_System_UIntPtr_System_UIntPtr_
+  name: AlignUp
+  nameWithType: MemoryUtility.AlignUp
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.AlignUp

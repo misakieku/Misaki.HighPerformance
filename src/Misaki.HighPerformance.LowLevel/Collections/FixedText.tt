@@ -1,0 +1,127 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".gen.cs" #>
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Text;
+
+namespace Misaki.HighPerformance.LowLevel.Collections;
+
+<# for (int i = 32; i <= 4096; i *= 2) { #>
+/// <summary>
+/// Represents a stack allocated fixed-size UTF-8 encoded string of length <#= i #> bytes.
+/// </summary>
+/// <remarks>
+/// This struct is designed to hold data on the stack. Every copy of this struct causes a copy of the underlying data.
+/// </remarks>
+[StructLayout(LayoutKind.Sequential, Size = <#= i #>)]
+public unsafe struct FixedText<#= i #>
+{
+    public const int MAX_LENGTH = <#= i - 2 #>;
+
+    private ushort _length;
+    private fixed byte _buffer[MAX_LENGTH];
+
+    public readonly ushort Length => _length;
+    public string Value
+    {
+        get
+        {
+            fixed (byte* bufferPtr = _buffer)
+            {
+                return Encoding.UTF8.GetString(bufferPtr, _length);
+            }
+        }
+        set
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                _length = 0;
+                return;
+            }
+
+            var maxBytes = Encoding.UTF8.GetByteCount(value);
+            if (maxBytes > MAX_LENGTH)
+            {
+                throw new ArgumentException("Input string is too long to fit in FixedText<#= i #>.");
+            }
+
+            fixed (byte* bufferPtr = _buffer)
+            {
+                _length = (ushort)Encoding.UTF8.GetBytes(value, new Span<byte>(bufferPtr, MAX_LENGTH));
+            }
+        }
+    }
+
+    public FixedText<#= i #>(ReadOnlySpan<char> input)
+    {
+        var maxBytes = Encoding.UTF8.GetByteCount(input);
+        if (maxBytes > MAX_LENGTH)
+        {
+            throw new ArgumentException("Input string is too long to fit in FixedText<#= i #>.");
+        }
+
+        fixed (char* inputPtr = input)
+        fixed (byte* bufferPtr = _buffer)
+        {
+            var actualByteCount = Encoding.UTF8.GetBytes(inputPtr, input.Length, bufferPtr, MAX_LENGTH);
+            _length = (ushort)actualByteCount;
+        }
+    }
+
+    public FixedText<#= i #>(string input)
+        : this(input.AsSpan())
+    {
+    }
+
+    public FixedText<#= i #>(char* input, ushort length)
+        : this(new Span<char>(input, length))
+    {
+    }
+
+    public FixedText<#= i #>(ReadOnlySpan<byte> input)
+    {
+        if (input.Length > MAX_LENGTH)
+        {
+            throw new ArgumentException("Input byte array is too long to fit in FixedText<#= i #>.");
+        }
+
+        _length = (ushort)input.Length;
+
+        fixed (byte* inputPtr = input)
+        fixed (byte* bufferPtr = _buffer)
+        {
+            Unsafe.CopyBlockUnaligned(bufferPtr, inputPtr, _length);
+        }
+    }
+
+    public FixedText<#= i #>(byte* input, ushort length)
+        : this(new ReadOnlySpan<byte>(input, length))
+    {
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Span<byte> AsSpan()
+    {
+        fixed (byte* ptr = _buffer)
+        {
+            return new(ptr, _length);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly byte* GetUnsafePtr()
+    {
+        return (byte*)((ushort*)Unsafe.AsPointer(in this) + 1);
+    }
+
+    public override string ToString()
+    {
+        return Value;
+    }
+}
+
+<# } #>

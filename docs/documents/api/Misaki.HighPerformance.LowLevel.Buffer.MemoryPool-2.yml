@@ -1,0 +1,520 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2
+  id: MemoryPool`2
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  children:
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.#ctor(`1@)
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.AllocationHandle
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Allocator
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Dispose
+  langs:
+  - csharp
+  - vb
+  name: MemoryPool<TAllocator, TOpts>
+  nameWithType: MemoryPool<TAllocator, TOpts>
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool<TAllocator, TOpts>
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/MemoryPool.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MemoryPool
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/MemoryPool.cs
+    startLine: 5
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  syntax:
+    content: 'public struct MemoryPool<TAllocator, TOpts> : IDisposable where TAllocator : unmanaged, IMemoryAllocator<TAllocator, TOpts>'
+    typeParameters:
+    - id: TAllocator
+    - id: TOpts
+    content.vb: Public Structure MemoryPool(Of TAllocator As {Structure, IMemoryAllocator(Of TAllocator, TOpts)}, TOpts) Implements IDisposable
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: MemoryPool(Of TAllocator, TOpts)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool(Of TAllocator, TOpts)
+  name.vb: MemoryPool(Of TAllocator, TOpts)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Allocator
+  commentId: P:Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Allocator
+  id: Allocator
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2
+  langs:
+  - csharp
+  - vb
+  name: Allocator
+  nameWithType: MemoryPool<TAllocator, TOpts>.Allocator
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool<TAllocator, TOpts>.Allocator
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/MemoryPool.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Allocator
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/MemoryPool.cs
+    startLine: 11
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  syntax:
+    content: public readonly ref TAllocator Allocator { get; }
+    parameters: []
+    return:
+      type: '{TAllocator}'
+    content.vb: Public ReadOnly ByRef Property Allocator As TAllocator
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Allocator*
+  nameWithType.vb: MemoryPool(Of TAllocator, TOpts).Allocator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool(Of TAllocator, TOpts).Allocator
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.AllocationHandle
+  commentId: P:Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.AllocationHandle
+  id: AllocationHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2
+  langs:
+  - csharp
+  - vb
+  name: AllocationHandle
+  nameWithType: MemoryPool<TAllocator, TOpts>.AllocationHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool<TAllocator, TOpts>.AllocationHandle
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/MemoryPool.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AllocationHandle
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/MemoryPool.cs
+    startLine: 12
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  syntax:
+    content: public readonly AllocationHandle AllocationHandle { get; }
+    parameters: []
+    return:
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+    content.vb: Public ReadOnly Property AllocationHandle As AllocationHandle
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.AllocationHandle*
+  nameWithType.vb: MemoryPool(Of TAllocator, TOpts).AllocationHandle
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool(Of TAllocator, TOpts).AllocationHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.#ctor(`1@)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.#ctor(`1@)
+  id: '#ctor(`1@)'
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2
+  langs:
+  - csharp
+  - vb
+  name: MemoryPool(in TOpts)
+  nameWithType: MemoryPool<TAllocator, TOpts>.MemoryPool(in TOpts)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool<TAllocator, TOpts>.MemoryPool(in TOpts)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/MemoryPool.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/MemoryPool.cs
+    startLine: 14
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  syntax:
+    content: public MemoryPool(in TOpts opts)
+    parameters:
+    - id: opts
+      type: '{TOpts}'
+    content.vb: Public Sub New(opts As TOpts)
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.#ctor*
+  nameWithType.vb: MemoryPool(Of TAllocator, TOpts).New(TOpts)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool(Of TAllocator, TOpts).New(TOpts)
+  name.vb: New(TOpts)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Dispose
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Dispose
+  id: Dispose
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: MemoryPool<TAllocator, TOpts>.Dispose()
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool<TAllocator, TOpts>.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/MemoryPool.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dispose
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/MemoryPool.cs
+    startLine: 39
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  nameWithType.vb: MemoryPool(Of TAllocator, TOpts).Dispose()
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool(Of TAllocator, TOpts).Dispose()
+references:
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Allocator*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Allocator
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool-2.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryPool_2_Allocator
+  name: Allocator
+  nameWithType: MemoryPool<TAllocator, TOpts>.Allocator
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool<TAllocator, TOpts>.Allocator
+  nameWithType.vb: MemoryPool(Of TAllocator, TOpts).Allocator
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool(Of TAllocator, TOpts).Allocator
+- uid: '{TAllocator}'
+  commentId: '!:TAllocator'
+  definition: TAllocator
+  name: TAllocator
+  nameWithType: TAllocator
+  fullName: TAllocator
+- uid: TAllocator
+  commentId: '!:TAllocator'
+  name: TAllocator
+  nameWithType: TAllocator
+  fullName: TAllocator
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.AllocationHandle*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.AllocationHandle
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool-2.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryPool_2_AllocationHandle
+  name: AllocationHandle
+  nameWithType: MemoryPool<TAllocator, TOpts>.AllocationHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool<TAllocator, TOpts>.AllocationHandle
+  nameWithType.vb: MemoryPool(Of TAllocator, TOpts).AllocationHandle
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool(Of TAllocator, TOpts).AllocationHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle.html
+  name: AllocationHandle
+  nameWithType: AllocationHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.#ctor
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool-2.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryPool_2__ctor__1__
+  name: MemoryPool
+  nameWithType: MemoryPool<TAllocator, TOpts>.MemoryPool
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool<TAllocator, TOpts>.MemoryPool
+  nameWithType.vb: MemoryPool(Of TAllocator, TOpts).New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool(Of TAllocator, TOpts).New
+  name.vb: New
+- uid: '{TOpts}'
+  commentId: '!:TOpts'
+  definition: TOpts
+  name: TOpts
+  nameWithType: TOpts
+  fullName: TOpts
+- uid: TOpts
+  name: TOpts
+  nameWithType: TOpts
+  fullName: TOpts
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Dispose*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryPool`2.Dispose
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool-2.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryPool_2_Dispose
+  name: Dispose
+  nameWithType: MemoryPool<TAllocator, TOpts>.Dispose
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool<TAllocator, TOpts>.Dispose
+  nameWithType.vb: MemoryPool(Of TAllocator, TOpts).Dispose
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryPool(Of TAllocator, TOpts).Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )

@@ -1,0 +1,83 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Utilities
+  commentId: N:Misaki.HighPerformance.LowLevel.Utilities
+  id: Misaki.HighPerformance.LowLevel.Utilities
+  children:
+  - Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeCollectionUtility
+  - Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  - Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance.LowLevel.Utilities
+  nameWithType: Misaki.HighPerformance.LowLevel.Utilities
+  fullName: Misaki.HighPerformance.LowLevel.Utilities
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+references:
+- uid: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  commentId: T:Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+  href: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility.html
+  name: MemoryUtility
+  nameWithType: MemoryUtility
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.MemoryUtility
+- uid: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  commentId: T:Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+  parent: Misaki.HighPerformance.LowLevel.Utilities
+  href: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags.html
+  name: VirtualAllocationFlags
+  nameWithType: VirtualAllocationFlags
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.VirtualAllocationFlags
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeCollectionUtility
+  commentId: T:Misaki.HighPerformance.LowLevel.Utilities.UnsafeCollectionUtility
+  href: Misaki.HighPerformance.LowLevel.Utilities.UnsafeCollectionUtility.html
+  name: UnsafeCollectionUtility
+  nameWithType: UnsafeCollectionUtility
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeCollectionUtility
+- uid: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  commentId: T:Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+  href: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility.html
+  name: UnsafeUtility
+  nameWithType: UnsafeUtility
+  fullName: Misaki.HighPerformance.LowLevel.Utilities.UnsafeUtility
+- uid: Misaki.HighPerformance.LowLevel.Utilities
+  commentId: N:Misaki.HighPerformance.LowLevel.Utilities
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Utilities
+  nameWithType: Misaki.HighPerformance.LowLevel.Utilities
+  fullName: Misaki.HighPerformance.LowLevel.Utilities
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Utilities
+    name: Utilities
+    href: Misaki.HighPerformance.LowLevel.Utilities.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Utilities
+    name: Utilities
+    href: Misaki.HighPerformance.LowLevel.Utilities.html

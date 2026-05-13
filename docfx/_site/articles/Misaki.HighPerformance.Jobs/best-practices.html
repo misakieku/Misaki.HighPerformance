@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Best Practices and API Selection | Misaki.HighPerformance </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Best Practices and API Selection | Misaki.HighPerformance ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="Misaki.HighPerformance">
+            Misaki.HighPerformance
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="best-practices-and-api-selection">Best Practices and API Selection</h1>
+
+<h2 id="which-job-type-to-use">Which job type to use</h2>
+<table>
+<thead>
+<tr>
+<th>If you need</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Run one piece of work once</td>
+<td><code>IJob</code></td>
+</tr>
+<tr>
+<td>Run the same operation across many independent elements</td>
+<td><code>IJobParallelFor</code></td>
+</tr>
+<tr>
+<td>Run a parallel operation with per-batch setup overhead</td>
+<td><code>IJobParallel</code></td>
+</tr>
+<tr>
+<td>Full control over execution and cleanup, or dynamic dispatch</td>
+<td><code>ICustomJob&lt;TSelf&gt;</code></td>
+</tr>
+<tr>
+<td>Debug or test a job without threading overhead</td>
+<td><code>Run</code> / <code>RunRef</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="ijob">IJob</h2>
+<p>Use <code>IJob</code> for any unit of work that can't be broken into smaller parallel pieces. Examples:</p>
+<ul>
+<li>Apply velocity to a single entity</li>
+<li>Compute a sum, product, or aggregate over data that's already been processed</li>
+<li>Trigger an action after dependencies complete</li>
+</ul>
+<p><code>IJob</code> runs once on one worker thread. If you find yourself scheduling many <code>IJob</code> instances that do the same operation, consider batching them into an <code>IJobParallelFor</code>.</p>
+<h2 id="ijobparallelfor">IJobParallelFor</h2>
+<p>Use <code>IJobParallelFor</code> when you need to apply the same transformation to every element of an array or buffer. The system distributes indices across worker threads in batches.</p>
+<p><strong>Choose the right batch size:</strong></p>
+<ul>
+<li>Small batches (1-16): Best load balancing, more stealing overhead. Use when work per element varies.</li>
+<li>Medium batches (32-128): Good balance. A reasonable default for most workloads.</li>
+<li>Large batches (256+): Less overhead, but can cause uneven distribution. Use when work per element is uniform.</li>
+</ul>
+<p>A good starting point is <code>batchSize = 64</code>. Profile and adjust from there.</p>
+<p><strong>Avoid writing to overlapping indices.</strong> Each index should be independent. If two indices write to the same location, you have a race condition.</p>
+<h2 id="ijobparallel">IJobParallel</h2>
+<p>Use <code>IJobParallel</code> when each batch of work has setup cost that you want to amortize. For example:</p>
+<ul>
+<li>Processing chunks of data where each chunk requires preparing local state</li>
+<li>Operations where computing the output for a range is cheaper per-element than per-index</li>
+</ul>
+<p>The API is the same as <code>IJobParallelFor</code>, but <code>Execute</code> receives <code>(startIndex, endIndex)</code> instead of a single <code>index</code>. This lets you write loops with local accumulators or per-batch initialization.</p>
+<h2 id="icustomjob">ICustomJob</h2>
+<p>Use <code>ICustomJob&lt;TSelf&gt;</code> when you need:</p>
+<ul>
+<li>A job type that isn't known at compile time (dynamic dispatch via function pointers)</li>
+<li>Custom cleanup logic that runs after the job completes</li>
+<li>To control <code>JobRanges</code> directly for non-standard iteration patterns</li>
+</ul>
+<p>The overhead is slightly higher than the standard interfaces due to the function pointer indirection. Only use it when the standard interfaces don't fit.</p>
+<h2 id="scheduler-configuration">Scheduler configuration</h2>
+<p><strong>ThreadCount:</strong> Set to <code>Environment.ProcessorCount</code> for general use. The scheduler caps at the number of logical processors. For workloads that share cores with rendering or other systems, consider leaving one or two cores free.</p>
+<p><strong>DependencyChainCapacity:</strong> This is the total number of dependency edges the scheduler can track at once. Set it to cover your peak concurrent dependencies. If you run out, jobs will still work but dependency enforcement may be incomplete. When in doubt, set it higher — unused capacity costs nothing.</p>
+<p><strong>ThreadPriority:</strong> Use <code>Normal</code> for most cases. Use <code>AboveNormal</code> if the job system is the primary consumer of CPU time and you want to prioritize it over other system threads.</p>
+<h2 id="memory-and-allocation">Memory and allocation</h2>
+<ul>
+<li><strong>Pre-allocate everything.</strong> The scheduler allocates all internal structures (queues, edge pool, slot maps) at creation. No per-job GC allocations occur during scheduling or execution.</li>
+<li><strong>Job data is copied.</strong> When you schedule a struct job, the data is copied into an internal pool. Pointers and references remain valid for the job's lifetime.</li>
+<li><strong>Managed payloads work.</strong> Unlike many job systems, this library supports class-based jobs and jobs holding managed types (<code>List</code>, <code>string</code>, arrays). The same zero-allocation guarantees apply.</li>
+<li><strong>Free custom resources in <code>ICustomJob.Free</code>.</strong> If your custom job allocates unmanaged memory, the <code>Free</code> callback is the right place to release it.</li>
+</ul>
+<h2 id="schedule-and-complete-timing">Schedule and complete timing</h2>
+<p>It's best practice to call <code>Schedule</code> on a job as soon as you have the data it needs, and don't call <code>Complete</code> on it until you need the results.</p>
+<p>You can schedule less important jobs in a part of the frame where they aren't competing with more important jobs.</p>
+<p>For example, if there is a period between the end of one frame and the beginning of the next frame where no jobs are running, and a one frame latency is acceptable, you can schedule the job towards the end of a frame and use its results in the following frame. Alternatively, if your application saturates that changeover period with other jobs, and there's an under-utilized period somewhere else in the frame, it's more efficient to schedule your job there instead.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li><strong>Prefer multiple dependencies over deep chains.</strong> A job that waits on 10 handles directly is better than a chain of 10 jobs each waiting on one. This gives the scheduler more freedom to parallelize independent work.</li>
+<li><strong>Use <code>CombineDependencies</code> for large dependency sets.</strong> If a job depends on more than a handful of other jobs, combine them to reduce scheduling overhead.</li>
+</ul>
+<h2 id="avoid-long-running-jobs">Avoid long running jobs</h2>
+<p>Unlike threads, jobs don't yield execution. Once a job starts, that job worker thread commits to completing the job before running any other job. As such, it's best practice to break up long running jobs into smaller jobs that depend on one another, instead of submitting jobs that take a long time to complete relative to other jobs in the system.</p>
+<p>The job system usually runs multiple chains of job dependencies, so if you break up long running tasks into multiple pieces there is a chance for multiple job chains to progress. If instead the job system is filled with long running jobs, they might completely consume all worker threads and block independent jobs from executing. This might push out the completion time of important jobs that the main thread explicitly waits for, resulting in stalls on the main thread that otherwise wouldn't exist.</p>
+<p>In particular, long running <code>IJobParallelFor</code> jobs impact negatively on the job system because these job types intentionally try to run on as many worker threads as possible for the job batch size. If you can't break up long parallel jobs, consider increasing the batch size of your job when scheduling it to limit how many workers pick up the long running job.</p>
+<h2 id="priorities">Priorities</h2>
+<ul>
+<li><strong>Reserve High for critical-path work.</strong> Jobs on the critical path (the chain that the main thread is waiting on) benefit most from High priority.</li>
+<li><strong>Use Low for background tasks.</strong> Deferred work like cleanup, analytics, or pre-computation that isn't needed this frame should use Low priority.</li>
+<li><strong>Most jobs should be Normal.</strong> Overusing High priority dilutes its effectiveness.</li>
+</ul>
+<h2 id="inline-execution">Inline execution</h2>
+<p>By default, <code>Wait</code> helps execute the job inline while waiting. This reduces latency because the calling thread contributes CPU time to the work it needs. Leave this enabled unless:</p>
+<ul>
+<li>The calling thread has other work to do while waiting (use async variants instead)</li>
+<li>You're relying on thread-local storage and can't have an external thread execute jobs</li>
+</ul>
+<h2 id="thread-safety">Thread safety</h2>
+<ul>
+<li><strong>No two threads should write to the same memory.</strong> Use dependencies to serialize writes.</li>
+<li><strong>Multiple readers are safe.</strong> <code>IJobParallelFor</code> indices are independent by design — each index writes to its own location.</li>
+<li><strong>Don't access mutable static data from jobs.</strong> The job system can't protect against race conditions on static fields.</li>
+</ul>
+<h2 id="additional-resources">Additional resources</h2>
+<ul>
+<li><a href="creating-jobs.html">Creating and Scheduling Jobs</a></li>
+<li><a href="job-dependencies.html">Job Dependencies and Coordination</a></li>
+<li><a href="threading-fundamentals.html">Threading Fundamentals</a></li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

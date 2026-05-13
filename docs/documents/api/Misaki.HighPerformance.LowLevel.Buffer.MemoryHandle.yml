@@ -1,0 +1,1138 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  id: MemoryHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  children:
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.#ctor(System.Int32,System.Int32)
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Create(System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Dispose
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals(System.Object)
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Generation
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.GetHashCode
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ID
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Invalid
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsInvalid
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsValid
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ToString
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Update(System.Void*,System.UIntPtr)
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Equality(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle,Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  - Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Inequality(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle,Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  langs:
+  - csharp
+  - vb
+  name: MemoryHandle
+  nameWithType: MemoryHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: MemoryHandle
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 8
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: A structure that represents a handle to a memory allocation for tracking and management purposes.
+  example: []
+  syntax:
+    content: 'public readonly struct MemoryHandle : IDisposable, IEquatable<MemoryHandle>'
+    content.vb: Public Structure MemoryHandle Implements IDisposable, IEquatable(Of MemoryHandle)
+  implements:
+  - System.IDisposable
+  - System.IEquatable{Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle}
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ID
+  commentId: P:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ID
+  id: ID
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: ID
+  nameWithType: MemoryHandle.ID
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ID
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ID
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 13
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: The id of the allocation.
+  example: []
+  syntax:
+    content: public int ID { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property ID As Integer
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ID*
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Generation
+  commentId: P:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Generation
+  id: Generation
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: Generation
+  nameWithType: MemoryHandle.Generation
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Generation
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Generation
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 21
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: The generation of the allocation.
+  example: []
+  syntax:
+    content: public int Generation { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Generation As Integer
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Generation*
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Invalid
+  commentId: F:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Invalid
+  id: Invalid
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: Invalid
+  nameWithType: MemoryHandle.Invalid
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Invalid
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Invalid
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 26
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  syntax:
+    content: public static readonly MemoryHandle Invalid
+    return:
+      type: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+    content.vb: Public Shared ReadOnly Invalid As MemoryHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsValid
+  commentId: P:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsValid
+  id: IsValid
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: IsValid
+  nameWithType: MemoryHandle.IsValid
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsValid
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsValid
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 28
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  syntax:
+    content: public bool IsValid { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsValid As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsValid*
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsInvalid
+  commentId: P:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsInvalid
+  id: IsInvalid
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: IsInvalid
+  nameWithType: MemoryHandle.IsInvalid
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsInvalid
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: IsInvalid
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 29
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  syntax:
+    content: public bool IsInvalid { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsInvalid As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsInvalid*
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.#ctor(System.Int32,System.Int32)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.#ctor(System.Int32,System.Int32)
+  id: '#ctor(System.Int32,System.Int32)'
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: MemoryHandle(int, int)
+  nameWithType: MemoryHandle.MemoryHandle(int, int)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.MemoryHandle(int, int)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 36
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Creates a new instance of the MemoryHandle struct with the specified id and generation.
+  example: []
+  syntax:
+    content: public MemoryHandle(int id, int generation)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The id of the allocation.
+    - id: generation
+      type: System.Int32
+      description: The generation of the allocation.
+    content.vb: Public Sub New(id As Integer, generation As Integer)
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.#ctor*
+  nameWithType.vb: MemoryHandle.New(Integer, Integer)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.New(Integer, Integer)
+  name.vb: New(Integer, Integer)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Create(System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Create(System.Void*,System.UIntPtr)
+  id: Create(System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: Create(void*, nuint)
+  nameWithType: MemoryHandle.Create(void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Create(void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Create
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 48
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Creates a new memory handle for the specified memory allocation.
+  example: []
+  syntax:
+    content: public static MemoryHandle Create(void* address, nuint size)
+    parameters:
+    - id: address
+      type: System.Void*
+      description: The address of the memory allocation.
+    - id: size
+      type: System.UIntPtr
+      description: The size of the memory allocation.
+    return:
+      type: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+      description: The created memory handle.
+    content.vb: Public Shared Function Create(address As Void*, size As UIntPtr) As MemoryHandle
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Create*
+  nameWithType.vb: MemoryHandle.Create(Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Create(Void*, System.UIntPtr)
+  name.vb: Create(Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Update(System.Void*,System.UIntPtr)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Update(System.Void*,System.UIntPtr)
+  id: Update(System.Void*,System.UIntPtr)
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: Update(void*, nuint)
+  nameWithType: MemoryHandle.Update(void*, nuint)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Update(void*, nuint)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Update
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 58
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Updates the memory handle with a new address and size.
+  example: []
+  syntax:
+    content: public void Update(void* newAddress, nuint newSize)
+    parameters:
+    - id: newAddress
+      type: System.Void*
+      description: The new address of the memory allocation.
+    - id: newSize
+      type: System.UIntPtr
+      description: The new size of the memory allocation.
+    content.vb: Public Sub Update(newAddress As Void*, newSize As UIntPtr)
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Update*
+  nameWithType.vb: MemoryHandle.Update(Void*, UIntPtr)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Update(Void*, System.UIntPtr)
+  name.vb: Update(Void*, UIntPtr)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  id: Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: Equals(MemoryHandle)
+  nameWithType: MemoryHandle.Equals(MemoryHandle)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Equals
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 63
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Indicates whether the current object is equal to another object of the same type.
+  example: []
+  syntax:
+    content: public bool Equals(MemoryHandle other)
+    parameters:
+    - id: other
+      type: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+      description: An object to compare with this object.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Function Equals(other As MemoryHandle) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals*
+  implements:
+  - System.IEquatable{Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle}.Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals(System.Object)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: Equals(object?)
+  nameWithType: MemoryHandle.Equals(object?)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals(object?)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Equals
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 68
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Indicates whether this instance and a specified object are equal.
+  example: []
+  syntax:
+    content: public override bool Equals(object? obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: The object to compare with the current instance.
+      attributes:
+      - type: System.Diagnostics.CodeAnalysis.NotNullWhenAttribute
+        ctor: System.Diagnostics.CodeAnalysis.NotNullWhenAttribute.#ctor(System.Boolean)
+        arguments:
+        - type: System.Boolean
+          value: true
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">obj</code> and this instance are the same type and represent the same value; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Overrides Function Equals(obj As Object) As Boolean
+  overridden: System.ValueType.Equals(System.Object)
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals*
+  nameWithType.vb: MemoryHandle.Equals(Object)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals(Object)
+  name.vb: Equals(Object)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.GetHashCode
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.GetHashCode
+  id: GetHashCode
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: MemoryHandle.GetHashCode()
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetHashCode
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 73
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Returns the hash code for this instance.
+  example: []
+  syntax:
+    content: public override int GetHashCode()
+    return:
+      type: System.Int32
+      description: A 32-bit signed integer that is the hash code for this instance.
+    content.vb: Public Overrides Function GetHashCode() As Integer
+  overridden: System.ValueType.GetHashCode
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.GetHashCode*
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ToString
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ToString
+  id: ToString
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: MemoryHandle.ToString()
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ToString
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 78
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Returns the fully qualified type name of this instance.
+  example: []
+  syntax:
+    content: public override string? ToString()
+    return:
+      type: System.String
+      description: The fully qualified type name.
+    content.vb: Public Overrides Function ToString() As String
+  overridden: System.ValueType.ToString
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ToString*
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Dispose
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Dispose
+  id: Dispose
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: MemoryHandle.Dispose()
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dispose
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 89
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Removes the handle from the tracking system.
+  remarks: This does not free the associated memory allocation.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Equality(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle,Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Equality(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle,Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  id: op_Equality(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle,Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: operator ==(MemoryHandle, MemoryHandle)
+  nameWithType: MemoryHandle.operator ==(MemoryHandle, MemoryHandle)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.operator ==(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle, Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  type: Operator
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: op_Equality
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 99
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  syntax:
+    content: public static bool operator ==(MemoryHandle left, MemoryHandle right)
+    parameters:
+    - id: left
+      type: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+    - id: right
+      type: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Operator =(left As MemoryHandle, right As MemoryHandle) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Equality*
+  nameWithType.vb: MemoryHandle.=(MemoryHandle, MemoryHandle)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.=(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle, Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  name.vb: =(MemoryHandle, MemoryHandle)
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Inequality(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle,Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  commentId: M:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Inequality(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle,Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  id: op_Inequality(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle,Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  parent: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  langs:
+  - csharp
+  - vb
+  name: operator !=(MemoryHandle, MemoryHandle)
+  nameWithType: MemoryHandle.operator !=(MemoryHandle, MemoryHandle)
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.operator !=(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle, Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  type: Operator
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: op_Inequality
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/IAllocator.cs
+    startLine: 104
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  syntax:
+    content: public static bool operator !=(MemoryHandle left, MemoryHandle right)
+    parameters:
+    - id: left
+      type: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+    - id: right
+      type: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Operator <>(left As MemoryHandle, right As MemoryHandle) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Inequality*
+  nameWithType.vb: MemoryHandle.<>(MemoryHandle, MemoryHandle)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.<>(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle, Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  name.vb: <>(MemoryHandle, MemoryHandle)
+references:
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.IEquatable{Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle}
+  commentId: T:System.IEquatable{Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle}
+  parent: System
+  definition: System.IEquatable`1
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<MemoryHandle>
+  nameWithType: IEquatable<MemoryHandle>
+  fullName: System.IEquatable<Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle>
+  nameWithType.vb: IEquatable(Of MemoryHandle)
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  name.vb: IEquatable(Of MemoryHandle)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+    name: MemoryHandle
+    href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+    name: MemoryHandle
+    href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.IEquatable`1
+  commentId: T:System.IEquatable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<T>
+  nameWithType: IEquatable<T>
+  fullName: System.IEquatable<T>
+  nameWithType.vb: IEquatable(Of T)
+  fullName.vb: System.IEquatable(Of T)
+  name.vb: IEquatable(Of T)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ID*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ID
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_ID
+  name: ID
+  nameWithType: MemoryHandle.ID
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ID
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Generation*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Generation
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_Generation
+  name: Generation
+  nameWithType: MemoryHandle.Generation
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Generation
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html
+  name: MemoryHandle
+  nameWithType: MemoryHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsValid*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsValid
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_IsValid
+  name: IsValid
+  nameWithType: MemoryHandle.IsValid
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsValid
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsInvalid*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsInvalid
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_IsInvalid
+  name: IsInvalid
+  nameWithType: MemoryHandle.IsInvalid
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.IsInvalid
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.#ctor
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle__ctor_System_Int32_System_Int32_
+  name: MemoryHandle
+  nameWithType: MemoryHandle.MemoryHandle
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.MemoryHandle
+  nameWithType.vb: MemoryHandle.New
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.New
+  name.vb: New
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Create*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Create
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_Create_System_Void__System_UIntPtr_
+  name: Create
+  nameWithType: MemoryHandle.Create
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Create
+- uid: System.Void*
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.void
+  name: void*
+  nameWithType: void*
+  fullName: void*
+  nameWithType.vb: Void*
+  fullName.vb: Void*
+  name.vb: Void*
+  spec.csharp:
+  - uid: System.Void
+    name: void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+  spec.vb:
+  - uid: System.Void
+    name: Void
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.void
+  - name: '*'
+- uid: System.UIntPtr
+  commentId: T:System.UIntPtr
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uintptr
+  name: nuint
+  nameWithType: nuint
+  fullName: nuint
+  nameWithType.vb: UIntPtr
+  fullName.vb: System.UIntPtr
+  name.vb: UIntPtr
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Update*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Update
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_Update_System_Void__System_UIntPtr_
+  name: Update
+  nameWithType: MemoryHandle.Update
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Update
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_Equals_Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_
+  name: Equals
+  nameWithType: MemoryHandle.Equals
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Equals
+- uid: System.IEquatable{Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle}.Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  commentId: M:System.IEquatable{Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle}.Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  parent: System.IEquatable{Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle}
+  definition: System.IEquatable`1.Equals(`0)
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(MemoryHandle)
+  nameWithType: IEquatable<MemoryHandle>.Equals(MemoryHandle)
+  fullName: System.IEquatable<Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle>.Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  nameWithType.vb: IEquatable(Of MemoryHandle).Equals(MemoryHandle)
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle).Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+  spec.csharp:
+  - uid: System.IEquatable{Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle}.Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+    name: MemoryHandle
+    href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable{Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle}.Equals(Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle
+    name: MemoryHandle
+    href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html
+  - name: )
+- uid: System.IEquatable`1.Equals(`0)
+  commentId: M:System.IEquatable`1.Equals(`0)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(T)
+  nameWithType: IEquatable<T>.Equals(T)
+  fullName: System.IEquatable<T>.Equals(T)
+  nameWithType.vb: IEquatable(Of T).Equals(T)
+  fullName.vb: System.IEquatable(Of T).Equals(T)
+  spec.csharp:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.GetHashCode*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.GetHashCode
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_GetHashCode
+  name: GetHashCode
+  nameWithType: MemoryHandle.GetHashCode
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.GetHashCode
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ToString*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ToString
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_ToString
+  name: ToString
+  nameWithType: MemoryHandle.ToString
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.ToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Dispose*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Dispose
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_Dispose
+  name: Dispose
+  nameWithType: MemoryHandle.Dispose
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Equality*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Equality
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_op_Equality_Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_
+  name: operator ==
+  nameWithType: MemoryHandle.operator ==
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.operator ==
+  nameWithType.vb: MemoryHandle.=
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.=
+  name.vb: =
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Equality*
+    name: ==
+    href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_op_Equality_Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_
+- uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Inequality*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Inequality
+  href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_op_Inequality_Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_
+  name: operator !=
+  nameWithType: MemoryHandle.operator !=
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.operator !=
+  nameWithType.vb: MemoryHandle.<>
+  fullName.vb: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.<>
+  name.vb: <>
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.op_Inequality*
+    name: '!='
+    href: Misaki.HighPerformance.LowLevel.Buffer.MemoryHandle.html#Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_op_Inequality_Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_Misaki_HighPerformance_LowLevel_Buffer_MemoryHandle_

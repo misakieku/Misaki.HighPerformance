@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Struct Arena | Misaki.HighPerformance </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Struct Arena | Misaki.HighPerformance ">
+      
+      <meta name="description" content="A memory management structure that allocates and resets memory blocks with specified alignment.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Misaki.HighPerformance">
+            Misaki.HighPerformance
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena">
+
+
+
+  <h1 id="Misaki_HighPerformance_LowLevel_Buffer_Arena" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena" class="text-break">
+Struct Arena  
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Misaki.html">Misaki</a>.<a class="xref" href="Misaki.HighPerformance.html">HighPerformance</a>.<a class="xref" href="Misaki.HighPerformance.LowLevel.html">LowLevel</a>.<a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.html">Buffer</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Misaki.HighPerformance.LowLevel.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A memory management structure that allocates and resets memory blocks with specified alignment.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public struct Arena : IMemoryAllocator&lt;Arena, Arena.CreationOptions&gt;, IDisposable</code></pre>
+  </div>
+
+
+
+
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html">IMemoryAllocator</a>&lt;<a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.Arena.html">Arena</a>, <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.Arena.html">Arena</a>.<a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions.html">CreationOptions</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.equals">ValueType.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode">ValueType.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetype.tostring">ValueType.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Buffer_Arena__ctor_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.#ctor*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Buffer_Arena__ctor_System_UIntPtr_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.#ctor(System.UIntPtr)">
+  Arena(nuint)
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Arena(nuint size)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Buffer_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Buffer*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Buffer" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Buffer">
+  Buffer
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly byte* Buffer { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>*</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Offset_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Offset*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Offset" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Offset">
+  Offset
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly nuint Offset { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Size_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Size*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Size" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Size">
+  Size
+  
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly nuint Size { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Allocate_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Allocate*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Allocate_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Allocate(System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)">
+  Allocate(nuint, nuint, AllocationOption)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Allocates a block of memory of a specified size with a given alignment.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void* Allocate(nuint size, nuint alignment, AllocationOption allocationOption)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>size</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>Specifies the amount of memory to allocate in bytes.</p>
+</dd>
+    <dt><code>alignment</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>Defines the alignment requirement for the allocated memory.</p>
+</dd>
+    <dt><code>allocationOption</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html">AllocationOption</a></dt>
+    <dd><p>The option when allocating memory.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the allocated memory block or null if the allocation cannot be fulfilled.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Allocate_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>This is thread safe.</p>
+</div>
+
+  <h4 class="section">Exceptions</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.objectdisposedexception">ObjectDisposedException</a></dt>
+    <dd><p>Thrown if the arena has been disposed.</p>
+</dd>
+  </dl>
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Create_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Create*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Create_Misaki_HighPerformance_LowLevel_Buffer_Arena_CreationOptions__" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Create(Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions@)">
+  Create(in CreationOptions)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new instance of the allocator with the specified options.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Arena Create(in Arena.CreationOptions opts)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>opts</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.Arena.html">Arena</a>.<a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.Arena.CreationOptions.html">CreationOptions</a></dt>
+    <dd><p>The options for creating the allocator.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.Arena.html">Arena</a></dt>
+    <dd><p>The created allocator instance.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Dispose_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Dispose*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Dispose" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Dispose">
+  Dispose()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Free_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Free*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Free_System_Void__" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Free(System.Void*)">
+  Free(void*)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Frees a previously allocated block of memory.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public readonly void Free(void* ptr)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the memory block to free.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Free_System_Void___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The pointer must have been returned by a previous call to the <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Allocate_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_">Allocate(nuint, nuint, AllocationOption)</a> or <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Reallocate_System_Void__System_UIntPtr_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_">Reallocate(void*, nuint, nuint, nuint, AllocationOption)</a> method. After calling this method, the pointer is no longer valid and must not be used.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Reallocate_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Reallocate*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Reallocate_System_Void__System_UIntPtr_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Reallocate(System.Void*,System.UIntPtr,System.UIntPtr,System.UIntPtr,Misaki.HighPerformance.LowLevel.Buffer.AllocationOption)">
+  Reallocate(void*, nuint, nuint, nuint, AllocationOption)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reallocates a block of memory to a new size and alignment.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void* Reallocate(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>ptr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the memory block to reallocate.</p>
+</dd>
+    <dt><code>oldSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The size of the original memory block.</p>
+</dd>
+    <dt><code>newSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The size of the new memory block.</p>
+</dd>
+    <dt><code>alignment</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uintptr">nuint</a></dt>
+    <dd><p>The alignment of the new memory block.</p>
+</dd>
+    <dt><code>allocationOption</code> <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html">AllocationOption</a></dt>
+    <dd><p>The allocation options.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.void">void</a>*</dt>
+    <dd><p>A pointer to the reallocated memory block. null if reallocation fails.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Reallocate_System_Void__System_UIntPtr_System_UIntPtr_System_UIntPtr_Misaki_HighPerformance_LowLevel_Buffer_AllocationOption__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The returned pointer must be freed using the <a class="xref" href="Misaki.HighPerformance.LowLevel.Buffer.IMemoryAllocator-2.html#Misaki_HighPerformance_LowLevel_Buffer_IMemoryAllocator_2_Free_System_Void__">Free(void*)</a> method to avoid memory leaks. If the reallocation fails, the original pointer remains valid and must be freed by the caller.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Reset_" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Reset*"></a>
+
+  <h3 id="Misaki_HighPerformance_LowLevel_Buffer_Arena_Reset" data-uid="Misaki.HighPerformance.LowLevel.Buffer.Arena.Reset">
+  Reset()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Resets the arena.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Reset()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

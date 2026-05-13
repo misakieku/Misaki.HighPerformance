@@ -1,0 +1,1010 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  commentId: T:Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  id: DisposablePtr`1
+  parent: Misaki.HighPerformance.LowLevel
+  children:
+  - Misaki.HighPerformance.LowLevel.DisposablePtr`1.#ctor(`0*)
+  - Misaki.HighPerformance.LowLevel.DisposablePtr`1.Dispose
+  - Misaki.HighPerformance.LowLevel.DisposablePtr`1.Equals(Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  - Misaki.HighPerformance.LowLevel.DisposablePtr`1.Equals(System.Object)
+  - Misaki.HighPerformance.LowLevel.DisposablePtr`1.Get
+  - Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetHashCode
+  - Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetRef
+  - Misaki.HighPerformance.LowLevel.DisposablePtr`1.Share
+  - Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Equality(Misaki.HighPerformance.LowLevel.DisposablePtr{`0},Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  - Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Inequality(Misaki.HighPerformance.LowLevel.DisposablePtr{`0},Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  langs:
+  - csharp
+  - vb
+  name: DisposablePtr<T>
+  nameWithType: DisposablePtr<T>
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: DisposablePtr
+    path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+    startLine: 155
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  syntax:
+    content: 'public struct DisposablePtr<T> : IDisposable, IEquatable<DisposablePtr<T>> where T : unmanaged, IDisposable'
+    typeParameters:
+    - id: T
+    content.vb: Public Structure DisposablePtr(Of T As {Structure, IDisposable}) Implements IDisposable, IEquatable(Of DisposablePtr(Of T))
+  implements:
+  - System.IDisposable
+  - System.IEquatable{Misaki.HighPerformance.LowLevel.DisposablePtr`1}
+  inheritedMembers:
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: DisposablePtr(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T)
+  name.vb: DisposablePtr(Of T)
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.#ctor(`0*)
+  commentId: M:Misaki.HighPerformance.LowLevel.DisposablePtr`1.#ctor(`0*)
+  id: '#ctor(`0*)'
+  parent: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  langs:
+  - csharp
+  - vb
+  name: DisposablePtr(T*)
+  nameWithType: DisposablePtr<T>.DisposablePtr(T*)
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.DisposablePtr(T*)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+    startLine: 161
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  syntax:
+    content: public DisposablePtr(T* value)
+    parameters:
+    - id: value
+      type: '{T}*'
+    content.vb: Public Sub New(value As T*)
+  overload: Misaki.HighPerformance.LowLevel.DisposablePtr`1.#ctor*
+  nameWithType.vb: DisposablePtr(Of T).New(T*)
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).New(T*)
+  name.vb: New(T*)
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Get
+  commentId: M:Misaki.HighPerformance.LowLevel.DisposablePtr`1.Get
+  id: Get
+  parent: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  langs:
+  - csharp
+  - vb
+  name: Get()
+  nameWithType: DisposablePtr<T>.Get()
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.Get()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Get
+    path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+    startLine: 166
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  syntax:
+    content: public readonly T* Get()
+    return:
+      type: '{T}*'
+    content.vb: Public Function [Get]() As T*
+  overload: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Get*
+  nameWithType.vb: DisposablePtr(Of T).Get()
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).Get()
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetRef
+  commentId: M:Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetRef
+  id: GetRef
+  parent: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  langs:
+  - csharp
+  - vb
+  name: GetRef()
+  nameWithType: DisposablePtr<T>.GetRef()
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.GetRef()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetRef
+    path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+    startLine: 171
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  syntax:
+    content: public ref T GetRef()
+    return:
+      type: '{T}'
+    content.vb: Public ByRef Function GetRef() As T
+  overload: Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetRef*
+  nameWithType.vb: DisposablePtr(Of T).GetRef()
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).GetRef()
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Share
+  commentId: M:Misaki.HighPerformance.LowLevel.DisposablePtr`1.Share
+  id: Share
+  parent: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  langs:
+  - csharp
+  - vb
+  name: Share()
+  nameWithType: DisposablePtr<T>.Share()
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.Share()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Share
+    path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+    startLine: 176
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  syntax:
+    content: public readonly SharedPtr<T> Share()
+    return:
+      type: Misaki.HighPerformance.LowLevel.SharedPtr{{T}}
+    content.vb: Public Function Share() As SharedPtr(Of T)
+  overload: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Share*
+  nameWithType.vb: DisposablePtr(Of T).Share()
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).Share()
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Dispose
+  commentId: M:Misaki.HighPerformance.LowLevel.DisposablePtr`1.Dispose
+  id: Dispose
+  parent: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: DisposablePtr<T>.Dispose()
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Dispose
+    path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+    startLine: 181
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  summary: Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  nameWithType.vb: DisposablePtr(Of T).Dispose()
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).Dispose()
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Equals(Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  commentId: M:Misaki.HighPerformance.LowLevel.DisposablePtr`1.Equals(Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  id: Equals(Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  parent: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  langs:
+  - csharp
+  - vb
+  name: Equals(DisposablePtr<T>)
+  nameWithType: DisposablePtr<T>.Equals(DisposablePtr<T>)
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.Equals(Misaki.HighPerformance.LowLevel.DisposablePtr<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Equals
+    path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+    startLine: 190
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  summary: Indicates whether the current object is equal to another object of the same type.
+  example: []
+  syntax:
+    content: public readonly bool Equals(DisposablePtr<T> other)
+    parameters:
+    - id: other
+      type: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+      description: An object to compare with this object.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Function Equals(other As DisposablePtr(Of T)) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Equals*
+  implements:
+  - System.IEquatable{Misaki.HighPerformance.LowLevel.DisposablePtr`1}.Equals(Misaki.HighPerformance.LowLevel.DisposablePtr{{T}})
+  nameWithType.vb: DisposablePtr(Of T).Equals(DisposablePtr(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).Equals(Misaki.HighPerformance.LowLevel.DisposablePtr(Of T))
+  name.vb: Equals(DisposablePtr(Of T))
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Equals(System.Object)
+  commentId: M:Misaki.HighPerformance.LowLevel.DisposablePtr`1.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  langs:
+  - csharp
+  - vb
+  name: Equals(object?)
+  nameWithType: DisposablePtr<T>.Equals(object?)
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.Equals(object?)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Equals
+    path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+    startLine: 195
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  summary: Indicates whether this instance and a specified object are equal.
+  example: []
+  syntax:
+    content: public override readonly bool Equals(object? obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: The object to compare with the current instance.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">obj</code> and this instance are the same type and represent the same value; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Overrides Function Equals(obj As Object) As Boolean
+  overridden: System.ValueType.Equals(System.Object)
+  overload: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Equals*
+  nameWithType.vb: DisposablePtr(Of T).Equals(Object)
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).Equals(Object)
+  name.vb: Equals(Object)
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetHashCode
+  commentId: M:Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetHashCode
+  id: GetHashCode
+  parent: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: DisposablePtr<T>.GetHashCode()
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: GetHashCode
+    path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+    startLine: 200
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  summary: Returns the hash code for this instance.
+  example: []
+  syntax:
+    content: public override readonly int GetHashCode()
+    return:
+      type: System.Int32
+      description: A 32-bit signed integer that is the hash code for this instance.
+    content.vb: Public Overrides Function GetHashCode() As Integer
+  overridden: System.ValueType.GetHashCode
+  overload: Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetHashCode*
+  nameWithType.vb: DisposablePtr(Of T).GetHashCode()
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).GetHashCode()
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Equality(Misaki.HighPerformance.LowLevel.DisposablePtr{`0},Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  commentId: M:Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Equality(Misaki.HighPerformance.LowLevel.DisposablePtr{`0},Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  id: op_Equality(Misaki.HighPerformance.LowLevel.DisposablePtr{`0},Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  parent: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  langs:
+  - csharp
+  - vb
+  name: operator ==(DisposablePtr<T>, DisposablePtr<T>)
+  nameWithType: DisposablePtr<T>.operator ==(DisposablePtr<T>, DisposablePtr<T>)
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.operator ==(Misaki.HighPerformance.LowLevel.DisposablePtr<T>, Misaki.HighPerformance.LowLevel.DisposablePtr<T>)
+  type: Operator
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: op_Equality
+    path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+    startLine: 205
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  syntax:
+    content: public static bool operator ==(DisposablePtr<T> left, DisposablePtr<T> right)
+    parameters:
+    - id: left
+      type: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    - id: right
+      type: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Operator =(left As DisposablePtr(Of T), right As DisposablePtr(Of T)) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Equality*
+  nameWithType.vb: DisposablePtr(Of T).=(DisposablePtr(Of T), DisposablePtr(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).=(Misaki.HighPerformance.LowLevel.DisposablePtr(Of T), Misaki.HighPerformance.LowLevel.DisposablePtr(Of T))
+  name.vb: =(DisposablePtr(Of T), DisposablePtr(Of T))
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Inequality(Misaki.HighPerformance.LowLevel.DisposablePtr{`0},Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  commentId: M:Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Inequality(Misaki.HighPerformance.LowLevel.DisposablePtr{`0},Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  id: op_Inequality(Misaki.HighPerformance.LowLevel.DisposablePtr{`0},Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  parent: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  langs:
+  - csharp
+  - vb
+  name: operator !=(DisposablePtr<T>, DisposablePtr<T>)
+  nameWithType: DisposablePtr<T>.operator !=(DisposablePtr<T>, DisposablePtr<T>)
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.operator !=(Misaki.HighPerformance.LowLevel.DisposablePtr<T>, Misaki.HighPerformance.LowLevel.DisposablePtr<T>)
+  type: Operator
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: op_Inequality
+    path: src/Misaki.HighPerformance.LowLevel/Ptr.cs
+    startLine: 210
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel
+  syntax:
+    content: public static bool operator !=(DisposablePtr<T> left, DisposablePtr<T> right)
+    parameters:
+    - id: left
+      type: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    - id: right
+      type: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Operator <>(left As DisposablePtr(Of T), right As DisposablePtr(Of T)) As Boolean
+  overload: Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Inequality*
+  nameWithType.vb: DisposablePtr(Of T).<>(DisposablePtr(Of T), DisposablePtr(Of T))
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).<>(Misaki.HighPerformance.LowLevel.DisposablePtr(Of T), Misaki.HighPerformance.LowLevel.DisposablePtr(Of T))
+  name.vb: <>(DisposablePtr(Of T), DisposablePtr(Of T))
+references:
+- uid: Misaki.HighPerformance.LowLevel
+  commentId: N:Misaki.HighPerformance.LowLevel
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel
+  nameWithType: Misaki.HighPerformance.LowLevel
+  fullName: Misaki.HighPerformance.LowLevel
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.IEquatable{Misaki.HighPerformance.LowLevel.DisposablePtr`1}
+  commentId: T:System.IEquatable{Misaki.HighPerformance.LowLevel.DisposablePtr`1}
+  parent: System
+  definition: System.IEquatable`1
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<DisposablePtr<T>>
+  nameWithType: IEquatable<DisposablePtr<T>>
+  fullName: System.IEquatable<Misaki.HighPerformance.LowLevel.DisposablePtr<T>>
+  nameWithType.vb: IEquatable(Of DisposablePtr(Of T))
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.LowLevel.DisposablePtr(Of T))
+  name.vb: IEquatable(Of DisposablePtr(Of T))
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.IEquatable`1
+  commentId: T:System.IEquatable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<T>
+  nameWithType: IEquatable<T>
+  fullName: System.IEquatable<T>
+  nameWithType.vb: IEquatable(Of T)
+  fullName.vb: System.IEquatable(Of T)
+  name.vb: IEquatable(Of T)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.#ctor*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.DisposablePtr`1.#ctor
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html#Misaki_HighPerformance_LowLevel_DisposablePtr_1__ctor__0__
+  name: DisposablePtr
+  nameWithType: DisposablePtr<T>.DisposablePtr
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.DisposablePtr
+  nameWithType.vb: DisposablePtr(Of T).New
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).New
+  name.vb: New
+- uid: '{T}*'
+  isExternal: true
+  name: T*
+  nameWithType: T*
+  fullName: T*
+  spec.csharp:
+  - name: T
+  - name: '*'
+  spec.vb:
+  - name: T
+  - name: '*'
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Get*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.DisposablePtr`1.Get
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html#Misaki_HighPerformance_LowLevel_DisposablePtr_1_Get
+  name: Get
+  nameWithType: DisposablePtr<T>.Get
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.Get
+  nameWithType.vb: DisposablePtr(Of T).Get
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).Get
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetRef*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetRef
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html#Misaki_HighPerformance_LowLevel_DisposablePtr_1_GetRef
+  name: GetRef
+  nameWithType: DisposablePtr<T>.GetRef
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.GetRef
+  nameWithType.vb: DisposablePtr(Of T).GetRef
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).GetRef
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Share*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.DisposablePtr`1.Share
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html#Misaki_HighPerformance_LowLevel_DisposablePtr_1_Share
+  name: Share
+  nameWithType: DisposablePtr<T>.Share
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.Share
+  nameWithType.vb: DisposablePtr(Of T).Share
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).Share
+- uid: Misaki.HighPerformance.LowLevel.SharedPtr{{T}}
+  commentId: T:Misaki.HighPerformance.LowLevel.SharedPtr{`0}
+  parent: Misaki.HighPerformance.LowLevel
+  definition: Misaki.HighPerformance.LowLevel.SharedPtr`1
+  href: Misaki.HighPerformance.LowLevel.SharedPtr-1.html
+  name: SharedPtr<T>
+  nameWithType: SharedPtr<T>
+  fullName: Misaki.HighPerformance.LowLevel.SharedPtr<T>
+  nameWithType.vb: SharedPtr(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.SharedPtr(Of T)
+  name.vb: SharedPtr(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.SharedPtr`1
+    name: SharedPtr
+    href: Misaki.HighPerformance.LowLevel.SharedPtr-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.SharedPtr`1
+    name: SharedPtr
+    href: Misaki.HighPerformance.LowLevel.SharedPtr-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.SharedPtr`1
+  commentId: T:Misaki.HighPerformance.LowLevel.SharedPtr`1
+  parent: Misaki.HighPerformance.LowLevel
+  href: Misaki.HighPerformance.LowLevel.SharedPtr-1.html
+  name: SharedPtr<T>
+  nameWithType: SharedPtr<T>
+  fullName: Misaki.HighPerformance.LowLevel.SharedPtr<T>
+  nameWithType.vb: SharedPtr(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.SharedPtr(Of T)
+  name.vb: SharedPtr(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.SharedPtr`1
+    name: SharedPtr
+    href: Misaki.HighPerformance.LowLevel.SharedPtr-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.SharedPtr`1
+    name: SharedPtr
+    href: Misaki.HighPerformance.LowLevel.SharedPtr-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Dispose*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.DisposablePtr`1.Dispose
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html#Misaki_HighPerformance_LowLevel_DisposablePtr_1_Dispose
+  name: Dispose
+  nameWithType: DisposablePtr<T>.Dispose
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.Dispose
+  nameWithType.vb: DisposablePtr(Of T).Dispose
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.Equals*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.DisposablePtr`1.Equals
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html#Misaki_HighPerformance_LowLevel_DisposablePtr_1_Equals_Misaki_HighPerformance_LowLevel_DisposablePtr__0__
+  name: Equals
+  nameWithType: DisposablePtr<T>.Equals
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.Equals
+  nameWithType.vb: DisposablePtr(Of T).Equals
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).Equals
+- uid: System.IEquatable{Misaki.HighPerformance.LowLevel.DisposablePtr`1}.Equals(Misaki.HighPerformance.LowLevel.DisposablePtr{{T}})
+  commentId: M:System.IEquatable{Misaki.HighPerformance.LowLevel.DisposablePtr`1}.Equals(Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+  parent: System.IEquatable{Misaki.HighPerformance.LowLevel.DisposablePtr`1}
+  definition: System.IEquatable`1.Equals(`0)
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(DisposablePtr<T>)
+  nameWithType: IEquatable<DisposablePtr<T>>.Equals(DisposablePtr<T>)
+  fullName: System.IEquatable<Misaki.HighPerformance.LowLevel.DisposablePtr<T>>.Equals(Misaki.HighPerformance.LowLevel.DisposablePtr<T>)
+  nameWithType.vb: IEquatable(Of DisposablePtr(Of T)).Equals(DisposablePtr(Of T))
+  fullName.vb: System.IEquatable(Of Misaki.HighPerformance.LowLevel.DisposablePtr(Of T)).Equals(Misaki.HighPerformance.LowLevel.DisposablePtr(Of T))
+  name.vb: Equals(DisposablePtr(Of T))
+  spec.csharp:
+  - uid: System.IEquatable{Misaki.HighPerformance.LowLevel.DisposablePtr`1}.Equals(Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable{Misaki.HighPerformance.LowLevel.DisposablePtr`1}.Equals(Misaki.HighPerformance.LowLevel.DisposablePtr{`0})
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  commentId: T:Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  parent: Misaki.HighPerformance.LowLevel
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  name: DisposablePtr<T>
+  nameWithType: DisposablePtr<T>
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>
+  nameWithType.vb: DisposablePtr(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T)
+  name.vb: DisposablePtr(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.IEquatable`1.Equals(`0)
+  commentId: M:System.IEquatable`1.Equals(`0)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(T)
+  nameWithType: IEquatable<T>.Equals(T)
+  fullName: System.IEquatable<T>.Equals(T)
+  nameWithType.vb: IEquatable(Of T).Equals(T)
+  fullName.vb: System.IEquatable(Of T).Equals(T)
+  spec.csharp:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetHashCode*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.DisposablePtr`1.GetHashCode
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html#Misaki_HighPerformance_LowLevel_DisposablePtr_1_GetHashCode
+  name: GetHashCode
+  nameWithType: DisposablePtr<T>.GetHashCode
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.GetHashCode
+  nameWithType.vb: DisposablePtr(Of T).GetHashCode
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).GetHashCode
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Equality*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Equality
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html#Misaki_HighPerformance_LowLevel_DisposablePtr_1_op_Equality_Misaki_HighPerformance_LowLevel_DisposablePtr__0__Misaki_HighPerformance_LowLevel_DisposablePtr__0__
+  name: operator ==
+  nameWithType: DisposablePtr<T>.operator ==
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.operator ==
+  nameWithType.vb: DisposablePtr(Of T).=
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).=
+  name.vb: =
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Equality*
+    name: ==
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html#Misaki_HighPerformance_LowLevel_DisposablePtr_1_op_Equality_Misaki_HighPerformance_LowLevel_DisposablePtr__0__Misaki_HighPerformance_LowLevel_DisposablePtr__0__
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Inequality*
+  commentId: Overload:Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Inequality
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html#Misaki_HighPerformance_LowLevel_DisposablePtr_1_op_Inequality_Misaki_HighPerformance_LowLevel_DisposablePtr__0__Misaki_HighPerformance_LowLevel_DisposablePtr__0__
+  name: operator !=
+  nameWithType: DisposablePtr<T>.operator !=
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>.operator !=
+  nameWithType.vb: DisposablePtr(Of T).<>
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T).<>
+  name.vb: <>
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1.op_Inequality*
+    name: '!='
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html#Misaki_HighPerformance_LowLevel_DisposablePtr_1_op_Inequality_Misaki_HighPerformance_LowLevel_DisposablePtr__0__Misaki_HighPerformance_LowLevel_DisposablePtr__0__

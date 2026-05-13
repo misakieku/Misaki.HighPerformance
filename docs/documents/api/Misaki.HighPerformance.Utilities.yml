@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Utilities
+  commentId: N:Misaki.HighPerformance.Utilities
+  id: Misaki.HighPerformance.Utilities
+  children:
+  - Misaki.HighPerformance.Utilities.CollectionUtility
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance.Utilities
+  nameWithType: Misaki.HighPerformance.Utilities
+  fullName: Misaki.HighPerformance.Utilities
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance
+references:
+- uid: Misaki.HighPerformance.Utilities.CollectionUtility
+  commentId: T:Misaki.HighPerformance.Utilities.CollectionUtility
+  href: Misaki.HighPerformance.Utilities.CollectionUtility.html
+  name: CollectionUtility
+  nameWithType: CollectionUtility
+  fullName: Misaki.HighPerformance.Utilities.CollectionUtility

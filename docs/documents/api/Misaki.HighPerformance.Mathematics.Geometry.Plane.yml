@@ -1,0 +1,1048 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  commentId: T:Misaki.HighPerformance.Mathematics.Geometry.Plane
+  id: Plane
+  parent: Misaki.HighPerformance.Mathematics.Geometry
+  children:
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(System.Single,System.Single,System.Single,System.Single)
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndDistance(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndPointInPlane(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.Distance
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.Flipped
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.Normal
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.float4)
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.Projection(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.SignedDistanceToPoint(Misaki.HighPerformance.Mathematics.float3)
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.normalAndDistance
+  - Misaki.HighPerformance.Mathematics.Geometry.Plane.op_Implicit(Misaki.HighPerformance.Mathematics.Geometry.Plane)~Misaki.HighPerformance.Mathematics.float4
+  langs:
+  - csharp
+  - vb
+  name: Plane
+  nameWithType: Plane
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  type: Struct
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Plane
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 12
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: A plane represented by a normal vector and a distance along the normal from the origin.
+  remarks: >-
+    A plane splits the 3D space in half.  The normal vector points to the positive half and the other half is
+
+    considered negative.
+  example: []
+  syntax:
+    content: public struct Plane
+    content.vb: Public Structure Plane
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.normalAndDistance
+  commentId: F:Misaki.HighPerformance.Mathematics.Geometry.Plane.normalAndDistance
+  id: normalAndDistance
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: normalAndDistance
+  nameWithType: Plane.normalAndDistance
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.normalAndDistance
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: normalAndDistance
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 21
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: A plane in the form Ax + By + Cz + Dw = 0.
+  remarks: >-
+    Stores the plane coefficients A, B, C, D where (A, B, C) is a unit normal vector and D is the distance
+
+    from the origin.  A plane stored with a unit normal vector is called a normalized plane.
+  example: []
+  syntax:
+    content: public float4 normalAndDistance
+    return:
+      type: Misaki.HighPerformance.Mathematics.float4
+    content.vb: Public normalAndDistance As float4
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(System.Single,System.Single,System.Single,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(System.Single,System.Single,System.Single,System.Single)
+  id: '#ctor(System.Single,System.Single,System.Single,System.Single)'
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: Plane(float, float, float, float)
+  nameWithType: Plane.Plane(float, float, float, float)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Plane(float, float, float, float)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 33
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Constructs a Plane from arbitrary coefficients A, B, C, D of the plane equation Ax + By + Cz + Dw = 0.
+  remarks: The constructed plane will be the normalized form of the plane specified by the given coefficients.
+  example: []
+  syntax:
+    content: public Plane(float coefficientA, float coefficientB, float coefficientC, float coefficientD)
+    parameters:
+    - id: coefficientA
+      type: System.Single
+      description: Coefficient A from plane equation.
+    - id: coefficientB
+      type: System.Single
+      description: Coefficient B from plane equation.
+    - id: coefficientC
+      type: System.Single
+      description: Coefficient C from plane equation.
+    - id: coefficientD
+      type: System.Single
+      description: Coefficient D from plane equation.
+    content.vb: Public Sub New(coefficientA As Single, coefficientB As Single, coefficientC As Single, coefficientD As Single)
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor*
+  nameWithType.vb: Plane.New(Single, Single, Single, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.Plane.New(Single, Single, Single, Single)
+  name.vb: New(Single, Single, Single, Single)
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  id: '#ctor(Misaki.HighPerformance.Mathematics.float3,System.Single)'
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: Plane(float3, float)
+  nameWithType: Plane.Plane(float3, float)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Plane(Misaki.HighPerformance.Mathematics.float3, float)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 48
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Constructs a plane with a normal vector and distance from the origin.
+  remarks: The constructed plane will be the normalized form of the plane specified by the inputs.
+  example: []
+  syntax:
+    content: public Plane(float3 normal, float distance)
+    parameters:
+    - id: normal
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A non-zero vector that is perpendicular to the plane.  It may be any length.
+    - id: distance
+      type: System.Single
+      description: >-
+        Distance from the origin along the normal.  A negative value moves the plane in the
+            same direction as the normal while a positive value moves it in the opposite direction.
+    content.vb: Public Sub New(normal As float3, distance As Single)
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor*
+  nameWithType.vb: Plane.New(float3, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.Plane.New(Misaki.HighPerformance.Mathematics.float3, Single)
+  name.vb: New(float3, Single)
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  id: '#ctor(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)'
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: Plane(float3, float3)
+  nameWithType: Plane.Plane(float3, float3)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Plane(Misaki.HighPerformance.Mathematics.float3, Misaki.HighPerformance.Mathematics.float3)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 62
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Constructs a plane with a normal vector and a point that lies in the plane.
+  remarks: The constructed plane will be the normalized form of the plane specified by the inputs.
+  example: []
+  syntax:
+    content: public Plane(float3 normal, float3 pointInPlane)
+    parameters:
+    - id: normal
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A non-zero vector that is perpendicular to the plane.  It may be any length.
+    - id: pointInPlane
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A point that lies in the plane.
+    content.vb: Public Sub New(normal As float3, pointInPlane As float3)
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor*
+  nameWithType.vb: Plane.New(float3, float3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.Plane.New(Misaki.HighPerformance.Mathematics.float3, Misaki.HighPerformance.Mathematics.float3)
+  name.vb: New(float3, float3)
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  id: '#ctor(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)'
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: Plane(float3, float3, float3)
+  nameWithType: Plane.Plane(float3, float3, float3)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Plane(Misaki.HighPerformance.Mathematics.float3, Misaki.HighPerformance.Mathematics.float3, Misaki.HighPerformance.Mathematics.float3)
+  type: Constructor
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: .ctor
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 77
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Constructs a plane with two vectors and a point that all lie in the plane.
+  remarks: The constructed plane will be the normalized form of the plane specified by the inputs.
+  example: []
+  syntax:
+    content: public Plane(float3 vector1InPlane, float3 vector2InPlane, float3 pointInPlane)
+    parameters:
+    - id: vector1InPlane
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A non-zero vector that lies in the plane.  It may be any length.
+    - id: vector2InPlane
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A non-zero vector that lies in the plane.  It may be any length and must not be a scalar multiple of <code class="paramref">vector1InPlane</code>.
+    - id: pointInPlane
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A point that lies in the plane.
+    content.vb: Public Sub New(vector1InPlane As float3, vector2InPlane As float3, pointInPlane As float3)
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor*
+  nameWithType.vb: Plane.New(float3, float3, float3)
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.Plane.New(Misaki.HighPerformance.Mathematics.float3, Misaki.HighPerformance.Mathematics.float3, Misaki.HighPerformance.Mathematics.float3)
+  name.vb: New(float3, float3, float3)
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndDistance(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndDistance(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  id: CreateFromUnitNormalAndDistance(Misaki.HighPerformance.Mathematics.float3,System.Single)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: CreateFromUnitNormalAndDistance(float3, float)
+  nameWithType: Plane.CreateFromUnitNormalAndDistance(float3, float)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndDistance(Misaki.HighPerformance.Mathematics.float3, float)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CreateFromUnitNormalAndDistance
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 94
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Creates a normalized Plane directly without normalization cost.
+  remarks: >-
+    If you have a unit length normal vector, you can create a Plane faster than using one of its constructors
+
+    by calling this function.
+  example: []
+  syntax:
+    content: public static Plane CreateFromUnitNormalAndDistance(float3 unitNormal, float distance)
+    parameters:
+    - id: unitNormal
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A non-zero vector that is perpendicular to the plane.  It must be unit length.
+    - id: distance
+      type: System.Single
+      description: >-
+        Distance from the origin along the normal.  A negative value moves the plane in the
+            same direction as the normal while a positive value moves it in the opposite direction.
+    return:
+      type: Misaki.HighPerformance.Mathematics.Geometry.Plane
+      description: Normalized Plane constructed from given inputs.
+    content.vb: Public Shared Function CreateFromUnitNormalAndDistance(unitNormal As float3, distance As Single) As Plane
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndDistance*
+  nameWithType.vb: Plane.CreateFromUnitNormalAndDistance(float3, Single)
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndDistance(Misaki.HighPerformance.Mathematics.float3, Single)
+  name.vb: CreateFromUnitNormalAndDistance(float3, Single)
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndPointInPlane(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndPointInPlane(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  id: CreateFromUnitNormalAndPointInPlane(Misaki.HighPerformance.Mathematics.float3,Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: CreateFromUnitNormalAndPointInPlane(float3, float3)
+  nameWithType: Plane.CreateFromUnitNormalAndPointInPlane(float3, float3)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndPointInPlane(Misaki.HighPerformance.Mathematics.float3, Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: CreateFromUnitNormalAndPointInPlane
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 110
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Creates a normalized Plane without normalization cost.
+  remarks: >-
+    If you have a unit length normal vector, you can create a Plane faster than using one of its constructors
+
+    by calling this function.
+  example: []
+  syntax:
+    content: public static Plane CreateFromUnitNormalAndPointInPlane(float3 unitNormal, float3 pointInPlane)
+    parameters:
+    - id: unitNormal
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A non-zero vector that is perpendicular to the plane.  It must be unit length.
+    - id: pointInPlane
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: A point that lies in the plane.
+    return:
+      type: Misaki.HighPerformance.Mathematics.Geometry.Plane
+      description: Normalized Plane constructed from given inputs.
+    content.vb: Public Shared Function CreateFromUnitNormalAndPointInPlane(unitNormal As float3, pointInPlane As float3) As Plane
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndPointInPlane*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normal
+  commentId: P:Misaki.HighPerformance.Mathematics.Geometry.Plane.Normal
+  id: Normal
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: Normal
+  nameWithType: Plane.Normal
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normal
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Normal
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 123
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Get/set the normal vector of the plane.
+  remarks: >-
+    It is assumed that the normal is unit length.  If you set a new plane such that Ax + By + Cz + Dw = 0 but
+
+    (A, B, C) is not unit length, then you must normalize the plane by calling <xref href="Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public float3 Normal { get; set; }
+    parameters: []
+    return:
+      type: Misaki.HighPerformance.Mathematics.float3
+    content.vb: Public Property Normal As float3
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normal*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Distance
+  commentId: P:Misaki.HighPerformance.Mathematics.Geometry.Plane.Distance
+  id: Distance
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: Distance
+  nameWithType: Plane.Distance
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Distance
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Distance
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 136
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Get/set the distance of the plane from the origin.  May be a negative value.
+  remarks: >-
+    It is assumed that the normal is unit length.  If you set a new plane such that Ax + By + Cz + Dw = 0 but
+
+    (A, B, C) is not unit length, then you must normalize the plane by calling <xref href="Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public float Distance { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property Distance As Single
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.Distance*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+  id: Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: Normalize(Plane)
+  nameWithType: Plane.Normalize(Plane)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Normalize
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 147
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Normalizes the given Plane.
+  example: []
+  syntax:
+    content: public static Plane Normalize(Plane plane)
+    parameters:
+    - id: plane
+      type: Misaki.HighPerformance.Mathematics.Geometry.Plane
+      description: Plane to normalize.
+    return:
+      type: Misaki.HighPerformance.Mathematics.Geometry.Plane
+      description: Normalized Plane.
+    content.vb: Public Shared Function Normalize(plane As Plane) As Plane
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.float4)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.float4)
+  id: Normalize(Misaki.HighPerformance.Mathematics.float4)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: Normalize(float4)
+  nameWithType: Plane.Normalize(float4)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.float4)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Normalize
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 161
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Normalizes the plane represented by the given plane coefficients.
+  remarks: The plane coefficients are A, B, C, D and stored in that order in the <xref href="Misaki.HighPerformance.Mathematics.float4" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static float4 Normalize(float4 planeCoefficients)
+    parameters:
+    - id: planeCoefficients
+      type: Misaki.HighPerformance.Mathematics.float4
+      description: Plane coefficients A, B, C, D stored in x, y, z, w (respectively).
+    return:
+      type: Misaki.HighPerformance.Mathematics.float4
+      description: Normalized plane coefficients.
+    content.vb: Public Shared Function Normalize(planeCoefficients As float4) As float4
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.SignedDistanceToPoint(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.SignedDistanceToPoint(Misaki.HighPerformance.Mathematics.float3)
+  id: SignedDistanceToPoint(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: SignedDistanceToPoint(float3)
+  nameWithType: Plane.SignedDistanceToPoint(float3)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.SignedDistanceToPoint(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: SignedDistanceToPoint
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 179
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Get the signed distance from the point to the plane.
+  remarks: >-
+    Plane must be normalized prior to calling this function.  Distance is positive if point is on side of the
+
+    plane the normal points to, negative if on the opposite side and zero if the point lies in the plane.
+
+    Avoid comparing equality with 0.0f when testing if a point lies exactly in the plane and use an approximate
+
+    comparison instead.
+  example: []
+  syntax:
+    content: public float SignedDistanceToPoint(float3 point)
+    parameters:
+    - id: point
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: Point to find the signed distance with.
+    return:
+      type: System.Single
+      description: Signed distance of the point from the plane.
+    content.vb: Public Function SignedDistanceToPoint(point As float3) As Single
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.SignedDistanceToPoint*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Projection(Misaki.HighPerformance.Mathematics.float3)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.Projection(Misaki.HighPerformance.Mathematics.float3)
+  id: Projection(Misaki.HighPerformance.Mathematics.float3)
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: Projection(float3)
+  nameWithType: Plane.Projection(float3)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Projection(Misaki.HighPerformance.Mathematics.float3)
+  type: Method
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Projection
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 195
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Projects the given point onto the plane.
+  remarks: >-
+    Plane must be normalized prior to calling this function.  The result is the position closest to the point
+
+    that still lies in the plane.
+  example: []
+  syntax:
+    content: public float3 Projection(float3 point)
+    parameters:
+    - id: point
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: Point to project onto the plane.
+    return:
+      type: Misaki.HighPerformance.Mathematics.float3
+      description: Projected point that's inside the plane.
+    content.vb: Public Function Projection(point As float3) As float3
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.Projection*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Flipped
+  commentId: P:Misaki.HighPerformance.Mathematics.Geometry.Plane.Flipped
+  id: Flipped
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: Flipped
+  nameWithType: Plane.Flipped
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Flipped
+  type: Property
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Flipped
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 205
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Flips the plane so the normal points in the opposite direction.
+  example: []
+  syntax:
+    content: public Plane Flipped { get; }
+    parameters: []
+    return:
+      type: Misaki.HighPerformance.Mathematics.Geometry.Plane
+    content.vb: Public ReadOnly Property Flipped As Plane
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.Flipped*
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.op_Implicit(Misaki.HighPerformance.Mathematics.Geometry.Plane)~Misaki.HighPerformance.Mathematics.float4
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.op_Implicit(Misaki.HighPerformance.Mathematics.Geometry.Plane)~Misaki.HighPerformance.Mathematics.float4
+  id: op_Implicit(Misaki.HighPerformance.Mathematics.Geometry.Plane)~Misaki.HighPerformance.Mathematics.float4
+  parent: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  langs:
+  - csharp
+  - vb
+  name: implicit operator float4(Plane)
+  nameWithType: Plane.implicit operator float4(Plane)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.implicit operator Misaki.HighPerformance.Mathematics.float4(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+  type: Operator
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: op_Implicit
+    path: src/Misaki.HighPerformance.Mathematics/Geometry/Plane.cs
+    startLine: 212
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics.Geometry
+  summary: Implicitly converts a <xref href="Misaki.HighPerformance.Mathematics.Geometry.Plane" data-throw-if-not-resolved="false"></xref> to <xref href="Misaki.HighPerformance.Mathematics.float4" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static implicit operator float4(Plane plane)
+    parameters:
+    - id: plane
+      type: Misaki.HighPerformance.Mathematics.Geometry.Plane
+      description: Plane to convert.
+    return:
+      type: Misaki.HighPerformance.Mathematics.float4
+      description: A <xref href="Misaki.HighPerformance.Mathematics.float4" data-throw-if-not-resolved="false"></xref> representing the plane.
+    content.vb: Public Shared Widening Operator CType(plane As Plane) As float4
+  overload: Misaki.HighPerformance.Mathematics.Geometry.Plane.op_Implicit*
+  nameWithType.vb: Plane.CType(Plane)
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.Plane.CType(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+  name.vb: CType(Plane)
+references:
+- uid: Misaki.HighPerformance.Mathematics.Geometry
+  commentId: N:Misaki.HighPerformance.Mathematics.Geometry
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics.Geometry
+  nameWithType: Misaki.HighPerformance.Mathematics.Geometry
+  fullName: Misaki.HighPerformance.Mathematics.Geometry
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.Geometry
+    name: Geometry
+    href: Misaki.HighPerformance.Mathematics.Geometry.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.Geometry
+    name: Geometry
+    href: Misaki.HighPerformance.Mathematics.Geometry.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Misaki.HighPerformance.Mathematics.float4
+  commentId: T:Misaki.HighPerformance.Mathematics.float4
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float4.html
+  name: float4
+  nameWithType: float4
+  fullName: Misaki.HighPerformance.Mathematics.float4
+- uid: Misaki.HighPerformance.Mathematics
+  commentId: N:Misaki.HighPerformance.Mathematics
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics
+  nameWithType: Misaki.HighPerformance.Mathematics
+  fullName: Misaki.HighPerformance.Mathematics
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.Plane.#ctor
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane__ctor_System_Single_System_Single_System_Single_System_Single_
+  name: Plane
+  nameWithType: Plane.Plane
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Plane
+  nameWithType.vb: Plane.New
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.Plane.New
+  name.vb: New
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: Misaki.HighPerformance.Mathematics.float3
+  commentId: T:Misaki.HighPerformance.Mathematics.float3
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.float3.html
+  name: float3
+  nameWithType: float3
+  fullName: Misaki.HighPerformance.Mathematics.float3
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndDistance*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndDistance
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_CreateFromUnitNormalAndDistance_Misaki_HighPerformance_Mathematics_float3_System_Single_
+  name: CreateFromUnitNormalAndDistance
+  nameWithType: Plane.CreateFromUnitNormalAndDistance
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndDistance
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane
+  commentId: T:Misaki.HighPerformance.Mathematics.Geometry.Plane
+  parent: Misaki.HighPerformance.Mathematics.Geometry
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html
+  name: Plane
+  nameWithType: Plane
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndPointInPlane*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndPointInPlane
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_CreateFromUnitNormalAndPointInPlane_Misaki_HighPerformance_Mathematics_float3_Misaki_HighPerformance_Mathematics_float3_
+  name: CreateFromUnitNormalAndPointInPlane
+  nameWithType: Plane.CreateFromUnitNormalAndPointInPlane
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.CreateFromUnitNormalAndPointInPlane
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+  commentId: M:Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_Normalize_Misaki_HighPerformance_Mathematics_Geometry_Plane_
+  name: Normalize(Plane)
+  nameWithType: Plane.Normalize(Plane)
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+    name: Normalize
+    href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_Normalize_Misaki_HighPerformance_Mathematics_Geometry_Plane_
+  - name: (
+  - uid: Misaki.HighPerformance.Mathematics.Geometry.Plane
+    name: Plane
+    href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html
+  - name: )
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize(Misaki.HighPerformance.Mathematics.Geometry.Plane)
+    name: Normalize
+    href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_Normalize_Misaki_HighPerformance_Mathematics_Geometry_Plane_
+  - name: (
+  - uid: Misaki.HighPerformance.Mathematics.Geometry.Plane
+    name: Plane
+    href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html
+  - name: )
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normal*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.Plane.Normal
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_Normal
+  name: Normal
+  nameWithType: Plane.Normal
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normal
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Distance*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.Plane.Distance
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_Distance
+  name: Distance
+  nameWithType: Plane.Distance
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Distance
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_Normalize_Misaki_HighPerformance_Mathematics_Geometry_Plane_
+  name: Normalize
+  nameWithType: Plane.Normalize
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Normalize
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.SignedDistanceToPoint*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.Plane.SignedDistanceToPoint
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_SignedDistanceToPoint_Misaki_HighPerformance_Mathematics_float3_
+  name: SignedDistanceToPoint
+  nameWithType: Plane.SignedDistanceToPoint
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.SignedDistanceToPoint
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Projection*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.Plane.Projection
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_Projection_Misaki_HighPerformance_Mathematics_float3_
+  name: Projection
+  nameWithType: Plane.Projection
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Projection
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.Flipped*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.Plane.Flipped
+  href: Misaki.HighPerformance.Mathematics.Geometry.Plane.html#Misaki_HighPerformance_Mathematics_Geometry_Plane_Flipped
+  name: Flipped
+  nameWithType: Plane.Flipped
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.Flipped
+- uid: Misaki.HighPerformance.Mathematics.Geometry.Plane.op_Implicit*
+  commentId: Overload:Misaki.HighPerformance.Mathematics.Geometry.Plane.op_Implicit
+  name: implicit operator
+  nameWithType: Plane.implicit operator
+  fullName: Misaki.HighPerformance.Mathematics.Geometry.Plane.implicit operator
+  nameWithType.vb: Plane.CType
+  fullName.vb: Misaki.HighPerformance.Mathematics.Geometry.Plane.CType
+  name.vb: CType
+  spec.csharp:
+  - name: implicit
+  - name: " "
+  - name: operator

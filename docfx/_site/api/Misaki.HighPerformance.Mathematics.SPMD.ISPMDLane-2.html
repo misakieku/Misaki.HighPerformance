@@ -1,0 +1,4091 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Interface ISPMDLane&lt;TSelf, TNumber&gt; | Misaki.HighPerformance </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Interface ISPMDLane&lt;TSelf, TNumber&gt; | Misaki.HighPerformance ">
+      
+      <meta name="description" content="Represents a single-lane or multi-lane (vectorized) SPMD value and the operations supported on it.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="Misaki.HighPerformance">
+            Misaki.HighPerformance
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2">
+
+
+
+  <h1 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2" class="text-break">
+Interface ISPMDLane&lt;TSelf, TNumber&gt;  
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="Misaki.html">Misaki</a>.<a class="xref" href="Misaki.HighPerformance.html">HighPerformance</a>.<a class="xref" href="Misaki.HighPerformance.Mathematics.html">Mathematics</a>.<a class="xref" href="Misaki.HighPerformance.Mathematics.SPMD.html">SPMD</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>Misaki.HighPerformance.Mathematics.SPMD.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Represents a single-lane or multi-lane (vectorized) SPMD value and the operations supported on it.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface ISPMDLane&lt;TSelf, TNumber&gt; : ISPMDLane, IEquatable&lt;TSelf&gt; where TSelf : ISPMDLane&lt;TSelf, TNumber&gt; where TNumber : unmanaged, INumber&lt;TNumber&gt;, IBinaryNumber&lt;TNumber&gt;, IMinMaxValue&lt;TNumber&gt;, IBitwiseOperators&lt;TNumber, TNumber, TNumber&gt;</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TSelf</code></dt>
+    <dd><p>The concrete SPMD lane type implementing this interface.</p>
+</dd>
+    <dt><code>TNumber</code></dt>
+    <dd><p>The underlying numeric element type.</p>
+</dd>
+  </dl>
+
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.html#Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_LaneWidth">ISPMDLane.LaneWidth</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals">IEquatable&lt;TSelf&gt;.Equals(TSelf)</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_AllBitsSet_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.AllBitsSet*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_AllBitsSet" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.AllBitsSet">
+  AllBitsSet
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a lane value where all bits are set to 1 for each lane.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf AllBitsSet { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Item_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Item*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Item_System_Int32_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Item(System.Int32)">
+  this[int]
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the element value for the specified lane index.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">TNumber this[int index] { get; }</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The zero-based lane index.</p>
+</dd>
+  </dl>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TNumber</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaxValue_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaxValue*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaxValue" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaxValue">
+  MaxValue
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a lane value where all lanes are set to the maximum representable value of the underlying numeric type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf MaxValue { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MinValue_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MinValue*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MinValue" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MinValue">
+  MinValue
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a lane value where all lanes are set to the minimum representable value of the underlying numeric type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf MinValue { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_One_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.One*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_One" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.One">
+  One
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a lane value where all lanes are set to numeric one.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf One { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Zero_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Zero*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Zero" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Zero">
+  Zero
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets a lane value where all lanes are set to numeric zero.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Zero { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Abs_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Abs*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Abs__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Abs(`0)">
+  Abs(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the absolute value of the lane value element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Abs(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The absolute lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Acos_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Acos*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Acos__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Acos(`0)">
+  Acos(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the arccosine of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Acos(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The source lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The arccosine of each lane element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Acos__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Input is expected to be in [-1, 1]; implementations often rely on approximation polynomials combined with range reduction.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_All_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.All*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_All__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.All(`0)">
+  All(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Checks if all lanes in the mask are true.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract bool All(TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The mask to check.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True if all lanes are true; otherwise, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Any_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Any*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Any__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Any(`0)">
+  Any(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Checks if any lane in the mask is true.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract bool Any(TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The mask to check.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True if any lane is true; otherwise, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_AsVector_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.AsVector*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_AsVector" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.AsVector">
+  AsVector()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Converts the lane value to a vector.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">Vector&lt;TNumber&gt; AsVector()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.vector-1">Vector</a>&lt;TNumber&gt;</dt>
+    <dd><p>The backing vector representation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Asin_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Asin*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Asin__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Asin(`0)">
+  Asin(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the arcsine of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Asin(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The source lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The arcsine of each lane element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Asin__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Implementations typically assume input is within [-1, 1] and may use polynomial approximations for performance.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Atan_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Atan*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Atan__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Atan(`0)">
+  Atan(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the arctangent of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Atan(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The source lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The arctangent of each lane element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Atan__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Polynomial approximations with restricted input ranges are commonly used for performance-sensitive implementations.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Atan2_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Atan2*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Atan2__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Atan2(`0,`0)">
+  Atan2(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the arctangent of y/x for each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Atan2(TSelf y, TSelf x)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>y</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The numerator lane value.</p>
+</dd>
+    <dt><code>x</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The denominator lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The arctangent of each lane pair.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Atan2__0__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Implementations often rely on quadrant-aware polynomial routines and assume inputs are finite to avoid NaNs.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_BitCast_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.BitCast*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_BitCast__2" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.BitCast``2">
+  BitCast&lt;TOther, TOtherNumber&gt;()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Bitwise reinterprets the lane value as another SPMD lane type with a different underlying numeric type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">TOther BitCast&lt;TOther, TOtherNumber&gt;() where TOther : ISPMDLane&lt;TOther, TOtherNumber&gt; where TOtherNumber : unmanaged, INumber&lt;TOtherNumber&gt;, IBinaryNumber&lt;TOtherNumber&gt;, IMinMaxValue&lt;TOtherNumber&gt;, IBitwiseOperators&lt;TOtherNumber, TOtherNumber, TOtherNumber&gt;</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TOther</span></dt>
+    <dd><p>The bit-cast lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TOther</code></dt>
+    <dd><p>The type of the other SPMD lane.</p>
+</dd>
+    <dt><code>TOtherNumber</code></dt>
+    <dd><p>The underlying numeric type of the other SPMD lane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Cast_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Cast*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Cast__2" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Cast``2">
+  Cast&lt;TOther, TOtherNumber&gt;()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Casts the lane value to another SPMD lane type with a different underlying numeric type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">TOther Cast&lt;TOther, TOtherNumber&gt;() where TOther : ISPMDLane&lt;TOther, TOtherNumber&gt; where TOtherNumber : unmanaged, INumber&lt;TOtherNumber&gt;, IBinaryNumber&lt;TOtherNumber&gt;, IMinMaxValue&lt;TOtherNumber&gt;, IBitwiseOperators&lt;TOtherNumber, TOtherNumber, TOtherNumber&gt;</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TOther</span></dt>
+    <dd><p>The casted lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TOther</code></dt>
+    <dd><p>The type of the other SPMD lane.</p>
+</dd>
+    <dt><code>TOtherNumber</code></dt>
+    <dd><p>The underlying numeric type of the other SPMD lane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Ceil_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Ceil*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Ceil__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Ceil(`0)">
+  Ceil(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the ceiling of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Ceil(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The smallest integral value greater than or equal to each element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Ceil__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Implementations should use <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.vector">Vector</a> helpers for floating-point types when available.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Clamp_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Clamp*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Clamp__0__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Clamp(`0,`0,`0)">
+  Clamp(TSelf, TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Clamps each element of the lane value between the specified minimum and maximum values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Clamp(TSelf value, TSelf min, TSelf max)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The lane value to clamp.</p>
+</dd>
+    <dt><code>min</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The inclusive minimum.</p>
+</dd>
+    <dt><code>max</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The inclusive maximum.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The clamped lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_CompressStore_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.CompressStore*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_CompressStore__1___0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.CompressStore(`1*,`0)">
+  CompressStore(TNumber*, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Compresses the data specified by the given mask and stores the compressed result in the provided destination
+variable.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int CompressStore(TNumber* pDestination, TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pDestination</code> TNumber*</dt>
+    <dd><p>A pointer to the variable where the compressed data will be stored.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A mask value that determines which elements are included in the compression operation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of elements written to the destination as a result of the compression. Returns 0 if no elements are compressed.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_CompressStore__1___0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Implementations may use hardware-specific shuffle tables to reorder the selected lanes before storing, falling back to a scalar loop otherwise.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_CompressStore_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.CompressStore*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_CompressStore__1___0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.CompressStore(`1@,`0)">
+  CompressStore(ref TNumber, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Compresses the data specified by the given mask and stores the compressed result in the provided destination
+variable.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int CompressStore(ref TNumber destination, TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>destination</code> <span class="xref">TNumber</span></dt>
+    <dd><p>A reference to the variable where the compressed data will be stored.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A mask value that determines which elements are included in the compression operation.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The number of elements written to the destination as a result of the compression. Returns 0 if no elements are compressed.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_CompressStore__1___0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Implementations may use hardware-specific shuffle tables to reorder the selected lanes before storing, falling back to a scalar loop otherwise.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_CopySign_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.CopySign*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_CopySign__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.CopySign(`0,`0)">
+  CopySign(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Copies the sign of the second lane value to the magnitude of the first.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf CopySign(TSelf magnitude, TSelf sign)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>magnitude</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The magnitude lane value.</p>
+</dd>
+    <dt><code>sign</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The sign lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The result of merging magnitude with sign.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Cos_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Cos*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Cos__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Cos(`0)">
+  Cos(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the cosine of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Cos(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The source lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The cosine of each lane element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Cos__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Implementations may rely on vectorized math intrinsics for float/double and approximate values for other types.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Create_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Create*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Create_System_Numerics_Vector__1__" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Create(System.Numerics.Vector{`1})">
+  Create(Vector&lt;TNumber&gt;)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a lane value from the specified vector.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Create(Vector&lt;TNumber&gt; value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.numerics.vector-1">Vector</a>&lt;TNumber&gt;</dt>
+    <dd><p>The vector to create the lane value from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The lane value built from the vector.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Create_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Create*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Create_System_ReadOnlySpan__1__" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Create(System.ReadOnlySpan{`1})">
+  Create(params ReadOnlySpan&lt;TNumber&gt;)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a new instance of the type from the specified sequence of numeric values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Create(params ReadOnlySpan&lt;TNumber&gt; values)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>values</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;TNumber&gt;</dt>
+    <dd><p>A parameter array of read-only spans containing the numeric values to use for initialization.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>A new instance of the type initialized with the provided numeric values.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Create_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Create*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Create__1_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Create(`1)">
+  Create(TNumber)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a lane value where all lanes are set to the specified value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Create(TNumber value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TNumber</span></dt>
+    <dd><p>The value to set for all lanes.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The created lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Equal_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Equal*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Equal__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Equal(`0,`0)">
+  Equal(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Compares two lane values for equality element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Equal(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The mask representing the equality comparison result.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Exp_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Exp*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Exp__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Exp(`0)">
+  Exp(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the exponential of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Exp(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The source lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The exponential of each lane element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Exp__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Float and double implementations typically call into vectorized exp intrinsics; other types may fall back to scalar paths.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Exp2_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Exp2*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Exp2__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Exp2(`0)">
+  Exp2(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes 2 raised to each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Exp2(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The source lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The base-2 exponential of each lane element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Exp2__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>This can be implemented via <a class="xref" href="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane-2.html#Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Exp__0_">Exp(TSelf)</a> when no dedicated base-2 intrinsic exists.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Floor_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Floor*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Floor__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Floor(`0)">
+  Floor(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the floor of the lane value element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Floor(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The lane value with each element rounded toward negative infinity.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Frac_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Frac*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Frac__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Frac(`0)">
+  Frac(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the fractional part of the lane value element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Frac(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The fractional lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Gather_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Gather*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Gather__1__System_Int32__System_Byte_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Gather(`1*,System.Int32*,System.Byte)">
+  Gather(TNumber*, int*, byte)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Gather(TNumber* pData, int* pIndices, byte scale)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pData</code> TNumber*</dt>
+    <dd><p>The base address from which to gather values.</p>
+</dd>
+    <dt><code>pIndices</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>*</dt>
+    <dd><p>The pointer to the indices of the values to gather.</p>
+</dd>
+    <dt><code>scale</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>The scale factor for the indices.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The gathered lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Gather_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Gather*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Gather__1___0_System_Byte_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Gather(`1*,`0,System.Byte)">
+  Gather(TNumber*, TSelf, byte)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Gather(TNumber* pData, TSelf indices, byte scale)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pData</code> TNumber*</dt>
+    <dd><p>The base address from which to gather values.</p>
+</dd>
+    <dt><code>indices</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The indices of the values to gather.</p>
+</dd>
+    <dt><code>scale</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>The scale factor for the indices.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The gathered lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Gather_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Gather*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Gather__1__System_Int32__System_Byte_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Gather(`1@,System.Int32@,System.Byte)">
+  Gather(ref TNumber, ref int, byte)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Gather(ref TNumber baseAddress, ref int baseIndex, byte scale)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>baseAddress</code> <span class="xref">TNumber</span></dt>
+    <dd><p>The base address from which to gather values.</p>
+</dd>
+    <dt><code>baseIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>The reference to the base index.</p>
+</dd>
+    <dt><code>scale</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>The scale factor for the indices.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The gathered lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Gather_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Gather*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Gather__1___0_System_Byte_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Gather(`1@,`0,System.Byte)">
+  Gather(ref TNumber, TSelf, byte)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Gather(ref TNumber baseAddress, TSelf indices, byte scale)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>baseAddress</code> <span class="xref">TNumber</span></dt>
+    <dd><p>The base address from which to gather values.</p>
+</dd>
+    <dt><code>indices</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The indices of the values to gather.</p>
+</dd>
+    <dt><code>scale</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>The scale factor for the indices.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The gathered lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_GetUnsafePtr_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.GetUnsafePtr*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_GetUnsafePtr" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.GetUnsafePtr">
+  GetUnsafePtr()
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets an pointer to the lane's underlying data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">TNumber* GetUnsafePtr()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt>TNumber*</dt>
+    <dd><p>An pointer to the lane's underlying data.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_GreaterThan_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.GreaterThan*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_GreaterThan__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.GreaterThan(`0,`0)">
+  GreaterThan(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Compares two lane values for greater than element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf GreaterThan(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The mask representing the greater than comparison result.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_GreaterThanOrEqual_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.GreaterThanOrEqual*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_GreaterThanOrEqual__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.GreaterThanOrEqual(`0,`0)">
+  GreaterThanOrEqual(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Compares two lane values for greater than or equal element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf GreaterThanOrEqual(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The mask representing the greater than or equal comparison result.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Lerp_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Lerp*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Lerp__0__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Lerp(`0,`0,`0)">
+  Lerp(TSelf, TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Performs linear interpolation between two lane values.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Lerp(TSelf a, TSelf b, TSelf t)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The start lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The end lane value.</p>
+</dd>
+    <dt><code>t</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The interpolation factor.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The interpolated lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_LessThan_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.LessThan*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_LessThan__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.LessThan(`0,`0)">
+  LessThan(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Compares two lane values for less than element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf LessThan(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The mask representing the less than comparison result.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_LessThanOrEqual_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.LessThanOrEqual*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_LessThanOrEqual__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.LessThanOrEqual(`0,`0)">
+  LessThanOrEqual(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Compares two lane values for less than or equal element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf LessThanOrEqual(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The mask representing the less than or equal comparison result.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Load_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Load*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Load__1__" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Load(`1*)">
+  Load(TNumber*)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads a lane value from the specified pointer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Load(TNumber* pValue)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pValue</code> TNumber*</dt>
+    <dd><p>The pointer to load from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The loaded lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Load__1___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Unsafe pointer overloads are provided for scenarios where sequential lane data is already contiguous in memory.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Load_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Load*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Load__1__" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Load(`1@)">
+  Load(ref TNumber)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Loads a lane value from the specified reference.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Load(ref TNumber value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TNumber</span></dt>
+    <dd><p>The reference to load from.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The loaded lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Log_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Log*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Log__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Log(`0)">
+  Log(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the natural logarithm of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Log(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The source lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The natural logarithm of each lane element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Log__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Vectorized logarithm instructions may only exist for floating-point types; other types should mimic the scalar behavior.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Log2_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Log2*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Log2__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Log2(`0)">
+  Log2(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the base-2 logarithm of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Log2(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The source lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The base-2 logarithm of each lane element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Log2__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>If a dedicated base-2 intrinsic is unavailable, the implementation may compute <code>Log(value)/Log(2)</code>.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskGather_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskGather*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskGather__1__System_Int32___0_System_Byte_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskGather(`1*,System.Int32*,`0,System.Byte)">
+  MaskGather(TNumber*, int*, TSelf, byte)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address, but only for lanes where the corresponding mask bit is set; other lanes are set to zero.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf MaskGather(TNumber* pData, int* pIndices, TSelf mask, byte scale)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pData</code> TNumber*</dt>
+    <dd><p>The base address from which to gather values.</p>
+</dd>
+    <dt><code>pIndices</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>*</dt>
+    <dd><p>The pointer to the indices of the values to gather.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The mask value that determines which elements are included in the gathering operation.</p>
+</dd>
+    <dt><code>scale</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>The scale factor for the indices.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The gathered lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskGather_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskGather*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskGather__1___0__0_System_Byte_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskGather(`1*,`0,`0,System.Byte)">
+  MaskGather(TNumber*, TSelf, TSelf, byte)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gathers lane values from the specified base address and indices, returning a lane value where each lane is loaded from the address computed by adding the corresponding index (multiplied by the scale) to the base address, but only for lanes where the corresponding mask bit is set; other lanes are set to zero.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf MaskGather(TNumber* pData, TSelf indices, TSelf mask, byte scale)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pData</code> TNumber*</dt>
+    <dd><p>The base address from which to gather values.</p>
+</dd>
+    <dt><code>indices</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The indices of the values to gather.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The mask value that determines which elements are included in the gathering operation.</p>
+</dd>
+    <dt><code>scale</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a></dt>
+    <dd><p>The scale factor for the indices.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The gathered lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskLoad_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskLoad*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskLoad__1___0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskLoad(`1*,`0)">
+  MaskLoad(TNumber*, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Uses the specified mask to conditionally load lane values from the given pointer, returning a lane value where masked lanes are loaded and unmasked lanes are set to zero.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf MaskLoad(TNumber* pValue, TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pValue</code> TNumber*</dt>
+    <dd><p>The pointer to load from.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The mask to use for conditional loading.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The loaded lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskLoad_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskLoad*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskLoad__1___0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskLoad(`1@,`0)">
+  MaskLoad(ref TNumber, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Uses the specified mask to conditionally load lane values from the given reference, returning a lane value where masked lanes are loaded and unmasked lanes are set to zero.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf MaskLoad(ref TNumber value, TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TNumber</span></dt>
+    <dd><p>The reference to load from.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The mask to use for conditional loading.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The loaded lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskScatter_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskScatter*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskScatter__1__System_Int32___0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskScatter(`1*,System.Int32*,`0)">
+  MaskScatter(TNumber*, int*, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Masks the lane value with the specified mask and scatters the result to the given base address and indices, where masked lanes are stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address, and unmasked lanes are left unchanged in the destination.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void MaskScatter(TNumber* pDst, int* pIndices, TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pDst</code> TNumber*</dt>
+    <dd><p>A pointer to the base address where the data will be scattered.</p>
+</dd>
+    <dt><code>pIndices</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>*</dt>
+    <dd><p>A pointer to the array of indices that determine the destinations of each lane.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A vector of boolean values that determine which lanes to scatter.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskScatter_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskScatter*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskScatter__1___0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskScatter(`1*,`0,`0)">
+  MaskScatter(TNumber*, TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Masks the lane value with the specified mask and scatters the result to the given base address and indices, where masked lanes are stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address, and unmasked lanes are left unchanged in the destination.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void MaskScatter(TNumber* pDst, TSelf indices, TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pDst</code> TNumber*</dt>
+    <dd><p>A pointer to the base address where the data will be scattered.</p>
+</dd>
+    <dt><code>indices</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A vector of indices that determine the destinations of each lane.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A vector of boolean values that determine which lanes to scatter.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskScatter_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskScatter*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskScatter__1__System_Int32___0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskScatter(`1@,System.Int32*,`0)">
+  MaskScatter(ref TNumber, int*, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Masks the lane value with the specified mask and scatters the result to the given base address and indices, where masked lanes are stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address, and unmasked lanes are left unchanged in the destination.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void MaskScatter(ref TNumber destination, int* pIndices, TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>destination</code> <span class="xref">TNumber</span></dt>
+    <dd><p>A reference to the variable where the scattered data will be stored.</p>
+</dd>
+    <dt><code>pIndices</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>*</dt>
+    <dd><p>A pointer to the array of indices that determine the destinations of each lane.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A vector of boolean values that determine which lanes to scatter.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskScatter_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskScatter*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskScatter__1___0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskScatter(`1@,`0,`0)">
+  MaskScatter(ref TNumber, TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Masks the lane value with the specified mask and scatters the result to the given base address and indices, where masked lanes are stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address, and unmasked lanes are left unchanged in the destination.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void MaskScatter(ref TNumber destination, TSelf indices, TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>destination</code> <span class="xref">TNumber</span></dt>
+    <dd><p>A reference to the variable where the scattered data will be stored.</p>
+</dd>
+    <dt><code>indices</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A vector of indices that determine the destinations of each lane.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A vector of boolean values that determine which lanes to scatter.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskStore_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskStore*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskStore__1___0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskStore(`1*,`0)">
+  MaskStore(TNumber*, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Masks the lane value with the specified mask and stores the result to the given reference, where masked lanes are stored and unmasked lanes are left unchanged in the destination.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void MaskStore(TNumber* pDestination, TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pDestination</code> TNumber*</dt>
+    <dd><p>A pointer to the variable where the masked data will be stored.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A mask value that determines which elements are included in the masking operation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskStore_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskStore*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MaskStore__1___0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MaskStore(`1@,`0)">
+  MaskStore(ref TNumber, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Masks the lane value with the specified mask and stores the result to the given reference, where masked lanes are stored and unmasked lanes are left unchanged in the destination.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void MaskStore(ref TNumber destination, TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>destination</code> <span class="xref">TNumber</span></dt>
+    <dd><p>A reference to the variable where the masked data will be stored.</p>
+</dd>
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A mask value that determines which elements are included in the masking operation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Max_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Max*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Max__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Max(`0,`0)">
+  Max(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the maximum of the two lane values element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Max(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The lane value containing the maximum of each element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Min_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Min*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Min__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Min(`0,`0)">
+  Min(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the minimum of the two lane values element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Min(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The lane value containing the minimum of each element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MultiplyAdd_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MultiplyAdd*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MultiplyAdd__0__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.MultiplyAdd(`0,`0,`0)">
+  MultiplyAdd(TSelf, TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes a * b + c element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf MultiplyAdd(TSelf a, TSelf b, TSelf c)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first multiplier.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second multiplier.</p>
+</dd>
+    <dt><code>c</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The addend.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The result of the fused multiply-add operation.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_MultiplyAdd__0__0__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Float and double implementations should use fused multiply-add instructions when available for both accuracy and performance.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_None_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.None*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_None__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.None(`0)">
+  None(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Checks if no lanes in the mask are true.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract bool None(TSelf mask)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>mask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The mask to check.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>True if no lanes are true; otherwise, false.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Pow_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Pow*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Pow__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Pow(`0,`0)">
+  Pow(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Raises each lane element to the specified power.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Pow(TSelf x, TSelf y)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The base lane value.</p>
+</dd>
+    <dt><code>y</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The exponent lane value. Cannot be negative.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The power result for each lane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Rcp_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Rcp*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Rcp__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Rcp(`0)">
+  Rcp(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the reciprocal of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Rcp(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The reciprocal lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Rcp__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Fast paths may use <code>Sse.Reciprocal</code> or <code>Avx.Reciprocal</code> when <code>TNumber</code> is <code>float</code>.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_ReduceAdd_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.ReduceAdd*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_ReduceAdd__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.ReduceAdd(`0)">
+  ReduceAdd(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reduces the lane value to a single scalar by adding all lanes together.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TNumber ReduceAdd(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The lane value to reduce.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TNumber</span></dt>
+    <dd><p>The reduced scalar value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_ReduceMax_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.ReduceMax*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_ReduceMax__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.ReduceMax(`0)">
+  ReduceMax(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reduces the lane value to a single scalar by finding the maximum element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TNumber ReduceMax(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The lane value to reduce.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TNumber</span></dt>
+    <dd><p>The reduced scalar value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_ReduceMin_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.ReduceMin*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_ReduceMin__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.ReduceMin(`0)">
+  ReduceMin(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Reduces the lane value to a single scalar by finding the minimum element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TNumber ReduceMin(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The lane value to reduce.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TNumber</span></dt>
+    <dd><p>The reduced scalar value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Round_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Round*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Round__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Round(`0)">
+  Round(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Rounds each lane element to the nearest integer value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Round(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The rounded lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Round__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Implementations should prefer vectorized round intrinsics for floating-point implementations.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Rsqrt_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Rsqrt*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Rsqrt__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Rsqrt(`0)">
+  Rsqrt(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the reciprocal square root of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Rsqrt(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The reciprocal square root lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Rsqrt__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Float implementations may prefer hardware reciprocal-sqrt intrinsics and fallback to <code>Create(TNumber.One)/Sqrt(x)</code> otherwise.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Saturate_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Saturate*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Saturate__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Saturate(`0)">
+  Saturate(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Saturates each element in the lane value to the 0..1 range.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Saturate(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The lane value to saturate.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The saturated lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Scatter_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Scatter*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Scatter__1__System_Int32__" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Scatter(`1*,System.Int32*)">
+  Scatter(TNumber*, int*)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Scatters the lane value to the specified base address and indices, where each lane is stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void Scatter(TNumber* pDst, int* pIndices)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pDst</code> TNumber*</dt>
+    <dd><p>A pointer to the base address where the data will be scattered.</p>
+</dd>
+    <dt><code>pIndices</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>*</dt>
+    <dd><p>A pointer to the array of indices that determine the destinations of each lane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Scatter_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Scatter*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Scatter__1___0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Scatter(`1*,`0)">
+  Scatter(TNumber*, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Scatters the lane value to the specified base address and indices, where each lane is stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void Scatter(TNumber* pDst, TSelf indices)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pDst</code> TNumber*</dt>
+    <dd><p>A pointer to the base address where the data will be scattered.</p>
+</dd>
+    <dt><code>indices</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A vector of indices that determine the destinations of each lane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Scatter_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Scatter*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Scatter__1__System_Int32__" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Scatter(`1@,System.Int32*)">
+  Scatter(ref TNumber, int*)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Scatters the lane value to the specified base address and indices, where each lane is stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void Scatter(ref TNumber destination, int* pIndices)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>destination</code> <span class="xref">TNumber</span></dt>
+    <dd><p>A reference to the variable where the scattered data will be stored.</p>
+</dd>
+    <dt><code>pIndices</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>*</dt>
+    <dd><p>A pointer to the array of indices that determine the destinations of each lane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Scatter_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Scatter*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Scatter__1___0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Scatter(`1@,`0)">
+  Scatter(ref TNumber, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Scatters the lane value to the specified base address and indices, where each lane is stored to the address computed by adding the corresponding index (multiplied by the scale) to the base address.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void Scatter(ref TNumber destination, TSelf indices)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>destination</code> <span class="xref">TNumber</span></dt>
+    <dd><p>A reference to the variable where the scattered data will be stored.</p>
+</dd>
+    <dt><code>indices</code> <span class="xref">TSelf</span></dt>
+    <dd><p>A vector of indices that determine the destinations of each lane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Select_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Select*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Select__0__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Select(`0,`0,`0)">
+  Select(TSelf, TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Selects values from two lane values based on a condition mask.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Select(TSelf conditionMask, TSelf ifTrue, TSelf ifFalse)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>conditionMask</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The condition mask.</p>
+</dd>
+    <dt><code>ifTrue</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The value to select if true.</p>
+</dd>
+    <dt><code>ifFalse</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The value to select if false.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The selected lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Sequence_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Sequence*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Sequence__1__1_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Sequence(`1,`1)">
+  Sequence(TNumber, TNumber)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Creates a lane value with a sequence starting from the specified value with the given step.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Sequence(TNumber start, TNumber step)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>start</code> <span class="xref">TNumber</span></dt>
+    <dd><p>The starting value.</p>
+</dd>
+    <dt><code>step</code> <span class="xref">TNumber</span></dt>
+    <dd><p>The step value for the sequence.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The lane value containing the arithmetic sequence.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Sequence__1__1__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Implementations may rely on vector creation helpers and assume that the resulting sequence length matches <a class="xref" href="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane.html#Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_LaneWidth">LaneWidth</a>.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Sign_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Sign*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Sign__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Sign(`0)">
+  Sign(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the sign of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Sign(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>-1, 0, or 1 per lane.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Sin_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Sin*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Sin__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Sin(`0)">
+  Sin(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the sine of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Sin(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The source lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The sine of each lane element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Sin__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Implementations may rely on vectorized math intrinsics for float/double and approximate values for other types.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_SinCos_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.SinCos*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_SinCos__0__0___0__" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.SinCos(`0,`0@,`0@)">
+  SinCos(TSelf, out TSelf, out TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes both sine and cosine of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract void SinCos(TSelf value, out TSelf sin, out TSelf cos)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The source lane value.</p>
+</dd>
+    <dt><code>sin</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+    <dt><code>cos</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_SinCos__0__0___0___remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Implementations returning both sin and cos simultaneously can reuse intermediate values for better performance.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Sqrt_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Sqrt*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Sqrt__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Sqrt(`0)">
+  Sqrt(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the square root of the lane value element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Sqrt(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The square root lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Store_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Store*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Store__1__" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Store(`1*)">
+  Store(TNumber*)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Stores the lane value to the specified pointer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void Store(TNumber* pDestination)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pDestination</code> TNumber*</dt>
+    <dd><p>The pointer to store to.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Store_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Store*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Store__1__" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Store(`1@)">
+  Store(ref TNumber)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Stores the lane value to the specified reference.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void Store(ref TNumber destination)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>destination</code> <span class="xref">TNumber</span></dt>
+    <dd><p>The reference to store to.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Tan_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Tan*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Tan__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Tan(`0)">
+  Tan(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the tangent of each lane element.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Tan(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The source lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The tangent of each lane element.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Tan__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Many implementations use polynomial approximations and assume the input is reduced to [-pi/4, pi/4] for accuracy.</p>
+</div>
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Trunc_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Trunc*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_Trunc__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.Trunc(`0)">
+  Trunc(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Truncates each lane element toward zero.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf Trunc(TSelf value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The truncated lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="operators">Operators
+</h2>
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Addition_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Addition*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Addition__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Addition(`0,`0)">
+  operator +(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Adds two lane values element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator +(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The lane-wise sum.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_BitwiseAnd_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_BitwiseAnd*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_BitwiseAnd__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_BitwiseAnd(`0,`0)">
+  operator &amp;(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the bitwise AND of two lane values element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator &amp;(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The result of the bitwise AND.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_BitwiseOr_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_BitwiseOr*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_BitwiseOr__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_BitwiseOr(`0,`0)">
+  operator |(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the bitwise OR of two lane values element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator |(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The result of the bitwise OR.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Division_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Division*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Division__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Division(`0,`0)">
+  operator /(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Divides two lane values element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator /(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The lane-wise quotient.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Equality_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Equality*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Equality__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Equality(`0,`0)">
+  operator ==(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines whether two instances of the type are equal component-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator ==(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first value to compare.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second value to compare.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>All bits set where the elements are equal; otherwise, all bits cleared.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_ExclusiveOr_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_ExclusiveOr*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_ExclusiveOr__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_ExclusiveOr(`0,`0)">
+  operator ^(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the bitwise XOR of two lane values element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator ^(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The result of the bitwise XOR.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_GreaterThan_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_GreaterThan*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_GreaterThan__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_GreaterThan(`0,`0)">
+  operator &gt;(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines whether one instance of the type is greater than another instance component-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator &gt;(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first value to compare.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second value to compare.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>A value indicating whether the first parameter is greater than the second parameter.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_GreaterThanOrEqual_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_GreaterThanOrEqual*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_GreaterThanOrEqual__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_GreaterThanOrEqual(`0,`0)">
+  operator &gt;=(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines whether the first operand is greater than or equal to the second operand component-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator &gt;=(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first value to compare.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second value to compare.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>All bits set where the first parameter is greater than or equal to the second parameter; otherwise, all bits cleared.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Implicit_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Implicit*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Implicit__1___0" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Implicit(`1)~`0">
+  implicit operator TSelf(TNumber)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Implicitly converts a scalar numeric value to a lane value where all lanes are set to that value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract implicit operator TSelf(TNumber value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TNumber</span></dt>
+    <dd><p>The scalar numeric value to convert.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Inequality_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Inequality*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Inequality__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Inequality(`0,`0)">
+  operator !=(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines whether two instances of the type are not equal component-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator !=(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first value to compare.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second value to compare.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>All bits set where the elements are not equal; otherwise, all bits cleared.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_LessThan_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_LessThan*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_LessThan__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_LessThan(`0,`0)">
+  operator &lt;(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines whether one instance of the type is less than another instance component-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator &lt;(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first value to compare.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second value to compare.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>All bits set where the first parameter is less than the second parameter; otherwise, all bits cleared.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_LessThanOrEqual_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_LessThanOrEqual*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_LessThanOrEqual__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_LessThanOrEqual(`0,`0)">
+  operator &lt;=(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Determines whether the first operand is less than or equal to the second operand component-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator &lt;=(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first value to compare.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second value to compare.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>All bits set where the first parameter is less than or equal to the second parameter; otherwise, all bits cleared.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Modulus_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Modulus*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Modulus__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Modulus(`0,`0)">
+  operator %(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the modulus of two lane values element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator %(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The lane-wise modulus.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Multiply_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Multiply*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Multiply__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Multiply(`0,`0)">
+  operator *(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Multiplies two lane values element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator *(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The lane-wise product.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_OnesComplement_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_OnesComplement*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_OnesComplement__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_OnesComplement(`0)">
+  operator ~(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Computes the bitwise NOT of a lane value element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator ~(TSelf a)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The bitwise complement of the lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Subtraction_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Subtraction*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_Subtraction__0__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_Subtraction(`0,`0)">
+  operator -(TSelf, TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Subtracts two lane values element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator -(TSelf a, TSelf b)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The first lane value.</p>
+</dd>
+    <dt><code>b</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The second lane value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The lane-wise difference.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_UnaryNegation_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_UnaryNegation*"></a>
+
+  <h3 id="Misaki_HighPerformance_Mathematics_SPMD_ISPMDLane_2_op_UnaryNegation__0_" data-uid="Misaki.HighPerformance.Mathematics.SPMD.ISPMDLane`2.op_UnaryNegation(`0)">
+  operator -(TSelf)
+  
+  </h3>
+
+  <div class="markdown level1 summary"><p>Negates the lane value element-wise.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static abstract TSelf operator -(TSelf a)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>a</code> <span class="xref">TSelf</span></dt>
+    <dd><p>The lane value to negate.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TSelf</span></dt>
+    <dd><p>The negated lane value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

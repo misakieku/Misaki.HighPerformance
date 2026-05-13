@@ -1,0 +1,142 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  id: AllocationOption
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  children:
+  - Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.Clear
+  - Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.None
+  langs:
+  - csharp
+  - vb
+  name: AllocationOption
+  nameWithType: AllocationOption
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  type: Enum
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/AllocationOption.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: AllocationOption
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/AllocationOption.cs
+    startLine: 4
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum AllocationOption : byte
+    content.vb: >-
+      <Flags>
+
+      Public Enum AllocationOption As Byte
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.None
+  commentId: F:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.None
+  id: None
+  parent: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: AllocationOption.None
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.None
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/AllocationOption.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: None
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/AllocationOption.cs
+    startLine: 10
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Default allocation option. Values are uninitialized.
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.Clear
+  commentId: F:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.Clear
+  id: Clear
+  parent: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  langs:
+  - csharp
+  - vb
+  name: Clear
+  nameWithType: AllocationOption.Clear
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.Clear
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.LowLevel/Buffer/AllocationOption.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Clear
+    path: src/Misaki.HighPerformance.LowLevel/Buffer/AllocationOption.cs
+    startLine: 14
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+  namespace: Misaki.HighPerformance.LowLevel.Buffer
+  summary: Clear the memory to zero upon allocation.
+  example: []
+  syntax:
+    content: Clear = 1
+    return:
+      type: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+references:
+- uid: Misaki.HighPerformance.LowLevel.Buffer
+  commentId: N:Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel.Buffer
+  nameWithType: Misaki.HighPerformance.LowLevel.Buffer
+  fullName: Misaki.HighPerformance.LowLevel.Buffer
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel.Buffer
+    name: Buffer
+    href: Misaki.HighPerformance.LowLevel.Buffer.html
+- uid: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  commentId: T:Misaki.HighPerformance.LowLevel.Buffer.AllocationOption
+  parent: Misaki.HighPerformance.LowLevel.Buffer
+  href: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption.html
+  name: AllocationOption
+  nameWithType: AllocationOption
+  fullName: Misaki.HighPerformance.LowLevel.Buffer.AllocationOption

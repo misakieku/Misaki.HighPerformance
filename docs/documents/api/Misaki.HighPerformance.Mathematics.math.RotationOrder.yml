@@ -1,0 +1,287 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  commentId: T:Misaki.HighPerformance.Mathematics.math.RotationOrder
+  id: math.RotationOrder
+  parent: Misaki.HighPerformance.Mathematics
+  children:
+  - Misaki.HighPerformance.Mathematics.math.RotationOrder.Default
+  - Misaki.HighPerformance.Mathematics.math.RotationOrder.XYZ
+  - Misaki.HighPerformance.Mathematics.math.RotationOrder.XZY
+  - Misaki.HighPerformance.Mathematics.math.RotationOrder.YXZ
+  - Misaki.HighPerformance.Mathematics.math.RotationOrder.YZX
+  - Misaki.HighPerformance.Mathematics.math.RotationOrder.ZXY
+  - Misaki.HighPerformance.Mathematics.math.RotationOrder.ZYX
+  langs:
+  - csharp
+  - vb
+  name: math.RotationOrder
+  nameWithType: math.RotationOrder
+  fullName: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  type: Enum
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: RotationOrder
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 18
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Extrinsic rotation order. Specifies in which order rotations around the principal axes (x, y and z) are to be applied.
+  example: []
+  syntax:
+    content: 'public enum math.RotationOrder : byte'
+    content.vb: Public Enum math.RotationOrder As Byte
+- uid: Misaki.HighPerformance.Mathematics.math.RotationOrder.XYZ
+  commentId: F:Misaki.HighPerformance.Mathematics.math.RotationOrder.XYZ
+  id: XYZ
+  parent: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  langs:
+  - csharp
+  - vb
+  name: XYZ
+  nameWithType: math.RotationOrder.XYZ
+  fullName: Misaki.HighPerformance.Mathematics.math.RotationOrder.XYZ
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: XYZ
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 21
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Extrinsic rotation around the x axis, then around the y axis and finally around the z axis.
+  example: []
+  syntax:
+    content: XYZ = 0
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.RotationOrder
+- uid: Misaki.HighPerformance.Mathematics.math.RotationOrder.XZY
+  commentId: F:Misaki.HighPerformance.Mathematics.math.RotationOrder.XZY
+  id: XZY
+  parent: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  langs:
+  - csharp
+  - vb
+  name: XZY
+  nameWithType: math.RotationOrder.XZY
+  fullName: Misaki.HighPerformance.Mathematics.math.RotationOrder.XZY
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: XZY
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 23
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Extrinsic rotation around the x axis, then around the z axis and finally around the y axis.
+  example: []
+  syntax:
+    content: XZY = 1
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.RotationOrder
+- uid: Misaki.HighPerformance.Mathematics.math.RotationOrder.YXZ
+  commentId: F:Misaki.HighPerformance.Mathematics.math.RotationOrder.YXZ
+  id: YXZ
+  parent: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  langs:
+  - csharp
+  - vb
+  name: YXZ
+  nameWithType: math.RotationOrder.YXZ
+  fullName: Misaki.HighPerformance.Mathematics.math.RotationOrder.YXZ
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: YXZ
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 25
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Extrinsic rotation around the y axis, then around the x axis and finally around the z axis.
+  example: []
+  syntax:
+    content: YXZ = 2
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.RotationOrder
+- uid: Misaki.HighPerformance.Mathematics.math.RotationOrder.YZX
+  commentId: F:Misaki.HighPerformance.Mathematics.math.RotationOrder.YZX
+  id: YZX
+  parent: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  langs:
+  - csharp
+  - vb
+  name: YZX
+  nameWithType: math.RotationOrder.YZX
+  fullName: Misaki.HighPerformance.Mathematics.math.RotationOrder.YZX
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: YZX
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 27
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Extrinsic rotation around the y axis, then around the z axis and finally around the x axis.
+  example: []
+  syntax:
+    content: YZX = 3
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.RotationOrder
+- uid: Misaki.HighPerformance.Mathematics.math.RotationOrder.ZXY
+  commentId: F:Misaki.HighPerformance.Mathematics.math.RotationOrder.ZXY
+  id: ZXY
+  parent: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  langs:
+  - csharp
+  - vb
+  name: ZXY
+  nameWithType: math.RotationOrder.ZXY
+  fullName: Misaki.HighPerformance.Mathematics.math.RotationOrder.ZXY
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ZXY
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 29
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Extrinsic rotation around the z axis, then around the x axis and finally around the y axis.
+  example: []
+  syntax:
+    content: ZXY = 4
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.RotationOrder
+- uid: Misaki.HighPerformance.Mathematics.math.RotationOrder.ZYX
+  commentId: F:Misaki.HighPerformance.Mathematics.math.RotationOrder.ZYX
+  id: ZYX
+  parent: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  langs:
+  - csharp
+  - vb
+  name: ZYX
+  nameWithType: math.RotationOrder.ZYX
+  fullName: Misaki.HighPerformance.Mathematics.math.RotationOrder.ZYX
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: ZYX
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 31
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Extrinsic rotation around the z axis, then around the y axis and finally around the x axis.
+  example: []
+  syntax:
+    content: ZYX = 5
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.RotationOrder
+- uid: Misaki.HighPerformance.Mathematics.math.RotationOrder.Default
+  commentId: F:Misaki.HighPerformance.Mathematics.math.RotationOrder.Default
+  id: Default
+  parent: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: math.RotationOrder.Default
+  fullName: Misaki.HighPerformance.Mathematics.math.RotationOrder.Default
+  type: Field
+  source:
+    remote:
+      path: src/Misaki.HighPerformance.Mathematics/math.cs
+      branch: main
+      repo: https://git.personalnas.com/Misaki/Misaki.HighPerformance.git
+    id: Default
+    path: src/Misaki.HighPerformance.Mathematics/math.cs
+    startLine: 33
+  assemblies:
+  - Misaki.HighPerformance.Mathematics
+  namespace: Misaki.HighPerformance.Mathematics
+  summary: Unity default rotation order. Extrinsic Rotation around the z axis, then around the x axis and finally around the y axis.
+  example: []
+  syntax:
+    content: Default = 4
+    return:
+      type: Misaki.HighPerformance.Mathematics.math.RotationOrder
+references:
+- uid: Misaki.HighPerformance.Mathematics
+  commentId: N:Misaki.HighPerformance.Mathematics
+  href: Misaki.html
+  name: Misaki.HighPerformance.Mathematics
+  nameWithType: Misaki.HighPerformance.Mathematics
+  fullName: Misaki.HighPerformance.Mathematics
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics
+    name: Mathematics
+    href: Misaki.HighPerformance.Mathematics.html
+- uid: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  commentId: T:Misaki.HighPerformance.Mathematics.math.RotationOrder
+  parent: Misaki.HighPerformance.Mathematics
+  href: Misaki.HighPerformance.Mathematics.math.html
+  name: math.RotationOrder
+  nameWithType: math.RotationOrder
+  fullName: Misaki.HighPerformance.Mathematics.math.RotationOrder
+  spec.csharp:
+  - uid: Misaki.HighPerformance.Mathematics.math
+    name: math
+    href: Misaki.HighPerformance.Mathematics.math.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.math.RotationOrder
+    name: RotationOrder
+    href: Misaki.HighPerformance.Mathematics.math.RotationOrder.html
+  spec.vb:
+  - uid: Misaki.HighPerformance.Mathematics.math
+    name: math
+    href: Misaki.HighPerformance.Mathematics.math.html
+  - name: .
+  - uid: Misaki.HighPerformance.Mathematics.math.RotationOrder
+    name: RotationOrder
+    href: Misaki.HighPerformance.Mathematics.math.RotationOrder.html

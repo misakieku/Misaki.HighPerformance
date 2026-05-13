@@ -1,0 +1,201 @@
+### YamlMime:ManagedReference
+items:
+- uid: Misaki.HighPerformance.LowLevel
+  commentId: N:Misaki.HighPerformance.LowLevel
+  id: Misaki.HighPerformance.LowLevel
+  children:
+  - Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  - Misaki.HighPerformance.LowLevel.FunctionPointer`1
+  - Misaki.HighPerformance.LowLevel.MemoryLeakException
+  - Misaki.HighPerformance.LowLevel.NonCopyableAttribute
+  - Misaki.HighPerformance.LowLevel.OwnershipTransferAttribute
+  - Misaki.HighPerformance.LowLevel.Ref`1
+  - Misaki.HighPerformance.LowLevel.SharedPtr`1
+  - Misaki.HighPerformance.LowLevel.UniquePtr`1
+  langs:
+  - csharp
+  - vb
+  name: Misaki.HighPerformance.LowLevel
+  nameWithType: Misaki.HighPerformance.LowLevel
+  fullName: Misaki.HighPerformance.LowLevel
+  type: Namespace
+  assemblies:
+  - Misaki.HighPerformance.LowLevel
+references:
+- uid: Misaki.HighPerformance.LowLevel.NonCopyableAttribute
+  commentId: T:Misaki.HighPerformance.LowLevel.NonCopyableAttribute
+  href: Misaki.HighPerformance.LowLevel.NonCopyableAttribute.html
+  name: NonCopyableAttribute
+  nameWithType: NonCopyableAttribute
+  fullName: Misaki.HighPerformance.LowLevel.NonCopyableAttribute
+- uid: Misaki.HighPerformance.LowLevel.OwnershipTransferAttribute
+  commentId: T:Misaki.HighPerformance.LowLevel.OwnershipTransferAttribute
+  href: Misaki.HighPerformance.LowLevel.OwnershipTransferAttribute.html
+  name: OwnershipTransferAttribute
+  nameWithType: OwnershipTransferAttribute
+  fullName: Misaki.HighPerformance.LowLevel.OwnershipTransferAttribute
+- uid: Misaki.HighPerformance.LowLevel.FunctionPointer`1
+  commentId: T:Misaki.HighPerformance.LowLevel.FunctionPointer`1
+  href: Misaki.HighPerformance.LowLevel.FunctionPointer-1.html
+  name: FunctionPointer<T>
+  nameWithType: FunctionPointer<T>
+  fullName: Misaki.HighPerformance.LowLevel.FunctionPointer<T>
+  nameWithType.vb: FunctionPointer(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.FunctionPointer(Of T)
+  name.vb: FunctionPointer(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.FunctionPointer`1
+    name: FunctionPointer
+    href: Misaki.HighPerformance.LowLevel.FunctionPointer-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.FunctionPointer`1
+    name: FunctionPointer
+    href: Misaki.HighPerformance.LowLevel.FunctionPointer-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.MemoryLeakException
+  commentId: T:Misaki.HighPerformance.LowLevel.MemoryLeakException
+  href: Misaki.HighPerformance.LowLevel.MemoryLeakException.html
+  name: MemoryLeakException
+  nameWithType: MemoryLeakException
+  fullName: Misaki.HighPerformance.LowLevel.MemoryLeakException
+- uid: Misaki.HighPerformance.LowLevel.SharedPtr`1
+  commentId: T:Misaki.HighPerformance.LowLevel.SharedPtr`1
+  parent: Misaki.HighPerformance.LowLevel
+  href: Misaki.HighPerformance.LowLevel.SharedPtr-1.html
+  name: SharedPtr<T>
+  nameWithType: SharedPtr<T>
+  fullName: Misaki.HighPerformance.LowLevel.SharedPtr<T>
+  nameWithType.vb: SharedPtr(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.SharedPtr(Of T)
+  name.vb: SharedPtr(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.SharedPtr`1
+    name: SharedPtr
+    href: Misaki.HighPerformance.LowLevel.SharedPtr-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.SharedPtr`1
+    name: SharedPtr
+    href: Misaki.HighPerformance.LowLevel.SharedPtr-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.UniquePtr`1
+  commentId: T:Misaki.HighPerformance.LowLevel.UniquePtr`1
+  parent: Misaki.HighPerformance.LowLevel
+  href: Misaki.HighPerformance.LowLevel.UniquePtr-1.html
+  name: UniquePtr<T>
+  nameWithType: UniquePtr<T>
+  fullName: Misaki.HighPerformance.LowLevel.UniquePtr<T>
+  nameWithType.vb: UniquePtr(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.UniquePtr(Of T)
+  name.vb: UniquePtr(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.UniquePtr`1
+    name: UniquePtr
+    href: Misaki.HighPerformance.LowLevel.UniquePtr-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.UniquePtr`1
+    name: UniquePtr
+    href: Misaki.HighPerformance.LowLevel.UniquePtr-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  commentId: T:Misaki.HighPerformance.LowLevel.DisposablePtr`1
+  parent: Misaki.HighPerformance.LowLevel
+  href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  name: DisposablePtr<T>
+  nameWithType: DisposablePtr<T>
+  fullName: Misaki.HighPerformance.LowLevel.DisposablePtr<T>
+  nameWithType.vb: DisposablePtr(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.DisposablePtr(Of T)
+  name.vb: DisposablePtr(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.DisposablePtr`1
+    name: DisposablePtr
+    href: Misaki.HighPerformance.LowLevel.DisposablePtr-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel.Ref`1
+  commentId: T:Misaki.HighPerformance.LowLevel.Ref`1
+  parent: Misaki.HighPerformance.LowLevel
+  href: Misaki.HighPerformance.LowLevel.Ref-1.html
+  name: Ref<T>
+  nameWithType: Ref<T>
+  fullName: Misaki.HighPerformance.LowLevel.Ref<T>
+  nameWithType.vb: Ref(Of T)
+  fullName.vb: Misaki.HighPerformance.LowLevel.Ref(Of T)
+  name.vb: Ref(Of T)
+  spec.csharp:
+  - uid: Misaki.HighPerformance.LowLevel.Ref`1
+    name: Ref
+    href: Misaki.HighPerformance.LowLevel.Ref-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Misaki.HighPerformance.LowLevel.Ref`1
+    name: Ref
+    href: Misaki.HighPerformance.LowLevel.Ref-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Misaki.HighPerformance.LowLevel
+  commentId: N:Misaki.HighPerformance.LowLevel
+  href: Misaki.html
+  name: Misaki.HighPerformance.LowLevel
+  nameWithType: Misaki.HighPerformance.LowLevel
+  fullName: Misaki.HighPerformance.LowLevel
+  spec.csharp:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
+  spec.vb:
+  - uid: Misaki
+    name: Misaki
+    href: Misaki.html
+  - name: .
+  - uid: Misaki.HighPerformance
+    name: HighPerformance
+    href: Misaki.HighPerformance.html
+  - name: .
+  - uid: Misaki.HighPerformance.LowLevel
+    name: LowLevel
+    href: Misaki.HighPerformance.LowLevel.html
