@@ -12,6 +12,8 @@
 .code-review-graph/
 .github/instructions/
 
+docfx/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
