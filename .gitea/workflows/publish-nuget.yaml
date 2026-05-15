@@ -9,6 +9,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
 
     steps:
       - name: Checkout repository
@@ -20,7 +23,8 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: |
+          dotnet restore
 
       - name: Run tests
         # Run all test projects in the repository. If any test fails, this step will exit non-zero
