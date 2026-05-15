@@ -282,10 +282,10 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// <summary>
     /// Converts the current list to a read-only collection that provides unsafe access to its elements.
     /// </summary>
-    /// <returns>A new <see cref="ReadOnlyUnsafeCollection{T}"/> instance that allows for read-only access to the list's elements without copying.</returns>
-    public readonly ReadOnlyUnsafeCollection<T> AsReadOnly()
+    /// <returns>A new <see cref="ReadOnlyView{T}"/> instance that allows for read-only access to the list's elements without copying.</returns>
+    public readonly ReadOnlyView<T> AsReadOnly()
     {
-        return new ReadOnlyUnsafeCollection<T>((T*)_array.GetUnsafePtr(), _count);
+        return new ReadOnlyView<T>((T*)_array.GetUnsafePtr(), _count);
     }
 
     /// <summary>
@@ -592,7 +592,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         _count = 0;
     }
 
-    public static implicit operator ReadOnlyUnsafeCollection<T>(UnsafeList<T> list)
+    public static implicit operator ReadOnlyView<T>(UnsafeList<T> list)
     {
         return list.AsReadOnly();
     }

@@ -14,18 +14,18 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 /// The goal of this struc is similar to <see cref="ReadOnlySpan{T}"/>, but it can be used in contexts where spans are not allowed, such as fields in structs and shared across threads.
 /// </remarks>
 /// <typeparam name="T">The type of elements in the collection. Must be an unmanaged type.</typeparam>
-public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
+public readonly unsafe struct ReadOnlyView<T> : IEnumerable<T>
     where T : unmanaged
 {
     public struct Enumerator : IEnumerator<T>
     {
-        private readonly ReadOnlyUnsafeCollection<T> _collection;
+        private readonly ReadOnlyView<T> _collection;
         private int _index;
 
         public readonly T Current => _collection[_index];
         readonly object IEnumerator.Current => Current;
 
-        public Enumerator(ref readonly ReadOnlyUnsafeCollection<T> array)
+        public Enumerator(ref readonly ReadOnlyView<T> array)
         {
             _collection = array;
             _index = -1;
@@ -89,7 +89,7 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
         return GetEnumerator();
     }
 
-    public ReadOnlyUnsafeCollection(T* buffer, int count)
+    public ReadOnlyView(T* buffer, int count)
     {
         _buffer = buffer;
         _count = count;
@@ -119,9 +119,9 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
     /// Reinterprets the underlying collection as a read-only collection of a different unmanaged type without copying the data.
     /// </summary>
     /// <typeparam name="U">The unmanaged type to reinterpret the collection elements as.</typeparam>
-    /// <returns>A new <see cref="ReadOnlyUnsafeCollection{U}"/> that provides a read-only view of the same memory, interpreted as elements of type U.</returns>
+    /// <returns>A new <see cref="ReadOnlyView{U}"/> that provides a read-only view of the same memory, interpreted as elements of type U.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the total size of the underlying collection is not a multiple of the size of type U, making the reinterpretation invalid.</exception>
-    public ReadOnlyUnsafeCollection<U> Reinterpret<U>()
+    public ReadOnlyView<U> Reinterpret<U>()
         where U : unmanaged
     {
         var totalSize = Count * sizeof(T);
@@ -131,7 +131,7 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
         }
 
         var newCount = totalSize / sizeof(U);
-        return new ReadOnlyUnsafeCollection<U>((U*)_buffer, newCount);
+        return new ReadOnlyView<U>((U*)_buffer, newCount);
     }
 
     /// <summary>
@@ -144,7 +144,7 @@ public readonly unsafe struct ReadOnlyUnsafeCollection<T> : IEnumerable<T>
         return _buffer;
     }
 
-    public static implicit operator ReadOnlySpan<T>(ReadOnlyUnsafeCollection<T> collection)
+    public static implicit operator ReadOnlySpan<T>(ReadOnlyView<T> collection)
     {
         return collection.AsSpan();
     }

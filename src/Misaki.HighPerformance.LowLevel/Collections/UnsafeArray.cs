@@ -188,11 +188,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <summary>
     /// Returns a read-only view of the current collection.
     /// </summary>
-    /// <returns>A <see cref="ReadOnlyUnsafeCollection{T}"/> that provides a read-only view of the elements in the current collection.</returns>
+    /// <returns>A <see cref="ReadOnlyView{T}"/> that provides a read-only view of the elements in the current collection.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public readonly ReadOnlyUnsafeCollection<T> AsReadOnly()
+    public readonly ReadOnlyView<T> AsReadOnly()
     {
-        return new ReadOnlyUnsafeCollection<T>(_buffer, _count);
+        return new ReadOnlyView<T>(_buffer, _count);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -246,14 +246,22 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly Span<T> AsSpan(int start)
     {
-        ThrowIfNotCreated();
+        if (!IsCreated)
+        {
+            return Span<T>.Empty;
+        }
+
         return new Span<T>(_buffer + start, _count - start);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly Span<T> AsSpan(int start, int length)
     {
-        ThrowIfNotCreated();
+        if (!IsCreated)
+        {
+            return Span<T>.Empty;
+        }
+
         return new Span<T>(_buffer + start, length);
     }
 
@@ -386,7 +394,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         _count = 0;
     }
 
-    public static implicit operator ReadOnlyUnsafeCollection<T>(UnsafeArray<T> array)
+    public static implicit operator ReadOnlyView<T>(UnsafeArray<T> array)
     {
         return array.AsReadOnly();
     }
