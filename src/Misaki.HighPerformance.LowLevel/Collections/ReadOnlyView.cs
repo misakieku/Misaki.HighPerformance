@@ -112,6 +112,11 @@ public readonly unsafe struct ReadOnlyView<T> : IEnumerable<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ReadOnlySpan<T> AsSpan()
     {
+        if (_buffer == null)
+        {
+            return ReadOnlySpan<T>.Empty;
+        }
+
         return new ReadOnlySpan<T>(_buffer, _count);
     }
 

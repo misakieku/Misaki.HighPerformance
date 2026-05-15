@@ -226,6 +226,11 @@ public unsafe struct MemoryBlock : IDisposable
     public readonly Span<T> AsSpan<T>()
         where T : unmanaged
     {
+        if (_buffer == null)
+        {
+            return Span<T>.Empty;
+        }
+
         Debug.Assert(_size % (uint)sizeof(T) == 0, "The size of the collection must be a multiple of the size of the element type.");
         return new Span<T>(_buffer, (int)_size / sizeof(T));
     }
@@ -240,6 +245,11 @@ public unsafe struct MemoryBlock : IDisposable
     public readonly Span<T> AsSpan<T>(int start, int length)
         where T : unmanaged
     {
+        if (_buffer == null)
+        {
+            return Span<T>.Empty;
+        }
+
         Debug.Assert(_size % (uint)sizeof(T) == 0, "The size of the collection must be a multiple of the size of the element type.");
 
         if (start < 0 || length < 0 || (nuint)(start + length) * (nuint)sizeof(T) > _size)
