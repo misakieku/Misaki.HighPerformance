@@ -78,3 +78,21 @@ public interface IUnsafeHashCollection<T> : IDisposable
     /// <param name="option">Specifies allocation options that may affect how memory is managed during the resize operation.</param>
     void Resize(int newSize, AllocationOption option);
 }
+
+public interface IUnsafeBitSet
+{
+    int Count
+    {
+        get;
+    }
+
+    int NextSetBit(int startIndex);
+    void SetBit(int index);
+    void ClearBit(int index);
+    bool IsSet(int index);
+
+    void SetAll();
+    void ClearAll();
+
+    Span<uint> AsSpan();
+}
