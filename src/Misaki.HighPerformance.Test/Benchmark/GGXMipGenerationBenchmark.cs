@@ -172,7 +172,7 @@ internal unsafe struct GGXMipGenerationJobSPMD : IJobSPMD<float, int>
     }
 }
 
-internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
+internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallel
     where TFloat : unmanaged, ISPMDLane<TFloat, float>
     where TInt : unmanaged, ISPMDLane<TInt, int>
 {
@@ -248,22 +248,13 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
         return MathV.GatherVector3<TFloat, float>(img, idx.GetUnsafePtr(), 4);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
-    public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    private readonly void ProcessPixel(int local_i, MipLevel* pLevel)
     {
-        var m = 0;
-        while (m < numMipLevels - 1 && loopIndex >= pMipLevels[m + 1].offset)
-        {
-            m++;
-        }
-
-        var pLevel = &pMipLevels[m];
-
         var w = (int)pLevel->width;
         var h = (int)pLevel->height;
         var pData = pLevel->data;
 
-        var local_i = loopIndex - pLevel->offset;
         var x = local_i % w;
         var y = local_i / w;
         var u = (float)x / (w - 1);
@@ -358,6 +349,33 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallelFor
         pData[out_idx + 1] = prefilteredColor.y;
         pData[out_idx + 2] = prefilteredColor.z;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+    public void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx)
+    {
+        var m = 0;
+        while (m < numMipLevels - 1 && startIndex >= pMipLevels[m + 1].offset)
+        {
+            m++;
+        }
+
+        var i = startIndex;
+
+        while (i < endIndex)
+        {
+            var pLevel = &pMipLevels[m];
+            var next = m + 1 < numMipLevels ? pMipLevels[m + 1].offset : int.MaxValue;
+            var stop = Math.Min(endIndex, next);
+
+            for (; i < stop; i++)
+            {
+                var local_i = i - pLevel->offset;
+                ProcessPixel(local_i, pLevel);
+            }
+
+            m++;
+        }
+    }
 }
 
 [SimpleJob(RunStrategy.ColdStart, launchCount: 1, warmupCount: 0, iterationCount: 1, invocationCount: 1, id: "QuickRun")]
@@ -388,8 +406,8 @@ public unsafe class GGXMipGenerationBenchmark
     [GlobalSetup]
     public void Setup()
     {
-        //const string imagePath = "F:\\c\\SimpleRayTracer\\native\\assets\\hdri\\golden_gate_hills_1k.hdr";
-        const string imagePath = "C:\\Users\\Misaki\\Downloads\\grasslands_sunset_4k.hdr";
+        const string imagePath = "F:\\c\\SimpleRayTracer\\native\\assets\\hdri\\golden_gate_hills_1k.hdr";
+        //const string imagePath = "C:\\Users\\Misaki\\Downloads\\grasslands_sunset_4k.hdr";
         using var stream = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
         _image = ImageResultFloat.FromStream(stream, ColorComponents.RGB);
 
@@ -517,7 +535,7 @@ public unsafe class GGXMipGenerationBenchmark
                 radicalInverse_VdCLut = _radicalInverse_VdCLut
             };
 
-            handle = _jobScheduler.ScheduleParallelFor(in job, _totalPixel, 64);
+            handle = _jobScheduler.ScheduleParallel(in job, _totalPixel, 64);
         }
         else
         {
@@ -529,7 +547,7 @@ public unsafe class GGXMipGenerationBenchmark
                 radicalInverse_VdCLut = _radicalInverse_VdCLut
             };
 
-            handle = _jobScheduler.ScheduleParallelFor(in job, _totalPixel, 64);
+            handle = _jobScheduler.ScheduleParallel(in job, _totalPixel, 64);
         }
 
         _jobScheduler.Wait(handle);
