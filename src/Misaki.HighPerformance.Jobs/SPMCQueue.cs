@@ -4,19 +4,18 @@ using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Explicit)]
 public class SPMCQueue<T>
 {
-    private unsafe struct padding
-    {
-        private fixed byte _padding[64];
-    }
-
+    [FieldOffset(0)]
     private readonly T[] _queue;
+    [FieldOffset(8)]
     private readonly int _mask;
 
+    [FieldOffset(64)]
     private int _head;
-    private padding _padding; // Prevent false sharing between head and tail
+    
+    [FieldOffset(128)]
     private int _tail;
 
     public bool IsEmpty => Volatile.Read(ref _tail) - Volatile.Read(ref _head) <= 0;
@@ -30,8 +29,9 @@ public class SPMCQueue<T>
     /// <param name="capacity">The capacity of the queue.</param>
     public SPMCQueue(int capacity)
     {
-        _queue = new T[(int)BitOperations.RoundUpToPowerOf2((uint)capacity)];
-        _mask = capacity - 1;
+        var powerOfTwoCapacity = (int)BitOperations.RoundUpToPowerOf2((uint)capacity);
+        _queue = new T[powerOfTwoCapacity];
+        _mask = powerOfTwoCapacity - 1;
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class SPMCQueue<T>
     {
         var tail = _tail - 1;
         Volatile.Write(ref _tail, tail);
-
+        
         Interlocked.MemoryBarrier();
 
         var head = Volatile.Read(ref _head);

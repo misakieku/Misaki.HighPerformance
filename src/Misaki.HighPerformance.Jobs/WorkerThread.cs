@@ -84,6 +84,11 @@ internal class WorkerThread : IDisposable
             {
                 return true;
             }
+        }
+
+        for (var offset = 0; offset < helperThreadCount; offset++)
+        {
+            var p = cascade[index + offset];
 
             for (var i = 1; i < _scheduler.WorkerCount; i++)
             {

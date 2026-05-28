@@ -248,7 +248,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallel
         return MathV.GatherVector3<TFloat, float>(img, idx.GetUnsafePtr(), 4);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     private readonly void ProcessPixel(int local_i, MipLevel* pLevel)
     {
         var w = (int)pLevel->width;
@@ -350,7 +350,7 @@ internal unsafe struct GGXMipGenerationJobSPMD<TFloat, TInt> : IJobParallel
         pData[out_idx + 2] = prefilteredColor.z;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx)
     {
         var m = 0;

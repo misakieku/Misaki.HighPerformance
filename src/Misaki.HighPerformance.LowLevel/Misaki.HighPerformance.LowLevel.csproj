@@ -7,12 +7,19 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Misaki</Authors>
-    <AssemblyVersion>1.7.3</AssemblyVersion>
+    <AssemblyVersion>1.7.4</AssemblyVersion>
     <Version>$(AssemblyVersion)</Version>
     <PackageProjectUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</PackageProjectUrl>
-    <RepositoryUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/misakieku/Misaki.HighPerformance.git</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>native;unsafe;memory;allocator;mmap;arena;tlsf;freelist;high-performance;dod;ecs;native-collections;native-array;game-engine</PackageTags>
+    <Description>
+      A true high-performance, low-level native memory and collection library for C#.
+      Features a pluggable memory allocation architecture (AllocationHandle) with built-in allocators: Arena, FreeList, TLSF, and Malloc (mimalloc support).
+      Includes fully unmanaged native collections (UnsafeArray, UnsafeList, UnsafeHashMap, etc.) and cross-platform mmap/munmap wrappers.
+      Designed for Data-Oriented Design (DOD), custom game engines, and zero-allocation systems.
+    </Description>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>contentFiles</ContentTargetFolders>
   </PropertyGroup>

@@ -143,6 +143,8 @@ public readonly unsafe struct AllocationHandle
     private readonly ReallocFunc _realloc;
     private readonly FreeFunc _free;
 
+    public bool IsValid => _alloc != null && _realloc != null && _free != null;
+
     public AllocationHandle(void* state, AllocFunc alloc, ReallocFunc realloc, FreeFunc free)
     {
         _state = state;

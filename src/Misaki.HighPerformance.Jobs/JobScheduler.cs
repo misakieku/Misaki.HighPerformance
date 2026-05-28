@@ -121,9 +121,6 @@ internal sealed class WaitAnyItem : IThreadPoolWorkItem
 /// </summary>
 public sealed unsafe partial class JobScheduler : IDisposable
 {
-    // Don't sleep indefinitely because that causes our 1ms job to become 15ms.
-    private const int SLEEP_THRESHOLD = -1;
-
     private readonly ConcurrentSlotMap<JobInfo> _jobInfoPool;
     private readonly ConcurrentQueue<JobHandle>[] _jobQueues;
     private readonly WorkerThread[] _workerThreads;
@@ -834,7 +831,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
             if (!madeProgress)
             {
-                spin.SpinOnce(SLEEP_THRESHOLD);
+                spin.SpinOnce(-1); // Never sleep and yield to achieve lowest latency for single job completion.
             }
         }
     }
@@ -854,6 +851,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         }
 
         var spin = new SpinWait();
+        var sleepThreshold = handles.Length * 20;
         var completedCount = 0;
 
         while (true)
@@ -877,7 +875,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 return;
             }
 
-            spin.SpinOnce(SLEEP_THRESHOLD);
+            spin.SpinOnce(sleepThreshold);
         }
     }
 
@@ -889,6 +887,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     public JobHandle WaitAny(params ReadOnlySpan<JobHandle> handles)
     {
         var spin = new SpinWait();
+        var sleepThreshold = handles.Length * 10;
 
         while (true)
         {
@@ -900,7 +899,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 }
             }
 
-            spin.SpinOnce(SLEEP_THRESHOLD);
+            spin.SpinOnce(sleepThreshold);
         }
     }
 

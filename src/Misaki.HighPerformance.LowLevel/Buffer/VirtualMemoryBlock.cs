@@ -23,10 +23,12 @@ public unsafe struct VirtualMemoryBlock : IDisposable
         }
 
         var addr = _baseAddress;
+        var size = _size;
+
         _baseAddress = null;
         _size = 0;
         _committed = 0;
 
-        MemoryUtility.Munmap(addr, _size);
+        MemoryUtility.Munmap(addr, size);
     }
 }

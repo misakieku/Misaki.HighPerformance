@@ -6,13 +6,20 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <AssemblyVersion>3.1.7</AssemblyVersion>
+    <AssemblyVersion>3.1.8</AssemblyVersion>
     <Version>$(AssemblyVersion)</Version>
     <Authors>Misaki</Authors>
     <PackageProjectUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</PackageProjectUrl>
-    <RepositoryUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/misakieku/Misaki.HighPerformance.git</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>job-system;multithreading;concurrency;task-scheduler;work-stealing;zero-allocation;0gc;dag;dependency-graph;game-engine;ecs;high-performance;spmc</PackageTags>
+    <Description>
+      A high-performance, zero-allocation (0 GC), and zero-closure job system designed for custom game engines and data-oriented design (DOD).
+      Features a lock-free Work-Stealing scheduler (SPMC) with DAG-based multi-dependency resolution.
+      Includes a blazingly fast O(1) branchless priority queue (High/Normal/Low) using Cascade LUTs.
+      Uniquely supports both unmanaged and managed jobs seamlessly via internal pooling, offering maximum flexibility without compromising C# GC performance.
+    </Description>
   </PropertyGroup>
 
   <ItemGroup>
