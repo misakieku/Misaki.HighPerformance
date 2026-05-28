@@ -4,18 +4,19 @@ using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
-[StructLayout(LayoutKind.Explicit)]
+[StructLayout(LayoutKind.Sequential)]
 public class SPMCQueue<T>
 {
-    [FieldOffset(0)]
+    private struct __padding
+    {
+        private unsafe fixed byte _padding[64];
+    }
+
     private readonly T[] _queue;
-    [FieldOffset(8)]
     private readonly int _mask;
 
-    [FieldOffset(64)]
     private int _head;
-    
-    [FieldOffset(128)]
+    private __padding _padding;
     private int _tail;
 
     public bool IsEmpty => Volatile.Read(ref _tail) - Volatile.Read(ref _head) <= 0;
