@@ -113,6 +113,10 @@ internal class WorkerThread : IDisposable
         t_threadIndex = (int)index;
         t_isWorkerThread = true;
 
+#if MHP_ENABLE_PROFILING
+        _scheduler.BroadcastStateChange(t_threadIndex, WorkerThreadState.Spinning);
+#endif
+
         while (!_scheduler.IsCancellationRequested)
         {
             var handle = JobHandle.Invalid;
@@ -135,6 +139,9 @@ internal class WorkerThread : IDisposable
             // If we didn't find a job after spinning, wait for a signal
             if (!found)
             {
+#if MHP_ENABLE_PROFILING
+                _scheduler.BroadcastStateChange(t_threadIndex, WorkerThreadState.Idle);
+#endif
                 try
                 {
                     _scheduler.WaitForWork(Timeout.Infinite);
@@ -144,6 +151,9 @@ internal class WorkerThread : IDisposable
                     break;
                 }
 
+#if MHP_ENABLE_PROFILING
+                _scheduler.BroadcastStateChange(t_threadIndex, WorkerThreadState.Spinning);
+#endif
                 if (!TryFindJob(out handle))
                 {
                     continue;

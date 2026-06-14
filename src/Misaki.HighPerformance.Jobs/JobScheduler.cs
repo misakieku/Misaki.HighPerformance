@@ -143,6 +143,14 @@ public sealed unsafe partial class JobScheduler : IDisposable
     internal bool IsCancellationRequested => _cts.IsCancellationRequested;
 
     /// <summary>
+    /// An event that is triggered whenever a worker thread changes its state.
+    /// </summary>
+    /// <remarks>
+    /// This event will execute on worker threads directly, and never been fired when MHP_ENABLE_PROFILING is not defined.
+    /// </remarks>
+    public event Action<WorkerThreadStateEvent>? OnWorkerThreadStateChanged;
+
+    /// <summary>
     /// Gets the number of worker threads managed by the job scheduler.
     /// </summary>
     public int WorkerCount => _workerThreadCount;
@@ -379,6 +387,20 @@ public sealed unsafe partial class JobScheduler : IDisposable
         return handle;
     }
 
+#if MHP_ENABLE_PROFILING
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal void BroadcastStateChange(int threadIndex, WorkerThreadState state, string? jobTypeName = null)
+    {
+        OnWorkerThreadStateChanged?.Invoke(new WorkerThreadStateEvent
+        {
+            ThreadIndex = threadIndex,
+            State = state,
+            Timestamp = Stopwatch.GetTimestamp(),
+            JobTypeName = jobTypeName,
+        });
+    }
+#endif
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void WaitForWork(int timeout)
     {
@@ -477,6 +499,9 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
             priority = priority,
             jobRanges = JobRanges.Single,
+#if MHP_ENABLE_PROFILING
+            jobTypeName = typeof(T).Name,
+#endif
         };
 
         return CreateJobHandle(ref jobInfo, preferLocal, dependencies);
@@ -556,6 +581,9 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 batchSize = optimalBatchSize,
                 totalIteration = totalIteration,
             },
+#if MHP_ENABLE_PROFILING
+            jobTypeName = typeof(T).Name,
+#endif
         };
 
         return CreateJobHandle(ref jobInfo, preferLocal, dependencies);
@@ -641,6 +669,9 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 batchSize = optimalBatchSize,
                 totalIteration = totalIteration,
             },
+#if MHP_ENABLE_PROFILING
+            jobTypeName = typeof(T).Name,
+#endif
         };
 
         return CreateJobHandle(ref jobInfo, preferLocal, dependencies);
@@ -719,6 +750,9 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
             priority = jobDesc.priority,
             jobRanges = jobDesc.jobRanges,
+#if MHP_ENABLE_PROFILING
+            jobTypeName = typeof(T).Name,
+#endif
         };
 
         return CreateJobHandle(ref jobInfo, preferLocal, dependencies);

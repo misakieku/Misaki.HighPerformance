@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <AssemblyVersion>3.1.8</AssemblyVersion>
+    <AssemblyVersion>3.2.0</AssemblyVersion>
     <Version>$(AssemblyVersion)</Version>
     <Authors>Misaki</Authors>
     <PackageProjectUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</PackageProjectUrl>
@@ -20,6 +20,8 @@
       Includes a blazingly fast O(1) branchless priority queue (High/Normal/Low) using Cascade LUTs.
       Uniquely supports both unmanaged and managed jobs seamlessly via internal pooling, offering maximum flexibility without compromising C# GC performance.
     </Description>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>contentFiles</ContentTargetFolders>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,6 +36,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="**\*.cs" Exclude="obj\**;bin\**">
+      <Pack>true</Pack>
+      <PackagePath>contentFiles\cs\any\Misaki.HighPerformance.Jobs\</PackagePath>
+      <PackageCopyToOutput>false</PackageCopyToOutput>
+      <BuildAction>Compile</BuildAction>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../Misaki.HighPerformance/Misaki.HighPerformance.csproj" />

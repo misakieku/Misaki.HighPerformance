@@ -454,7 +454,42 @@ public class TestJobSystem
             var handle = s_jobScheduler.Schedule(ref job);
             s_jobScheduler.Wait(handle);
         }
-
         Assert.AreEqual(iterations, *value);
     }
+
+#if MHP_ENABLE_PROFILING
+    [TestMethod]
+    public unsafe void TestProfiling()
+    {
+        var desc = new JobSchedulerDesc
+        {
+            ThreadCount = 2,
+            ThreadPriority = ThreadPriority.Normal,
+            DependencyChainCapacity = 64,
+        };
+
+        using var scheduler = new JobScheduler(in desc);
+        var events = new System.Collections.Concurrent.ConcurrentBag<WorkerThreadStateEvent>();
+        scheduler.OnWorkerThreadStateChanged += (ev) => events.Add(ev);
+
+        var result = stackalloc float[1];
+        var job = new TwoSumJob
+        {
+            value1 = 10f,
+            value2 = 20f,
+            result = result
+        };
+
+        var handle = scheduler.Schedule(ref job);
+        scheduler.Wait(handle);
+
+        Assert.AreEqual(30f, *result);
+        
+        // Ensure we captured some state transitions (at least Executing)
+        Assert.IsTrue(events.Count > 0);
+        var executingEvents = events.Where(e => e.State == WorkerThreadState.Executing).ToList();
+        Assert.IsTrue(executingEvents.Count > 0);
+        Assert.IsTrue(executingEvents.Any(e => e.JobTypeName == nameof(TwoSumJob)));
+    }
+#endif
 }

@@ -134,6 +134,10 @@ internal unsafe struct JobInfo
 
     public int dependencyCount; // Numbers of jobs that this job depends on, when it reaches 0, the job can be executed
 
+#if MHP_ENABLE_PROFILING
+    public string? jobTypeName;
+#endif
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly DependentIterator GetDependentIterator(ReadOnlySpan<JobEdge> edgePool)
     {
@@ -277,6 +281,10 @@ internal static class JobUtility
         // Execute the work inline
         if (jobInfo.pExecutionFunc != null)
         {
+#if MHP_ENABLE_PROFILING
+            jobScheduler.BroadcastStateChange(callerThreadIndex, WorkerThreadState.Executing, jobInfo.jobTypeName);
+#endif
+
             var ctx = new JobExecutionContext
             {
                 ThreadIndex = callerThreadIndex,
@@ -286,6 +294,10 @@ internal static class JobUtility
             };
 
             jobInfo.pExecutionFunc(jobInfo.dataID, jobInfo.dataGeneration, ref jobInfo.jobRanges, in ctx);
+
+#if MHP_ENABLE_PROFILING
+            jobScheduler.BroadcastStateChange(callerThreadIndex, WorkerThread.IsWorkerThread ? WorkerThreadState.Spinning : WorkerThreadState.Idle);
+#endif
         }
 
         rc = ReleaseRC(ref jobInfo.state);
