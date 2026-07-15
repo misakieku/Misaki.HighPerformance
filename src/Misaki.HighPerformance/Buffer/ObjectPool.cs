@@ -8,7 +8,7 @@ namespace Misaki.HighPerformance.Buffer
     {
         private readonly Func<T> _factory;
         private readonly Action<T>? _resetAction;
-        private readonly ConcurrentQueue<T> _pool = new();
+        private readonly Queue<T> _pool = new();
 
         private bool _disposed;
 
