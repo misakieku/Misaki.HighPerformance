@@ -476,6 +476,18 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         _count += count;
     }
 
+    public readonly bool Contains(scoped in T value)
+    {
+        for (int i = 0; i < _count; i++)
+        {
+            if (EqualityComparer<T>.Default.Equals(_array[i], value))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)
     {

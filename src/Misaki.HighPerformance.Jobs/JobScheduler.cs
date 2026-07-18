@@ -387,7 +387,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         return handle;
     }
 
-#if MHP_ENABLE_PROFILING
+    [Conditional("MHP_ENABLE_PROFILING")]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void BroadcastStateChange(int threadIndex, WorkerThreadState state, string? jobTypeName = null)
     {
@@ -399,7 +399,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
             JobTypeName = jobTypeName,
         });
     }
-#endif
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void WaitForWork(int timeout)

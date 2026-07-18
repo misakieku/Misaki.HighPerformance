@@ -7,6 +7,7 @@ public unsafe struct MemoryPool<TAllocator, TOpts> : IDisposable
     where TAllocator : unmanaged, IMemoryAllocator<TAllocator, TOpts>
 {
     private TAllocator* _pAllocator;
+    private AllocationHandle.Allocator* _pHandleAllocator;
     private AllocationHandle _allocationHandle;
 
     public readonly ref TAllocator Allocator => ref Unsafe.AsRef<TAllocator>(_pAllocator);
@@ -19,7 +20,16 @@ public unsafe struct MemoryPool<TAllocator, TOpts> : IDisposable
         _pAllocator = (TAllocator*)NativeMemory.Alloc((nuint)sizeof(TAllocator));
         *_pAllocator = allocator;
 
-        _allocationHandle = new AllocationHandle(_pAllocator, &Allocate, &Reallocate, &Free);
+        _pHandleAllocator = (AllocationHandle.Allocator*)NativeMemory.Alloc((nuint)sizeof(AllocationHandle.Allocator));
+        *_pHandleAllocator = new AllocationHandle.Allocator
+        {
+            state = _pAllocator,
+            alloc = &Allocate,
+            realloc = &Reallocate,
+            free = &Free
+        };
+
+        _allocationHandle = new AllocationHandle(_pHandleAllocator);
     }
 
     private static void* Allocate(void* pAllocator, nuint size, nuint alignment, AllocationOption allocationOption)
@@ -46,9 +56,11 @@ public unsafe struct MemoryPool<TAllocator, TOpts> : IDisposable
 
         _pAllocator->Dispose();
 
+        NativeMemory.Free(_pHandleAllocator);
         NativeMemory.Free(_pAllocator);
 
         _pAllocator = null;
+        _pHandleAllocator = null;
         _allocationHandle = default;
     }
 }

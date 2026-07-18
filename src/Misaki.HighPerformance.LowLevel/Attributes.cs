@@ -5,7 +5,12 @@ public class NonCopyableAttribute : Attribute
 {
 }
 
+[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.ReturnValue)]
+public class OwnerAttribute : Attribute
+{
+}
+
 [AttributeUsage(AttributeTargets.Parameter)]
-public class OwnershipTransferAttribute : Attribute
+public class DiligentAttribute : Attribute
 {
 }

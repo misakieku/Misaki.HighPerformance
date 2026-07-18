@@ -123,10 +123,11 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
 
             sourceBuilder.AppendLine();
             sourceBuilder.AppendLine(@$"
+        [global::System.Diagnostics.CodeAnalysis.UnscopedRef]
         public unsafe ref {typeInfo.ComponentTypeFullName} this[int index]
         {{
             {INLINE_METHOD_ATTRIBUTE}
-            get 
+            get
             {{
                 return ref global::System.Runtime.CompilerServices.Unsafe.Add(ref {s_vectorComponents[0]}, index);
             }}
