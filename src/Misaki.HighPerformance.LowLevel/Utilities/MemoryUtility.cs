@@ -78,6 +78,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="size">Specifies the number of bytes to allocate in memory.</param>
     /// <returns>Returns a pointer to the allocated memory block.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [return: Owner]
     public static void* Malloc(nuint size)
     {
         if (size == 0)
@@ -109,6 +110,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="size">Specifies the number of bytes to allocate in memory.</param>
     /// <returns>Returns a pointer to the allocated and zero-initialized memory block.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [return: Owner]
     public static void* Calloc(nuint size)
     {
         if (size == 0)
@@ -143,6 +145,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="alignment">Defines the required alignment for the allocated memory address.</param>
     /// <returns>Returns a pointer to the allocated memory block.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [return:Owner]
     public static void* AlignedAlloc(nuint size, nuint alignment)
     {
         if (size == 0)
@@ -175,6 +178,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="size">The new size for the memory block after resizing.</param>
     /// <returns>A pointer to the reallocated memory block, or null if the operation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [return:Owner]
     public static void* Realloc(void* ptr, nuint size)
     {
         if (size == 0)
@@ -214,6 +218,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="alignment">The required alignment for the new memory allocation.</param>
     /// <returns>A pointer to the reallocated memory block, or null if the allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [return:Owner]
     public static void* AlignedRealloc(void* ptr, nuint size, nuint alignment)
     {
         if (size == 0)
@@ -261,7 +266,7 @@ public static unsafe partial class MemoryUtility
     /// </remarks>
     /// <param name="ptr">The pointer to the memory block that needs to be freed.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Free(void* ptr)
+    public static void Free([Owner] void* ptr)
     {
         if (ptr == null)
         {
@@ -285,7 +290,7 @@ public static unsafe partial class MemoryUtility
     /// </remarks>
     /// <param name="ptr">The pointer to the memory block that needs to be freed.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void AlignedFree(void* ptr)
+    public static void AlignedFree([Owner] void* ptr)
     {
         if (ptr == null)
         {
@@ -308,7 +313,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="ptr">Specifies the memory address where the clearing operation will begin.</param>
     /// <param name="size">Indicates the number of bytes to be cleared in the memory block.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void MemClear(void* ptr, nuint size)
+    public static void MemClear([Diligent] void* ptr, nuint size)
     {
 #if MHP_ENABLE_SAFETY_CHECKS
         if (ptr == null)
@@ -331,7 +336,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="size">The number of bytes to set to the specified value.</param>
     /// <param name="value">The byte value to which the memory block will be initialized.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void MemSet(void* ptr, byte value, nuint size)
+    public static void MemSet([Diligent] void* ptr, byte value, nuint size)
     {
 #if MHP_ENABLE_SAFETY_CHECKS
         if (ptr == null)
@@ -354,7 +359,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="destination">Specifies the memory address where the copied data will be stored.</param>
     /// <param name="size">Defines the number of bytes to be copied from the source to the destination.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void MemCpy(void* destination, void* source, nuint size)
+    public static void MemCpy([Diligent] void* destination, [Diligent] void* source, nuint size)
     {
 #if MHP_ENABLE_SAFETY_CHECKS
         if (destination == null || source == null)
@@ -377,7 +382,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="source">Specifies the memory address from which data will be moved.</param>
     /// <param name="size">Defines the number of bytes to be moved from the source to the destination.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void MemMove(void* destination, void* source, nuint size)
+    public static void MemMove([Diligent] void* destination, [Diligent] void* source, nuint size)
     {
 #if MHP_ENABLE_SAFETY_CHECKS
         if (destination == null || source == null)
@@ -404,7 +409,7 @@ public static unsafe partial class MemoryUtility
     ///     byte in ptr1 is less than the corresponding byte in ptr2; zero if all compared bytes are equal; greater than
     ///     zero if the first differing byte in ptr1 is greater than the corresponding byte in ptr2.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int MemCmp(void* ptr1, void* ptr2, nuint size)
+    public static int MemCmp([Diligent] void* ptr1, [Diligent] void* ptr2, nuint size)
     {
         if (ptr1 == ptr2)
         {
@@ -427,7 +432,8 @@ public static unsafe partial class MemoryUtility
     /// <exception cref="OutOfMemoryException"></exception>
     /// <exception cref="PlatformNotSupportedException"></exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void* Mmap(void* addr, nuint size, VirtualAllocationFlags flags)
+    [return:Owner]
+    public static void* Mmap([Diligent] void* addr, nuint size, VirtualAllocationFlags flags)
     {
         if (size == 0)
         {
@@ -493,7 +499,7 @@ public static unsafe partial class MemoryUtility
     /// <returns>true if the memory was successfully unmapped; otherwise, false.</returns>
     /// <exception cref="PlatformNotSupportedException"></exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool Munmap(void* ptr, nuint size)
+    public static bool Munmap([Owner] void* ptr, nuint size)
     {
         if (ptr == null || size == 0)
         {
@@ -520,7 +526,7 @@ public static unsafe partial class MemoryUtility
     /// <returns>true if the memory was successfully decommitted; otherwise, false.</returns>
     /// <exception cref="PlatformNotSupportedException"></exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool Decommit(void* ptr, nuint size)
+    public static bool Decommit([Diligent] void* ptr, nuint size)
     {
         if (ptr == null || size == 0)
         {
@@ -547,7 +553,7 @@ public static unsafe partial class MemoryUtility
     /// <returns>true if the memory was successfully recommitted; otherwise, false.</returns>
     /// <exception cref="PlatformNotSupportedException"></exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool Recommit(void* ptr, nuint size)
+    public static bool Recommit([Diligent] void* ptr, nuint size)
     {
         if (ptr == null || size == 0)
         {

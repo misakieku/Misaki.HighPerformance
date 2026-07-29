@@ -7,7 +7,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Misaki</Authors>
-    <AssemblyVersion>1.7.5</AssemblyVersion>
+    <AssemblyVersion>1.7.7</AssemblyVersion>
     <Version>$(AssemblyVersion)</Version>
     <PackageProjectUrl>https://git.personalnas.com/Misaki/Misaki.HighPerformance.git</PackageProjectUrl>
     <RepositoryUrl>https://github.com/misakieku/Misaki.HighPerformance.git</RepositoryUrl>

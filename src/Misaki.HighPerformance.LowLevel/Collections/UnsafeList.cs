@@ -322,7 +322,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     public void AddRange(ReadOnlySpan<T> values)
     {
         var newSize = _count + values.Length;
-        if (newSize > Capacity)
+        if (newSize >= Capacity)
         {
             Resize(Capacity + values.Length);
         }
@@ -343,7 +343,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     public void AddRange(T* ptr, int count)
     {
         var newSize = _count + count;
-        if (newSize > Capacity)
+        if (newSize >= Capacity)
         {
             Resize(Capacity + count);
         }
@@ -396,7 +396,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         }
 
         var copyFrom = Math.Min(start + length, _count);
-        MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
+        MemoryUtility.MemMove(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
             UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
             (uint)((_count - copyFrom) * sizeof(T))
         );
@@ -431,7 +431,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
         if (numToCopy > 0)
         {
-            MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
+            MemoryUtility.MemMove(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
                 UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
                 (uint)((_count - copyFrom) * sizeof(T)));
         }
@@ -442,6 +442,51 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     public void RemoveAtSwapBack(int index)
     {
         RemoveRangeSwapBack(index, 1);
+    }
+
+    public void Insert(int index, scoped in T value)
+    {
+        InsertRange(index, new ReadOnlySpan<T>(in value));
+    }
+
+    public void InsertRange(int index, ReadOnlySpan<T> collection)
+    {
+        fixed (T* ptr = collection)
+        {
+            InsertRange(index, ptr, collection.Length);
+        }
+    }
+
+    public void InsertRange(int index, T* ptr, int count)
+    {
+        var newSize = _count + count;
+        if (newSize >= Capacity)
+        {
+            Resize(Math.Max(newSize, Capacity * 2));
+        }
+
+        MemoryUtility.MemMove(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), index + count),
+            UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), index),
+            MemoryUtility.SizeOf<T>());
+
+        MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), index),
+            ptr,
+            MemoryUtility.SizeOf<T>() * (nuint)count);
+
+        _count += count;
+    }
+
+    public readonly bool Contains(scoped in T value)
+    {
+        for (int i = 0; i < _count; i++)
+        {
+            if (EqualityComparer<T>.Default.Equals(_array[i], value))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void Resize(int newSize, AllocationOption option = AllocationOption.None)

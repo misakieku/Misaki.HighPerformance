@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -111,8 +113,16 @@ public readonly struct MemoryHandle : IDisposable, IEquatable<MemoryHandle>
 /// <summary>
 /// A structure that encapsulates function pointers for memory allocation operations.
 /// </summary>
-public readonly unsafe struct AllocationHandle
+public unsafe readonly struct AllocationHandle
 {
+    public unsafe struct Allocator
+    {
+        public void* state;
+        public AllocFunc alloc;
+        public ReallocFunc realloc;
+        public FreeFunc free;
+    }
+
     /// <summary>
     /// The invalid allocator. This value is reserved and should not be used for actual memory allocations. It can be used to indicate an uninitialized or invalid state in allocation scenarios.
     /// </summary>
@@ -138,19 +148,18 @@ public readonly unsafe struct AllocationHandle
     /// </summary>
     public static AllocationHandle TLSF => AllocationManager.s_pTLSFAllocator->Handle;
 
-    private readonly void* _state;
-    private readonly AllocFunc _alloc;
-    private readonly ReallocFunc _realloc;
-    private readonly FreeFunc _free;
+    private readonly Allocator* _pAllocator;
 
-    public bool IsValid => _alloc != null && _realloc != null && _free != null;
+    public bool IsValid => _pAllocator != null;
 
-    public AllocationHandle(void* state, AllocFunc alloc, ReallocFunc realloc, FreeFunc free)
+    public AllocationHandle(Allocator* pAllocator)
     {
-        _state = state;
-        _alloc = alloc;
-        _realloc = realloc;
-        _free = free;
+        Debug.Assert(pAllocator != null);
+        Debug.Assert(pAllocator->alloc != null);
+        Debug.Assert(pAllocator->realloc != null);
+        Debug.Assert(pAllocator->free != null);
+
+        _pAllocator = pAllocator;
     }
 
     /// <summary>
@@ -160,10 +169,11 @@ public readonly unsafe struct AllocationHandle
     /// <param name="alignment">The alignment of the memory block.</param>
     /// <param name="option">The allocation options.</param>
     /// <returns>A pointer to the allocated memory block. null if allocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void* Alloc(nuint size, nuint alignment, AllocationOption option = AllocationOption.None)
     {
-        Debug.Assert(_alloc != null);
-        return _alloc(_state, size, alignment, option);
+        Debug.Assert(_pAllocator != null);
+        return _pAllocator->alloc(_pAllocator->state, size, alignment, option);
     }
 
     /// <summary>
@@ -175,20 +185,22 @@ public readonly unsafe struct AllocationHandle
     /// <param name="alignment">The alignment of the memory block.</param>
     /// <param name="allocationOption">The allocation options.</param>
     /// <returns>A pointer to the reallocated memory block. null if reallocation fails.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void* Realloc(void* ptr, nuint oldSize, nuint newSize, nuint alignment, AllocationOption allocationOption = AllocationOption.None)
     {
-        Debug.Assert(_realloc != null);
-        return _realloc(_state, ptr, oldSize, newSize, alignment, allocationOption);
+        Debug.Assert(_pAllocator != null);
+        return _pAllocator->realloc(_pAllocator->state, ptr, oldSize, newSize, alignment, allocationOption);
     }
 
     /// <summary>
     /// Frees a previously allocated block of memory.
     /// </summary>
     /// <param name="ptr">A pointer to the memory block to free.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Free(void* ptr)
     {
-        Debug.Assert(_free != null);
-        _free(_state, ptr);
+        Debug.Assert(_pAllocator != null);
+        _pAllocator->free(_pAllocator->state, ptr);
     }
 }
 

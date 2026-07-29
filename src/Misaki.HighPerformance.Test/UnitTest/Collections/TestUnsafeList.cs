@@ -81,6 +81,20 @@ public class TestUnsafeList
     }
 
     [TestMethod]
+    public void TestInsert()
+    {
+        _list.Add(10);
+        _list.Add(11);
+        _list.Add(12);
+        _list.Add(13);
+
+        _list.Insert(0, 9);
+
+        Assert.AreEqual(9, _list[0]);
+        Assert.AreEqual(10, _list[1]);
+    }
+
+    [TestMethod]
     public void TestClear()
     {
         _list.Add(1);
