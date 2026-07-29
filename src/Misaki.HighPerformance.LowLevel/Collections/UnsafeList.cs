@@ -580,6 +580,11 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// <returns>A <see cref="List{T}"/> containing all elements.</returns>
     public readonly List<T> ToList()
     {
+        if (!IsCreated)
+        {
+            return new List<T>();
+        }
+
         var list = new List<T>(_count);
         var span = new Span<T>(_array.GetUnsafePtr(), _count);
         list.AddRange(span);

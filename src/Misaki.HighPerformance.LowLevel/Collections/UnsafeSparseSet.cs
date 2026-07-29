@@ -6,11 +6,11 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
-internal class ConcurrentSparseSetDebugView<T>
+internal class UnsafeSparseSetDebugView<T>
     where T : unmanaged
 {
     private readonly UnsafeSparseSet<T> _set;
-    public ConcurrentSparseSetDebugView(UnsafeSparseSet<T> set)
+    public UnsafeSparseSetDebugView(UnsafeSparseSet<T> set)
     {
         _set = set;
     }
@@ -39,7 +39,7 @@ internal class ConcurrentSparseSetDebugView<T>
 /// Sparse indices work like entity IDs and are automatically generated.
 /// </summary>
 /// <typeparam name="T">Represents a type that can be stored in the sparse set, constrained to unmanaged types for performance and safety.</typeparam>
-[DebuggerTypeProxy(typeof(ConcurrentSparseSetDebugView<>))]
+[DebuggerTypeProxy(typeof(UnsafeSparseSetDebugView<>))]
 public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
     where T : unmanaged
 {

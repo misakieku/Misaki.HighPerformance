@@ -14,7 +14,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     {
         internal HashMapHelper<TKey>.Enumerator _enumerator;
 
-        public readonly KeyValuePair<TKey, TValue> Current => _enumerator.GetCurrent<TValue>();
+        public readonly KeyValueRefPair<TKey, TValue> Current => _enumerator.GetCurrent<TValue>();
 
         public Enumerator(ref HashMapHelper<TKey> data)
         {
@@ -69,7 +69,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
         private int _entryIndex;
         private bool _started;
 
-        public readonly TValue Current => UnsafeUtility.ReadArrayElement<TValue>(helper.Buffer, _entryIndex);
+        public readonly ref TValue Current => ref UnsafeUtility.ReadArrayElementRef<TValue>(helper.Buffer, _entryIndex);
 
         internal ValueEnumerator(ref HashMapHelper<TKey> data, scoped in TKey key)
         {
@@ -321,7 +321,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     /// <param name="allocationHandle">The handle for the allocation.</param>
     /// <returns>An unsafe array containing all key-value pairs in the UnsafeMultiHashMap.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(AllocationHandle allocationHandle)
+    public UnsafeArray<KeyValueRefPair<TKey, TValue>> GetKeyValueArrays(AllocationHandle allocationHandle)
     {
         return _helper.GetKeyValueArrays<TValue>(allocationHandle);
     }

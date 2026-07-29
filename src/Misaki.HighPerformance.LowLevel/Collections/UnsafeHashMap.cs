@@ -1,11 +1,39 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
+internal sealed class UnsafeHashMapDebugView<TKey, TValue>
+    where TKey : unmanaged, IEquatable<TKey>
+    where TValue : unmanaged
+{
+    private readonly UnsafeHashMap<TKey, TValue> _hashMap;
+    public UnsafeHashMapDebugView(UnsafeHashMap<TKey, TValue> hashMap)
+    {
+        _hashMap = hashMap;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public KeyValueRefPair<TKey, TValue>[] Items
+    {
+        get
+        {
+            var items = new KeyValueRefPair<TKey, TValue>[_hashMap.Count];
+            var index = 0;
+            foreach (var item in _hashMap)
+            {
+                items[index++] = item;
+            }
+            return items;
+        }
+    }
+}
+
+[DebuggerTypeProxy(typeof(UnsafeHashMapDebugView<,>))]
 public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValuePair<TKey, TValue>>
     where TKey : unmanaged, IEquatable<TKey>
     where TValue : unmanaged
@@ -14,7 +42,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     {
         internal HashMapHelper<TKey>.Enumerator _enumerator;
 
-        public KeyValuePair<TKey, TValue> Current => _enumerator.GetCurrent<TValue>();
+        public KeyValueRefPair<TKey, TValue> Current => _enumerator.GetCurrent<TValue>();
 
         public Enumerator(ref HashMapHelper<TKey> data)
         {
@@ -30,10 +58,6 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
         public void Reset()
         {
             _enumerator.Reset();
-        }
-
-        public void Dispose()
-        {
         }
     }
 
@@ -261,7 +285,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="allocationHandle">The allocation handle to use to allocate the array.</param>
     /// <returns>Returns an UnsafeArray containing KeyValuePair objects.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays(AllocationHandle allocationHandle)
+    public UnsafeArray<KeyValueRefPair<TKey, TValue>> GetKeyValueArrays(AllocationHandle allocationHandle)
     {
         return _helper.GetKeyValueArrays<TValue>(allocationHandle);
     }
@@ -270,6 +294,23 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     public readonly void* GetUnsafePtr()
     {
         return _helper.Buffer;
+    }
+
+    public Dictionary<TKey, TValue> ToDictionary()
+    {
+        var dict = new Dictionary<TKey, TValue>(Count);
+
+        if (!IsCreated)
+        {
+            return dict;
+        }
+
+        foreach (var item in this)
+        {
+            dict.Add(item.Key, item.Value);
+        }
+
+        return dict;
     }
 
     public void Dispose()

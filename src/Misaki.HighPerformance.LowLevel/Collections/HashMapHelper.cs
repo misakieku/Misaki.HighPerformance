@@ -6,6 +6,24 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
+[DebuggerDisplay("Key = {Key}, Value = {Value}")]
+public unsafe readonly struct KeyValueRefPair<TKey, TValue>
+    where TKey : unmanaged
+    where TValue : unmanaged
+{
+    private readonly TKey* _pKey;
+    private readonly TValue* _pValue;
+
+    public ref TKey Key => ref *_pKey;
+    public ref TValue Value => ref *_pValue;
+
+    public KeyValueRefPair(TKey* pKey, TValue* pValue)
+    {
+        _pKey = pKey;
+        _pValue = pValue;
+    }
+}
+
 public unsafe struct HashMapHelper<TKey> : IDisposable
     where TKey : unmanaged, IEquatable<TKey>
 {
@@ -38,10 +56,10 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public KeyValuePair<TKey, TValue> GetCurrent<TValue>()
+        public KeyValueRefPair<TKey, TValue> GetCurrent<TValue>()
             where TValue : unmanaged
         {
-            return new KeyValuePair<TKey, TValue>(helper._keys[index], UnsafeUtility.ReadArrayElementRef<TValue>(helper._buffer, index));
+            return new KeyValueRefPair<TKey, TValue>(&helper._keys[index], UnsafeUtility.ReadArrayElementUnsafe<TValue>(helper._buffer, index));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -74,9 +92,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     private readonly int _log2MinGrowth;
 
 #if MHP_ENABLE_SAFETY_CHECKS
-    private MemoryHandle _memoryHandle;
+    private readonly MemoryHandle _memoryHandle;
 #endif
-    private AllocationHandle _allocationHandle;
+    private readonly AllocationHandle _allocationHandle;
 
     public const int MINIMAL_CAPACITY = 64;
 
@@ -654,12 +672,12 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return result;
     }
 
-    public UnsafeArray<KeyValuePair<TKey, TValue>> GetKeyValueArrays<TValue>(AllocationHandle allocator)
+    public UnsafeArray<KeyValueRefPair<TKey, TValue>> GetKeyValueArrays<TValue>(AllocationHandle allocator)
         where TValue : unmanaged
     {
         ThrowIfNotCreated();
 
-        var result = new UnsafeArray<KeyValuePair<TKey, TValue>>(_count, allocator);
+        var result = new UnsafeArray<KeyValueRefPair<TKey, TValue>>(_count, allocator);
 
         for (int i = 0, count = 0, max = result.Count, capacity = _bucketCapacity; i < capacity && count < max; i++)
         {
@@ -667,8 +685,9 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
             while (bucket != -1)
             {
-                result[count] = new(UnsafeUtility.ReadArrayElement<TKey>(_keys, bucket),
-                    UnsafeUtility.ReadArrayElement<TValue>(_buffer, bucket));
+                result[count] = new KeyValueRefPair<TKey, TValue>(
+                    UnsafeUtility.ReadArrayElementUnsafe<TKey>(_keys, bucket),
+                    UnsafeUtility.ReadArrayElementUnsafe<TValue>(_buffer, bucket));
 
                 count++;
                 bucket = _next[bucket];

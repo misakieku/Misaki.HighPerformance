@@ -1,15 +1,43 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
 using Misaki.HighPerformance.LowLevel.Utilities;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
+internal sealed class UnsafeQueueDebugView<T>
+    where T : unmanaged
+{
+    private readonly UnsafeQueue<T> _queue;
+
+    public UnsafeQueueDebugView(UnsafeQueue<T> queue)
+    {
+        _queue = queue;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public T[] Items
+    {
+        get
+        {
+            var array = new T[_queue.Count];
+            var index = 0;
+            foreach (var item in _queue)
+            {
+                array[index++] = item;
+            }
+            return array;
+        }
+    }
+}
+
 /// <summary>
 /// A structure that implements a queue using unmanaged types for efficient memory management.
 /// </summary>
 /// <typeparam name="T">Represents the type of elements stored in the queue, which must be an unmanaged type for performance and safety.</typeparam>
+[DebuggerTypeProxy(typeof(UnsafeQueueDebugView<>))]
 public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
     where T : unmanaged
 {

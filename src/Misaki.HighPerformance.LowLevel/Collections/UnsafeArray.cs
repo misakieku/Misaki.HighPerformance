@@ -250,6 +250,8 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly Span<T> AsSpan(int start)
     {
+        ThrowIfNotCreated();
+
         if (start < 0 || start >= _count)
         {
             throw new ArgumentOutOfRangeException(nameof(start), "Start index is out of range.");
@@ -261,6 +263,8 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly Span<T> AsSpan(int start, int length)
     {
+        ThrowIfNotCreated();
+
         if (start < 0 || start >= _count)
         {
             throw new ArgumentOutOfRangeException(nameof(start), "Start index is out of range.");
@@ -381,6 +385,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <returns>An array containing all elements.</returns>
     public readonly T[] ToArray()
     {
+        if (!IsCreated)
+        {
+            return Array.Empty<T>();
+        }
+
         return new Span<T>(_buffer, _count).ToArray();
     }
 

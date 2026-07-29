@@ -1,15 +1,43 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections.Contracts;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
+
+internal sealed class UnsafeHashSetDebugView<T>
+    where T : unmanaged, IEquatable<T>
+{
+    private readonly UnsafeHashSet<T> _hashSet;
+    public UnsafeHashSetDebugView(UnsafeHashSet<T> hashSet)
+    {
+        _hashSet = hashSet;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public T[] Items
+    {
+        get
+        {
+            var array = new T[_hashSet.Count];
+            var index = 0;
+            foreach (var item in _hashSet)
+            {
+                array[index++] = item;
+            }
+
+            return array;
+        }
+    }
+}
 
 /// <summary>
 /// A collection that provides fast, unsafe operations for managing a set of unmanaged types. It supports adding,
 /// removing, and checking for values.
 /// </summary>
 /// <typeparam name="T">Represents an unmanaged type that can be compared for equality.</typeparam>
+[DebuggerTypeProxy(typeof(UnsafeHashSetDebugView<>))]
 public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
     where T : unmanaged, IEquatable<T>
 {
@@ -137,6 +165,23 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
     public readonly void* GetUnsafePtr()
     {
         return _helper.Buffer;
+    }
+
+    public HashSet<T> ToHashSet()
+    {
+        var hashSet = new HashSet<T>();
+
+        if (!IsCreated)
+        {
+            return hashSet;
+        }
+
+        foreach (var item in this)
+        {
+            hashSet.Add(item);
+        }
+
+        return hashSet;
     }
 
     public void Dispose()

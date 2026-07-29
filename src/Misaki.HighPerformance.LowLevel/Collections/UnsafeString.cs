@@ -1,8 +1,22 @@
 using Misaki.HighPerformance.LowLevel.Buffer;
+using System.Diagnostics;
 using System.Text;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
+internal sealed class UnsafeStringDebugView
+{
+    private readonly UnsafeString _unsafeString;
+    public UnsafeStringDebugView(UnsafeString unsafeString)
+    {
+        _unsafeString = unsafeString;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public string Value => _unsafeString.ToString();
+}
+
+[DebuggerTypeProxy(typeof(UnsafeStringDebugView))]
 public unsafe struct UnsafeString : IDisposable
 {
     private UnsafeArray<char> _chars;
@@ -40,7 +54,7 @@ public unsafe struct UnsafeString : IDisposable
         return _chars.GetUnsafePtr();
     }
 
-    public readonly override string ToString()
+    public override readonly string ToString()
     {
         return new string(_chars.AsSpan());
     }
@@ -51,7 +65,19 @@ public unsafe struct UnsafeString : IDisposable
     }
 }
 
+public sealed class UnsafeTextDebugView
+{
+    private readonly UnsafeText _unsafeText;
+    public UnsafeTextDebugView(UnsafeText unsafeText)
+    {
+        _unsafeText = unsafeText;
+    }
 
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public string Value => _unsafeText.ToString();
+}
+
+[DebuggerTypeProxy(typeof(UnsafeTextDebugView))]
 public unsafe struct UnsafeText : IDisposable
 {
     private UnsafeArray<byte> _chars;
@@ -64,6 +90,13 @@ public unsafe struct UnsafeText : IDisposable
     {
         _chars = new UnsafeArray<byte>(span.Length, handle);
         span.CopyTo(_chars.AsSpan());
+    }
+
+    public UnsafeText(ReadOnlySpan<char> span, AllocationHandle handle)
+    {
+        var byteCount = Encoding.UTF8.GetByteCount(span);
+        _chars = new UnsafeArray<byte>(byteCount, handle);
+        Encoding.UTF8.GetBytes(span, _chars.AsSpan());
     }
 
     public UnsafeText(UnsafeText other)
@@ -89,7 +122,7 @@ public unsafe struct UnsafeText : IDisposable
         return _chars.GetUnsafePtr();
     }
 
-    public readonly override string ToString()
+    public override readonly string ToString()
     {
         return Encoding.UTF8.GetString(_chars.AsSpan());
     }

@@ -5,6 +5,30 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
+internal sealed class ReadOnlyViewDebugView<T>
+    where T : unmanaged
+{
+    private readonly ReadOnlyView<T> _collection;
+    public ReadOnlyViewDebugView(ReadOnlyView<T> collection)
+    {
+        _collection = collection;
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+    public T[] Items
+    {
+        get
+        {
+            var array = new T[_collection.Count];
+            for (int i = 0; i < _collection.Count; i++)
+            {
+                array[i] = _collection[i];
+            }
+            return array;
+        }
+    }
+}
+
 /// <summary>
 /// Provides a read-only, unsafe view over a contiguous region of unmanaged memory as an array of elements of type T.
 /// Enables efficient, low-level access to memory without copying or additional safety checks.
@@ -14,6 +38,7 @@ namespace Misaki.HighPerformance.LowLevel.Collections;
 /// The goal of this struc is similar to <see cref="ReadOnlySpan{T}"/>, but it can be used in contexts where spans are not allowed, such as fields in structs and shared across threads.
 /// </remarks>
 /// <typeparam name="T">The type of elements in the collection. Must be an unmanaged type.</typeparam>
+[DebuggerTypeProxy(typeof(ReadOnlyViewDebugView<>))]
 public readonly unsafe struct ReadOnlyView<T> : IEnumerable<T>
     where T : unmanaged
 {

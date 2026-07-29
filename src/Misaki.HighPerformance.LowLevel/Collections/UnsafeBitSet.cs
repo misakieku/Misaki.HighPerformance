@@ -829,7 +829,7 @@ public readonly ref struct SpanBitSet : IUnsafeBitSet, IEquatable<SpanBitSet>
 {
     public ref struct Iterator
     {
-        private SpanBitSet _bitSet;
+        private readonly SpanBitSet _bitSet;
         private int _currentBit;
 
         public Iterator(SpanBitSet bitSet)
