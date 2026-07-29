@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
 [DebuggerDisplay("Key = {Key}, Value = {Value}")]
-public unsafe readonly struct KeyValueRefPair<TKey, TValue>
+public readonly unsafe struct KeyValueRefPair<TKey, TValue> : IEquatable<KeyValueRefPair<TKey, TValue>>
     where TKey : unmanaged
     where TValue : unmanaged
 {
@@ -21,6 +21,37 @@ public unsafe readonly struct KeyValueRefPair<TKey, TValue>
     {
         _pKey = pKey;
         _pValue = pValue;
+    }
+
+    public readonly KeyValuePair<TKey, TValue> ToKeyValuePair()
+    {
+        return new KeyValuePair<TKey, TValue>(Key, Value);
+    }
+
+    public bool Equals(KeyValueRefPair<TKey, TValue> other)
+    {
+        return EqualityComparer<TKey>.Default.Equals(Key, other.Key) &&
+               EqualityComparer<TValue>.Default.Equals(Value, other.Value);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Key, Value);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is KeyValueRefPair<TKey, TValue> pair && Equals(pair);
+    }
+
+    public static bool operator ==(KeyValueRefPair<TKey, TValue> left, KeyValueRefPair<TKey, TValue> right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(KeyValueRefPair<TKey, TValue> left, KeyValueRefPair<TKey, TValue> right)
+    {
+        return !(left == right);
     }
 }
 

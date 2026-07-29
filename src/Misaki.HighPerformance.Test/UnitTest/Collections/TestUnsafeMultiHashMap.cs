@@ -152,10 +152,10 @@ public class TestUnsafeMultiHashMap
         var pairs = new List<KeyValuePair<int, int>>();
         foreach (var pair in _multiHashMap)
         {
-            pairs.Add(pair);
+            pairs.Add(pair.ToKeyValuePair());
         }
 
-        Assert.AreEqual(3, pairs.Count);
+        Assert.HasCount(3, pairs);
         CollectionAssert.AreEquivalent(
             new List<KeyValuePair<int, int>>
             {
