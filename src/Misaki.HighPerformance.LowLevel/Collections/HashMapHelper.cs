@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Misaki.HighPerformance.LowLevel.Collections;
 
-[DebuggerDisplay("Key = {Key}, Value = {Value}")]
+[DebuggerDisplay("{*_pValue}", Name = "[{*_pKey}]")]
 public readonly unsafe struct KeyValueRefPair<TKey, TValue> : IEquatable<KeyValueRefPair<TKey, TValue>>
     where TKey : unmanaged
     where TValue : unmanaged

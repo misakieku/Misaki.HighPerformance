@@ -1,7 +1,22 @@
+using Misaki.HighPerformance.LowLevel.Utilities;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
+
+public enum MemoryState : byte
+{
+    Invalid = 0,
+    Mutable = 1,
+    Immutable = 2,
+}
+
+public struct MemoryHeader
+{
+    public nuint size;
+    public nuint alignment;
+    public MemoryState state;
+}
 
 public unsafe struct MemoryPool<TAllocator, TOpts> : IDisposable
     where TAllocator : unmanaged, IMemoryAllocator<TAllocator, TOpts>

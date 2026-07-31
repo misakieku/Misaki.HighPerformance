@@ -465,11 +465,18 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
             Resize(Math.Max(newSize, Capacity * 2));
         }
 
-        MemoryUtility.MemMove(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), index + count),
-            UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), index),
-            MemoryUtility.SizeOf<T>());
+        var arrayPtr = (byte*)_array.GetUnsafePtr();
+        var elementsToMove = _count - index;
+        if (elementsToMove > 0)
+        {
+            MemoryUtility.MemMove(
+                arrayPtr + index + count,
+                arrayPtr + index,
+                (nuint)elementsToMove * MemoryUtility.SizeOf<T>()
+            );
+        }
 
-        MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), index),
+        MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(arrayPtr, index),
             ptr,
             MemoryUtility.SizeOf<T>() * (nuint)count);
 
@@ -478,7 +485,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
     public readonly bool Contains(scoped in T value)
     {
-        for (int i = 0; i < _count; i++)
+        for (var i = 0; i < _count; i++)
         {
             if (EqualityComparer<T>.Default.Equals(_array[i], value))
             {

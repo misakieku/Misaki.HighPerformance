@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.LowLevel.Buffer;
 
@@ -113,7 +112,7 @@ public readonly struct MemoryHandle : IDisposable, IEquatable<MemoryHandle>
 /// <summary>
 /// A structure that encapsulates function pointers for memory allocation operations.
 /// </summary>
-public unsafe readonly struct AllocationHandle
+public readonly unsafe struct AllocationHandle
 {
     public unsafe struct Allocator
     {

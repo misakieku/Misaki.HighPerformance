@@ -8,6 +8,9 @@ public class NonCopyableAttribute : Attribute
 [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.ReturnValue)]
 public class OwnerAttribute : Attribute
 {
+    public OwnerAttribute(bool mutable = true)
+    {
+    }
 }
 
 [AttributeUsage(AttributeTargets.Parameter)]
