@@ -395,9 +395,10 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
             return;
         }
 
+        var arrayPtr = (T*)_array.GetUnsafePtr();
         var copyFrom = Math.Min(start + length, _count);
-        MemoryUtility.MemMove(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
-            UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
+        MemoryUtility.MemMove(arrayPtr + start,
+            arrayPtr + copyFrom,
             (uint)((_count - copyFrom) * sizeof(T))
         );
         _count -= length;
@@ -426,13 +427,14 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
             return;
         }
 
+        var arrayPtr = (T*)_array.GetUnsafePtr();
         var numToCopy = Math.Min(length, _count - (start + length));
         var copyFrom = _count - numToCopy;
 
         if (numToCopy > 0)
         {
-            MemoryUtility.MemMove(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), start),
-                UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), copyFrom),
+            MemoryUtility.MemMove(arrayPtr + start,
+                arrayPtr + copyFrom,
                 (uint)((_count - copyFrom) * sizeof(T)));
         }
 
@@ -465,7 +467,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
             Resize(Math.Max(newSize, Capacity * 2));
         }
 
-        var arrayPtr = (byte*)_array.GetUnsafePtr();
+        var arrayPtr = (T*)_array.GetUnsafePtr();
         var elementsToMove = _count - index;
         if (elementsToMove > 0)
         {
@@ -476,7 +478,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
             );
         }
 
-        MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(arrayPtr, index),
+        MemoryUtility.MemCpy(arrayPtr + index,
             ptr,
             MemoryUtility.SizeOf<T>() * (nuint)count);
 
