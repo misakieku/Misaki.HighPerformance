@@ -321,18 +321,10 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// <param name="values">A span containing the elements to add.</param>
     public void AddRange(ReadOnlySpan<T> values)
     {
-        var newSize = _count + values.Length;
-        if (newSize >= Capacity)
-        {
-            Resize(Capacity + values.Length);
-        }
-
         fixed (T* ptr = values)
         {
-            MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(values.Length * sizeof(T)));
+            AddRange(ptr, values.Length);
         }
-
-        _count += values.Length;
     }
 
     /// <summary>
@@ -343,13 +335,13 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     public void AddRange(T* ptr, int count)
     {
         var newSize = _count + count;
-        if (newSize >= Capacity)
+        if (newSize > Capacity)
         {
             Resize(Capacity + count);
         }
 
         MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(_array.GetUnsafePtr(), _count), ptr, (uint)(count * sizeof(T)));
-        _count += count;
+        _count = newSize;
     }
 
     /// <summary>
@@ -462,7 +454,7 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     public void InsertRange(int index, T* ptr, int count)
     {
         var newSize = _count + count;
-        if (newSize >= Capacity)
+        if (newSize > Capacity)
         {
             Resize(Math.Max(newSize, Capacity * 2));
         }
