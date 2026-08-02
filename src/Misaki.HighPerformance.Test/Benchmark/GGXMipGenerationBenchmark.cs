@@ -1,3 +1,4 @@
+#if false
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Engines;
 using Misaki.HighPerformance.Image;
@@ -593,3 +594,4 @@ public unsafe class GGXMipGenerationBenchmark
     //    });
     //}
 }
+#endif
