@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Misaki.HighPerformance.Image\Misaki.HighPerformance.Image.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance.Jobs\Misaki.HighPerformance.Jobs.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance.LowLevel\Misaki.HighPerformance.LowLevel.csproj" />
     <ProjectReference Include="..\Misaki.HighPerformance.Mathematics.SPMD\Misaki.HighPerformance.Mathematics.SPMD.csproj" />

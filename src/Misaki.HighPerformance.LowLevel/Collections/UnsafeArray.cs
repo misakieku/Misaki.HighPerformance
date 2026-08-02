@@ -250,6 +250,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly Span<T> AsSpan(int start)
     {
+        if (start == 0)
+        {
+            return Span<T>.Empty;
+        }
+
         ThrowIfNotCreated();
 
         if (start < 0 || start >= _count)
@@ -263,6 +268,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly Span<T> AsSpan(int start, int length)
     {
+        if (start == 0 && length == 0)
+        {
+            return Span<T>.Empty;
+        }
+
         ThrowIfNotCreated();
 
         if (start < 0 || start >= _count)
