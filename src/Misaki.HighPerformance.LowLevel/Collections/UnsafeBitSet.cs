@@ -199,6 +199,22 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
         }
 
         _bits[b] &= ~(1u << (index & BIT_SIZE));
+
+        if (index == _highestBit)
+        {
+            // Scan backwards to find the new highest set bit
+            _highestBit = -1;
+            for (var i = _bits.Count - 1; i >= 0; i--)
+            {
+                if (_bits[i] != 0)
+                {
+                    _highestBit = (i << INDEX_SIZE) + BitOperations.Log2(_bits[i]);
+                    break;
+                }
+            }
+
+            _max = _highestBit / (BIT_SIZE + 1) + 1;
+        }
     }
 
     /// <summary>
@@ -795,7 +811,7 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
     public override readonly int GetHashCode()
     {
         var hash = new HashCode();
-        hash.AddBytes(MemoryMarshal.AsBytes(_bits.AsSpan(0, _highestBit)));
+        hash.AddBytes(MemoryMarshal.AsBytes(_bits.AsSpan(0, _max)));
         return hash.ToHashCode();
     }
 
