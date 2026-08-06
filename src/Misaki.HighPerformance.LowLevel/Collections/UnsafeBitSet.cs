@@ -747,12 +747,13 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
             return false;
         }
 
-        var bits = _bits.AsSpan(0, _highestBit);
-        var otherBits = other._bits.AsSpan(0, _highestBit);
+        var count = Math.Min(_bits.Count, other._bits.Count);
+        var bits = _bits.AsSpan(0, count);
+        var otherBits = other._bits.AsSpan(0, count);
 
         if (!Vector.IsHardwareAccelerated || _bits.Count < s_padding)
         {
-            for (var i = 0; i < _bits.Count; i++)
+            for (var i = 0; i < count; i++)
             {
                 if (bits[i] != otherBits[i])
                 {
@@ -762,7 +763,7 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
         }
         else
         {
-            for (var i = 0; i < _bits.Count; i += s_padding)
+            for (var i = 0; i < count; i += s_padding)
             {
                 var vector = new Vector<uint>(bits[i..]);
                 var otherVector = new Vector<uint>(otherBits[i..]);
