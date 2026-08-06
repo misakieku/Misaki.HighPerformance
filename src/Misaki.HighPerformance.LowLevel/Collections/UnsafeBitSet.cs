@@ -55,10 +55,10 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
         }
     }
 
-    internal const int BIT_SIZE = sizeof(uint) * 8 - 1;           // 31
-    internal const int INDEX_SIZE = 5;                              // log_2(BitSize + 1)
-    internal const int MASK = (1 << 5) - 1;                         // 0x1F, the mask to get the bit index inside a uint
-    internal static readonly int s_padding = Vector<uint>.Count;      // The padding used for vectorization, the amount of uints required for being vectorized basically
+    internal const int BIT_SIZE = sizeof(uint) * 8 - 1;                 // 31
+    internal const int INDEX_SIZE = 5;                                  // log_2(BitSize + 1)
+    internal const int MASK = (1 << 5) - 1;                             // 0x1F, the mask to get the bit index inside a uint
+    internal static readonly int s_padding = Vector<uint>.Count;        // The padding used for vectorization, the amount of uints required for being vectorized basically
 
     private UnsafeArray<uint> _bits;
     private int _highestBit;
@@ -95,7 +95,7 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
     /// <param name="minimalLength">The minimal length in bits.</param>
     /// <param name="handle">The allocation handle.</param>
     /// <param name="option">The allocation option.</param>
-    public UnsafeBitSet(int minimalLength, AllocationHandle handle, AllocationOption option = AllocationOption.None)
+    public UnsafeBitSet(int minimalLength, AllocationHandle handle, AllocationOption option = AllocationOption.Clear)
     {
         var uints = (minimalLength >> INDEX_SIZE) + int.Sign(minimalLength & BIT_SIZE);
         var length = RoundToPadding(uints);
@@ -110,7 +110,7 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
     /// <param name="handle">The allocation handle.</param>
     public UnsafeBitSet(Span<uint> bits, AllocationHandle handle)
     {
-        _bits = new UnsafeArray<uint>(bits.Length, handle, AllocationOption.None);
+        _bits = new UnsafeArray<uint>(bits.Length, handle, AllocationOption.Clear);
         _bits.CopyFrom(bits);
 
         _highestBit = 0;
@@ -176,9 +176,8 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
         var b = index >> INDEX_SIZE;
         if (b >= _bits.Count)
         {
-            _bits.Resize(index);
+            _bits.Resize(b + 1);
         }
-
 
         // Track highest set bit
         _highestBit = Math.Max(_highestBit, index);
@@ -230,7 +229,7 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
     /// </summary>
     public readonly int NextSetBit(int startIndex)
     {
-        var wordIndex = startIndex >> BIT_SIZE;
+        var wordIndex = startIndex >> INDEX_SIZE;
         if (wordIndex >= _bits.Count)
         {
             return -1;
@@ -244,7 +243,7 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
             {
                 // get the least-significant set bit
                 var bit = BitOperations.TrailingZeroCount(word);
-                return (wordIndex << BIT_SIZE) + bit;
+                return (wordIndex << INDEX_SIZE) + bit;
             }
 
             wordIndex++;
@@ -743,13 +742,13 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
 
     public readonly bool Equals(UnsafeBitSet other)
     {
-        if (_bits.Count != other._bits.Count)
+        if (_highestBit != other._highestBit)
         {
             return false;
         }
 
-        var bits = _bits.AsSpan();
-        var otherBits = other._bits.AsSpan();
+        var bits = _bits.AsSpan(0, _highestBit);
+        var otherBits = other._bits.AsSpan(0, _highestBit);
 
         if (!Vector.IsHardwareAccelerated || _bits.Count < s_padding)
         {
@@ -795,7 +794,7 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
     public override readonly int GetHashCode()
     {
         var hash = new HashCode();
-        hash.AddBytes(MemoryMarshal.AsBytes(_bits.AsSpan()));
+        hash.AddBytes(MemoryMarshal.AsBytes(_bits.AsSpan(0, _highestBit)));
         return hash.ToHashCode();
     }
 
@@ -846,16 +845,12 @@ public readonly ref struct SpanBitSet : IUnsafeBitSet, IEquatable<SpanBitSet>
         }
     }
 
-    private const int BIT_SIZE = sizeof(uint) * 8 - 1; // 31
-    // NOTE: Is a byte not 8 bits?
-    private const int BYTE_SIZE = 5; // log_2(BitSize + 1)
-
     /// <summary>
     /// The bits from the bitset.
     /// </summary>
     private readonly Span<uint> _bits;
 
-    public int Count => _bits.Length << BYTE_SIZE;
+    public int Count => _bits.Length << UnsafeBitSet.INDEX_SIZE;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UnsafeBitSet" /> class.
@@ -877,13 +872,13 @@ public readonly ref struct SpanBitSet : IUnsafeBitSet, IEquatable<SpanBitSet>
     /// <returns>True if it is, otherwise false</returns>
     public bool IsSet(int index)
     {
-        var b = index >> BYTE_SIZE;
+        var b = index >> UnsafeBitSet.INDEX_SIZE;
         if (b >= _bits.Length)
         {
             return false;
         }
 
-        return (_bits[b] & 1 << (index & BIT_SIZE)) != 0;
+        return (_bits[b] & 1 << (index & UnsafeBitSet.BIT_SIZE)) != 0;
     }
 
     /// <summary>
@@ -893,13 +888,13 @@ public readonly ref struct SpanBitSet : IUnsafeBitSet, IEquatable<SpanBitSet>
     /// <param name="index">The index.</param>
     public void SetBit(int index)
     {
-        var b = index >> BYTE_SIZE;
+        var b = index >> UnsafeBitSet.INDEX_SIZE;
         if (b >= _bits.Length)
         {
             return;
         }
 
-        _bits[b] |= 1u << (index & BIT_SIZE);
+        _bits[b] |= 1u << (index & UnsafeBitSet.BIT_SIZE);
     }
 
     /// <summary>
@@ -908,13 +903,13 @@ public readonly ref struct SpanBitSet : IUnsafeBitSet, IEquatable<SpanBitSet>
     /// <param name="index">The index.</param>
     public void ClearBit(int index)
     {
-        var b = index >> BYTE_SIZE;
+        var b = index >> UnsafeBitSet.INDEX_SIZE;
         if (b >= _bits.Length)
         {
             return;
         }
 
-        _bits[b] &= ~(1u << (index & BIT_SIZE));
+        _bits[b] &= ~(1u << (index & UnsafeBitSet.BIT_SIZE));
     }
 
     /// <summary>
@@ -939,7 +934,7 @@ public readonly ref struct SpanBitSet : IUnsafeBitSet, IEquatable<SpanBitSet>
 
     public int NextSetBit(int startIndex)
     {
-        var wordIndex = startIndex >> BIT_SIZE;
+        var wordIndex = startIndex >> UnsafeBitSet.INDEX_SIZE;
         if (wordIndex >= _bits.Length)
         {
             return -1;
@@ -953,7 +948,7 @@ public readonly ref struct SpanBitSet : IUnsafeBitSet, IEquatable<SpanBitSet>
             {
                 // get the least-significant set bit
                 var bit = BitOperations.TrailingZeroCount(word);
-                return (wordIndex << BIT_SIZE) + bit;
+                return (wordIndex << UnsafeBitSet.INDEX_SIZE) + bit;
             }
 
             wordIndex++;
