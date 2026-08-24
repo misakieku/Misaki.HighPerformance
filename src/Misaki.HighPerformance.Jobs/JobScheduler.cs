@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Misaki.HighPerformance.Jobs;
 
-public struct JobSchedulerDesc
+public struct JobSchedulerDesc()
 {
     /// <summary>
     /// Gets or sets the number of worker threads to be created and managed by the job scheduler. If set to less than 1, at least one worker thread will be created.
@@ -27,10 +27,10 @@ public struct JobSchedulerDesc
     /// <summary>
     /// Gets or sets the priority of the worker threads. This can be used to influence the scheduling of the threads by the operating system. The default value is <see cref="ThreadPriority.Normal"/>.
     /// </summary>
-    public required ThreadPriority ThreadPriority
+    public ThreadPriority ThreadPriority
     {
         get; set;
-    }
+    } = ThreadPriority.Normal;
 
     /// <summary>
     /// Gets or sets the state object for the job scheduler. This can be used to store any user-defined data or context that may be needed by the jobs or worker threads. The job scheduler does not interpret or manage this state in any way; it is simply provided as a convenience for users of the job scheduler. The default value is null.
@@ -205,14 +205,9 @@ public sealed unsafe partial class JobScheduler : IDisposable
         }
     }
 
-    ~JobScheduler()
-    {
-        Dispose();
-    }
-
     private void EnqueueJobIfReady(JobHandle handle, bool preferLocal)
     {
-        ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.generation, out var exist);
+        ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out var exist);
 
         if (exist && Volatile.Read(ref jobInfo.dependencyCount) == 0)
         {
@@ -314,7 +309,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         {
             var dependency = dependencies[i];
 
-            ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(dependency.ID, dependency.generation, out var exist);
+            ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(dependency.ID, dependency.Generation, out var exist);
             if (!exist)
             {
                 Interlocked.Decrement(ref infoInPool.dependencyCount);
@@ -427,14 +422,14 @@ public sealed unsafe partial class JobScheduler : IDisposable
             return ref Unsafe.NullRef<JobInfo>();
         }
 
-        return ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.generation, out exist);
+        return ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out exist);
     }
 
     internal void MarkJobComplete(JobHandle handle)
     {
         Debug.Assert(handle.IsValid);
 
-        ref var info = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.generation, out var exist);
+        ref var info = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out var exist);
         if (!exist)
         {
             return;
@@ -457,7 +452,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         {
             var depHandle = it.Current;
 
-            ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(depHandle.ID, depHandle.generation, out var depExist);
+            ref var depJobInfo = ref _jobInfoPool.GetElementReferenceAt(depHandle.ID, depHandle.Generation, out var depExist);
             if (depExist && Interlocked.Decrement(ref depJobInfo.dependencyCount) == 0)
             {
                 EnqueueJobIfReady(depHandle, true);
@@ -471,7 +466,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
             info.pFreeFunc(in info);
         }
 
-        _jobInfoPool.Remove(handle.ID, handle.generation);
+        _jobInfoPool.Remove(handle.ID, handle.Generation);
     }
 
     /// <summary>
@@ -793,7 +788,15 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         Unsafe.CopyBlock(ref *(byte*)pDependencies, ref MemoryMarshal.GetReference(MemoryMarshal.AsBytes(dependencies)), size);
 
-        return Schedule(in job);
+        var desc = new CustomJobDesc<CombinedDependenciesJob>
+        {
+            data = ref job,
+            pExecutionFunc = &CombinedDependenciesJob.Execute,
+            pFreeFunc = &CombinedDependenciesJob.Free,
+            jobRanges = JobRanges.Single,
+        };
+
+        return ScheduleCustom(in desc);
     }
 
     /// <summary>
@@ -809,7 +812,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
             return JobState.Invalid;
         }
 
-        ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.generation, out var exist);
+        ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out var exist);
         if (!exist)
         {
             return JobState.Completed; // We assume completed if not found. Invalid state is reserved for error.
@@ -839,7 +842,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         var spin = new SpinWait();
         while (true)
         {
-            ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.generation, out var exist);
+            ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out var exist);
             if (!exist)
             {
                 return;
@@ -892,7 +895,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
             for (var i = completedCount; i < handles.Length; i++)
             {
                 var handle = handles[i];
-                if (!_jobInfoPool.Contains(handle.ID, handle.generation))
+                if (!_jobInfoPool.Contains(handle.ID, handle.Generation))
                 {
                     // Move completed handle to the front (completedCount index) to avoid checking it again.
                     var temp = handles[completedCount];
@@ -926,7 +929,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         {
             foreach (var handle in handles)
             {
-                if (!_jobInfoPool.Contains(handle.ID, handle.generation))
+                if (!_jobInfoPool.Contains(handle.ID, handle.Generation))
                 {
                     return handle;
                 }
@@ -1008,6 +1011,12 @@ public sealed unsafe partial class JobScheduler : IDisposable
         for (var i = _helperThreadCount; i < _workerThreads.Length; i++)
         {
             _workerThreads[i].Dispose();
+        }
+
+
+        foreach (var info in _jobInfoPool)
+        {
+            info.pFreeFunc(in info);
         }
 
         _workSignal.Dispose();

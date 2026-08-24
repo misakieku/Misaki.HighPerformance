@@ -61,18 +61,26 @@ public interface ICustomJob<TSelf>
     static abstract void Free(ref TSelf job);
 }
 
-internal unsafe struct CombinedDependenciesJob : IJob
+internal unsafe struct CombinedDependenciesJob : IJob, ICustomJob<CombinedDependenciesJob>
 {
     public JobHandle* dependencies;
     public int dependencyCount;
 
+    // NOTE: The native buffer is owned exclusively by Free. Exactly one of
+    // {normal completion -> pFreeFunc, Dispose drain -> pFreeFunc} runs it,
+    // guaranteed by pool membership: MarkJobComplete removes the entry after
+    // pFreeFunc, and the drain only sees entries whose Execute never ran.
     public readonly void Execute(ref readonly JobExecutionContext ctx)
     {
         var span = new Span<JobHandle>(dependencies, dependencyCount);
         ctx.JobScheduler.WaitAll(span);
-
-        NativeMemory.Free(dependencies);
     }
+
+    public static void Execute(ref CombinedDependenciesJob job, ref JobRanges jobRanges, ref readonly JobExecutionContext ctx)
+        => job.Execute(in ctx);
+
+    public static void Free(ref CombinedDependenciesJob job)
+        => NativeMemory.Free(job.dependencies);
 }
 
 public static class IJobExtensions

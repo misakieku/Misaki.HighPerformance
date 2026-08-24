@@ -93,7 +93,7 @@ internal class WorkerThread : IDisposable
             for (var i = 1; i < _scheduler.WorkerCount; i++)
             {
                 // Calculate the target deterministically using modulo arithmetic 
-                var targetIndex = ((t_threadIndex + i) % _scheduler.WorkerCount) + helperThreadCount;
+                var targetIndex = ((t_threadIndex - helperThreadCount + i) % _scheduler.WorkerCount) + helperThreadCount;
 
                 if (_scheduler.TryStealFromWorker(targetIndex, p, out handle))
                 {
@@ -117,46 +117,53 @@ internal class WorkerThread : IDisposable
 
         while (!_scheduler.IsCancellationRequested)
         {
-            var handle = JobHandle.Invalid;
-            var spin = new SpinWait();
-            var found = false;
-
-            while (!spin.NextSpinWillYield)
+            try
             {
-                if (TryFindJob(out handle))
-                {
-                    _scheduler.WaitForWork(0); // Consume the signal if we found work immediately
+                var handle = JobHandle.Invalid;
+                var spin = new SpinWait();
+                var found = false;
 
-                    found = true;
-                    break;
+                while (!spin.NextSpinWillYield)
+                {
+                    if (TryFindJob(out handle))
+                    {
+                        _scheduler.WaitForWork(0); // Consume the signal if we found work immediately
+
+                        found = true;
+                        break;
+                    }
+
+                    spin.SpinOnce(-1);
                 }
 
-                spin.SpinOnce(-1);
-            }
+                // If we didn't find a job after spinning, wait for a signal
+                if (!found)
+                {
+                    _scheduler.BroadcastStateChange(t_threadIndex, WorkerThreadState.Idle);
 
-            // If we didn't find a job after spinning, wait for a signal
-            if (!found)
+                    try
+                    {
+                        _scheduler.WaitForWork(Timeout.Infinite);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        break;
+                    }
+
+                    _scheduler.BroadcastStateChange(t_threadIndex, WorkerThreadState.Spinning);
+
+                    if (!TryFindJob(out handle))
+                    {
+                        continue;
+                    }
+                }
+
+                JobUtility.TryHelpExecuteJob(_scheduler, handle, t_threadIndex);
+            }
+            catch (Exception ex)
             {
-                _scheduler.BroadcastStateChange(t_threadIndex, WorkerThreadState.Idle);
-
-                try
-                {
-                    _scheduler.WaitForWork(Timeout.Infinite);
-                }
-                catch (OperationCanceledException)
-                {
-                    break;
-                }
-
-                _scheduler.BroadcastStateChange(t_threadIndex, WorkerThreadState.Spinning);
-
-                if (!TryFindJob(out handle))
-                {
-                    continue;
-                }
+                Debug.Fail($"Worker thread {t_threadIndex} encountered an exception: {ex}");
             }
-
-            JobUtility.TryHelpExecuteJob(_scheduler, handle, t_threadIndex);
         }
     }
 

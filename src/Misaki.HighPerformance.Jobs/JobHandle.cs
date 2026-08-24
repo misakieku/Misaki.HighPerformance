@@ -13,7 +13,7 @@ public readonly struct JobHandle : IEquatable<JobHandle>
         get => _id;
     }
 
-    public int generation
+    public int Generation
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => _generation;

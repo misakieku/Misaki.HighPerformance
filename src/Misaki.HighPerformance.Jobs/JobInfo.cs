@@ -36,13 +36,13 @@ public enum JobState
 public enum JobPriority
 {
     /// <summary>
-    /// Normal priority. Which will have 37.5% chance to be picked when there are multiple jobs ready to run.
-    /// </summary>
-    Normal = 0,
-    /// <summary>
     /// High priority. Which will have 50.0% chance to be picked when there are multiple jobs ready to run. This is useful for jobs that are on the critical path of the execution and we want to prioritize their completion.
     /// </summary>
-    High = 1,
+    High = 0,
+    /// <summary>
+    /// Normal priority. Which will have 37.5% chance to be picked when there are multiple jobs ready to run.
+    /// </summary>
+    Normal = 1,
     /// <summary>
     /// Low priority. Which will have 12.5% chance to be picked when there are multiple jobs ready to run.
     /// </summary>
