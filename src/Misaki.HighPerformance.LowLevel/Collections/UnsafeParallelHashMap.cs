@@ -17,7 +17,6 @@ public unsafe struct UnsafeParallelHashMapData<TKey, TValue>
     public int* next;
     public int* buckets;
 
-    public int count;
     public int capacity;
     public int bucketCapacityMask;
     public int allocatedIndex;
@@ -40,11 +39,36 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
 
     public const int MINIMAL_CAPACITY = 64;
 
-    public readonly int Count => _data != null ? _data->count : 0;
+    public readonly int Count
+    {
+        get
+        {
+            if (_data == null)
+            {
+                return 0;
+            }
+
+            return Math.Min(_data->capacity, _data->allocatedIndex) - GetFreeListSize();
+        }
+    }
 
     public readonly int Capacity => _data != null ? _data->capacity : 0;
 
-    public readonly bool IsEmpty => !IsCreated || _data->count == 0;
+    public readonly bool IsEmpty
+    {
+        get
+        {
+            if (_data == null || _data->buffer == null)
+            {
+                return true;
+            }
+
+            // Fast path: nothing was ever allocated. Otherwise the map is empty exactly when
+            // every allocated slot sits on the free list.
+            return _data->allocatedIndex <= 0
+                || Math.Min(_data->capacity, _data->allocatedIndex) - GetFreeListSize() == 0;
+        }
+    }
 
     public readonly bool IsCreated
     {
@@ -180,7 +204,7 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private readonly int CalcCapacityCeilPow2(int capacity)
     {
-        capacity = Math.Max(Math.Max(1, _data->count), capacity);
+        capacity = Math.Max(Math.Max(1, Count), capacity);
         var newCapacity = Math.Max(capacity, 1 << _data->log2MinGrowth);
         var result = CeilPow2(newCapacity);
         return result;
@@ -219,11 +243,22 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private readonly int GetFreeListSize()
+    {
+        var size = 0;
+        for (var freeIdx = _data->firstFreeIndex; freeIdx >= 0; freeIdx = _data->next[freeIdx])
+        {
+            ++size;
+        }
+
+        return size;
+    }
+
     public void Clear()
     {
         ThrowIfNotCreated();
 
-        _data->count = 0;
         _data->allocatedIndex = 0;
         _data->firstFreeIndex = -1;
 
@@ -323,7 +358,6 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
 
         _data->next[idx] = _data->buckets[bucket];
         _data->buckets[bucket] = idx;
-        _data->count++;
 
         return idx;
     }
@@ -372,11 +406,6 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
             }
         }
 
-        if (removed)
-        {
-            _data->count--;
-        }
-
         return removed;
     }
 
@@ -420,7 +449,7 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
     {
         ThrowIfNotCreated();
 
-        newCapacity = Math.Max(newCapacity, _data->count);
+        newCapacity = Math.Max(newCapacity, Count);
         var newBucketCapacity = CeilPow2(newCapacity * 2);
 
         if (_data->capacity == newCapacity && (_data->bucketCapacityMask + 1) == newBucketCapacity)
@@ -504,7 +533,6 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
 
                 if (Interlocked.CompareExchange(ref b, idx, bucketHead) == bucketHead)
                 {
-                    Interlocked.Increment(ref _data->count);
                     return true;
                 }
             }

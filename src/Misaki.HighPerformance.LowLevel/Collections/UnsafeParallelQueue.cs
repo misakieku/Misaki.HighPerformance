@@ -58,6 +58,12 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
     {
         private readonly UnsafeParallelQueue<T>* _queue;
 
+        public int Count
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _queue->Count;
+        }
+
         internal ParallelConsumer(UnsafeParallelQueue<T>* queue)
         {
             _queue = queue;
@@ -85,6 +91,31 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
     private readonly int _chunkCapacity;
 
     public readonly bool IsCreated => _head != 0;
+
+    /// <summary>
+    /// Gets a value indicating whether the queue contains no items.
+    /// </summary>
+    /// <remarks>
+    /// O(1): inspects only the head chunk. Every chunk beyond the head is always non-empty
+    /// (expansion writes its first slot before linking), so the queue is empty exactly when the
+    /// head chunk has no unconsumed slots and no successor. Like <see cref="Count"/>, this is a
+    /// best-effort snapshot while producers or consumers are running concurrently; exact when
+    /// quiescent.
+    /// </remarks>
+    public bool IsEmpty
+    {
+        get
+        {
+            if (!IsCreated)
+            {
+                return true;
+            }
+
+            var head = (ChunkHeader*)Volatile.Read(ref _head);
+            return Volatile.Read(ref head->head) >= Volatile.Read(ref head->tail)
+                && Volatile.Read(ref *(nint*)&head->next) == 0;
+        }
+    }
 
     /// <summary>
     /// Gets the approximate number of items currently in the queue.

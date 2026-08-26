@@ -20,6 +20,52 @@ public class TestUnsafeParallelQueue
     }
 
     [TestMethod]
+    public void TestIsEmpty()
+    {
+        Assert.IsTrue(_queue.IsEmpty);
+
+        _queue.Enqueue(1);
+        _queue.Enqueue(2);
+        Assert.IsFalse(_queue.IsEmpty);
+
+        Assert.IsTrue(_queue.TryDequeue(out _));
+        Assert.IsTrue(_queue.TryDequeue(out _));
+        Assert.IsTrue(_queue.IsEmpty);
+    }
+
+    [TestMethod]
+    public void TestIsEmptyAcrossChunks()
+    {
+        for (var i = 0; i < 100; i++)
+        {
+            _queue.Enqueue(i);
+        }
+
+        Assert.IsFalse(_queue.IsEmpty);
+
+        for (var i = 0; i < 100; i++)
+        {
+            Assert.IsTrue(_queue.TryDequeue(out _));
+        }
+
+        // Partially-consumed final chunk with no successor must read as empty
+        Assert.IsTrue(_queue.IsEmpty);
+        Assert.AreEqual(0, _queue.Count);
+    }
+
+    [TestMethod]
+    public void TestIsEmptyAfterClear()
+    {
+        for (var i = 0; i < 100; i++)
+        {
+            _queue.Enqueue(i);
+        }
+
+        _queue.Clear();
+        Assert.IsTrue(_queue.IsEmpty);
+    }
+
+    [TestMethod]
     public void TestCountSingleChunk()
     {
         Assert.AreEqual(0, _queue.Count);
@@ -133,6 +179,30 @@ public class TestUnsafeParallelQueue
 
         // Quiescent after Parallel.For: Count must be exact
         Assert.AreEqual(total, _queue.Count);
+        Assert.IsFalse(_queue.IsEmpty);
+    }
+
+    [TestMethod]
+    public void TestParallelDrainThenIsEmpty()
+    {
+        const int total = 5000;
+        var producer = _queue.AsParallelProducer();
+        var consumer = _queue.AsParallelConsumer();
+
+        Parallel.For(0, total, i =>
+        {
+            producer.Enqueue(i);
+        });
+
+        Parallel.For(0, total, i =>
+        {
+            while (consumer.TryDequeue(out _))
+            {
+            }
+        });
+
+        Assert.AreEqual(0, _queue.Count);
+        Assert.IsTrue(_queue.IsEmpty);
     }
 
     [TestMethod]
@@ -155,5 +225,6 @@ public class TestUnsafeParallelQueue
         });
 
         Assert.AreEqual(0, _queue.Count);
+        Assert.IsTrue(_queue.IsEmpty);
     }
 }

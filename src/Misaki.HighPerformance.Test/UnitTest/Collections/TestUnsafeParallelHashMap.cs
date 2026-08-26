@@ -151,4 +151,69 @@ public class TestUnsafeParallelHashMap
             });
         });
     }
+
+    [TestMethod]
+    public void TestCountAndIsEmptyAfterChurn()
+    {
+        using var map = new UnsafeParallelHashMap<int, int>(128, 1, AllocationHandle.Temp, AllocationOption.None);
+
+        for (var i = 0; i < 100; i++)
+        {
+            map.Add(i, i);
+        }
+
+        // Remove half: allocated slots remain, free list grows
+        for (var i = 0; i < 50; i++)
+        {
+            Assert.IsTrue(map.Remove(i));
+        }
+
+        Assert.AreEqual(50, map.Count);
+        Assert.IsFalse(map.IsEmpty);
+
+        // Remove the rest: every allocated slot is now on the free list -> empty
+        for (var i = 50; i < 100; i++)
+        {
+            Assert.IsTrue(map.Remove(i));
+        }
+
+        Assert.AreEqual(0, map.Count);
+        Assert.IsTrue(map.IsEmpty);
+
+        // Map must remain fully usable; free slots get reused
+        for (var i = 0; i < 10; i++)
+        {
+            map.Add(i, i * 2);
+        }
+
+        Assert.AreEqual(10, map.Count);
+        Assert.IsFalse(map.IsEmpty);
+        for (var i = 0; i < 10; i++)
+        {
+            Assert.IsTrue(map.TryGetValue(i, out var val));
+            Assert.AreEqual(i * 2, val);
+        }
+    }
+
+    [TestMethod]
+    public void TestParallelWriteThenRemoveChurn()
+    {
+        using var map = new UnsafeParallelHashMap<int, int>(2048, 1, AllocationHandle.Temp, AllocationOption.None);
+        var writer = map.AsParallelWriter();
+
+        Parallel.For(0, 1000, i =>
+        {
+            writer.TryAdd(i, i);
+        });
+
+        Assert.AreEqual(1000, map.Count);
+
+        for (var i = 0; i < 1000; i++)
+        {
+            Assert.IsTrue(map.Remove(i));
+        }
+
+        Assert.AreEqual(0, map.Count);
+        Assert.IsTrue(map.IsEmpty);
+    }
 }
