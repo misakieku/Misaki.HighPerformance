@@ -64,6 +64,12 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
             get => _queue->Count;
         }
 
+        public bool IsEmpty
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => _queue->IsEmpty;
+        }
+
         internal ParallelConsumer(UnsafeParallelQueue<T>* queue)
         {
             _queue = queue;
