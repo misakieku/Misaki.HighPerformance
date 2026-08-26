@@ -87,6 +87,40 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
     public readonly bool IsCreated => _head != 0;
 
     /// <summary>
+    /// Gets the approximate number of items currently in the queue.
+    /// </summary>
+    /// <remarks>
+    /// Walks the active chunk chain without locking. While producers or consumers are running
+    /// concurrently the value is a best-effort snapshot (items mid-enqueue or mid-dequeue may be
+    /// transiently miscounted); it is exact when the queue is quiescent.
+    /// </remarks>
+    public int Count
+    {
+        get
+        {
+            if (!IsCreated)
+            {
+                return 0;
+            }
+
+            var count = 0;
+            var chunk = (ChunkHeader*)Volatile.Read(ref _head);
+            while (chunk != null)
+            {
+                // tail may exceed capacity transiently due to failed reservations, and consumedSlots
+                // may briefly exceed a stale tail read while a chunk is being drained, so clamp.
+                var written = Math.Min(Volatile.Read(ref chunk->tail), chunk->capacity);
+                var consumed = Volatile.Read(ref chunk->consumedSlots);
+                count += Math.Max(0, written - consumed);
+
+                chunk = (ChunkHeader*)Volatile.Read(ref *(nint*)&chunk->next);
+            }
+
+            return count;
+        }
+    }
+
+    /// <summary>
     /// Allocates a new UnsafeParallelQueue on the heap using the provided allocation handle and returns a DisposablePtr to it.
     /// </summary>
     /// <param name="capacityPerChunk">The capacity per chunk.</param>
@@ -208,8 +242,10 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
                     if (Interlocked.CompareExchange(ref _head, (nint)next, (nint)head) == (nint)head)
                     {
                         // Successfully unlinked this chunk from _head.
-                        // If all slots have already been read, recycle it safely now!
-                        if (Volatile.Read(ref head->consumedSlots) >= head->capacity)
+                        // If all slots have already been read, claim the recycle. The claim
+                        // (consumedSlots: capacity -> capacity + 1) is atomic so that a
+                        // concurrent final reader cannot push the chunk to the pool twice.
+                        if (Interlocked.CompareExchange(ref head->consumedSlots, head->capacity + 1, head->capacity) == head->capacity)
                         {
                             RecycleChunk(head);
                         }
@@ -254,9 +290,13 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
                 // Track how many values have been permanently read
                 var consumed = Interlocked.Increment(ref head->consumedSlots);
 
-                // We recycle only if all readers are done AND this chunk is already detached from _head 
+                // We recycle only if all readers are done AND this chunk is already detached from _head
                 // (prevents ABA object reuse crashes where _head still points to a recycled memory block).
-                if (consumed >= head->capacity && Volatile.Read(ref _head) != (nint)head)
+                // Exactly one thread ever observes consumed == capacity; it must still win the
+                // recycle claim (consumedSlots: capacity -> capacity + 1) against a concurrent
+                // detacher that may already have claimed it, so the chunk is never pushed twice.
+                if (consumed == head->capacity && Volatile.Read(ref _head) != (nint)head
+                    && Interlocked.CompareExchange(ref head->consumedSlots, head->capacity + 1, head->capacity) == head->capacity)
                 {
                     RecycleChunk(head);
                 }
@@ -349,6 +389,40 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
     public ParallelConsumer AsParallelConsumer()
     {
         return new ParallelConsumer((UnsafeParallelQueue<T>*)Unsafe.AsPointer(ref this));
+    }
+
+    /// <summary>
+    /// Removes all items from the queue and resets it to its initial empty state.
+    /// Active chunks are recycled into the internal chunk pool; no memory is released.
+    /// </summary>
+    /// <remarks>
+    /// This method is not thread-safe. It must only be called while the queue is quiescent,
+    /// i.e. when no other thread is currently enqueuing or dequeuing.
+    /// </remarks>
+    public void Clear()
+    {
+        if (!IsCreated)
+        {
+            return;
+        }
+
+        // Recycle every active chunk back into the pool, then reclaim one as the fresh
+        // head/tail chunk so the queue matches its post-construction state.
+        var curr = (ChunkHeader*)_head;
+        while (curr != null)
+        {
+            var next = curr->next;
+            RecycleChunk(curr);
+            curr = next;
+        }
+
+        _head = 0;
+        _tail = 0;
+        _expandLock = 0;
+
+        var initialChunk = GetChunkFromPoolOrAllocate();
+        _head = (nint)initialChunk;
+        _tail = (nint)initialChunk;
     }
 
     public void Dispose()
