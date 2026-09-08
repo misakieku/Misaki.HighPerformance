@@ -17,3 +17,8 @@ public class OwnerAttribute : Attribute
 public class DiligentAttribute : Attribute
 {
 }
+
+[AttributeUsage(AttributeTargets.Parameter)]
+public class AllowCopyAttribute : Attribute
+{
+}

@@ -158,21 +158,6 @@ public unsafe struct UnsafeParallelQueue<T> : IDisposable
     }
 
     /// <summary>
-    /// Allocates a new UnsafeParallelQueue on the heap using the provided allocation handle and returns a DisposablePtr to it.
-    /// </summary>
-    /// <param name="capacityPerChunk">The capacity per chunk.</param>
-    /// <param name="handle">The allocation handle.</param>
-    /// <param name="allocationOption">The allocation option.</param>
-    /// <returns>A DisposablePtr to the allocated UnsafeParallelQueue.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static DisposablePtr<UnsafeParallelQueue<T>> Allocate(int capacityPerChunk, AllocationHandle handle, AllocationOption allocationOption = AllocationOption.None)
-    {
-        var pQueue = (UnsafeParallelQueue<T>*)handle.Alloc(MemoryUtility.SizeOf<DisposablePtr<UnsafeParallelQueue<T>>>(), MemoryUtility.AlignOf<DisposablePtr<UnsafeParallelQueue<T>>>(), AllocationOption.None);
-        *pQueue = new UnsafeParallelQueue<T>(capacityPerChunk, handle, allocationOption);
-        return new DisposablePtr<UnsafeParallelQueue<T>>(pQueue);
-    }
-
-    /// <summary>
     /// Initializes a new instance of the UnsafeParallelQueue with the specified capacity per chunk and allocation handle.
     /// </summary>
     /// <param name="capacityPerChunk">The capacity per chunk.</param>

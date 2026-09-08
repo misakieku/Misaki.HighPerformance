@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Testing;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 
@@ -13,10 +14,14 @@ namespace Misaki.HighPerformance.Analyzer.Test
             {
                 SolutionTransforms.Add((solution, projectId) =>
                 {
-                    var compilationOptions = solution.GetProject(projectId).CompilationOptions;
+                    var project = solution.GetProject(projectId);
+                    var parseOptions = ((CSharpParseOptions)project.ParseOptions).WithLanguageVersion(LanguageVersion.Latest);
+                    var compilationOptions = project.CompilationOptions;
                     compilationOptions = compilationOptions.WithSpecificDiagnosticOptions(
                         compilationOptions.SpecificDiagnosticOptions.SetItems(CSharpVerifierHelper.NullableWarnings));
-                    solution = solution.WithProjectCompilationOptions(projectId, compilationOptions);
+                    solution = solution
+                        .WithProjectParseOptions(projectId, parseOptions)
+                        .WithProjectCompilationOptions(projectId, compilationOptions);
 
                     return solution;
                 });

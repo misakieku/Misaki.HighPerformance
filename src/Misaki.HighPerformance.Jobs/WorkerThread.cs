@@ -4,6 +4,16 @@ namespace Misaki.HighPerformance.Jobs;
 
 internal class WorkerThread : IDisposable
 {
+    // Sequence table for job priority selection
+    // 0(00), 1(01), 2(10) -> reverse order for bitwise operations
+    // Tick 0~3: 2,1,0 -> 10_01_00 (0x24)
+    // Tick 4~6: 0,2,1 -> 00_10_01 (0x09)
+    // Tick 7:   1,0,2 -> 01_00_10 (0x12)
+    private const ulong SEQUENCE_TABLE =
+        (0x12UL << 42) |
+        (0x09UL << 36) | (0x09UL << 30) | (0x09UL << 24) |
+        (0x24UL << 18) | (0x24UL << 12) | (0x24UL << 6) | 0x24UL;
+
     [ThreadStatic]
     private static int t_threadIndex;
     [ThreadStatic]
@@ -14,7 +24,6 @@ internal class WorkerThread : IDisposable
     private readonly int _threadIndex;
 
     private readonly JobScheduler _scheduler;
-    private readonly int _maxStealAttems;
 
     private uint _priorityTick;
 
@@ -26,7 +35,6 @@ internal class WorkerThread : IDisposable
     public WorkerThread(int index, JobScheduler scheduler, ThreadPriority priority)
     {
         _scheduler = scheduler;
-        _maxStealAttems = Math.Max((int)(_scheduler.WorkerCount * 0.5f), 3);
 
         _localQueue = new SPMCQueue<JobHandle>[3];
         for (var i = 0; i < 3; i++)
@@ -57,23 +65,12 @@ internal class WorkerThread : IDisposable
         _priorityTick++;
 
         var tick = (int)(_priorityTick & 7);
-        // Ratio: 4 High (50%), 3 Normal (37.5%), 1 Low (12.5%)
-        var cascade = stackalloc int[24] {
-            0, 1, 2, // Tick 0 (High)
-            0, 1, 2, // Tick 1 (High)
-            0, 1, 2, // Tick 2 (High)
-            0, 1, 2, // Tick 3 (High)
-            1, 2, 0, // Tick 4 (Normal)
-            1, 2, 0, // Tick 5 (Normal)
-            1, 2, 0, // Tick 6 (Normal)
-            2, 0, 1  // Tick 7 (Low)
-        };
-
+        var seq = (int)((SEQUENCE_TABLE >> (tick * 6)) & 0x3F);
         var helperThreadCount = _scheduler.ExternalHelperThreadCount;
-        var index = tick * 3;
+
         for (var offset = 0; offset < 3; offset++)
         {
-            var p = cascade[index + offset];
+            var p = (seq >> (offset * 2)) & 0x3;
 
             if (_localQueue[p].TryPop(out handle))
             {
@@ -88,7 +85,7 @@ internal class WorkerThread : IDisposable
 
         for (var offset = 0; offset < helperThreadCount; offset++)
         {
-            var p = cascade[index + offset];
+            var p = (seq >> (offset * 2)) & 0x3;
 
             for (var i = 1; i < _scheduler.WorkerCount; i++)
             {
