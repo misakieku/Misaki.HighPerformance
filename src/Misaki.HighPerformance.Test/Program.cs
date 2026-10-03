@@ -6,18 +6,26 @@ using Misaki.HighPerformance.Mathematics.SPMD;
 using Misaki.HighPerformance.Test.Benchmark;
 using Misaki.HighPerformance.Test.UnitTest;
 using Misaki.HighPerformance.Test.UnitTest.Jobs;
+using System.Buffers;
 using System.Numerics;
 
 // BenchmarkDotNet.Running.BenchmarkRunner.Run<ObjectPoolBenchmark>();
 AllocationManager.Initialize();
 
-unsafe
+try
 {
-    var dic = new UnsafeHashMap<int, int>(2, AllocationHandle.Persistent);
-    dic[1] = 1;
-    dic[2] = 2;
+    unsafe
+    {
+        var dic = new UnsafeArray<int>(2, AllocationHandle.Persistent);
+        dic[0] = 1;
+        dic[1] = 2;
 
-    Console.WriteLine();
+        Console.WriteLine();
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Exception: {ex.Message}");
 }
 
 AllocationManager.Dispose();

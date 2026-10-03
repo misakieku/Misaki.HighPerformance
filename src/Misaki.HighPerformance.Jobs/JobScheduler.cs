@@ -169,7 +169,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// Initializes a new instance of the <see cref="JobScheduler"/> class with the specified description.
     /// </summary>
     /// <param name="desc">The description for the job scheduler.</param>
-    public JobScheduler(ref readonly JobSchedulerDesc desc)
+    public JobScheduler(scoped in JobSchedulerDesc desc)
     {
         var workerCount = Math.Max(1, desc.ThreadCount);
 

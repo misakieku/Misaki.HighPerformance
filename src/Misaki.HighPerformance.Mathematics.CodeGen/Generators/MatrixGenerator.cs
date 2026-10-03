@@ -56,11 +56,10 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
         {
             for (var i = 0; i < typeInfo.Column; i++)
             {
-                sourceBuilder.Append($@"
+                sourceBuilder.AppendLine($@"
+        [global::System.Text.Json.Serialization.JsonInclude]
         public {typeInfo.ComponentTypeFullName} {s_matrixComponents[i]};");
             }
-
-            sourceBuilder.AppendLine();
 
             sourceBuilder.AppendLine(@$"
         [global::System.Diagnostics.CodeAnalysis.UnscopedRef]

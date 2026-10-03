@@ -108,6 +108,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
                 for (var i = 0; i < typeInfo.Row; i++)
                 {
                     sourceBuilder.AppendLine($@"
+        [global::System.Text.Json.Serialization.JsonInclude]
         [global::System.Runtime.InteropServices.FieldOffset({i * typeInfo.ComponentSize})]
         public {componentType} {s_vectorComponents[i]};");
                 }
@@ -117,6 +118,7 @@ namespace Misaki.HighPerformance.Mathematics.CodeGen.Generators
                 for (var i = 0; i < typeInfo.Row; i++)
                 {
                     sourceBuilder.AppendLine($@"
+        [global::System.Text.Json.Serialization.JsonInclude]
         public {componentType} {s_vectorComponents[i]};");
                 }
             }
