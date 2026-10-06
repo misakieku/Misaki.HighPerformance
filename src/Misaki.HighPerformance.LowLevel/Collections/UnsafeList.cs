@@ -125,19 +125,22 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
         /// Adds a value to a collection without resizing it, ensuring capacity is checked before insertion.
         /// </summary>
         /// <param name="value">The value to be added to the collection.</param>
-        public void AddNoResize(scoped in T value)
+        /// <returns>The index at which the value was added.</returns>
+        public int AddNoResize(scoped in T value)
         {
-            var idx = Interlocked.Increment(ref listData->_count) - 1;
-            listData->CheckNoResizeCapacity(idx, 1);
-            UnsafeUtility.WriteArrayElement(listData->_array.GetUnsafePtr(), idx, value);
+            var index = Interlocked.Increment(ref listData->_count) - 1;
+            listData->CheckNoResizeCapacity(index, 1);
+            UnsafeUtility.WriteArrayElement(listData->_array.GetUnsafePtr(), index, value);
+            return index;
         }
 
         /// <summary>
         /// Adds a specified number of elements from a pointer to a buffer without resizing the underlying storage.
         /// </summary>
-        /// <param name="ptr">Points to the source data to be copied into the buffer.</param>
+        /// <param name="collection">Points to the source data to be copied into the collection.</param>
         /// <param name="count">Indicates the number of elements to be added from the source data.</param>
-        public void AddRangeNoResize(ReadOnlySpan<T> collection, int count)
+        /// <returns>The index at which the first element was added.</returns>
+        public int AddRangeNoResize(ReadOnlySpan<T> collection, int count)
         {
             var index = Interlocked.Add(ref listData->_count, count) - count;
             listData->CheckNoResizeCapacity(index, count);
@@ -146,6 +149,8 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
             {
                 MemoryUtility.MemCpy(UnsafeUtility.ReadArrayElementUnsafe<T>(listData->_array.GetUnsafePtr(), index), pCollection, (uint)(count * sizeof(T)));
             }
+
+            return index;
         }
     }
 
