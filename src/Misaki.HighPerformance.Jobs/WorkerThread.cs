@@ -155,7 +155,7 @@ internal class WorkerThread : IDisposable
                     }
                 }
 
-                JobUtility.TryHelpExecuteJob(_scheduler, handle, t_threadIndex);
+                JobUtility.TryExecuteJob(_scheduler, handle, t_threadIndex);
             }
             catch (Exception ex)
             {

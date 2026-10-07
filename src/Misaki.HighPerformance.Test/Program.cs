@@ -14,13 +14,22 @@ AllocationManager.Initialize();
 
 try
 {
-    unsafe
+    for (var i = 0; i < 100_000; i++)
     {
-        var dic = new UnsafeArray<int>(2, AllocationHandle.Persistent);
-        dic[0] = 1;
-        dic[1] = 2;
+        using var jobScheduler = new JobScheduler(new JobSchedulerDesc
+        {
+            ThreadCount = Environment.ProcessorCount,
+            DependencyChainCapacity = 64,
+            ThreadPriority = ThreadPriority.Normal
+        });
 
-        Console.WriteLine();
+        using var scope = AllocationManager.CreateStackScope();
+        using var data = new UnsafeArray<int>(8, scope.AllocationHandle);
+        var job = new TestJob { data = data };
+        var handle = jobScheduler.ScheduleParallelFor(in job, 8, 64);
+        jobScheduler.Wait(handle);
+
+        Console.WriteLine(i);
     }
 }
 catch (Exception ex)
@@ -29,6 +38,16 @@ catch (Exception ex)
 }
 
 AllocationManager.Dispose();
+
+struct TestJob : IJobParallelFor
+{
+    public UnsafeArray<int> data;
+
+    public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
+    {
+        data[loopIndex] = loopIndex * 2;
+    }
+}
 
 // const int count = 16;
 //

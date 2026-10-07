@@ -209,7 +209,7 @@ internal static class JobUtility
         return (Interlocked.Add(ref jobState, -RC_ONE) & ~STATE_MASK) >> RC_SHIFT;
     }
 
-    public static unsafe bool TryHelpExecuteJob(JobScheduler jobScheduler, JobHandle handle, int callerThreadIndex)
+    public static unsafe bool TryExecuteJob(JobScheduler jobScheduler, JobHandle handle, int callerThreadIndex)
     {
         ref var jobInfo = ref jobScheduler.GetJobInfoReference(handle, out var exist);
         if (!exist)
@@ -240,7 +240,7 @@ internal static class JobUtility
 
             // If it's single job and already running, we can't help it unless we restructure it.
             // But if it's a Parallel job, multiple threads CAN safely join the `Running` state.
-            if (state == JobState.Running && jobInfo.jobRanges.batchSize == jobInfo.jobRanges.totalIteration)
+            if (state == JobState.Running && jobInfo.jobRanges.TotalBatches <= 1)
             {
                 // Single execution job is already running on another thread. We just return false.
                 return false;

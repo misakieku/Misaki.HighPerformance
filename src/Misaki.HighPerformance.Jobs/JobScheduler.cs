@@ -848,20 +848,21 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 return;
             }
 
-            // Mask out RC
-            var state = JobUtility.ReadState(ref jobInfo);
-            if (state == JobState.Completed)
+            if (Volatile.Read(ref jobInfo.state) == JobUtility.JOBSTATE_COMPLETED)
             {
                 return;
             }
+
+            // Mask out RC
+            var state = JobUtility.ReadState(ref jobInfo);
 
             var madeProgress = false;
             if (inlineExecution)
             {
                 // Only try to help execute THIS specific job.
-                if (state == JobState.Scheduled || (state == JobState.Running && jobInfo.jobRanges.totalIteration > jobInfo.jobRanges.batchSize))
+                if (state == JobState.Scheduled || (state == JobState.Running && jobInfo.jobRanges.TotalBatches <= 1))
                 {
-                    madeProgress = JobUtility.TryHelpExecuteJob(this, handle, callerThreadIndex);
+                    madeProgress = JobUtility.TryExecuteJob(this, handle, callerThreadIndex);
                 }
             }
 
