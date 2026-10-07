@@ -938,9 +938,17 @@ public sealed unsafe partial class JobScheduler : IDisposable
             if (inlineExecution)
             {
                 // Only try to help execute THIS specific job.
-                if (state == JobState.Scheduled || (state == JobState.Running && jobInfo.jobRanges.TotalBatches <= 1))
+                if (state == JobState.Scheduled)
                 {
                     madeProgress = JobUtility.TryExecuteJob(this, handle, callerThreadIndex);
+                }
+                else if (state == JobState.Running)
+                {
+                    var ranges = jobInfo.jobRanges;
+                    if (ranges.TotalBatches > 1)
+                    {
+                        madeProgress = JobUtility.TryExecuteJob(this, handle, callerThreadIndex);
+                    }
                 }
             }
 

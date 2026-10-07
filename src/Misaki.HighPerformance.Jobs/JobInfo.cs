@@ -62,7 +62,7 @@ public struct JobRanges
         currentIndex = 0,
     };
 
-    public readonly int TotalBatches => (totalIteration + batchSize - 1) / batchSize;
+    public readonly int TotalBatches => batchSize <= 0 ? 0 : (totalIteration + batchSize - 1) / batchSize;
 }
 
 public unsafe ref struct CustomJobDesc<T>
