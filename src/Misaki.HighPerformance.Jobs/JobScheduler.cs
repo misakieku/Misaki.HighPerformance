@@ -470,6 +470,84 @@ public sealed unsafe partial class JobScheduler : IDisposable
     }
 
     /// <summary>
+    /// Runs a job immediately on the current thread, blocking until it is complete.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Run<T>(ref T job, params Span<JobHandle> dependencies)
+        where T : IJob
+    {
+        if (!dependencies.IsEmpty)
+        {
+            WaitAll(dependencies);
+        }
+
+        var ctx = new JobExecutionContext
+        {
+            JobScheduler = this,
+        };
+
+        job.Execute(in ctx);
+    }
+
+    /// <summary>
+    /// Runs a parallel for job immediately on the current thread, blocking until it is complete.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed.</param>
+    /// <param name="totalIteration">The total number of iterations to run.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void RunParallelFor<T>(ref T job, int totalIteration, params Span<JobHandle> dependencies)
+        where T : IJobParallelFor
+    {
+        if (!dependencies.IsEmpty)
+        {
+            WaitAll(dependencies);
+        }
+
+        var ctx = new JobExecutionContext
+        {
+            JobScheduler = this,
+        };
+
+        for (var i = 0; i < totalIteration; i++)
+        {
+            job.Execute(i, in ctx);
+        }
+    }
+
+    /// <summary>
+    /// Runs a parallel job immediately on the current thread, blocking until it is complete. The job is executed in batches, with each batch containing a specified number of iterations.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallel"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed.</param>
+    /// <param name="totalIteration">The total number of iterations to run.</param>
+    /// <param name="batchSize">The number of iterations to run in each batch.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void RunParallel<T>(ref T job, int totalIteration, int batchSize, params Span<JobHandle> dependencies)
+        where T : IJobParallel
+    {
+        if (!dependencies.IsEmpty)
+        {
+            WaitAll(dependencies);
+        }
+        var ctx = new JobExecutionContext
+        {
+            JobScheduler = this,
+        };
+
+        for (var i = 0; i < totalIteration; i += batchSize)
+        {
+            var end = Math.Min(i + batchSize, totalIteration);
+            job.Execute(i, end, in ctx);
+        }
+    }
+
+    /// <summary>
     /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
     /// </summary>
     /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be struct.</typeparam>
