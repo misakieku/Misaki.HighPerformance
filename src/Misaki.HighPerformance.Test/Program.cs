@@ -9,67 +9,29 @@ using Misaki.HighPerformance.Test.UnitTest.Jobs;
 using System.Buffers;
 using System.Numerics;
 
-// BenchmarkDotNet.Running.BenchmarkRunner.Run<ObjectPoolBenchmark>();
-AllocationManager.Initialize();
+BenchmarkDotNet.Running.BenchmarkRunner.Run<ParallelNoiseBenchmark>();
 
-try
-{
-    for (var i = 0; i < 100_000; i++)
-    {
-        using var jobScheduler = new JobScheduler(new JobSchedulerDesc
-        {
-            ThreadCount = Environment.ProcessorCount,
-            DependencyChainCapacity = 64,
-            ThreadPriority = ThreadPriority.Normal
-        });
+//const int count = 2048;
 
-        using var scope = AllocationManager.CreateStackScope();
-        using var data = new UnsafeArray<int>(8, scope.AllocationHandle);
-        var job = new TestJob { data = data };
-        var handle = jobScheduler.ScheduleParallelFor(in job, 8, 64);
-        jobScheduler.Wait(handle);
+//var bench = new ParallelNoiseBenchmark();
+//bench.Setup();
 
-        Console.WriteLine(i);
-    }
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"Exception: {ex.Message}");
-}
+//for (var i = 0; i < count; i++)
+//{
+//    bench.JobSystem();
+//}
 
-AllocationManager.Dispose();
+//var sw = System.Diagnostics.Stopwatch.StartNew();
 
-struct TestJob : IJobParallelFor
-{
-    public UnsafeArray<int> data;
+//for (var i = 0; i < count; i++)
+//{
+//    bench.JobSystem();
+//}
 
-    public void Execute(int loopIndex, ref readonly JobExecutionContext ctx)
-    {
-        data[loopIndex] = loopIndex * 2;
-    }
-}
+//sw.Stop();
+//var avgTime = sw.Elapsed.TotalMilliseconds / count;
+//Console.WriteLine($"{avgTime} ms");
+//bench.Cleanup();
 
-// const int count = 16;
-//
-// var bench = new GGXMipGenerationBenchmark();
-// bench.Setup();
-//
-// for (var i = 0; i < count; i++)
-// {
-//     bench.JobGGX();
-// }
-//
-// var sw = System.Diagnostics.Stopwatch.StartNew();
-//
-// for (var i = 0; i < count; i++)
-// {
-//     bench.JobGGX();
-// }
-//
-// sw.Stop();
-// var avgTime = sw.Elapsed.TotalMilliseconds / count;
-// Console.WriteLine($"GGX Mip generation (Inline): {avgTime} ms");
-// bench.Cleanup();
-//
 // GlobalSetup.GlobalInitialize(null!);
 // TestJobSystem.Initialize(null!);

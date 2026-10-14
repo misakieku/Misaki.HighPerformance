@@ -249,12 +249,20 @@ internal static class JobUtility
             }
 
             // If it's single job and already running, we can't help it unless we restructure it.
-            // But if it's a Parallel job, multiple threads CAN safely join the `Running` state.
-            var ranges = jobInfo.jobRanges;
-            if (state == JobState.Running && ranges.TotalBatches <= 1)
+            // But if it's a Parallel job, multiple threads CAN safely join the `Running` state if there are remaining batches.
+            if (state == JobState.Running)
             {
-                // Single execution job is already running on another thread. We just return false.
-                return false;
+                // If RC is 0, the body execution has already completed and the job is being torn down.
+                if (GetRefCount(stateVal) == 0)
+                {
+                    return false;
+                }
+
+                var ranges = jobInfo.jobRanges;
+                if (ranges.TotalBatches <= 1 || Volatile.Read(ref jobInfo.jobRanges.currentIndex) >= ranges.totalIteration)
+                {
+                    return false;
+                }
             }
 
             var newState = stateVal + RC_ONE;
@@ -268,12 +276,7 @@ internal static class JobUtility
                 jobScheduler.GetJobInfoReference(handle, out currentExist);
                 if (!currentExist)
                 {
-                    rc = ReleaseRC(ref jobInfo.state);
-                    if (rc == 0)
-                    {
-                        jobScheduler.MarkJobComplete(handle);
-                    }
-
+                    ReleaseRC(ref jobInfo.state);
                     return false;
                 }
 

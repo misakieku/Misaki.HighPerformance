@@ -518,7 +518,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         var spin = new SpinWait();
         while (Interlocked.CompareExchange(ref info.state, JobUtility.JOBSTATE_COMPLETED, JobUtility.JOBSTATE_RUNNING) != JobUtility.JOBSTATE_RUNNING)
         {
-            if (JobUtility.ReadState(ref info) == JobState.Completed)
+            if (!_jobInfoPool.Contains(handle.ID, handle.Generation) || JobUtility.ReadState(ref info) == JobState.Completed)
             {
                 return;
             }
@@ -1090,7 +1090,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 else if (state == JobState.Running)
                 {
                     var ranges = jobInfo.jobRanges;
-                    if (ranges.TotalBatches > 1)
+                    if (ranges.TotalBatches > 1 && Volatile.Read(ref jobInfo.jobRanges.currentIndex) < ranges.totalIteration)
                     {
                         madeProgress = JobUtility.TryExecuteJob(this, handle, callerThreadIndex);
                     }
@@ -1182,7 +1182,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
                     else if (JobUtility.ReadState(ref jobInfo) == JobState.Running)
                     {
                         var ranges = jobInfo.jobRanges;
-                        if (ranges.TotalBatches > 1)
+                        if (ranges.TotalBatches > 1 && Volatile.Read(ref jobInfo.jobRanges.currentIndex) < ranges.totalIteration)
                         {
                             madeProgress = JobUtility.TryExecuteJob(this, handle, WorkerThread.ThreadIndex);
                         }

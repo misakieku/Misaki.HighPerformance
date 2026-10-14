@@ -52,7 +52,7 @@ public class ParallelNoiseBenchmark
             height = _HEIGHT
         };
 
-        var handle = _jobScheduler.ScheduleParallel(ref job, _LENGTH, 64);
+        var handle = _jobScheduler.ScheduleParallel(ref job, _LENGTH, 512);
         _jobScheduler.Wait(handle);
     }
 
