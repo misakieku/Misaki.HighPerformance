@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace Misaki.HighPerformance.Jobs;
 
 public readonly ref struct JobExecutionContext
@@ -33,4 +35,28 @@ public readonly ref struct JobExecutionContext
     {
         get; init;
     }
+
+    /// <summary>
+    /// Schedules a single child job attached to the currently executing job.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public JobHandle ScheduleChild<T>(ref readonly T job, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
+        where T : IJob
+        => JobScheduler.Schedule(in job, preferLocal, priority, SelfHandle, dependencies);
+
+    /// <summary>
+    /// Schedules a parallel child job divided into batches attached to the currently executing job.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public JobHandle ScheduleChildParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
+        where T : IJobParallelFor
+        => JobScheduler.ScheduleParallelFor(in job, totalIteration, batchSize, preferLocal, priority, SelfHandle, dependencies);
+
+    /// <summary>
+    /// Schedules a parallel child job attached to the currently executing job.
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public JobHandle ScheduleChildParallel<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
+        where T : IJobParallel
+        => JobScheduler.ScheduleParallel(in job, totalIteration, batchSize, preferLocal, priority, SelfHandle, dependencies);
 }

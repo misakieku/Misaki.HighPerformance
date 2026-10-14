@@ -62,7 +62,15 @@ public struct JobRanges
         currentIndex = 0,
     };
 
-    public readonly int TotalBatches => batchSize <= 0 ? 0 : (totalIteration + batchSize - 1) / batchSize;
+    public readonly int TotalBatches
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {
+            var b = batchSize;
+            return b <= 0 ? 0 : (totalIteration + b - 1) / b;
+        }
+    }
 }
 
 public unsafe ref struct CustomJobDesc<T>
@@ -72,6 +80,7 @@ public unsafe ref struct CustomJobDesc<T>
     public required delegate*<ref T, void> pFreeFunc;
     public JobRanges jobRanges;
     public JobPriority priority;
+    public JobHandle parentJob;
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 8)]
@@ -133,6 +142,7 @@ internal unsafe struct JobInfo
     public int state;
 
     public int dependencyCount; // Numbers of jobs that this job depends on, when it reaches 0, the job can be executed
+    public JobHandle parentJob; // Handle of parent job if this is an attached child job
 
 #if MHP_ENABLE_PROFILING
     public string? jobTypeName;
@@ -240,7 +250,8 @@ internal static class JobUtility
 
             // If it's single job and already running, we can't help it unless we restructure it.
             // But if it's a Parallel job, multiple threads CAN safely join the `Running` state.
-            if (state == JobState.Running && jobInfo.jobRanges.TotalBatches <= 1)
+            var ranges = jobInfo.jobRanges;
+            if (state == JobState.Running && ranges.TotalBatches <= 1)
             {
                 // Single execution job is already running on another thread. We just return false.
                 return false;

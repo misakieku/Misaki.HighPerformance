@@ -211,10 +211,22 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         if (exist && Volatile.Read(ref jobInfo.dependencyCount) == 0)
         {
-            // Note: JobState.Created is 0, JobState.Scheduled is 1. We assume RC logic doesn't touch initial state (RC=0).
-            if (Interlocked.CompareExchange(ref jobInfo.state, JobUtility.JOBSTATE_SCHEDULED, JobUtility.JOBSTATE_CREATED) != JobUtility.JOBSTATE_CREATED)
+            var spin = new SpinWait();
+            while (true)
             {
-                return;
+                var stateVal = Volatile.Read(ref jobInfo.state);
+                if (JobUtility.GetState(stateVal) != JobState.Created)
+                {
+                    return;
+                }
+
+                var newState = (stateVal & ~JobUtility.STATE_MASK) | JobUtility.JOBSTATE_SCHEDULED;
+                if (Interlocked.CompareExchange(ref jobInfo.state, newState, stateVal) == stateVal)
+                {
+                    break;
+                }
+
+                spin.SpinOnce(-1);
             }
 
             // Ensure the count of this job handle won't exceed the number of worker threads.
@@ -294,8 +306,69 @@ public sealed unsafe partial class JobScheduler : IDisposable
         firstEdgeIndex = -1;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private bool TryAttachToParent(JobHandle parentJob, ref JobInfo childInfo)
+    {
+        if (!parentJob.IsValid)
+        {
+            childInfo.parentJob = JobHandle.Invalid;
+            return false;
+        }
+
+        ref var parentInfo = ref _jobInfoPool.GetElementReferenceAt(parentJob.ID, parentJob.Generation, out var exist);
+        if (!exist)
+        {
+            Debug.Assert(false, $"Attempted to attach child job to non-existent parent {parentJob}.");
+            childInfo.parentJob = JobHandle.Invalid;
+            return false;
+        }
+
+        var spin = new SpinWait();
+        while (true)
+        {
+            var stateVal = Volatile.Read(ref parentInfo.state);
+            var state = JobUtility.GetState(stateVal);
+            var rc = JobUtility.GetRefCount(stateVal);
+
+            // Cannot attach to completed/invalid parent, or a running parent whose body has already finished (RC == 0)
+            if (state == JobState.Completed || state == JobState.Invalid || (state == JobState.Running && rc == 0))
+            {
+                Debug.Assert(false, $"Attempted to attach child job to parent {parentJob} in invalid state {state} with RC {rc}.");
+                childInfo.parentJob = JobHandle.Invalid;
+                return false;
+            }
+
+            if (Interlocked.CompareExchange(ref parentInfo.state, stateVal + JobUtility.RC_ONE, stateVal) == stateVal)
+            {
+                // Re-verify that parent wasn't recycled concurrently
+                _jobInfoPool.GetElementReferenceAt(parentJob.ID, parentJob.Generation, out var stillExist);
+                if (!stillExist)
+                {
+                    var afterState = Interlocked.Add(ref parentInfo.state, -JobUtility.RC_ONE);
+                    if (JobUtility.GetRefCount(afterState) == 0 && JobUtility.GetState(afterState) == JobState.Running)
+                    {
+                        MarkJobComplete(parentJob);
+                    }
+
+                    childInfo.parentJob = JobHandle.Invalid;
+                    return false;
+                }
+
+                childInfo.parentJob = parentJob;
+                return true;
+            }
+
+            spin.SpinOnce(-1);
+        }
+    }
+
     private JobHandle CreateJobHandle(ref JobInfo jobInfo, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
     {
+        if (jobInfo.parentJob.IsValid)
+        {
+            TryAttachToParent(jobInfo.parentJob, ref jobInfo);
+        }
+
         // Advance count to account for all dependencies upfront + 1 guard lock
         Interlocked.Add(ref jobInfo.dependencyCount, dependencies.Length + 1);
 
@@ -461,12 +534,28 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         FreeEdgeChain(ref info.firstDependentEdgeIndex);
 
+        var parentJob = info.parentJob;
+
         if (info.pFreeFunc != null)
         {
             info.pFreeFunc(in info);
         }
 
         _jobInfoPool.Remove(handle.ID, handle.Generation);
+
+        // Handle attached parent continuation
+        if (parentJob.IsValid)
+        {
+            ref var parentInfo = ref _jobInfoPool.GetElementReferenceAt(parentJob.ID, parentJob.Generation, out var parentExist);
+            if (parentExist)
+            {
+                var stateAfterRelease = Interlocked.Add(ref parentInfo.state, -JobUtility.RC_ONE);
+                if (JobUtility.GetRefCount(stateAfterRelease) == 0 && JobUtility.GetState(stateAfterRelease) == JobState.Running)
+                {
+                    MarkJobComplete(parentJob);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -555,9 +644,10 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <param name="preferLocal">A value indicating whether the job should be preferred to run on the local thread.</param>
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <param name="priority">The priority of the job.</param>
+    /// <param name="parent">The parent job that this job must be finished before the parent job can be completed. If the parent job is not valid, this job will be treated as a root job.</param>
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public JobHandle Schedule<T>(ref readonly T job, bool preferLocal, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
+    public JobHandle Schedule<T>(ref readonly T job, bool preferLocal, JobPriority priority, JobHandle parent, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJob
     {
         var id = JobDataPool<T>.Allocate(in job, out var generation);
@@ -571,6 +661,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
             priority = priority,
             jobRanges = JobRanges.Single,
+            parentJob = parent,
 #if MHP_ENABLE_PROFILING
             jobTypeName = typeof(T).Name,
 #endif
@@ -590,7 +681,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle Schedule<T>(ref readonly T job, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJob
-        => Schedule(in job, false, priority, dependencies);
+        => Schedule(in job, false, priority, default, dependencies);
 
     /// <summary>
     /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
@@ -602,7 +693,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle Schedule<T>(ref readonly T job, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJob
-        => Schedule(in job, false, JobPriority.Normal, dependencies);
+        => Schedule(in job, false, JobPriority.Normal, default, dependencies);
 
     /// <summary>
     /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
@@ -615,7 +706,20 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle Schedule<T>(ref readonly T job, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJob
-        => Schedule(in job, preferLocal, JobPriority.Normal, dependencies);
+        => Schedule(in job, preferLocal, JobPriority.Normal, default, dependencies);
+
+    /// <summary>
+    /// Schedules a single job for execution on a specified thread, with an optional dependency on another job.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="preferLocal">A value indicating whether the job should be preferred to run on the local thread.</param>
+    /// <param name="priority">The priority of the job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    public JobHandle Schedule<T>(ref readonly T job, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
+        where T : IJob
+        => Schedule(in job, preferLocal, priority, default, dependencies);
 
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
@@ -625,11 +729,12 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
     /// <param name="batchSize">The number of iterations to include in each batch.</param>
     /// <param name="preferLocal">A value indicating whether the job should be preferred to run on the local thread.</param>
-    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <param name="priority">The priority of the job.</param>
+    /// <param name="parent">The parent job that this job must be finished before the parent job can be completed. If the parent job is not valid, this job will be treated as a root job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.  <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
+    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, JobHandle parent, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobParallelFor
     {
         if (totalIteration <= 0)
@@ -653,6 +758,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 batchSize = optimalBatchSize,
                 totalIteration = totalIteration,
             },
+            parentJob = parent,
 #if MHP_ENABLE_PROFILING
             jobTypeName = typeof(T).Name,
 #endif
@@ -674,7 +780,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobParallelFor
-        => ScheduleParallelFor(in job, totalIteration, batchSize, false, priority, dependencies);
+        => ScheduleParallelFor(in job, totalIteration, batchSize, false, priority, default, dependencies);
 
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
@@ -688,7 +794,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobParallelFor
-        => ScheduleParallelFor(in job, totalIteration, batchSize, false, JobPriority.Normal, dependencies);
+        => ScheduleParallelFor(in job, totalIteration, batchSize, false, JobPriority.Normal, default, dependencies);
 
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
@@ -703,7 +809,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobParallelFor
-        => ScheduleParallelFor(in job, totalIteration, batchSize, preferLocal, JobPriority.Normal, dependencies);
+        => ScheduleParallelFor(in job, totalIteration, batchSize, preferLocal, JobPriority.Normal, default, dependencies);
 
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
@@ -713,11 +819,27 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
     /// <param name="batchSize">The number of iterations to include in each batch.</param>
     /// <param name="preferLocal">A value indicating whether the job should be preferred to run on the local thread.</param>
-    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <param name="priority">The priority of the job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.  <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
+        where T : IJobParallelFor
+        => ScheduleParallelFor(in job, totalIteration, batchSize, preferLocal, priority, default, dependencies);
+
+    /// <summary>
+    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
+    /// <param name="batchSize">The number of iterations to include in each batch.</param>
+    /// <param name="preferLocal">A value indicating whether the job should be preferred to run on the local thread.</param>
+    /// <param name="priority">The priority of the job.</param>
+    /// <param name="parent">The parent job that this job must be finished before the parent job can be completed. If the parent job is not valid, this job will be treated as a root job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
+    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, JobHandle parent, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobParallel
     {
         if (totalIteration <= 0)
@@ -741,6 +863,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 batchSize = optimalBatchSize,
                 totalIteration = totalIteration,
             },
+            parentJob = parent,
 #if MHP_ENABLE_PROFILING
             jobTypeName = typeof(T).Name,
 #endif
@@ -762,7 +885,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, JobPriority priority = JobPriority.Normal, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobParallel
-        => ScheduleParallel(in job, totalIteration, batchSize, false, priority, dependencies);
+        => ScheduleParallel(in job, totalIteration, batchSize, false, priority, default, dependencies);
 
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
@@ -776,7 +899,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobParallel
-        => ScheduleParallel(in job, totalIteration, batchSize, false, JobPriority.Normal, dependencies);
+        => ScheduleParallel(in job, totalIteration, batchSize, false, JobPriority.Normal, default, dependencies);
 
     /// <summary>
     /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
@@ -791,7 +914,22 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobParallel
-        => ScheduleParallel(in job, totalIteration, batchSize, preferLocal, JobPriority.Normal, dependencies);
+        => ScheduleParallel(in job, totalIteration, batchSize, preferLocal, JobPriority.Normal, default, dependencies);
+
+    /// <summary>
+    /// Schedules a parallel job for execution, dividing the workload into batches and distributing it across threads.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed. The job data will be copied internally.</param>
+    /// <param name="totalIteration">The total number of iterations to be processed by the job.</param>
+    /// <param name="batchSize">The number of iterations to include in each batch.</param>
+    /// <param name="preferLocal">A value indicating whether the job should be preferred to run on the local thread.</param>
+    /// <param name="priority">The priority of the job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
+    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, params ReadOnlySpan<JobHandle> dependencies)
+        where T : IJobParallel
+        => ScheduleParallel(in job, totalIteration, batchSize, preferLocal, priority, default, dependencies);
 
     /// <summary>
     /// Schedules a custom job for execution with user-defined <see cref="JobInfo"/>.
@@ -822,6 +960,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
             priority = jobDesc.priority,
             jobRanges = jobDesc.jobRanges,
+            parentJob = jobDesc.parentJob,
 #if MHP_ENABLE_PROFILING
             jobTypeName = typeof(T).Name,
 #endif

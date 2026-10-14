@@ -2,7 +2,6 @@ using Misaki.HighPerformance.Jobs;
 using Misaki.HighPerformance.LowLevel.Buffer;
 using Misaki.HighPerformance.LowLevel.Collections;
 using Misaki.HighPerformance.LowLevel.Utilities;
-using Misaki.HighPerformance.Mathematics.SPMD;
 using Misaki.HighPerformance.Test.Jobs;
 
 namespace Misaki.HighPerformance.Test.UnitTest.Jobs;
@@ -350,7 +349,7 @@ public class TestJobSystem
             height = size,
         };
 
-        vectorJob.Run(size * size, default);
+        s_jobScheduler.RunParallel(ref vectorJob, size * size, size * size);
 
         var spmdBuf = stackalloc float[size * size];
         var ss = new Span<float>(spmdBuf, size * size);
@@ -361,7 +360,7 @@ public class TestJobSystem
             height = size,
         };
 
-        spmdJob.Run(size * size, default);
+        s_jobScheduler.RunParallel(ref spmdJob, size * size, size * size);
 
         var eq = vs.SequenceCompareTo(ss);
         Assert.AreEqual(0, eq);
@@ -455,6 +454,215 @@ public class TestJobSystem
             s_jobScheduler.Wait(handle);
         }
         Assert.AreEqual(iterations, *value);
+    }
+
+    [TestMethod]
+    public unsafe void AttachedChildJob_ParentWaitsForChildAutomatically()
+    {
+        var result = stackalloc float[1];
+        *result = 0f;
+
+        var parentJob = new ParentSpawnsChildJob
+        {
+            childValue = 10f,
+            result = result,
+            sleepMs = 0,
+        };
+
+        var parentHandle = s_jobScheduler.Schedule(ref parentJob);
+
+        var downstreamJob = new AddJob
+        {
+            value = 5f,
+            result = result,
+        };
+
+        var downstreamHandle = s_jobScheduler.Schedule(ref downstreamJob, parentHandle);
+        s_jobScheduler.Wait(downstreamHandle);
+
+        Assert.AreEqual(15.0f, *result);
+    }
+
+    [TestMethod]
+    public unsafe void AttachedChildJob_FastChildCompletesBeforeParentBody()
+    {
+        var result = stackalloc float[1];
+        *result = 0f;
+
+        var parentJob = new ParentSpawnsChildJob
+        {
+            childValue = 42f,
+            result = result,
+            sleepMs = 20,
+        };
+
+        var parentHandle = s_jobScheduler.Schedule(ref parentJob);
+
+        var downstreamJob = new AddJob
+        {
+            value = 1f,
+            result = result,
+        };
+
+        var downstreamHandle = s_jobScheduler.Schedule(ref downstreamJob, parentHandle);
+        s_jobScheduler.Wait(downstreamHandle);
+
+        Assert.AreEqual(43.0f, *result);
+    }
+
+    [TestMethod]
+    public unsafe void AttachedChildJob_SlowChildCompletesAfterParentBody()
+    {
+        var result = stackalloc float[1];
+        *result = 0f;
+
+        var parentJob = new ParentSpawnsSlowChildJob
+        {
+            childValue = 100f,
+            result = result,
+            childSleepMs = 20,
+        };
+
+        var parentHandle = s_jobScheduler.Schedule(ref parentJob);
+
+        var downstreamJob = new AddJob
+        {
+            value = 50f,
+            result = result,
+        };
+
+        var downstreamHandle = s_jobScheduler.Schedule(ref downstreamJob, parentHandle);
+        s_jobScheduler.Wait(downstreamHandle);
+
+        Assert.AreEqual(150.0f, *result);
+    }
+
+    [TestMethod]
+    public unsafe void AttachedChildJob_MultipleChildren()
+    {
+        var counter = stackalloc int[1];
+        *counter = 0;
+
+        const int numChildren = 32;
+        var parentJob = new ParentSpawnsMultipleChildrenJob
+        {
+            childCount = numChildren,
+            pCounter = counter,
+        };
+
+        var parentHandle = s_jobScheduler.Schedule(ref parentJob);
+
+        var downstreamJob = new IncrementJob
+        {
+            pCounter = counter,
+        };
+
+        var downstreamHandle = s_jobScheduler.Schedule(ref downstreamJob, parentHandle);
+        s_jobScheduler.Wait(downstreamHandle);
+
+        Assert.AreEqual(numChildren + 1, *counter);
+    }
+
+    [TestMethod]
+    public unsafe void AttachedChildJob_RecursiveGrandchildren()
+    {
+        var result = stackalloc float[1];
+        *result = 0f;
+
+        var rootJob = new RootParentSpawnerJob
+        {
+            result = result,
+        };
+
+        var rootHandle = s_jobScheduler.Schedule(ref rootJob);
+
+        var downstreamJob = new AddJob
+        {
+            value = 1000f,
+            result = result,
+        };
+
+        var downstreamHandle = s_jobScheduler.Schedule(ref downstreamJob, rootHandle);
+        s_jobScheduler.Wait(downstreamHandle);
+
+        Assert.AreEqual(1111.0f, *result);
+    }
+
+    [TestMethod]
+    public unsafe void AttachedChildJob_ParallelForChild()
+    {
+        const int count = 256;
+        var buffer = stackalloc int[count];
+        for (var i = 0; i < count; i++)
+        {
+            buffer[i] = 0;
+        }
+
+        var parentJob = new ParentSpawnsParallelChildJob
+        {
+            pBuffer = buffer,
+            totalIterations = count,
+            batchSize = 16,
+        };
+
+        var parentHandle = s_jobScheduler.Schedule(ref parentJob);
+
+        var sum = stackalloc int[1];
+        *sum = 0;
+
+        var sumJob = new SumBufferJob
+        {
+            pBuffer = buffer,
+            count = count,
+            pSum = sum,
+        };
+
+        var downstreamHandle = s_jobScheduler.Schedule(ref sumJob, parentHandle);
+        s_jobScheduler.Wait(downstreamHandle);
+
+        Assert.AreEqual(count, *sum);
+    }
+
+    [TestMethod]
+    public unsafe void AttachedChildJob_FallbackOnInvalidParent()
+    {
+        var result = stackalloc float[1];
+        *result = 0f;
+
+        var job = new AddJob
+        {
+            value = 10f,
+            result = result,
+        };
+
+        // Attaching to JobHandle.Invalid should run as a detached root job (Option A)
+        var handle = s_jobScheduler.Schedule(ref job);
+        s_jobScheduler.Wait(handle);
+
+        Assert.AreEqual(10f, *result);
+    }
+
+    [TestMethod]
+    public unsafe void AttachedChildJob_StressConcurrency()
+    {
+        const int iterations = 1000;
+        var result = stackalloc float[1];
+        *result = 0;
+
+        for (var i = 0; i < iterations; i++)
+        {
+            var parentJob = new ParentSpawnsChildJob
+            {
+                childValue = 1.0f,
+                result = result,
+                sleepMs = 0,
+            };
+
+            var parentHandle = s_jobScheduler.Schedule(ref parentJob);
+            s_jobScheduler.Wait(parentHandle);
+        }
+
+        Assert.AreEqual(iterations, *result);
     }
 
 #if MHP_ENABLE_PROFILING
