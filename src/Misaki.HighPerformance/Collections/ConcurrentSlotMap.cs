@@ -15,6 +15,12 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
     private const int _CHUNK_SIZE = 1 << _CHUNK_SHIFT;
     private const int _CHUNK_MASK = _CHUNK_SIZE - 1;
 
+    private struct Slot
+    {
+        public T Value;
+        public int Generation; // Odd = active, Even = free (starts at 0)
+    }
+
     public struct Enumerator : IEnumerator<T>
     {
         private readonly ConcurrentSlotMap<T> _slotMap;
@@ -30,10 +36,10 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         {
             get
             {
-                var values = _slotMap._values;
+                var slots = _slotMap._slots;
                 var chunkIdx = _currentIndex >> _CHUNK_SHIFT;
                 var localIdx = _currentIndex & _CHUNK_MASK;
-                return values[chunkIdx][localIdx]!;
+                return slots[chunkIdx][localIdx].Value!;
             }
         }
 
@@ -42,14 +48,14 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         public bool MoveNext()
         {
             var maxIndex = Volatile.Read(ref _slotMap._nextSlotIndex);
-            var validBits = _slotMap._validBits;
+            var slots = _slotMap._slots;
 
             while (++_currentIndex < maxIndex)
             {
                 var chunkIdx = _currentIndex >> _CHUNK_SHIFT;
                 var localIdx = _currentIndex & _CHUNK_MASK;
 
-                if (chunkIdx < validBits.Length && Volatile.Read(ref validBits[chunkIdx][localIdx]) == 1)
+                if (chunkIdx < slots.Length && (Volatile.Read(ref slots[chunkIdx][localIdx].Generation) & 1) != 0)
                 {
                     return true;
                 }
@@ -68,9 +74,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         }
     }
 
-    private volatile T[][] _values;
-    private volatile int[][] _generations;
-    private volatile int[][] _validBits;
+    private volatile Slot[][] _slots;
     private readonly ConcurrentQueue<int> _freeSlots;
 
     private int _count;
@@ -108,15 +112,10 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
         }
 
         _capacity = initialChunks * _CHUNK_SIZE;
-        _values = new T[initialChunks][];
-        _generations = new int[initialChunks][];
-        _validBits = new int[initialChunks][];
+        _slots = new Slot[initialChunks][];
         for (var i = 0; i < initialChunks; i++)
         {
-            _values[i] = new T[_CHUNK_SIZE];
-            _generations[i] = new int[_CHUNK_SIZE];
-            _validBits[i] = new int[_CHUNK_SIZE];
-            _generations[i].AsSpan().Fill(1);
+            _slots[i] = new Slot[_CHUNK_SIZE];
         }
 
         _freeSlots = new ConcurrentQueue<int>();
@@ -125,7 +124,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
     [MethodImpl(MethodImplOptions.NoInlining)]
     private void EnsureChunkExists(int requiredChunkIndex)
     {
-        if (requiredChunkIndex < _values.Length)
+        if (requiredChunkIndex < _slots.Length)
         {
             return;
         }
@@ -144,38 +143,29 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
 
         try
         {
-            var oldValues = _values;
-            if (requiredChunkIndex < oldValues.Length)
+            var oldSlots = _slots;
+            if (requiredChunkIndex < oldSlots.Length)
             {
                 return; // Another thread already resized
             }
 
-            var newChunkCount = oldValues.Length;
+            var newChunkCount = oldSlots.Length;
             while (newChunkCount <= requiredChunkIndex)
             {
                 newChunkCount *= 2;
             }
 
-            var newValues = new T[newChunkCount][];
-            var newGenerations = new int[newChunkCount][];
-            var newValidBits = new int[newChunkCount][];
-            Array.Copy(oldValues, newValues, oldValues.Length);
-            Array.Copy(_generations, newGenerations, _generations.Length);
-            Array.Copy(_validBits, newValidBits, _validBits.Length);
+            var newSlots = new Slot[newChunkCount][];
+            Array.Copy(oldSlots, newSlots, oldSlots.Length);
 
             // Initialize new chunks
-            for (var i = oldValues.Length; i < newChunkCount; i++)
+            for (var i = oldSlots.Length; i < newChunkCount; i++)
             {
-                newValues[i] = new T[_CHUNK_SIZE];
-                newGenerations[i] = new int[_CHUNK_SIZE];
-                newValidBits[i] = new int[_CHUNK_SIZE];
-                newGenerations[i].AsSpan().Fill(1);
+                newSlots[i] = new Slot[_CHUNK_SIZE];
             }
 
-            // Atomically update the array references and capacity
-            _values = newValues;
-            _generations = newGenerations;
-            _validBits = newValidBits;
+            // Atomically update the array reference and capacity
+            _slots = newSlots;
             Volatile.Write(ref _capacity, newChunkCount * _CHUNK_SIZE);
         }
         finally
@@ -198,33 +188,34 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
             // Try to get a free slot first
             if (_freeSlots.TryDequeue(out var slotIndex))
             {
-                var values = _values;
-                var generations = _generations;
-                var validBits = _validBits;
+                var slots = _slots;
                 var chunkIdx = slotIndex >> _CHUNK_SHIFT;
                 var localIdx = slotIndex & _CHUNK_MASK;
 
-                if (chunkIdx < values.Length)
+                if (chunkIdx < slots.Length)
                 {
-                    ref var slotValue = ref values[chunkIdx][localIdx];
-                    ref var slotGeneration = ref generations[chunkIdx][localIdx];
-                    ref var slotValid = ref validBits[chunkIdx][localIdx];
+                    ref var slot = ref slots[chunkIdx][localIdx];
+                    var currentGeneration = Volatile.Read(ref slot.Generation);
 
-                    // Atomically mark as valid and get the current generation
-                    var currentGeneration = Volatile.Read(ref slotGeneration);
-                    slotValue = item;
-
-                    // Use CAS to mark as valid atomically
-                    if (Interlocked.CompareExchange(ref slotValid, 1, 0) == 0)
+                    if ((currentGeneration & 1) != 0)
                     {
-                        generation = currentGeneration;
+                        // Slot is somehow already occupied; try next
+                        continue;
+                    }
+
+                    slot.Value = item;
+                    var nextGeneration = currentGeneration + 1; // Even -> Odd
+
+                    // Use CAS to atomically transition from free (even) to active (odd)
+                    if (Interlocked.CompareExchange(ref slot.Generation, nextGeneration, currentGeneration) == currentGeneration)
+                    {
+                        generation = nextGeneration;
                         Interlocked.Increment(ref _count);
                         return slotIndex;
                     }
                     else
                     {
-                        // Slot was somehow already valid, don't put it back in free pool
-                        // Just loop and try again
+                        // Race detected, try again
                         continue;
                     }
                 }
@@ -239,25 +230,19 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
             var newChunkIdx = newSlotIndex >> _CHUNK_SHIFT;
             var newLocalIdx = newSlotIndex & _CHUNK_MASK;
 
-            var currentValues = _values;
-            var currentGenerations = _generations;
-            var currentValidBits = _validBits;
-            if (newChunkIdx >= currentValues.Length)
+            var currentSlots = _slots;
+            if (newChunkIdx >= currentSlots.Length)
             {
                 EnsureChunkExists(newChunkIdx);
-                currentValues = _values; // Re-read after resize
-                currentGenerations = _generations;
-                currentValidBits = _validBits;
+                currentSlots = _slots; // Re-read after resize
             }
 
             // Initialize the new slot
-            ref var newValue = ref currentValues[newChunkIdx][newLocalIdx];
-            ref var newGeneration = ref currentGenerations[newChunkIdx][newLocalIdx];
-            ref var newValid = ref currentValidBits[newChunkIdx][newLocalIdx];
-            Volatile.Write(ref newValid, 1);
+            ref var newSlot = ref currentSlots[newChunkIdx][newLocalIdx];
+            newSlot.Value = item;
+            Volatile.Write(ref newSlot.Generation, 1);
 
-            newValue = item;
-            generation = newGeneration;
+            generation = 1;
             Interlocked.Increment(ref _count);
             return newSlotIndex;
         }
@@ -284,41 +269,37 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
     /// <returns>True if the item was removed; otherwise, false.</returns>
     public bool Remove(int slotIndex, int generation, [MaybeNullWhen(false)] out T value)
     {
-        if (slotIndex < 0)
+        if (slotIndex < 0 || (generation & 1) == 0)
         {
             value = default;
             return false;
         }
 
-        var values = _values;
-        var generations = _generations;
-        var validBits = _validBits;
+        var slots = _slots;
         var chunkIdx = slotIndex >> _CHUNK_SHIFT;
         var localIdx = slotIndex & _CHUNK_MASK;
 
-        if (chunkIdx >= values.Length)
+        if (chunkIdx >= slots.Length)
         {
             value = default;
             return false;
         }
 
-        ref var slotValue = ref values[chunkIdx][localIdx];
-        ref var slotGeneration = ref generations[chunkIdx][localIdx];
-        ref var slotValid = ref validBits[chunkIdx][localIdx];
+        ref var slot = ref slots[chunkIdx][localIdx];
 
-        // Check if slot is valid and generation matches
-        if (Volatile.Read(ref slotValid) == 0 || Volatile.Read(ref slotGeneration) != generation)
+        // Fast check: generation must match and must be active (odd)
+        if (Volatile.Read(ref slot.Generation) != generation)
         {
             value = default;
             return false;
         }
 
-        // Atomically mark as invalid
-        if (Interlocked.CompareExchange(ref slotValid, 0, 1) == 1)
+        // Atomically mark as invalid by incrementing from odd to even
+        var nextGeneration = generation + 1;
+        if (Interlocked.CompareExchange(ref slot.Generation, nextGeneration, generation) == generation)
         {
-            Interlocked.Increment(ref slotGeneration);
-            value = slotValue;
-            slotValue = default!;
+            value = slot.Value;
+            slot.Value = default!;
 
             _freeSlots.Enqueue(slotIndex);
             Interlocked.Decrement(ref _count);
@@ -384,35 +365,31 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
     /// <returns>A reference to the stored item when found; otherwise, a null reference.</returns>
     public ref T GetElementReferenceAt(int slotIndex, int generation, out bool exist)
     {
-        if (slotIndex < 0)
+        if (slotIndex < 0 || (generation & 1) == 0)
         {
             exist = false;
             return ref Unsafe.NullRef<T>();
         }
 
-        var values = _values;
-        var generations = _generations;
-        var validBits = _validBits;
+        var slots = _slots;
         var chunkIdx = slotIndex >> _CHUNK_SHIFT;
         var localIdx = slotIndex & _CHUNK_MASK;
 
-        if (chunkIdx >= values.Length)
+        if (chunkIdx >= slots.Length)
         {
             exist = false;
             return ref Unsafe.NullRef<T>();
         }
 
-        ref var slotGeneration = ref generations[chunkIdx][localIdx];
+        ref var slot = ref slots[chunkIdx][localIdx];
 
-        var currentGeneration = Volatile.Read(ref slotGeneration);
-        var isValid = Volatile.Read(ref validBits[chunkIdx][localIdx]) == 1;
-
-        if (isValid && currentGeneration == generation)
+        if (Volatile.Read(ref slot.Generation) == generation)
         {
-            if (Volatile.Read(ref validBits[chunkIdx][localIdx]) == 1 && Volatile.Read(ref slotGeneration) == generation)
+            ref var val = ref slot.Value;
+            if (Volatile.Read(ref slot.Generation) == generation)
             {
                 exist = true;
-                return ref values[chunkIdx][localIdx]!;
+                return ref val!;
             }
         }
 
@@ -446,22 +423,22 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
     /// </summary>
     public void Clear()
     {
-        // Reset counters
         Volatile.Write(ref _count, 0);
         Volatile.Write(ref _nextSlotIndex, 0);
 
-        // Clear all slots
-        var values = _values;
-        var generations = _generations;
-        var validBits = _validBits;
-        for (var c = 0; c < values.Length; c++)
+        var slots = _slots;
+        for (var c = 0; c < slots.Length; c++)
         {
-            var chunkValues = values[c];
-            var chunkValidBits = validBits[c];
+            var chunk = slots[c];
             for (var i = 0; i < _CHUNK_SIZE; i++)
             {
-                Volatile.Write(ref chunkValidBits[i], 0);
-                chunkValues[i] = default!;
+                ref var slot = ref chunk[i];
+                var gen = Volatile.Read(ref slot.Generation);
+                if ((gen & 1) != 0)
+                {
+                    Volatile.Write(ref slot.Generation, gen + 1);
+                }
+                slot.Value = default!;
             }
         }
 

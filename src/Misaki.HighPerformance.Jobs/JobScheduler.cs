@@ -292,16 +292,22 @@ public sealed unsafe partial class JobScheduler : IDisposable
             tailEdgeIndex = _jobEdges[tailEdgeIndex].nextEdgeIndex;
         }
 
-        var currentHeadCounter = Volatile.Read(ref _freeListHead);
-        long newHeadCounter;
-        do
+        var spin = new SpinWait();
+        while (true)
         {
+            var currentHeadCounter = Volatile.Read(ref _freeListHead);
             var currentHeadIndex = (int)(currentHeadCounter & 0xFFFFFFFF);
             _jobEdges[tailEdgeIndex].nextEdgeIndex = currentHeadIndex;
 
-            newHeadCounter = (((currentHeadCounter >> 32) + 1) << 32) | (uint)firstEdgeIndex;
+            var newHeadCounter = (((currentHeadCounter >> 32) + 1) << 32) | (uint)firstEdgeIndex;
+
+            if (Interlocked.CompareExchange(ref _freeListHead, newHeadCounter, currentHeadCounter) == currentHeadCounter)
+            {
+                break;
+            }
+
+            spin.SpinOnce(-1);
         }
-        while (Interlocked.CompareExchange(ref _freeListHead, newHeadCounter, currentHeadCounter) != currentHeadCounter);
 
         firstEdgeIndex = -1;
     }
@@ -1105,6 +1111,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// The collection handles will be reordered in-place to move completed handles to the front.
     /// </remarks>
     /// <param name="handles">A collection of job handles to wait for.</param>
+    /// <param name="inlineExecution">A value indicating whether to help execute the jobs while waiting. Defaults to true.</param>
     public void WaitAll(params Span<JobHandle> handles)
     {
         if (handles.Length == 0)
@@ -1138,6 +1145,60 @@ public sealed unsafe partial class JobScheduler : IDisposable
             }
 
             spin.SpinOnce(sleepThreshold);
+        }
+    }
+
+    public void WaitAll(bool inlineExecution, params Span<JobHandle> handles)
+    {
+        if (handles.Length == 0)
+        {
+            return;
+        }
+
+        var spin = new SpinWait();
+        var sleepThreshold = handles.Length * 20;
+        var completedCount = 0;
+
+        while (true)
+        {
+            var madeProgress = false;
+            for (var i = completedCount; i < handles.Length; i++)
+            {
+                var handle = handles[i];
+                ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out var exist);
+                if (!exist)
+                {
+                    var temp = handles[completedCount];
+                    handles[completedCount] = handle;
+                    handles[i] = temp;
+                    completedCount++;
+                }
+                else if (inlineExecution)
+                {
+                    if (JobUtility.ReadState(ref jobInfo) == JobState.Scheduled)
+                    {
+                        madeProgress = JobUtility.TryExecuteJob(this, handle, WorkerThread.ThreadIndex);
+                    }
+                    else if (JobUtility.ReadState(ref jobInfo) == JobState.Running)
+                    {
+                        var ranges = jobInfo.jobRanges;
+                        if (ranges.TotalBatches > 1)
+                        {
+                            madeProgress = JobUtility.TryExecuteJob(this, handle, WorkerThread.ThreadIndex);
+                        }
+                    }
+                }
+            }
+
+            if (completedCount == handles.Length)
+            {
+                return;
+            }
+
+            if (!madeProgress)
+            {
+                spin.SpinOnce(sleepThreshold);
+            }
         }
     }
 

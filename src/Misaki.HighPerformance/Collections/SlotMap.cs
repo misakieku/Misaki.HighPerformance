@@ -10,6 +10,13 @@ namespace Misaki.HighPerformance.Collections;
 /// <typeparam name="T">Represents a type that can be stored in the slot map.</typeparam>
 public class SlotMap<T> : IEnumerable<T>
 {
+    private struct Slot
+    {
+        public T Value;
+        public int Generation; // Odd = active, Even = free (starts at 0)
+        public int NextFree;   // Free list pointer when vacant (-1 when active or end of list)
+    }
+
     public struct Enumerator : IEnumerator<T>
     {
         private readonly SlotMap<T> _slotMap;
@@ -18,17 +25,18 @@ public class SlotMap<T> : IEnumerable<T>
         public Enumerator(SlotMap<T> slotMap)
         {
             _slotMap = slotMap;
-            _currentIndex = 0;
+            _currentIndex = -1;
         }
 
-        public readonly T Current => _slotMap._data[_currentIndex];
+        public readonly T Current => _slotMap._slots[_currentIndex].Value;
         readonly object? IEnumerator.Current => Current;
 
         public bool MoveNext()
         {
-            while (++_currentIndex < _slotMap._capacity)
+            var limit = _slotMap._nextSlotIndex;
+            while (++_currentIndex < limit)
             {
-                if (_slotMap._isOccupiedBits[_currentIndex])
+                if ((_slotMap._slots[_currentIndex].Generation & 1) != 0)
                 {
                     return true;
                 }
@@ -37,18 +45,16 @@ public class SlotMap<T> : IEnumerable<T>
             return false;
         }
 
-        public void Reset() => _currentIndex = 0;
+        public void Reset() => _currentIndex = -1;
 
         public void Dispose()
         {
         }
     }
 
-    private T[] _data;
-    private int[] _generations;
-    private readonly BitArray _isOccupiedBits;
-    private readonly Queue<int> _freeSlots;
-
+    private Slot[] _slots;
+    private int _freeListHead = -1;
+    private int _nextSlotIndex;
     private int _count;
     private int _capacity;
 
@@ -70,27 +76,17 @@ public class SlotMap<T> : IEnumerable<T>
     public SlotMap(int initialCapacity = 16)
     {
         _capacity = initialCapacity;
-
-        _data = new T[initialCapacity];
-        _generations = new int[initialCapacity];
-        _isOccupiedBits = new BitArray(initialCapacity);
-        _freeSlots = new(initialCapacity);
-
-        _generations.AsSpan().Fill(1);
+        _slots = new Slot[initialCapacity];
+        _freeListHead = -1;
+        _nextSlotIndex = 0;
+        _count = 0;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void Resize()
     {
         var newCapacity = _capacity * 2;
-
-        Array.Resize(ref _data, newCapacity);
-        Array.Resize(ref _generations, newCapacity);
-
-        _isOccupiedBits.Length = newCapacity;
-        _freeSlots.EnsureCapacity(newCapacity);
-        _generations.AsSpan(_capacity).Fill(1);
-
+        Array.Resize(ref _slots, newCapacity);
         _capacity = newCapacity;
     }
 
@@ -103,27 +99,28 @@ public class SlotMap<T> : IEnumerable<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int Add(T item, out int generation)
     {
-        if (_count >= _capacity)
-        {
-            Resize();
-        }
-
         int slotIndex;
-        if (_freeSlots.Count == 0)
+        if (_freeListHead != -1)
         {
-            slotIndex = _count;
+            slotIndex = _freeListHead;
+            _freeListHead = _slots[slotIndex].NextFree;
         }
         else
         {
-            slotIndex = _freeSlots.Dequeue();
+            if (_nextSlotIndex >= _capacity)
+            {
+                Resize();
+            }
+            slotIndex = _nextSlotIndex++;
         }
 
-        _data[slotIndex] = item;
-        _isOccupiedBits[slotIndex] = true;
+        ref var slot = ref _slots[slotIndex];
+        slot.Generation++; // Even -> Odd
+        slot.Value = item;
+        slot.NextFree = -1;
 
         _count++;
-
-        generation = _generations[slotIndex];
+        generation = slot.Generation;
         return slotIndex;
     }
 
@@ -136,17 +133,13 @@ public class SlotMap<T> : IEnumerable<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Contains(int slotIndex, int generation)
     {
-        if (slotIndex < 0 || slotIndex >= Volatile.Read(ref _capacity))
+        if ((uint)slotIndex >= (uint)_nextSlotIndex)
         {
             return false;
         }
 
-        if (_isOccupiedBits[slotIndex] && _generations[slotIndex] == generation)
-        {
-            return true;
-        }
-
-        return false;
+        ref var slot = ref _slots[slotIndex];
+        return slot.Generation == generation && (generation & 1) != 0;
     }
 
     /// <summary>
@@ -163,12 +156,13 @@ public class SlotMap<T> : IEnumerable<T>
             return false;
         }
 
-        _generations[slotIndex]++;
-        _isOccupiedBits[slotIndex] = false;
+        ref var slot = ref _slots[slotIndex];
+        slot.Generation++; // Odd -> Even
+        slot.Value = default!;
+        slot.NextFree = _freeListHead;
+        _freeListHead = slotIndex;
 
-        _freeSlots.Enqueue(slotIndex);
         _count--;
-
         return true;
     }
 
@@ -188,7 +182,7 @@ public class SlotMap<T> : IEnumerable<T>
             return false;
         }
 
-        value = _data[slotIndex];
+        value = _slots[slotIndex].Value;
         return true;
     }
 
@@ -207,7 +201,7 @@ public class SlotMap<T> : IEnumerable<T>
             throw new InvalidOperationException($"Slot {slotIndex} is not occupied or generation mismatch.");
         }
 
-        return _data[slotIndex];
+        return _slots[slotIndex].Value;
     }
 
     /// <summary>
@@ -227,7 +221,7 @@ public class SlotMap<T> : IEnumerable<T>
         }
 
         exist = true;
-        return ref _data[slotIndex];
+        return ref _slots[slotIndex].Value;
     }
 
     /// <summary>
@@ -245,7 +239,7 @@ public class SlotMap<T> : IEnumerable<T>
             return false;
         }
 
-        _data[slotIndex] = newValue;
+        _slots[slotIndex].Value = newValue;
         return true;
     }
 
@@ -255,17 +249,19 @@ public class SlotMap<T> : IEnumerable<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear()
     {
-        _count = 0;
-        _freeSlots.Clear();
-    }
+        for (var i = 0; i < _nextSlotIndex; i++)
+        {
+            ref var slot = ref _slots[i];
+            if ((slot.Generation & 1) != 0)
+            {
+                slot.Generation++; // Odd -> Even
+            }
+            slot.Value = default!;
+            slot.NextFree = -1;
+        }
 
-    /// <summary>
-    /// Returns a span over the occupied portion of the underlying storage.
-    /// </summary>
-    /// <returns>A span containing the active items.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Span<T> AsSpan()
-    {
-        return _data.AsSpan(0, _count);
+        _freeListHead = -1;
+        _nextSlotIndex = 0;
+        _count = 0;
     }
 }

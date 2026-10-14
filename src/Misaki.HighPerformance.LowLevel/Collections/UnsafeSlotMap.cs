@@ -45,6 +45,13 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     private const int _CHUNK_SIZE = 1 << _CHUNK_SHIFT;
     private const int _CHUNK_MASK = _CHUNK_SIZE - 1;
 
+    public struct Slot
+    {
+        public T Value;
+        public int Generation; // Odd = active, Even = free (starts at 0)
+        public int NextFree;   // Freelist pointer when vacant
+    }
+
     public ref struct Enumerator
     {
         private ref UnsafeSlotMap<T> _collection;
@@ -60,17 +67,27 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         {
             get
             {
-                var values = _collection._values;
                 var chunkIdx = _currentIndex >> _CHUNK_SHIFT;
                 var localIdx = _currentIndex & _CHUNK_MASK;
-                return ref values[chunkIdx][localIdx];
+                return ref _collection._slots[chunkIdx][localIdx].Value;
             }
         }
 
         public bool MoveNext()
         {
-            _currentIndex = _collection._validBits.NextSetBit(_currentIndex + 1);
-            return _currentIndex != -1;
+            var maxIndex = _collection._nextSlotIndex;
+            while (++_currentIndex < maxIndex)
+            {
+                var chunkIdx = _currentIndex >> _CHUNK_SHIFT;
+                var localIdx = _currentIndex & _CHUNK_MASK;
+
+                if ((_collection._slots[chunkIdx][localIdx].Generation & 1) != 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void Reset()
@@ -79,10 +96,8 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         }
     }
 
-    private UnsafeArray<UnsafeArray<T>> _values;
-    private UnsafeArray<UnsafeArray<int>> _generations;
-    private UnsafeQueue<int> _freeSlots;
-    private UnsafeBitSet _validBits;
+    private UnsafeArray<UnsafeArray<Slot>> _slots;
+    private int _freeListHead;
     private AllocationHandle _handle;
     private AllocationOption _allocationOption;
 
@@ -93,7 +108,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     public readonly int Count => _count;
     public readonly int Capacity => _capacity;
 
-    public readonly bool IsCreated => _values.IsCreated && _generations.IsCreated && _freeSlots.IsCreated && _validBits.IsCreated;
+    public readonly bool IsCreated => _slots.IsCreated;
 
     /// <summary>
     /// Initializes a new instance of UnsafeSlotMap with a default size of 1 and a persistent allocation handle.
@@ -128,23 +143,17 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         }
 
         _capacity = initialChunks * _CHUNK_SIZE;
-        _values = new UnsafeArray<UnsafeArray<T>>(initialChunks, handle, allocationOption);
-        _generations = new UnsafeArray<UnsafeArray<int>>(initialChunks, handle, allocationOption);
+        _slots = new UnsafeArray<UnsafeArray<Slot>>(initialChunks, handle, allocationOption);
         for (var i = 0; i < initialChunks; i++)
         {
-            _values[i] = new UnsafeArray<T>(_CHUNK_SIZE, handle, allocationOption);
-            _generations[i] = new UnsafeArray<int>(_CHUNK_SIZE, handle, allocationOption);
-            _generations[i].AsSpan().Fill(1);
+            _slots[i] = new UnsafeArray<Slot>(_CHUNK_SIZE, handle, allocationOption);
+            if (!allocationOption.HasOption(AllocationOption.Clear))
+            {
+                _slots[i].AsSpan().Clear();
+            }
         }
 
-        _freeSlots = new UnsafeQueue<int>(capacity, handle, allocationOption);
-        _validBits = new UnsafeBitSet(_capacity, handle, allocationOption);
-
-        if (!allocationOption.HasOption(AllocationOption.Clear))
-        {
-            _validBits.ClearAll();
-        }
-
+        _freeListHead = -1;
         _count = 0;
         _nextSlotIndex = 0;
     }
@@ -159,29 +168,29 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.NoInlining)]
     private void EnsureChunkExists(int requiredChunkIndex)
     {
-        if (requiredChunkIndex < _values.Length)
+        if (requiredChunkIndex < _slots.Length)
         {
             return;
         }
 
-        var newChunkCount = _values.Length;
+        var newChunkCount = _slots.Length;
         while (newChunkCount <= requiredChunkIndex)
         {
             newChunkCount *= 2;
         }
 
-        _values.Resize(newChunkCount, _allocationOption);
-        _generations.Resize(newChunkCount, _allocationOption);
+        _slots.Resize(newChunkCount, _allocationOption);
 
         for (var i = _capacity / _CHUNK_SIZE; i < newChunkCount; i++)
         {
-            _values[i] = new UnsafeArray<T>(_CHUNK_SIZE, _handle, _allocationOption);
-            _generations[i] = new UnsafeArray<int>(_CHUNK_SIZE, _handle, _allocationOption);
-            _generations[i].AsSpan().Fill(1);
+            _slots[i] = new UnsafeArray<Slot>(_CHUNK_SIZE, _handle, _allocationOption);
+            if (!_allocationOption.HasOption(AllocationOption.Clear))
+            {
+                _slots[i].AsSpan().Clear();
+            }
         }
 
         _capacity = newChunkCount * _CHUNK_SIZE;
-        _validBits.Resize(_capacity, _allocationOption);
     }
 
     /// <summary>
@@ -192,19 +201,21 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <returns>The index of the slot in which the item was stored.</returns>
     public int Add(scoped in T item, out int generation)
     {
-        if (_freeSlots.Count > 0)
+        int slotIndex;
+        if (_freeListHead != -1)
         {
-            var slotIndex = _freeSlots.Dequeue();
+            slotIndex = _freeListHead;
             var chunkIdx = slotIndex >> _CHUNK_SHIFT;
             var localIdx = slotIndex & _CHUNK_MASK;
 
-            ref var slotValue = ref _values[chunkIdx][localIdx];
-            ref var slotGeneration = ref _generations[chunkIdx][localIdx];
+            ref var slot = ref _slots[chunkIdx][localIdx];
+            _freeListHead = slot.NextFree;
 
-            generation = slotGeneration;
-            slotValue = item;
-            _validBits.SetBit(slotIndex);
+            slot.Generation++; // Even -> Odd
+            slot.Value = item;
+            slot.NextFree = -1;
 
+            generation = slot.Generation;
             _count++;
             return slotIndex;
         }
@@ -213,17 +224,15 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         var newChunkIdx = newSlotIndex >> _CHUNK_SHIFT;
         var newLocalIdx = newSlotIndex & _CHUNK_MASK;
 
-        if (newChunkIdx >= _values.Length)
+        if (newChunkIdx >= _slots.Length)
         {
             EnsureChunkExists(newChunkIdx);
         }
 
-        ref var newValue = ref _values[newChunkIdx][newLocalIdx];
-        ref var newGeneration = ref _generations[newChunkIdx][newLocalIdx];
-        newValue = item;
-        newGeneration = 1;
-
-        _validBits.SetBit(newSlotIndex);
+        ref var newSlot = ref _slots[newChunkIdx][newLocalIdx];
+        newSlot.Generation = 1;
+        newSlot.Value = item;
+        newSlot.NextFree = -1;
 
         generation = 1;
         _count++;
@@ -240,7 +249,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     public bool Remove(int slotIndex, int generation, out T item)
     {
         item = default;
-        if (slotIndex < 0)
+        if ((uint)slotIndex >= (uint)_nextSlotIndex || (generation & 1) == 0)
         {
             return false;
         }
@@ -248,26 +257,25 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         var chunkIdx = slotIndex >> _CHUNK_SHIFT;
         var localIdx = slotIndex & _CHUNK_MASK;
 
-        if (chunkIdx >= _values.Length)
+        if (chunkIdx >= _slots.Length)
         {
             return false;
         }
 
-        ref var slotGeneration = ref _generations[chunkIdx][localIdx];
+        ref var slot = ref _slots[chunkIdx][localIdx];
 
-        if (!_validBits.IsSet(slotIndex) || slotGeneration != generation)
+        if (slot.Generation != generation)
         {
             return false;
         }
 
-        slotGeneration++;
-        _validBits.ClearBit(slotIndex);
-        item = _values[chunkIdx][localIdx];
-        _values[chunkIdx][localIdx] = default;
+        slot.Generation++; // Odd -> Even
+        item = slot.Value;
+        slot.Value = default;
+        slot.NextFree = _freeListHead;
+        _freeListHead = slotIndex;
 
-        _freeSlots.Enqueue(slotIndex);
         _count--;
-
         return true;
     }
 
@@ -347,7 +355,7 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     /// <returns>A reference to the element of type <typeparamref name="T"/> at the specified slot and generation if it exists; otherwise, a null reference.</returns>
     public readonly ref T GetElementReferenceAt(int slotIndex, int generation, out bool exist)
     {
-        if (slotIndex < 0)
+        if ((uint)slotIndex >= (uint)_nextSlotIndex || (generation & 1) == 0)
         {
             exist = false;
             return ref Unsafe.NullRef<T>();
@@ -356,18 +364,18 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
         var chunkIdx = slotIndex >> _CHUNK_SHIFT;
         var localIdx = slotIndex & _CHUNK_MASK;
 
-        if (chunkIdx >= _values.Length)
+        if (chunkIdx >= _slots.Length)
         {
             exist = false;
             return ref Unsafe.NullRef<T>();
         }
 
-        ref var slotGeneration = ref _generations[chunkIdx][localIdx];
+        ref var slot = ref _slots[chunkIdx][localIdx];
 
-        if (_validBits.IsSet(slotIndex) && slotGeneration == generation)
+        if (slot.Generation == generation)
         {
             exist = true;
-            return ref _values[chunkIdx][localIdx];
+            return ref slot.Value;
         }
 
         exist = false;
@@ -378,22 +386,29 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
     {
         var requiredChunkIndex = (newSize + _CHUNK_MASK) / _CHUNK_SIZE - 1;
         EnsureChunkExists(requiredChunkIndex);
-        _freeSlots.Resize(newSize, option);
-        _validBits.Resize(newSize, option);
     }
 
     public void Clear()
     {
-        for (var i = 0; i < _values.Length; i++)
+        for (var i = 0; i < _slots.Length; i++)
         {
-            if (_values[i].IsCreated)
+            if (_slots[i].IsCreated)
             {
-                _values[i].AsSpan().Clear();
+                var span = _slots[i].AsSpan();
+                for (var j = 0; j < span.Length; j++)
+                {
+                    ref var slot = ref span[j];
+                    if ((slot.Generation & 1) != 0)
+                    {
+                        slot.Generation++; // Odd -> Even
+                    }
+                    slot.Value = default;
+                    slot.NextFree = -1;
+                }
             }
         }
 
-        _freeSlots.Clear();
-        _validBits.ClearAll();
+        _freeListHead = -1;
         _count = 0;
         _nextSlotIndex = 0;
     }
@@ -405,17 +420,16 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
     public void Dispose()
     {
-        for (var i = 0; i < _values.Length; i++)
+        if (_slots.IsCreated)
         {
-            _values[i].Dispose();
-            _generations[i].Dispose();
+            for (var i = 0; i < _slots.Length; i++)
+            {
+                _slots[i].Dispose();
+            }
+            _slots.Dispose();
         }
 
-        _values.Dispose();
-        _generations.Dispose();
-        _freeSlots.Dispose();
-        _validBits.Dispose();
-
+        _freeListHead = -1;
         _count = 0;
         _capacity = 0;
         _nextSlotIndex = 0;
