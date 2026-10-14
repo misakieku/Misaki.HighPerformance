@@ -1120,7 +1120,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         }
 
         var spin = new SpinWait();
-        var sleepThreshold = handles.Length * 20;
+        //var sleepThreshold = handles.Length * 20;
         var completedCount = 0;
 
         while (true)
@@ -1144,7 +1144,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 return;
             }
 
-            spin.SpinOnce(sleepThreshold);
+            spin.SpinOnce(-1);
         }
     }
 
@@ -1156,7 +1156,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         }
 
         var spin = new SpinWait();
-        var sleepThreshold = handles.Length * 20;
+        //var sleepThreshold = handles.Length * 20;
         var completedCount = 0;
 
         while (true)
@@ -1197,7 +1197,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
             if (!madeProgress)
             {
-                spin.SpinOnce(sleepThreshold);
+                spin.SpinOnce(-1);
             }
         }
     }
@@ -1210,7 +1210,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     public JobHandle WaitAny(params ReadOnlySpan<JobHandle> handles)
     {
         var spin = new SpinWait();
-        var sleepThreshold = handles.Length * 10;
+        //var sleepThreshold = handles.Length * 10;
 
         while (true)
         {
@@ -1222,7 +1222,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 }
             }
 
-            spin.SpinOnce(sleepThreshold);
+            spin.SpinOnce(-1);
         }
     }
 
