@@ -216,6 +216,11 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         if (exist && Volatile.Read(ref jobInfo.dependencyCount) == 0)
         {
+            // Snapshot immutable job attributes while safely in Created state.
+            // As long as state == Created, no other thread can execute, complete, or recycle this job.
+            var handleCount = Math.Min(jobInfo.jobRanges.TotalBatches, _workerThreads.Length);
+            var tier = (int)jobInfo.priority;
+
             var spin = new SpinWait();
             while (true)
             {
@@ -234,11 +239,13 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 spin.SpinOnce(-1);
             }
 
-            // Ensure the count of this job handle won't exceed the number of worker threads.
-            // Worker threads will steal parallel iteration ranges from each other.
-            var handleCount = Math.Min(jobInfo.jobRanges.TotalBatches, _workerThreads.Length);
+            // If an inline execution thread (e.g. in Wait or TryExecuteUpstream) already executed and completed this job,
+            // we do not need to enqueue it or release work signal.
+            if (!_jobInfoPool.Contains(handle.ID, handle.Generation) || JobUtility.ReadState(ref jobInfo) == JobState.Completed)
+            {
+                return;
+            }
 
-            var tier = (int)jobInfo.priority;
             var i = 0;
 
             if (preferLocal && WorkerThread.IsWorkerThread)
