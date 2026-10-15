@@ -188,7 +188,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         _jobEdges = new JobEdge[desc.DependencyChainCapacity];
         _watermark = 0;
-        _freeListHead = -1L;
+        _freeListHead = (long)0xFFFFFFFF;
 
         _workSignal = new SemaphoreSlim(0);
         _cts = new CancellationTokenSource();
@@ -265,13 +265,18 @@ public sealed unsafe partial class JobScheduler : IDisposable
     private int AllocateEdge()
     {
         var headCounter = Volatile.Read(ref _freeListHead);
-        while (headCounter != -1L)
+        while (true)
         {
-            // Lower 32 bits is the index, upper 32 bits is the version. We need to read both to ensure the consistency of the free list head.
             var headIndex = (int)(headCounter & 0xFFFFFFFF);
-            var nextIndex = _jobEdges[headIndex].nextEdgeIndex;
+            if (headIndex == -1)
+            {
+                break;
+            }
 
-            var nextCounter = nextIndex == -1 ? -1L : (((headCounter >> 32) + 1) << 32) | (uint)nextIndex;
+            var version = (uint)(headCounter >> 32);
+            var nextIndex = Volatile.Read(ref _jobEdges[headIndex].nextEdgeIndex);
+
+            var nextCounter = ((long)(version + 1) << 32) | (uint)nextIndex;
 
             if (Interlocked.CompareExchange(ref _freeListHead, nextCounter, headCounter) == headCounter)
             {
@@ -302,9 +307,11 @@ public sealed unsafe partial class JobScheduler : IDisposable
         {
             var currentHeadCounter = Volatile.Read(ref _freeListHead);
             var currentHeadIndex = (int)(currentHeadCounter & 0xFFFFFFFF);
+            var version = (uint)(currentHeadCounter >> 32);
+
             _jobEdges[tailEdgeIndex].nextEdgeIndex = currentHeadIndex;
 
-            var newHeadCounter = (((currentHeadCounter >> 32) + 1) << 32) | (uint)firstEdgeIndex;
+            var newHeadCounter = ((long)(version + 1) << 32) | (uint)firstEdgeIndex;
 
             if (Interlocked.CompareExchange(ref _freeListHead, newHeadCounter, currentHeadCounter) == currentHeadCounter)
             {
@@ -328,13 +335,17 @@ public sealed unsafe partial class JobScheduler : IDisposable
         ref var parentInfo = ref _jobInfoPool.GetElementReferenceAt(parentJob.ID, parentJob.Generation, out var exist);
         if (!exist)
         {
-            Debug.Assert(false, $"Attempted to attach child job to non-existent parent {parentJob}.");
             return false;
         }
 
         var spin = new SpinWait();
         while (true)
         {
+            if (!_jobInfoPool.Contains(parentJob.ID, parentJob.Generation))
+            {
+                return false;
+            }
+
             var stateVal = Volatile.Read(ref parentInfo.state);
             var state = JobUtility.GetState(stateVal);
             var rc = JobUtility.GetRefCount(stateVal);
@@ -342,17 +353,15 @@ public sealed unsafe partial class JobScheduler : IDisposable
             // Cannot attach to completed/invalid parent, or a running parent whose body has already finished (RC == 0)
             if (state == JobState.Completed || state == JobState.Invalid || (state == JobState.Running && rc == 0))
             {
-                Debug.Assert(false, $"Attempted to attach child job to parent {parentJob} in invalid state {state} with RC {rc}.");
                 return false;
             }
 
             if (Interlocked.CompareExchange(ref parentInfo.state, stateVal + JobUtility.RC_ONE, stateVal) == stateVal)
             {
                 // Re-verify that parent wasn't recycled concurrently
-                _jobInfoPool.GetElementReferenceAt(parentJob.ID, parentJob.Generation, out var stillExist);
-                if (!stillExist)
+                if (!_jobInfoPool.Contains(parentJob.ID, parentJob.Generation))
                 {
-                    DetachFromParent(parentJob);
+                    Interlocked.Add(ref parentInfo.state, -JobUtility.RC_ONE);
                     return false;
                 }
 
@@ -430,10 +439,15 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
             while (true)
             {
+                if (!_jobInfoPool.Contains(dependency.ID, dependency.Generation))
+                {
+                    break;
+                }
+
                 var stateVal = Volatile.Read(ref depJobInfo.state);
                 var state = JobUtility.GetState(stateVal);
 
-                if (state == JobState.Completed)
+                if (state == JobState.Completed || state == JobState.Invalid)
                 {
                     break;
                 }
@@ -441,6 +455,13 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 // Attempt to increment RC (Reader Count)
                 if (Interlocked.CompareExchange(ref depJobInfo.state, stateVal + JobUtility.RC_ONE, stateVal) == stateVal)
                 {
+                    // Re-verify that the slot wasn't recycled concurrently before or during the CAS
+                    if (!_jobInfoPool.Contains(dependency.ID, dependency.Generation))
+                    {
+                        Interlocked.Add(ref depJobInfo.state, -JobUtility.RC_ONE);
+                        break;
+                    }
+
                     // RC acquired. We are safe from "Remove" and state change.
 
                     // Get an index for the new edge from the edge pool
@@ -1264,13 +1285,12 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 return;
             }
 
-            if (Volatile.Read(ref jobInfo.state) == JobUtility.JOBSTATE_COMPLETED)
+            // Mask out RC
+            var state = JobUtility.ReadState(ref jobInfo);
+            if (state == JobState.Completed)
             {
                 return;
             }
-
-            // Mask out RC
-            var state = JobUtility.ReadState(ref jobInfo);
 
             var madeProgress = false;
             if (inlineExecution)

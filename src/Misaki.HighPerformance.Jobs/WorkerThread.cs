@@ -83,7 +83,7 @@ internal class WorkerThread : IDisposable
             }
         }
 
-        for (var offset = 0; offset < helperThreadCount; offset++)
+        for (var offset = 0; offset < 3; offset++)
         {
             var p = (seq >> (offset * 2)) & 0x3;
 

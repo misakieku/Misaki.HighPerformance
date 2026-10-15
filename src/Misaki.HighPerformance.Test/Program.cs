@@ -9,29 +9,14 @@ using Misaki.HighPerformance.Test.UnitTest.Jobs;
 using System.Buffers;
 using System.Numerics;
 
-//BenchmarkDotNet.Running.BenchmarkRunner.Run<ParallelNoiseBenchmark>();
-
-const int count = 2048;
-
-var bench = new ParallelNoiseBenchmark();
-bench.Setup();
-
-for (var i = 0; i < count; i++)
+var test = new JobSchedulerStressTests();
+test.Setup();
+Console.WriteLine("Starting Diamond stress test loop...");
+for (var round = 1; round <= 20; round++)
 {
-    bench.JobSystem();
+    Console.WriteLine($"--- Round {round} ---");
+    test.StressTest_DeepDependencyDiamond_EdgeRecycling();
 }
-
-var sw = System.Diagnostics.Stopwatch.StartNew();
-
-for (var i = 0; i < count; i++)
-{
-    bench.JobSystem();
-}
-
-sw.Stop();
-var avgTime = sw.Elapsed.TotalMilliseconds / count;
-Console.WriteLine($"{avgTime} ms");
-bench.Cleanup();
-
-// GlobalSetup.GlobalInitialize(null!);
-// TestJobSystem.Initialize(null!);
+Console.WriteLine("All rounds passed!");
+test.Cleanup();
+return;
