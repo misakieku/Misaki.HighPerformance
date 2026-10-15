@@ -267,3 +267,23 @@ internal unsafe struct SumBufferJob : IJob
         *pSum = total;
     }
 }
+
+internal unsafe struct ThreadIdRecordingJob : IJob
+{
+    public int* pThreadId;
+
+    public void Execute(ref readonly JobExecutionContext ctx)
+    {
+        *pThreadId = Environment.CurrentManagedThreadId;
+    }
+}
+
+internal unsafe struct FlagJob : IJob
+{
+    public bool* pFlag;
+
+    public void Execute(ref readonly JobExecutionContext ctx)
+    {
+        *pFlag = true;
+    }
+}

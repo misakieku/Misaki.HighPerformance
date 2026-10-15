@@ -132,6 +132,10 @@ internal unsafe struct JobInfo
     public void* pCustomExecutionFunc;
     public void* pCustomFreeFunc;
 
+#if MHP_ENABLE_PROFILING
+    public string? jobTypeName;
+#endif
+
     public int dataID;
     public int dataGeneration;
 
@@ -139,14 +143,11 @@ internal unsafe struct JobInfo
     public JobPriority priority;
 
     public int firstDependentEdgeIndex; // Index of the first dependent edge in the global edge list, -1 if no dependents
+    public int firstUpstreamEdgeIndex; // Index of the first upstream dependency edge in the global edge list, -1 if no dependencies
     public int state;
 
     public int dependencyCount; // Numbers of jobs that this job depends on, when it reaches 0, the job can be executed
     public JobHandle parentJob; // Handle of parent job if this is an attached child job
-
-#if MHP_ENABLE_PROFILING
-    public string? jobTypeName;
-#endif
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly DependentIterator GetDependentIterator(ReadOnlySpan<JobEdge> edgePool)

@@ -665,6 +665,319 @@ public class TestJobSystem
         Assert.AreEqual(iterations, *result);
     }
 
+    [TestMethod]
+    public unsafe void Run_WithParent_BlocksParentCompletionUntilDone()
+    {
+        var result = stackalloc float[1];
+        *result = 0f;
+
+        var blocker = false;
+        var parentJob = new WaitJob
+        {
+            pSignal = &blocker,
+        };
+
+        var parentHandle = s_jobScheduler.Schedule(ref parentJob);
+
+        var childJob = new AddJob
+        {
+            value = 42f,
+            result = result,
+        };
+
+        // Run synchronously attached to parentHandle
+        s_jobScheduler.Run(ref childJob, parent: parentHandle);
+
+        var downstreamJob = new AddJob
+        {
+            value = 10f,
+            result = result,
+        };
+
+        var downstreamHandle = s_jobScheduler.Schedule(ref downstreamJob, parentHandle);
+
+        // Unblock parent now (signal WaitJob to complete when it sees true)
+        blocker = true;
+
+        s_jobScheduler.Wait(downstreamHandle);
+
+        Assert.AreEqual(52f, *result);
+    }
+
+    [TestMethod]
+    public unsafe void Run_SpawnsChildren_AttachedToParent()
+    {
+        var result = stackalloc float[1];
+        *result = 0f;
+
+        var blocker = false;
+        var parentJob = new WaitJob
+        {
+            pSignal = &blocker,
+        };
+
+        var parentHandle = s_jobScheduler.Schedule(ref parentJob);
+
+        // Run a job synchronously that spawns an async child attached to parent
+        var spawnerJob = new ParentSpawnsChildJob
+        {
+            childValue = 50f,
+            result = result,
+            sleepMs = 10,
+        };
+
+        s_jobScheduler.Run(ref spawnerJob, parent: parentHandle);
+
+        var downstreamJob = new AddJob
+        {
+            value = 100f,
+            result = result,
+        };
+
+        var downstreamHandle = s_jobScheduler.Schedule(ref downstreamJob, parentHandle);
+
+        // Release parent job
+        blocker = true;
+
+        s_jobScheduler.Wait(downstreamHandle);
+
+        // Downstream should see spawner's child (50) + downstream (100) = 150
+        Assert.AreEqual(150f, *result);
+    }
+
+    [TestMethod]
+    public unsafe void RunParallelFor_WithParent()
+    {
+        const int count = 64;
+        var buffer = stackalloc int[count];
+        for (var i = 0; i < count; i++)
+        {
+            buffer[i] = 0;
+        }
+
+        var blocker = false;
+        var parentJob = new WaitJob
+        {
+            pSignal = &blocker,
+        };
+        var parentHandle = s_jobScheduler.Schedule(ref parentJob);
+
+        var fillJob = new ParallelIncrementJob
+        {
+            pBuffer = buffer,
+        };
+        s_jobScheduler.RunParallelFor(ref fillJob, count, parent: parentHandle);
+
+        var sum = stackalloc int[1];
+        *sum = 0;
+        var sumJob = new SumBufferJob
+        {
+            pBuffer = buffer,
+            count = count,
+            pSum = sum,
+        };
+
+        var downstreamHandle = s_jobScheduler.Schedule(ref sumJob, parentHandle);
+
+        blocker = true;
+
+        s_jobScheduler.Wait(downstreamHandle);
+
+        Assert.AreEqual(count, *sum);
+    }
+
+    [TestMethod]
+    public unsafe void Wait_HelpsUpstreamDependency()
+    {
+        var desc = new JobSchedulerDesc
+        {
+            ThreadCount = 1,
+            ThreadPriority = ThreadPriority.Normal,
+            DependencyChainCapacity = 64,
+        };
+        using var scheduler = new JobScheduler(in desc);
+
+        var workerBlocked = false;
+        var blockerJob = new WaitJob
+        {
+            pSignal = &workerBlocked,
+        };
+        var blockerHandle = scheduler.Schedule(ref blockerJob);
+
+        // Ensure worker thread has started executing the blocker job
+        Thread.Sleep(20);
+
+        var executedThreadId = 0;
+        var upstreamJob = new ThreadIdRecordingJob
+        {
+            pThreadId = &executedThreadId,
+        };
+        var upstreamHandle = scheduler.Schedule(ref upstreamJob);
+
+        var downstreamExecuted = false;
+        var downstreamJob = new FlagJob
+        {
+            pFlag = &downstreamExecuted,
+        };
+        var downstreamHandle = scheduler.Schedule(ref downstreamJob, upstreamHandle);
+
+        // Main thread waits on downstreamHandle.
+        // Worker thread is blocked on blockerJob, so upstreamHandle must be executed via TryExecuteUpstream!
+        scheduler.Wait(downstreamHandle);
+
+        Assert.IsTrue(downstreamExecuted);
+        Assert.AreEqual(Environment.CurrentManagedThreadId, executedThreadId);
+
+        // Unblock worker thread
+        workerBlocked = true;
+        scheduler.Wait(blockerHandle);
+    }
+
+    [TestMethod]
+    public unsafe void Wait_HelpsDeepUpstreamPipeline()
+    {
+        var desc = new JobSchedulerDesc
+        {
+            ThreadCount = 1,
+            ThreadPriority = ThreadPriority.Normal,
+            DependencyChainCapacity = 64,
+        };
+        using var scheduler = new JobScheduler(in desc);
+
+        var workerBlocked = false;
+        var blockerJob = new WaitJob
+        {
+            pSignal = &workerBlocked,
+        };
+        var blockerHandle = scheduler.Schedule(ref blockerJob);
+
+        Thread.Sleep(20);
+
+        var threadA = 0;
+        var threadB = 0;
+        var threadC = 0;
+        var threadD = 0;
+
+        var jobA = new ThreadIdRecordingJob { pThreadId = &threadA };
+        var handleA = scheduler.Schedule(ref jobA);
+
+        var jobB = new ThreadIdRecordingJob { pThreadId = &threadB };
+        var handleB = scheduler.Schedule(ref jobB, handleA);
+
+        var jobC = new ThreadIdRecordingJob { pThreadId = &threadC };
+        var handleC = scheduler.Schedule(ref jobC, handleB);
+
+        var jobD = new ThreadIdRecordingJob { pThreadId = &threadD };
+        var handleD = scheduler.Schedule(ref jobD, handleC);
+
+        // Main thread waits on D. Deep upstream chain (D -> C -> B -> A) must be resolved inline.
+        scheduler.Wait(handleD);
+
+        var currentThread = Environment.CurrentManagedThreadId;
+        Assert.AreEqual(currentThread, threadA);
+        Assert.AreEqual(currentThread, threadB);
+        Assert.AreEqual(currentThread, threadC);
+        Assert.AreEqual(currentThread, threadD);
+
+        workerBlocked = true;
+        scheduler.Wait(blockerHandle);
+    }
+
+    [TestMethod]
+    public unsafe void Wait_UpstreamDiamondDAG()
+    {
+        var desc = new JobSchedulerDesc
+        {
+            ThreadCount = 1,
+            ThreadPriority = ThreadPriority.Normal,
+            DependencyChainCapacity = 64,
+        };
+        using var scheduler = new JobScheduler(in desc);
+
+        var workerBlocked = false;
+        var blockerJob = new WaitJob
+        {
+            pSignal = &workerBlocked,
+        };
+        var blockerHandle = scheduler.Schedule(ref blockerJob);
+
+        Thread.Sleep(20);
+
+        var threadA1 = 0;
+        var threadA2 = 0;
+        var threadB = 0;
+
+        var jobA1 = new ThreadIdRecordingJob { pThreadId = &threadA1 };
+        var handleA1 = scheduler.Schedule(ref jobA1);
+
+        var jobA2 = new ThreadIdRecordingJob { pThreadId = &threadA2 };
+        var handleA2 = scheduler.Schedule(ref jobA2);
+
+        var jobB = new ThreadIdRecordingJob { pThreadId = &threadB };
+        Span<JobHandle> deps = stackalloc JobHandle[2] { handleA1, handleA2 };
+        var handleB = scheduler.Schedule(ref jobB, deps);
+
+        scheduler.Wait(handleB);
+
+        var currentThread = Environment.CurrentManagedThreadId;
+        Assert.AreEqual(currentThread, threadA1);
+        Assert.AreEqual(currentThread, threadA2);
+        Assert.AreEqual(currentThread, threadB);
+
+        workerBlocked = true;
+        scheduler.Wait(blockerHandle);
+    }
+
+    [TestMethod]
+    public unsafe void WaitAll_HelpsUpstreamDependencies()
+    {
+        var desc = new JobSchedulerDesc
+        {
+            ThreadCount = 1,
+            ThreadPriority = ThreadPriority.Normal,
+            DependencyChainCapacity = 64,
+        };
+        using var scheduler = new JobScheduler(in desc);
+
+        var workerBlocked = false;
+        var blockerJob = new WaitJob
+        {
+            pSignal = &workerBlocked,
+        };
+        var blockerHandle = scheduler.Schedule(ref blockerJob);
+
+        Thread.Sleep(20);
+
+        var threadA1 = 0;
+        var threadA2 = 0;
+        var threadB1 = 0;
+        var threadB2 = 0;
+
+        var jobA1 = new ThreadIdRecordingJob { pThreadId = &threadA1 };
+        var handleA1 = scheduler.Schedule(ref jobA1);
+
+        var jobB1 = new ThreadIdRecordingJob { pThreadId = &threadB1 };
+        var handleB1 = scheduler.Schedule(ref jobB1, handleA1);
+
+        var jobA2 = new ThreadIdRecordingJob { pThreadId = &threadA2 };
+        var handleA2 = scheduler.Schedule(ref jobA2);
+
+        var jobB2 = new ThreadIdRecordingJob { pThreadId = &threadB2 };
+        var handleB2 = scheduler.Schedule(ref jobB2, handleA2);
+
+        Span<JobHandle> waitHandles = stackalloc JobHandle[2] { handleB1, handleB2 };
+        scheduler.WaitAll(waitHandles);
+
+        var currentThread = Environment.CurrentManagedThreadId;
+        Assert.AreEqual(currentThread, threadA1);
+        Assert.AreEqual(currentThread, threadB1);
+        Assert.AreEqual(currentThread, threadA2);
+        Assert.AreEqual(currentThread, threadB2);
+
+        workerBlocked = true;
+        scheduler.Wait(blockerHandle);
+    }
+
 #if MHP_ENABLE_PROFILING
     [TestMethod]
     public unsafe void TestProfiling()

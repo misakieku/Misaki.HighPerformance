@@ -9,29 +9,29 @@ using Misaki.HighPerformance.Test.UnitTest.Jobs;
 using System.Buffers;
 using System.Numerics;
 
-BenchmarkDotNet.Running.BenchmarkRunner.Run<ParallelNoiseBenchmark>();
+//BenchmarkDotNet.Running.BenchmarkRunner.Run<ParallelNoiseBenchmark>();
 
-//const int count = 2048;
+const int count = 2048;
 
-//var bench = new ParallelNoiseBenchmark();
-//bench.Setup();
+var bench = new ParallelNoiseBenchmark();
+bench.Setup();
 
-//for (var i = 0; i < count; i++)
-//{
-//    bench.JobSystem();
-//}
+for (var i = 0; i < count; i++)
+{
+    bench.JobSystem();
+}
 
-//var sw = System.Diagnostics.Stopwatch.StartNew();
+var sw = System.Diagnostics.Stopwatch.StartNew();
 
-//for (var i = 0; i < count; i++)
-//{
-//    bench.JobSystem();
-//}
+for (var i = 0; i < count; i++)
+{
+    bench.JobSystem();
+}
 
-//sw.Stop();
-//var avgTime = sw.Elapsed.TotalMilliseconds / count;
-//Console.WriteLine($"{avgTime} ms");
-//bench.Cleanup();
+sw.Stop();
+var avgTime = sw.Elapsed.TotalMilliseconds / count;
+Console.WriteLine($"{avgTime} ms");
+bench.Cleanup();
 
 // GlobalSetup.GlobalInitialize(null!);
 // TestJobSystem.Initialize(null!);

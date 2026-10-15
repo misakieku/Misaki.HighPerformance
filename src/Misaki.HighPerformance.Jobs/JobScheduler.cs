@@ -39,6 +39,11 @@ public struct JobSchedulerDesc()
     {
         get; set;
     }
+
+    public int HelperThreadCount
+    {
+        get; set;
+    } = 1;
 }
 
 internal sealed class WaitItem : IThreadPoolWorkItem
@@ -189,7 +194,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         _cts = new CancellationTokenSource();
 
         _workerThreadCount = workerCount;
-        _helperThreadCount = 1;
+        _helperThreadCount = desc.HelperThreadCount;
         _state = desc.State;
 
         _workerThreads = new WorkerThread[workerCount + _helperThreadCount];
@@ -313,11 +318,10 @@ public sealed unsafe partial class JobScheduler : IDisposable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private bool TryAttachToParent(JobHandle parentJob, ref JobInfo childInfo)
+    private bool TryAttachParentOnly(JobHandle parentJob)
     {
         if (!parentJob.IsValid)
         {
-            childInfo.parentJob = JobHandle.Invalid;
             return false;
         }
 
@@ -325,7 +329,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
         if (!exist)
         {
             Debug.Assert(false, $"Attempted to attach child job to non-existent parent {parentJob}.");
-            childInfo.parentJob = JobHandle.Invalid;
             return false;
         }
 
@@ -340,7 +343,6 @@ public sealed unsafe partial class JobScheduler : IDisposable
             if (state == JobState.Completed || state == JobState.Invalid || (state == JobState.Running && rc == 0))
             {
                 Debug.Assert(false, $"Attempted to attach child job to parent {parentJob} in invalid state {state} with RC {rc}.");
-                childInfo.parentJob = JobHandle.Invalid;
                 return false;
             }
 
@@ -350,22 +352,47 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 _jobInfoPool.GetElementReferenceAt(parentJob.ID, parentJob.Generation, out var stillExist);
                 if (!stillExist)
                 {
-                    var afterState = Interlocked.Add(ref parentInfo.state, -JobUtility.RC_ONE);
-                    if (JobUtility.GetRefCount(afterState) == 0 && JobUtility.GetState(afterState) == JobState.Running)
-                    {
-                        MarkJobComplete(parentJob);
-                    }
-
-                    childInfo.parentJob = JobHandle.Invalid;
+                    DetachFromParent(parentJob);
                     return false;
                 }
 
-                childInfo.parentJob = parentJob;
                 return true;
             }
 
             spin.SpinOnce(-1);
         }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void DetachFromParent(JobHandle parentJob)
+    {
+        if (!parentJob.IsValid)
+        {
+            return;
+        }
+
+        ref var parentInfo = ref _jobInfoPool.GetElementReferenceAt(parentJob.ID, parentJob.Generation, out var parentExist);
+        if (parentExist)
+        {
+            var stateAfterRelease = Interlocked.Add(ref parentInfo.state, -JobUtility.RC_ONE);
+            if (JobUtility.GetRefCount(stateAfterRelease) == 0 && JobUtility.GetState(stateAfterRelease) == JobState.Running)
+            {
+                MarkJobComplete(parentJob);
+            }
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private bool TryAttachToParent(JobHandle parentJob, ref JobInfo childInfo)
+    {
+        if (TryAttachParentOnly(parentJob))
+        {
+            childInfo.parentJob = parentJob;
+            return true;
+        }
+
+        childInfo.parentJob = JobHandle.Invalid;
+        return false;
     }
 
     private JobHandle CreateJobHandle(ref JobInfo jobInfo, bool preferLocal, params ReadOnlySpan<JobHandle> dependencies)
@@ -384,6 +411,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         var handle = new JobHandle(id, generation);
 
         infoInPool.firstDependentEdgeIndex = -1;
+        infoInPool.firstUpstreamEdgeIndex = -1;
         for (var i = 0; i < dependencies.Length; i++)
         {
             var dependency = dependencies[i];
@@ -428,6 +456,13 @@ public sealed unsafe partial class JobScheduler : IDisposable
                         edge.nextEdgeIndex = currentFirst;
                     }
                     while (Interlocked.CompareExchange(ref depJobInfo.firstDependentEdgeIndex, newEdgeIndex, currentFirst) != currentFirst);
+
+                    // Backward edge: link dependency into this job's upstream chain
+                    var backwardEdgeIndex = AllocateEdge();
+                    ref var bEdge = ref _jobEdges[backwardEdgeIndex];
+                    bEdge.dependentJob = dependency;
+                    bEdge.nextEdgeIndex = infoInPool.firstUpstreamEdgeIndex;
+                    infoInPool.firstUpstreamEdgeIndex = backwardEdgeIndex;
 
                     // Release RC
                     var stateAfterRelease = Interlocked.Add(ref depJobInfo.state, -JobUtility.RC_ONE);
@@ -539,6 +574,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
         }
 
         FreeEdgeChain(ref info.firstDependentEdgeIndex);
+        FreeEdgeChain(ref info.firstUpstreamEdgeIndex);
 
         var parentJob = info.parentJob;
 
@@ -552,14 +588,44 @@ public sealed unsafe partial class JobScheduler : IDisposable
         // Handle attached parent continuation
         if (parentJob.IsValid)
         {
-            ref var parentInfo = ref _jobInfoPool.GetElementReferenceAt(parentJob.ID, parentJob.Generation, out var parentExist);
-            if (parentExist)
+            DetachFromParent(parentJob);
+        }
+    }
+
+    /// <summary>
+    /// Runs a job immediately on the current thread, blocking until it is complete.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJob"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed.</param>
+    /// <param name="parent">The parent job that this job must be finished before the parent job can be completed. If the parent job is not valid, this job will be treated as a root job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Run<T>(ref T job, JobHandle parent = default, params Span<JobHandle> dependencies)
+        where T : IJob
+    {
+        var attached = parent.IsValid && TryAttachParentOnly(parent);
+        try
+        {
+            if (!dependencies.IsEmpty)
             {
-                var stateAfterRelease = Interlocked.Add(ref parentInfo.state, -JobUtility.RC_ONE);
-                if (JobUtility.GetRefCount(stateAfterRelease) == 0 && JobUtility.GetState(stateAfterRelease) == JobState.Running)
-                {
-                    MarkJobComplete(parentJob);
-                }
+                WaitAll(dependencies);
+            }
+
+            var ctx = new JobExecutionContext
+            {
+                ThreadIndex = WorkerThread.ThreadIndex,
+                JobScheduler = this,
+                State = _state,
+                SelfHandle = parent,
+            };
+
+            job.Execute(in ctx);
+        }
+        finally
+        {
+            if (attached)
+            {
+                DetachFromParent(parent);
             }
         }
     }
@@ -573,18 +639,48 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Run<T>(ref T job, params Span<JobHandle> dependencies)
         where T : IJob
+        => Run(ref job, default, dependencies);
+
+    /// <summary>
+    /// Runs a parallel for job immediately on the current thread, blocking until it is complete.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallelFor"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed.</param>
+    /// <param name="totalIteration">The total number of iterations to run.</param>
+    /// <param name="parent">The parent job that this job must be finished before the parent job can be completed. If the parent job is not valid, this job will be treated as a root job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void RunParallelFor<T>(ref T job, int totalIteration, JobHandle parent = default, params Span<JobHandle> dependencies)
+        where T : IJobParallelFor
     {
-        if (!dependencies.IsEmpty)
+        var attached = parent.IsValid && TryAttachParentOnly(parent);
+        try
         {
-            WaitAll(dependencies);
+            if (!dependencies.IsEmpty)
+            {
+                WaitAll(dependencies);
+            }
+
+            var ctx = new JobExecutionContext
+            {
+                ThreadIndex = WorkerThread.ThreadIndex,
+                JobScheduler = this,
+                State = _state,
+                SelfHandle = parent,
+            };
+
+            for (var i = 0; i < totalIteration; i++)
+            {
+                job.Execute(i, in ctx);
+            }
         }
-
-        var ctx = new JobExecutionContext
+        finally
         {
-            JobScheduler = this,
-        };
-
-        job.Execute(in ctx);
+            if (attached)
+            {
+                DetachFromParent(parent);
+            }
+        }
     }
 
     /// <summary>
@@ -597,20 +693,49 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void RunParallelFor<T>(ref T job, int totalIteration, params Span<JobHandle> dependencies)
         where T : IJobParallelFor
+        => RunParallelFor(ref job, totalIteration, default, dependencies);
+
+    /// <summary>
+    /// Runs a parallel job immediately on the current thread, blocking until it is complete. The job is executed in batches, with each batch containing a specified number of iterations.
+    /// </summary>
+    /// <typeparam name="T">The type of the job to execute. Must implement <see cref="IJobParallel"/> and be struct.</typeparam>
+    /// <param name="job">The job instance to be executed.</param>
+    /// <param name="totalIteration">The total number of iterations to run.</param>
+    /// <param name="batchSize">The number of iterations to run in each batch.</param>
+    /// <param name="parent">The parent job that this job must be finished before the parent job can be completed. If the parent job is not valid, this job will be treated as a root job.</param>
+    /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void RunParallel<T>(ref T job, int totalIteration, int batchSize, JobHandle parent = default, params Span<JobHandle> dependencies)
+        where T : IJobParallel
     {
-        if (!dependencies.IsEmpty)
+        var attached = parent.IsValid && TryAttachParentOnly(parent);
+        try
         {
-            WaitAll(dependencies);
+            if (!dependencies.IsEmpty)
+            {
+                WaitAll(dependencies);
+            }
+
+            var ctx = new JobExecutionContext
+            {
+                ThreadIndex = WorkerThread.ThreadIndex,
+                JobScheduler = this,
+                State = _state,
+                SelfHandle = parent,
+            };
+
+            for (var i = 0; i < totalIteration; i += batchSize)
+            {
+                var end = Math.Min(i + batchSize, totalIteration);
+                job.Execute(i, end, in ctx);
+            }
         }
-
-        var ctx = new JobExecutionContext
+        finally
         {
-            JobScheduler = this,
-        };
-
-        for (var i = 0; i < totalIteration; i++)
-        {
-            job.Execute(i, in ctx);
+            if (attached)
+            {
+                DetachFromParent(parent);
+            }
         }
     }
 
@@ -625,20 +750,35 @@ public sealed unsafe partial class JobScheduler : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void RunParallel<T>(ref T job, int totalIteration, int batchSize, params Span<JobHandle> dependencies)
         where T : IJobParallel
-    {
-        if (!dependencies.IsEmpty)
-        {
-            WaitAll(dependencies);
-        }
-        var ctx = new JobExecutionContext
-        {
-            JobScheduler = this,
-        };
+        => RunParallel(ref job, totalIteration, batchSize, default, dependencies);
 
-        for (var i = 0; i < totalIteration; i += batchSize)
+    public void RunCustom<T>(ref CustomJobDesc<T> jobDesc, params Span<JobHandle> dependencies)
+    {
+        var attached = jobDesc.parentJob.IsValid && TryAttachParentOnly(jobDesc.parentJob);
+        try
         {
-            var end = Math.Min(i + batchSize, totalIteration);
-            job.Execute(i, end, in ctx);
+            if (!dependencies.IsEmpty)
+            {
+                WaitAll(dependencies);
+            }
+
+            var ctx = new JobExecutionContext
+            {
+                ThreadIndex = WorkerThread.ThreadIndex,
+                JobScheduler = this,
+                State = _state,
+                SelfHandle = jobDesc.parentJob,
+            };
+
+            jobDesc.pExecutionFunc(ref jobDesc.data, ref jobDesc.jobRanges, in ctx);
+            jobDesc.pFreeFunc(ref jobDesc.data);
+        }
+        finally
+        {
+            if (attached)
+            {
+                DetachFromParent(jobDesc.parentJob);
+            }
         }
     }
 
@@ -653,7 +793,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <param name="parent">The parent job that this job must be finished before the parent job can be completed. If the parent job is not valid, this job will be treated as a root job.</param>
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public JobHandle Schedule<T>(ref readonly T job, bool preferLocal, JobPriority priority, JobHandle parent, params ReadOnlySpan<JobHandle> dependencies)
+    public JobHandle Schedule<T>(ref readonly T job, bool preferLocal = false, JobPriority priority = JobPriority.Normal, JobHandle parent = default, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJob
     {
         var id = JobDataPool<T>.Allocate(in job, out var generation);
@@ -740,7 +880,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job.  <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, JobHandle parent, params ReadOnlySpan<JobHandle> dependencies)
+    public JobHandle ScheduleParallelFor<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal = false, JobPriority priority = JobPriority.Normal, JobHandle parent = default, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobParallelFor
     {
         if (totalIteration <= 0)
@@ -845,7 +985,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <param name="dependencies">A collection of <see cref="JobHandle"/> representing the dependencies that must be completed before this job can begin.</param>
     /// <returns>A <see cref="JobHandle"/> that can be used to track the completion of the scheduled job. Returns <see cref="JobHandle.Invalid"/> if the job data allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal, JobPriority priority, JobHandle parent, params ReadOnlySpan<JobHandle> dependencies)
+    public JobHandle ScheduleParallel<T>(ref readonly T job, int totalIteration, int batchSize, bool preferLocal = false, JobPriority priority = JobPriority.Normal, JobHandle parent = default, params ReadOnlySpan<JobHandle> dependencies)
         where T : IJobParallel
     {
         if (totalIteration <= 0)
@@ -1045,6 +1185,63 @@ public sealed unsafe partial class JobScheduler : IDisposable
         return JobUtility.GetState(Volatile.Read(ref jobInfo.state));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private bool TryExecuteUpstream(ref JobInfo jobInfo, int callerThreadIndex, int depth = 0)
+    {
+        if (depth >= 4)
+        {
+            return false;
+        }
+
+        var edgeIdx = Volatile.Read(ref jobInfo.firstUpstreamEdgeIndex);
+        var edgeCount = 0;
+        while (edgeIdx != -1 && edgeCount++ < 128)
+        {
+            var upstreamHandle = _jobEdges[edgeIdx].dependentJob;
+            edgeIdx = _jobEdges[edgeIdx].nextEdgeIndex;
+
+            if (!_jobInfoPool.Contains(upstreamHandle.ID, upstreamHandle.Generation))
+            {
+                continue;
+            }
+
+            ref var upstreamInfo = ref _jobInfoPool.GetElementReferenceAt(upstreamHandle.ID, upstreamHandle.Generation, out var exist);
+            if (!exist)
+            {
+                continue;
+            }
+
+            var upstreamState = JobUtility.ReadState(ref upstreamInfo);
+            if (upstreamState == JobState.Scheduled)
+            {
+                if (JobUtility.TryExecuteJob(this, upstreamHandle, callerThreadIndex))
+                {
+                    return true;
+                }
+            }
+            else if (upstreamState == JobState.Running)
+            {
+                var ranges = upstreamInfo.jobRanges;
+                if (ranges.TotalBatches > 1 && Volatile.Read(ref upstreamInfo.jobRanges.currentIndex) < ranges.totalIteration)
+                {
+                    if (JobUtility.TryExecuteJob(this, upstreamHandle, callerThreadIndex))
+                    {
+                        return true;
+                    }
+                }
+            }
+            else if (upstreamState == JobState.Created)
+            {
+                if (TryExecuteUpstream(ref upstreamInfo, callerThreadIndex, depth + 1))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     /// <summary>
     /// Blocks the calling thread until the specified job is completed.
     /// </summary>
@@ -1057,12 +1254,8 @@ public sealed unsafe partial class JobScheduler : IDisposable
             return;
         }
 
-        // TODO: Maybe we can steal a up stream or current job to execute while waiting?
-        // For example, if we wait on job A which depends on job B, and both are not scheduled yet, we can steal and execute job B to speed up the completion of A.
-
         var callerThreadIndex = WorkerThread.ThreadIndex;
-
-        var spin = new SpinWait();
+        var spin = new YieldOnlySpin();
         while (true)
         {
             ref var jobInfo = ref _jobInfoPool.GetElementReferenceAt(handle.ID, handle.Generation, out var exist);
@@ -1082,7 +1275,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
             var madeProgress = false;
             if (inlineExecution)
             {
-                // Only try to help execute THIS specific job.
+                // Only try to help execute THIS specific job or its upstream dependencies.
                 if (state == JobState.Scheduled)
                 {
                     madeProgress = JobUtility.TryExecuteJob(this, handle, callerThreadIndex);
@@ -1095,11 +1288,15 @@ public sealed unsafe partial class JobScheduler : IDisposable
                         madeProgress = JobUtility.TryExecuteJob(this, handle, callerThreadIndex);
                     }
                 }
+                else if (state == JobState.Created)
+                {
+                    madeProgress = TryExecuteUpstream(ref jobInfo, callerThreadIndex);
+                }
             }
 
             if (!madeProgress)
             {
-                spin.SpinOnce(-1); // Never sleep and yield to achieve lowest latency for single job completion.
+                spin.SpinOnce(500);
             }
         }
     }
@@ -1114,38 +1311,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <param name="inlineExecution">A value indicating whether to help execute the jobs while waiting. Defaults to true.</param>
     public void WaitAll(params Span<JobHandle> handles)
     {
-        if (handles.Length == 0)
-        {
-            return;
-        }
-
-        var spin = new SpinWait();
-        //var sleepThreshold = handles.Length * 20;
-        var completedCount = 0;
-
-        while (true)
-        {
-            for (var i = completedCount; i < handles.Length; i++)
-            {
-                var handle = handles[i];
-                if (!_jobInfoPool.Contains(handle.ID, handle.Generation))
-                {
-                    // Move completed handle to the front (completedCount index) to avoid checking it again.
-                    var temp = handles[completedCount];
-                    handles[completedCount] = handle;
-                    handles[i] = temp;
-
-                    completedCount++;
-                }
-            }
-
-            if (completedCount == handles.Length)
-            {
-                return;
-            }
-
-            spin.SpinOnce(-1);
-        }
+        WaitAll(true, handles);
     }
 
     public void WaitAll(bool inlineExecution, params Span<JobHandle> handles)
@@ -1155,8 +1321,9 @@ public sealed unsafe partial class JobScheduler : IDisposable
             return;
         }
 
-        var spin = new SpinWait();
-        //var sleepThreshold = handles.Length * 20;
+        var callerThreadIndex = WorkerThread.ThreadIndex;
+        var spin = new YieldOnlySpin();
+        var threshold = handles.Length * 300;
         var completedCount = 0;
 
         while (true)
@@ -1175,17 +1342,22 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 }
                 else if (inlineExecution)
                 {
-                    if (JobUtility.ReadState(ref jobInfo) == JobState.Scheduled)
+                    var state = JobUtility.ReadState(ref jobInfo);
+                    if (state == JobState.Scheduled)
                     {
-                        madeProgress = JobUtility.TryExecuteJob(this, handle, WorkerThread.ThreadIndex);
+                        madeProgress = JobUtility.TryExecuteJob(this, handle, callerThreadIndex);
                     }
-                    else if (JobUtility.ReadState(ref jobInfo) == JobState.Running)
+                    else if (state == JobState.Running)
                     {
                         var ranges = jobInfo.jobRanges;
                         if (ranges.TotalBatches > 1 && Volatile.Read(ref jobInfo.jobRanges.currentIndex) < ranges.totalIteration)
                         {
-                            madeProgress = JobUtility.TryExecuteJob(this, handle, WorkerThread.ThreadIndex);
+                            madeProgress = JobUtility.TryExecuteJob(this, handle, callerThreadIndex);
                         }
+                    }
+                    else if (state == JobState.Created)
+                    {
+                        madeProgress = TryExecuteUpstream(ref jobInfo, callerThreadIndex);
                     }
                 }
             }
@@ -1197,7 +1369,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
             if (!madeProgress)
             {
-                spin.SpinOnce(-1);
+                spin.SpinOnce(threshold);
             }
         }
     }
@@ -1209,8 +1381,8 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// <returns>The first job handle from the provided collection that has completed.</returns>
     public JobHandle WaitAny(params ReadOnlySpan<JobHandle> handles)
     {
-        var spin = new SpinWait();
-        //var sleepThreshold = handles.Length * 10;
+        var spin = new YieldOnlySpin();
+        var threshold = handles.Length * 300;
 
         while (true)
         {
@@ -1222,7 +1394,7 @@ public sealed unsafe partial class JobScheduler : IDisposable
                 }
             }
 
-            spin.SpinOnce(-1);
+            spin.SpinOnce(threshold);
         }
     }
 
