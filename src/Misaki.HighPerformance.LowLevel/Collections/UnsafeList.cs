@@ -515,14 +515,9 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the new count is outside the valid range.</exception>
     public void UnsafeSetCount(int newCount)
     {
-        if (newCount < 0)
+        if (newCount < 0 || newCount > Capacity)
         {
             throw new ArgumentOutOfRangeException(nameof(newCount), $"Value for newCount {newCount} must be between 0 and Capacity {Capacity}.");
-        }
-
-        if (newCount > Capacity)
-        {
-            Resize(Math.Max(newCount, Capacity * 2));
         }
 
         _count = newCount;
