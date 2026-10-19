@@ -47,7 +47,7 @@ public class SlotMap<T> : IEnumerable<T>
 
         public void Reset() => _currentIndex = -1;
 
-        public void Dispose()
+        public readonly void Dispose()
         {
         }
     }

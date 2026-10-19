@@ -11,7 +11,7 @@ internal unsafe struct DotProductJob : IJobSPMD<float>
     public float3* arrayB;    // source array 2
     public float* results;    // output array (dot products)
 
-    public void Execute<TLane0>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
+    public readonly void Execute<TLane0>(TLane0 indices, TLane0 mask, ref readonly JobExecutionContext ctx)
         where TLane0 : unmanaged, ISPMDLane<TLane0, float>
     {
         var gatherIndices = indices * 3;

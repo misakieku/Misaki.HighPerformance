@@ -16,8 +16,7 @@ public unsafe class JobSchedulerStressTests
         {
             ThreadCount = Environment.ProcessorCount,
             DependencyChainCapacity = 16384,
-            ThreadPriority = ThreadPriority.Normal,
-            HelperThreadCount = 1
+            ThreadPriority = ThreadPriority.Normal
         };
 
         _scheduler = new JobScheduler(in desc);

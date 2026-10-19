@@ -44,12 +44,12 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 {
     public ref struct Enumerator
     {
-        private ref UnsafeArray<T> _collection;
+        private ref readonly UnsafeArray<T> _collection;
         private int _index;
 
         public readonly ref T Current => ref _collection._buffer[_index];
 
-        public Enumerator(ref UnsafeArray<T> collection)
+        public Enumerator(ref readonly UnsafeArray<T> collection)
         {
             _collection = ref collection;
             _index = -1;
@@ -197,9 +197,9 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [UnscopedRef]
-    public Enumerator GetEnumerator()
+    public readonly Enumerator GetEnumerator()
     {
-        return new Enumerator(ref this);
+        return new Enumerator(in this);
     }
 
     /// <inheritdoc/>
@@ -232,7 +232,11 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly void* GetUnsafePtr()
     {
-        ThrowIfNotCreated();
+        if (!IsCreated)
+        {
+            return null;
+        }
+
         return _buffer;
     }
 

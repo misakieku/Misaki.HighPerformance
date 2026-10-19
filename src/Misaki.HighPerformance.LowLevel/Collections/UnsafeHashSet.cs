@@ -124,7 +124,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
     /// <param name="item">The value to check for.</param>
     /// <returns>True if the value was present.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Contains(scoped in T item)
+    public readonly bool Contains(scoped in T item)
     {
         return -1 != _helper.Find(item);
     }
@@ -167,7 +167,7 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
         return _helper.Buffer;
     }
 
-    public HashSet<T> ToHashSet()
+    public readonly HashSet<T> ToHashSet()
     {
         var hashSet = new HashSet<T>();
 

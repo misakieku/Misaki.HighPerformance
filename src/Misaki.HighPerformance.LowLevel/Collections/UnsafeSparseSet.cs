@@ -45,12 +45,12 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 {
     public ref struct Enumerator
     {
-        private ref UnsafeSparseSet<T> _collection;
+        private ref readonly UnsafeSparseSet<T> _collection;
         private int _currentIndex;
 
         public readonly ref T Current => ref _collection._dense[_currentIndex];
 
-        public Enumerator(ref UnsafeSparseSet<T> collection)
+        public Enumerator(ref readonly UnsafeSparseSet<T> collection)
         {
             _collection = ref collection;
             _currentIndex = -1;
@@ -126,9 +126,9 @@ public unsafe struct UnsafeSparseSet<T> : IUnsafeCollection<T>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [UnscopedRef]
-    public Enumerator GetEnumerator()
+    public readonly Enumerator GetEnumerator()
     {
-        return new Enumerator(ref this);
+        return new Enumerator(in this);
     }
 
     /// <summary>

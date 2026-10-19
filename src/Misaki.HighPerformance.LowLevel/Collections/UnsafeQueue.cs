@@ -43,13 +43,13 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
 {
     public ref struct Enumerator
     {
-        private readonly ref UnsafeQueue<T> _collection;
+        private ref readonly UnsafeQueue<T> _collection;
         private int _currentIndex;
 
         // We assume _currentIndex will always be in range when accessed.
         public readonly ref T Current => ref _collection._array[(_collection._offset + _currentIndex) % _collection.Capacity];
 
-        public Enumerator(ref UnsafeQueue<T> collection)
+        public Enumerator(ref readonly UnsafeQueue<T> collection)
         {
             _collection = ref collection;
             _currentIndex = -1;
@@ -107,9 +107,9 @@ public unsafe struct UnsafeQueue<T> : IUnsafeCollection<T>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [UnscopedRef]
-    public Enumerator GetEnumerator()
+    public readonly Enumerator GetEnumerator()
     {
-        return new Enumerator(ref this);
+        return new Enumerator(in this);
     }
 
     /// <summary>

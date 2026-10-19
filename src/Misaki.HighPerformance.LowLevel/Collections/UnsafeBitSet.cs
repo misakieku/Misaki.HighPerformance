@@ -38,7 +38,7 @@ public unsafe struct UnsafeBitSet : IUnsafeBitSet, IDisposable, IEquatable<Unsaf
 {
     public ref struct Iterator
     {
-        private ref UnsafeBitSet _bitSet;
+        private ref readonly UnsafeBitSet _bitSet;
         private int _currentBit;
 
         public Iterator(ref UnsafeBitSet bitSet, int start)

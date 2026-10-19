@@ -88,8 +88,8 @@ public class TestUnsafeParallelHashMap
     {
         public int Id;
         public BadKey(int id) => Id = id;
-        public bool Equals(BadKey other) => Id == other.Id;
-        public override int GetHashCode() => 1; // Force collision
+        public readonly bool Equals(BadKey other) => Id == other.Id;
+        public override readonly int GetHashCode() => 1; // Force collision
     }
 
     [TestMethod]

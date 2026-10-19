@@ -54,10 +54,10 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
     public ref struct Enumerator
     {
-        private ref UnsafeSlotMap<T> _collection;
+        private ref readonly UnsafeSlotMap<T> _collection;
         private int _currentIndex;
 
-        public Enumerator(ref UnsafeSlotMap<T> collection)
+        public Enumerator(ref readonly UnsafeSlotMap<T> collection)
         {
             _collection = ref collection;
             _currentIndex = -1;
@@ -160,9 +160,9 @@ public unsafe struct UnsafeSlotMap<T> : IUnsafeCollection<T>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [UnscopedRef]
-    public Enumerator GetEnumerator()
+    public readonly Enumerator GetEnumerator()
     {
-        return new Enumerator(ref this);
+        return new Enumerator(in this);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]

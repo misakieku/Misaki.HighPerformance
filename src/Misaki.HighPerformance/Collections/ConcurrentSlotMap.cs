@@ -69,7 +69,7 @@ public class ConcurrentSlotMap<T> : IEnumerable<T>
             _currentIndex = -1;
         }
 
-        public void Dispose()
+        public readonly void Dispose()
         {
         }
     }

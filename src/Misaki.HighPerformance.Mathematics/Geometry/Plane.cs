@@ -136,7 +136,7 @@ public struct Plane
     /// </remarks>
     public float Distance
     {
-        get => normalAndDistance.w;
+        readonly get => normalAndDistance.w;
         set => normalAndDistance.w = value;
     }
 

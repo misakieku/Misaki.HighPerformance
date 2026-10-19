@@ -460,7 +460,7 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
         ResizeExact(newCapacity, newBucketCapacity);
     }
 
-    public ParallelWriter AsParallelWriter()
+    public readonly ParallelWriter AsParallelWriter()
     {
         ThrowIfNotCreated();
         return new ParallelWriter(_data);

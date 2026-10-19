@@ -199,7 +199,7 @@ internal unsafe struct NoiseJobMathV : IJobParallel
         return lerpY1 + (lerpY2 - lerpY1) * uX;
     }
 
-    public void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx)
+    public readonly void Execute(int startIndex, int endIndex, ref readonly JobExecutionContext ctx)
     {
         for (var i = startIndex; i < endIndex; i++)
         {

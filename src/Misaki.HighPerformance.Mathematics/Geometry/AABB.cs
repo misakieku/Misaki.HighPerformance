@@ -213,7 +213,7 @@ public struct AABB : IEquatable<AABB>
         return Min.Equals(other.Min) && Max.Equals(other.Max);
     }
 
-    public override bool Equals(object? obj)
+    public override readonly bool Equals(object? obj)
     {
         if (obj is AABB AABB)
         {

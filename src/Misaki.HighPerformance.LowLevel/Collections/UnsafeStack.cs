@@ -44,12 +44,12 @@ public unsafe struct UnsafeStack<T> : IUnsafeCollection<T>
 {
     public ref struct Enumerator
     {
-        private readonly ref UnsafeStack<T> _collection;
+        private ref readonly UnsafeStack<T> _collection;
         private int _index;
 
         public readonly ref T Current => ref _collection._array[_index];
 
-        public Enumerator(ref UnsafeStack<T> collection)
+        public Enumerator(ref readonly UnsafeStack<T> collection)
         {
             _collection = ref collection;
             _index = collection.Count;

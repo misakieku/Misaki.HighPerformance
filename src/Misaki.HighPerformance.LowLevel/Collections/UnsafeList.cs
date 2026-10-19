@@ -41,12 +41,12 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 {
     public ref struct Enumerator
     {
-        private ref UnsafeList<T> _collection;
+        private ref readonly UnsafeList<T> _collection;
         private int _index;
 
         public readonly ref T Current => ref _collection._array[_index];
 
-        public Enumerator(ref UnsafeList<T> collection)
+        public Enumerator(ref readonly UnsafeList<T> collection)
         {
             _collection = ref collection;
             _index = -1;
@@ -236,9 +236,9 @@ public unsafe struct UnsafeList<T> : IUnsafeCollection<T>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [UnscopedRef]
-    public Enumerator GetEnumerator()
+    public readonly Enumerator GetEnumerator()
     {
-        return new Enumerator(ref this);
+        return new Enumerator(in this);
     }
 
     /// <summary>

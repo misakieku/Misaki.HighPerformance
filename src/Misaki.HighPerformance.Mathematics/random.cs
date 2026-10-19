@@ -712,7 +712,7 @@ public struct random
     }
 
     [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
-    private void CheckInitState()
+    private readonly void CheckInitState()
     {
 #if MHP_ENABLE_SAFETY_CHECKS
             if (state == 0)
@@ -728,7 +728,7 @@ public struct random
     }
 
     [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
-    private void CheckState()
+    private readonly void CheckState()
     {
 #if MHP_ENABLE_SAFETY_CHECKS
             if(state == 0)
@@ -737,7 +737,7 @@ public struct random
     }
 
     [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
-    private void CheckNextIntMax(int max)
+    private readonly void CheckNextIntMax(int max)
     {
 #if MHP_ENABLE_SAFETY_CHECKS
             if (max < 0)
@@ -746,7 +746,7 @@ public struct random
     }
 
     [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
-    private void CheckNextIntMinMax(int min, int max)
+    private readonly void CheckNextIntMinMax(int min, int max)
     {
 #if MHP_ENABLE_SAFETY_CHECKS
             if (min > max)
@@ -755,7 +755,7 @@ public struct random
     }
 
     [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
-    private void CheckNextUIntMinMax(uint min, uint max)
+    private readonly void CheckNextUIntMinMax(uint min, uint max)
     {
 #if MHP_ENABLE_SAFETY_CHECKS
             if (min > max)

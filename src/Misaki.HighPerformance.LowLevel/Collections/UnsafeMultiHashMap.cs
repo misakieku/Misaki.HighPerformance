@@ -167,7 +167,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     /// <param name="item">When this method returns, contains the first value associated with the specified key, if the key is found; otherwise, the default value for the type of the item parameter.</param>
     /// <param name="iterator">When this method returns, contains the iterator for the first value associated with the specified key, if the key is found; otherwise, an invalid iterator.</param>
     /// <returns>true if the key was found and the first value was retrieved; otherwise, false.</returns>
-    public bool TryGetFirstValue(scoped in TKey key, out TValue item, out Iterator iterator)
+    public readonly bool TryGetFirstValue(scoped in TKey key, out TValue item, out Iterator iterator)
     {
         var entryIndex = _helper.Find(key);
         if (entryIndex == -1)
@@ -216,7 +216,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     /// <param name="item">When this method returns, contains the first value associated with the specified key, if the key is found; otherwise, the default value for the type of the item parameter.</param>
     /// <returns>true if the key was found and the first value was retrieved; otherwise, false.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool TryGetValue(scoped in TKey key, out TValue item)
+    public readonly bool TryGetValue(scoped in TKey key, out TValue item)
     {
         return _helper.TryGetValue(key, out item);
     }
@@ -228,7 +228,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     /// <param name="defaultValue">The default value to return if the key is not found.</param>
     /// <returns>The first value associated with the specified key, or the default value if the key is not found.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public TValue GetValueOrDefault(scoped in TKey key, TValue defaultValue = default)
+    public readonly TValue GetValueOrDefault(scoped in TKey key, TValue defaultValue = default)
     {
         if (_helper.TryGetValue<TValue>(key, out var value))
         {
@@ -267,7 +267,7 @@ public unsafe struct UnsafeMultiHashMap<TKey, TValue> : IUnsafeHashCollection<Ke
     /// <param name="key">The key to check for.</param>
     /// <returns>true if the key is found; otherwise, false.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool ContainsKey(scoped in TKey key)
+    public readonly bool ContainsKey(scoped in TKey key)
     {
         return _helper.Find(key) != -1;
     }

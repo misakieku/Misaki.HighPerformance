@@ -39,11 +39,6 @@ public struct JobSchedulerDesc()
     {
         get; set;
     }
-
-    public int HelperThreadCount
-    {
-        get; set;
-    } = 1;
 }
 
 internal sealed class WaitItem : IThreadPoolWorkItem
@@ -188,13 +183,13 @@ public sealed unsafe partial class JobScheduler : IDisposable
 
         _jobEdges = new JobEdge[desc.DependencyChainCapacity];
         _watermark = 0;
-        _freeListHead = (long)0xFFFFFFFF;
+        _freeListHead = 0xFFFFFFFF;
 
         _workSignal = new SemaphoreSlim(0);
         _cts = new CancellationTokenSource();
 
         _workerThreadCount = workerCount;
-        _helperThreadCount = desc.HelperThreadCount;
+        _helperThreadCount = 1;
         _state = desc.State;
 
         _workerThreads = new WorkerThread[workerCount + _helperThreadCount];
@@ -1333,14 +1328,22 @@ public sealed unsafe partial class JobScheduler : IDisposable
     /// </summary>
     /// <remarks>
     /// The collection handles will be reordered in-place to move completed handles to the front.
+    /// This method will help execute the jobs while waiting. Only ONE external thread is allowed to help execute jobs if you rely on thread local storage.
     /// </remarks>
     /// <param name="handles">A collection of job handles to wait for.</param>
-    /// <param name="inlineExecution">A value indicating whether to help execute the jobs while waiting. Defaults to true.</param>
     public void WaitAll(params Span<JobHandle> handles)
     {
         WaitAll(true, handles);
     }
 
+    /// <summary>
+    /// Blocks the calling thread until all specified job handles have completed.
+    /// </summary>
+    /// <remarks>
+    /// The collection handles will be reordered in-place to move completed handles to the front.
+    /// </remarks>
+    /// <param name="inlineExecution">A value indicating whether to help execute the job while waiting. Defaults to true. Only ONE external thread is allowed to help execute jobs if you rely on thread local storage.</param>
+    /// <param name="handles">A collection of job handles to wait for.</param>
     public void WaitAll(bool inlineExecution, params Span<JobHandle> handles)
     {
         if (handles.Length == 0)

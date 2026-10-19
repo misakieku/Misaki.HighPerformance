@@ -42,7 +42,7 @@ public unsafe struct UnsafeChunkedList<T> : IUnsafeCollection<T>
 
     public ref struct Enumerator
     {
-        private ref UnsafeChunkedList<T> _collection;
+        private ref readonly UnsafeChunkedList<T> _collection;
         private int _index;
 
         public readonly ref T Current
@@ -54,7 +54,7 @@ public unsafe struct UnsafeChunkedList<T> : IUnsafeCollection<T>
             }
         }
 
-        public Enumerator(ref UnsafeChunkedList<T> collection)
+        public Enumerator(ref readonly UnsafeChunkedList<T> collection)
         {
             _collection = ref collection;
             _index = -1;
@@ -371,9 +371,9 @@ public unsafe struct UnsafeChunkedList<T> : IUnsafeCollection<T>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [UnscopedRef]
-    public Enumerator GetEnumerator()
+    public readonly Enumerator GetEnumerator()
     {
-        return new Enumerator(ref this);
+        return new Enumerator(in this);
     }
 
     /// <summary>
@@ -479,7 +479,7 @@ public unsafe struct UnsafeChunkedList<T> : IUnsafeCollection<T>
         _count += count;
     }
 
-    private void CopyFromSpan(ReadOnlySpan<T> source, int startIndex)
+    private readonly void CopyFromSpan(ReadOnlySpan<T> source, int startIndex)
     {
         fixed (T* pSrc = source)
         {
@@ -487,7 +487,7 @@ public unsafe struct UnsafeChunkedList<T> : IUnsafeCollection<T>
         }
     }
 
-    private void CopyFromPtr(T* srcPtr, int startIndex, int count)
+    private readonly void CopyFromPtr(T* srcPtr, int startIndex, int count)
     {
         var remaining = count;
         var src = srcPtr;

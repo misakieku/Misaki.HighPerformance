@@ -39,16 +39,15 @@ internal sealed class ReadOnlyViewDebugView<T>
 /// </remarks>
 /// <typeparam name="T">The type of elements in the collection. Must be an unmanaged type.</typeparam>
 [DebuggerTypeProxy(typeof(ReadOnlyViewDebugView<>))]
-public readonly unsafe struct ReadOnlyView<T> : IEnumerable<T>
+public readonly unsafe struct ReadOnlyView<T>
     where T : unmanaged
 {
-    public struct Enumerator : IEnumerator<T>
+    public struct Enumerator
     {
         private readonly ReadOnlyView<T> _collection;
         private int _index;
 
-        public readonly T Current => _collection[_index];
-        readonly object IEnumerator.Current => Current;
+        public readonly ref readonly T Current => ref _collection[_index];
 
         public Enumerator(ref readonly ReadOnlyView<T> array)
         {
@@ -67,11 +66,9 @@ public readonly unsafe struct ReadOnlyView<T> : IEnumerable<T>
         {
             _index = -1;
         }
-
-        public void Dispose()
-        {
-        }
     }
+
+    public static ReadOnlyView<T> Empty => new ReadOnlyView<T>(null, 0);
 
     private readonly T* _buffer;
     private readonly int _count;
@@ -99,25 +96,15 @@ public readonly unsafe struct ReadOnlyView<T> : IEnumerable<T>
         }
     }
 
-    public Enumerator GetEnumerator()
-    {
-        return new Enumerator(in this);
-    }
-
-    IEnumerator<T> IEnumerable<T>.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
     public ReadOnlyView(T* buffer, int count)
     {
         _buffer = buffer;
         _count = count;
+    }
+
+    public Enumerator GetEnumerator()
+    {
+        return new Enumerator(in this);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

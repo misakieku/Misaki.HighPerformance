@@ -76,7 +76,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <exception cref="ArgumentException">For getting, thrown if the key was not present.</exception>
     public TValue this[TKey key]
     {
-        get
+        readonly get
         {
             if (!_helper.TryGetValue<TValue>(key, out var result))
             {
@@ -179,7 +179,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="item">Outputs the value associated with the key. Outputs default if the key was not present.</param>
     /// <returns>True if the key was present.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool TryGetValue(scoped in TKey key, out TValue item)
+    public readonly bool TryGetValue(scoped in TKey key, out TValue item)
     {
         return _helper.TryGetValue(key, out item);
     }
@@ -191,7 +191,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="defaultValue">The value to return if the specified key does not exist. If not specified, the default value for the type is used.</param>
     /// <returns>The value associated with the specified key if the key is found; otherwise, the specified default value.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public TValue GetValueOrDefault(scoped in TKey key, TValue defaultValue = default)
+    public readonly TValue GetValueOrDefault(scoped in TKey key, TValue defaultValue = default)
     {
         if (_helper.TryGetValue<TValue>(key, out var value))
         {
@@ -208,7 +208,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="exists">Outputs true if the key exists in the hash map; otherwise, false.</param>
     /// <returns>A reference to the value associated with the specified key.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public ref TValue GetValueRef(scoped in TKey key, out bool exists)
+    public readonly ref TValue GetValueRef(scoped in TKey key, out bool exists)
     {
         return ref _helper.GetValueRef<TValue>(key, out exists);
     }
@@ -231,7 +231,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
     /// <param name="key">The key to look up.</param>
     /// <returns>True if the key was present.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool ContainsKey(scoped in TKey key)
+    public readonly bool ContainsKey(scoped in TKey key)
     {
         return -1 != _helper.Find(key);
     }
@@ -296,7 +296,7 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
         return _helper.Buffer;
     }
 
-    public Dictionary<TKey, TValue> ToDictionary()
+    public readonly Dictionary<TKey, TValue> ToDictionary()
     {
         var dict = new Dictionary<TKey, TValue>(Count);
 

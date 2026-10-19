@@ -435,7 +435,7 @@ public partial struct quaternion : IEquatable<quaternion>
     /// <param name="x">The quaternion to compare with.</param>
     /// <returns>True if the quaternion is equal to the input, false otherwise.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Equals(quaternion x)
+    public readonly bool Equals(quaternion x)
     {
         return value.x == x.value.x && value.y == x.value.y && value.z == x.value.z && value.w == x.value.w;
     }
@@ -444,7 +444,7 @@ public partial struct quaternion : IEquatable<quaternion>
     /// <param name="x">The object to compare with.</param>
     /// <returns>True if the quaternion is equal to the input, false otherwise.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override bool Equals(object? x)
+    public override readonly bool Equals(object? x)
     {
         return x is quaternion converted && Equals(converted);
     }
@@ -452,7 +452,7 @@ public partial struct quaternion : IEquatable<quaternion>
     /// <summary>Returns a hash code for the quaternion.</summary>
     /// <returns>The hash code of the quaternion.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override int GetHashCode()
+    public override readonly int GetHashCode()
     {
         return (int)hash(this);
     }
@@ -460,7 +460,7 @@ public partial struct quaternion : IEquatable<quaternion>
     /// <summary>Returns a string representation of the quaternion.</summary>
     /// <returns>The string representation of the quaternion.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override string ToString()
+    public override readonly string ToString()
     {
         return string.Format("quaternion({0}f, {1}f, {2}f, {3}f)", value.x, value.y, value.z, value.w);
     }

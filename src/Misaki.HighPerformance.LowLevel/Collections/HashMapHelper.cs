@@ -360,7 +360,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         ResizeExact(capacity, capacity * 2);
     }
 
-    public int Find(scoped in TKey key)
+    public readonly int Find(scoped in TKey key)
     {
         ThrowIfNotCreated();
 
@@ -371,7 +371,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 
         // First find the slot based on the hash
         var bucket = GetBucket(key);
-        var entryIdx = _buckets[bucket];
+        var entryIdx = *(_buckets + bucket);
 
         if ((uint)entryIdx < (uint)_capacity)
         {
@@ -506,7 +506,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return removed;
     }
 
-    public bool TryGetValue<TValue>(scoped in TKey key, out TValue item)
+    public readonly bool TryGetValue<TValue>(scoped in TKey key, out TValue item)
         where TValue : unmanaged
     {
         ThrowIfNotCreated();
@@ -559,7 +559,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
         return count;
     }
 
-    public ref TValue GetValueRef<TValue>(scoped in TKey key, out bool exists)
+    public readonly ref TValue GetValueRef<TValue>(scoped in TKey key, out bool exists)
         where TValue : unmanaged
     {
         ThrowIfNotCreated();
