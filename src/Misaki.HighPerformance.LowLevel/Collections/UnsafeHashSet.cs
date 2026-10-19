@@ -47,9 +47,9 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
 
         public readonly T Current => _enumerator.helper._keys[_enumerator.index];
 
-        public Enumerator(ref HashMapHelper<T> hashMap)
+        public Enumerator(ref readonly HashMapHelper<T> hashMap)
         {
-            _enumerator = new HashMapHelper<T>.Enumerator(ref hashMap);
+            _enumerator = new HashMapHelper<T>.Enumerator(in hashMap);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -91,9 +91,9 @@ public unsafe struct UnsafeHashSet<T> : IUnsafeHashCollection<T>
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [UnscopedRef]
-    public Enumerator GetEnumerator()
+    public readonly Enumerator GetEnumerator()
     {
-        return new Enumerator(ref _helper);
+        return new Enumerator(in _helper);
     }
 
     /// <summary>

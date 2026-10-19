@@ -44,9 +44,9 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
 
         public KeyValueRefPair<TKey, TValue> Current => _enumerator.GetCurrent<TValue>();
 
-        public Enumerator(ref HashMapHelper<TKey> data)
+        public Enumerator(ref readonly HashMapHelper<TKey> data)
         {
-            _enumerator = new HashMapHelper<TKey>.Enumerator(ref data);
+            _enumerator = new HashMapHelper<TKey>.Enumerator(in data);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -119,9 +119,9 @@ public unsafe struct UnsafeHashMap<TKey, TValue> : IUnsafeHashCollection<KeyValu
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [UnscopedRef]
-    public Enumerator GetEnumerator()
+    public readonly Enumerator GetEnumerator()
     {
-        return new Enumerator(ref _helper);
+        return new Enumerator(in _helper);
     }
 
     /// <summary>

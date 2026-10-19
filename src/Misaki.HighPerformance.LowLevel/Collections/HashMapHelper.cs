@@ -60,12 +60,12 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
 {
     internal ref struct Enumerator
     {
-        public ref HashMapHelper<TKey> helper;
+        public ref readonly HashMapHelper<TKey> helper;
         public int index;
         public int bucketIndex;
         public int nextIndex;
 
-        public Enumerator(ref HashMapHelper<TKey> data)
+        public Enumerator(ref readonly HashMapHelper<TKey> data)
         {
             helper = ref data;
             index = -1;
