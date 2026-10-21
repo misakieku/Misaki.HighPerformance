@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Misaki.Highperformance.TypeGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "--output F:\\csharp\\Class\\Misaki.HighPerformance\\src\\Misaki.HighPerformance.Mathematics\\Generated"
+    }
+  }
+}

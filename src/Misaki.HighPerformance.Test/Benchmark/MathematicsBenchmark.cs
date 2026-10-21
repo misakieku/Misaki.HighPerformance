@@ -10,46 +10,61 @@ namespace Misaki.HighPerformance.Test.Benchmark;
 public class MathematicsBenchmark
 {
 #if ADD_BENCHMARK
-    private Vector4 _va = new Vector4(1, 2, 1, 2);
-    private Vector4 _vb = new Vector4(3, 4, 3, 4);
+    public struct f4
+    {
+        public float x;
+        public float y;
+        public float z;
+        public float w;
 
-    private float4 _fa = new float4(1, 2, 1, 2);
-    private float4 _fb = new float4(3, 4, 3, 4);
+        public f4(float x, float y, float z, float w)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
+        }
 
-    private Vector64<float> _va64 = Vector64.Create(1f, 2f);
-    private Vector64<float> _vb64 = Vector64.Create(3f, 4f);
+        public static f4 operator +(f4 a, f4 b)
+        {
+            return new f4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
+        }
+    }
+
+    private Vector4 _va = new Vector4(Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle());
+    private Vector4 _vb = new Vector4(Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle());
+
+    private float4 _floatA = new float4(Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle());
+    private float4 _floatB = new float4(Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle());
+
+    private f4 _f4A = new f4(Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle());
+    private f4 _f4B = new f4(Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle());
+
+    private Vector128<float> _va64 = Vector128.Create(Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle());
+    private Vector128<float> _vb64 = Vector128.Create(Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle(), Random.Shared.NextSingle());
 
     [Benchmark]
     public Vector4 VectorAdd()
     {
-        for (var i = 0; i < 10; i++)
-        {
-            _va += _vb;
-        }
-
-        return _va;
-    }
-
-    //[Benchmark]
-    public float4 floatAdd()
-    {
-        for (var i = 0; i < 10; i++)
-        {
-            _fa += _fb;
-        }
-
-        return _fa;
+        return _va + _vb;
     }
 
     [Benchmark]
-    public Vector64<float> Vector64Add()
+    public float4 floatAdd()
     {
-        for (var i = 0; i < 10; i++)
-        {
-            _va64 += _vb64;
-        }
+        return _floatA + _floatB;
+    }
 
-        return _va64;
+    [Benchmark]
+    public f4 f4Add()
+    {
+        return _f4A + _f4B;
+    }
+
+    [Benchmark]
+    public Vector128<float> Vector128Add()
+    {
+        return _va64 + _vb64;
     }
 #endif
 
