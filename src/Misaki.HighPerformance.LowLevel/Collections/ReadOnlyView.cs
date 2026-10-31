@@ -111,7 +111,7 @@ public readonly unsafe struct ReadOnlyView<T>
     [Conditional("MHP_ENABLE_SAFETY_CHECKS")]
     private readonly void CheckIndexBounds(int index)
     {
-        if (index >= _count)
+        if (index < 0 || index >= _count)
         {
             throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
         }

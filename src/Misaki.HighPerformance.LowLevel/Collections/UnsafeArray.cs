@@ -59,7 +59,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         public bool MoveNext()
         {
             _index++;
-            return _index < _collection._count;
+            return _index < _collection._length;
         }
 
         public void Reset()
@@ -69,7 +69,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     }
 
     private T* _buffer;
-    private int _count;
+    private int _length;
 #if MHP_ENABLE_SAFETY_CHECKS
     private MemoryHandle _memoryHandle;
 #endif
@@ -77,8 +77,8 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
     internal readonly AllocationHandle AllocationHandle => _allocationHandle;
 
-    public readonly int Count => _count;
-    public readonly int Length => _count;
+    public readonly int Count => _length;
+    public readonly int Length => _length;
 
     public readonly ref T this[int index]
     {
@@ -145,7 +145,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         _memoryHandle = MemoryHandle.Create(_buffer, (nuint)(count * sizeof(T)));
 #endif
         _allocationHandle = handle;
-        _count = count;
+        _length = count;
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     public UnsafeArray(T* buffer, int count)
     {
         _buffer = buffer;
-        _count = count;
+        _length = count;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -179,7 +179,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     private readonly void CheckIndexBounds(int index)
     {
         ThrowIfNotCreated();
-        if (index >= _count)
+        if (index < 0 || index >= _length)
         {
             throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range.");
         }
@@ -192,7 +192,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly ReadOnlyView<T> AsReadOnly()
     {
-        return new ReadOnlyView<T>(_buffer, _count);
+        return new ReadOnlyView<T>(_buffer, _length);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -213,8 +213,8 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
         }
 
         var elemSize = sizeof(T);
-        _buffer = (T*)_allocationHandle.Realloc(_buffer, (nuint)(_count * elemSize), (nuint)(newSize * elemSize), MemoryUtility.AlignOf<T>(), option);
-        _count = newSize;
+        _buffer = (T*)_allocationHandle.Realloc(_buffer, (nuint)(_length * elemSize), (nuint)(newSize * elemSize), MemoryUtility.AlignOf<T>(), option);
+        _length = newSize;
 #if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle.Update(_buffer, (nuint)(newSize * elemSize));
 #endif
@@ -225,7 +225,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     public readonly void Clear()
     {
         ThrowIfNotCreated();
-        MemoryUtility.MemClear(_buffer, (nuint)_count * MemoryUtility.SizeOf<T>());
+        MemoryUtility.MemClear(_buffer, (nuint)_length * MemoryUtility.SizeOf<T>());
     }
 
     /// <inheritdoc/>
@@ -248,7 +248,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return Span<T>.Empty;
         }
 
-        return new Span<T>(_buffer, _count);
+        return new Span<T>(_buffer, _length);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -256,12 +256,12 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     {
         ThrowIfNotCreated();
 
-        if (start < 0 || start >= _count)
+        if (start < 0 || start >= _length)
         {
             throw new ArgumentOutOfRangeException(nameof(start), "Start index is out of range.");
         }
 
-        return new Span<T>(_buffer + start, _count - start);
+        return new Span<T>(_buffer + start, _length - start);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -274,12 +274,12 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 
         ThrowIfNotCreated();
 
-        if (start < 0 || start >= _count)
+        if (start < 0 || start >= _length)
         {
             throw new ArgumentOutOfRangeException(nameof(start), "Start index is out of range.");
         }
 
-        if (length < 0 || start + length > _count)
+        if (length < 0 || start + length > _length)
         {
             throw new ArgumentOutOfRangeException(nameof(length), "Length is out of range.");
         }
@@ -334,7 +334,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified range exceeds the bounds of the source collection or destination span.</exception>
     public readonly void CopyTo(Span<T> destination, int sourceIndex, int destinationIndex, int length)
     {
-        if (sourceIndex + length > _count || destinationIndex + length > destination.Length)
+        if (sourceIndex + length > _length || destinationIndex + length > destination.Length)
         {
             throw new ArgumentOutOfRangeException(nameof(length), "Source collection or destination span is too small for the specified range.");
         }
@@ -351,7 +351,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
     /// <param name="source">Represents the span containing the elements to be copied to the unsafe collection.</param>
     public void CopyFrom(ReadOnlySpan<T> source)
     {
-        if (_count < source.Length)
+        if (_length < source.Length)
         {
             Resize(source.Length);
         }
@@ -377,7 +377,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             throw new ArgumentOutOfRangeException(nameof(length), "Source span or destination collection is too small for the specified range.");
         }
 
-        if (destinationIndex + length > _count)
+        if (destinationIndex + length > _length)
         {
             Resize(destinationIndex + length);
         }
@@ -399,7 +399,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
             return Array.Empty<T>();
         }
 
-        return new Span<T>(_buffer, _count).ToArray();
+        return new Span<T>(_buffer, _length).ToArray();
     }
 
     /// <inheritdoc/>
@@ -418,7 +418,7 @@ public unsafe struct UnsafeArray<T> : IUnsafeCollection<T>
 #endif
 
         _buffer = null;
-        _count = 0;
+        _length = 0;
     }
 
     public static implicit operator ReadOnlyView<T>(UnsafeArray<T> array)

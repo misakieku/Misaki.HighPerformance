@@ -254,7 +254,7 @@ public unsafe struct HashMapHelper<TKey> : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private readonly void CheckIndexOutOfBounds(int idx)
     {
-        if ((uint)idx >= (uint)_capacity)
+        if (idx < 0 || (uint)idx >= (uint)_capacity)
         {
             throw new InvalidOperationException($"Index {idx} is out of bounds for the hash map with capacity {_capacity}.");
         }
