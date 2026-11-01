@@ -52,7 +52,8 @@ public static class VectorOperatorEmitter
         writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} != rhs.{c}"))});");
         writer.WriteLine();
 
-        if (vec.Element.IsBool) return;
+        if (vec.Element.IsBool)
+            return;
 
         // <, <=, >, >=
         string[] relOps = ["<", "<=", ">", ">="];

@@ -98,7 +98,7 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
             return;
         }
 
-        _data = (UnsafeParallelHashMapData<TKey, TValue>*)handle.Alloc((uint)sizeof(UnsafeParallelHashMapData<TKey, TValue>), (nuint)AlignOf<UnsafeParallelHashMapData<TKey, TValue>>(), AllocationOption.Clear);
+        _data = (UnsafeParallelHashMapData<TKey, TValue>*)handle.Alloc((uint)sizeof(UnsafeParallelHashMapData<TKey, TValue>), AlignOf<UnsafeParallelHashMapData<TKey, TValue>>(), AllocationOption.Clear);
 
         if (_data == null)
         {
@@ -268,8 +268,8 @@ public unsafe struct UnsafeParallelHashMap<TKey, TValue> : IDisposable
         }
 
         var bucketCapacity = _data->bucketCapacityMask + 1;
-        MemoryUtility.MemSet(_data->buckets, (byte)0xFF, (nuint)(bucketCapacity * sizeof(int)));
-        MemoryUtility.MemSet(_data->next, (byte)0xFF, (nuint)(_data->capacity * sizeof(int)));
+        MemoryUtility.MemSet(_data->buckets, 0xFF, (nuint)(bucketCapacity * sizeof(int)));
+        MemoryUtility.MemSet(_data->next, 0xFF, (nuint)(_data->capacity * sizeof(int)));
     }
 
     public int Add(scoped in TKey key, scoped in TValue value)

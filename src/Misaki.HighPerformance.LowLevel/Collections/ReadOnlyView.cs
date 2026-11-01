@@ -1,5 +1,4 @@
 using Misaki.HighPerformance.LowLevel.Utilities;
-using System.Collections;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -20,7 +19,7 @@ internal sealed class ReadOnlyViewDebugView<T>
         get
         {
             var array = new T[_collection.Count];
-            for (int i = 0; i < _collection.Count; i++)
+            for (var i = 0; i < _collection.Count; i++)
             {
                 array[i] = _collection[i];
             }

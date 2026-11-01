@@ -97,8 +97,8 @@ namespace Misaki.HighPerformance.Analyzer
         {
             var mutations = new List<Location>();
             var seenSpans = new HashSet<TextSpan>();
-            bool escapesViaReturn = false;
-            bool escapesViaReference = false;
+            var escapesViaReturn = false;
+            var escapesViaReference = false;
 
             foreach (var block in blocks)
             {
@@ -217,7 +217,7 @@ namespace Misaki.HighPerformance.Analyzer
                 }
 
                 // 3c. Arguments passed by ref or out (e.g. Mutate(ref s), Mutate(out s), Interlocked.Increment(ref s.value))
-                for (int i = 0; i < invocation.Arguments.Length; i++)
+                for (var i = 0; i < invocation.Arguments.Length; i++)
                 {
                     var arg = invocation.Arguments[i];
                     if (targetMethod.IsExtensionMethod && i == 0)

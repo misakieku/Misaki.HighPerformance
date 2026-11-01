@@ -391,7 +391,7 @@ public struct random
         CheckNextUIntMinMax(min.y, max.y);
         CheckNextUIntMinMax(min.z, max.z);
         CheckNextUIntMinMax(min.w, max.w);
-        var range = (uint4)(max - min);
+        var range = max - min;
         return uint4((uint)(NextState() * (ulong)range.x >> 32),
                      (uint)(NextState() * (ulong)range.y >> 32),
                      (uint)(NextState() * (ulong)range.z >> 32),

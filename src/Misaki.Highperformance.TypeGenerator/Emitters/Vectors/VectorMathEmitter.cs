@@ -273,9 +273,9 @@ public static class VectorMathEmitter
     {
         // cmin, cmax, csum
         var math = vec.Element.MathClass;
-        string cminExpr = $"x.{comps[0]}";
-        string cmaxExpr = $"x.{comps[0]}";
-        string csumExpr = $"x.{comps[0]}";
+        var cminExpr = $"x.{comps[0]}";
+        var cmaxExpr = $"x.{comps[0]}";
+        var csumExpr = $"x.{comps[0]}";
 
         for (var i = 1; i < comps.Count; i++)
         {
@@ -388,14 +388,16 @@ public static class VectorMathEmitter
 
     private static void EmitSubvectorFactories(CodeWriter writer, VectorType vec)
     {
-        if (vec.Dimension < 2) return;
+        if (vec.Dimension < 2)
+            return;
 
         var partitions = VectorConstructorEmitter.GetPartitions(vec.Dimension);
         var seenSignatures = new HashSet<string>();
 
         foreach (var partition in partitions)
         {
-            if (partition.All(p => p == 1) || partition.Count == 1) continue;
+            if (partition.All(p => p == 1) || partition.Count == 1)
+                continue;
 
             var paramList = new List<string>();
             var paramNames = new List<string>();
@@ -421,7 +423,8 @@ public static class VectorMathEmitter
             }
 
             var signature = string.Join(", ", paramList);
-            if (!seenSignatures.Add(signature)) continue;
+            if (!seenSignatures.Add(signature))
+                continue;
 
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public static {vec.Name} {vec.Name}({signature}) => new({string.Join(", ", paramNames)});");

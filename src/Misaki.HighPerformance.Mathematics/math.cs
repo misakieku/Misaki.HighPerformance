@@ -5287,7 +5287,7 @@ public static partial class math
     private static unsafe uint read32_little_endian(void* pBuffer)
     {
         var ptr = (byte*)pBuffer;
-        return (uint)ptr[0] | ((uint)ptr[1] << 8) | ((uint)ptr[2] << 16) | ((uint)ptr[3] << 24);
+        return ptr[0] | ((uint)ptr[1] << 8) | ((uint)ptr[2] << 16) | ((uint)ptr[3] << 24);
     }
 
     private static unsafe uint hash_with_unaligned_loads(void* pBuffer, int numBytes, uint seed)

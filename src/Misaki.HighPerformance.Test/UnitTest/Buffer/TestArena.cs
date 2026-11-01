@@ -18,7 +18,7 @@ public unsafe class TestArena
 
             var p1 = (byte*)arena.Allocate(64, 16, AllocationOption.Clear);
             Assert.IsTrue(p1 != null);
-            Assert.AreEqual((nuint)0u, ((nuint)p1) & 15u);
+            Assert.AreEqual(0u, ((nuint)p1) & 15u);
 
             for (var i = 0; i < 64; i++)
             {

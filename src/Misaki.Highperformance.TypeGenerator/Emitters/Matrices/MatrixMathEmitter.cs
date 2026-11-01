@@ -1,7 +1,7 @@
-using System.Text;
 using Misaki.Highperformance.TypeGenerator.Emitters.Common;
 using Misaki.Highperformance.TypeGenerator.Formatting;
 using Misaki.Highperformance.TypeGenerator.Models;
+using System.Text;
 
 namespace Misaki.Highperformance.TypeGenerator.Emitters.Matrices;
 
@@ -100,7 +100,8 @@ public static class MatrixMathEmitter
             string DetExpr(List<int> rows, List<int> cols)
             {
                 var n = rows.Count;
-                if (n == 1) return Elem(rows[0], cols[0]);
+                if (n == 1)
+                    return Elem(rows[0], cols[0]);
                 if (n == 2)
                 {
                     return $"({Elem(rows[0], cols[0])} * {Elem(rows[1], cols[1])} - {Elem(rows[0], cols[1])} * {Elem(rows[1], cols[0])})";
@@ -115,8 +116,10 @@ public static class MatrixMathEmitter
                     var subCols = cols.Where((_, idx) => idx != j).ToList();
                     var subDet = DetExpr(subRows, subCols);
 
-                    if (j > 0) sb.Append(j % 2 == 0 ? " + " : " - ");
-                    else if (j % 2 != 0) sb.Append("-");
+                    if (j > 0)
+                        sb.Append(j % 2 == 0 ? " + " : " - ");
+                    else if (j % 2 != 0)
+                        sb.Append("-");
 
                     sb.Append($"({aij} * {subDet})");
                 }

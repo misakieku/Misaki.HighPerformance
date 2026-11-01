@@ -145,7 +145,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="alignment">Defines the required alignment for the allocated memory address.</param>
     /// <returns>Returns a pointer to the allocated memory block.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [return:Owner]
+    [return: Owner]
     public static void* AlignedAlloc(nuint size, nuint alignment)
     {
         if (size == 0)
@@ -178,7 +178,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="size">The new size for the memory block after resizing.</param>
     /// <returns>A pointer to the reallocated memory block, or null if the operation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [return:Owner]
+    [return: Owner]
     public static void* Realloc(void* ptr, nuint size)
     {
         if (size == 0)
@@ -218,7 +218,7 @@ public static unsafe partial class MemoryUtility
     /// <param name="alignment">The required alignment for the new memory allocation.</param>
     /// <returns>A pointer to the reallocated memory block, or null if the allocation fails.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [return:Owner]
+    [return: Owner]
     public static void* AlignedRealloc(void* ptr, nuint size, nuint alignment)
     {
         if (size == 0)
@@ -432,7 +432,7 @@ public static unsafe partial class MemoryUtility
     /// <exception cref="OutOfMemoryException"></exception>
     /// <exception cref="PlatformNotSupportedException"></exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [return:Owner]
+    [return: Owner]
     public static void* Mmap([Diligent] void* addr, nuint size, VirtualAllocationFlags flags)
     {
         if (size == 0)

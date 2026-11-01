@@ -331,7 +331,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             if (globalHead != 0)
             {
                 node = (FreeNode*)(nint)globalHead;
-                state->globalFreeBuckets[bucketIndex] = (long)(nint)node->next;
+                state->globalFreeBuckets[bucketIndex] = (nint)node->next;
             }
         }
         finally
@@ -528,7 +528,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
             {
                 var globalHead = state->globalFreeBuckets[bucketIndex];
                 node->next = (FreeNode*)(nint)globalHead;
-                state->globalFreeBuckets[bucketIndex] = (long)(nint)node;
+                state->globalFreeBuckets[bucketIndex] = (nint)node;
             }
             finally
             {
@@ -856,7 +856,7 @@ public unsafe struct FreeList : IMemoryAllocator<FreeList, FreeList.CreationOpti
                 {
                     var next = localNode->next;
                     localNode->next = (FreeNode*)(nint)state->globalFreeBuckets[i];
-                    state->globalFreeBuckets[i] = (long)(nint)localNode;
+                    state->globalFreeBuckets[i] = (nint)localNode;
                     localNode = next;
                 }
             }

@@ -65,7 +65,7 @@ public class SPMCQueue<T>
     {
         var tail = _tail - 1;
         Volatile.Write(ref _tail, tail);
-        
+
         Interlocked.MemoryBarrier();
 
         var head = Volatile.Read(ref _head);

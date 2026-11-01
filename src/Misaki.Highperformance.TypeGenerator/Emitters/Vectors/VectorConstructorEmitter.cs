@@ -83,7 +83,8 @@ public static class VectorConstructorEmitter
 
     private static void EmitSubvectorConstructors(CodeWriter writer, VectorType vec)
     {
-        if (vec.Dimension < 2) return;
+        if (vec.Dimension < 2)
+            return;
 
         var partitions = GetPartitions(vec.Dimension);
         var seenSignatures = new HashSet<string>();
@@ -91,7 +92,8 @@ public static class VectorConstructorEmitter
         foreach (var partition in partitions)
         {
             // Only care about multi-component partitions that have at least one vector parameter
-            if (partition.All(p => p == 1) || partition.Count == 1) continue;
+            if (partition.All(p => p == 1) || partition.Count == 1)
+                continue;
 
             var paramList = new List<string>();
             var assignments = new List<(string comp, string valueExpr)>();
@@ -123,7 +125,8 @@ public static class VectorConstructorEmitter
             }
 
             var signature = string.Join(", ", paramList);
-            if (!seenSignatures.Add(signature)) continue;
+            if (!seenSignatures.Add(signature))
+                continue;
 
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public {vec.Name}({signature})");
@@ -177,8 +180,10 @@ public static class VectorConstructorEmitter
             // Cross-scalar splat constructor
             string ScalarExpr(string p)
             {
-                if (vec.Element.IsBool) return $"{p} != {other.ZeroLiteral}";
-                if (other.IsBool) return $"{p} ? {vec.Element.OneLiteral} : {vec.Element.ZeroLiteral}";
+                if (vec.Element.IsBool)
+                    return $"{p} != {other.ZeroLiteral}";
+                if (other.IsBool)
+                    return $"{p} ? {vec.Element.OneLiteral} : {vec.Element.ZeroLiteral}";
                 return $"({vec.Element.LogicalTypeName}){p}";
             }
 
