@@ -161,6 +161,21 @@ public struct AABB : IEquatable<AABB>
         return math.dot(Max, Max) >= math.dot(aabb.Min, aabb.Min) && math.dot(Min, Min) <= math.dot(aabb.Max, aabb.Max);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly bool Overlaps(OBB obb)
+    {
+        return obb.Overlaps(this);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly bool Overlaps(SphereBounds sphere)
+    {
+        // Find the closest point on the AABB to the sphere center
+        var closestPoint = math.clamp(sphere.Center, Min, Max);
+        // Check if the distance from the closest point to the sphere center is less than or equal to the sphere radius
+        return math.lengthsq(closestPoint - sphere.Center) <= sphere.Radius * sphere.Radius;
+    }
+
     /// <summary>
     /// Expands the AABB by the given signed distance.
     /// </summary>

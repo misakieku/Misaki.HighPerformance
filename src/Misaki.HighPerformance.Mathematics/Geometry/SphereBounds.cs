@@ -56,6 +56,18 @@ public struct SphereBounds : IEquatable<SphereBounds>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly bool Overlaps(AABB aabb)
+    {
+        return aabb.Overlaps(this);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly bool Overlaps(OBB obb)
+    {
+        return obb.Overlaps(this);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public readonly float3 ClosestPoint(float3 point)
     {
         var toPoint = point - Center;

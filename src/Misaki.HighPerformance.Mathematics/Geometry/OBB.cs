@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace Misaki.HighPerformance.Mathematics.Geometry;
 
 public struct OBB : IEquatable<OBB>
@@ -17,9 +19,10 @@ public struct OBB : IEquatable<OBB>
         get; set;
     }
 
-    public OBB(quaternion rotation, float3 extents)
+    public OBB(quaternion rotation, float3 center, float3 extents)
     {
         Rotation = rotation;
+        Center = center;
         Extents = extents;
     }
 
@@ -90,6 +93,26 @@ public struct OBB : IEquatable<OBB>
             }
         }
         return true; // No separating axis found, OBBs overlap
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly bool Overlaps(AABB aabb)
+    {
+        // Convert AABB to OBB and use the OBB-OBB overlap test
+        var aabbCenter = (aabb.Min + aabb.Max) * 0.5f;
+        var aabbExtents = (aabb.Max - aabb.Min) * 0.5f;
+        var aabbOBB = new OBB(quaternion.identity, aabbCenter, aabbExtents);
+        return Overlaps(aabbOBB);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly bool Overlaps(SphereBounds sphere)
+    {
+        // Transform the sphere center into the OBB's local space
+        var localCenter = math.mul(math.conjugate(Rotation), sphere.Center - Center);
+
+        var closestPoint = math.clamp(localCenter, -Extents, Extents);
+        return math.lengthsq(localCenter - closestPoint) <= sphere.Radius * sphere.Radius;
     }
 
     public readonly AABB ToAABB()
