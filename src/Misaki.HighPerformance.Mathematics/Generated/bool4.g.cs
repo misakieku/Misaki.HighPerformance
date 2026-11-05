@@ -38,6 +38,12 @@ public partial struct bool4 : global::System.IEquatable<bool4>
 
     #region Constructors & Conversions
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public bool4(global::System.Runtime.Intrinsics.Vector128<uint> v)
+    {
+        this.__v = v;
+    }
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public bool4(bool x, bool y, bool z, bool w)
     {
         this.x = (x ? ~0u : 0u);
@@ -2672,11 +2678,11 @@ public partial struct bool4 : global::System.IEquatable<bool4>
     #region Operators
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator ==(bool4 lhs, bool4 rhs) =>
-        new(lhs.x == rhs.x, lhs.y == rhs.y, lhs.z == rhs.z, lhs.w == rhs.w);
+        global::System.Runtime.Intrinsics.Vector128.Equals(lhs.__v, rhs.__v).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator !=(bool4 lhs, bool4 rhs) =>
-        new(lhs.x != rhs.x, lhs.y != rhs.y, lhs.z != rhs.z, lhs.w != rhs.w);
+        (~global::System.Runtime.Intrinsics.Vector128.Equals(lhs.__v, rhs.__v)).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator !(bool4 value) => (~value.__v).Asbool4();
@@ -2759,6 +2765,9 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 bool4(uint value) => new(value);
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static bool4 bool4(global::System.Runtime.Intrinsics.Vector128<uint> value) => new(value);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 bool4(bool x, bool y, bool2 zw) => new(x, y, zw);

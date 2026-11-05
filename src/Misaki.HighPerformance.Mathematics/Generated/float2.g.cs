@@ -506,6 +506,10 @@ public static partial class math
         new((float)global::System.MathF.Sign(x.x), (float)global::System.MathF.Sign(x.y));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static float2 mad(float2 a, float2 b, float2 c) =>
+        a * b + c;
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float2 sin(float2 x) =>
         new(global::System.MathF.Sin(x.x), global::System.MathF.Sin(x.y));
 
@@ -576,13 +580,12 @@ public static partial class math
     public static float2 saturate(float2 x) => clamp(x, 0.0f, 1.0f);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float2 lerp(float2 x, float2 y, float2 s) => x + s * (y - x);
+    public static float2 lerp(float2 x, float2 y, float2 s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float2 lerp(float2 x, float2 y, float s) => x + s * (y - x);
-
-    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float2 mad(float2 a, float2 b, float2 c) => a * b + c;
+    public static float2 lerp(float2 x, float2 y, float s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float cmin(float2 x) => global::System.MathF.Min(x.x, x.y);
@@ -591,11 +594,13 @@ public static partial class math
     public static float cmax(float2 x) => global::System.MathF.Max(x.x, x.y);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float csum(float2 x) => x.x + x.y;
+    public static float csum(float2 x) =>
+        x.x + x.y;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float dot(float2 x, float2 y) =>
         x.x * y.x + x.y * y.y;
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float lengthsq(float2 x) => dot(x, x);

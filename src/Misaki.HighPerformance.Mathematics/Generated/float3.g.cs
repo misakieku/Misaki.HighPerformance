@@ -1176,6 +1176,10 @@ public static partial class math
         new((float)global::System.MathF.Sign(x.x), (float)global::System.MathF.Sign(x.y), (float)global::System.MathF.Sign(x.z));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static float3 mad(float3 a, float3 b, float3 c) =>
+        a * b + c;
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float3 sin(float3 x) =>
         new(global::System.MathF.Sin(x.x), global::System.MathF.Sin(x.y), global::System.MathF.Sin(x.z));
 
@@ -1246,13 +1250,12 @@ public static partial class math
     public static float3 saturate(float3 x) => clamp(x, 0.0f, 1.0f);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float3 lerp(float3 x, float3 y, float3 s) => x + s * (y - x);
+    public static float3 lerp(float3 x, float3 y, float3 s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float3 lerp(float3 x, float3 y, float s) => x + s * (y - x);
-
-    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float3 mad(float3 a, float3 b, float3 c) => a * b + c;
+    public static float3 lerp(float3 x, float3 y, float s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float cmin(float3 x) => global::System.MathF.Min(global::System.MathF.Min(x.x, x.y), x.z);
@@ -1261,11 +1264,13 @@ public static partial class math
     public static float cmax(float3 x) => global::System.MathF.Max(global::System.MathF.Max(x.x, x.y), x.z);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float csum(float3 x) => x.x + x.y + x.z;
+    public static float csum(float3 x) =>
+        x.x + x.y + x.z;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float dot(float3 x, float3 y) =>
         x.x * y.x + x.y * y.y + x.z * y.z;
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float lengthsq(float3 x) => dot(x, x);

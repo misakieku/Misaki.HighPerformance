@@ -45,6 +45,12 @@ public partial struct double4 : global::System.IEquatable<double4>
 
     #region Constructors & Conversions
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public double4(global::System.Runtime.Intrinsics.Vector256<double> v)
+    {
+        this.__v = v;
+    }
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public double4(double x, double y, double z, double w)
     {
         this.x = x;
@@ -2670,82 +2676,82 @@ public partial struct double4 : global::System.IEquatable<double4>
     #region Operators
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator ==(double4 lhs, double4 rhs) =>
-        new(lhs.x == rhs.x, lhs.y == rhs.y, lhs.z == rhs.z, lhs.w == rhs.w);
+        global::Misaki.HighPerformance.Mathematics.math.PackVector256(global::System.Runtime.Intrinsics.Vector256.AsUInt32(global::System.Runtime.Intrinsics.Vector256.Equals(lhs.__v, rhs.__v))).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator !=(double4 lhs, double4 rhs) =>
-        new(lhs.x != rhs.x, lhs.y != rhs.y, lhs.z != rhs.z, lhs.w != rhs.w);
+        (~global::Misaki.HighPerformance.Mathematics.math.PackVector256(global::System.Runtime.Intrinsics.Vector256.AsUInt32(global::System.Runtime.Intrinsics.Vector256.Equals(lhs.__v, rhs.__v)))).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator <(double4 lhs, double4 rhs) =>
-        new(lhs.x < rhs.x, lhs.y < rhs.y, lhs.z < rhs.z, lhs.w < rhs.w);
+        global::Misaki.HighPerformance.Mathematics.math.PackVector256(global::System.Runtime.Intrinsics.Vector256.AsUInt32(global::System.Runtime.Intrinsics.Vector256.LessThan(lhs.__v, rhs.__v))).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator <=(double4 lhs, double4 rhs) =>
-        new(lhs.x <= rhs.x, lhs.y <= rhs.y, lhs.z <= rhs.z, lhs.w <= rhs.w);
+        global::Misaki.HighPerformance.Mathematics.math.PackVector256(global::System.Runtime.Intrinsics.Vector256.AsUInt32(global::System.Runtime.Intrinsics.Vector256.LessThanOrEqual(lhs.__v, rhs.__v))).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator >(double4 lhs, double4 rhs) =>
-        new(lhs.x > rhs.x, lhs.y > rhs.y, lhs.z > rhs.z, lhs.w > rhs.w);
+        global::Misaki.HighPerformance.Mathematics.math.PackVector256(global::System.Runtime.Intrinsics.Vector256.AsUInt32(global::System.Runtime.Intrinsics.Vector256.GreaterThan(lhs.__v, rhs.__v))).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator >=(double4 lhs, double4 rhs) =>
-        new(lhs.x >= rhs.x, lhs.y >= rhs.y, lhs.z >= rhs.z, lhs.w >= rhs.w);
+        global::Misaki.HighPerformance.Mathematics.math.PackVector256(global::System.Runtime.Intrinsics.Vector256.AsUInt32(global::System.Runtime.Intrinsics.Vector256.GreaterThanOrEqual(lhs.__v, rhs.__v))).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator -(double4 value) =>
-        new(-value.x, -value.y, -value.z, -value.w);
+        (-value.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator +(double4 value) => value;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator +(double4 lhs, double4 rhs) =>
-        new(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w);
+        (lhs.__v + rhs.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator +(double4 lhs, double rhs) =>
-        new(lhs.x + rhs, lhs.y + rhs, lhs.z + rhs, lhs.w + rhs);
+        (lhs.__v + global::System.Runtime.Intrinsics.Vector256.Create(rhs)).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator +(double lhs, double4 rhs) =>
-        new(lhs + rhs.x, lhs + rhs.y, lhs + rhs.z, lhs + rhs.w);
+        (global::System.Runtime.Intrinsics.Vector256.Create(lhs) + rhs.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator -(double4 lhs, double4 rhs) =>
-        new(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w);
+        (lhs.__v - rhs.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator -(double4 lhs, double rhs) =>
-        new(lhs.x - rhs, lhs.y - rhs, lhs.z - rhs, lhs.w - rhs);
+        (lhs.__v - global::System.Runtime.Intrinsics.Vector256.Create(rhs)).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator -(double lhs, double4 rhs) =>
-        new(lhs - rhs.x, lhs - rhs.y, lhs - rhs.z, lhs - rhs.w);
+        (global::System.Runtime.Intrinsics.Vector256.Create(lhs) - rhs.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator *(double4 lhs, double4 rhs) =>
-        new(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z, lhs.w * rhs.w);
+        (lhs.__v * rhs.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator *(double4 lhs, double rhs) =>
-        new(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs);
+        (lhs.__v * global::System.Runtime.Intrinsics.Vector256.Create(rhs)).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator *(double lhs, double4 rhs) =>
-        new(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z, lhs * rhs.w);
+        (global::System.Runtime.Intrinsics.Vector256.Create(lhs) * rhs.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator /(double4 lhs, double4 rhs) =>
-        new(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z, lhs.w / rhs.w);
+        (lhs.__v / rhs.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator /(double4 lhs, double rhs) =>
-        new(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs, lhs.w / rhs);
+        (lhs.__v / global::System.Runtime.Intrinsics.Vector256.Create(rhs)).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator /(double lhs, double4 rhs) =>
-        new(lhs / rhs.x, lhs / rhs.y, lhs / rhs.z, lhs / rhs.w);
+        (global::System.Runtime.Intrinsics.Vector256.Create(lhs) / rhs.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 operator %(double4 lhs, double4 rhs) =>
@@ -2818,6 +2824,9 @@ public static partial class math
     public static double4 double4(bool value) => new(value);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static double4 double4(global::System.Runtime.Intrinsics.Vector256<double> value) => new(value);
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 double4(double x, double y, double2 zw) => new(x, y, zw);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2837,43 +2846,47 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 min(double4 x, double4 y) =>
-        new(global::System.Math.Min(x.x, y.x), global::System.Math.Min(x.y, y.y), global::System.Math.Min(x.z, y.z), global::System.Math.Min(x.w, y.w));
+        global::System.Runtime.Intrinsics.Vector256.Min(x.__v, y.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 min(double4 x, double y) =>
-        new(global::System.Math.Min(x.x, y), global::System.Math.Min(x.y, y), global::System.Math.Min(x.z, y), global::System.Math.Min(x.w, y));
+        global::System.Runtime.Intrinsics.Vector256.Min(x.__v, global::System.Runtime.Intrinsics.Vector256.Create(y)).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 max(double4 x, double4 y) =>
-        new(global::System.Math.Max(x.x, y.x), global::System.Math.Max(x.y, y.y), global::System.Math.Max(x.z, y.z), global::System.Math.Max(x.w, y.w));
+        global::System.Runtime.Intrinsics.Vector256.Max(x.__v, y.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 max(double4 x, double y) =>
-        new(global::System.Math.Max(x.x, y), global::System.Math.Max(x.y, y), global::System.Math.Max(x.z, y), global::System.Math.Max(x.w, y));
+        global::System.Runtime.Intrinsics.Vector256.Max(x.__v, global::System.Runtime.Intrinsics.Vector256.Create(y)).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 clamp(double4 x, double4 min, double4 max) =>
-        new(global::System.Math.Clamp(x.x, min.x, max.x), global::System.Math.Clamp(x.y, min.y, max.y), global::System.Math.Clamp(x.z, min.z, max.z), global::System.Math.Clamp(x.w, min.w, max.w));
+        global::System.Runtime.Intrinsics.Vector256.Clamp(x.__v, min.__v, max.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 clamp(double4 x, double min, double max) =>
-        new(global::System.Math.Clamp(x.x, min, max), global::System.Math.Clamp(x.y, min, max), global::System.Math.Clamp(x.z, min, max), global::System.Math.Clamp(x.w, min, max));
+        global::System.Runtime.Intrinsics.Vector256.Clamp(x.__v, global::System.Runtime.Intrinsics.Vector256.Create(min), global::System.Runtime.Intrinsics.Vector256.Create(max)).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 abs(double4 x) =>
-        new(global::System.Math.Abs(x.x), global::System.Math.Abs(x.y), global::System.Math.Abs(x.z), global::System.Math.Abs(x.w));
+        global::System.Runtime.Intrinsics.Vector256.Abs(x.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 sign(double4 x) =>
         new((double)global::System.Math.Sign(x.x), (double)global::System.Math.Sign(x.y), (double)global::System.Math.Sign(x.z), (double)global::System.Math.Sign(x.w));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static double4 mad(double4 a, double4 b, double4 c) =>
+        global::System.Runtime.Intrinsics.Vector256.FusedMultiplyAdd(a.__v, b.__v, c.__v).Asdouble4();
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 sin(double4 x) =>
-        new(global::System.Math.Sin(x.x), global::System.Math.Sin(x.y), global::System.Math.Sin(x.z), global::System.Math.Sin(x.w));
+        global::System.Runtime.Intrinsics.Vector256.Sin(x.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 cos(double4 x) =>
-        new(global::System.Math.Cos(x.x), global::System.Math.Cos(x.y), global::System.Math.Cos(x.z), global::System.Math.Cos(x.w));
+        global::System.Runtime.Intrinsics.Vector256.Cos(x.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 tan(double4 x) =>
@@ -2897,7 +2910,7 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 sqrt(double4 x) =>
-        new(global::System.Math.Sqrt(x.x), global::System.Math.Sqrt(x.y), global::System.Math.Sqrt(x.z), global::System.Math.Sqrt(x.w));
+        global::System.Runtime.Intrinsics.Vector256.Sqrt(x.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 rsqrt(double4 x) =>
@@ -2905,11 +2918,11 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 exp(double4 x) =>
-        new(global::System.Math.Exp(x.x), global::System.Math.Exp(x.y), global::System.Math.Exp(x.z), global::System.Math.Exp(x.w));
+        global::System.Runtime.Intrinsics.Vector256.Exp(x.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 log(double4 x) =>
-        new(global::System.Math.Log(x.x), global::System.Math.Log(x.y), global::System.Math.Log(x.z), global::System.Math.Log(x.w));
+        global::System.Runtime.Intrinsics.Vector256.Log(x.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 pow(double4 x, double4 y) =>
@@ -2917,19 +2930,19 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 floor(double4 x) =>
-        new(global::System.Math.Floor(x.x), global::System.Math.Floor(x.y), global::System.Math.Floor(x.z), global::System.Math.Floor(x.w));
+        global::System.Runtime.Intrinsics.Vector256.Floor(x.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 ceil(double4 x) =>
-        new(global::System.Math.Ceiling(x.x), global::System.Math.Ceiling(x.y), global::System.Math.Ceiling(x.z), global::System.Math.Ceiling(x.w));
+        global::System.Runtime.Intrinsics.Vector256.Ceiling(x.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 round(double4 x) =>
-        new(global::System.Math.Round(x.x), global::System.Math.Round(x.y), global::System.Math.Round(x.z), global::System.Math.Round(x.w));
+        global::System.Runtime.Intrinsics.Vector256.Round(x.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 trunc(double4 x) =>
-        new(global::System.Math.Truncate(x.x), global::System.Math.Truncate(x.y), global::System.Math.Truncate(x.z), global::System.Math.Truncate(x.w));
+        global::System.Runtime.Intrinsics.Vector256.Truncate(x.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double4 frac(double4 x) => x - floor(x);
@@ -2938,26 +2951,27 @@ public static partial class math
     public static double4 saturate(double4 x) => clamp(x, 0.0, 1.0);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double4 lerp(double4 x, double4 y, double4 s) => x + s * (y - x);
+    public static double4 lerp(double4 x, double4 y, double4 s) =>
+        global::System.Runtime.Intrinsics.Vector256.Lerp(x.__v, y.__v, s.__v).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double4 lerp(double4 x, double4 y, double s) => x + s * (y - x);
+    public static double4 lerp(double4 x, double4 y, double s) =>
+        global::System.Runtime.Intrinsics.Vector256.Lerp(x.__v, y.__v, global::System.Runtime.Intrinsics.Vector256.Create(s)).Asdouble4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double4 mad(double4 a, double4 b, double4 c) => a * b + c;
+    public static double cmin(double4 x) => global::System.Math.Min(global::System.Math.Min(x.x, x.y), global::System.Math.Min(x.z, x.w));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double cmin(double4 x) => global::System.Math.Min(global::System.Math.Min(global::System.Math.Min(x.x, x.y), x.z), x.w);
+    public static double cmax(double4 x) => global::System.Math.Max(global::System.Math.Max(x.x, x.y), global::System.Math.Max(x.z, x.w));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double cmax(double4 x) => global::System.Math.Max(global::System.Math.Max(global::System.Math.Max(x.x, x.y), x.z), x.w);
-
-    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double csum(double4 x) => x.x + x.y + x.z + x.w;
+    public static double csum(double4 x) =>
+        global::System.Runtime.Intrinsics.Vector256.Sum(x.__v);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double dot(double4 x, double4 y) =>
-        x.x * y.x + x.y * y.y + x.z * y.z + x.w * y.w;
+        global::System.Runtime.Intrinsics.Vector256.Dot(x.__v, y.__v);
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double lengthsq(double4 x) => dot(x, x);

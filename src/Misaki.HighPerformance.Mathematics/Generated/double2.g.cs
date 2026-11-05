@@ -37,6 +37,12 @@ public partial struct double2 : global::System.IEquatable<double2>
 
     #region Constructors & Conversions
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public double2(global::System.Runtime.Intrinsics.Vector128<double> v)
+    {
+        this.__v = v;
+    }
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public double2(double x, double y)
     {
         this.x = x;
@@ -356,58 +362,58 @@ public partial struct double2 : global::System.IEquatable<double2>
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator -(double2 value) =>
-        new(-value.x, -value.y);
+        (-value.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator +(double2 value) => value;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator +(double2 lhs, double2 rhs) =>
-        new(lhs.x + rhs.x, lhs.y + rhs.y);
+        (lhs.__v + rhs.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator +(double2 lhs, double rhs) =>
-        new(lhs.x + rhs, lhs.y + rhs);
+        (lhs.__v + global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator +(double lhs, double2 rhs) =>
-        new(lhs + rhs.x, lhs + rhs.y);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) + rhs.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator -(double2 lhs, double2 rhs) =>
-        new(lhs.x - rhs.x, lhs.y - rhs.y);
+        (lhs.__v - rhs.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator -(double2 lhs, double rhs) =>
-        new(lhs.x - rhs, lhs.y - rhs);
+        (lhs.__v - global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator -(double lhs, double2 rhs) =>
-        new(lhs - rhs.x, lhs - rhs.y);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) - rhs.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator *(double2 lhs, double2 rhs) =>
-        new(lhs.x * rhs.x, lhs.y * rhs.y);
+        (lhs.__v * rhs.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator *(double2 lhs, double rhs) =>
-        new(lhs.x * rhs, lhs.y * rhs);
+        (lhs.__v * global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator *(double lhs, double2 rhs) =>
-        new(lhs * rhs.x, lhs * rhs.y);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) * rhs.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator /(double2 lhs, double2 rhs) =>
-        new(lhs.x / rhs.x, lhs.y / rhs.y);
+        (lhs.__v / rhs.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator /(double2 lhs, double rhs) =>
-        new(lhs.x / rhs, lhs.y / rhs);
+        (lhs.__v / global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator /(double lhs, double2 rhs) =>
-        new(lhs / rhs.x, lhs / rhs.y);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) / rhs.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 operator %(double2 lhs, double2 rhs) =>
@@ -480,44 +486,51 @@ public static partial class math
     public static double2 double2(bool value) => new(value);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static double2 double2(global::System.Runtime.Intrinsics.Vector128<double> value) => new(value);
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 min(double2 x, double2 y) =>
-        new(global::System.Math.Min(x.x, y.x), global::System.Math.Min(x.y, y.y));
+        global::System.Runtime.Intrinsics.Vector128.Min(x.__v, y.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 min(double2 x, double y) =>
-        new(global::System.Math.Min(x.x, y), global::System.Math.Min(x.y, y));
+        global::System.Runtime.Intrinsics.Vector128.Min(x.__v, global::System.Runtime.Intrinsics.Vector128.Create(y)).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 max(double2 x, double2 y) =>
-        new(global::System.Math.Max(x.x, y.x), global::System.Math.Max(x.y, y.y));
+        global::System.Runtime.Intrinsics.Vector128.Max(x.__v, y.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 max(double2 x, double y) =>
-        new(global::System.Math.Max(x.x, y), global::System.Math.Max(x.y, y));
+        global::System.Runtime.Intrinsics.Vector128.Max(x.__v, global::System.Runtime.Intrinsics.Vector128.Create(y)).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 clamp(double2 x, double2 min, double2 max) =>
-        new(global::System.Math.Clamp(x.x, min.x, max.x), global::System.Math.Clamp(x.y, min.y, max.y));
+        global::System.Runtime.Intrinsics.Vector128.Clamp(x.__v, min.__v, max.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 clamp(double2 x, double min, double max) =>
-        new(global::System.Math.Clamp(x.x, min, max), global::System.Math.Clamp(x.y, min, max));
+        global::System.Runtime.Intrinsics.Vector128.Clamp(x.__v, global::System.Runtime.Intrinsics.Vector128.Create(min), global::System.Runtime.Intrinsics.Vector128.Create(max)).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 abs(double2 x) =>
-        new(global::System.Math.Abs(x.x), global::System.Math.Abs(x.y));
+        global::System.Runtime.Intrinsics.Vector128.Abs(x.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 sign(double2 x) =>
         new((double)global::System.Math.Sign(x.x), (double)global::System.Math.Sign(x.y));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static double2 mad(double2 a, double2 b, double2 c) =>
+        global::System.Runtime.Intrinsics.Vector128.FusedMultiplyAdd(a.__v, b.__v, c.__v).Asdouble2();
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 sin(double2 x) =>
-        new(global::System.Math.Sin(x.x), global::System.Math.Sin(x.y));
+        global::System.Runtime.Intrinsics.Vector128.Sin(x.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 cos(double2 x) =>
-        new(global::System.Math.Cos(x.x), global::System.Math.Cos(x.y));
+        global::System.Runtime.Intrinsics.Vector128.Cos(x.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 tan(double2 x) =>
@@ -541,7 +554,7 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 sqrt(double2 x) =>
-        new(global::System.Math.Sqrt(x.x), global::System.Math.Sqrt(x.y));
+        global::System.Runtime.Intrinsics.Vector128.Sqrt(x.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 rsqrt(double2 x) =>
@@ -549,11 +562,11 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 exp(double2 x) =>
-        new(global::System.Math.Exp(x.x), global::System.Math.Exp(x.y));
+        global::System.Runtime.Intrinsics.Vector128.Exp(x.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 log(double2 x) =>
-        new(global::System.Math.Log(x.x), global::System.Math.Log(x.y));
+        global::System.Runtime.Intrinsics.Vector128.Log(x.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 pow(double2 x, double2 y) =>
@@ -561,19 +574,19 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 floor(double2 x) =>
-        new(global::System.Math.Floor(x.x), global::System.Math.Floor(x.y));
+        global::System.Runtime.Intrinsics.Vector128.Floor(x.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 ceil(double2 x) =>
-        new(global::System.Math.Ceiling(x.x), global::System.Math.Ceiling(x.y));
+        global::System.Runtime.Intrinsics.Vector128.Ceiling(x.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 round(double2 x) =>
-        new(global::System.Math.Round(x.x), global::System.Math.Round(x.y));
+        global::System.Runtime.Intrinsics.Vector128.Round(x.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 trunc(double2 x) =>
-        new(global::System.Math.Truncate(x.x), global::System.Math.Truncate(x.y));
+        global::System.Runtime.Intrinsics.Vector128.Truncate(x.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double2 frac(double2 x) => x - floor(x);
@@ -582,13 +595,12 @@ public static partial class math
     public static double2 saturate(double2 x) => clamp(x, 0.0, 1.0);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double2 lerp(double2 x, double2 y, double2 s) => x + s * (y - x);
+    public static double2 lerp(double2 x, double2 y, double2 s) =>
+        global::System.Runtime.Intrinsics.Vector128.Lerp(x.__v, y.__v, s.__v).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double2 lerp(double2 x, double2 y, double s) => x + s * (y - x);
-
-    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double2 mad(double2 a, double2 b, double2 c) => a * b + c;
+    public static double2 lerp(double2 x, double2 y, double s) =>
+        global::System.Runtime.Intrinsics.Vector128.Lerp(x.__v, y.__v, global::System.Runtime.Intrinsics.Vector128.Create(s)).Asdouble2();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double cmin(double2 x) => global::System.Math.Min(x.x, x.y);
@@ -597,11 +609,13 @@ public static partial class math
     public static double cmax(double2 x) => global::System.Math.Max(x.x, x.y);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double csum(double2 x) => x.x + x.y;
+    public static double csum(double2 x) =>
+        global::System.Runtime.Intrinsics.Vector128.Sum(x.__v);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double dot(double2 x, double2 y) =>
-        x.x * y.x + x.y * y.y;
+        global::System.Runtime.Intrinsics.Vector128.Dot(x.__v, y.__v);
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double lengthsq(double2 x) => dot(x, x);

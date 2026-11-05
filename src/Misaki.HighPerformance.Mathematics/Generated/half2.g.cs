@@ -506,6 +506,10 @@ public static partial class math
         new((global::System.Half)(x.x > (global::System.Half)0.0f ? 1.0f : (x.x < (global::System.Half)0.0f ? -1.0f : 0.0f)), (global::System.Half)(x.y > (global::System.Half)0.0f ? 1.0f : (x.y < (global::System.Half)0.0f ? -1.0f : 0.0f)));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static half2 mad(half2 a, half2 b, half2 c) =>
+        a * b + c;
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static half2 sin(half2 x) =>
         new(global::System.Half.Sin(x.x), global::System.Half.Sin(x.y));
 
@@ -576,13 +580,12 @@ public static partial class math
     public static half2 saturate(half2 x) => clamp(x, (global::System.Half)0.0f, (global::System.Half)1.0f);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static half2 lerp(half2 x, half2 y, half2 s) => x + s * (y - x);
+    public static half2 lerp(half2 x, half2 y, half2 s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static half2 lerp(half2 x, half2 y, global::System.Half s) => x + s * (y - x);
-
-    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static half2 mad(half2 a, half2 b, half2 c) => a * b + c;
+    public static half2 lerp(half2 x, half2 y, global::System.Half s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Half cmin(half2 x) => global::System.Half.Min(x.x, x.y);
@@ -591,11 +594,13 @@ public static partial class math
     public static global::System.Half cmax(half2 x) => global::System.Half.Max(x.x, x.y);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static global::System.Half csum(half2 x) => x.x + x.y;
+    public static global::System.Half csum(half2 x) =>
+        x.x + x.y;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Half dot(half2 x, half2 y) =>
         x.x * y.x + x.y * y.y;
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Half lengthsq(half2 x) => dot(x, x);

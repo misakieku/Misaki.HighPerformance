@@ -12,6 +12,19 @@ public static class VectorConstructorEmitter
         {
             var comps = vec.Components;
 
+            // 0. Vector SIMD constructor
+            if (vec.Storage != StorageLayout.Sequential)
+            {
+                var bits = vec.SimdVectorBits;
+                writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
+                writer.WriteLine($"public {vec.Name}(global::System.Runtime.Intrinsics.Vector{bits}<{vec.Element.StorageTypeName}> v)");
+                using (writer.Scope(""))
+                {
+                    writer.WriteLine("this.__v = v;");
+                }
+                writer.WriteLine();
+            }
+
             // 1. Component-wise constructor
             var compParams = string.Join(", ", comps.Select(c => $"{vec.Element.LogicalTypeName} {c}"));
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);

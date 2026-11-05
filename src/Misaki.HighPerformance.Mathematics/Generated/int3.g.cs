@@ -1230,17 +1230,23 @@ public static partial class math
         new((int)global::System.Math.Sign(x.x), (int)global::System.Math.Sign(x.y), (int)global::System.Math.Sign(x.z));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static int3 mad(int3 a, int3 b, int3 c) =>
+        a * b + c;
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int cmin(int3 x) => global::System.Math.Min(global::System.Math.Min(x.x, x.y), x.z);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int cmax(int3 x) => global::System.Math.Max(global::System.Math.Max(x.x, x.y), x.z);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static int csum(int3 x) => x.x + x.y + x.z;
+    public static int csum(int3 x) =>
+        x.x + x.y + x.z;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int dot(int3 x, int3 y) =>
         x.x * y.x + x.y * y.y + x.z * y.z;
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int3 cross(int3 x, int3 y) =>

@@ -2860,6 +2860,10 @@ public static partial class math
         new((global::System.Half)(x.x > (global::System.Half)0.0f ? 1.0f : (x.x < (global::System.Half)0.0f ? -1.0f : 0.0f)), (global::System.Half)(x.y > (global::System.Half)0.0f ? 1.0f : (x.y < (global::System.Half)0.0f ? -1.0f : 0.0f)), (global::System.Half)(x.z > (global::System.Half)0.0f ? 1.0f : (x.z < (global::System.Half)0.0f ? -1.0f : 0.0f)), (global::System.Half)(x.w > (global::System.Half)0.0f ? 1.0f : (x.w < (global::System.Half)0.0f ? -1.0f : 0.0f)));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static half4 mad(half4 a, half4 b, half4 c) =>
+        a * b + c;
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static half4 sin(half4 x) =>
         new(global::System.Half.Sin(x.x), global::System.Half.Sin(x.y), global::System.Half.Sin(x.z), global::System.Half.Sin(x.w));
 
@@ -2930,26 +2934,27 @@ public static partial class math
     public static half4 saturate(half4 x) => clamp(x, (global::System.Half)0.0f, (global::System.Half)1.0f);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static half4 lerp(half4 x, half4 y, half4 s) => x + s * (y - x);
+    public static half4 lerp(half4 x, half4 y, half4 s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static half4 lerp(half4 x, half4 y, global::System.Half s) => x + s * (y - x);
+    public static half4 lerp(half4 x, half4 y, global::System.Half s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static half4 mad(half4 a, half4 b, half4 c) => a * b + c;
+    public static global::System.Half cmin(half4 x) => global::System.Half.Min(global::System.Half.Min(x.x, x.y), global::System.Half.Min(x.z, x.w));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static global::System.Half cmin(half4 x) => global::System.Half.Min(global::System.Half.Min(global::System.Half.Min(x.x, x.y), x.z), x.w);
+    public static global::System.Half cmax(half4 x) => global::System.Half.Max(global::System.Half.Max(x.x, x.y), global::System.Half.Max(x.z, x.w));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static global::System.Half cmax(half4 x) => global::System.Half.Max(global::System.Half.Max(global::System.Half.Max(x.x, x.y), x.z), x.w);
-
-    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static global::System.Half csum(half4 x) => x.x + x.y + x.z + x.w;
+    public static global::System.Half csum(half4 x) =>
+        x.x + x.y + x.z + x.w;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Half dot(half4 x, half4 y) =>
         x.x * y.x + x.y * y.y + x.z * y.z + x.w * y.w;
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Half lengthsq(half4 x) => dot(x, x);

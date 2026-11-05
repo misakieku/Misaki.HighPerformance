@@ -45,6 +45,12 @@ public partial struct float4 : global::System.IEquatable<float4>
 
     #region Constructors & Conversions
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public float4(global::System.Runtime.Intrinsics.Vector128<float> v)
+    {
+        this.__v = v;
+    }
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public float4(float x, float y, float z, float w)
     {
         this.x = x;
@@ -2670,82 +2676,82 @@ public partial struct float4 : global::System.IEquatable<float4>
     #region Operators
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator ==(float4 lhs, float4 rhs) =>
-        new(lhs.x == rhs.x, lhs.y == rhs.y, lhs.z == rhs.z, lhs.w == rhs.w);
+        global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.Equals(lhs.__v, rhs.__v)).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator !=(float4 lhs, float4 rhs) =>
-        new(lhs.x != rhs.x, lhs.y != rhs.y, lhs.z != rhs.z, lhs.w != rhs.w);
+        (~global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.Equals(lhs.__v, rhs.__v))).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator <(float4 lhs, float4 rhs) =>
-        new(lhs.x < rhs.x, lhs.y < rhs.y, lhs.z < rhs.z, lhs.w < rhs.w);
+        global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.LessThan(lhs.__v, rhs.__v)).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator <=(float4 lhs, float4 rhs) =>
-        new(lhs.x <= rhs.x, lhs.y <= rhs.y, lhs.z <= rhs.z, lhs.w <= rhs.w);
+        global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.LessThanOrEqual(lhs.__v, rhs.__v)).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator >(float4 lhs, float4 rhs) =>
-        new(lhs.x > rhs.x, lhs.y > rhs.y, lhs.z > rhs.z, lhs.w > rhs.w);
+        global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.GreaterThan(lhs.__v, rhs.__v)).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator >=(float4 lhs, float4 rhs) =>
-        new(lhs.x >= rhs.x, lhs.y >= rhs.y, lhs.z >= rhs.z, lhs.w >= rhs.w);
+        global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.GreaterThanOrEqual(lhs.__v, rhs.__v)).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator -(float4 value) =>
-        new(-value.x, -value.y, -value.z, -value.w);
+        (-value.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator +(float4 value) => value;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator +(float4 lhs, float4 rhs) =>
-        new(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w);
+        (lhs.__v + rhs.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator +(float4 lhs, float rhs) =>
-        new(lhs.x + rhs, lhs.y + rhs, lhs.z + rhs, lhs.w + rhs);
+        (lhs.__v + global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator +(float lhs, float4 rhs) =>
-        new(lhs + rhs.x, lhs + rhs.y, lhs + rhs.z, lhs + rhs.w);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) + rhs.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator -(float4 lhs, float4 rhs) =>
-        new(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w);
+        (lhs.__v - rhs.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator -(float4 lhs, float rhs) =>
-        new(lhs.x - rhs, lhs.y - rhs, lhs.z - rhs, lhs.w - rhs);
+        (lhs.__v - global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator -(float lhs, float4 rhs) =>
-        new(lhs - rhs.x, lhs - rhs.y, lhs - rhs.z, lhs - rhs.w);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) - rhs.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator *(float4 lhs, float4 rhs) =>
-        new(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z, lhs.w * rhs.w);
+        (lhs.__v * rhs.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator *(float4 lhs, float rhs) =>
-        new(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs);
+        (lhs.__v * global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator *(float lhs, float4 rhs) =>
-        new(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z, lhs * rhs.w);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) * rhs.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator /(float4 lhs, float4 rhs) =>
-        new(lhs.x / rhs.x, lhs.y / rhs.y, lhs.z / rhs.z, lhs.w / rhs.w);
+        (lhs.__v / rhs.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator /(float4 lhs, float rhs) =>
-        new(lhs.x / rhs, lhs.y / rhs, lhs.z / rhs, lhs.w / rhs);
+        (lhs.__v / global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator /(float lhs, float4 rhs) =>
-        new(lhs / rhs.x, lhs / rhs.y, lhs / rhs.z, lhs / rhs.w);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) / rhs.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 operator %(float4 lhs, float4 rhs) =>
@@ -2818,6 +2824,9 @@ public static partial class math
     public static float4 float4(bool value) => new(value);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static float4 float4(global::System.Runtime.Intrinsics.Vector128<float> value) => new(value);
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 float4(float x, float y, float2 zw) => new(x, y, zw);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2837,43 +2846,47 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 min(float4 x, float4 y) =>
-        new(global::System.MathF.Min(x.x, y.x), global::System.MathF.Min(x.y, y.y), global::System.MathF.Min(x.z, y.z), global::System.MathF.Min(x.w, y.w));
+        global::System.Runtime.Intrinsics.Vector128.Min(x.__v, y.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 min(float4 x, float y) =>
-        new(global::System.MathF.Min(x.x, y), global::System.MathF.Min(x.y, y), global::System.MathF.Min(x.z, y), global::System.MathF.Min(x.w, y));
+        global::System.Runtime.Intrinsics.Vector128.Min(x.__v, global::System.Runtime.Intrinsics.Vector128.Create(y)).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 max(float4 x, float4 y) =>
-        new(global::System.MathF.Max(x.x, y.x), global::System.MathF.Max(x.y, y.y), global::System.MathF.Max(x.z, y.z), global::System.MathF.Max(x.w, y.w));
+        global::System.Runtime.Intrinsics.Vector128.Max(x.__v, y.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 max(float4 x, float y) =>
-        new(global::System.MathF.Max(x.x, y), global::System.MathF.Max(x.y, y), global::System.MathF.Max(x.z, y), global::System.MathF.Max(x.w, y));
+        global::System.Runtime.Intrinsics.Vector128.Max(x.__v, global::System.Runtime.Intrinsics.Vector128.Create(y)).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 clamp(float4 x, float4 min, float4 max) =>
-        new(global::System.Math.Clamp(x.x, min.x, max.x), global::System.Math.Clamp(x.y, min.y, max.y), global::System.Math.Clamp(x.z, min.z, max.z), global::System.Math.Clamp(x.w, min.w, max.w));
+        global::System.Runtime.Intrinsics.Vector128.Clamp(x.__v, min.__v, max.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 clamp(float4 x, float min, float max) =>
-        new(global::System.Math.Clamp(x.x, min, max), global::System.Math.Clamp(x.y, min, max), global::System.Math.Clamp(x.z, min, max), global::System.Math.Clamp(x.w, min, max));
+        global::System.Runtime.Intrinsics.Vector128.Clamp(x.__v, global::System.Runtime.Intrinsics.Vector128.Create(min), global::System.Runtime.Intrinsics.Vector128.Create(max)).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 abs(float4 x) =>
-        new(global::System.MathF.Abs(x.x), global::System.MathF.Abs(x.y), global::System.MathF.Abs(x.z), global::System.MathF.Abs(x.w));
+        global::System.Runtime.Intrinsics.Vector128.Abs(x.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 sign(float4 x) =>
         new((float)global::System.MathF.Sign(x.x), (float)global::System.MathF.Sign(x.y), (float)global::System.MathF.Sign(x.z), (float)global::System.MathF.Sign(x.w));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static float4 mad(float4 a, float4 b, float4 c) =>
+        global::System.Runtime.Intrinsics.Vector128.FusedMultiplyAdd(a.__v, b.__v, c.__v).Asfloat4();
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 sin(float4 x) =>
-        new(global::System.MathF.Sin(x.x), global::System.MathF.Sin(x.y), global::System.MathF.Sin(x.z), global::System.MathF.Sin(x.w));
+        global::System.Runtime.Intrinsics.Vector128.Sin(x.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 cos(float4 x) =>
-        new(global::System.MathF.Cos(x.x), global::System.MathF.Cos(x.y), global::System.MathF.Cos(x.z), global::System.MathF.Cos(x.w));
+        global::System.Runtime.Intrinsics.Vector128.Cos(x.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 tan(float4 x) =>
@@ -2897,7 +2910,7 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 sqrt(float4 x) =>
-        new(global::System.MathF.Sqrt(x.x), global::System.MathF.Sqrt(x.y), global::System.MathF.Sqrt(x.z), global::System.MathF.Sqrt(x.w));
+        global::System.Runtime.Intrinsics.Vector128.Sqrt(x.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 rsqrt(float4 x) =>
@@ -2905,11 +2918,11 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 exp(float4 x) =>
-        new(global::System.MathF.Exp(x.x), global::System.MathF.Exp(x.y), global::System.MathF.Exp(x.z), global::System.MathF.Exp(x.w));
+        global::System.Runtime.Intrinsics.Vector128.Exp(x.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 log(float4 x) =>
-        new(global::System.MathF.Log(x.x), global::System.MathF.Log(x.y), global::System.MathF.Log(x.z), global::System.MathF.Log(x.w));
+        global::System.Runtime.Intrinsics.Vector128.Log(x.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 pow(float4 x, float4 y) =>
@@ -2917,19 +2930,19 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 floor(float4 x) =>
-        new(global::System.MathF.Floor(x.x), global::System.MathF.Floor(x.y), global::System.MathF.Floor(x.z), global::System.MathF.Floor(x.w));
+        global::System.Runtime.Intrinsics.Vector128.Floor(x.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 ceil(float4 x) =>
-        new(global::System.MathF.Ceiling(x.x), global::System.MathF.Ceiling(x.y), global::System.MathF.Ceiling(x.z), global::System.MathF.Ceiling(x.w));
+        global::System.Runtime.Intrinsics.Vector128.Ceiling(x.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 round(float4 x) =>
-        new(global::System.MathF.Round(x.x), global::System.MathF.Round(x.y), global::System.MathF.Round(x.z), global::System.MathF.Round(x.w));
+        global::System.Runtime.Intrinsics.Vector128.Round(x.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 trunc(float4 x) =>
-        new(global::System.MathF.Truncate(x.x), global::System.MathF.Truncate(x.y), global::System.MathF.Truncate(x.z), global::System.MathF.Truncate(x.w));
+        global::System.Runtime.Intrinsics.Vector128.Truncate(x.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float4 frac(float4 x) => x - floor(x);
@@ -2938,26 +2951,27 @@ public static partial class math
     public static float4 saturate(float4 x) => clamp(x, 0.0f, 1.0f);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float4 lerp(float4 x, float4 y, float4 s) => x + s * (y - x);
+    public static float4 lerp(float4 x, float4 y, float4 s) =>
+        global::System.Runtime.Intrinsics.Vector128.Lerp(x.__v, y.__v, s.__v).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float4 lerp(float4 x, float4 y, float s) => x + s * (y - x);
+    public static float4 lerp(float4 x, float4 y, float s) =>
+        global::System.Runtime.Intrinsics.Vector128.Lerp(x.__v, y.__v, global::System.Runtime.Intrinsics.Vector128.Create(s)).Asfloat4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float4 mad(float4 a, float4 b, float4 c) => a * b + c;
+    public static float cmin(float4 x) => global::System.MathF.Min(global::System.MathF.Min(x.x, x.y), global::System.MathF.Min(x.z, x.w));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float cmin(float4 x) => global::System.MathF.Min(global::System.MathF.Min(global::System.MathF.Min(x.x, x.y), x.z), x.w);
+    public static float cmax(float4 x) => global::System.MathF.Max(global::System.MathF.Max(x.x, x.y), global::System.MathF.Max(x.z, x.w));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float cmax(float4 x) => global::System.MathF.Max(global::System.MathF.Max(global::System.MathF.Max(x.x, x.y), x.z), x.w);
-
-    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static float csum(float4 x) => x.x + x.y + x.z + x.w;
+    public static float csum(float4 x) =>
+        global::System.Runtime.Intrinsics.Vector128.Sum(x.__v);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float dot(float4 x, float4 y) =>
-        x.x * y.x + x.y * y.y + x.z * y.z + x.w * y.w;
+        global::System.Runtime.Intrinsics.Vector128.Dot(x.__v, y.__v);
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static float lengthsq(float4 x) => dot(x, x);

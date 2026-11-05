@@ -45,6 +45,12 @@ public partial struct int4 : global::System.IEquatable<int4>
 
     #region Constructors & Conversions
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public int4(global::System.Runtime.Intrinsics.Vector128<int> v)
+    {
+        this.__v = v;
+    }
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public int4(int x, int y, int z, int w)
     {
         this.x = x;
@@ -2670,74 +2676,74 @@ public partial struct int4 : global::System.IEquatable<int4>
     #region Operators
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator ==(int4 lhs, int4 rhs) =>
-        new(lhs.x == rhs.x, lhs.y == rhs.y, lhs.z == rhs.z, lhs.w == rhs.w);
+        global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.Equals(lhs.__v, rhs.__v)).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator !=(int4 lhs, int4 rhs) =>
-        new(lhs.x != rhs.x, lhs.y != rhs.y, lhs.z != rhs.z, lhs.w != rhs.w);
+        (~global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.Equals(lhs.__v, rhs.__v))).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator <(int4 lhs, int4 rhs) =>
-        new(lhs.x < rhs.x, lhs.y < rhs.y, lhs.z < rhs.z, lhs.w < rhs.w);
+        global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.LessThan(lhs.__v, rhs.__v)).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator <=(int4 lhs, int4 rhs) =>
-        new(lhs.x <= rhs.x, lhs.y <= rhs.y, lhs.z <= rhs.z, lhs.w <= rhs.w);
+        global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.LessThanOrEqual(lhs.__v, rhs.__v)).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator >(int4 lhs, int4 rhs) =>
-        new(lhs.x > rhs.x, lhs.y > rhs.y, lhs.z > rhs.z, lhs.w > rhs.w);
+        global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.GreaterThan(lhs.__v, rhs.__v)).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static bool4 operator >=(int4 lhs, int4 rhs) =>
-        new(lhs.x >= rhs.x, lhs.y >= rhs.y, lhs.z >= rhs.z, lhs.w >= rhs.w);
+        global::System.Runtime.Intrinsics.Vector128.AsUInt32(global::System.Runtime.Intrinsics.Vector128.GreaterThanOrEqual(lhs.__v, rhs.__v)).Asbool4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator -(int4 value) =>
-        new(-value.x, -value.y, -value.z, -value.w);
+        (-value.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator +(int4 value) => value;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator ~(int4 value) =>
-        new(~value.x, ~value.y, ~value.z, ~value.w);
+        (~value.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator +(int4 lhs, int4 rhs) =>
-        new(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w);
+        (lhs.__v + rhs.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator +(int4 lhs, int rhs) =>
-        new(lhs.x + rhs, lhs.y + rhs, lhs.z + rhs, lhs.w + rhs);
+        (lhs.__v + global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator +(int lhs, int4 rhs) =>
-        new(lhs + rhs.x, lhs + rhs.y, lhs + rhs.z, lhs + rhs.w);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) + rhs.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator -(int4 lhs, int4 rhs) =>
-        new(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w);
+        (lhs.__v - rhs.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator -(int4 lhs, int rhs) =>
-        new(lhs.x - rhs, lhs.y - rhs, lhs.z - rhs, lhs.w - rhs);
+        (lhs.__v - global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator -(int lhs, int4 rhs) =>
-        new(lhs - rhs.x, lhs - rhs.y, lhs - rhs.z, lhs - rhs.w);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) - rhs.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator *(int4 lhs, int4 rhs) =>
-        new(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z, lhs.w * rhs.w);
+        (lhs.__v * rhs.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator *(int4 lhs, int rhs) =>
-        new(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs);
+        (lhs.__v * global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator *(int lhs, int4 rhs) =>
-        new(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z, lhs * rhs.w);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) * rhs.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator /(int4 lhs, int4 rhs) =>
@@ -2766,52 +2772,52 @@ public partial struct int4 : global::System.IEquatable<int4>
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator &(int4 lhs, int4 rhs)
     {
-        return new(lhs.x & rhs.x, lhs.y & rhs.y, lhs.z & rhs.z, lhs.w & rhs.w);
+        return (lhs.__v & rhs.__v).Asint4();
     }
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator &(int4 lhs, int rhs) =>
-        new(lhs.x & rhs, lhs.y & rhs, lhs.z & rhs, lhs.w & rhs);
+        (lhs.__v & global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator &(int lhs, int4 rhs) =>
-        new(lhs & rhs.x, lhs & rhs.y, lhs & rhs.z, lhs & rhs.w);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) & rhs.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator |(int4 lhs, int4 rhs)
     {
-        return new(lhs.x | rhs.x, lhs.y | rhs.y, lhs.z | rhs.z, lhs.w | rhs.w);
+        return (lhs.__v | rhs.__v).Asint4();
     }
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator |(int4 lhs, int rhs) =>
-        new(lhs.x | rhs, lhs.y | rhs, lhs.z | rhs, lhs.w | rhs);
+        (lhs.__v | global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator |(int lhs, int4 rhs) =>
-        new(lhs | rhs.x, lhs | rhs.y, lhs | rhs.z, lhs | rhs.w);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) | rhs.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator ^(int4 lhs, int4 rhs)
     {
-        return new(lhs.x ^ rhs.x, lhs.y ^ rhs.y, lhs.z ^ rhs.z, lhs.w ^ rhs.w);
+        return (lhs.__v ^ rhs.__v).Asint4();
     }
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator ^(int4 lhs, int rhs) =>
-        new(lhs.x ^ rhs, lhs.y ^ rhs, lhs.z ^ rhs, lhs.w ^ rhs);
+        (lhs.__v ^ global::System.Runtime.Intrinsics.Vector128.Create(rhs)).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator ^(int lhs, int4 rhs) =>
-        new(lhs ^ rhs.x, lhs ^ rhs.y, lhs ^ rhs.z, lhs ^ rhs.w);
+        (global::System.Runtime.Intrinsics.Vector128.Create(lhs) ^ rhs.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator <<(int4 x, int n) =>
-        new(x.x << n, x.y << n, x.z << n, x.w << n);
+        (x.__v << n).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 operator >>(int4 x, int n) =>
-        new(x.x >> n, x.y >> n, x.z >> n, x.w >> n);
+        (x.__v >> n).Asint4();
 
     #endregion
 
@@ -2872,6 +2878,9 @@ public static partial class math
     public static int4 int4(bool value) => new(value);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static int4 int4(global::System.Runtime.Intrinsics.Vector128<int> value) => new(value);
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 int4(int x, int y, int2 zw) => new(x, y, zw);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -2891,48 +2900,54 @@ public static partial class math
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 min(int4 x, int4 y) =>
-        new(global::System.Math.Min(x.x, y.x), global::System.Math.Min(x.y, y.y), global::System.Math.Min(x.z, y.z), global::System.Math.Min(x.w, y.w));
+        global::System.Runtime.Intrinsics.Vector128.Min(x.__v, y.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 min(int4 x, int y) =>
-        new(global::System.Math.Min(x.x, y), global::System.Math.Min(x.y, y), global::System.Math.Min(x.z, y), global::System.Math.Min(x.w, y));
+        global::System.Runtime.Intrinsics.Vector128.Min(x.__v, global::System.Runtime.Intrinsics.Vector128.Create(y)).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 max(int4 x, int4 y) =>
-        new(global::System.Math.Max(x.x, y.x), global::System.Math.Max(x.y, y.y), global::System.Math.Max(x.z, y.z), global::System.Math.Max(x.w, y.w));
+        global::System.Runtime.Intrinsics.Vector128.Max(x.__v, y.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 max(int4 x, int y) =>
-        new(global::System.Math.Max(x.x, y), global::System.Math.Max(x.y, y), global::System.Math.Max(x.z, y), global::System.Math.Max(x.w, y));
+        global::System.Runtime.Intrinsics.Vector128.Max(x.__v, global::System.Runtime.Intrinsics.Vector128.Create(y)).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 clamp(int4 x, int4 min, int4 max) =>
-        new(global::System.Math.Clamp(x.x, min.x, max.x), global::System.Math.Clamp(x.y, min.y, max.y), global::System.Math.Clamp(x.z, min.z, max.z), global::System.Math.Clamp(x.w, min.w, max.w));
+        global::System.Runtime.Intrinsics.Vector128.Clamp(x.__v, min.__v, max.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 clamp(int4 x, int min, int max) =>
-        new(global::System.Math.Clamp(x.x, min, max), global::System.Math.Clamp(x.y, min, max), global::System.Math.Clamp(x.z, min, max), global::System.Math.Clamp(x.w, min, max));
+        global::System.Runtime.Intrinsics.Vector128.Clamp(x.__v, global::System.Runtime.Intrinsics.Vector128.Create(min), global::System.Runtime.Intrinsics.Vector128.Create(max)).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 abs(int4 x) =>
-        new(global::System.Math.Abs(x.x), global::System.Math.Abs(x.y), global::System.Math.Abs(x.z), global::System.Math.Abs(x.w));
+        global::System.Runtime.Intrinsics.Vector128.Abs(x.__v).Asint4();
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int4 sign(int4 x) =>
         new((int)global::System.Math.Sign(x.x), (int)global::System.Math.Sign(x.y), (int)global::System.Math.Sign(x.z), (int)global::System.Math.Sign(x.w));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static int cmin(int4 x) => global::System.Math.Min(global::System.Math.Min(global::System.Math.Min(x.x, x.y), x.z), x.w);
+    public static int4 mad(int4 a, int4 b, int4 c) =>
+        a * b + c;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static int cmax(int4 x) => global::System.Math.Max(global::System.Math.Max(global::System.Math.Max(x.x, x.y), x.z), x.w);
+    public static int cmin(int4 x) => global::System.Math.Min(global::System.Math.Min(x.x, x.y), global::System.Math.Min(x.z, x.w));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static int csum(int4 x) => x.x + x.y + x.z + x.w;
+    public static int cmax(int4 x) => global::System.Math.Max(global::System.Math.Max(x.x, x.y), global::System.Math.Max(x.z, x.w));
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static int csum(int4 x) =>
+        global::System.Runtime.Intrinsics.Vector128.Sum(x.__v);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int dot(int4 x, int4 y) =>
-        x.x * y.x + x.y * y.y + x.z * y.z + x.w * y.w;
+        global::System.Runtime.Intrinsics.Vector128.Dot(x.__v, y.__v);
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int shuffle(int4 left, int4 right, ShuffleComponent x) =>

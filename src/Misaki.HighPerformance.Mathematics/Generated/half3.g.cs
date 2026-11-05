@@ -1176,6 +1176,10 @@ public static partial class math
         new((global::System.Half)(x.x > (global::System.Half)0.0f ? 1.0f : (x.x < (global::System.Half)0.0f ? -1.0f : 0.0f)), (global::System.Half)(x.y > (global::System.Half)0.0f ? 1.0f : (x.y < (global::System.Half)0.0f ? -1.0f : 0.0f)), (global::System.Half)(x.z > (global::System.Half)0.0f ? 1.0f : (x.z < (global::System.Half)0.0f ? -1.0f : 0.0f)));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static half3 mad(half3 a, half3 b, half3 c) =>
+        a * b + c;
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static half3 sin(half3 x) =>
         new(global::System.Half.Sin(x.x), global::System.Half.Sin(x.y), global::System.Half.Sin(x.z));
 
@@ -1246,13 +1250,12 @@ public static partial class math
     public static half3 saturate(half3 x) => clamp(x, (global::System.Half)0.0f, (global::System.Half)1.0f);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static half3 lerp(half3 x, half3 y, half3 s) => x + s * (y - x);
+    public static half3 lerp(half3 x, half3 y, half3 s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static half3 lerp(half3 x, half3 y, global::System.Half s) => x + s * (y - x);
-
-    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static half3 mad(half3 a, half3 b, half3 c) => a * b + c;
+    public static half3 lerp(half3 x, half3 y, global::System.Half s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Half cmin(half3 x) => global::System.Half.Min(global::System.Half.Min(x.x, x.y), x.z);
@@ -1261,11 +1264,13 @@ public static partial class math
     public static global::System.Half cmax(half3 x) => global::System.Half.Max(global::System.Half.Max(x.x, x.y), x.z);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static global::System.Half csum(half3 x) => x.x + x.y + x.z;
+    public static global::System.Half csum(half3 x) =>
+        x.x + x.y + x.z;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Half dot(half3 x, half3 y) =>
         x.x * y.x + x.y * y.y + x.z * y.z;
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Half lengthsq(half3 x) => dot(x, x);

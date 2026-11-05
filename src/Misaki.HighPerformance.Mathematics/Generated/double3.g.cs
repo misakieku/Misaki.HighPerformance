@@ -1176,6 +1176,10 @@ public static partial class math
         new((double)global::System.Math.Sign(x.x), (double)global::System.Math.Sign(x.y), (double)global::System.Math.Sign(x.z));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static double3 mad(double3 a, double3 b, double3 c) =>
+        a * b + c;
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double3 sin(double3 x) =>
         new(global::System.Math.Sin(x.x), global::System.Math.Sin(x.y), global::System.Math.Sin(x.z));
 
@@ -1246,13 +1250,12 @@ public static partial class math
     public static double3 saturate(double3 x) => clamp(x, 0.0, 1.0);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double3 lerp(double3 x, double3 y, double3 s) => x + s * (y - x);
+    public static double3 lerp(double3 x, double3 y, double3 s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double3 lerp(double3 x, double3 y, double s) => x + s * (y - x);
-
-    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double3 mad(double3 a, double3 b, double3 c) => a * b + c;
+    public static double3 lerp(double3 x, double3 y, double s) =>
+        x + s * (y - x);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double cmin(double3 x) => global::System.Math.Min(global::System.Math.Min(x.x, x.y), x.z);
@@ -1261,11 +1264,13 @@ public static partial class math
     public static double cmax(double3 x) => global::System.Math.Max(global::System.Math.Max(x.x, x.y), x.z);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static double csum(double3 x) => x.x + x.y + x.z;
+    public static double csum(double3 x) =>
+        x.x + x.y + x.z;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double dot(double3 x, double3 y) =>
         x.x * y.x + x.y * y.y + x.z * y.z;
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static double lengthsq(double3 x) => dot(x, x);

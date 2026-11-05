@@ -38,6 +38,15 @@ public static class VectorMathEmitter
                 writer.WriteLine();
             }
 
+            // SIMD intrinsic factory
+            if (vec.Storage != StorageLayout.Sequential)
+            {
+                var bits = vec.SimdVectorBits;
+                writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
+                writer.WriteLine($"public static {vec.Name} {vec.Name}(global::System.Runtime.Intrinsics.Vector{bits}<{vec.Element.StorageTypeName}> value) => new(value);");
+                writer.WriteLine();
+            }
+
             // Subvector math factories (e.g. float4(float3, float))
             EmitSubvectorFactories(writer, vec);
 
@@ -118,39 +127,59 @@ public static class VectorMathEmitter
     private static void EmitBasicMathFunctions(CodeWriter writer, VectorType vec, IReadOnlyList<string> comps)
     {
         var math = vec.Element.MathClass;
+        var isSimd = vec.Storage != StorageLayout.Sequential;
+        var vecClass = $"global::System.Runtime.Intrinsics.Vector{vec.SimdVectorBits}";
 
         // min
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {vec.Name} min({vec.Name} x, {vec.Name} y) =>");
-        writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Min(x.{c}, y.{c})"))});");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Min(x.__v, y.__v).As{vec.Name}();");
+        else
+            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Min(x.{c}, y.{c})"))});");
         writer.WriteLine();
 
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {vec.Name} min({vec.Name} x, {vec.Element.LogicalTypeName} y) =>");
-        writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Min(x.{c}, y)"))});");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Min(x.__v, {vecClass}.Create(y)).As{vec.Name}();");
+        else
+            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Min(x.{c}, y)"))});");
         writer.WriteLine();
 
         // max
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {vec.Name} max({vec.Name} x, {vec.Name} y) =>");
-        writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Max(x.{c}, y.{c})"))});");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Max(x.__v, y.__v).As{vec.Name}();");
+        else
+            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Max(x.{c}, y.{c})"))});");
         writer.WriteLine();
 
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {vec.Name} max({vec.Name} x, {vec.Element.LogicalTypeName} y) =>");
-        writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Max(x.{c}, y)"))});");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Max(x.__v, {vecClass}.Create(y)).As{vec.Name}();");
+        else
+            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Max(x.{c}, y)"))});");
         writer.WriteLine();
 
         // clamp
         var clampMethod = vec.Element.Kind == ScalarKind.Half ? "global::System.Half.Clamp" : "global::System.Math.Clamp";
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {vec.Name} clamp({vec.Name} x, {vec.Name} min, {vec.Name} max) =>");
-        writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{clampMethod}(x.{c}, min.{c}, max.{c})"))});");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Clamp(x.__v, min.__v, max.__v).As{vec.Name}();");
+        else
+            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{clampMethod}(x.{c}, min.{c}, max.{c})"))});");
         writer.WriteLine();
 
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {vec.Name} clamp({vec.Name} x, {vec.Element.LogicalTypeName} min, {vec.Element.LogicalTypeName} max) =>");
-        writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{clampMethod}(x.{c}, min, max)"))});");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Clamp(x.__v, {vecClass}.Create(min), {vecClass}.Create(max)).As{vec.Name}();");
+        else
+            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{clampMethod}(x.{c}, min, max)"))});");
         writer.WriteLine();
 
         // abs
@@ -158,7 +187,10 @@ public static class VectorMathEmitter
         {
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public static {vec.Name} abs({vec.Name} x) =>");
-            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Abs(x.{c})"))});");
+            if (isSimd)
+                writer.WriteLine($"    {vecClass}.Abs(x.__v).As{vec.Name}();");
+            else
+                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Abs(x.{c})"))});");
             writer.WriteLine();
 
             // sign
@@ -172,11 +204,22 @@ public static class VectorMathEmitter
             writer.WriteLine($"    new({string.Join(", ", comps.Select(SignExpr))});");
             writer.WriteLine();
         }
+
+        // mad
+        writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
+        writer.WriteLine($"public static {vec.Name} mad({vec.Name} a, {vec.Name} b, {vec.Name} c) =>");
+        if (isSimd && vec.Element.IsFloatingPoint)
+            writer.WriteLine($"    {vecClass}.FusedMultiplyAdd(a.__v, b.__v, c.__v).As{vec.Name}();");
+        else
+            writer.WriteLine($"    a * b + c;");
+        writer.WriteLine();
     }
 
     private static void EmitTrigFunctions(CodeWriter writer, VectorType vec, IReadOnlyList<string> comps)
     {
         var math = vec.Element.MathClass;
+        var isSimd = vec.Storage != StorageLayout.Sequential;
+        var vecClass = $"global::System.Runtime.Intrinsics.Vector{vec.SimdVectorBits}";
         string[] trigOps = ["Sin", "Cos", "Tan", "Asin", "Acos", "Atan"];
 
         foreach (var op in trigOps)
@@ -184,7 +227,14 @@ public static class VectorMathEmitter
             var methodName = op.ToLowerInvariant();
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public static {vec.Name} {methodName}({vec.Name} x) =>");
-            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.{op}(x.{c})"))});");
+            if (isSimd && (op == "Sin" || op == "Cos"))
+            {
+                writer.WriteLine($"    {vecClass}.{op}(x.__v).As{vec.Name}();");
+            }
+            else
+            {
+                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.{op}(x.{c})"))});");
+            }
             writer.WriteLine();
         }
 
@@ -197,11 +247,16 @@ public static class VectorMathEmitter
     private static void EmitExponentialFunctions(CodeWriter writer, VectorType vec, IReadOnlyList<string> comps)
     {
         var math = vec.Element.MathClass;
+        var isSimd = vec.Storage != StorageLayout.Sequential;
+        var vecClass = $"global::System.Runtime.Intrinsics.Vector{vec.SimdVectorBits}";
 
         // sqrt
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {vec.Name} sqrt({vec.Name} x) =>");
-        writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Sqrt(x.{c})"))});");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Sqrt(x.__v).As{vec.Name}();");
+        else
+            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Sqrt(x.{c})"))});");
         writer.WriteLine();
 
         // rsqrt
@@ -213,12 +268,18 @@ public static class VectorMathEmitter
         // exp, log
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {vec.Name} exp({vec.Name} x) =>");
-        writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Exp(x.{c})"))});");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Exp(x.__v).As{vec.Name}();");
+        else
+            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Exp(x.{c})"))});");
         writer.WriteLine();
 
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {vec.Name} log({vec.Name} x) =>");
-        writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Log(x.{c})"))});");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Log(x.__v).As{vec.Name}();");
+        else
+            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.Log(x.{c})"))});");
         writer.WriteLine();
 
         // pow
@@ -231,6 +292,8 @@ public static class VectorMathEmitter
     private static void EmitRoundingAndInterpolation(CodeWriter writer, VectorType vec, IReadOnlyList<string> comps)
     {
         var math = vec.Element.MathClass;
+        var isSimd = vec.Storage != StorageLayout.Sequential;
+        var vecClass = $"global::System.Runtime.Intrinsics.Vector{vec.SimdVectorBits}";
 
         // floor, ceil, round, trunc
         string[] roundOps = ["Floor", "Ceiling", "Round", "Truncate"];
@@ -240,7 +303,10 @@ public static class VectorMathEmitter
         {
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public static {vec.Name} {methodNames[i]}({vec.Name} x) =>");
-            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.{roundOps[i]}(x.{c})"))});");
+            if (isSimd)
+                writer.WriteLine($"    {vecClass}.{roundOps[i]}(x.__v).As{vec.Name}();");
+            else
+                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"{math}.{roundOps[i]}(x.{c})"))});");
             writer.WriteLine();
         }
 
@@ -256,32 +322,45 @@ public static class VectorMathEmitter
 
         // lerp
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
-        writer.WriteLine($"public static {vec.Name} lerp({vec.Name} x, {vec.Name} y, {vec.Name} s) => x + s * (y - x);");
+        writer.WriteLine($"public static {vec.Name} lerp({vec.Name} x, {vec.Name} y, {vec.Name} s) =>");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Lerp(x.__v, y.__v, s.__v).As{vec.Name}();");
+        else
+            writer.WriteLine($"    x + s * (y - x);");
         writer.WriteLine();
 
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
-        writer.WriteLine($"public static {vec.Name} lerp({vec.Name} x, {vec.Name} y, {vec.Element.LogicalTypeName} s) => x + s * (y - x);");
-        writer.WriteLine();
-
-        // mad
-        writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
-        writer.WriteLine($"public static {vec.Name} mad({vec.Name} a, {vec.Name} b, {vec.Name} c) => a * b + c;");
+        writer.WriteLine($"public static {vec.Name} lerp({vec.Name} x, {vec.Name} y, {vec.Element.LogicalTypeName} s) =>");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Lerp(x.__v, y.__v, {vecClass}.Create(s)).As{vec.Name}();");
+        else
+            writer.WriteLine($"    x + s * (y - x);");
         writer.WriteLine();
     }
 
     private static void EmitLinearAlgebra(CodeWriter writer, VectorType vec, IReadOnlyList<string> comps)
     {
-        // cmin, cmax, csum
         var math = vec.Element.MathClass;
-        var cminExpr = $"x.{comps[0]}";
-        var cmaxExpr = $"x.{comps[0]}";
-        var csumExpr = $"x.{comps[0]}";
+        var isSimd = vec.Storage != StorageLayout.Sequential;
+        var vecClass = $"global::System.Runtime.Intrinsics.Vector{vec.SimdVectorBits}";
 
-        for (var i = 1; i < comps.Count; i++)
+        // cmin, cmax
+        string cminExpr;
+        string cmaxExpr;
+        if (vec.Dimension == 4)
         {
-            cminExpr = $"{math}.Min({cminExpr}, x.{comps[i]})";
-            cmaxExpr = $"{math}.Max({cmaxExpr}, x.{comps[i]})";
-            csumExpr = $"{csumExpr} + x.{comps[i]}";
+            cminExpr = $"{math}.Min({math}.Min(x.x, x.y), {math}.Min(x.z, x.w))";
+            cmaxExpr = $"{math}.Max({math}.Max(x.x, x.y), {math}.Max(x.z, x.w))";
+        }
+        else if (vec.Dimension == 3)
+        {
+            cminExpr = $"{math}.Min({math}.Min(x.x, x.y), x.z)";
+            cmaxExpr = $"{math}.Max({math}.Max(x.x, x.y), x.z)";
+        }
+        else // 2
+        {
+            cminExpr = $"{math}.Min(x.x, x.y)";
+            cmaxExpr = $"{math}.Max(x.x, x.y)";
         }
 
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
@@ -292,14 +371,23 @@ public static class VectorMathEmitter
         writer.WriteLine($"public static {vec.Element.LogicalTypeName} cmax({vec.Name} x) => {cmaxExpr};");
         writer.WriteLine();
 
+        // csum
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
-        writer.WriteLine($"public static {vec.Element.LogicalTypeName} csum({vec.Name} x) => {csumExpr};");
+        writer.WriteLine($"public static {vec.Element.LogicalTypeName} csum({vec.Name} x) =>");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Sum(x.__v);");
+        else
+            writer.WriteLine($"    {string.Join(" + ", comps.Select(c => $"x.{c}"))};");
         writer.WriteLine();
 
         // dot
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {vec.Element.LogicalTypeName} dot({vec.Name} x, {vec.Name} y) =>");
-        writer.WriteLine($"    {string.Join(" + ", comps.Select(c => $"x.{c} * y.{c}"))};");
+        if (isSimd)
+            writer.WriteLine($"    {vecClass}.Dot(x.__v, y.__v);");
+        else
+            writer.WriteLine($"    {string.Join(" + ", comps.Select(c => $"x.{c} * y.{c}"))};");
+        writer.WriteLine();
         writer.WriteLine();
 
         // lengthsq, length, distance, distancesq, normalize

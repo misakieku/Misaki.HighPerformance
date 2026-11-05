@@ -41,15 +41,55 @@ public static class VectorOperatorEmitter
 
     private static void EmitRelationalOperators(CodeWriter writer, VectorType vec, IReadOnlyList<string> comps, string boolType)
     {
+        var isSimd = vec.Storage != StorageLayout.Sequential;
+        var bits = vec.SimdVectorBits;
+        var vecClass = $"global::System.Runtime.Intrinsics.Vector{bits}";
+
         // == and !=
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {boolType} operator ==({vec.Name} lhs, {vec.Name} rhs) =>");
-        writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} == rhs.{c}"))});");
+        if (isSimd && vec.Dimension == 4)
+        {
+            if (vec.Element.Kind == ScalarKind.Double)
+            {
+                writer.WriteLine($"    global::Misaki.HighPerformance.Mathematics.math.PackVector256(global::System.Runtime.Intrinsics.Vector256.AsUInt32({vecClass}.Equals(lhs.__v, rhs.__v))).Asbool4();");
+            }
+            else if (vec.Element.Kind == ScalarKind.UInt || vec.Element.IsBool)
+            {
+                writer.WriteLine($"    {vecClass}.Equals(lhs.__v, rhs.__v).Asbool4();");
+            }
+            else
+            {
+                writer.WriteLine($"    {vecClass}.AsUInt32({vecClass}.Equals(lhs.__v, rhs.__v)).Asbool4();");
+            }
+        }
+        else
+        {
+            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} == rhs.{c}"))});");
+        }
         writer.WriteLine();
 
         writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
         writer.WriteLine($"public static {boolType} operator !=({vec.Name} lhs, {vec.Name} rhs) =>");
-        writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} != rhs.{c}"))});");
+        if (isSimd && vec.Dimension == 4)
+        {
+            if (vec.Element.Kind == ScalarKind.Double)
+            {
+                writer.WriteLine($"    (~global::Misaki.HighPerformance.Mathematics.math.PackVector256(global::System.Runtime.Intrinsics.Vector256.AsUInt32({vecClass}.Equals(lhs.__v, rhs.__v)))).Asbool4();");
+            }
+            else if (vec.Element.Kind == ScalarKind.UInt || vec.Element.IsBool)
+            {
+                writer.WriteLine($"    (~{vecClass}.Equals(lhs.__v, rhs.__v)).Asbool4();");
+            }
+            else
+            {
+                writer.WriteLine($"    (~{vecClass}.AsUInt32({vecClass}.Equals(lhs.__v, rhs.__v))).Asbool4();");
+            }
+        }
+        else
+        {
+            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} != rhs.{c}"))});");
+        }
         writer.WriteLine();
 
         if (vec.Element.IsBool)
@@ -57,22 +97,53 @@ public static class VectorOperatorEmitter
 
         // <, <=, >, >=
         string[] relOps = ["<", "<=", ">", ">="];
-        foreach (var op in relOps)
+        string[] simdMethods = ["LessThan", "LessThanOrEqual", "GreaterThan", "GreaterThanOrEqual"];
+        for (var i = 0; i < relOps.Length; i++)
         {
+            var op = relOps[i];
+            var simdMethod = simdMethods[i];
+
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public static {boolType} operator {op}({vec.Name} lhs, {vec.Name} rhs) =>");
-            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} {op} rhs.{c}"))});");
+            if (isSimd && vec.Dimension == 4)
+            {
+                if (vec.Element.Kind == ScalarKind.Double)
+                {
+                    writer.WriteLine($"    global::Misaki.HighPerformance.Mathematics.math.PackVector256(global::System.Runtime.Intrinsics.Vector256.AsUInt32({vecClass}.{simdMethod}(lhs.__v, rhs.__v))).Asbool4();");
+                }
+                else if (vec.Element.Kind == ScalarKind.UInt)
+                {
+                    writer.WriteLine($"    {vecClass}.{simdMethod}(lhs.__v, rhs.__v).Asbool4();");
+                }
+                else
+                {
+                    writer.WriteLine($"    {vecClass}.AsUInt32({vecClass}.{simdMethod}(lhs.__v, rhs.__v)).Asbool4();");
+                }
+            }
+            else
+            {
+                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} {op} rhs.{c}"))});");
+            }
             writer.WriteLine();
         }
     }
 
     private static void EmitUnaryOperators(CodeWriter writer, VectorType vec, IReadOnlyList<string> comps)
     {
+        var isSimd = vec.Storage != StorageLayout.Sequential;
+
         if (vec.Element.IsSigned)
         {
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public static {vec.Name} operator -({vec.Name} value) =>");
-            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"-value.{c}"))});");
+            if (isSimd)
+            {
+                writer.WriteLine($"    (-value.__v).As{vec.Name}();");
+            }
+            else
+            {
+                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"-value.{c}"))});");
+            }
             writer.WriteLine();
         }
 
@@ -87,7 +158,14 @@ public static class VectorOperatorEmitter
         {
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public static {vec.Name} operator ~({vec.Name} value) =>");
-            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"~value.{c}"))});");
+            if (isSimd)
+            {
+                writer.WriteLine($"    (~value.__v).As{vec.Name}();");
+            }
+            else
+            {
+                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"~value.{c}"))});");
+            }
             writer.WriteLine();
         }
 
@@ -120,32 +198,61 @@ public static class VectorOperatorEmitter
 
     private static void EmitArithmeticOperators(CodeWriter writer, VectorType vec, IReadOnlyList<string> comps)
     {
+        var isSimd = vec.Storage != StorageLayout.Sequential;
+        var bits = vec.SimdVectorBits;
+        var vecClass = $"global::System.Runtime.Intrinsics.Vector{bits}";
         string[] ops = ["+", "-", "*", "/", "%"];
 
         foreach (var op in ops)
         {
+            var canSimd = isSimd && (op != "%") && (op != "/" || vec.Element.IsFloatingPoint);
+
             // Vector op Vector
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public static {vec.Name} operator {op}({vec.Name} lhs, {vec.Name} rhs) =>");
-            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} {op} rhs.{c}"))});");
+            if (canSimd)
+            {
+                writer.WriteLine($"    (lhs.__v {op} rhs.__v).As{vec.Name}();");
+            }
+            else
+            {
+                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} {op} rhs.{c}"))});");
+            }
             writer.WriteLine();
 
             // Vector op Scalar
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public static {vec.Name} operator {op}({vec.Name} lhs, {vec.Element.LogicalTypeName} rhs) =>");
-            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} {op} rhs"))});");
+            if (canSimd)
+            {
+                writer.WriteLine($"    (lhs.__v {op} {vecClass}.Create(rhs)).As{vec.Name}();");
+            }
+            else
+            {
+                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} {op} rhs"))});");
+            }
             writer.WriteLine();
 
             // Scalar op Vector
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public static {vec.Name} operator {op}({vec.Element.LogicalTypeName} lhs, {vec.Name} rhs) =>");
-            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs {op} rhs.{c}"))});");
+            if (canSimd)
+            {
+                writer.WriteLine($"    ({vecClass}.Create(lhs) {op} rhs.__v).As{vec.Name}();");
+            }
+            else
+            {
+                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs {op} rhs.{c}"))});");
+            }
             writer.WriteLine();
         }
     }
 
     private static void EmitBitwiseOperators(CodeWriter writer, VectorType vec, IReadOnlyList<string> comps)
     {
+        var isSimd = vec.Storage != StorageLayout.Sequential;
+        var bits = vec.SimdVectorBits;
+        var vecClass = $"global::System.Runtime.Intrinsics.Vector{bits}";
         string[] ops = ["&", "|", "^"];
 
         foreach (var op in ops)
@@ -157,7 +264,7 @@ public static class VectorOperatorEmitter
             {
                 if (vec.Element.IsBool)
                 {
-                    if (vec.Storage == StorageLayout.SimdUnion128)
+                    if (isSimd)
                     {
                         writer.WriteLine($"return (lhs.__v {op} rhs.__v).As{vec.Name}();");
                     }
@@ -169,7 +276,14 @@ public static class VectorOperatorEmitter
                 }
                 else
                 {
-                    writer.WriteLine($"return new({string.Join(", ", comps.Select(c => $"lhs.{c} {op} rhs.{c}"))});");
+                    if (isSimd)
+                    {
+                        writer.WriteLine($"return (lhs.__v {op} rhs.__v).As{vec.Name}();");
+                    }
+                    else
+                    {
+                        writer.WriteLine($"return new({string.Join(", ", comps.Select(c => $"lhs.{c} {op} rhs.{c}"))});");
+                    }
                 }
             }
             writer.WriteLine();
@@ -179,13 +293,27 @@ public static class VectorOperatorEmitter
                 // Vector op Scalar
                 writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
                 writer.WriteLine($"public static {vec.Name} operator {op}({vec.Name} lhs, {vec.Element.LogicalTypeName} rhs) =>");
-                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} {op} rhs"))});");
+                if (isSimd)
+                {
+                    writer.WriteLine($"    (lhs.__v {op} {vecClass}.Create(rhs)).As{vec.Name}();");
+                }
+                else
+                {
+                    writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs.{c} {op} rhs"))});");
+                }
                 writer.WriteLine();
 
                 // Scalar op Vector
                 writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
                 writer.WriteLine($"public static {vec.Name} operator {op}({vec.Element.LogicalTypeName} lhs, {vec.Name} rhs) =>");
-                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs {op} rhs.{c}"))});");
+                if (isSimd)
+                {
+                    writer.WriteLine($"    ({vecClass}.Create(lhs) {op} rhs.__v).As{vec.Name}();");
+                }
+                else
+                {
+                    writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"lhs {op} rhs.{c}"))});");
+                }
                 writer.WriteLine();
             }
         }
@@ -193,12 +321,20 @@ public static class VectorOperatorEmitter
 
     private static void EmitShiftOperators(CodeWriter writer, VectorType vec, IReadOnlyList<string> comps)
     {
+        var isSimd = vec.Storage != StorageLayout.Sequential;
         string[] ops = ["<<", ">>"];
         foreach (var op in ops)
         {
             writer.WriteLine(FileHeaderEmitter.InlineMethodAttribute);
             writer.WriteLine($"public static {vec.Name} operator {op}({vec.Name} x, int n) =>");
-            writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"x.{c} {op} n"))});");
+            if (isSimd)
+            {
+                writer.WriteLine($"    (x.__v {op} n).As{vec.Name}();");
+            }
+            else
+            {
+                writer.WriteLine($"    new({string.Join(", ", comps.Select(c => $"x.{c} {op} n"))});");
+            }
             writer.WriteLine();
         }
     }

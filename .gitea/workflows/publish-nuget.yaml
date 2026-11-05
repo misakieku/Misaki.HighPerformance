@@ -1,13 +1,17 @@
-name: Publish NuGet Packages
+name: Publish NuGet Packages (Gitea Registry)
 
 on:
-  pull_request:
+  push:
     branches:
       - main
+    paths:
+      - 'src/**/*.csproj'
+      - '**/*.props'
   workflow_dispatch:
 
 jobs:
   publish:
+    name: Publish to Gitea Registry
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -15,10 +19,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
 
@@ -26,69 +30,77 @@ jobs:
         run: |
           dotnet restore
 
-      - name: Run tests
-        # Run all test projects in the repository. If any test fails, this step will exit non-zero
-        # and subsequent packaging/publish steps will not run.
-        run: |
-          echo "Running all tests..."
-          dotnet test --configuration Release --no-restore --blame-hang-timeout 60s --logger "console;verbosity=detailed"
-
-      - name: Check, Build, and Pack Projects
+      - name: Check for new package versions on Gitea Registry
+        id: check_versions
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_TOKEN }}
+          GITEA_API_KEY: ${{ secrets.NUGET_TOKEN }}
           SOURCE_URL: "https://git.personalnas.com/api/packages/Misaki/nuget"
         run: |
           mkdir -p ./artifacts
-          
+          touch ./new_projects.txt
+
           for projfile in $(find . -name "*.csproj"); do
-            # 1. Check if the project generates a package
             GENERATE_PKG=$(dotnet build "$projfile" --getProperty:GeneratePackageOnBuild)
             if [[ "$GENERATE_PKG" != "true" && "$GENERATE_PKG" != "True" ]]; then
               continue
             fi
 
-            # 2. Get Package ID and Version
             PACKAGE_ID=$(dotnet build "$projfile" --getProperty:PackageId)
             VERSION=$(dotnet build "$projfile" --getProperty:Version)
-            
+
             if [ -z "$PACKAGE_ID" ]; then
               PACKAGE_ID=$(basename "$projfile" .csproj)
             fi
 
-            echo "Checking $PACKAGE_ID version $VERSION..."
-
-            # 3. Check Gitea Registry
+            echo "Checking $PACKAGE_ID version $VERSION on Gitea..."
             LOWER_ID=$(echo "$PACKAGE_ID" | tr '[:upper:]' '[:lower:]')
             HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
-              -H "Authorization: token $NUGET_API_KEY" \
+              -H "Authorization: token $GITEA_API_KEY" \
               "${SOURCE_URL}/registration/${LOWER_ID}/${VERSION}.json")
 
             if [ "$HTTP_CODE" -eq 200 ]; then
-              echo "✅ Version $VERSION of $PACKAGE_ID already exists. Skipping..."
+              echo "✅ Version $VERSION of $PACKAGE_ID already exists on Gitea. Skipping..."
             else
-              echo "🆕 Version $VERSION of $PACKAGE_ID is new."
-
-              # 4. EXPLICIT BUILD (Creates the DLLs)
-              echo "Building $projfile..."
-              if ! dotnet build "$projfile" -c Release; then
-                 echo "❌ Failed to build $projfile"
-                 exit 1
-              fi
-
-              # 5. PACK (Packages the DLLs created above)
-              echo "Packing $projfile..."
-              # We use --no-build because we just built it in step 4
-              if ! dotnet pack "$projfile" -c Release -o ./artifacts --no-build; then
-                 echo "❌ Failed to pack $projfile"
-                 exit 1
-              fi
+              echo "🆕 Version $VERSION of $PACKAGE_ID is new on Gitea."
+              echo "$projfile" >> ./new_projects.txt
             fi
           done
 
-      - name: Publish new packages
+          if [ -s ./new_projects.txt ]; then
+            echo "has_new=true" >> "$GITHUB_OUTPUT"
+            echo "Found new packages to publish to Gitea."
+          else
+            echo "has_new=false" >> "$GITHUB_OUTPUT"
+            echo "All packages are already published and up-to-date on Gitea."
+          fi
+
+      - name: Run tests
+        if: steps.check_versions.outputs.has_new == 'true'
+        run: |
+          echo "Running all tests before publishing..."
+          dotnet test --configuration Release --no-restore --blame-hang-timeout 60s --logger "console;verbosity=detailed"
+
+      - name: Build and Pack New Projects
+        if: steps.check_versions.outputs.has_new == 'true'
+        run: |
+          while IFS= read -r projfile; do
+            echo "Building $projfile..."
+            if ! dotnet build "$projfile" -c Release; then
+              echo "❌ Failed to build $projfile"
+              exit 1
+            fi
+
+            echo "Packing $projfile..."
+            if ! dotnet pack "$projfile" -c Release -o ./artifacts --no-build; then
+              echo "❌ Failed to pack $projfile"
+              exit 1
+            fi
+          done < ./new_projects.txt
+
+      - name: Publish new packages to Gitea
+        if: steps.check_versions.outputs.has_new == 'true'
         env:
           GITEA_API_KEY: ${{ secrets.NUGET_TOKEN }}
-          NUGET_ORG_API_KEY: ${{ secrets.NUGET_ORG_TOKEN }}
         run: |
           if [ ! -d "./artifacts" ] || [ -z "$(ls -A ./artifacts/*.nupkg 2>/dev/null)" ]; then
             echo "No new packages to publish."
@@ -100,15 +112,9 @@ jobs:
               continue
             fi
 
-            echo "Pushing $pkg..."
+            echo "Pushing $pkg to Gitea Registry..."
             dotnet nuget push "$pkg" \
               --source "https://git.personalnas.com/api/packages/Misaki/nuget/index.json" \
               --api-key "$GITEA_API_KEY" \
-              --skip-duplicate
-
-            echo "Pushing $pkg to NuGet.org..."
-            dotnet nuget push "$pkg" \
-              --source "https://api.nuget.org/v3/index.json" \
-              --api-key "$NUGET_ORG_API_KEY" \
               --skip-duplicate
           done

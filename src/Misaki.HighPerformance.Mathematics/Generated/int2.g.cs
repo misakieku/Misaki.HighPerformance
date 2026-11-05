@@ -560,17 +560,23 @@ public static partial class math
         new((int)global::System.Math.Sign(x.x), (int)global::System.Math.Sign(x.y));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static int2 mad(int2 a, int2 b, int2 c) =>
+        a * b + c;
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int cmin(int2 x) => global::System.Math.Min(x.x, x.y);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int cmax(int2 x) => global::System.Math.Max(x.x, x.y);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static int csum(int2 x) => x.x + x.y;
+    public static int csum(int2 x) =>
+        x.x + x.y;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int dot(int2 x, int2 y) =>
         x.x * y.x + x.y * y.y;
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static int shuffle(int2 left, int2 right, ShuffleComponent x) =>

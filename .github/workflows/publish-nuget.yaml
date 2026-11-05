@@ -1,0 +1,118 @@
+name: Publish to NuGet.org
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**/*.csproj'
+      - '**/*.props'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish to NuGet.org
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Required for NuGet.org OIDC Trusted Publishing
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Check for new package versions on NuGet.org
+        id: check_versions
+        run: |
+          mkdir -p ./artifacts
+          touch ./new_projects.txt
+
+          for projfile in $(find . -name "*.csproj"); do
+            GENERATE_PKG=$(dotnet build "$projfile" --getProperty:GeneratePackageOnBuild)
+            if [[ "$GENERATE_PKG" != "true" && "$GENERATE_PKG" != "True" ]]; then
+              continue
+            fi
+
+            PACKAGE_ID=$(dotnet build "$projfile" --getProperty:PackageId)
+            VERSION=$(dotnet build "$projfile" --getProperty:Version)
+
+            if [ -z "$PACKAGE_ID" ]; then
+              PACKAGE_ID=$(basename "$projfile" .csproj)
+            fi
+
+            echo "Checking $PACKAGE_ID version $VERSION on NuGet.org..."
+            LOWER_ID=$(echo "$PACKAGE_ID" | tr '[:upper:]' '[:lower:]')
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+              "https://api.nuget.org/v3-flatcontainer/${LOWER_ID}/${VERSION}/${LOWER_ID}.${VERSION}.nupkg")
+
+            if [ "$HTTP_CODE" -eq 200 ]; then
+              echo "✅ Version $VERSION of $PACKAGE_ID already exists on NuGet.org. Skipping..."
+            else
+              echo "🆕 Version $VERSION of $PACKAGE_ID is new on NuGet.org!"
+              echo "$projfile" >> ./new_projects.txt
+            fi
+          done
+
+          if [ -s ./new_projects.txt ]; then
+            echo "has_new=true" >> "$GITHUB_OUTPUT"
+            echo "Found new package versions to publish."
+          else
+            echo "has_new=false" >> "$GITHUB_OUTPUT"
+            echo "All packages are already published and up-to-date on NuGet.org."
+          fi
+
+      - name: Run tests
+        if: steps.check_versions.outputs.has_new == 'true'
+        run: |
+          echo "Running all tests before publishing..."
+          dotnet test --configuration Release --no-restore --blame-hang-timeout 60s --logger "console;verbosity=detailed"
+
+      - name: Build and Pack New Projects
+        if: steps.check_versions.outputs.has_new == 'true'
+        run: |
+          while IFS= read -r projfile; do
+            echo "Building $projfile..."
+            if ! dotnet build "$projfile" -c Release; then
+              echo "❌ Failed to build $projfile"
+              exit 1
+            fi
+
+            echo "Packing $projfile..."
+            if ! dotnet pack "$projfile" -c Release -o ./artifacts --no-build; then
+              echo "❌ Failed to pack $projfile"
+              exit 1
+            fi
+          done < ./new_projects.txt
+
+      - name: NuGet Login (OIDC Trusted Publisher)
+        if: steps.check_versions.outputs.has_new == 'true'
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: misaki_39
+
+      - name: Publish to NuGet.org
+        if: steps.check_versions.outputs.has_new == 'true'
+        run: |
+          for pkg in ./artifacts/*.nupkg; do
+            if [[ "$pkg" == *".symbols.nupkg" ]]; then
+              continue
+            fi
+
+            echo "Pushing $pkg to NuGet.org..."
+            dotnet nuget push "$pkg" \
+              --source "https://api.nuget.org/v3/index.json" \
+              --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" \
+              --skip-duplicate
+          done

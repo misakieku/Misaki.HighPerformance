@@ -548,17 +548,23 @@ public static partial class math
         new(global::System.Math.Clamp(x.x, min, max), global::System.Math.Clamp(x.y, min, max));
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static uint2 mad(uint2 a, uint2 b, uint2 c) =>
+        a * b + c;
+
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static uint cmin(uint2 x) => global::System.Math.Min(x.x, x.y);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static uint cmax(uint2 x) => global::System.Math.Max(x.x, x.y);
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static uint csum(uint2 x) => x.x + x.y;
+    public static uint csum(uint2 x) =>
+        x.x + x.y;
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static uint dot(uint2 x, uint2 y) =>
         x.x * y.x + x.y * y.y;
+
 
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static uint shuffle(uint2 left, uint2 right, ShuffleComponent x) =>
