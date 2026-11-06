@@ -398,6 +398,11 @@ public static unsafe class AllocationManager
 #if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
 
+        if (handle.IsMagicHandle)
+        {
+            return;
+        }
+
         if (newPtr == null)
         {
             s_allocations.Remove(handle.ID, handle.Generation, out var info);
@@ -436,6 +441,11 @@ public static unsafe class AllocationManager
     {
 #if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
+        
+        if (handle.IsMagicHandle)
+        {
+            return true;
+        }
 
         if (s_allocations.Remove(handle.ID, handle.Generation, out var info))
         {
@@ -464,6 +474,13 @@ public static unsafe class AllocationManager
     {
 #if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
+        
+        if (handle.IsMagicHandle)
+        {
+            info = default;
+            return false;
+        }
+
         return s_allocations.TryGetElement(handle.ID, handle.Generation, out info);
 #else
         info = default;
@@ -485,6 +502,12 @@ public static unsafe class AllocationManager
     {
 #if MHP_ENABLE_SAFETY_CHECKS
         Debug.Assert(s_initialized, "AllocationManager is not initialized.");
+        
+        if (handle.IsMagicHandle)
+        {
+            return true;
+        }
+
         return s_allocations.Contains(handle.ID, handle.Generation);
 #else
         return false;

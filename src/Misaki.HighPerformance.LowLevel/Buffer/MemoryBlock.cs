@@ -36,7 +36,7 @@ public unsafe struct MemoryBlock : IDisposable
     }
 
     public MemoryBlock()
-        : this(1, 8, AllocationHandle.Invalid)
+        : this(8, 8, AllocationHandle.Persistent)
     {
     }
 
@@ -58,19 +58,22 @@ public unsafe struct MemoryBlock : IDisposable
     }
 
     /// <summary>
-    /// Initializes an UnsafeArray with a pointer to a buffer and a count of elements. This does not copy the data.
+    /// Initializes an MemoryBlock with a pointer to a buffer and a count of elements. This does not copy the data.
     /// </summary>
     /// <param name="buffer">A pointer to the memory location that holds the elements of the array.</param>
     /// <param name="size">The total size of the data.</param>
     /// <remarks>
     /// When using this constructor, the user is responsible for managing the memory pointed to by the buffer.
-    /// Disposing of the UnsafeArray does not free the memory and only release the reference. The memory should be freed manually when no longer needed.
+    /// Disposing of the MemoryBlock does not free the memory and only release the reference. The memory should be freed manually when no longer needed.
     /// Use <see cref="MemoryBlock(nuint, nuint, AllocationHandle, AllocationOption)"/> constructor and <see cref="MemoryUtility.MemCpy(void*, void*, nuint)"/> if you are not sure what you are doing.
     /// </remarks>
     public MemoryBlock(void* buffer, nuint size)
     {
         _buffer = buffer;
         _size = size;
+#if MHP_ENABLE_SAFETY_CHECKS
+        _memoryHandle = MemoryHandle.MagicHandle;
+#endif
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -87,7 +90,6 @@ public unsafe struct MemoryBlock : IDisposable
         return ref UnsafeUtility.ReadArrayElementRef<T>(_buffer, index);
     }
 
-
     /// <summary>
     /// Changes the size of a memory block to the specified value.
     /// </summary>
@@ -96,6 +98,13 @@ public unsafe struct MemoryBlock : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Resize(uint newSize, AllocationOption option = AllocationOption.None)
     {
+#if MHP_ENABLE_SAFETY_CHECKS
+        if (_memoryHandle.IsMagicHandle)
+        {
+            throw new InvalidOperationException("Cannot resize a memory block that was created from external memory.");
+        }
+#endif
+
         if (newSize == _size)
         {
             return;
@@ -269,7 +278,11 @@ public unsafe struct MemoryBlock : IDisposable
             return;
         }
 
-        _allocationHandle.Free(_buffer);
+        if (_allocationHandle.IsValid)
+        {
+            _allocationHandle.Free(_buffer);
+        }
+
 #if MHP_ENABLE_SAFETY_CHECKS
         _memoryHandle.Dispose();
 #endif

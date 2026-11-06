@@ -26,8 +26,23 @@ public readonly struct MemoryHandle : IDisposable, IEquatable<MemoryHandle>
     }
 
     public static readonly MemoryHandle Invalid = default;
+    public static readonly MemoryHandle MagicHandle = new MemoryHandle(-1, -1);
 
-    public bool IsValid => AllocationManager.ContainsAllocation(this);
+    public bool IsValid
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get
+        {
+            if (IsMagicHandle)
+            {
+                return true; // Magic handle is considered valid for internal use.
+            }
+
+            return AllocationManager.ContainsAllocation(this);
+        }
+    }
+
+    public bool IsMagicHandle => ID < 0 && Generation < 0;
     public bool IsInvalid => !IsValid;
 
     /// <summary>
@@ -47,6 +62,7 @@ public readonly struct MemoryHandle : IDisposable, IEquatable<MemoryHandle>
     /// <param name="address">The address of the memory allocation.</param>
     /// <param name="size">The size of the memory allocation.</param>
     /// <returns>The created memory handle.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static unsafe MemoryHandle Create(void* address, nuint size)
     {
         return AllocationManager.AddAllocation(address, size);
@@ -57,26 +73,36 @@ public readonly struct MemoryHandle : IDisposable, IEquatable<MemoryHandle>
     /// </summary>
     /// <param name="newAddress">The new address of the memory allocation.</param>
     /// <param name="newSize">The new size of the memory allocation.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public unsafe void Update(void* newAddress, nuint newSize)
     {
+        if (IsMagicHandle)
+        {
+            return;
+        }
+
         AllocationManager.UpdateAllocation(this, newAddress, newSize);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Equals(MemoryHandle other)
     {
         return ID == other.ID && Generation == other.Generation;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override bool Equals([NotNullWhen(true)] object? obj)
     {
         return obj is MemoryHandle other && Equals(other);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override int GetHashCode()
     {
         return ID ^ Generation;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override string? ToString()
     {
         return $"MemoryHandle(Id: {ID}, generation: {Generation})";
@@ -88,9 +114,10 @@ public readonly struct MemoryHandle : IDisposable, IEquatable<MemoryHandle>
     /// <remarks>
     /// This does not free the associated memory allocation.
     /// </remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Dispose()
     {
-        if (IsInvalid)
+        if (IsMagicHandle || IsInvalid)
         {
             return;
         }
@@ -98,11 +125,13 @@ public readonly struct MemoryHandle : IDisposable, IEquatable<MemoryHandle>
         AllocationManager.RemoveAllocation(this);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator ==(MemoryHandle left, MemoryHandle right)
     {
         return left.Equals(right);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator !=(MemoryHandle left, MemoryHandle right)
     {
         return !(left == right);
